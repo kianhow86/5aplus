@@ -3355,7 +3355,7 @@ window.generateEvalGuidance=function(pid){
   
   fetch("/.netlify/functions/ai",{
     method:"POST",headers:{"Content-Type":"application/json"},
-    body:JSON.stringify({model:"claude-sonnet-4-20250514",max_tokens:800,messages:[{role:"user",content:prompt}]})
+    body:JSON.stringify({model:"claude-3-5-sonnet-20241022",max_tokens:800,messages:[{role:"user",content:prompt}]})
   }).then(r=>r.json()).then(data=>{
     const text=data.content.map(c=>c.text||"").join("").replace(/```json|```/g,"").trim();
     try{
@@ -3648,7 +3648,7 @@ window.generateWOD=function(){
   
   fetch("/.netlify/functions/ai",{
     method:"POST",headers:{"Content-Type":"application/json"},
-    body:JSON.stringify({model:"claude-sonnet-4-20250514",max_tokens:800,temperature:1.0,
+    body:JSON.stringify({model:"claude-3-5-sonnet-20241022",max_tokens:800,temperature:1.0,
       messages:[{role:"user",content:"[Seed: "+seed+"] Generate 5 Word of the Day options for a Toastmasters meeting.\n\nTheme: "+theme+"\nWord vibe: "+vibe+"\nPrefer mix of: "+wordTypes.slice(0,3).join(", ")+"\nBonus: include one word with "+originHint+" origins\n"+(exclude?"EXCLUDE these words (already shown): "+exclude+"\n":"")+"\nCRITICAL RULES:\n- Words must be USEFUL in everyday professional conversation\n- NOT too obscure — someone should genuinely want to use this word tomorrow\n- NOT basic — no words like 'happy', 'good', 'nice', 'great'\n- Each word should feel fresh and interesting, not the typical WOD list\n- Mix word lengths — some short punchy words, some elegant longer ones\n\nRespond with ONLY a JSON array: [{\"word\":\"...\",\"type\":\"noun/verb/adj/adv\",\"definition\":\"clear 1-sentence definition\",\"example\":\"natural example sentence using the word\",\"tip\":\"when and how to use it in real conversation\"}]"}]
     })
   }).then(r=>r.json()).then(data=>{
@@ -4204,7 +4204,7 @@ function generateFillerCoaching(){
   
   fetch("/.netlify/functions/ai",{
     method:"POST",headers:{"Content-Type":"application/json"},
-    body:JSON.stringify({model:"claude-sonnet-4-20250514",max_tokens:500,messages:[{role:"user",content:prompt}]})
+    body:JSON.stringify({model:"claude-3-5-sonnet-20241022",max_tokens:500,messages:[{role:"user",content:prompt}]})
   }).then(r=>r.json()).then(data=>{
     const text=data.content.map(c=>c.text||"").join("").replace(/```json|```/g,"").trim();
     try{
@@ -4370,7 +4370,7 @@ window.generateTopics=function(){
     method:"POST",
     headers:{"Content-Type":"application/json"},
     body:JSON.stringify({
-      model:"claude-sonnet-4-20250514",
+      model:"claude-3-5-sonnet-20241022",
       max_tokens:1000,
       temperature:1.0,
       messages:[{role:"user",content:"[Seed: "+seed+"] Generate exactly 10 UNIQUE and CREATIVE Table Topics questions for a Toastmasters meeting.\n\nTheme: "+theme+"\nDifficulty: "+diff+" — "+diffGuide[diff]+"\n\nMandatory style mix — use THESE specific styles: "+styleGuide+"\nBonus: work in at least one question with this angle: "+angleHint+"\n\nCRITICAL RULES:\n- Every question MUST be different from typical/common questions\n- NO generic questions like 'What does X mean to you?' or 'Tell us about a time...'\n- Questions must be OPEN-ENDED (not yes/no)\n- Each should be answerable in 1-2 minutes\n- Be SURPRISING — make speakers think in new ways\n- No political, religious, or deeply personal questions\n- Keep each question to 1-2 sentences max\n- DO NOT repeat patterns — if Q1 starts with 'If you could', Q2 must NOT\n\nRespond with ONLY a JSON array of 10 strings."}]
@@ -4624,7 +4624,7 @@ window.generateTTQuestion=function(){
   
   fetch("/.netlify/functions/ai",{
     method:"POST",headers:{"Content-Type":"application/json"},
-    body:JSON.stringify({model:"claude-sonnet-4-20250514",max_tokens:200,temperature:1.0,
+    body:JSON.stringify({model:"claude-3-5-sonnet-20241022",max_tokens:200,temperature:1.0,
       messages:[{role:"user",content:"[Seed:"+seed+"] Generate exactly 1 Table Topics question for Toastmasters. Theme: "+theme+". Style: "+style+". Be CREATIVE and UNEXPECTED — avoid generic phrasing. Respond with ONLY the question text."}]
     })
   }).then(r=>r.json()).then(data=>{
