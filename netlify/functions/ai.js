@@ -41,7 +41,7 @@ exports.handler = async (event) => {
         "anthropic-version": "2023-06-01",
       },
       body: JSON.stringify({
-        model: body.model || "claude-sonnet-4-20250514",
+        model: body.model || "claude-3-5-sonnet-20241022",
         max_tokens: Math.min(body.max_tokens || 1000, 2000), // Cap at 2000 to prevent abuse
         temperature: body.temperature || 1.0,
         messages: body.messages || [],
