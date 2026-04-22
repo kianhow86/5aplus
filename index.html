@@ -57,6 +57,15 @@ body{font-family:'Source Sans 3',sans-serif;background:linear-gradient(135deg,#0
 .smart-card.collapsed .smart-card-header{margin-bottom:0 !important}
 .smart-card.collapsed .smart-card-body{max-height:0 !important;opacity:0;margin-top:0 !important}
 .smart-card.collapsed .smart-expand-hint{display:inline !important}
+/* Plan Your Term — peek once ever, then collapse to strip */
+.plan-card{transition:padding .4s ease,box-shadow .5s ease;cursor:pointer}
+.plan-card.peek{animation:smartPeek 1.6s ease;box-shadow:0 0 0 2px var(--info),0 4px 24px rgba(91,192,190,.45),0 0 40px rgba(91,192,190,.25) !important}
+.plan-card-strip{display:flex;align-items:center;gap:10px;padding:2px 2px}
+.plan-card-strip-label{flex:1;font-size:14px;font-weight:600;color:var(--w);line-height:1.3}
+.plan-card-strip-chev{font-size:11px;color:var(--t4);transition:transform .3s ease;flex-shrink:0}
+.plan-card.expanded .plan-card-strip-chev{transform:rotate(180deg)}
+.plan-card-body{overflow:hidden;max-height:0;opacity:0;transition:max-height .5s cubic-bezier(.4,0,.2,1),opacity .3s ease,margin-top .4s ease;margin-top:0}
+.plan-card.expanded .plan-card-body{max-height:600px;opacity:1;margin-top:14px}
 @keyframes smartPeek{
   0%{transform:scale(1)}
   15%{transform:scale(1.015)}
@@ -1010,7 +1019,7 @@ a{color:var(--info);text-decoration:none}
 <div id="tab-roles" class="tc"><div id="roles-content"></div></div>
 <div id="tab-master" class="tc"><div id="master-content"></div></div>
 <div id="tab-club" class="tc"><div id="club-announcements"></div><div class="sl" style="margin-top:16px">Club Members</div><div id="club-list"></div></div>
-<div class="app-footer">5A+ TMC App v8.36 · Built by Kian How</div>
+<div class="app-footer">5A+ TMC App v8.39 · Built by Kian How</div>
 </div>
 
 <div class="bnav" id="bottom-nav"></div>
@@ -1665,6 +1674,22 @@ function getPlannedPids(){
     });
   });return planned;
 }
+// Return ALL future planned dates for a pid, sorted ascending (for multi-step projects)
+function getPlannedPidDates(pid){
+  if(!S||!S.plan||!S.plan.slots)return[];
+  const today=new Date().toISOString().slice(0,10);
+  const activePath=S.path;
+  const d=PD[pid];const dates=[];
+  Object.entries(S.plan.slots).forEach(([date,slots])=>{
+    if(date<today)return;
+    slots.forEach(s=>{
+      if(s.pathCode&&s.pathCode!==activePath)return;
+      if(s.pid===pid){if(!dates.includes(date))dates.push(date);return;}
+      if(!s.pid&&s.type==="project"&&d&&s.label.startsWith(d.t)){if(!dates.includes(date))dates.push(date);}
+    });
+  });
+  return dates.sort();
+}
 
 function getNextProjects(){
   if(!S)return[];const items=[];const done=S.done||{};const planned=getPlannedPids();
@@ -2134,7 +2159,12 @@ function pC(pid,type,isDn,pc,starHtml){const p=PA[pc],d=PD[pid];if(!d)return"";c
   h+='<span class="pc-status">'+(isDn?"✅":"○")+'</span>';
   h+='<div style="flex:1"><div class="pt '+(isDn?"dn":"")+'">'+d.t+'</div>';
   if(lt&&!isDn)h+='<div class="lead-warn">⏱ '+lt+'</div>';
-  if(pl[pid]&&!isDn)h+='<span class="planned-bdg" style="margin-top:3px;display:inline-flex">📅 '+new Date(pl[pid]+"T00:00:00").toLocaleDateString("en-US",{month:"short",day:"numeric"})+'</span>';
+  if(pl[pid]&&!isDn){
+    const allDates=getPlannedPidDates(pid);
+    const fmt=dd=>new Date(dd+"T00:00:00").toLocaleDateString("en-US",{month:"short",day:"numeric"});
+    const label=allDates.length>1?allDates.map(fmt).join(" · "):fmt(pl[pid]);
+    h+='<span class="planned-bdg" style="margin-top:3px;display:inline-flex">📅 '+label+'</span>';
+  }
   h+='</div><span class="dur">'+d.dur+'</span><span class="bdg '+(type==="required"?"b-req":"b-elec")+'">'+(type==="required"?"REQ":"ELEC")+'</span>';
   if(starHtml)h+=starHtml;
   h+='</div>';
@@ -2250,25 +2280,38 @@ function rPl(){const c=document.getElementById("planner-content");if(!S)return;c
     h+='</div>';
   }
 
-  // Plan My Term — direct to questionnaire
+  // Plan My Term — collapsible card with first-time peek
   const hasGoal=S.plan.goal;
-  h+='<div id="ai-planner-card" style="background:var(--s1);border:1px solid var(--b1);border-radius:14px;padding:16px;margin-bottom:14px;text-align:center">';
   if(hasGoal){
+    // Goal set — show full info (no collapse)
+    h+='<div id="ai-planner-card" style="background:var(--s1);border:1px solid var(--b1);border-radius:14px;padding:16px;margin-bottom:14px;text-align:center">';
     h+='<div style="font-size:13px;color:var(--t3);margin-bottom:4px">🎯 My Term Goal</div>';
     h+='<div style="font-size:16px;font-weight:600;color:var(--w);margin-bottom:12px">'+S.plan.goal+'</div>';
     h+='<div style="display:flex;gap:8px;justify-content:center">';
     h+='<button class="sb" style="padding:8px 16px;background:var(--info)15;color:var(--info);border-radius:8px;font-size:13px" onclick="startPlanWizard()">📋 Adjust Plan</button>';
     h+='<button class="sb" style="padding:8px 16px;background:var(--b1);color:var(--t3);border-radius:8px;font-size:13px" onclick="S.plan.goal=\'\';sv();rPl()">Clear</button>';
     h+='</div>';
+    h+='</div>';
   }else{
+    // No goal yet — collapsible card, strip always visible
+    h+='<div id="ai-planner-card" class="plan-card" onclick="togglePlanCard(event)" style="background:var(--s1);border:1px solid var(--b1);border-radius:14px;padding:14px 16px;margin-bottom:14px">';
+    h+='<div class="plan-card-strip">';
+    h+='<span style="font-size:18px">🤖</span>';
+    h+='<span class="plan-card-strip-label">Tap to plan your term assisted by AI</span>';
+    h+='<span class="plan-card-strip-chev">▼</span>';
+    h+='</div>';
+    h+='<div class="plan-card-body">';
+    h+='<div style="text-align:center">';
     h+='<div style="font-size:15px;font-weight:600;color:var(--w);margin-bottom:4px">Plan Your Term</div>';
     h+='<div style="font-size:13px;color:var(--t3);margin-bottom:16px">I\'m a super intelligent AI planner.</div>';
     h+='<div style="display:flex;gap:12px">';
-    h+='<button onclick="startPlanWizard()" style="flex:1;padding:24px 12px;background:rgba(91,192,190,0.06);border:none;border-radius:20px;cursor:pointer;text-align:center;font-family:\'Source Sans 3\',sans-serif;transition:all .2s"><div style="font-size:28px;margin-bottom:10px">🤖</div><div style="font-size:14px;font-weight:600;color:var(--w)">Trust the AI</div></button>';
-    h+='<button onclick="skipPlanWizard()" style="flex:1;padding:24px 12px;background:rgba(255,255,255,0.02);border:none;border-radius:20px;cursor:pointer;text-align:center;font-family:\'Source Sans 3\',sans-serif;transition:all .2s"><div style="font-size:28px;margin-bottom:10px">💪</div><div style="font-size:14px;font-weight:600;color:var(--t2)">I can do better</div></button>';
+    h+='<button onclick="event.stopPropagation();startPlanWizard()" style="flex:1;padding:24px 12px;background:rgba(91,192,190,0.06);border:none;border-radius:20px;cursor:pointer;text-align:center;font-family:\'Source Sans 3\',sans-serif;transition:all .2s"><div style="font-size:28px;margin-bottom:10px">🤖</div><div style="font-size:14px;font-weight:600;color:var(--w)">Trust the AI</div></button>';
+    h+='<button onclick="event.stopPropagation();skipPlanWizard()" style="flex:1;padding:24px 12px;background:rgba(255,255,255,0.02);border:none;border-radius:20px;cursor:pointer;text-align:center;font-family:\'Source Sans 3\',sans-serif;transition:all .2s"><div style="font-size:28px;margin-bottom:10px">💪</div><div style="font-size:14px;font-weight:600;color:var(--t2)">I can do better</div></button>';
     h+='</div>';
+    h+='</div>';// end text-align:center
+    h+='</div>';// end plan-card-body
+    h+='</div>';// end plan-card
   }
-  h+='</div>';
 
   if(S.role==="vpe"||S.role==="master"){
     h+='<div class="auto-gen"><div class="sl" style="margin-top:0">Generate Club Meeting Dates</div>';
@@ -2362,7 +2405,48 @@ function rPl(){const c=document.getElementById("planner-content");if(!S)return;c
   c.innerHTML=h;
   // Setup drag and drop
   initSlotDrag();
+  // First-time peek for Plan Your Term card
+  maybePeekPlanCard();
 }
+
+// Plan Your Term — flash once ever on first view, then collapse to strip
+let _planCardPeekedThisLoad=false;
+let _planCardState=null;// null | "expanded" | "collapsed"
+function maybePeekPlanCard(){
+  const card=document.getElementById("ai-planner-card");
+  if(!card||!card.classList.contains("plan-card"))return;
+  // Respect whatever state the user explicitly set this session
+  if(_planCardState==="expanded"){card.classList.add("expanded");return;}
+  if(_planCardPeekedThisLoad)return;
+  // If we've already shown the peek before (ever), just stay collapsed
+  if(localStorage.getItem("tm-pw-ai-planner-seen")){
+    _planCardPeekedThisLoad=true;
+    return;// stays collapsed (default state)
+  }
+  // First time ever on this device — defer by a frame so tour check sees the real DOM
+  requestAnimationFrame(()=>{
+    const tourEl=document.getElementById("onboard-overlay");
+    if(tourEl&&tourEl.innerHTML.trim().length>0)return;// tour active — try again later
+    _planCardPeekedThisLoad=true;
+    // Start expanded so the peek "shows the content"
+    card.classList.add("expanded","peek");
+    setTimeout(()=>{
+      card.classList.remove("peek","expanded");
+      localStorage.setItem("tm-pw-ai-planner-seen","1");
+    },1700);
+  });
+}
+window.togglePlanCard=function(e){
+  const card=document.getElementById("ai-planner-card");
+  if(!card||!card.classList.contains("plan-card"))return;
+  if(card.classList.contains("expanded")){
+    card.classList.remove("expanded");
+    _planCardState="collapsed";
+  }else{
+    card.classList.add("expanded");
+    _planCardState="expanded";
+  }
+};
 
 function initSlotDrag(){
   let dragFrom=null,dragIdx=null,dragGhost=null;
@@ -2994,7 +3078,7 @@ window.doMoveSlot=function(fromDate,idx,toDate){
 window._cDropdowns=window._cDropdowns||{};
 window.cDropdown=function(opts){
   const id=opts.id,val=opts.value||"",options=opts.options||[],ph=opts.placeholder||"Select...",oc=opts.onchange||"";
-  window._cDropdowns[id]={options:options,onchange:oc};
+  window._cDropdowns[id]={options:options,onchange:oc,value:val};
   const sel=options.find(o=>!o.group&&o.value===val);
   const display=sel?sel.label:ph;
   const esc=s=>(s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#39;");
@@ -3765,10 +3849,10 @@ window.applyPendingBooking=function(date){
 };
 
 // Celebratory booking confirmation — replaces the blink-and-miss toast
-window.showBookingCelebration=function(pid,date){
+window.showBookingCelebration=function(pid,date,opts){
+  opts=opts||{};
   const d=PD[pid];if(!d)return;
   const title=d.t;
-  const dfmt=new Date(date+"T00:00:00").toLocaleDateString("en-US",{weekday:"long",month:"long",day:"numeric"});
   // Count planned projects across all levels of user's path
   let totalGoal=0;
   if(S&&S.path){
@@ -3780,6 +3864,9 @@ window.showBookingCelebration=function(pid,date){
   // Fun titles — rotate so it's not monotonous
   const msgs=["Locked in! 🎯","Nice one! 🌟","You're on the books!","Done and dusted! ✨","Another one! 🔥","Look at you go! 💪","On the calendar! 📅"];
   const msg=msgs[Math.floor(Math.random()*msgs.length)];
+  // Multi-step: list every date (with step labels if we have them)
+  const multiStep=MULTI_STEP_PROJECTS[pid];
+  const allDates=(opts.allDates&&opts.allDates.length>1)?opts.allDates.slice().sort():null;
   const mr=document.getElementById("modal-root");
   let h='<div class="book-celebrate" onclick="dismissBookingCelebration(event)">';
   h+='<div class="bc-card" onclick="event.stopPropagation()">';
@@ -3790,7 +3877,23 @@ window.showBookingCelebration=function(pid,date){
   h+='<div class="bc-title">'+msg+'</div>';
   h+='<div class="bc-sub">You\'ve booked</div>';
   h+='<div class="bc-project">'+title+'</div>';
-  h+='<div class="bc-date">'+dfmt+'</div>';
+  if(allDates){
+    // List each date, with step label if available
+    h+='<div class="bc-dates-list" style="margin:10px 0 18px">';
+    allDates.forEach((dd,i)=>{
+      const dfmt=new Date(dd+"T00:00:00").toLocaleDateString("en-US",{weekday:"short",month:"short",day:"numeric"});
+      const stepLabel=multiStep&&multiStep.steps&&multiStep.steps[i]?multiStep.steps[i]:("Step "+(i+1));
+      h+='<div style="display:flex;align-items:center;gap:8px;padding:7px 10px;background:var(--s0);border-radius:8px;margin-bottom:4px;text-align:left">';
+      h+='<div style="width:22px;height:22px;background:var(--ok)25;color:var(--ok);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0">'+(i+1)+'</div>';
+      h+='<div style="flex:1;min-width:0;overflow:hidden"><div style="font-size:12px;color:var(--t3);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+stepLabel+'</div>';
+      h+='<div style="font-size:13px;font-weight:600;color:var(--w)">'+dfmt+'</div></div>';
+      h+='</div>';
+    });
+    h+='</div>';
+  }else{
+    const dfmt=new Date(date+"T00:00:00").toLocaleDateString("en-US",{weekday:"long",month:"long",day:"numeric"});
+    h+='<div class="bc-date">'+dfmt+'</div>';
+  }
   h+='<div class="bc-progress-wrap">';
   h+='<div class="bc-progress-label">Term Progress</div>';
   h+='<div class="bc-progress-bar"><div class="bc-progress-fill" style="width:'+pct+'%"></div></div>';
@@ -3941,7 +4044,7 @@ window.applyMultiStepBooking=function(pid,stepCount){
     setTimeout(()=>flashDateDot(bd),900+i*180);
   });
   // Show celebration for the first booking
-  if(firstDate)setTimeout(()=>showBookingCelebration(pid,firstDate),400);
+  if(firstDate)setTimeout(()=>showBookingCelebration(pid,firstDate,{allDates:bookedDates.slice().sort()}),400);
 };
 
 function flashDateDot(date){
