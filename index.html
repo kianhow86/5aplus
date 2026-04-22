@@ -974,7 +974,7 @@ a{color:var(--info);text-decoration:none}
 <div id="tab-roles" class="tc"><div id="roles-content"></div></div>
 <div id="tab-master" class="tc"><div id="master-content"></div></div>
 <div id="tab-club" class="tc"><div id="club-announcements"></div><div class="sl" style="margin-top:16px">Club Members</div><div id="club-list"></div></div>
-<div class="app-footer">5A+ TMC App v8.23 · Built by Kian How</div>
+<div class="app-footer">5A+ TMC App v8.25 · Built by Kian How</div>
 </div>
 
 <div class="bnav" id="bottom-nav"></div>
@@ -5925,6 +5925,7 @@ window.stopPracticeSession=function(){
   if(_practiceState.mediaRecorder&&_practiceState.mediaRecorder.state!=="inactive"){try{_practiceState.mediaRecorder.stop();}catch(e){}}
   if(_practiceState.stream){_practiceState.stream.getTracks().forEach(t=>t.stop());}
   const elapsed=(Date.now()-_practiceState.startMs)/1000;
+  _practiceState.elapsedSec=elapsed;window._practiceLastElapsed=elapsed;
   setTimeout(()=>showPracticeResults(elapsed),400);
 };
 
@@ -6045,6 +6046,19 @@ function showPracticeResults(elapsed){
     h+='<div style="font-size:11px;color:'+timeColor+';text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:4px">Timing · '+timeGrade+'</div>';
     h+='<div style="font-size:14px;color:var(--t1);line-height:1.5">'+timeMsg+'</div></div>';
   }
+
+  // AI Coach — opt-in card (only meaningful for substantial speeches)
+  if(_practiceState.words>=50){
+    h+='<div id="practice-ai-coach" style="padding:14px;background:linear-gradient(135deg,rgba(91,192,190,.12),rgba(123,167,204,.12));border:1px solid rgba(91,192,190,.3);border-radius:12px;margin-bottom:12px">';
+    h+='<div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">';
+    h+='<div style="font-size:20px">🤖</div>';
+    h+='<div style="flex:1"><div style="font-size:14px;font-weight:700;color:var(--w)">AI Speech Coach</div>';
+    h+='<div style="font-size:12px;color:var(--t3);line-height:1.5">Get specific, mentor-style feedback on what worked and where to focus — based on what you actually said.</div></div>';
+    h+='</div>';
+    h+='<button id="practice-ai-btn" class="btn-pri" style="width:100%;padding:10px;font-size:13px;font-weight:600" onclick="requestPracticeCoaching()">✨ Analyze my speech</button>';
+    h+='<div id="practice-ai-result" style="margin-top:10px"></div>';
+    h+='</div>';
+  }
   
   h+='<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px">';
   h+='<div style="padding:10px;background:var(--s0);border-radius:10px;text-align:center"><div style="font-size:11px;color:var(--t4);text-transform:uppercase">Words</div><div style="font-size:22px;font-weight:700;color:var(--w);font-family:\'DM Mono\',monospace">'+_practiceState.words+'</div></div>';
@@ -6090,6 +6104,86 @@ function showPracticeResults(elapsed){
   if(btn){btn.innerHTML="🎙";btn.style.background="var(--info)20";btn.style.borderColor="var(--info)";}
   const st=document.getElementById("practice-status");if(st)st.textContent="Session complete — see report below";
 }
+
+// AI coaching call — uses the shared /.netlify/functions/ai endpoint with Sonnet for nuanced feedback
+window.requestPracticeCoaching=function(){
+  const btn=document.getElementById("practice-ai-btn");
+  const out=document.getElementById("practice-ai-result");
+  if(!btn||!out)return;
+
+  // Build context for the prompt
+  const pid=window._practicePid;
+  const isProj=pid&&pid!=="freestyle"&&PD[pid];
+  const d=isProj?PD[pid]:null;
+  const dur=isProj?parsePracticeDur(d.dur):null;
+  const transcript=(_practiceState.transcript||"").trim().slice(0,8000);// cap
+  if(transcript.length<200){
+    out.innerHTML='<div style="padding:10px;background:var(--warn)15;color:var(--warn);border-radius:8px;font-size:13px">Transcript is too short for a useful analysis. Try a longer practice session.</div>';
+    return;
+  }
+  const elapsed=_practiceState.words>0?Math.max(1,Math.round(transcript.split(/\s+/).length/2)):0;// rough fallback
+  const actualSec=(window._practiceLastElapsed||elapsed);
+  const mins=Math.floor(actualSec/60),secs=Math.floor(actualSec%60);
+  const topFillers=Object.entries(_practiceState.fillerMap||{}).sort((a,b)=>b[1]-a[1]).slice(0,5).map(([f,c])=>f+" ×"+c).join(", ")||"none detected";
+
+  const projectBlock=isProj
+    ?"Project: \""+d.t+"\"\nProject purpose: "+(d.p||"")+"\nProject objective: "+(d.o||"")+"\nTarget duration: "+dur.min+"–"+dur.max+" minutes\n"
+    :"Freestyle practice — no specific project objective.\n";
+
+  const prompt="You are a warm, experienced Toastmasters mentor giving a member feedback on a speech they just practiced. You care about their growth and speak with honesty and encouragement.\n\n"
+    +projectBlock
+    +"Actual duration: "+mins+":"+String(secs).padStart(2,"0")+"\n"
+    +"Word count: "+_practiceState.words+"\n"
+    +"Top fillers detected: "+topFillers+"\n"
+    +"\nTranscript (automatic speech recognition, may have small errors):\n\"\"\"\n"+transcript+"\n\"\"\"\n\n"
+    +"Give feedback in EXACTLY this structure, as a JSON object. Be specific — quote actual phrases from the transcript so the member knows you truly listened. Avoid generic advice that could apply to any speech.\n\n"
+    +"{\n  \"worked\": [\"2–3 specific things that worked well — quote the phrase or moment\"],\n  \"focus\": [\"2–3 specific opportunities — point to a specific moment and explain\"],\n  \"tryNext\": \"One concrete thing to try in the next rehearsal — actionable, single sentence\"\n}\n\n"
+    +"Rules:\n- Quote the transcript in both worked and focus items\n- Keep each bullet under 35 words\n- Be warm but honest. Don't praise things that weren't there.\n- If the transcript is too unclear or too short to analyze a point, say so honestly rather than inventing.\n- Return ONLY the JSON object, no preamble.";
+
+  btn.disabled=true;
+  btn.innerHTML='<span style="display:inline-block;animation:spin 1s linear infinite">🤖</span> Analyzing your speech...';
+  out.innerHTML='';
+
+  fetch("/.netlify/functions/ai",{
+    method:"POST",headers:{"Content-Type":"application/json"},
+    body:JSON.stringify({model:"claude-sonnet-4-6",max_tokens:1024,messages:[{role:"user",content:prompt}]})
+  }).then(r=>r.json()).then(data=>{
+    if(data.error)throw new Error(data.error.message||"AI service error");
+    const text=(data.content||[]).map(c=>c.text||"").join("").replace(/```json|```/g,"").trim();
+    let parsed;
+    try{parsed=JSON.parse(text);}catch(e){
+      // Fallback: show raw text if JSON parse fails
+      out.innerHTML='<div style="padding:12px;background:var(--s0);border-radius:10px;font-size:14px;color:var(--t2);line-height:1.7;white-space:pre-wrap">'+text+'</div>';
+      btn.style.display="none";
+      return;
+    }
+    let r='';
+    if(parsed.worked&&parsed.worked.length){
+      r+='<div style="padding:12px;background:var(--ok)10;border:1px solid var(--ok)30;border-radius:10px;margin-bottom:8px">';
+      r+='<div style="font-size:11px;font-weight:700;color:var(--ok);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px">✨ What worked</div>';
+      parsed.worked.forEach(w=>{r+='<div style="font-size:13px;color:var(--t1);line-height:1.6;margin-bottom:6px;display:flex;gap:8px"><span style="color:var(--ok);flex-shrink:0">•</span><span>'+w+'</span></div>';});
+      r+='</div>';
+    }
+    if(parsed.focus&&parsed.focus.length){
+      r+='<div style="padding:12px;background:var(--warn)10;border:1px solid var(--warn)30;border-radius:10px;margin-bottom:8px">';
+      r+='<div style="font-size:11px;font-weight:700;color:var(--warn);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px">🎯 Where to focus next</div>';
+      parsed.focus.forEach(f=>{r+='<div style="font-size:13px;color:var(--t1);line-height:1.6;margin-bottom:6px;display:flex;gap:8px"><span style="color:var(--warn);flex-shrink:0">•</span><span>'+f+'</span></div>';});
+      r+='</div>';
+    }
+    if(parsed.tryNext){
+      r+='<div style="padding:12px;background:var(--info)10;border:1px solid var(--info)30;border-radius:10px">';
+      r+='<div style="font-size:11px;font-weight:700;color:var(--info);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px">🔁 Try this next rehearsal</div>';
+      r+='<div style="font-size:14px;color:var(--t1);line-height:1.6">'+parsed.tryNext+'</div>';
+      r+='</div>';
+    }
+    out.innerHTML=r||'<div style="padding:10px;color:var(--t3);font-size:13px">No feedback generated — try again with a longer speech.</div>';
+    btn.style.display="none";
+  }).catch(err=>{
+    out.innerHTML='<div style="padding:10px;background:var(--danger)10;color:var(--danger);border-radius:8px;font-size:13px">Couldn\'t reach the AI coach ('+err.message+'). Try again in a moment.</div>';
+    btn.disabled=false;
+    btn.innerHTML='✨ Analyze my speech';
+  });
+};
 
 // ═══ AI TOPICS GENERATOR ═══
 window.openTopicsGenerator=function(){
@@ -6912,7 +7006,7 @@ if(new URLSearchParams(location.search).has("reset")){
 rS();S=ld();
 document.getElementById("app-loader").style.display="none";
 if(S){document.getElementById("welcome-screen").style.display="none";document.getElementById("setup-screen").style.display="none";document.getElementById("dashboard").classList.add("active");buildNav();
-  if(S.testMode)genTestDates();
+  if(S.testMode){genTestDates();seedTestBookings();}
   updSync();rD();startOnboarding();
   // Check for new announcements
   setTimeout(()=>{
@@ -6925,6 +7019,26 @@ if(S){document.getElementById("welcome-screen").style.display="none";document.ge
   },2000);
   // Load Firebase in background
   if(!S.testMode)loadFirebase().then(()=>{initFB();});
+}
+
+function seedTestBookings(){
+  if(!S||!S.testMode)return;
+  // Only run once per login session; ?reset=1 clears the flag along with everything else
+  if(localStorage.getItem("tm-pw-testseeded"))return;
+  if(!S.plan)S.plan={goal:"",notes:"",slots:{}};
+  if(!S.plan.slots)S.plan.slots={};
+  // Don't overwrite existing bookings — only seed if tester's planner is empty
+  const hasAny=Object.values(S.plan.slots).some(arr=>arr&&arr.length);
+  if(hasAny){localStorage.setItem("tm-pw-testseeded","1");return;}
+  // Pick the first upcoming non-skipped meeting date
+  const today=new Date().toISOString().slice(0,10);
+  const upcoming=(clubData.dates||[]).filter(d=>d>=today&&!(clubData.skipped||{})[d]).sort();
+  if(!upcoming.length)return;
+  const firstDate=upcoming[0];
+  const d=PD["ice-breaker"];if(!d)return;
+  S.plan.slots[firstDate]=[{type:"project",label:d.t+" ("+d.dur+")",pid:"ice-breaker",pathCode:S.path||"DL"}];
+  localStorage.setItem("tm-pw-testseeded","1");
+  sv();
 }
 
 function genTestDates(){
