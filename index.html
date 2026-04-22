@@ -640,7 +640,7 @@ a{color:var(--info);text-decoration:none}
 </div>
 
 <!-- GUEST EXPERIENCE -->
-<div id="guest-screen" class="setup-screen glass-bg" style="display:none;align-items:flex-start;padding:16px 0">
+<div id="guest-screen" class="setup-screen glass-bg" style="display:none;padding:16px 0">
 <div class="setup-card" style="max-width:720px;padding:20px;border-radius:20px">
 <div class="setup-title" id="guest-title" style="display:none">Welcome to 5A+ TMC App!</div>
 <div id="guest-body">
@@ -974,7 +974,7 @@ a{color:var(--info);text-decoration:none}
 <div id="tab-roles" class="tc"><div id="roles-content"></div></div>
 <div id="tab-master" class="tc"><div id="master-content"></div></div>
 <div id="tab-club" class="tc"><div id="club-announcements"></div><div class="sl" style="margin-top:16px">Club Members</div><div id="club-list"></div></div>
-<div class="app-footer">5A+ TMC App v8.21 · Built by Kian How</div>
+<div class="app-footer">5A+ TMC App v8.23 · Built by Kian How</div>
 </div>
 
 <div class="bnav" id="bottom-nav"></div>
@@ -1629,6 +1629,7 @@ function getNextProjects(){
   if(!S)return[];const items=[];const done=S.done||{};const planned=getPlannedPids();
   const doneCount=Object.values(done).filter(Boolean).length;
   const tot=tP(S.path);
+  const today=new Date().toISOString().slice(0,10);
 
   // Find current working level
   let workLv=1;
@@ -1639,6 +1640,27 @@ function getNextProjects(){
   const{r:curR,e:curE,en:curEN}=gP(S.path,workLv);
   const curRDone=curR.filter(p=>done[p]).length;
   const curEDone=curE.filter(p=>done[p]).length;
+
+  // ── SPEECH PREP REMINDER — earliest upcoming booked project ──
+  // Always show at the top if a project is booked in the next 60 days
+  let nextPrep=null;
+  Object.entries(S.plan.slots||{}).forEach(([date,slots])=>{
+    if(date<today)return;
+    (slots||[]).forEach(s=>{
+      if(!s.pid||!PD[s.pid])return;
+      if(s.pathCode&&s.pathCode!==S.path)return;
+      if(done[s.pid])return;
+      if(!nextPrep||date<nextPrep.date)nextPrep={date,pid:s.pid,label:s.label||PD[s.pid].t};
+    });
+  });
+  if(nextPrep){
+    const ms=new Date(nextPrep.date+"T00:00:00")-new Date(today+"T00:00:00");
+    const days=Math.max(0,Math.round(ms/86400000));
+    const dfmt=new Date(nextPrep.date+"T00:00:00").toLocaleDateString("en-US",{weekday:"short",month:"short",day:"numeric"});
+    const when=days===0?"TODAY":days===1?"tomorrow":days+" days away";
+    items.push({type:"prep",icon:"🎯",title:"Prep: "+PD[nextPrep.pid].t,
+      reason:dfmt+" · "+when+". Tap for prep help.",priority:-2,pid:nextPrep.pid,date:nextPrep.date});
+  }
 
   // ── BRAND NEW MEMBER (nothing done) ──
   if(doneCount===0){
@@ -1651,6 +1673,8 @@ function getNextProjects(){
     items.push({type:"action",icon:"🙋",title:"Sign up for a meeting role",reason:"Try Timer or Ah-Counter first — they're simple and help you learn how meetings run.",priority:1,action:"role"});
     // Encourage attending
     items.push({type:"info",icon:"👀",title:"Attend and observe",reason:"Watch how experienced members speak and fill roles. You'll pick up patterns fast.",priority:2});
+    // Combine and return (prep reminder might bump one)
+    items.sort((a,b)=>a.priority-b.priority);
     return items.slice(0,3);
   }
 
@@ -1660,35 +1684,19 @@ function getNextProjects(){
     if(nextReq){const d=PD[nextReq];
       items.push({type:"project",pid:nextReq,level:workLv,icon:"📝",title:"Book: "+d.t,reason:"Your next required project — "+d.p.charAt(0).toLowerCase()+d.p.slice(1),priority:0});}
     items.push({type:"action",icon:"📋",title:"Try being an Evaluator",reason:"Evaluating others is a core TM skill and required at every level. Start practicing early.",priority:1,action:"role"});
+    items.sort((a,b)=>a.priority-b.priority);
     return items.slice(0,3);
   }
 
   // ── GENERAL LOGIC (Level 1-5 in progress) ──
 
-  // Show planned items first if any
-  const plannedItems=[];
-  Object.entries(planned).forEach(([pid,date])=>{
-    if(!done[pid]){const d=PD[pid];if(!d)return;
-      const dfmt=new Date(date+"T00:00:00").toLocaleDateString("en-US",{month:"short",day:"numeric"});
-      plannedItems.push({type:"project",pid,level:0,icon:"📅",title:d.t,reason:"Planned for "+dfmt+" — prepare your speech!",priority:-1});}});
-
-  // Lead-time projects — surface from Level 3 onwards
-  if(workLv>=2){
-    for(let l=Math.max(workLv,3);l<=5;l++){const{r,e}=gP(S.path,l);
-      [...r,...e].forEach(pid=>{
-        if(!done[pid]&&!planned[pid]&&LEAD_TIME[pid]){
-          const d=PD[pid];
-          items.push({type:"project",pid,level:l,icon:"⏱",title:"Start early: "+d.t,reason:LEAD_TIME[pid]+". Begin laying groundwork now — you'll need it by Level "+l+".",priority:0});}
-      });}
-  }
-
-  // Required projects in current level (not done, not planned)
+  // Required projects in current level (not done, not planned) — HIGHER priority than lead-time
   curR.forEach(pid=>{if(!done[pid]&&!planned[pid]&&!LEAD_TIME[pid]){
     const d=PD[pid];const remaining=curR.filter(p=>!done[p]).length;
     items.push({type:"project",pid,level:workLv,icon:"📝",title:"Book: "+d.t,
-      reason:"Required for Level "+workLv+(remaining>1?" — "+remaining+" required projects left":"  — your last required project for this level!"),priority:1});}});
+      reason:"Required for Level "+workLv+(remaining>1?" — "+remaining+" required projects left":"  — your last required project for this level!"),priority:0});}});
 
-  // Electives needed
+  // Electives needed (current level)
   if(curEDone<curEN){
     const needed=curEN-curEDone;
     const starred=curE.filter(p=>!done[p]&&((S.sel||{})[p]));
@@ -1696,19 +1704,27 @@ function getNextProjects(){
     pool.slice(0,2).forEach(pid=>{if(!planned[pid]){
       const d=PD[pid];
       items.push({type:"project",pid,level:workLv,icon:"⭐",title:d.t,
-        reason:(starred.length?"Your starred elective":"Elective option")+" — "+needed+" more needed to complete Level "+workLv,priority:2});}});
+        reason:(starred.length?"Your starred elective":"Elective option")+" — "+needed+" more needed to complete Level "+workLv,priority:1});}});
   }
 
-  // Role suggestions based on level requirements
+  // Lead-time projects (lower priority — these are longer-horizon reminders)
+  if(workLv>=2){
+    for(let l=Math.max(workLv,3);l<=5;l++){const{r,e}=gP(S.path,l);
+      [...r,...e].forEach(pid=>{
+        if(!done[pid]&&!planned[pid]&&LEAD_TIME[pid]){
+          const d=PD[pid];
+          items.push({type:"project",pid,level:l,icon:"⏱",title:"Start early: "+d.t,reason:LEAD_TIME[pid]+". Begin laying groundwork now — you'll need it by Level "+l+".",priority:2});}
+      });}
+  }
+
+  // Role suggestions
   if(workLv<=3&&items.length<3){
     const roleHint=workLv===1?"Timer, Ah-Counter, or Evaluator":workLv===2?"Grammarian, Topicsmaster, or Evaluator":"Toastmaster of the Day or General Evaluator";
     items.push({type:"action",icon:"🙋",title:"Book a meeting role",reason:"Level "+workLv+" requires: "+ROLES_REQ[workLv]+". Try "+roleHint+" next.",priority:3,action:"role"});
   }
 
-  // Combine: planned first, then smart suggestions
-  const combined=[...plannedItems,...items];
-  combined.sort((a,b)=>a.priority-b.priority);
-  const seen={};return combined.filter(s=>{const key=s.pid||s.title;if(seen[key])return false;seen[key]=true;return true;}).slice(0,3);
+  items.sort((a,b)=>a.priority-b.priority);
+  const seen={};return items.filter(s=>{const key=s.pid||s.title;if(seen[key])return false;seen[key]=true;return true;}).slice(0,3);
 }
 
 let upNextOpen=true,lastUpNextHash="";
@@ -1756,16 +1772,17 @@ function rSmartBanner(){
     if(dismissed[tipId])return;// skip dismissed
     const isProject=s.type==="project"&&s.pid;
     const isAction=s.type==="action";
-    const clickAction=isProject?'goToProject(\''+s.pid+'\','+s.level+')':isAction?'goToPlanner()':'';
+    const isPrep=s.type==="prep"&&s.pid&&s.date;
+    const clickAction=isPrep?'showSpeechPrepDialog(\''+s.pid+'\',\''+s.date+'\')':isProject?'goToProject(\''+s.pid+'\','+s.level+')':isAction?'goToPlanner()':'';
     h+='<div class="swipe-tip" data-tip-id="'+tipId+'" style="position:relative;overflow:hidden;border-radius:8px;margin-bottom:6px">';
     h+='<div class="swipe-tip-bg" style="position:absolute;inset:0;background:var(--danger);display:flex;align-items:center;justify-content:flex-end;padding:0 16px;border-radius:8px"><span style="color:#fff;font-size:13px;font-weight:600">Dismiss</span></div>';
-    h+='<div class="swipe-tip-content" style="position:relative;display:flex;align-items:center;gap:10px;padding:8px 10px;background:#151d2a;border:1px solid rgba(255,255,255,0.08);border-radius:8px;transition:transform .2s;'+(isProject||isAction?'cursor:pointer':'')+'" '+(clickAction?'onclick="event.stopPropagation();'+clickAction+'"':'')+'>';
+    h+='<div class="swipe-tip-content" style="position:relative;display:flex;align-items:center;gap:10px;padding:8px 10px;background:#151d2a;border:1px solid rgba(255,255,255,0.08);border-radius:8px;transition:transform .2s;'+(isProject||isAction||isPrep?'cursor:pointer':'')+'" '+(clickAction?'onclick="event.stopPropagation();'+clickAction+'"':'')+'>';
     h+='<div style="font-size:16px;flex-shrink:0">'+s.icon+'</div>';
     h+='<div style="flex:1;min-width:0"><div style="font-size:14px;font-weight:600;color:var(--w);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">'+s.title+'</div>';
     h+='<div style="font-size:12px;color:var(--t3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">'+s.reason+'</div>';
     if(isProject&&planned[s.pid])h+='<div style="font-size:10px;color:var(--ok)">📅 Planned</div>';
     h+='</div>';
-    if(isProject||isAction)h+='<span style="color:var(--t4);flex-shrink:0">→</span>';
+    if(isProject||isAction||isPrep)h+='<span style="color:var(--t4);flex-shrink:0">→</span>';
     h+='</div></div>';
   });
   
@@ -1912,7 +1929,7 @@ window.goToPlanner=function(){
   const plannerTab=document.querySelector('[data-tab="planner"]');
   if(plannerTab)plannerTab.classList.add("act");
   document.getElementById("tab-planner").classList.add("act");
-  rPl();
+  rD();
 };
 
 // From project detail page: close the overlay, jump to planner, open the prep popup for that date
@@ -2109,6 +2126,18 @@ function rRoles(){
     h+='</div>';
   });
   h+='</div>';
+
+  // Practice Studio launcher — standalone speaker tool
+  h+='<div class="sl" style="margin-top:4px">Speaker Tools</div>';
+  h+='<div onclick="openPracticeStudio()" style="cursor:pointer;background:linear-gradient(135deg,rgba(107,191,107,.12),rgba(123,167,204,.12));border:1px solid rgba(107,191,107,.25);border-radius:16px;padding:16px;display:flex;align-items:center;gap:14px;transition:all .15s">';
+  h+='<div style="font-size:34px;flex-shrink:0">🎙</div>';
+  h+='<div style="flex:1;min-width:0">';
+  h+='<div style="font-size:15px;font-weight:700;color:var(--w);margin-bottom:2px">Practice Studio</div>';
+  h+='<div style="font-size:12px;color:var(--t3);line-height:1.5">Rehearse any speech with a live timer, Toastmasters flash cards, filler detection, and a full performance report.</div>';
+  h+='</div>';
+  h+='<div style="color:var(--ok);font-size:20px;flex-shrink:0">→</div>';
+  h+='</div>';
+
   c.innerHTML=h;
 }
 
@@ -2267,6 +2296,14 @@ function rPl(){const c=document.getElementById("planner-content");if(!S)return;c
     });
   }
   if(dates.length&&!dates.some(d=>!(clubData.skipped||{})[d]))h+='<div class="empty">No upcoming meetings</div>';
+  // Clear plan button — visible only when the user has any planned slots
+  const hasSlots=Object.values(S.plan.slots||{}).some(arr=>arr&&arr.length);
+  if(hasSlots){
+    h+='<div style="text-align:center;margin-top:18px;padding-top:16px;border-top:1px solid var(--b1)">';
+    h+='<button class="btn-sec" onclick="clearAllPlan()" style="padding:8px 16px;font-size:13px;color:var(--danger);border-color:var(--danger)35;background:var(--danger)08">🗑 Clear my plan</button>';
+    h+='<div style="font-size:11px;color:var(--t4);margin-top:6px">Wipes all planned slots and goal so you can start fresh.</div>';
+    h+='</div>';
+  }
   h+='</div>';// /#meetings-section
   c.innerHTML=h;
   // Setup drag and drop
@@ -2822,7 +2859,7 @@ window.assignItem=function(date,type,label,opts){opts=opts||{};if(type==="custom
   const slot={type,label};
   if(opts.pid){slot.pid=opts.pid;slot.pathCode=S.path;}
   S.plan.slots[date].push(slot);sv();
-  document.getElementById("modal-root").innerHTML="";rPl();
+  document.getElementById("modal-root").innerHTML="";rD();
   if(navigator.vibrate)navigator.vibrate(10);
   setTimeout(()=>flashDateDot(date),60);// let rPl paint first
   sT("✅ Added to "+new Date(date+"T00:00:00").toLocaleDateString("en-US",{month:"short",day:"numeric"}));
@@ -2854,7 +2891,18 @@ window.forceAssign=function(date,type,label,pid){
   const opts={bypassGate:true};if(pid&&pid!=="null")opts.pid=pid;
   assignItem(date,type,label,opts);
 };
-window.rmSlot=function(date,idx){S.plan.slots[date].splice(idx,1);sv();rPl();};
+window.rmSlot=function(date,idx){S.plan.slots[date].splice(idx,1);sv();rD();};
+
+window.clearAllPlan=function(){
+  if(!S||!S.plan)return;
+  const slotCount=Object.values(S.plan.slots||{}).reduce((a,b)=>a+(b?b.length:0),0);
+  if(!slotCount&&!S.plan.goal){sT("Nothing to clear");return;}
+  if(!confirm("Clear your entire plan?\n\nThis will remove:\n• "+slotCount+" planned slot"+(slotCount!==1?"s":"")+"\n• Your term goal\n\nThis cannot be undone."))return;
+  S.plan.slots={};
+  S.plan.goal="";
+  sv();rD();
+  sT("🗑 Plan cleared — start fresh!");
+};
 window.moveSlot=function(date,idx){
   const slot=S.plan.slots[date][idx];
   const today=new Date().toISOString().slice(0,10);
@@ -2878,7 +2926,7 @@ window.doMoveSlot=function(fromDate,idx,toDate){
   if(!S.plan.slots[toDate])S.plan.slots[toDate]=[];
   S.plan.slots[toDate].push(slot);sv();
   document.getElementById("modal-root").innerHTML="";
-  rPl();
+  rD();
   setTimeout(()=>flashDateDot(toDate),60);
   if(navigator.vibrate)navigator.vibrate(10);
   sT("📅 Moved to "+new Date(toDate+"T00:00:00").toLocaleDateString("en-US",{month:"short",day:"numeric"}));
@@ -3769,6 +3817,149 @@ window.openRoleSOP=function(roleName){
   },100);
 };
 
+// ═══ SPEECH PREP COACHING DIALOG (from Smart Suggestions) ═══
+window.showSpeechPrepDialog=function(pid,date){
+  const d=PD[pid];if(!d)return;
+  const mr=document.getElementById("modal-root");
+  const today=new Date().toISOString().slice(0,10);
+  const ms=new Date(date+"T00:00:00")-new Date(today+"T00:00:00");
+  const days=Math.max(0,Math.round(ms/86400000));
+  const dfmt=new Date(date+"T00:00:00").toLocaleDateString("en-US",{weekday:"long",month:"long",day:"numeric"});
+  const when=days===0?"TODAY":days===1?"tomorrow":"in "+days+" days";
+  
+  let h='<div class="modal-bg" onclick="closeModal(event)"><div class="modal" onclick="event.stopPropagation()" style="max-width:420px">';
+  h+='<div style="text-align:center;font-size:44px;margin-bottom:4px">🎯</div>';
+  h+='<div class="modal-title" style="text-align:center;margin-bottom:4px">'+d.t+'</div>';
+  h+='<div style="text-align:center;color:var(--t3);font-size:13px;margin-bottom:18px">'+dfmt+' · '+when+'</div>';
+  h+='<div style="font-size:15px;color:var(--t2);text-align:center;margin-bottom:16px;line-height:1.5">How is your preparation going?</div>';
+  
+  h+='<div style="display:flex;flex-direction:column;gap:8px;margin-bottom:10px">';
+  h+='<button class="modal-opt" onclick="sT(\'💪 Got this!\');closeModal()" style="background:var(--ok)15;color:var(--ok);border:1px solid var(--ok)30;text-align:left;padding:14px">💪 <strong>Going well</strong> — I\'ve got this</button>';
+  h+='<button class="modal-opt" onclick="showPrepHelp(\''+pid+'\',\''+date+'\',false)" style="background:var(--warn)15;color:var(--warn);border:1px solid var(--warn)30;text-align:left;padding:14px">🤔 <strong>I need some help</strong> — let\'s work through it</button>';
+  h+='<button class="modal-opt" onclick="showPrepHelp(\''+pid+'\',\''+date+'\',true)" style="background:var(--danger)15;color:var(--danger);border:1px solid var(--danger)30;text-align:left;padding:14px">😰 <strong>Haven\'t started yet</strong> — help me begin</button>';
+  h+='</div>';
+  h+='<button class="modal-close" onclick="closeModal()" style="width:100%">Close</button>';
+  h+='</div></div>';
+  mr.innerHTML=h;
+};
+
+window.showPrepHelp=function(pid,date,notStarted){
+  const d=PD[pid];if(!d)return;
+  const mr=document.getElementById("modal-root");
+  const today=new Date().toISOString().slice(0,10);
+  const ms=new Date(date+"T00:00:00")-new Date(today+"T00:00:00");
+  const days=Math.max(0,Math.round(ms/86400000));
+  
+  let h='<div class="modal-bg" onclick="closeModal(event)"><div class="modal" onclick="event.stopPropagation()" style="max-width:440px">';
+  h+='<div class="modal-title" style="text-align:center;margin-bottom:4px">'+(notStarted?"😰 Let\'s get you started":"🤔 What\'s blocking you?")+'</div>';
+  h+='<div style="text-align:center;color:var(--t3);font-size:13px;margin-bottom:14px">'+d.t+' · '+days+' day'+(days!==1?"s":"")+' to go</div>';
+  
+  if(notStarted){
+    h+='<div style="background:var(--info)10;border:1px solid var(--info)30;border-radius:10px;padding:14px;margin-bottom:14px">';
+    h+='<div style="font-size:13px;font-weight:700;color:var(--info);margin-bottom:6px;text-transform:uppercase;letter-spacing:.05em">Quick-start checklist</div>';
+    h+='<div style="font-size:14px;color:var(--t1);line-height:1.7">';
+    h+='1. <strong>Today</strong> — pick a topic you care about<br>';
+    h+='2. <strong>Day 2-3</strong> — brain-dump ideas, no editing<br>';
+    h+='3. <strong>Day 4-5</strong> — shape into open/body/close<br>';
+    h+='4. <strong>Day 6-7</strong> — practice out loud, time yourself<br>';
+    h+='5. <strong>Day before</strong> — run through once, then rest';
+    h+='</div></div>';
+  }
+  
+  // Freeform challenge input — keyword-routed personalized help
+  h+='<div style="background:var(--s0);border-radius:10px;padding:12px;margin-bottom:14px">';
+  h+='<label style="font-size:12px;color:var(--t4);text-transform:uppercase;letter-spacing:.05em;font-weight:700;margin-bottom:6px;display:block">📝 Describe your specific challenge</label>';
+  h+='<textarea id="prep-freeform" placeholder="e.g. I have a topic but I freeze when I try to write it out..." rows="2" style="width:100%;padding:10px;background:var(--bg);border:1px solid var(--b2);border-radius:8px;color:var(--t1);font-size:14px;font-family:\'Source Sans 3\',sans-serif;resize:vertical;box-sizing:border-box"></textarea>';
+  h+='<button class="btn-pri" onclick="analyzePrepProblem(\''+pid+'\',\''+date+'\')" style="margin-top:8px;padding:8px 16px;font-size:13px;width:auto">💡 Get personalized tips</button>';
+  h+='<div id="prep-freeform-result" style="margin-top:10px"></div>';
+  h+='</div>';
+  
+  h+='<div style="font-size:13px;color:var(--t3);margin-bottom:8px;text-transform:uppercase;letter-spacing:.05em;font-weight:700">Or tap a common blocker:</div>'
+  h+='<div style="display:flex;flex-direction:column;gap:6px;margin-bottom:14px">';
+  const blockers=[
+    {k:"topic",q:"❓ I can't decide on a topic",
+      a:"Start with what already matters to you. The best Toastmasters speeches come from personal conviction — a moment that changed you, a belief you\'ve tested, a lesson you learned the hard way. Don\'t pick what sounds impressive; pick what you\'d tell a close friend over coffee."},
+    {k:"blank",q:"❓ I have the topic but can\'t write",
+      a:"Skip the writing. Record yourself talking through it on your phone for 5 minutes — unscripted, rambling, whatever. Then transcribe what\'s usable. Most speakers overthink the page when the mouth already knows what to say."},
+    {k:"nervous",q:"😰 I\'m nervous about delivering it",
+      a:"Nerves aren\'t a bug — they\'re a sign you care. Three things that reliably help: (1) practice the FIRST 30 SECONDS until it\'s automatic, (2) take three slow breaths before you stand up, (3) find one friendly face in the audience and speak TO them. The rest tends to flow."},
+    {k:"structure",q:"🏗 My speech feels scattered",
+      a:"Use the 3-part skeleton: <strong>Hook</strong> (story/question/surprise) → <strong>One big idea</strong> (2-3 supporting beats) → <strong>Call to reflection</strong> (what you want them to think, feel, or do). If someone had to describe your speech in one sentence, what would it be? That\'s your spine."},
+    {k:"timing",q:"⏱ I\'m worried about timing",
+      a:"Time yourself out loud 3x. Most new speakers run over because they rush; slow pacing actually reads as confident. For a 5-7 minute speech, aim for 800-1000 words. Mark 3 \"cut points\" in your notes where you can trim if the TT signals green early."},
+    {k:"feedback",q:"🤝 I want feedback before the meeting",
+      a:"Ask your assigned Evaluator (or any club mentor) for 15 minutes this week. Send them your outline or record a rehearsal on your phone. Most members LOVE being asked — it\'s the highest-impact help you can get."},
+    {k:"practice",q:"🎙 Let\'s practice together",
+      a:"Open the Practice Studio — it's a timer + filler detector + recorder in one. You\'ll get real-time timing cards based on your project\'s target duration, a live filler count, and a full analysis report when you\'re done.",action:"practice"}
+  ];
+  blockers.forEach(b=>{
+    h+='<details style="background:var(--s0);border:1px solid var(--b1);border-radius:10px;padding:10px 14px">';
+    h+='<summary style="cursor:pointer;font-size:14px;color:var(--t1);font-weight:600">'+b.q+'</summary>';
+    h+='<div style="font-size:14px;color:var(--t2);line-height:1.7;margin-top:10px;padding-top:10px;border-top:1px solid var(--b1)">'+b.a+'</div>';
+    if(b.action==="practice"){
+      h+='<div style="margin-top:10px"><button class="btn-pri" style="padding:8px 16px;font-size:13px" onclick="closeModal();openPracticeStudio(\''+pid+'\',\''+date+'\')">🎙 Open Practice Studio</button></div>';
+    }
+    h+='</details>';
+  });
+  h+='</div>';
+  
+  h+='<div style="display:flex;gap:8px">';
+  h+='<button class="modal-close" style="flex:1" onclick="showSpeechPrepDialog(\''+pid+'\',\''+date+'\')">← Back</button>';
+  h+='<button class="modal-close" style="flex:1" onclick="closeModal()">Got it, thanks</button>';
+  h+='</div>';
+  h+='</div></div>';
+  mr.innerHTML=h;
+};
+
+// Keyword patterns that map freeform problem descriptions to blocker keys
+const PREP_PATTERNS=[
+  {k:"topic",re:/topic|idea|subject|what.*about|pick|choose|decide/,
+    title:"❓ Topic choice",
+    tip:"Pick what you'd tell a close friend over coffee — personal conviction beats \"impressive\" every time. A moment that changed you, a belief you've tested, a lesson learned the hard way."},
+  {k:"blank",re:/writ|blank|paper|script|can.?t.*(begin|start)|stuck/,
+    title:"❓ Can't write",
+    tip:"Skip the writing. Record yourself talking through it on your phone for 5 minutes — unscripted. Then transcribe what's usable. Your mouth already knows what to say; your page is overthinking it."},
+  {k:"nervous",re:/nerv|anxious|scared|afraid|fear|panic|freak|shake/,
+    title:"😰 Nerves",
+    tip:"Three things that reliably help: (1) practice the FIRST 30 SECONDS until it's automatic, (2) three slow breaths before you stand up, (3) find ONE friendly face and speak TO them."},
+  {k:"structure",re:/scatter|unorganized|disorganized|confus|flow|order|structure|messy|random/,
+    title:"🏗 Scattered structure",
+    tip:"Use the 3-part skeleton: <strong>Hook</strong> (story/question/surprise) → <strong>One big idea</strong> (2-3 beats) → <strong>Call to reflection</strong>. Describe your speech in one sentence — that's your spine."},
+  {k:"timing",re:/time|long|short|minute|pace|rush|overrun|over.?time|too.*(fast|slow)/,
+    title:"⏱ Timing worries",
+    tip:"Time yourself out loud 3x. For 5-7 min, aim for 800-1000 words. Mark 3 \"cut points\" to trim if Timer shows green early. Slow pacing actually reads as confident."},
+  {k:"feedback",re:/feedback|eval|mentor|review|check|critique|opinion/,
+    title:"🤝 Want feedback",
+    tip:"Ask your Evaluator (or any mentor) for 15 minutes this week. Send your outline or a phone recording. Most members LOVE being asked — it's the highest-impact help."},
+  {k:"practice",re:/practice|rehears|record|out loud|deliver|try it|run.*through/,
+    title:"🎙 Practice delivery",
+    tip:"Open the Practice Studio. It times you against your project's target duration, counts fillers live, and gives you a full report with content analysis when you finish.",
+    action:"practice"}
+];
+
+window.analyzePrepProblem=function(pid,date){
+  const t=(document.getElementById("prep-freeform")?.value||"").trim().toLowerCase();
+  const resEl=document.getElementById("prep-freeform-result");
+  if(!resEl)return;
+  if(t.length<5){sT("Describe your challenge first — a sentence is plenty");return;}
+  const matches=PREP_PATTERNS.filter(p=>p.re.test(t));
+  if(!matches.length){
+    resEl.innerHTML='<div style="padding:10px 12px;background:var(--bg);border-radius:8px;font-size:13px;color:var(--t2);line-height:1.5">I\'m not catching the issue — try mentioning words like <em>topic, writing, nervous, structure, timing, feedback,</em> or <em>practice</em> and I\'ll point you to a fix.</div>';
+    return;
+  }
+  let h='<div style="padding:12px;background:var(--ok)10;border:1px solid var(--ok)30;border-radius:10px">';
+  h+='<div style="font-size:11px;color:var(--ok);text-transform:uppercase;letter-spacing:.05em;font-weight:700;margin-bottom:8px">Here\'s what I\'d try</div>';
+  matches.forEach(m=>{
+    h+='<div style="margin-bottom:10px"><div style="font-size:13px;font-weight:700;color:var(--w);margin-bottom:4px">'+m.title+'</div>';
+    h+='<div style="font-size:13px;color:var(--t2);line-height:1.6">'+m.tip+'</div></div>';
+  });
+  if(matches.some(m=>m.action==="practice")){
+    h+='<button class="btn-pri" style="margin-top:4px;padding:8px 16px;font-size:13px;width:auto" onclick="closeModal();openPracticeStudio(\''+pid+'\',\''+date+'\')">🎙 Open Practice Studio</button>';
+  }
+  h+='</div>';
+  resEl.innerHTML=h;
+};
+
 window.showPrepPopup=function(date){
   const mySlots=((S.plan.slots||{})[date])||[];
   if(!mySlots.length)return openAssign(date);
@@ -3850,9 +4041,12 @@ window.showPrepPopup=function(date){
     h+='</div>';
     
     // Prominent per-slot action buttons below each card
-    h+='<div style="display:flex;gap:8px;margin-bottom:14px">';
-    h+='<button class="sb" style="flex:1;padding:10px;background:var(--info)18;color:var(--info);border:1px solid var(--info)40;border-radius:10px;font-size:14px;font-weight:600" onclick="closeModal();moveSlot(\''+date+'\','+i+')">📅 Change date</button>';
-    h+='<button class="sb" style="flex:1;padding:10px;background:var(--danger)15;color:var(--danger);border:1px solid var(--danger)40;border-radius:10px;font-size:14px;font-weight:600" onclick="cancelBookingFromPopup(\''+date+'\','+i+')">✕ Cancel booking</button>';
+    h+='<div style="display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap">';
+    if(isProject&&linkedPid){
+      h+='<button class="sb" style="flex:1;min-width:120px;padding:10px;background:var(--ok)15;color:var(--ok);border:1px solid var(--ok)40;border-radius:10px;font-size:14px;font-weight:600" onclick="closeModal();openPracticeStudio(\''+linkedPid+'\',\''+date+'\')">🎙 Practice</button>';
+    }
+    h+='<button class="sb" style="flex:1;min-width:120px;padding:10px;background:var(--info)18;color:var(--info);border:1px solid var(--info)40;border-radius:10px;font-size:14px;font-weight:600" onclick="closeModal();moveSlot(\''+date+'\','+i+')">📅 Change date</button>';
+    h+='<button class="sb" style="flex:1;min-width:120px;padding:10px;background:var(--danger)15;color:var(--danger);border:1px solid var(--danger)40;border-radius:10px;font-size:14px;font-weight:600" onclick="cancelBookingFromPopup(\''+date+'\','+i+')">✕ Cancel booking</button>';
     h+='</div>';
   });
   h+='<div style="display:flex;gap:8px;margin-top:4px">';
@@ -3903,7 +4097,7 @@ window.cancelBookingFromPopup=function(date,idx){
     });
     if(S.plan.slots[d]&&!S.plan.slots[d].length)delete S.plan.slots[d];
   });
-  sv();closeModal();rPl();
+  sv();closeModal();rD();
   sT("✅ Cancelled "+removed+" slot"+(removed!==1?"s":""));
 };
 
@@ -4312,9 +4506,7 @@ function showPlanResult(editMode){
     });
     
     if(editMode){
-      // Add slot button
-      h+='<button class="sb" style="padding:2px 8px;font-size:12px;color:var(--ok);background:transparent" onclick="addPlanSlot('+pi+')">+</button>';
-      // Remove meeting button
+      // Remove meeting button (only if no project/multi-step on this date)
       if(!item.slots.some(s=>s.type==="project")){
         h+='<button class="sb" style="padding:2px 6px;font-size:10px;color:var(--danger);background:transparent" onclick="removePlanMeeting('+pi+')">✕</button>';
       }
@@ -4413,7 +4605,7 @@ window.applyWizardPlan=function(){
   });
   // Save the goal
   S.plan.goal="Complete "+meta.levels+" level"+(meta.levels>1?"s":"")+" (L"+meta.workLv+(meta.levels>1?"–L"+(meta.workLv+meta.levels-1):"")+") · ~"+meta.freq+"x/month";
-  sv();closeProjectOverlay();rPl();
+  sv();closeProjectOverlay();rD();
   sT("✅ Plan applied! "+plan.length+" meetings scheduled.");
 };
 
@@ -5208,10 +5400,14 @@ window.stopSpeechTimer=function(){
 let fillerRecognition=null,fillerRunning=false,fillerStartTime=0;
 const FILLER_WORDS=["um","uh","ah","er","erm","hmm","huh","like","you know","so","basically","actually","right","i mean","kind of","sort of","literally","honestly","obviously","clearly","well","okay so","anyway","you see","at the end of the day","to be honest","in terms of","the thing is","as i said","moving forward"];
 
-window.openFillerDetector=function(){
+window.openFillerDetector=function(opts){
+  opts=opts||{};
+  const isGuest=!!opts.guest;
   const mr=document.getElementById("modal-root");
   let h='<div class="project-overlay" style="background:var(--bg)">';
-  h+='<div class="project-overlay-close"><button onclick="stopFillerDetector();closeProjectOverlay()">✕ Close</button></div>';
+  const closeHandler=isGuest?"stopFillerDetector();closeProjectOverlay();resetGuest()":"stopFillerDetector();closeProjectOverlay()";
+  const closeLabel=isGuest?"← Back to menu":"✕ Close";
+  h+='<div class="project-overlay-close"><button onclick="'+closeHandler+'">'+closeLabel+'</button></div>';
   h+='<div class="detail" style="background:var(--s1);max-width:500px">';
   h+='<div class="detail-title" style="text-align:center;margin-bottom:4px">🎙 Filler Detector</div>';
   
@@ -5550,6 +5746,349 @@ function updateFillerBreakdown(){
     }
   }
   el.innerHTML=h;
+}
+
+// ═══ PRACTICE STUDIO ═══
+// Timer + filler counter + recorder + content analysis, all in one.
+// Entry points: prep-help "practice together", prep popup on planner.
+const _practiceFillers=["um","uh","ah","er","hmm","like","you know","so","basically","actually","right","i mean","kind of","sort of","literally","honestly","obviously","well","the thing is"];
+let _practiceState={running:false,pid:null,startMs:0,timerInt:null,recognition:null,mediaRecorder:null,stream:null,audioChunks:[],transcript:"",words:0,fillerCount:0,fillerMap:{}};
+
+function parsePracticeDur(s){
+  if(!s)return{min:5,max:7};
+  const m=(s||"").match(/(\d+)\s*[-–]\s*(\d+)/);
+  if(m)return{min:+m[1],max:+m[2]};
+  const one=(s||"").match(/(\d+)/);
+  if(one)return{min:+one[1],max:+one[1]+1};
+  return{min:5,max:7};
+}
+
+window.openPracticeStudio=function(pid,date){
+  const mr=document.getElementById("modal-root");
+  // Default pid from an upcoming booking if not supplied
+  if(!pid){
+    const today=new Date().toISOString().slice(0,10);
+    let earliest=null;
+    Object.entries((S&&S.plan&&S.plan.slots)||{}).forEach(([d,slots])=>{
+      if(d<today)return;
+      (slots||[]).forEach(s=>{if(s.pid&&PD[s.pid]&&(!earliest||d<earliest.d))earliest={d,pid:s.pid};});
+    });
+    if(earliest)pid=earliest.pid;
+  }
+  window._practicePid=pid||"";
+  window._practiceDate=date||"";
+  _practiceState={running:false,pid:pid||null,startMs:0,timerInt:null,recognition:null,mediaRecorder:null,stream:null,audioChunks:[],transcript:"",words:0,fillerCount:0,fillerMap:{}};
+  
+  let h='<div class="project-overlay" style="background:var(--bg)">';
+  h+='<div class="project-overlay-close"><button onclick="stopPracticeSession();closeProjectOverlay()">✕ Close</button></div>';
+  h+='<div class="detail" style="background:var(--s1);max-width:500px">';
+  h+='<div class="detail-title" style="text-align:center;margin-bottom:4px">🎙 Practice Studio</div>';
+  h+='<div style="text-align:center;color:var(--t3);font-size:13px;margin-bottom:14px">Live timing, filler detection, and a full analysis when you\'re done</div>';
+  
+  // Project picker
+  h+='<div id="practice-picker" style="margin-bottom:14px">';
+  h+=_practicePickerHtml(pid);
+  h+='</div>';
+  
+  // Timer display
+  h+='<div id="practice-timer-area" style="text-align:center;margin-bottom:14px;padding:20px;background:var(--s0);border-radius:14px;border:2px solid var(--b2);transition:border-color .2s">';
+  h+='<div id="practice-time-card" style="font-size:11px;font-weight:700;color:var(--t4);text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px;min-height:14px">READY</div>';
+  h+='<div id="practice-time-display" style="font-family:\'DM Mono\',monospace;font-size:52px;font-weight:700;color:var(--w);line-height:1">0:00</div>';
+  h+='<div id="practice-time-target" style="font-size:12px;color:var(--t3);margin-top:6px">Pick a project, then tap the mic</div>';
+  h+='</div>';
+  
+  // Mic button
+  h+='<div style="text-align:center;margin-bottom:14px">';
+  h+='<button id="practice-mic-btn" onclick="togglePracticeSession()" style="width:88px;height:88px;border-radius:50%;background:var(--info)20;border:3px solid var(--info);display:flex;align-items:center;justify-content:center;font-size:36px;cursor:pointer;margin:0 auto;transition:all .2s">🎙</button>';
+  h+='<div id="practice-status" style="font-size:13px;color:var(--t3);margin-top:8px">Tap to start</div>';
+  h+='</div>';
+  
+  // Live stats
+  h+='<div id="practice-live-stats" style="display:none;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:14px">';
+  h+='<div style="padding:10px;background:var(--s0);border-radius:10px;text-align:center">';
+  h+='<div style="font-size:11px;color:var(--t4);text-transform:uppercase;letter-spacing:.05em">Words</div>';
+  h+='<div id="practice-words" style="font-size:22px;font-weight:700;color:var(--w);font-family:\'DM Mono\',monospace">0</div></div>';
+  h+='<div style="padding:10px;background:var(--s0);border-radius:10px;text-align:center">';
+  h+='<div style="font-size:11px;color:var(--t4);text-transform:uppercase;letter-spacing:.05em">Fillers</div>';
+  h+='<div id="practice-fillers" style="font-size:22px;font-weight:700;color:var(--danger);font-family:\'DM Mono\',monospace">0</div></div>';
+  h+='</div>';
+  
+  h+='<div id="practice-results" style="display:none"></div>';
+  h+='</div></div>';
+  mr.innerHTML=h;
+};
+
+function _practicePickerHtml(pid){
+  if(pid==="freestyle"||(pid&&PD[pid])){
+    if(pid==="freestyle"){
+      return '<div style="display:flex;align-items:center;justify-content:space-between;padding:12px;background:var(--s0);border-radius:10px;border:1px solid var(--b2)">'+
+        '<div><div style="font-size:11px;color:var(--t4);text-transform:uppercase;letter-spacing:.05em">Freestyle</div>'+
+        '<div style="font-size:15px;font-weight:600;color:var(--w);margin-top:2px">No target time</div></div>'+
+        '<button class="sb" onclick="changePracticeProject()" style="padding:6px 12px;font-size:12px;background:var(--b1);color:var(--t2);border-radius:6px">Change</button></div>';
+    }
+    const d=PD[pid];const dur=parsePracticeDur(d.dur);
+    return '<div style="display:flex;align-items:center;justify-content:space-between;padding:12px;background:var(--s0);border-radius:10px;border:1px solid var(--b2)">'+
+      '<div style="flex:1;min-width:0"><div style="font-size:11px;color:var(--t4);text-transform:uppercase;letter-spacing:.05em">Practicing for</div>'+
+      '<div style="font-size:15px;font-weight:600;color:var(--w);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">'+d.t+'</div>'+
+      '<div style="font-size:12px;color:var(--t3);margin-top:2px">Target: '+dur.min+'–'+dur.max+' min</div></div>'+
+      '<button class="sb" onclick="changePracticeProject()" style="padding:6px 12px;font-size:12px;background:var(--b1);color:var(--t2);border-radius:6px;margin-left:8px">Change</button></div>';
+  }
+  let h='<label style="font-size:12px;color:var(--t4);text-transform:uppercase;letter-spacing:.05em;font-weight:700;margin-bottom:6px;display:block">What are you practicing?</label>';
+  h+='<select onchange="window._practicePid=this.value;document.getElementById(\'practice-picker\').innerHTML=_practicePickerHtml(this.value)" style="width:100%;padding:12px;background:var(--s0);border:1px solid var(--b2);border-radius:10px;color:var(--t1);font-size:14px;font-family:\'Source Sans 3\',sans-serif">';
+  h+='<option value="">Pick a project...</option>';
+  h+='<option value="freestyle">🎤 Freestyle — no target time</option>';
+  // Group by level if we have an active path
+  if(S&&S.path){
+    for(let l=1;l<=5;l++){const g=gP(S.path,l);const pids=[...(g.r||[]),...(g.e||[])];
+      const avail=pids.filter(id=>PD[id]);
+      if(!avail.length)continue;
+      h+='<optgroup label="Level '+l+'">';
+      avail.forEach(id=>{h+='<option value="'+id+'">'+PD[id].t+' ('+PD[id].dur+')</option>';});
+      h+='</optgroup>';
+    }
+  }else{
+    Object.entries(PD).forEach(([id,d])=>{h+='<option value="'+id+'">'+d.t+' ('+d.dur+')</option>';});
+  }
+  h+='</select>';
+  return h;
+}
+window._practicePickerHtml=_practicePickerHtml;
+
+window.changePracticeProject=function(){
+  window._practicePid="";
+  document.getElementById("practice-picker").innerHTML=_practicePickerHtml("");
+};
+
+window.togglePracticeSession=function(){
+  if(_practiceState.running)stopPracticeSession();
+  else startPracticeSession();
+};
+
+function startPracticeSession(){
+  const pid=window._practicePid;
+  if(!pid){sT("Pick a project or freestyle first");return;}
+  _practiceState.running=true;
+  _practiceState.startMs=Date.now();
+  _practiceState.transcript="";_practiceState.words=0;_practiceState.fillerCount=0;_practiceState.fillerMap={};_practiceState.audioChunks=[];
+  _practiceState.timerInt=setInterval(updatePracticeTimer,200);
+  
+  // Speech recognition
+  const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+  if(SR){
+    try{
+      const rec=new SR();
+      rec.continuous=true;rec.interimResults=false;rec.lang="en-US";
+      rec.onresult=(e)=>{
+        for(let i=e.resultIndex;i<e.results.length;i++){
+          const txt=(e.results[i][0].transcript||"").toLowerCase();
+          _practiceState.transcript+=txt+" ";
+          const ws=txt.split(/\s+/).filter(Boolean);
+          _practiceState.words+=ws.length;
+          _practiceFillers.forEach(f=>{
+            const re=new RegExp("\\b"+f.replace(/\s+/g,"\\s+")+"\\b","g");
+            const hits=(txt.match(re)||[]).length;
+            if(hits){_practiceState.fillerCount+=hits;_practiceState.fillerMap[f]=(_practiceState.fillerMap[f]||0)+hits;}
+          });
+        }
+        updatePracticeLiveStats();
+      };
+      rec.onerror=()=>{};
+      rec.onend=()=>{if(_practiceState.running){try{rec.start();}catch(e){}}};
+      rec.start();
+      _practiceState.recognition=rec;
+    }catch(e){sT("Speech recognition unavailable — timer and recorder still work");}
+  }
+  
+  // Audio recording
+  if(navigator.mediaDevices&&navigator.mediaDevices.getUserMedia){
+    navigator.mediaDevices.getUserMedia({audio:true}).then(stream=>{
+      _practiceState.stream=stream;
+      const mr=new MediaRecorder(stream);
+      mr.ondataavailable=e=>{if(e.data&&e.data.size)_practiceState.audioChunks.push(e.data);};
+      mr.start();
+      _practiceState.mediaRecorder=mr;
+    }).catch(()=>{});
+  }
+  
+  const btn=document.getElementById("practice-mic-btn");
+  if(btn){btn.innerHTML="⏹";btn.style.background="var(--danger)20";btn.style.borderColor="var(--danger)";}
+  const st=document.getElementById("practice-status");if(st)st.textContent="Recording... tap to stop";
+  const stats=document.getElementById("practice-live-stats");if(stats)stats.style.display="grid";
+  if(navigator.vibrate)navigator.vibrate(10);
+}
+
+window.stopPracticeSession=function(){
+  if(!_practiceState.running)return;
+  _practiceState.running=false;
+  if(_practiceState.timerInt)clearInterval(_practiceState.timerInt);
+  if(_practiceState.recognition){_practiceState.recognition.onend=null;try{_practiceState.recognition.stop();}catch(e){}}
+  if(_practiceState.mediaRecorder&&_practiceState.mediaRecorder.state!=="inactive"){try{_practiceState.mediaRecorder.stop();}catch(e){}}
+  if(_practiceState.stream){_practiceState.stream.getTracks().forEach(t=>t.stop());}
+  const elapsed=(Date.now()-_practiceState.startMs)/1000;
+  setTimeout(()=>showPracticeResults(elapsed),400);
+};
+
+function updatePracticeTimer(){
+  if(!_practiceState.running)return;
+  const elapsed=(Date.now()-_practiceState.startMs)/1000;
+  const mins=Math.floor(elapsed/60),secs=Math.floor(elapsed%60);
+  const disp=document.getElementById("practice-time-display");
+  if(disp)disp.textContent=mins+":"+String(secs).padStart(2,"0");
+  const pid=window._practicePid;
+  const card=document.getElementById("practice-time-card");
+  const target=document.getElementById("practice-time-target");
+  const area=document.getElementById("practice-timer-area");
+  if(!card||!target||!area)return;
+  if(pid==="freestyle"||!PD[pid]){
+    card.textContent="🎤 RECORDING";card.style.color="var(--info)";
+    target.textContent="Freestyle — speak as long as you like";
+    area.style.borderColor="var(--info)";
+    return;
+  }
+  const dur=parsePracticeDur(PD[pid].dur);
+  const minSec=dur.min*60,maxSec=dur.max*60,yellow=maxSec-30;
+  if(elapsed<minSec){
+    card.textContent="BUILDING UP";card.style.color="var(--t3)";
+    const rem=Math.ceil(minSec-elapsed);
+    target.textContent=rem+"s until minimum — aim for "+dur.min+":00";
+    area.style.borderColor="var(--b2)";
+  }else if(elapsed<yellow){
+    card.textContent="🟢 ON TIME";card.style.color="var(--ok)";
+    target.textContent="You can wrap up anytime · max "+dur.max+":00";
+    area.style.borderColor="var(--ok)";
+  }else if(elapsed<maxSec){
+    card.textContent="🟡 WRAP UP SOON";card.style.color="var(--warn)";
+    target.textContent=Math.ceil(maxSec-elapsed)+"s to max";
+    area.style.borderColor="var(--warn)";
+  }else if(elapsed<maxSec+30){
+    card.textContent="🔴 TIME'S UP";card.style.color="var(--danger)";
+    target.textContent="Over by "+Math.ceil(elapsed-maxSec)+"s";
+    area.style.borderColor="var(--danger)";
+  }else{
+    card.textContent="🔴 DISQUALIFIED TIME";card.style.color="var(--danger)";
+    target.textContent="Over by "+Math.ceil(elapsed-maxSec)+"s — would be DQ in contest";
+    area.style.borderColor="var(--danger)";
+  }
+}
+
+function updatePracticeLiveStats(){
+  const w=document.getElementById("practice-words");
+  const f=document.getElementById("practice-fillers");
+  if(w)w.textContent=_practiceState.words;
+  if(f)f.textContent=_practiceState.fillerCount;
+}
+
+function analyzePracticeContent(transcript,elapsed){
+  const t=(transcript||"").toLowerCase();
+  const words=t.split(/\s+/).filter(Boolean);
+  const checks=[];
+  if(!words.length)return checks;
+  const hookSlice=t.slice(0,220);
+  const hasQ=/\?/.test(hookSlice);
+  const hasStory=/\b(when i|once|imagine|picture this|back in|last week|yesterday|years ago|one day)\b/.test(hookSlice);
+  const hasStat=/\d+\s*(percent|%|million|thousand|billion|people|times)/.test(hookSlice);
+  const hasQuote=/\b(said|says|quote|tells us|once told)\b/.test(hookSlice);
+  const hook=hasQ||hasStory||hasStat||hasQuote;
+  checks.push({pass:hook,msg:hook?"Strong opening (question/story/stat/quote detected)":"Opening could be stronger — try a question, story, surprising stat, or quote"});
+  const hasTransitions=/\b(first|second|third|next|then|finally|lastly|in addition|however|but|on the other hand|meanwhile|furthermore)\b/.test(t);
+  checks.push({pass:hasTransitions,msg:hasTransitions?"Clear structural transitions":"Consider adding transitions (first/next/finally) for flow"});
+  const closeSlice=words.slice(-Math.max(30,Math.floor(words.length*0.2))).join(" ");
+  const hasClose=/\b(in conclusion|to summarize|so next time|remember|i want you to|i invite you|call to action|takeaway|moving forward|leave you with|imagine if)\b/.test(closeSlice);
+  checks.push({pass:hasClose,msg:hasClose?"Strong close with a clear takeaway":"Close is soft — end with a call-to-action or reflection"});
+  const unique=new Set(words).size;
+  const variety=words.length?unique/words.length:0;
+  checks.push({pass:variety>0.35,msg:variety>0.35?"Good word variety ("+Math.round(variety*100)+"% unique)":"Repetitive vocabulary ("+Math.round(variety*100)+"% unique) — vary your phrasing"});
+  return checks;
+}
+
+function showPracticeResults(elapsed){
+  const pid=window._practicePid;
+  const isProj=pid&&pid!=="freestyle"&&PD[pid];
+  const d=isProj?PD[pid]:null;
+  const dur=isProj?parsePracticeDur(d.dur):null;
+  const mins=Math.floor(elapsed/60),secs=Math.floor(elapsed%60);
+  const timeStr=mins+":"+String(secs).padStart(2,"0");
+  const wpm=elapsed>0?Math.round(_practiceState.words/(elapsed/60)):0;
+  const fpm=elapsed>0?+(_practiceState.fillerCount/(elapsed/60)).toFixed(1):0;
+  
+  let timeGrade="",timeColor="var(--info)",timeMsg="";
+  if(dur){
+    const minSec=dur.min*60,maxSec=dur.max*60;
+    if(elapsed<minSec){timeGrade="UNDER TIME";timeColor="var(--danger)";timeMsg=Math.ceil((minSec-elapsed))+"s short of "+dur.min+":00 minimum. Add examples or a personal story.";}
+    else if(elapsed>maxSec+30){timeGrade="OVER (DQ)";timeColor="var(--danger)";timeMsg=Math.ceil(elapsed-maxSec)+"s past max — would be disqualified in contest. Trim examples or tighten the open.";}
+    else if(elapsed>maxSec){timeGrade="SLIGHTLY OVER";timeColor="var(--warn)";timeMsg=Math.ceil(elapsed-maxSec)+"s past max. Allowed at meetings but trim for contests.";}
+    else{timeGrade="ON TIME";timeColor="var(--ok)";timeMsg="Right in the "+dur.min+"–"+dur.max+" min window. Great pacing!";}
+  }
+  
+  let paceMsg="";
+  if(wpm>180)paceMsg="Pace: fast ("+wpm+" WPM). Slow down for emphasis and let key points land.";
+  else if(wpm<100&&_practiceState.words>20)paceMsg="Pace: slow ("+wpm+" WPM). More energy could help engagement.";
+  else paceMsg="Pace: balanced ("+wpm+" WPM) — natural speaking tempo.";
+  
+  let fillerMsg;
+  if(_practiceState.words<20)fillerMsg="Not enough speech detected to analyze fillers. Try again with more speaking.";
+  else if(fpm<2)fillerMsg="Excellent filler control — under 2/min.";
+  else if(fpm<5)fillerMsg="Moderate filler rate ("+fpm+"/min). Awareness is the first step.";
+  else fillerMsg="High filler rate ("+fpm+"/min). Try pausing instead — silence beats \"um\".";
+  
+  const topFillers=Object.entries(_practiceState.fillerMap).sort((a,b)=>b[1]-a[1]).slice(0,5);
+  const checks=analyzePracticeContent(_practiceState.transcript,elapsed);
+  const audioBlob=_practiceState.audioChunks.length?new Blob(_practiceState.audioChunks,{type:"audio/webm"}):null;
+  const audioUrl=audioBlob?URL.createObjectURL(audioBlob):null;
+  
+  let h='<div style="margin-top:8px;padding-top:16px;border-top:1px solid var(--b1)">';
+  h+='<div style="text-align:center;font-size:18px;font-weight:700;color:var(--w);margin-bottom:2px">Practice Report</div>';
+  h+='<div style="text-align:center;font-size:13px;color:var(--t3);margin-bottom:14px">'+(d?d.t:"Freestyle")+' · '+timeStr+'</div>';
+  
+  if(dur){
+    h+='<div style="padding:14px;background:'+timeColor+'15;border:1px solid '+timeColor+'40;border-radius:12px;margin-bottom:12px">';
+    h+='<div style="font-size:11px;color:'+timeColor+';text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:4px">Timing · '+timeGrade+'</div>';
+    h+='<div style="font-size:14px;color:var(--t1);line-height:1.5">'+timeMsg+'</div></div>';
+  }
+  
+  h+='<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px">';
+  h+='<div style="padding:10px;background:var(--s0);border-radius:10px;text-align:center"><div style="font-size:11px;color:var(--t4);text-transform:uppercase">Words</div><div style="font-size:22px;font-weight:700;color:var(--w);font-family:\'DM Mono\',monospace">'+_practiceState.words+'</div></div>';
+  h+='<div style="padding:10px;background:var(--s0);border-radius:10px;text-align:center"><div style="font-size:11px;color:var(--t4);text-transform:uppercase">WPM</div><div style="font-size:22px;font-weight:700;color:var(--w);font-family:\'DM Mono\',monospace">'+wpm+'</div></div>';
+  h+='<div style="padding:10px;background:var(--s0);border-radius:10px;text-align:center"><div style="font-size:11px;color:var(--t4);text-transform:uppercase">Fillers</div><div style="font-size:22px;font-weight:700;color:var(--danger);font-family:\'DM Mono\',monospace">'+_practiceState.fillerCount+'</div></div>';
+  h+='</div>';
+  
+  h+='<div style="padding:10px 12px;background:var(--s0);border-radius:10px;margin-bottom:8px;font-size:13px;color:var(--t2);line-height:1.5">🎵 '+paceMsg+'</div>';
+  h+='<div style="padding:10px 12px;background:var(--s0);border-radius:10px;margin-bottom:12px;font-size:13px;color:var(--t2);line-height:1.5">🎤 '+fillerMsg;
+  if(topFillers.length){
+    h+='<div style="margin-top:6px;display:flex;gap:4px;flex-wrap:wrap">';
+    topFillers.forEach(([w,c])=>{h+='<span style="font-size:11px;padding:2px 8px;background:var(--danger)15;color:var(--danger);border-radius:10px">'+w+' ×'+c+'</span>';});
+    h+='</div>';
+  }
+  h+='</div>';
+  
+  if(checks.length){
+    h+='<div style="padding:12px;background:var(--s0);border-radius:10px;margin-bottom:12px">';
+    h+='<div style="font-size:11px;color:var(--t4);text-transform:uppercase;letter-spacing:.05em;font-weight:700;margin-bottom:8px">Content check</div>';
+    checks.forEach(c=>{
+      const ic=c.pass?"✅":"⚠️";
+      h+='<div style="font-size:13px;color:var(--t2);margin-bottom:6px;display:flex;gap:8px;line-height:1.5"><span style="flex-shrink:0">'+ic+'</span><span>'+c.msg+'</span></div>';
+    });
+    h+='</div>';
+  }
+  
+  if(audioUrl){
+    h+='<div style="padding:10px 12px;background:var(--s0);border-radius:10px;margin-bottom:12px">';
+    h+='<div style="font-size:11px;color:var(--t4);text-transform:uppercase;letter-spacing:.05em;font-weight:700;margin-bottom:6px">🔊 Playback</div>';
+    h+='<audio controls style="width:100%" src="'+audioUrl+'"></audio>';
+    h+='</div>';
+  }
+  
+  h+='<div style="display:flex;gap:8px;margin-top:8px">';
+  h+='<button class="btn-sec" style="flex:1;font-size:13px" onclick="openPracticeStudio(\''+(pid||"")+'\',\''+(window._practiceDate||"")+'\')">🔄 Practice again</button>';
+  h+='<button class="btn-pri" style="flex:1;font-size:13px" onclick="closeProjectOverlay()">Done</button>';
+  h+='</div></div>';
+  
+  const res=document.getElementById("practice-results");
+  if(res){res.innerHTML=h;res.style.display="block";res.scrollIntoView({behavior:"smooth",block:"start"});}
+  // Reset mic button
+  const btn=document.getElementById("practice-mic-btn");
+  if(btn){btn.innerHTML="🎙";btn.style.background="var(--info)20";btn.style.borderColor="var(--info)";}
+  const st=document.getElementById("practice-status");if(st)st.textContent="Session complete — see report below";
 }
 
 // ═══ AI TOPICS GENERATOR ═══
@@ -6072,7 +6611,7 @@ function showQuizResults(el){
 
 // ═══ 4. NEXT MEETING ═══
 window.showGuestFillerDetector=function(){
-  openFillerDetector();
+  openFillerDetector({guest:true});
 };
 
 window.showGuestNextMeeting=function(){
@@ -6389,18 +6928,19 @@ if(S){document.getElementById("welcome-screen").style.display="none";document.ge
 }
 
 function genTestDates(){
-  const testDates=[];let cur=new Date("2026-04-19T00:00:00");const end=new Date("2026-12-31T00:00:00");
+  // Tester mode: Jul–Dec 2026 Sundays, matching a typical TM 6-month term
+  const testDates=[];let cur=new Date("2026-07-01T00:00:00");const end=new Date("2026-12-31T00:00:00");
   while(cur<=end){if(cur.getDay()===0){testDates.push(cur.getFullYear()+"-"+String(cur.getMonth()+1).padStart(2,"0")+"-"+String(cur.getDate()).padStart(2,"0"));}cur.setDate(cur.getDate()+1);}
   clubData.dates=testDates;clubData.skipped=clubData.skipped||{};clubData.settings=clubData.settings||{speechSlots:3,roleSlots:5};
-  // Mock announcements
+  // Mock announcements (aligned to Jul–Dec term)
   clubData.announcements=[
-    {type:"event",title:"Club Officer Election",date:"2026-06-28",text:"Semi-annual officer election. All members please attend!",posted:"2026-04-20T10:00:00Z"},
-    {type:"event",title:"Club Outing — Team Dinner",date:"2026-05-25",text:"No meeting this week! Join us for dinner at 18:00 at Shanghai Brewery instead.",posted:"2026-04-18T10:00:00Z"},
-    {type:"notice",title:"Pathways Level Completion Deadline",date:"2026-06-15",text:"If you want your level completion to count for this term, submit by June 15.",posted:"2026-04-15T10:00:00Z"}
+    {type:"event",title:"Club Officer Election",date:"2026-08-30",text:"Semi-annual officer election. All members please attend!",posted:"2026-07-15T10:00:00Z"},
+    {type:"event",title:"Club Outing — Team Dinner",date:"2026-09-27",text:"No meeting this week! Join us for dinner at 18:00 at Shanghai Brewery instead.",posted:"2026-09-10T10:00:00Z"},
+    {type:"notice",title:"Pathways Level Completion Deadline",date:"2026-12-13",text:"If you want your level completion to count for this term, submit by Dec 13.",posted:"2026-11-01T10:00:00Z"}
   ];
-  // Grey out event dates
-  clubData.skipped["2026-06-28"]="Club Officer Election";
-  clubData.skipped["2026-05-25"]="Club Outing — Team Dinner";
+  // Grey out event dates (meetings pre-empted)
+  clubData.skipped["2026-08-30"]="Club Officer Election";
+  clubData.skipped["2026-09-27"]="Club Outing — Team Dinner";
 }
 
 // Login button
