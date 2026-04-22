@@ -472,6 +472,7 @@ a{color:var(--info);text-decoration:none}
 <div id="welcome-next-date" style="font-size:16px;font-weight:700;color:var(--w)"></div>
 <div style="font-size:12px;color:var(--t3);margin-top:2px">Sundays · 14:00–16:30 · Shanghai</div>
 </div>
+<div style="font-size:12px;color:var(--t4);margin-bottom:20px;line-height:1.6">Track your path · Plan your speeches · Prep for any role</div>
 <button class="btn-pri" onclick="showMemberLogin()" style="margin-bottom:10px">🔑 I'm a Member</button>
 <button class="btn-sec" onclick="showGuestPage()" style="border-color:var(--b2);color:var(--t2);font-size:14px">👋 I'm a Guest</button>
 <div id="welcome-install" style="display:none;margin-top:16px;padding:12px;background:var(--s1);border:1px solid var(--b1);border-radius:10px;font-size:12px;color:var(--t3);line-height:1.5;text-align:center">
@@ -522,7 +523,7 @@ a{color:var(--info);text-decoration:none}
 <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--t4);margin-bottom:10px">Learn more</div>
 <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:20px">
 <div onclick="showGuestHowWorks()" style="cursor:pointer;display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--s1);border-radius:10px;transition:all .15s"><span style="font-size:18px">🎓</span><div style="flex:1"><div style="font-size:13px;font-weight:600;color:var(--w)">How Toastmasters Works</div></div><span style="color:var(--t4);font-size:12px">→</span></div>
-<div onclick="showGuestRoleSOP()" style="cursor:pointer;display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--s1);border-radius:10px;transition:all .15s"><span style="font-size:18px">📋</span><div style="flex:1"><div style="font-size:13px;font-weight:600;color:var(--w)">Club Role SOP</div></div><span style="color:var(--t4);font-size:12px">→</span></div>
+<div onclick="showGuestRoleSOP()" style="cursor:pointer;display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--s1);border-radius:10px;transition:all .15s"><span style="font-size:18px">📋</span><div style="flex:1"><div style="font-size:13px;font-weight:600;color:var(--w)">Club Role Toolkit</div></div><span style="color:var(--t4);font-size:12px">→</span></div>
 <div onclick="showGuestAbout()" style="cursor:pointer;display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--s1);border-radius:10px;transition:all .15s"><span style="font-size:18px">🏠</span><div style="flex:1"><div style="font-size:13px;font-weight:600;color:var(--w)">Get to Know 5A+</div></div><span style="color:var(--t4);font-size:12px">→</span></div>
 <div onclick="showGuestJoin()" style="cursor:pointer;display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--s1);border-radius:10px;transition:all .15s"><span style="font-size:18px">🚪</span><div style="flex:1"><div style="font-size:13px;font-weight:600;color:var(--w)">How to Join Us</div></div><span style="color:var(--t4);font-size:12px">→</span></div>
 </div>
@@ -760,7 +761,7 @@ a{color:var(--info);text-decoration:none}
 <div id="tab-roles" class="tc"><div id="roles-content"></div></div>
 <div id="tab-master" class="tc"><div id="master-content"></div></div>
 <div id="tab-club" class="tc"><div id="club-announcements"></div><div class="sl" style="margin-top:16px">Club Members</div><div id="club-list"></div></div>
-<div class="app-footer">5A+ TMC App v5.8 · Built by Kian How</div>
+<div class="app-footer">5A+ TMC App v6.2 · Built by Kian How</div>
 </div>
 
 <div class="bnav" id="bottom-nav"></div>
@@ -961,15 +962,15 @@ function tP(pc){let t=0;for(let l=1;l<=5;l++){const{r,en}=gP(pc,l);t+=r.length+e
 
 // ═══ MEETING ROLES SOP (from 5A+ SOP V5) ═══
 const SOP=[
-{title:"Sergeant at Arms (SAA)",content:`<h4>Roles and Responsibilities</h4><p>Responsible for club property management, meeting room preparation and hospitality. Requires 3 Assistant SAA, minimum 2 at each meeting.</p><h4>Prior to the Meeting</h4><ul><li>Print out the agenda</li><li>Prepare the snacks and awards</li><li>Prepare gift(s) for the Sharing Master if any</li></ul><h4>Upon Arrival (30–45 min early)</h4><ul><li>Ensure banner and boards are displayed</li><li>Set up projector/camera if available</li><li>Write meeting theme on whiteboard</li><li>Set up registration table: agenda, guest forms, member forms, name badges, guest tags, pens, IE forms</li><li>Set up meeting table: name tags, evaluation sheets, bell, timing cards (green/yellow/red), gavel</li><li>Register guests, provide name tags, seat everyone with agenda</li></ul><h4>During the Meeting</h4><ul><li>15:55 — Announce meeting starts in 5 minutes</li><li>15:58 — Announce 2 minutes</li><li>16:00 — Call to order: introduce four taboos, ask phones silent, introduce President</li><li>At break: register late guests, call meeting back to order</li></ul><h4>After the Meeting</h4><ul><li>Categorize and reserve all evaluation sheets</li><li>Collect all name badges</li><li>Ensure all club property is well kept</li></ul><div class="sop-checklist"><div>☐ Have you read through the guidelines?</div><div>☐ Have you rehearsed the Call to Order?</div></div><div style="margin-top:12px;padding:12px;background:var(--ok)10;border:1px solid var(--ok)30;border-radius:10px;text-align:center"><div style="font-size:14px;font-weight:600;color:var(--w);margin-bottom:4px">✅ SAA Meeting Checklist</div><div style="font-size:12px;color:var(--t3);margin-bottom:10px">Interactive checklist to make sure nothing is forgotten.</div><button class="sb" style="background:var(--ok);color:#fff;padding:10px 20px;border-radius:8px;font-size:13px;font-weight:600" onclick="openSAAChecklist()">Open Checklist →</button></div>`},
-{title:"Toastmaster of the Day (TMD)",content:`<h4>Roles and Responsibilities</h4><p>Coordinate and conduct the entire meeting, introduce participants, act as genial host. Set the tone and maintain room energy.</p><h4>Prior to the Meeting</h4><ul><li>Contact role takers for speaker information for introductions</li><li>Confirm meeting theme and program changes</li><li>Prepare bridging remarks between sections</li></ul><h4>Upon Arrival (15 min early)</h4><ul><li>Check if role takers have arrived</li><li>Sit near front for quick stage access</li></ul><h4>During the Meeting</h4><ul><li>Speak with sincerity, energy, enthusiasm, decisiveness</li><li>Begin and end on time</li><li>Announce sudden role-changes at the beginning</li><li>Go through all sessions at the start</li><li>Encourage applause and handshakes at changeovers</li><li>For overtime speakers: lead applause and encourage them to sit</li><li>Introduce speakers using P.O.E.T.S: Project, Objective, Evaluator, Speech Timing and Title, Speaker</li><li>Always put the speaker's name LAST in your introduction</li></ul><div class="sop-checklist"><div>☐ Read the guidelines?</div><div>☐ Gathered speaker information?</div><div>☐ Checked for sudden role-changes?</div><div>☐ Rehearsed introductions?</div></div><div style="margin-top:12px;padding:12px;background:#6BBF6B10;border:1px solid #6BBF6B30;border-radius:10px;text-align:center"><div style="font-size:14px;font-weight:600;color:var(--w);margin-bottom:4px">🎩 Script Generator</div><div style="font-size:12px;color:var(--t3);margin-bottom:10px">Generate speaker introductions using P.O.E.T.S and meeting transitions.</div><button class="sb" style="background:var(--ok);color:#fff;padding:10px 20px;border-radius:8px;font-size:13px;font-weight:600" onclick="openTMDScript()">Generate Script →</button></div>`},
-{title:"Timer",content:`<h4>Roles and Responsibilities</h4><p>Monitor time for each meeting segment and each speaker.</p><h4>Prior to the Meeting</h4><ul><li>Confirm time allotted to each prepared speech with all speakers</li><li>Prepare and rehearse explanation of timing rules</li></ul><h4>Upon Arrival (15 min early)</h4><ul><li>Collect timing equipment from SAA</li><li>Check equipment is working</li><li>Sit in first row facing stage where signals are visible</li><li>Monitor time from 5 minutes before opening</li></ul><h4>Timing Rules</h4><p><strong>Prepared Speeches (5–7 min):</strong> Green=5 min, Yellow=6 min, Red=7 min, Bell=7.5 min STOP</p><p><strong>Table Topics (1–2 min):</strong> Green=1 min, Yellow=1.5 min, Red=2 min, Bell=2.5 min STOP</p><p><strong>Individual Evaluator (2–3 min):</strong> Green=2 min, Yellow=2.5 min, Red=3 min, Bell=3.5 min STOP</p><h4>During the Meeting</h4><ul><li>Record each participant's name and exact time</li><li>Time the break — indicate 2 minutes before break ends</li><li>In Timer's Report: mention only over/under time speakers for Table Topics</li><li>Inform TMD/TTM of any disqualifications</li></ul><div class="sop-checklist"><div>☐ Read the guidelines?</div><div>☐ Fully aware of timing rules?</div><div>☐ Rehearsed introduction?</div></div><div style="margin-top:12px;padding:12px;background:var(--ok)10;border:1px solid var(--ok)30;border-radius:10px;text-align:center"><div style="font-size:14px;font-weight:600;color:var(--w);margin-bottom:4px">⏱ Speech Timer</div><div style="font-size:12px;color:var(--t3);margin-bottom:10px">Full-screen timer with green/yellow/red cards and bell. Perfect for meetings!</div><button class="sb" style="background:var(--ok);color:#fff;padding:10px 20px;border-radius:8px;font-size:13px;font-weight:600" onclick="openSpeechTimer()">Open Timer →</button></div>`},
-{title:"Ah-Counter",content:`<h4>Roles and Responsibilities</h4><p>Track filler sounds and words (um, er, so, like, you know, basically, right) and gender misuse (he/she confusion). Report specific fillers — not just totals.</p><h4>During the Meeting</h4><ul><li>Explain your role and give examples of common fillers</li><li>Track the <strong>specific filler</strong> each person uses (not just a count)</li><li>Report by naming the exact fillers: "Sarah used 'um' 3 times and 'you know' twice" — NOT "Sarah had 5 filler words"</li><li>Track gender misuse separately</li><li>Announce 'Ah King' or 'Ah Queen' of the day (members only, guests excluded)</li></ul><div class="sop-checklist"><div>☐ Read the guidelines?</div><div>☐ Rehearsed introduction?</div></div><div style="margin-top:12px;padding:12px;background:var(--info)10;border:1px solid var(--info)30;border-radius:10px;text-align:center"><div style="font-size:14px;font-weight:600;color:var(--w);margin-bottom:4px">🎙 AI Filler Detector</div><div style="font-size:12px;color:var(--t3);margin-bottom:10px">Speak into your mic and get a real-time filler word analysis.</div><button class="sb" style="background:var(--info);color:#fff;padding:10px 20px;border-radius:8px;font-size:13px;font-weight:600" onclick="openFillerDetector()">Start Listening →</button></div>`},
-{title:"Grammarian",content:`<h4>Roles and Responsibilities</h4><p>Introduce word of the day, comment on language used, provide examples of good grammar and word usage.</p><h4>Prior to the Meeting</h4><ul><li>Select a word of the day that builds vocabulary and fits daily conversation</li><li>Communicate word of the day for agenda inclusion</li></ul><h4>Upon Arrival</h4><ul><li>Write word of the day on whiteboard: word, part of speech, definition, example sentence</li><li>Collect grammarian's log from SAA</li></ul><h4>During the Meeting</h4><ul><li>Announce word of the day — state part of speech, definition, use in sentence</li><li>Invite speakers to use it when appropriate (not as much as possible)</li><li>Note awkward language, incorrect grammar, mispronunciations</li><li>Note good phrases, words, and adjectives</li><li>Track who used word of the day correctly and how many times</li><li>Use "room for improvement" instead of "mistakes"</li></ul><div class="sop-checklist"><div>☐ Read the guidelines?</div><div>☐ Prepared word of the day?</div><div>☐ Rehearsed introduction?</div></div><div style="margin-top:12px;padding:12px;background:#BB6BD910;border:1px solid #BB6BD930;border-radius:10px;text-align:center"><div style="font-size:14px;font-weight:600;color:var(--w);margin-bottom:4px">📖 Word of the Day Generator</div><div style="font-size:12px;color:var(--t3);margin-bottom:10px">Enter the meeting theme and get curated word options with definitions and examples.</div><button class="sb" style="background:#BB6BD9;color:#fff;padding:10px 20px;border-radius:8px;font-size:13px;font-weight:600" onclick="openWODGenerator()">Find My WOD →</button></div>`},
-{title:"Table Topics Master (TTM)",content:`<h4>Roles and Responsibilities</h4><p>Prepare and issue original, creative topics. Speakers may get individual subjects or choose from options.</p><h4>Prior to the Meeting</h4><ul><li>Confirm meeting theme with TMD</li><li>Review questions with VPE at least 2 days before</li><li>Create list of speakers for the meeting</li></ul><h4>During the Meeting</h4><ul><li>State purpose of Table Topics, review timing rules</li><li>1st and 2nd speakers: invite club members, especially senior members</li><li>Middle: randomly select members or guests</li><li>End: invite senior member to close the session</li><li>Encourage guests who want to join to participate</li><li>DO NOT go over 2 minutes for your introduction</li><li>DO NOT speak more than 1 minute between speakers</li><li>Ask speakers to write their names on the board after speaking</li><li>Adjust number of topics to end on time</li></ul><div class="sop-checklist"><div>☐ Read the guidelines?</div><div>☐ Prepared topics?</div><div>☐ Rehearsed introduction?</div></div><div style="margin-top:12px;padding:12px;background:var(--info)10;border:1px solid var(--info)30;border-radius:10px;text-align:center"><div style="font-size:14px;font-weight:600;color:var(--w);margin-bottom:4px">🤖 AI Topics Generator</div><div style="font-size:12px;color:var(--t3);margin-bottom:10px">Need inspiration? Enter a theme and get 10 creative Table Topics questions.</div><button class="sb" style="background:var(--info);color:#fff;padding:10px 20px;border-radius:8px;font-size:13px;font-weight:600" onclick="openTopicsGenerator()">Generate Topics →</button></div>`},
+{title:"Sergeant at Arms (SAA)",content:`<h4>Roles and Responsibilities</h4><p>Responsible for club property management, meeting room preparation and hospitality. Requires 3 Assistant SAA, minimum 2 at each meeting.</p><h4>Prior to the Meeting</h4><ul><li>Print out the agenda</li><li>Prepare the snacks and awards</li><li>Prepare gift(s) for the Sharing Master if any</li></ul><h4>Upon Arrival (30–45 min early)</h4><ul><li>Ensure banner and boards are displayed</li><li>Set up projector/camera if available</li><li>Write meeting theme on whiteboard</li><li>Set up registration table: agenda, guest forms, member forms, name badges, guest tags, pens, IE forms</li><li>Set up meeting table: name tags, evaluation sheets, bell, timing cards (green/yellow/red), gavel</li><li>Register guests, provide name tags, seat everyone with agenda</li></ul><h4>During the Meeting</h4><ul><li>15:55 — Announce meeting starts in 5 minutes</li><li>15:58 — Announce 2 minutes</li><li>16:00 — Call to order: introduce four taboos, ask phones silent, introduce President</li><li>At break: register late guests, call meeting back to order</li></ul><h4>After the Meeting</h4><ul><li>Categorize and reserve all evaluation sheets</li><li>Collect all name badges</li><li>Ensure all club property is well kept</li></ul><div class="sop-checklist"><div>☐ Have you read through the guidelines?</div><div>☐ Have you rehearsed the Call to Order?</div></div><div style="margin-top:14px;padding:16px;background:#6BBF6B08;border:1px solid #6BBF6B25;border-radius:14px;text-align:center"><div style="font-size:15px;font-weight:700;color:var(--w);margin-bottom:4px">✅ SAA Meeting Checklist</div><div style="font-size:12px;color:var(--t3);margin-bottom:10px">Interactive checklist to make sure nothing is forgotten.</div><button class="sb" style="background:var(--ok);color:#fff;padding:10px 24px;border-radius:10px;font-size:13px;font-weight:600" onclick="openSAAChecklist()">Open Checklist →</button></div>`},
+{title:"Toastmaster of the Day (TMD)",content:`<h4>Roles and Responsibilities</h4><p>Coordinate and conduct the entire meeting, introduce participants, act as genial host. Set the tone and maintain room energy.</p><h4>Prior to the Meeting</h4><ul><li>Contact role takers for speaker information for introductions</li><li>Confirm meeting theme and program changes</li><li>Prepare bridging remarks between sections</li></ul><h4>Upon Arrival (15 min early)</h4><ul><li>Check if role takers have arrived</li><li>Sit near front for quick stage access</li></ul><h4>During the Meeting</h4><ul><li>Speak with sincerity, energy, enthusiasm, decisiveness</li><li>Begin and end on time</li><li>Announce sudden role-changes at the beginning</li><li>Go through all sessions at the start</li><li>Encourage applause and handshakes at changeovers</li><li>For overtime speakers: lead applause and encourage them to sit</li><li>Introduce speakers using P.O.E.T.S: Project, Objective, Evaluator, Speech Timing and Title, Speaker</li><li>Always put the speaker's name LAST in your introduction</li></ul><div class="sop-checklist"><div>☐ Read the guidelines?</div><div>☐ Gathered speaker information?</div><div>☐ Checked for sudden role-changes?</div><div>☐ Rehearsed introductions?</div></div><div style="margin-top:14px;padding:16px;background:#6BBF6B08;border:1px solid #6BBF6B25;border-radius:14px;text-align:center"><div style="font-size:15px;font-weight:700;color:var(--w);margin-bottom:4px">🎩 Script Generator</div><div style="font-size:12px;color:var(--t3);margin-bottom:10px">Generate speaker introductions using P.O.E.T.S and meeting transitions.</div><button class="sb" style="background:var(--ok);color:#fff;padding:10px 24px;border-radius:10px;font-size:13px;font-weight:600" onclick="openTMDScript()">Generate Script →</button></div>`},
+{title:"Timer",content:`<h4>Roles and Responsibilities</h4><p>Monitor time for each meeting segment and each speaker.</p><h4>Prior to the Meeting</h4><ul><li>Confirm time allotted to each prepared speech with all speakers</li><li>Prepare and rehearse explanation of timing rules</li></ul><h4>Upon Arrival (15 min early)</h4><ul><li>Collect timing equipment from SAA</li><li>Check equipment is working</li><li>Sit in first row facing stage where signals are visible</li><li>Monitor time from 5 minutes before opening</li></ul><h4>Timing Rules</h4><p><strong>Prepared Speeches (5–7 min):</strong> Green=5 min, Yellow=6 min, Red=7 min, Bell=7.5 min STOP</p><p><strong>Table Topics (1–2 min):</strong> Green=1 min, Yellow=1.5 min, Red=2 min, Bell=2.5 min STOP</p><p><strong>Individual Evaluator (2–3 min):</strong> Green=2 min, Yellow=2.5 min, Red=3 min, Bell=3.5 min STOP</p><h4>During the Meeting</h4><ul><li>Record each participant's name and exact time</li><li>Time the break — indicate 2 minutes before break ends</li><li>In Timer's Report: mention only over/under time speakers for Table Topics</li><li>Inform TMD/TTM of any disqualifications</li></ul><div class="sop-checklist"><div>☐ Read the guidelines?</div><div>☐ Fully aware of timing rules?</div><div>☐ Rehearsed introduction?</div></div><div style="margin-top:14px;padding:16px;background:#6BBF6B08;border:1px solid #6BBF6B25;border-radius:14px;text-align:center"><div style="font-size:15px;font-weight:700;color:var(--w);margin-bottom:4px">⏱ Speech Timer</div><div style="font-size:12px;color:var(--t3);margin-bottom:10px">Full-screen timer with green/yellow/red cards and bell. Perfect for meetings!</div><button class="sb" style="background:var(--ok);color:#fff;padding:10px 24px;border-radius:10px;font-size:13px;font-weight:600" onclick="openSpeechTimer()">Open Timer →</button></div>`},
+{title:"Ah-Counter",content:`<h4>Roles and Responsibilities</h4><p>Track filler sounds and words (um, er, so, like, you know, basically, right) and gender misuse (he/she confusion). Report specific fillers — not just totals.</p><h4>During the Meeting</h4><ul><li>Explain your role and give examples of common fillers</li><li>Track the <strong>specific filler</strong> each person uses (not just a count)</li><li>Report by naming the exact fillers: "Sarah used 'um' 3 times and 'you know' twice" — NOT "Sarah had 5 filler words"</li><li>Track gender misuse separately</li><li>Announce 'Ah King' or 'Ah Queen' of the day (members only, guests excluded)</li></ul><div class="sop-checklist"><div>☐ Read the guidelines?</div><div>☐ Rehearsed introduction?</div></div><div style="margin-top:14px;padding:16px;background:#7BA7CC08;border:1px solid #7BA7CC25;border-radius:14px;text-align:center"><div style="font-size:15px;font-weight:700;color:var(--w);margin-bottom:4px">🎙 AI Filler Detector</div><div style="font-size:12px;color:var(--t3);margin-bottom:10px">Speak into your mic and get a real-time filler word analysis.</div><button class="sb" style="background:var(--info);color:#fff;padding:10px 24px;border-radius:10px;font-size:13px;font-weight:600" onclick="openFillerDetector()">Start Listening →</button></div>`},
+{title:"Grammarian",content:`<h4>Roles and Responsibilities</h4><p>Introduce word of the day, comment on language used, provide examples of good grammar and word usage.</p><h4>Prior to the Meeting</h4><ul><li>Select a word of the day that builds vocabulary and fits daily conversation</li><li>Communicate word of the day for agenda inclusion</li></ul><h4>Upon Arrival</h4><ul><li>Write word of the day on whiteboard: word, part of speech, definition, example sentence</li><li>Collect grammarian's log from SAA</li></ul><h4>During the Meeting</h4><ul><li>Announce word of the day — state part of speech, definition, use in sentence</li><li>Invite speakers to use it when appropriate (not as much as possible)</li><li>Note awkward language, incorrect grammar, mispronunciations</li><li>Note good phrases, words, and adjectives</li><li>Track who used word of the day correctly and how many times</li><li>Use "room for improvement" instead of "mistakes"</li></ul><div class="sop-checklist"><div>☐ Read the guidelines?</div><div>☐ Prepared word of the day?</div><div>☐ Rehearsed introduction?</div></div><div style="margin-top:14px;padding:16px;background:#BB6BD908;border:1px solid #BB6BD925;border-radius:14px;text-align:center"><div style="font-size:15px;font-weight:700;color:var(--w);margin-bottom:4px">📖 Word of the Day Generator</div><div style="font-size:12px;color:var(--t3);margin-bottom:10px">Enter the meeting theme and get curated word options with definitions and examples.</div><button class="sb" style="background:#BB6BD9;color:#fff;padding:10px 24px;border-radius:10px;font-size:13px;font-weight:600" onclick="openWODGenerator()">Find My WOD →</button></div>`},
+{title:"Table Topics Master (TTM)",content:`<h4>Roles and Responsibilities</h4><p>Prepare and issue original, creative topics. Speakers may get individual subjects or choose from options.</p><h4>Prior to the Meeting</h4><ul><li>Confirm meeting theme with TMD</li><li>Review questions with VPE at least 2 days before</li><li>Create list of speakers for the meeting</li></ul><h4>During the Meeting</h4><ul><li>State purpose of Table Topics, review timing rules</li><li>1st and 2nd speakers: invite club members, especially senior members</li><li>Middle: randomly select members or guests</li><li>End: invite senior member to close the session</li><li>Encourage guests who want to join to participate</li><li>DO NOT go over 2 minutes for your introduction</li><li>DO NOT speak more than 1 minute between speakers</li><li>Ask speakers to write their names on the board after speaking</li><li>Adjust number of topics to end on time</li></ul><div class="sop-checklist"><div>☐ Read the guidelines?</div><div>☐ Prepared topics?</div><div>☐ Rehearsed introduction?</div></div><div style="margin-top:14px;padding:16px;background:#7BA7CC08;border:1px solid #7BA7CC25;border-radius:14px;text-align:center"><div style="font-size:15px;font-weight:700;color:var(--w);margin-bottom:4px">🤖 AI Topics Generator</div><div style="font-size:12px;color:var(--t3);margin-bottom:10px">Need inspiration? Enter a theme and get 10 creative Table Topics questions.</div><button class="sb" style="background:var(--info);color:#fff;padding:10px 24px;border-radius:10px;font-size:13px;font-weight:600" onclick="openTopicsGenerator()">Generate Topics →</button></div>`},
 {title:"Prepared Speech Speaker",content:`<h4>Roles and Responsibilities</h4><p>Members prepare speeches based on projects in the Toastmasters Pathways Education System.</p><h4>Prior to the Meeting</h4><ul><li>Log on to TI website to confirm your next project in Pathways</li><li>Download project files and review them</li><li>Begin working on speech early — allow time for research, organization, rehearsal</li><li>Communicate with evaluator and mentor about your project</li><li>Discuss goals and areas you want the evaluator to note</li></ul><h4>During the Meeting</h4><ul><li>Give full attention to speakers — avoid studying notes while others talk</li><li>Walk with confidence to the lectern</li><li>Wait for TMD to return to lectern before sitting</li><li>Listen to evaluation for helpful advice</li></ul><h4>After the Meeting</h4><ul><li>Ask evaluator questions about scores or comments</li><li>Review written notes from other members</li><li>Log on to TI website to finalize project completion</li><li>If level is complete, send completion request to VPE</li></ul><div class="sop-checklist"><div>☐ Reviewed project on TI website?</div><div>☐ Read project objectives?</div><div>☐ Submitted script to mentor?</div><div>☐ Rehearsed your speech?</div></div>`},
-{title:"Individual Evaluator (IE)",content:`<h4>Roles and Responsibilities</h4><p>Identify where speakers succeeded and where there is room for growth. Help members be more self-confident and improve speaking skills.</p><h4>Prior to the Meeting</h4><ul><li>Communicate with the speaker for project information</li><li>Review the project content/objectives</li></ul><h4>Key Evaluation Guidelines</h4><ul><li><strong>Evaluate based on project objectives</strong> — speeches are the medium for delivering objectives, not always the sole objective</li><li>Example: If the project is "Understanding Your Own Humor", evaluate whether the speaker understood their humor — not just speech technique</li><li><strong>Level 1 & 2:</strong> 2 positive points + 2 points for improvement</li><li><strong>Level 3–5:</strong> 3 positive points + 2 points for improvement</li><li>Begin and end with encouragement or praise</li><li>Suggest specific solutions, not just problems</li><li>Focus on skills and accomplishments, not personal attributes</li><li>Refrain from reading your notes — cover essentials</li></ul><div class="sop-checklist"><div>☐ Read the guidelines?</div><div>☐ Read the project objectives you're evaluating?</div></div><div style="margin-top:12px;padding:12px;background:#E8A04C10;border:1px solid #E8A04C30;border-radius:10px;text-align:center"><div style="font-size:14px;font-weight:600;color:var(--w);margin-bottom:4px">📝 Evaluation Assistant</div><div style="font-size:12px;color:var(--t3);margin-bottom:10px">Select the project being evaluated — get objectives, tips, and common traps to avoid.</div><button class="sb" style="background:var(--warn);color:#fff;padding:10px 20px;border-radius:8px;font-size:13px;font-weight:600" onclick="openEvalAssistant()">Prepare My Evaluation →</button></div>`},
-{title:"General Evaluator (GE)",content:`<h4>Roles and Responsibilities</h4><p>Evaluate everything that takes place throughout the meeting. Responsible for the evaluation team: Timer, Grammarian, Ah-Counter, and Individual Evaluators.</p><h4>Prior to the Meeting</h4><ul><li>Confirm program with TMD and any changes</li><li>Communicate with all IEs — confirm who they evaluate</li><li>Emphasize positive, supportive, and honest evaluations</li><li>Remind evaluation team of assignments</li><li>Prepare brief talk on evaluation purpose and techniques</li></ul><h4>Upon Arrival (15 min early)</h4><ul><li>Ensure all role-takers are present — consult VPE for substitutes if needed</li><li>Ensure IEs have materials and understand criteria</li><li>Sit near back of room for better view</li></ul><h4>During the Meeting</h4><ul><li>Take notes on everything — including things that should happen but don't</li><li>Check club properties are properly displayed</li><li>Monitor if meeting and sections begin/end on time</li><li>Evaluate ALL role-takers: Timer, Ah-Counter, Grammarian, IEs, TTM, general meeting standard</li><li><strong>DO NOT evaluate Prepared Speech Speakers</strong> — that's the IE's job</li></ul><div class="sop-checklist"><div>☐ Read the guidelines?</div><div>☐ Rehearsed introduction?</div></div><div style="margin-top:12px;padding:12px;background:#7BA7CC10;border:1px solid #7BA7CC30;border-radius:10px;text-align:center"><div style="font-size:14px;font-weight:600;color:var(--w);margin-bottom:4px">🔍 GE Report Framework</div><div style="font-size:12px;color:var(--t3);margin-bottom:10px">Generate a structured framework based on your available time.</div><button class="sb" style="background:var(--info);color:#fff;padding:10px 20px;border-radius:8px;font-size:13px;font-weight:600" onclick="openGEFramework()">Build My Framework →</button></div>`}
+{title:"Individual Evaluator (IE)",content:`<h4>Roles and Responsibilities</h4><p>Identify where speakers succeeded and where there is room for growth. Help members be more self-confident and improve speaking skills.</p><h4>Prior to the Meeting</h4><ul><li>Communicate with the speaker for project information</li><li>Review the project content/objectives</li></ul><h4>Key Evaluation Guidelines</h4><ul><li><strong>Evaluate based on project objectives</strong> — speeches are the medium for delivering objectives, not always the sole objective</li><li>Example: If the project is "Understanding Your Own Humor", evaluate whether the speaker understood their humor — not just speech technique</li><li><strong>Level 1 & 2:</strong> 2 positive points + 2 points for improvement</li><li><strong>Level 3–5:</strong> 3 positive points + 2 points for improvement</li><li>Begin and end with encouragement or praise</li><li>Suggest specific solutions, not just problems</li><li>Focus on skills and accomplishments, not personal attributes</li><li>Refrain from reading your notes — cover essentials</li></ul><div class="sop-checklist"><div>☐ Read the guidelines?</div><div>☐ Read the project objectives you're evaluating?</div></div><div style="margin-top:14px;padding:16px;background:#E8A04C08;border:1px solid #E8A04C25;border-radius:14px;text-align:center"><div style="font-size:15px;font-weight:700;color:var(--w);margin-bottom:4px">📝 Evaluation Assistant</div><div style="font-size:12px;color:var(--t3);margin-bottom:10px">Select the project being evaluated — get objectives, tips, and common traps to avoid.</div><button class="sb" style="background:var(--warn);color:#fff;padding:10px 24px;border-radius:10px;font-size:13px;font-weight:600" onclick="openEvalAssistant()">Prepare My Evaluation →</button></div>`},
+{title:"General Evaluator (GE)",content:`<h4>Roles and Responsibilities</h4><p>Evaluate everything that takes place throughout the meeting. Responsible for the evaluation team: Timer, Grammarian, Ah-Counter, and Individual Evaluators.</p><h4>Prior to the Meeting</h4><ul><li>Confirm program with TMD and any changes</li><li>Communicate with all IEs — confirm who they evaluate</li><li>Emphasize positive, supportive, and honest evaluations</li><li>Remind evaluation team of assignments</li><li>Prepare brief talk on evaluation purpose and techniques</li></ul><h4>Upon Arrival (15 min early)</h4><ul><li>Ensure all role-takers are present — consult VPE for substitutes if needed</li><li>Ensure IEs have materials and understand criteria</li><li>Sit near back of room for better view</li></ul><h4>During the Meeting</h4><ul><li>Take notes on everything — including things that should happen but don't</li><li>Check club properties are properly displayed</li><li>Monitor if meeting and sections begin/end on time</li><li>Evaluate ALL role-takers: Timer, Ah-Counter, Grammarian, IEs, TTM, general meeting standard</li><li><strong>DO NOT evaluate Prepared Speech Speakers</strong> — that's the IE's job</li></ul><div class="sop-checklist"><div>☐ Read the guidelines?</div><div>☐ Rehearsed introduction?</div></div><div style="margin-top:14px;padding:16px;background:#7BA7CC08;border:1px solid #7BA7CC25;border-radius:14px;text-align:center"><div style="font-size:15px;font-weight:700;color:var(--w);margin-bottom:4px">🔍 GE Report Framework</div><div style="font-size:12px;color:var(--t3);margin-bottom:10px">Generate a structured framework based on your available time.</div><button class="sb" style="background:var(--info);color:#fff;padding:10px 24px;border-radius:10px;font-size:13px;font-weight:600" onclick="openGEFramework()">Build My Framework →</button></div>`}
 ];
 
 const SOP_PRACTICAL=[
@@ -981,10 +982,10 @@ const SOP_PRACTICAL=[
 <li><strong>Snacks matter.</strong> People genuinely remember the club that had coffee and cookies.</li>
 <li><strong>Before announcing anything — make sure people are seated.</strong> Don't start talking while they're still chatting.</li>
 </ul>
-<div style="margin-top:12px;padding:12px;background:var(--ok)10;border:1px solid var(--ok)30;border-radius:10px;text-align:center">
-<div style="font-size:14px;font-weight:600;color:var(--w);margin-bottom:4px">✅ SAA Meeting Checklist</div>
+<div style="margin-top:14px;padding:16px;background:#6BBF6B08;border:1px solid #6BBF6B25;border-radius:14px;text-align:center">
+<div style="font-size:15px;font-weight:700;color:var(--w);margin-bottom:4px">✅ SAA Meeting Checklist</div>
 <div style="font-size:12px;color:var(--t3);margin-bottom:10px">Interactive checklist to make sure nothing is forgotten.</div>
-<button class="sb" style="background:var(--ok);color:#fff;padding:10px 20px;border-radius:8px;font-size:13px;font-weight:600" onclick="openSAAChecklist()">Open Checklist →</button>
+<button class="sb" style="background:var(--ok);color:#fff;padding:10px 24px;border-radius:10px;font-size:13px;font-weight:600" onclick="openSAAChecklist()">Open Checklist →</button>
 </div>`},
 {title:"Toastmaster of the Day (TMD)",content:`<h4>The No-Nonsense Version</h4>
 <ul>
@@ -994,10 +995,10 @@ const SOP_PRACTICAL=[
 <li><strong>Transitions under 30 seconds.</strong> You're the bridge, not the destination.</li>
 <li><strong>Forgot an intro? Skip it.</strong> Smooth flow beats awkward note-checking.</li>
 </ul>
-<div style="margin-top:12px;padding:12px;background:#6BBF6B10;border:1px solid #6BBF6B30;border-radius:10px;text-align:center">
-<div style="font-size:14px;font-weight:600;color:var(--w);margin-bottom:4px">🎩 Script Generator</div>
+<div style="margin-top:14px;padding:16px;background:#6BBF6B08;border:1px solid #6BBF6B25;border-radius:14px;text-align:center">
+<div style="font-size:15px;font-weight:700;color:var(--w);margin-bottom:4px">🎩 Script Generator</div>
 <div style="font-size:12px;color:var(--t3);margin-bottom:10px">Generate speaker introductions using P.O.E.T.S and meeting transitions.</div>
-<button class="sb" style="background:var(--ok);color:#fff;padding:10px 20px;border-radius:8px;font-size:13px;font-weight:600" onclick="openTMDScript()">Generate Script →</button>
+<button class="sb" style="background:var(--ok);color:#fff;padding:10px 24px;border-radius:10px;font-size:13px;font-weight:600" onclick="openTMDScript()">Generate Script →</button>
 </div>`},
 {title:"Timer",content:`<h4>The No-Nonsense Version</h4>
 <ul>
@@ -1006,10 +1007,10 @@ const SOP_PRACTICAL=[
 <li><strong>Report: only mention over/under time.</strong> Don't list everyone's time.</li>
 <li><strong>The bell means STOP.</strong> Ring it with authority.</li>
 </ul>
-<div style="margin-top:12px;padding:12px;background:var(--ok)10;border:1px solid var(--ok)30;border-radius:10px;text-align:center">
-<div style="font-size:14px;font-weight:600;color:var(--w);margin-bottom:4px">⏱ Speech Timer</div>
+<div style="margin-top:14px;padding:16px;background:#6BBF6B08;border:1px solid #6BBF6B25;border-radius:14px;text-align:center">
+<div style="font-size:15px;font-weight:700;color:var(--w);margin-bottom:4px">⏱ Speech Timer</div>
 <div style="font-size:12px;color:var(--t3);margin-bottom:10px">Full-screen timer with green/yellow/red cards and bell. Perfect for meetings!</div>
-<button class="sb" style="background:var(--ok);color:#fff;padding:10px 20px;border-radius:8px;font-size:13px;font-weight:600" onclick="openSpeechTimer()">Open Timer →</button>
+<button class="sb" style="background:var(--ok);color:#fff;padding:10px 24px;border-radius:10px;font-size:13px;font-weight:600" onclick="openSpeechTimer()">Open Timer →</button>
 </div>`},
 {title:"Ah-Counter",content:`<h4>The No-Nonsense Version</h4>
 <ul>
@@ -1018,10 +1019,10 @@ const SOP_PRACTICAL=[
 <li><strong>Don't count natural connectors.</strong> Only when "and/so/but" are clearly stalling.</li>
 <li><strong>Guests are EXEMPT.</strong> Track EVERYONE else on stage — including TMD, TTM, GE.</li>
 </ul>
-<div style="margin-top:12px;padding:12px;background:var(--info)10;border:1px solid var(--info)30;border-radius:10px;text-align:center">
-<div style="font-size:14px;font-weight:600;color:var(--w);margin-bottom:4px">🎙 AI Filler Detector</div>
+<div style="margin-top:14px;padding:16px;background:#7BA7CC08;border:1px solid #7BA7CC25;border-radius:14px;text-align:center">
+<div style="font-size:15px;font-weight:700;color:var(--w);margin-bottom:4px">🎙 AI Filler Detector</div>
 <div style="font-size:12px;color:var(--t3);margin-bottom:10px">Speak into your mic and get a real-time filler word analysis. Great for practice!</div>
-<button class="sb" style="background:var(--info);color:#fff;padding:10px 20px;border-radius:8px;font-size:13px;font-weight:600" onclick="openFillerDetector()">Start Listening →</button>
+<button class="sb" style="background:var(--info);color:#fff;padding:10px 24px;border-radius:10px;font-size:13px;font-weight:600" onclick="openFillerDetector()">Start Listening →</button>
 </div>`},
 {title:"Grammarian",content:`<h4>The No-Nonsense Version</h4>
 <ul>
@@ -1030,10 +1031,10 @@ const SOP_PRACTICAL=[
 <li><strong>Report: lead with good stuff.</strong> Top 3 great phrases + top 2 gentle corrections. Under 2 minutes.</li>
 <li><strong>Say "room for improvement" not "mistake."</strong></li>
 </ul>
-<div style="margin-top:12px;padding:12px;background:#BB6BD910;border:1px solid #BB6BD930;border-radius:10px;text-align:center">
-<div style="font-size:14px;font-weight:600;color:var(--w);margin-bottom:4px">📖 Word of the Day Generator</div>
+<div style="margin-top:14px;padding:16px;background:#BB6BD908;border:1px solid #BB6BD925;border-radius:14px;text-align:center">
+<div style="font-size:15px;font-weight:700;color:var(--w);margin-bottom:4px">📖 Word of the Day Generator</div>
 <div style="font-size:12px;color:var(--t3);margin-bottom:10px">Enter the meeting theme and get curated word options with definitions and examples.</div>
-<button class="sb" style="background:#BB6BD9;color:#fff;padding:10px 20px;border-radius:8px;font-size:13px;font-weight:600" onclick="openWODGenerator()">Find My WOD →</button>
+<button class="sb" style="background:#BB6BD9;color:#fff;padding:10px 24px;border-radius:10px;font-size:13px;font-weight:600" onclick="openWODGenerator()">Find My WOD →</button>
 </div>`},
 {title:"Table Topics Master (TTM)",content:`<h4>The No-Nonsense Version</h4>
 <ul>
@@ -1043,10 +1044,10 @@ const SOP_PRACTICAL=[
 <li><strong>Start with experienced members, end with a strong speaker.</strong></li>
 <li><strong>Invite guests — don't force them.</strong> Prepare 10 questions, use 6.</li>
 </ul>
-<div style="margin-top:12px;padding:12px;background:var(--info)10;border:1px solid var(--info)30;border-radius:10px;text-align:center">
-<div style="font-size:14px;font-weight:600;color:var(--w);margin-bottom:4px">🤖 AI Topics Generator</div>
+<div style="margin-top:14px;padding:16px;background:#7BA7CC08;border:1px solid #7BA7CC25;border-radius:14px;text-align:center">
+<div style="font-size:15px;font-weight:700;color:var(--w);margin-bottom:4px">🤖 AI Topics Generator</div>
 <div style="font-size:12px;color:var(--t3);margin-bottom:10px">Need inspiration? Enter a theme and get 10 creative Table Topics questions.</div>
-<button class="sb" style="background:var(--info);color:#fff;padding:10px 20px;border-radius:8px;font-size:13px;font-weight:600" onclick="openTopicsGenerator()">Generate Topics →</button>
+<button class="sb" style="background:var(--info);color:#fff;padding:10px 24px;border-radius:10px;font-size:13px;font-weight:600" onclick="openTopicsGenerator()">Generate Topics →</button>
 </div>`},
 {title:"Prepared Speech Speaker",content:`<h4>The No-Nonsense Version</h4>
 <ul>
@@ -1062,10 +1063,10 @@ const SOP_PRACTICAL=[
 <li><strong>Offer SOLUTIONS, not problems.</strong> "Pause 2 seconds after key points" beats "You spoke too fast."</li>
 <li><strong>Never say "but."</strong> Use "AND" or "What could make it even better..."</li>
 </ul>
-<div style="margin-top:12px;padding:12px;background:#E8A04C10;border:1px solid #E8A04C30;border-radius:10px;text-align:center">
-<div style="font-size:14px;font-weight:600;color:var(--w);margin-bottom:4px">📝 Evaluation Assistant</div>
+<div style="margin-top:14px;padding:16px;background:#E8A04C08;border:1px solid #E8A04C25;border-radius:14px;text-align:center">
+<div style="font-size:15px;font-weight:700;color:var(--w);margin-bottom:4px">📝 Evaluation Assistant</div>
 <div style="font-size:12px;color:var(--t3);margin-bottom:10px">Select the project being evaluated — get objectives, tips, and common traps to avoid.</div>
-<button class="sb" style="background:var(--warn);color:#fff;padding:10px 20px;border-radius:8px;font-size:13px;font-weight:600" onclick="openEvalAssistant()">Prepare My Evaluation →</button>
+<button class="sb" style="background:var(--warn);color:#fff;padding:10px 24px;border-radius:10px;font-size:13px;font-weight:600" onclick="openEvalAssistant()">Prepare My Evaluation →</button>
 </div>`},
 {title:"General Evaluator (GE)",content:`<h4>The No-Nonsense Version</h4>
 <ul>
@@ -1074,10 +1075,10 @@ const SOP_PRACTICAL=[
 <li><strong>Evaluate EVERY role-taker:</strong> TMD, Timer, Ah-Counter, Grammarian, TTM, SAA, all IEs.</li>
 <li><strong>Under 5 minutes.</strong> Top 3 wins, top 2 improvements. Be honest but kind.</li>
 </ul>
-<div style="margin-top:12px;padding:12px;background:#7BA7CC10;border:1px solid #7BA7CC30;border-radius:10px;text-align:center">
-<div style="font-size:14px;font-weight:600;color:var(--w);margin-bottom:4px">🔍 GE Report Framework</div>
+<div style="margin-top:14px;padding:16px;background:#7BA7CC08;border:1px solid #7BA7CC25;border-radius:14px;text-align:center">
+<div style="font-size:15px;font-weight:700;color:var(--w);margin-bottom:4px">🔍 GE Report Framework</div>
 <div style="font-size:12px;color:var(--t3);margin-bottom:10px">Generate a structured framework based on your available time.</div>
-<button class="sb" style="background:var(--info);color:#fff;padding:10px 20px;border-radius:8px;font-size:13px;font-weight:600" onclick="openGEFramework()">Build My Framework →</button>
+<button class="sb" style="background:var(--info);color:#fff;padding:10px 24px;border-radius:10px;font-size:13px;font-weight:600" onclick="openGEFramework()">Build My Framework →</button>
 </div>`}
 ];
 
@@ -1126,7 +1127,7 @@ function ld(){try{return JSON.parse(localStorage.getItem("tm-pw-data"))}catch{re
 function buildNav(){
   const nav=document.getElementById("bottom-nav");
   const icons={path:"📚",planner:"📅",roles:"📋",club:"📢",master:"⚙️"};
-  let tabs=[{id:"path",label:"My Path"},{id:"planner",label:"Planner"},{id:"roles",label:"Role SOP"},{id:"club",label:"Club"}];
+  let tabs=[{id:"path",label:"My Path"},{id:"planner",label:"Planner"},{id:"roles",label:"Role Toolkit"},{id:"club",label:"Club"}];
   if(!S.testMode&&(S.role==="vpe"||S.role==="master")){
     tabs.push({id:"master",label:"VPE"});
   }
@@ -1609,61 +1610,84 @@ function pC(pid,type,isDn,pc,starHtml){const p=PA[pc],d=PD[pid];if(!d)return"";c
   return h;}
 
 // ═══ RENDER: MEETING ROLES SOP ═══
+const ROLE_GRID=[
+  {idx:0,icon:"✅",short:"SAA",color:"#6BBF6B",tool:true},
+  {idx:1,icon:"🎩",short:"TMD",color:"#6BBF6B",tool:true},
+  {idx:2,icon:"⏱",short:"Timer",color:"#6BBF6B",tool:true},
+  {idx:3,icon:"🎙",short:"Ah-Counter",color:"#7BA7CC",tool:true},
+  {idx:4,icon:"📖",short:"Grammarian",color:"#BB6BD9",tool:true},
+  {idx:5,icon:"💬",short:"TTM",color:"#7BA7CC",tool:true},
+  {idx:6,icon:"🎤",short:"Speaker",color:"#E8A04C",tool:false},
+  {idx:7,icon:"📝",short:"IE",color:"#E8A04C",tool:true},
+  {idx:8,icon:"🔍",short:"GE",color:"#7BA7CC",tool:true}
+];
+
 function rRoles(){
   const c=document.getElementById("roles-content");
-  let h='<div class="sl" style="margin-top:0">Role SOP</div>';
-  h+='<input class="input" id="role-search" placeholder="🔍 Search roles..." oninput="filterRoles()" style="margin-bottom:12px;padding:10px 14px;font-size:14px">';
-  // Show all roles — each role has its own practical/official toggle inside
-  SOP.forEach((role,i)=>{
-    const practical=SOP_PRACTICAL[i];
-    const roleMode=(window._roleModes||{})[i]||"practical";
-    const isPrac=roleMode==="practical";
-    const content=isPrac?(practical?practical.content:role.content):role.content;
-    h+='<div class="sop-role" data-role-name="'+role.title.toLowerCase()+'">';
-    h+='<div class="sop-header" onclick="toggleSOP('+i+')"><h3>'+role.title+'</h3><span class="sop-arrow">▼</span></div>';
-    h+='<div class="sop-body" id="sop-body-'+i+'">';
-    // Toggle inside the role
-    h+='<div style="display:flex;gap:4px;margin-bottom:10px">';
-    h+='<button class="sb" style="flex:1;padding:6px;font-size:11px;border-radius:6px;'+(isPrac?"background:var(--ok);color:#fff":"background:var(--b1);color:var(--t3)")+'" onclick="event.stopPropagation();setRoleMode('+i+',\'practical\')">🔥 Practical</button>';
-    h+='<button class="sb" style="flex:1;padding:6px;font-size:11px;border-radius:6px;'+(!isPrac?"background:var(--info);color:#fff":"background:var(--b1);color:var(--t3)")+'" onclick="event.stopPropagation();setRoleMode('+i+',\'official\')">📖 Official</button>';
+  let h='<div class="sl" style="margin-top:0">Role Toolkit</div>';
+  h+='<div style="font-size:13px;color:var(--t3);margin-bottom:14px;line-height:1.6">Tap any role for its guide and AI tool.</div>';
+  
+  // Grid
+  h+='<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:16px">';
+  ROLE_GRID.forEach(r=>{
+    h+='<div onclick="openRoleDetail('+r.idx+')" style="cursor:pointer;background:var(--s1);border-radius:14px;padding:16px 8px;text-align:center;border:1px solid var(--b1);transition:all .15s;position:relative">';
+    h+='<div style="font-size:28px;margin-bottom:6px">'+r.icon+'</div>';
+    h+='<div style="font-size:12px;font-weight:600;color:var(--w)">'+r.short+'</div>';
+    if(r.tool)h+='<div style="font-size:9px;color:'+r.color+';margin-top:4px;font-weight:600">🔧 AI Tool</div>';
     h+='</div>';
-    h+=content;
-    h+='</div></div>';
   });
+  h+='</div>';
   c.innerHTML=h;
 }
 
-window.setRoleMode=function(idx,mode){
-  if(!window._roleModes)window._roleModes={};
-  window._roleModes[idx]=mode;
-  // Re-render just this role's content
-  const body=document.getElementById("sop-body-"+idx);
-  if(!body)return;
-  const wasOpen=body.classList.contains("open");
-  const isPrac=mode==="practical";
-  const content=isPrac?(SOP_PRACTICAL[idx]?SOP_PRACTICAL[idx].content:SOP[idx].content):SOP[idx].content;
-  let h='<div style="display:flex;gap:4px;margin-bottom:10px">';
-  h+='<button class="sb" style="flex:1;padding:6px;font-size:11px;border-radius:6px;'+(isPrac?"background:var(--ok);color:#fff":"background:var(--b1);color:var(--t3)")+'" onclick="event.stopPropagation();setRoleMode('+idx+',\'practical\')">🔥 Practical</button>';
-  h+='<button class="sb" style="flex:1;padding:6px;font-size:11px;border-radius:6px;'+(!isPrac?"background:var(--info);color:#fff":"background:var(--b1);color:var(--t3)")+'" onclick="event.stopPropagation();setRoleMode('+idx+',\'official\')">📖 Official</button>';
+window.openRoleDetail=function(idx){
+  const role=SOP[idx];
+  const practical=SOP_PRACTICAL[idx];
+  if(!role)return;
+  const grid=ROLE_GRID.find(r=>r.idx===idx)||{};
+  const mr=document.getElementById("modal-root");
+  const roleMode=(window._roleModes||{})[idx]||"practical";
+  const isPrac=roleMode==="practical";
+  const content=isPrac?(practical?practical.content:role.content):role.content;
+  
+  let h='<div class="project-overlay" style="background:var(--bg)">';
+  h+='<div class="project-overlay-close"><button onclick="closeProjectOverlay()">✕ Close</button></div>';
+  h+='<div class="detail" style="background:var(--s1);max-width:500px">';
+  
+  // Header
+  h+='<div style="text-align:center;margin-bottom:12px">';
+  h+='<div style="font-size:36px;margin-bottom:4px">'+grid.icon+'</div>';
+  h+='<div class="detail-title" style="margin-bottom:0">'+role.title+'</div>';
   h+='</div>';
+  
+  // Practical/Official toggle
+  h+='<div style="display:flex;gap:4px;margin-bottom:14px">';
+  h+='<button class="sb" id="rd-prac-'+idx+'" style="flex:1;padding:8px;font-size:12px;border-radius:8px;'+(isPrac?"background:var(--ok);color:#fff":"background:var(--b1);color:var(--t3)")+'" onclick="switchRoleDetail('+idx+',\'practical\')">🔥 Practical</button>';
+  h+='<button class="sb" id="rd-offi-'+idx+'" style="flex:1;padding:8px;font-size:12px;border-radius:8px;'+(!isPrac?"background:var(--info);color:#fff":"background:var(--b1);color:var(--t3)")+'" onclick="switchRoleDetail('+idx+',\'official\')">📖 Official</button>';
+  h+='</div>';
+  
+  // Content
+  h+='<div id="role-detail-content" class="sop-body" style="display:block;padding:0">';
   h+=content;
-  body.innerHTML=h;
-  if(wasOpen)body.classList.add("open");
+  h+='</div>';
+  
+  h+='</div></div>';
+  mr.innerHTML=h;
 };
 
-window.filterRoles=function(){
-  const q=document.getElementById("role-search").value.toLowerCase();
-  document.querySelectorAll(".sop-role").forEach(r=>{
-    r.style.display=r.dataset.roleName.includes(q)?"":"none";
-  });
-};
-window.toggleSOP=function(i){
-  const body=document.getElementById("sop-body-"+i);const header=body.previousElementSibling;
-  const isOpen=body.classList.contains("open");
-  // Close all
-  document.querySelectorAll(".sop-body").forEach(b=>b.classList.remove("open"));
-  document.querySelectorAll(".sop-header").forEach(h=>h.classList.remove("open"));
-  if(!isOpen){body.classList.add("open");header.classList.add("open");}
+window.switchRoleDetail=function(idx,mode){
+  if(!window._roleModes)window._roleModes={};
+  window._roleModes[idx]=mode;
+  const isPrac=mode==="practical";
+  const content=isPrac?(SOP_PRACTICAL[idx]?SOP_PRACTICAL[idx].content:SOP[idx].content):SOP[idx].content;
+  
+  const el=document.getElementById("role-detail-content");
+  if(el)el.innerHTML=content;
+  
+  const pBtn=document.getElementById("rd-prac-"+idx);
+  const oBtn=document.getElementById("rd-offi-"+idx);
+  if(pBtn){pBtn.style.background=isPrac?"var(--ok)":"var(--b1)";pBtn.style.color=isPrac?"#fff":"var(--t3)";}
+  if(oBtn){oBtn.style.background=!isPrac?"var(--info)":"var(--b1)";oBtn.style.color=!isPrac?"#fff":"var(--t3)";}
 };
 
 // ═══ RENDER: PLANNER ═══
@@ -1684,8 +1708,11 @@ function rPl(){const c=document.getElementById("planner-content");if(!S)return;c
   }else{
     h+='<div style="font-size:20px;margin-bottom:8px">📋</div>';
     h+='<div style="font-size:15px;font-weight:600;color:var(--w);margin-bottom:6px">Plan Your Term</div>';
-    h+='<div style="font-size:13px;color:var(--t3);margin-bottom:14px;line-height:1.5">Answer a few questions and get a personalized meeting schedule with speeches and roles mapped out.</div>';
-    h+='<button class="btn-pri" style="width:100%;padding:12px;font-size:14px" onclick="startPlanWizard()">Get Started →</button>';
+    h+='<div style="font-size:13px;color:var(--t3);margin-bottom:14px;line-height:1.5">How would you like to plan your meetings?</div>';
+    h+='<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">';
+    h+='<button onclick="startPlanWizard()" style="padding:16px 10px;background:var(--ok)10;border:1px solid var(--ok)30;border-radius:12px;cursor:pointer;text-align:center;font-family:\'Source Sans 3\',sans-serif"><div style="font-size:20px;margin-bottom:6px">🤖</div><div style="font-size:13px;font-weight:600;color:var(--w);margin-bottom:4px">Help me plan</div><div style="font-size:11px;color:var(--t3);line-height:1.4">Answer 3 questions, get a personalized schedule</div></button>';
+    h+='<button onclick="skipPlanWizard()" style="padding:16px 10px;background:var(--s0);border:1px solid var(--b2);border-radius:12px;cursor:pointer;text-align:center;font-family:\'Source Sans 3\',sans-serif"><div style="font-size:20px;margin-bottom:6px">✍️</div><div style="font-size:13px;font-weight:600;color:var(--w);margin-bottom:4px">I\'ll do it myself</div><div style="font-size:11px;color:var(--t3);line-height:1.4">Show me the dates, I\'ll assign roles manually</div></button>';
+    h+='</div>';
   }
   h+='</div>';
 
@@ -2788,19 +2815,9 @@ window.openRoleSOP=function(roleName){
   // Switch to Roles tab and open the matching role
   switchTab("roles");
   setTimeout(()=>{
-    // Find matching SOP by title
-    const sopData=window._roleMode==="official"?SOP:SOP_PRACTICAL;
     let idx=-1;
-    sopData.forEach((r,i)=>{if(r.title===roleName||roleName.includes(r.title)||r.title.includes(roleName))idx=i;});
-    if(idx>=0){
-      // Close all, open this one
-      document.querySelectorAll(".sop-body").forEach(b=>b.classList.remove("open"));
-      document.querySelectorAll(".sop-header").forEach(h=>h.classList.remove("open"));
-      const body=document.getElementById("sop-body-"+idx);
-      const hdr=body?body.previousElementSibling:null;
-      if(body){body.classList.add("open");body.scrollIntoView({behavior:"smooth",block:"center"});}
-      if(hdr)hdr.classList.add("open");
-    }
+    SOP.forEach((r,i)=>{if(r.title===roleName||roleName.includes(r.title)||r.title.includes(roleName))idx=i;});
+    if(idx>=0)openRoleDetail(idx);
   },100);
 };
 
@@ -2968,6 +2985,15 @@ window.removeAnnouncement=function(idx){
 };
 
 // ═══ PLAN MY TERM WIZARD ═══
+window.skipPlanWizard=function(){
+  // Mark as having a plan (empty) so the choice card doesn't show again
+  if(!S.plan)S.plan={};
+  S.plan.goal="Manual planning";
+  S.plan.slots=S.plan.slots||{};
+  sv();rPl();
+  sT("📅 Tap any date to assign roles");
+};
+
 window.startPlanWizard=function(){
   const mr=document.getElementById("modal-root");
   const p=PA[S.path];
@@ -2992,18 +3018,23 @@ window.startPlanWizard=function(){
   
   // Q2: Level target
   h+='<div style="margin-bottom:20px">';
-  h+='<div style="font-size:14px;font-weight:600;color:var(--w);margin-bottom:4px">2. How many levels do you want to complete this term?</div>';
-  h+='<div style="font-size:12px;color:var(--t3);margin-bottom:8px">You\'re currently on Level '+workLv+'. A typical term is 6 months.</div>';
-  h+='<div style="display:flex;gap:6px;flex-wrap:wrap">';
-  for(let l=1;l<=Math.min(maxLv-workLv+1,3);l++){
-    h+='<label style="flex:1;display:flex;align-items:center;justify-content:center;gap:6px;padding:10px;background:var(--s0);border-radius:8px;cursor:pointer;font-size:13px;color:var(--t1);min-width:80px;text-align:center"><input type="radio" name="pw-levels" value="'+l+'" '+(l===1?"checked":"")+' style="accent-color:'+p.c+'"> '+l+' level'+(l>1?"s":"")+'</label>';
-  }
+  h+='<div style="font-size:15px;font-weight:700;color:var(--w);margin-bottom:4px">2. What\'s your goal this term?</div>';
+  h+='<div style="font-size:12px;color:var(--t3);margin-bottom:8px">You\'re on Level '+workLv+'. A typical term is 6 months (Jan–Jun or Jul–Dec).</div>';
+  h+='<div style="display:flex;flex-direction:column;gap:6px">';
+  const goalOpts=[
+    {val:1,label:"Complete my current level",sub:"Steady pace — focus on quality"},
+    {val:2,label:"Push through 2 levels",sub:"Ambitious — requires regular attendance"},
+    {val:Math.min(3,maxLv-workLv+1),label:"Go all out (3 levels)",sub:"Intense — every meeting counts"}
+  ].filter(g=>g.val<=maxLv-workLv+1);
+  goalOpts.forEach((g,i)=>{
+    h+='<label style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--s0);border-radius:8px;cursor:pointer;font-size:13px;color:var(--t1)"><input type="radio" name="pw-levels" value="'+g.val+'" '+(i===0?"checked":"")+' style="accent-color:'+p.c+'"><div><strong>'+g.label+'</strong><div style="font-size:11px;color:var(--t3)">'+g.sub+'</div></div></label>';
+  });
   h+='</div></div>';
   
   // Q3: Favorite roles
   h+='<div style="margin-bottom:20px">';
-  h+='<div style="font-size:14px;font-weight:600;color:var(--w);margin-bottom:4px">3. Which roles do you enjoy or want to practice?</div>';
-  h+='<div style="font-size:12px;color:var(--t3);margin-bottom:8px">Select all that apply. We\'ll mix these into your schedule.</div>';
+  h+='<div style="font-size:15px;font-weight:700;color:var(--w);margin-bottom:4px">3. Which roles do you enjoy or want to practice?</div>';
+  h+='<div style="font-size:12px;color:var(--t3);margin-bottom:8px">Select all that apply — or skip if you\'re open to anything.</div>';
   h+='<div style="display:flex;flex-wrap:wrap;gap:6px">';
   ["Timer","Ah-Counter","Grammarian","Topicsmaster","Evaluator","General Evaluator","Toastmaster of the Day"].forEach(role=>{
     h+='<label style="display:flex;align-items:center;gap:6px;padding:8px 12px;background:var(--s0);border-radius:8px;cursor:pointer;font-size:12px;color:var(--t1)"><input type="checkbox" value="'+role+'" style="accent-color:'+p.c+'"> '+role+'</label>';
@@ -3449,28 +3480,152 @@ window.openTMDScript=function(){
   let h='<div class="project-overlay" style="background:var(--bg)">';
   h+='<div class="project-overlay-close"><button onclick="closeProjectOverlay()">✕ Close</button></div>';
   h+='<div class="detail" style="background:var(--s1);max-width:500px">';
-  h+='<div class="detail-title" style="text-align:center;margin-bottom:4px">🎩 TMD Script Generator</div>';
-  h+='<div style="text-align:center;font-size:13px;color:var(--t3);margin-bottom:16px">Fill in speaker details to generate P.O.E.T.S introductions</div>';
+  h+='<div class="detail-title" style="text-align:center;margin-bottom:12px">🎩 TMD Script Generator</div>';
   
-  h+='<div style="margin-bottom:14px"><label style="font-size:12px;color:var(--t3)">Meeting Theme</label>';
-  h+='<input id="tmd-theme" placeholder="e.g. Courage, New Beginnings..." style="width:100%;padding:10px;background:var(--s0);border:1px solid var(--b2);border-radius:10px;color:var(--t1);font-size:14px;font-family:\'Source Sans 3\',sans-serif;box-sizing:border-box;margin-top:4px"></div>';
+  // Theme input
+  h+='<label style="font-size:12px;color:var(--t3)">Meeting Theme</label>';
+  h+='<input id="tmd-theme" placeholder="e.g. Courage, New Beginnings..." style="width:100%;padding:10px;background:var(--s0);border:1px solid var(--b2);border-radius:10px;color:var(--t1);font-size:14px;font-family:\'Source Sans 3\',sans-serif;box-sizing:border-box;margin-top:4px;margin-bottom:14px">';
   
+  // Section selector
+  h+='<label style="font-size:12px;color:var(--t3)">What do you need?</label>';
+  h+='<div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:6px;margin-bottom:14px">';
+  const sections=[
+    {id:"opening",icon:"🎬",label:"Meeting Opening"},
+    {id:"speaker",icon:"🎤",label:"Speaker Intro"},
+    {id:"transition",icon:"🔄",label:"Transitions"},
+    {id:"tt-intro",icon:"💬",label:"TT Session Intro"},
+    {id:"eval-intro",icon:"📝",label:"Eval Session Intro"},
+    {id:"closing",icon:"🏁",label:"Meeting Closing"}
+  ];
+  sections.forEach(s=>{
+    h+='<button class="sb tmd-section-btn" onclick="selectTMDSection(\''+s.id+'\')" style="padding:10px 8px;background:var(--s0);border:1px solid var(--b2);border-radius:10px;font-size:12px;color:var(--t2);text-align:center;cursor:pointer">'+s.icon+'<br>'+s.label+'</button>';
+  });
+  h+='</div>';
+  
+  // Vibe selector
+  h+='<label style="font-size:12px;color:var(--t3)">Vibe</label>';
+  h+='<div style="display:flex;gap:6px;margin-top:6px;margin-bottom:14px">';
+  ["Energetic","Warm","Professional","Humorous"].forEach((v,i)=>{
+    h+='<button class="sb tmd-vibe-btn" onclick="selectTMDVibe(\''+v+'\')" style="flex:1;padding:8px 4px;background:'+(i===0?"var(--ok)15":"var(--s0)")+';border:1px solid '+(i===0?"var(--ok)":"var(--b2)")+';border-radius:8px;font-size:11px;color:'+(i===0?"var(--ok)":"var(--t2)")+';cursor:pointer">'+v+'</button>';
+  });
+  h+='</div>';
+  
+  h+='<button class="btn-pri" onclick="generateTMDInspiration()" style="width:100%">✨ Generate Script Ideas</button>';
+  
+  // Expandable manual form
+  h+='<div style="text-align:center;margin-top:12px"><button class="sb" onclick="document.getElementById(\'tmd-manual\').style.display=document.getElementById(\'tmd-manual\').style.display===\'none\'?\'block\':\'none\'" style="font-size:12px;color:var(--t4);background:transparent">Or build your own with P.O.E.T.S ▼</button></div>';
+  h+='<div id="tmd-manual" style="display:none;margin-top:12px">';
   h+='<div id="tmd-speakers"><div class="tmd-speaker-form" style="background:var(--s0);border-radius:12px;padding:14px;margin-bottom:10px">';
   h+='<div style="font-size:12px;font-weight:600;color:var(--w);margin-bottom:8px">Speaker 1</div>';
   h+='<div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">';
   h+='<input class="tmd-name" placeholder="Speaker name" style="padding:8px;background:var(--bg);border:1px solid var(--b2);border-radius:8px;color:var(--t1);font-size:12px;font-family:\'Source Sans 3\',sans-serif">';
   h+='<input class="tmd-title" placeholder="Speech title" style="padding:8px;background:var(--bg);border:1px solid var(--b2);border-radius:8px;color:var(--t1);font-size:12px;font-family:\'Source Sans 3\',sans-serif">';
   h+='<input class="tmd-project" placeholder="Project name" style="padding:8px;background:var(--bg);border:1px solid var(--b2);border-radius:8px;color:var(--t1);font-size:12px;font-family:\'Source Sans 3\',sans-serif">';
-  h+='<input class="tmd-evaluator" placeholder="Evaluator name" style="padding:8px;background:var(--bg);border:1px solid var(--b2);border-radius:8px;color:var(--t1);font-size:12px;font-family:\'Source Sans 3\',sans-serif">';
-  h+='<input class="tmd-time" placeholder="Time (e.g. 5-7 min)" style="padding:8px;background:var(--bg);border:1px solid var(--b2);border-radius:8px;color:var(--t1);font-size:12px;font-family:\'Source Sans 3\',sans-serif">';
+  h+='<input class="tmd-evaluator" placeholder="Evaluator" style="padding:8px;background:var(--bg);border:1px solid var(--b2);border-radius:8px;color:var(--t1);font-size:12px;font-family:\'Source Sans 3\',sans-serif">';
+  h+='<input class="tmd-time" placeholder="Time (5-7 min)" style="padding:8px;background:var(--bg);border:1px solid var(--b2);border-radius:8px;color:var(--t1);font-size:12px;font-family:\'Source Sans 3\',sans-serif">';
   h+='</div></div></div>';
+  h+='<button class="sb" onclick="addTMDSpeaker()" style="width:100%;padding:8px;background:var(--s0);color:var(--t3);border:1px dashed var(--b2);border-radius:8px;font-size:12px;margin-bottom:10px">+ Add Speaker</button>';
+  h+='<button class="btn-pri" onclick="generateTMDScript()" style="width:100%">Generate P.O.E.T.S Script</button>';
+  h+='</div>';
   
-  h+='<button class="sb" onclick="addTMDSpeaker()" style="width:100%;padding:8px;background:var(--s0);color:var(--t3);border:1px dashed var(--b2);border-radius:8px;font-size:12px;margin-bottom:14px">+ Add Speaker</button>';
-  h+='<button class="btn-pri" onclick="generateTMDScript()" style="width:100%">Generate Script</button>';
   h+='<div id="tmd-result" style="margin-top:16px"></div>';
   h+='</div></div>';
   mr.innerHTML=h;
+  window._tmdSection="opening";window._tmdVibe="Energetic";
 };
+
+window.selectTMDSection=function(id){
+  window._tmdSection=id;
+  document.querySelectorAll(".tmd-section-btn").forEach(b=>{b.style.background="var(--s0)";b.style.borderColor="var(--b2)";b.style.color="var(--t2)";});
+  event.target.closest(".tmd-section-btn").style.background="var(--ok)15";
+  event.target.closest(".tmd-section-btn").style.borderColor="var(--ok)";
+  event.target.closest(".tmd-section-btn").style.color="var(--ok)";
+};
+
+window.selectTMDVibe=function(vibe){
+  window._tmdVibe=vibe;
+  document.querySelectorAll(".tmd-vibe-btn").forEach(b=>{b.style.background="var(--s0)";b.style.borderColor="var(--b2)";b.style.color="var(--t2)";});
+  event.target.style.background="var(--ok)15";event.target.style.borderColor="var(--ok)";event.target.style.color="var(--ok)";
+};
+
+window.generateTMDInspiration=function(){
+  const theme=document.getElementById("tmd-theme").value.trim()||"Growth";
+  const section=window._tmdSection||"opening";
+  const vibe=window._tmdVibe||"Energetic";
+  const result=document.getElementById("tmd-result");
+  result.innerHTML='<div style="text-align:center;padding:20px;color:var(--t3)"><div style="animation:spin 1s linear infinite;display:inline-block;font-size:18px">🎩</div><div style="margin-top:6px">Crafting your script...</div></div>';
+  
+  const seed=Math.floor(Math.random()*99999);
+  const sectionNames={opening:"Meeting Opening",speaker:"Speaker Introduction (P.O.E.T.S format)",transition:"Transitions between speakers","tt-intro":"Table Topics Session Introduction","eval-intro":"Evaluation Session Introduction",closing:"Meeting Closing"};
+  
+  fetch("/.netlify/functions/ai",{method:"POST",headers:{"Content-Type":"application/json"},
+    body:JSON.stringify({model:"claude-haiku-4-5-20251001",max_tokens:1000,temperature:1.0,
+      messages:[{role:"user",content:"[Seed:"+seed+"] You are a Toastmaster of the Day script writer. Generate 3 different script variations for this meeting section.\n\nSection: "+sectionNames[section]+"\nMeeting theme: "+theme+"\nVibe: "+vibe+"\n\nRules:\n- Each variation should be 2-4 sentences\n- Make them ready to read aloud\n- Include the theme naturally\n- For speaker intros, use P.O.E.T.S format (Project, Objective, Evaluator, Timing, Title, Speaker)\n- For speaker intros, use [Speaker Name], [Project], [Evaluator], [Title] as placeholders\n- Be creative — don't start all 3 the same way\n\nRespond with ONLY a JSON array of 3 objects: [{\"label\":\"short label\",\"script\":\"the actual script text\"}]"}]
+    })
+  }).then(r=>r.json()).then(data=>{
+    if(data.error)throw new Error(data.error.message);
+    const text=data.content.map(c=>c.text||"").join("").replace(/```json|```/g,"").trim();
+    try{
+      const scripts=JSON.parse(text);
+      let h='<div style="font-size:11px;font-weight:600;color:var(--t4);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px">'+sectionNames[section]+' · '+vibe+'</div>';
+      scripts.forEach((s,i)=>{
+        const colors=["var(--ok)","var(--info)","var(--warn)"];
+        h+='<div style="background:var(--s0);border-radius:12px;padding:14px;margin-bottom:8px;border-left:3px solid '+colors[i%3]+'">';
+        h+='<div style="font-size:12px;font-weight:600;color:'+colors[i%3]+';margin-bottom:6px">'+(s.label||"Option "+(i+1))+'</div>';
+        h+='<div style="font-size:13px;color:var(--t2);line-height:1.7;font-style:italic">"'+s.script+'"</div>';
+        h+='<button class="sb" onclick="navigator.clipboard.writeText(\''+s.script.replace(/'/g,"\\'")+'\').then(()=>sT(\'📋 Copied!\'))" style="margin-top:8px;padding:4px 12px;background:transparent;color:var(--t4);font-size:11px;border-radius:6px">📋 Copy</button>';
+        h+='</div>';
+      });
+      h+='<button class="sb" onclick="generateTMDInspiration()" style="width:100%;padding:10px;background:var(--ok)15;color:var(--ok);border-radius:8px;font-size:12px;font-weight:600;margin-top:8px">🎲 Generate More</button>';
+      result.innerHTML=h;
+    }catch(e){generateTMDFallback(result,section,theme,vibe);}
+  }).catch(()=>generateTMDFallback(result,section,theme,vibe));
+};
+
+function generateTMDFallback(result,section,theme,vibe){
+  const templates={
+    opening:[
+      "Good afternoon, fellow Toastmasters and welcome guests! Today's theme is [T] — a topic that touches every one of us. We have an exciting lineup ahead, so let's dive right in!",
+      "Welcome everyone to 5A+ Toastmasters! As we explore today's theme of [T], I encourage you to think about what it means in your own life. Let's make this a meeting to remember!",
+      "Toastmasters, guests, friends — welcome! Today we gather around the theme of [T]. Every speech, every evaluation, every moment today connects back to this idea. Let's begin!"
+    ],
+    speaker:[
+      "Our next speaker is working on [Project]. The evaluator will be [Evaluator]. The speech is [Time], titled '[Title]'. Please welcome... [Speaker Name]!",
+      "Speaking of [T], our next speaker embodies it perfectly. Working on [Project], evaluated by [Evaluator], in [Time]. The title: '[Title]'. Let's welcome... [Speaker Name]!",
+      "Now for something special. [Project] is the project, [Evaluator] will evaluate, and you have [Time]. The speech is called '[Title]'. Please put your hands together for... [Speaker Name]!"
+    ],
+    transition:[
+      "Thank you for that wonderful speech. Now let's hear what our evaluator thought. [Evaluator], the floor is yours.",
+      "What a speech! Before we move on, let's hear from [Evaluator] with their evaluation.",
+      "Let's give our speaker another round of applause. And now, [Evaluator] — share your insights with us."
+    ],
+    "tt-intro":[
+      "Now it's time for my favorite part — Table Topics! This is where we practice thinking on our feet. I'll give you a question related to [T], and you'll have 1 to 2 minutes to respond. Who's ready?",
+      "Table Topics time! For those guests joining us — this is impromptu speaking. I'll ask a question about [T], and you speak for 1-2 minutes with zero preparation. It's fun, I promise!",
+      "Let's shift gears to Table Topics — the part of the meeting where anyone can be called up! Today's questions all connect to our theme of [T]. Remember: 1-2 minutes, green to red."
+    ],
+    "eval-intro":[
+      "Now we move to the evaluation portion — the heart of how we grow at Toastmasters. Our evaluators have been listening carefully, and they're ready to share their feedback.",
+      "Time for evaluations! This is what makes Toastmasters special — honest, constructive feedback delivered with care. Evaluators, you're up.",
+      "Let's hear from our evaluation team. Remember, a great evaluation is specific, encouraging, and offers solutions — not just observations. Let's begin."
+    ],
+    closing:[
+      "What an incredible meeting! We explored [T] through speeches, impromptu speaking, and thoughtful evaluations. Thank you all for making this possible. See you next week!",
+      "As we wrap up, I want to thank every single person who contributed today. From our speakers to our role-takers — you all brought [T] to life. Until next time!",
+      "That brings us to the end of today's meeting on [T]. Every speech taught us something, every evaluation helped us grow. Safe travels everyone, and keep practicing!"
+    ]
+  };
+  const scripts=(templates[section]||templates.opening).map((s,i)=>({label:"Option "+(i+1),script:s.replace(/\[T\]/g,theme)}));
+  let h='<div style="padding:8px 12px;background:var(--warn)10;border-radius:8px;font-size:12px;color:var(--warn);margin-bottom:10px">Generated offline</div>';
+  scripts.forEach((s,i)=>{
+    const colors=["var(--ok)","var(--info)","var(--warn)"];
+    h+='<div style="background:var(--s0);border-radius:12px;padding:14px;margin-bottom:8px;border-left:3px solid '+colors[i]+'">';
+    h+='<div style="font-size:12px;font-weight:600;color:'+colors[i]+';margin-bottom:6px">'+s.label+'</div>';
+    h+='<div style="font-size:13px;color:var(--t2);line-height:1.7;font-style:italic">"'+s.script+'"</div>';
+    h+='</div>';
+  });
+  result.innerHTML=h;
+}
 
 let tmdSpeakerCount=1;
 window.addTMDSpeaker=function(){
@@ -5235,11 +5390,9 @@ const TOUR_STEPS=[
   {title:"Plan Your Meetings",text:"Assign speeches and roles to meeting dates. Use 'Plan My Term' for a personalized schedule. Remember: 1 role per meeting!",
     target:"#tab-planner",pos:"below",
     setup:function(){cTab="planner";switchTab("planner");}},
-  {title:"Role SOP",text:"Guides for every meeting role. Each role has TWO versions — tap to expand, then toggle between 🔥 Practical (the no-nonsense version most people need) and 📖 Official (the full formal version).",
+  {title:"Role Toolkit",text:"Every meeting role has a guide + interactive AI tool. Tap any role to expand, then toggle between 🔥 Practical and 📖 Official. Try the tools — they'll help you prepare!",
     target:"#tab-roles",pos:"below",
     setup:function(){cTab="roles";switchTab("roles");
-      // Auto-open first role to show the toggle
-      setTimeout(()=>{const first=document.querySelector(".sop-header");if(first)first.click();},200);
     }}
 ];
 
@@ -5437,8 +5590,8 @@ window.showHelpCenter=function(){
       "Each level also requires <strong>meeting roles</strong> — you'll be reminded when leveling up",
       "Your progress syncs across devices via Firebase (if online)"
     ]},
-    {icon:"📋",title:"Meeting roles — Practical vs Official",action:"closeProjectOverlay();switchTab('roles')",actionLabel:"Go to Role SOP →",steps:[
-      "Go to the <strong>Role SOP</strong> tab",
+    {icon:"📋",title:"Role Toolkit — Guides & AI Tools",action:"closeProjectOverlay();switchTab('roles')",actionLabel:"Go to Role Toolkit →",steps:[
+      "Go to the <strong>Role Toolkit</strong> tab",
       "Tap any role to expand it",
       "Each role has <strong>two versions</strong> you can toggle between:",
       "<strong>🔥 Practical</strong> — The no-nonsense version. What you actually need to know in 5 bullets.",
@@ -5457,9 +5610,16 @@ window.showHelpCenter=function(){
   let h='<div class="project-overlay" style="background:var(--bg)">';
   h+='<div class="project-overlay-close"><button onclick="closeProjectOverlay()">✕ Close</button></div>';
   h+='<div style="max-width:500px;margin:0 auto">';
-  h+='<div style="text-align:center;margin-bottom:24px"><div style="font-size:32px;margin-bottom:8px">📖</div>';
+  h+='<div style="text-align:center;margin-bottom:20px"><div style="font-size:32px;margin-bottom:8px">📖</div>';
   h+='<div style="font-size:20px;font-weight:700;color:var(--w)">App Guide</div>';
   h+='<div style="font-size:13px;color:var(--t3)">Tap any topic to learn more</div></div>';
+  
+  // About this app
+  h+='<div style="background:var(--ok)08;border:1px solid var(--ok)20;border-radius:14px;padding:16px;margin-bottom:16px">';
+  h+='<div style="font-size:14px;font-weight:700;color:var(--w);margin-bottom:8px">What is this app?</div>';
+  h+='<div style="font-size:13px;color:var(--t2);line-height:1.7">';
+  h+='Your personal Toastmasters companion. It helps you <strong>track your Pathways journey</strong>, <strong>plan your meeting schedule</strong>, and <strong>prepare for any meeting role</strong> with AI-powered tools. Every role — from Timer to GE — has a step-by-step guide and an interactive assistant built right in.';
+  h+='</div></div>';
   
   guides.forEach((g,i)=>{
     h+='<div style="background:var(--s1);border-radius:14px;margin-bottom:10px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.3)">';
@@ -5531,10 +5691,10 @@ const IG_FLOWS={
   "role-sop":{
     title:"Explore Meeting Roles",
     steps:[
-      {text:"This is the <strong>Role SOP</strong> tab. Every meeting role has a step-by-step guide here.",
+      {text:"This is the <strong>Role Toolkit</strong> tab. Every meeting role has a step-by-step guide here.",
         setup:()=>{switchTab("roles");},target:"#roles-content",pos:"below",delay:300},
       {text:"Tap any role to expand it. Let's try the first one.",
-        setup:()=>{const first=document.querySelector(".sop-header");if(first)first.click();},target:".sop-role",pos:"below",delay:300},
+        setup:()=>{openRoleDetail(0);},target:".detail",pos:"below",delay:300},
       {text:"Notice the two buttons: <strong>🔥 Practical</strong> and <strong>📖 Official</strong>. Practical gives you the no-nonsense 5-bullet version. Official is the full formal guide.",
         setup:()=>{},target:".sop-toggle",pos:"below",delay:200},
       {text:"For the <strong>Topicsmaster</strong> role, there's a bonus: an <strong>🤖 AI Topics Generator</strong> that creates 10 creative questions from any theme!",
