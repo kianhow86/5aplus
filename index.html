@@ -373,8 +373,37 @@ a{color:var(--info);text-decoration:none}
 /* Various UI */
 .sb{padding:6px 10px;border-radius:6px;border:none;font-size:12px;cursor:pointer;font-family:'Source Sans 3',sans-serif;font-weight:600;white-space:nowrap}.sb:active{transform:scale(.96)}
 .empty{text-align:center;padding:40px 20px;color:var(--t5);font-size:15px}
-.toast{position:fixed;top:20px;left:50%;transform:translateX(-50%) translateY(-60px);background:var(--s1);color:var(--w);padding:12px 24px;border-radius:14px;font-size:14px;font-weight:600;z-index:200;box-shadow:0 8px 32px rgba(0,0,0,.5);opacity:0;transition:all .3s ease;pointer-events:none}
+.toast{position:fixed;top:calc(env(safe-area-inset-top,0px) + 20px);left:50%;transform:translateX(-50%) translateY(-80px);background:var(--s1);color:var(--w);padding:12px 24px;border-radius:14px;font-size:14px;font-weight:600;z-index:200;box-shadow:0 8px 32px rgba(0,0,0,.5);opacity:0;transition:all .3s ease;pointer-events:none}
 .toast.show{transform:translateX(-50%) translateY(0);opacity:1}
+/* Booking celebration — the "locked in" moment */
+.book-celebrate{position:fixed;inset:0;background:rgba(0,0,0,.4);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);z-index:400;display:flex;align-items:center;justify-content:center;padding:20px;animation:fadeIn .3s ease}
+.light-theme .book-celebrate{background:rgba(180,200,235,0.5) !important}
+.bc-card{background:rgba(15,25,35,0.95);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid rgba(91,192,190,0.3);border-radius:24px;padding:28px 22px;max-width:360px;width:100%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.6);animation:bcPop .5s cubic-bezier(.175,.885,.32,1.275)}
+.light-theme .bc-card{background:rgba(225,235,252,0.95) !important;border:1px solid rgba(91,192,190,0.4) !important;box-shadow:0 20px 60px rgba(80,120,180,.3) !important}
+@keyframes bcPop{0%{transform:scale(.6);opacity:0}100%{transform:scale(1);opacity:1}}
+.bc-icon-wrap{position:relative;width:100px;height:100px;margin:0 auto 8px;display:flex;align-items:center;justify-content:center}
+.bc-icon{font-size:56px;animation:bcBounce .7s cubic-bezier(.175,.885,.32,1.275) .1s both;line-height:1}
+@keyframes bcBounce{0%{transform:scale(0) rotate(-20deg)}60%{transform:scale(1.25) rotate(8deg)}100%{transform:scale(1) rotate(0)}}
+.bc-sparkle{position:absolute;font-size:22px;opacity:0;pointer-events:none}
+.bc-s1{top:8px;left:12%;animation:bcSpark 1.4s ease-out .4s forwards;--sx:-12px;--sy:-14px}
+.bc-s2{top:18%;right:8%;animation:bcSpark 1.4s ease-out .55s forwards;--sx:14px;--sy:-10px}
+.bc-s3{bottom:14%;left:6%;animation:bcSpark 1.4s ease-out .5s forwards;--sx:-14px;--sy:12px}
+.bc-s4{bottom:6px;right:14%;animation:bcSpark 1.4s ease-out .65s forwards;--sx:12px;--sy:14px}
+@keyframes bcSpark{0%{opacity:0;transform:scale(0) translate(0,0)}30%{opacity:1;transform:scale(1.2) translate(0,0)}100%{opacity:0;transform:scale(.7) translate(var(--sx,10px),var(--sy,-10px))}}
+.bc-title{font-family:'Montserrat',sans-serif;font-size:22px;font-weight:700;color:var(--ok);margin-bottom:4px;animation:bcSlideUp .4s ease-out .2s both}
+.bc-sub{font-size:12px;color:var(--t3);margin-bottom:8px;text-transform:uppercase;letter-spacing:.08em;animation:bcSlideUp .4s ease-out .28s both}
+.bc-project{font-size:18px;font-weight:700;color:var(--w);margin-bottom:4px;line-height:1.3;animation:bcSlideUp .4s ease-out .35s both}
+.bc-date{font-size:14px;color:var(--t2);margin-bottom:18px;animation:bcSlideUp .4s ease-out .42s both}
+@keyframes bcSlideUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.bc-progress-wrap{background:var(--s0);border-radius:12px;padding:12px 14px;margin-bottom:16px;animation:bcSlideUp .4s ease-out .5s both}
+.bc-progress-label{font-size:10px;color:var(--t4);text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:6px}
+.bc-progress-bar{height:8px;background:rgba(255,255,255,0.08);border-radius:6px;overflow:hidden;margin-bottom:6px}
+.light-theme .bc-progress-bar{background:rgba(100,130,180,0.15)}
+.bc-progress-fill{height:100%;background:linear-gradient(90deg,var(--ok),var(--info));border-radius:6px;transform-origin:left;animation:bcFill 1.2s cubic-bezier(.4,0,.2,1) .6s both}
+@keyframes bcFill{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+.bc-progress-count{font-size:11px;color:var(--t3);font-weight:600}
+.bc-dismiss{width:100%;padding:13px 16px;background:linear-gradient(135deg,var(--ok),var(--info));color:#fff;border:none;border-radius:12px;font-size:15px;font-weight:600;cursor:pointer;font-family:'Source Sans 3',sans-serif;animation:bcSlideUp .4s ease-out .65s both;-webkit-tap-highlight-color:transparent}
+.bc-dismiss:active{transform:scale(.98)}
 .celebrate{position:fixed;inset:0;z-index:300;display:flex;align-items:center;justify-content:center;pointer-events:auto;animation:fadeIn .3s ease;background:rgba(0,0,0,.65);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
 .celebrate-card{background:#16202e;border:1px solid var(--b2);border-radius:16px;padding:32px 24px;text-align:center;max-width:320px;width:90%;pointer-events:auto;animation:celebPop .4s ease;box-shadow:0 20px 60px rgba(0,0,0,.6),0 0 0 1px rgba(255,255,255,.04)}
 /* Light theme: softer backdrop + solid light card so modal stands out */
@@ -981,7 +1010,7 @@ a{color:var(--info);text-decoration:none}
 <div id="tab-roles" class="tc"><div id="roles-content"></div></div>
 <div id="tab-master" class="tc"><div id="master-content"></div></div>
 <div id="tab-club" class="tc"><div id="club-announcements"></div><div class="sl" style="margin-top:16px">Club Members</div><div id="club-list"></div></div>
-<div class="app-footer">5A+ TMC App v8.35 · Built by Kian How</div>
+<div class="app-footer">5A+ TMC App v8.36 · Built by Kian How</div>
 </div>
 
 <div class="bnav" id="bottom-nav"></div>
@@ -2885,7 +2914,12 @@ window.assignItem=function(date,type,label,opts){opts=opts||{};if(type==="custom
   document.getElementById("modal-root").innerHTML="";rD();
   if(navigator.vibrate)navigator.vibrate(10);
   setTimeout(()=>flashDateDot(date),60);// let rPl paint first
-  sT("✅ Added to "+new Date(date+"T00:00:00").toLocaleDateString("en-US",{month:"short",day:"numeric"}));
+  // Celebrate project bookings; roles/custom get the lighter toast
+  if(type==="project"&&opts.pid&&PD[opts.pid]){
+    setTimeout(()=>showBookingCelebration(opts.pid,date),200);
+  }else{
+    sT("✅ Added to "+new Date(date+"T00:00:00").toLocaleDateString("en-US",{month:"short",day:"numeric"}));
+  }
 };
 
 window.openRoleGate=function(date,type,label,opts,roleName,needed,userLv){
@@ -3725,10 +3759,50 @@ window.applyPendingBooking=function(date){
   S.plan.slots[date].push({type:"project",label:label,pid:pb.pid,pathCode:S.path});
   window._pendingBooking=null;
   sv();rPl();
-  const dfmt=new Date(date+"T00:00:00").toLocaleDateString("en-US",{weekday:"short",month:"short",day:"numeric"});
-  sT("✅ "+d.t+" booked for "+dfmt);
   setTimeout(()=>scrollToDateDot(date),200);
+  showBookingCelebration(pb.pid,date);
   return true;
+};
+
+// Celebratory booking confirmation — replaces the blink-and-miss toast
+window.showBookingCelebration=function(pid,date){
+  const d=PD[pid];if(!d)return;
+  const title=d.t;
+  const dfmt=new Date(date+"T00:00:00").toLocaleDateString("en-US",{weekday:"long",month:"long",day:"numeric"});
+  // Count planned projects across all levels of user's path
+  let totalGoal=0;
+  if(S&&S.path){
+    for(let l=1;l<=5;l++){const g=gP(S.path,l);totalGoal+=g.r.length+g.en;}
+  }
+  if(!totalGoal)totalGoal=14;// sensible fallback
+  const plannedCount=Object.values(S.plan.slots||{}).reduce((acc,slots)=>acc+(slots||[]).filter(s=>s.type==="project").length,0);
+  const pct=Math.min(100,Math.round((plannedCount/totalGoal)*100));
+  // Fun titles — rotate so it's not monotonous
+  const msgs=["Locked in! 🎯","Nice one! 🌟","You're on the books!","Done and dusted! ✨","Another one! 🔥","Look at you go! 💪","On the calendar! 📅"];
+  const msg=msgs[Math.floor(Math.random()*msgs.length)];
+  const mr=document.getElementById("modal-root");
+  let h='<div class="book-celebrate" onclick="dismissBookingCelebration(event)">';
+  h+='<div class="bc-card" onclick="event.stopPropagation()">';
+  h+='<div class="bc-icon-wrap">';
+  h+='<div class="bc-sparkle bc-s1">✨</div><div class="bc-sparkle bc-s2">⭐</div><div class="bc-sparkle bc-s3">✨</div><div class="bc-sparkle bc-s4">💫</div>';
+  h+='<div class="bc-icon">📅</div>';
+  h+='</div>';
+  h+='<div class="bc-title">'+msg+'</div>';
+  h+='<div class="bc-sub">You\'ve booked</div>';
+  h+='<div class="bc-project">'+title+'</div>';
+  h+='<div class="bc-date">'+dfmt+'</div>';
+  h+='<div class="bc-progress-wrap">';
+  h+='<div class="bc-progress-label">Term Progress</div>';
+  h+='<div class="bc-progress-bar"><div class="bc-progress-fill" style="width:'+pct+'%"></div></div>';
+  h+='<div class="bc-progress-count">'+plannedCount+' of '+totalGoal+' projects planned</div>';
+  h+='</div>';
+  h+='<button class="bc-dismiss" onclick="dismissBookingCelebration()">Keep going →</button>';
+  h+='</div></div>';
+  mr.innerHTML=h;
+};
+window.dismissBookingCelebration=function(e){
+  if(e&&e.target!==e.currentTarget)return;
+  document.getElementById("modal-root").innerHTML="";
 };
 
 window.applySingleBooking=function(pid){
@@ -3861,12 +3935,13 @@ window.applyMultiStepBooking=function(pid,stepCount){
     if(v&&!bookedDates.includes(v))bookedDates.push(v);
   }
   sv();closeModal();closeProjectOverlay();goToPlanner();
-  sT("✅ "+stepCount+" slots booked for "+d.t+"!");
   if(firstDate)setTimeout(()=>scrollToDateDot(firstDate),300);
   // Flash the rest, staggered after the first
   bookedDates.filter(bd=>bd!==firstDate).forEach((bd,i)=>{
     setTimeout(()=>flashDateDot(bd),900+i*180);
   });
+  // Show celebration for the first booking
+  if(firstDate)setTimeout(()=>showBookingCelebration(pid,firstDate),400);
 };
 
 function flashDateDot(date){
