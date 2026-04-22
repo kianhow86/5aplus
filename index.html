@@ -64,6 +64,13 @@ body{font-family:'Source Sans 3',sans-serif;background:linear-gradient(135deg,#0
   45%{transform:scale(1.015)}
   60%,100%{transform:scale(1)}
 }
+
+/* Generic collapsible tap-card (default collapsed, expands on tap) */
+.tapcard{cursor:pointer;transition:background .25s ease,border-color .25s ease}
+.tapcard-body{overflow:hidden;max-height:0;opacity:0;margin-top:0;transition:max-height .55s cubic-bezier(.4,0,.2,1),opacity .3s ease,margin-top .4s ease}
+.tapcard.expanded .tapcard-body{max-height:3000px;opacity:1;margin-top:12px}
+.tapcard-toggle{font-size:12px;color:var(--t4);transition:transform .3s ease;display:inline-block;flex-shrink:0}
+.tapcard.expanded .tapcard-toggle{transform:rotate(180deg)}
 .ig-overlay{position:fixed;inset:0;z-index:500;pointer-events:none}
 .ig-mask{position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:499;pointer-events:auto}
 .ig-highlight{position:fixed;z-index:501;border-radius:14px;box-shadow:0 0 0 4000px rgba(0,0,0,.75),0 0 15px rgba(107,191,107,.5),0 0 30px rgba(107,191,107,.25),inset 0 0 15px rgba(107,191,107,.1);border:1.5px solid rgba(107,191,107,.4);pointer-events:none;transition:all .4s ease;animation:igGlow 2s ease-in-out infinite}
@@ -639,37 +646,43 @@ a{color:var(--info);text-decoration:none}
 <div style="font-size:28px;font-weight:700;color:var(--w);margin-bottom:4px">Welcome, Guest!</div>
 </div>
 
-<!-- About 5A+ — hero card (club takes precedence) -->
-<div style="background:linear-gradient(135deg,rgba(91,192,190,0.10),rgba(123,167,204,0.10));border-radius:16px;padding:18px;margin-bottom:14px;border:1px solid rgba(91,192,190,0.25)">
-<div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">
+<!-- About 5A+ — collapsible hero card (club takes precedence) -->
+<div class="tapcard" onclick="this.classList.toggle('expanded')" style="background:linear-gradient(135deg,rgba(91,192,190,0.10),rgba(123,167,204,0.10));border-radius:16px;padding:18px;margin-bottom:14px;border:1px solid rgba(91,192,190,0.25)">
+<!-- Head: always visible -->
+<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+<div style="display:flex;align-items:center;gap:8px">
 <span style="font-size:22px">🎙️</span>
 <div style="font-size:17px;font-weight:700;color:var(--w)">About 5A+ Toastmasters</div>
 </div>
+<span class="tapcard-toggle">▼</span>
+</div>
 <div style="font-size:14px;color:var(--t1);line-height:1.7;margin-bottom:12px">Since <strong style="color:var(--w)">2009</strong>, we've been one of Shanghai's leading English-speaking Toastmasters clubs. Every Sunday from <strong style="color:var(--w)">14:00 to 16:30</strong>, members gather to speak, lead, and level up — together.</div>
 
-<!-- The 5 A's -->
-<div style="font-size:13px;color:var(--t2);line-height:1.6;padding:10px 12px;background:rgba(255,255,255,0.05);border-radius:10px;margin-bottom:12px">
+<!-- The 5 A's — last thing in the head -->
+<div style="font-size:13px;color:var(--t2);line-height:1.6;padding:10px 12px;background:rgba(255,255,255,0.05);border-radius:10px">
 <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--t3);margin-bottom:6px">Founded on the 5 A's</div>
 <div><strong style="color:#5BC0BE">Attitude</strong> · <strong style="color:#E8B830">Aspiration</strong> · <strong style="color:#2180B9">Action</strong> · <strong style="color:#9B51E0">Adaptability</strong> · <strong style="color:#D44040">Achievement</strong></div>
 </div>
 
-<!-- Starfish origin story -->
+<!-- Body: collapsible — starfish story + culture/achievements -->
+<div class="tapcard-body">
 <div style="padding:12px 14px;background:rgba(255,255,255,0.04);border-left:3px solid #5BC0BE;border-radius:8px;margin-bottom:12px">
 <div style="font-size:13px;font-weight:700;color:#5BC0BE;margin-bottom:6px">🌟 Why a starfish?</div>
 <div style="font-size:13px;color:var(--t1);line-height:1.7">Our logo is a starfish — and it's no accident. When a starfish loses an arm, that arm grows into a whole new starfish. That's our vision: when members move on — to new cities, new careers, new chapters — they carry the 5A+ values with them, seeding <strong style="color:var(--w)">new starfish nations</strong> wherever they land.</div>
 </div>
 
-<!-- Culture + achievements -->
 <div style="font-size:13px;color:var(--t2);line-height:1.7">A tightly-knit community of <strong style="color:var(--w)">diverse professionals from around the world</strong>, deeply invested in our culture and values. We've nurtured many outstanding speakers and leaders — including 🏆 <strong style="color:var(--w)">2 District speech contest champions</strong>.</div>
 </div>
+</div>
 
-<!-- What is Toastmasters — secondary explainer -->
-<div style="background:rgba(255,255,255,0.04);border-radius:16px;padding:16px;margin-bottom:18px;border:1px solid rgba(255,255,255,0.08)">
-<div style="font-size:15px;font-weight:700;color:var(--w);margin-bottom:8px">🎓 What is Toastmasters?</div>
+<!-- What is Toastmasters — collapsible strip (default collapsed) -->
+<div class="tapcard" onclick="this.classList.toggle('expanded')" style="background:rgba(255,255,255,0.04);border-radius:16px;padding:14px 16px;margin-bottom:18px;border:1px solid rgba(255,255,255,0.08)">
+<div style="display:flex;align-items:center;justify-content:space-between">
+<div style="font-size:15px;font-weight:700;color:var(--w)">🎓 What is Toastmasters?</div>
+<span class="tapcard-toggle">▼</span>
+</div>
+<div class="tapcard-body">
 <div style="font-size:14px;color:var(--t1);line-height:1.7;margin-bottom:12px">Most people think Toastmasters is a public speaking club. It's not — or at least, that's not why people stay. Toastmasters is a <strong style="color:var(--w)">platform where opportunities are made</strong>. You learn to speak, lead, and think on your feet — then you <strong style="color:var(--w)">deploy those skills everywhere</strong>: job interviews, boardrooms, pitches, negotiations, even difficult conversations at home. The speeches are practice. The real game is what you do with the skills outside this room.</div>
-
-<div onclick="document.getElementById('guest-intro-more').style.display=document.getElementById('guest-intro-more').style.display==='none'?'block':'none'" style="cursor:pointer;font-size:13px;font-weight:600;color:var(--info);margin-bottom:4px">How does it actually work? ▼</div>
-<div id="guest-intro-more" style="display:none;margin-top:10px">
 
 <div style="background:rgba(255,255,255,0.03);border-radius:10px;padding:12px;margin-bottom:8px;border:1px solid rgba(255,255,255,0.05)">
 <div style="font-size:13px;font-weight:700;color:var(--ok);margin-bottom:6px">📅 How a Meeting Works</div>
@@ -958,7 +971,7 @@ a{color:var(--info);text-decoration:none}
 <div id="tab-roles" class="tc"><div id="roles-content"></div></div>
 <div id="tab-master" class="tc"><div id="master-content"></div></div>
 <div id="tab-club" class="tc"><div id="club-announcements"></div><div class="sl" style="margin-top:16px">Club Members</div><div id="club-list"></div></div>
-<div class="app-footer">5A+ TMC App v8.8 · Built by Kian How</div>
+<div class="app-footer">5A+ TMC App v8.9 · Built by Kian How</div>
 </div>
 
 <div class="bnav" id="bottom-nav"></div>
