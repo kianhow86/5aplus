@@ -200,8 +200,10 @@ a{color:var(--info);text-decoration:none}
 .onboard-skip{padding:8px 16px;border:none;border-radius:8px;font-size:13px;cursor:pointer;font-family:'Source Sans 3',sans-serif;color:#8a8078;background:transparent;margin-top:8px}
 
 /* Path tour highlight */
-.tour-backdrop{position:fixed;inset:0;background:transparent;z-index:400;pointer-events:auto}
-.tour-highlight{position:relative;z-index:401;box-shadow:0 0 0 4000px rgba(0,0,0,.65);border-radius:10px;pointer-events:none}
+.tour-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.55);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);z-index:400;pointer-events:auto}
+.tour-highlight{position:relative;z-index:401;border-radius:12px !important;outline:3px solid rgba(91,192,190,.9);outline-offset:6px;box-shadow:0 0 24px rgba(91,192,190,.5),0 0 48px rgba(91,192,190,.25) !important;background:var(--bg) !important;backdrop-filter:none !important;-webkit-backdrop-filter:none !important;pointer-events:none;transition:outline-offset .2s ease}
+.tour-pulse{position:relative;z-index:402 !important;animation:tourPulse 1.4s ease-in-out infinite;border-radius:10px}
+@keyframes tourPulse{0%,100%{box-shadow:0 0 0 0 rgba(91,192,190,.7),0 0 0 0 rgba(91,192,190,.5);transform:scale(1)}50%{box-shadow:0 0 0 8px rgba(91,192,190,.35),0 0 0 16px rgba(91,192,190,.15);transform:scale(1.08)}}
 .tour-tip{position:fixed;z-index:402;background:rgba(240,235,225,0.95);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border:none;border-radius:20px;padding:16px;max-width:300px;width:calc(100% - 32px);box-shadow:0 16px 48px rgba(0,0,0,.5);animation:fadeIn .2s ease}
 .tour-tip-title{font-size:15px;font-weight:700;color:#1a1a2e;margin-bottom:6px;display:flex;align-items:center;gap:6px}
 .tour-tip-text{font-size:13px;color:#4a4540;line-height:1.5;margin-bottom:12px}
@@ -626,77 +628,78 @@ a{color:var(--info);text-decoration:none}
 <div style="font-size:13px;color:var(--t4);margin-bottom:20px;line-height:1.6">Track your path · Plan your speeches · Prep for any role</div>
 <button class="btn-pri" onclick="showMemberLogin()" style="margin-bottom:10px;background:linear-gradient(135deg,#5BC0BE,#3A9E9B);border:none;box-shadow:0 4px 15px rgba(91,192,190,0.3)">🔑 I'm a Member</button>
 <button class="btn-sec" onclick="showGuestPage()" style="border-color:rgba(255,255,255,0.15);color:var(--t2);font-size:15px;backdrop-filter:blur(4px)">👋 I'm a Guest</button>
-<div id="welcome-install" style="display:none;margin-top:16px;padding:12px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:12px;font-size:13px;color:var(--t3);line-height:1.5;text-align:center">
-<span style="font-size:18px">📲</span><br>
-<strong style="color:var(--t1)">Add to Home Screen</strong><br>
-<span id="install-instructions"></span>
-<div style="margin-top:8px"><button class="sb" onclick="installApp()" style="background:var(--w);color:var(--bg);padding:6px 16px;font-size:13px">Install</button>
-<button class="sb" onclick="document.getElementById('welcome-install').style.display='none';localStorage.setItem('tm-pw-install-dismissed','1')" style="background:transparent;color:var(--t4);padding:6px 8px;font-size:12px">Not now</button></div>
+<div id="welcome-install" style="display:none;margin-top:16px;padding:14px;background:rgba(91,192,190,0.08);border:1px solid rgba(91,192,190,0.25);border-radius:12px;font-size:14px;color:var(--t2);line-height:1.5;text-align:center">
+<span style="font-size:22px">📲</span><br>
+<strong style="color:var(--t1);font-size:15px">Add to Home Screen</strong><br>
+<span id="install-instructions" style="display:inline-block;margin-top:4px"></span>
+<div style="margin-top:10px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap">
+<button id="install-btn" class="sb" onclick="installApp()" style="display:none;background:#5BC0BE;color:#fff;padding:8px 22px;font-size:14px;font-weight:600;border-radius:8px;border:none">Install</button>
+<button class="sb" onclick="dismissInstall()" style="background:transparent;color:var(--t4);padding:8px 14px;font-size:13px">Not now</button></div>
 </div>
 </div>
 </div>
 
 <!-- GUEST EXPERIENCE -->
-<div id="guest-screen" class="setup-screen glass-bg" style="display:none">
-<div class="setup-card" style="max-width:500px;padding:24px 16px">
+<div id="guest-screen" class="setup-screen glass-bg" style="display:none;align-items:flex-start;padding:16px 0">
+<div class="setup-card" style="max-width:720px;padding:20px;border-radius:20px">
 <div class="setup-title" id="guest-title" style="display:none">Welcome to 5A+ TMC App!</div>
 <div id="guest-body">
-<div style="text-align:center;margin-bottom:16px">
-<div style="font-size:36px;margin-bottom:8px">👋</div>
-<div style="font-size:28px;font-weight:700;color:var(--w);margin-bottom:4px">Welcome, Guest!</div>
+<div style="text-align:center;margin-bottom:20px">
+<div style="font-size:40px;margin-bottom:8px">👋</div>
+<div style="font-size:30px;font-weight:700;color:var(--w);margin-bottom:4px">Welcome, Guest!</div>
 </div>
 
 <!-- About 5A+ — collapsible hero card (club takes precedence) -->
-<div class="tapcard" onclick="this.classList.toggle('expanded')" style="background:linear-gradient(135deg,rgba(91,192,190,0.10),rgba(123,167,204,0.10));border-radius:16px;padding:18px;margin-bottom:14px;border:1px solid rgba(91,192,190,0.25)">
+<div class="tapcard" onclick="this.classList.toggle('expanded')" style="background:linear-gradient(135deg,rgba(91,192,190,0.10),rgba(123,167,204,0.10));border-radius:16px;padding:20px;margin-bottom:14px;border:1px solid rgba(91,192,190,0.25)">
 <!-- Head: always visible -->
-<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
-<div style="display:flex;align-items:center;gap:8px">
-<span style="font-size:22px">🎙️</span>
-<div style="font-size:17px;font-weight:700;color:var(--w)">About 5A+ Toastmasters</div>
+<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+<div style="display:flex;align-items:center;gap:10px">
+<span style="font-size:24px">🎙️</span>
+<div style="font-size:19px;font-weight:700;color:var(--w)">About 5A+ Toastmasters</div>
 </div>
 <span class="tapcard-toggle">▼</span>
 </div>
-<div style="font-size:14px;color:var(--t1);line-height:1.7;margin-bottom:12px">Since <strong style="color:var(--w)">2009</strong>, we've been one of Shanghai's leading English-speaking Toastmasters clubs. Every Sunday from <strong style="color:var(--w)">14:00 to 16:30</strong>, members gather to speak, lead, and level up — together.</div>
+<div style="font-size:15px;color:var(--t1);line-height:1.7;margin-bottom:14px">Since <strong style="color:var(--w)">2009</strong>, we've been one of Shanghai's leading English-speaking Toastmasters clubs. Every Sunday from <strong style="color:var(--w)">14:00 to 16:30</strong>, members gather to speak, lead, and level up — together.</div>
 
 <!-- The 5 A's — last thing in the head -->
-<div style="font-size:13px;color:var(--t2);line-height:1.6;padding:10px 12px;background:rgba(255,255,255,0.05);border-radius:10px">
+<div style="font-size:14px;color:var(--t2);line-height:1.6;padding:12px 14px;background:rgba(255,255,255,0.05);border-radius:10px">
 <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--t3);margin-bottom:6px">Founded on the 5 A's</div>
 <div><strong style="color:#5BC0BE">Attitude</strong> · <strong style="color:#E8B830">Aspiration</strong> · <strong style="color:#2180B9">Action</strong> · <strong style="color:#9B51E0">Adaptability</strong> · <strong style="color:#D44040">Achievement</strong></div>
 </div>
 
 <!-- Body: collapsible — starfish story + culture/achievements -->
 <div class="tapcard-body">
-<div style="padding:12px 14px;background:rgba(255,255,255,0.04);border-left:3px solid #5BC0BE;border-radius:8px;margin-bottom:12px">
-<div style="font-size:13px;font-weight:700;color:#5BC0BE;margin-bottom:6px">🌟 Why a starfish?</div>
-<div style="font-size:13px;color:var(--t1);line-height:1.7">Our logo is a starfish — and it's no accident. When a starfish loses an arm, that arm grows into a whole new starfish. That's our vision: when members move on — to new cities, new careers, new chapters — they carry the 5A+ values with them, seeding <strong style="color:var(--w)">new starfish nations</strong> wherever they land.</div>
+<div style="padding:14px 16px;background:rgba(255,255,255,0.04);border-left:3px solid #5BC0BE;border-radius:8px;margin-bottom:12px">
+<div style="font-size:14px;font-weight:700;color:#5BC0BE;margin-bottom:6px">🌟 Why a starfish?</div>
+<div style="font-size:14px;color:var(--t1);line-height:1.7">Our logo is a starfish — and it's no accident. When a starfish loses an arm, that arm grows into a whole new starfish. That's our vision: when members move on — to new cities, new careers, new chapters — they carry the 5A+ values with them, seeding <strong style="color:var(--w)">new starfish nations</strong> wherever they land.</div>
 </div>
 
-<div style="font-size:13px;color:var(--t2);line-height:1.7">A tightly-knit community of <strong style="color:var(--w)">diverse professionals from around the world</strong>, deeply invested in our culture and values. We've nurtured many outstanding speakers and leaders — including 🏆 <strong style="color:var(--w)">2 District speech contest champions</strong>.</div>
+<div style="font-size:14px;color:var(--t2);line-height:1.7">A tightly-knit community of <strong style="color:var(--w)">diverse professionals from around the world</strong>, deeply invested in our culture and values. We've nurtured many outstanding speakers and leaders — including 🏆 <strong style="color:var(--w)">2 District speech contest champions</strong>.</div>
 </div>
 </div>
 
 <!-- What is Toastmasters — collapsible strip (default collapsed) -->
-<div class="tapcard" onclick="this.classList.toggle('expanded')" style="background:rgba(255,255,255,0.04);border-radius:16px;padding:14px 16px;margin-bottom:18px;border:1px solid rgba(255,255,255,0.08)">
+<div class="tapcard" onclick="this.classList.toggle('expanded')" style="background:rgba(255,255,255,0.04);border-radius:16px;padding:16px 18px;margin-bottom:20px;border:1px solid rgba(255,255,255,0.08)">
 <div style="display:flex;align-items:center;justify-content:space-between">
-<div style="font-size:15px;font-weight:700;color:var(--w)">🎓 What is Toastmasters?</div>
+<div style="font-size:16px;font-weight:700;color:var(--w)">🎓 What is Toastmasters?</div>
 <span class="tapcard-toggle">▼</span>
 </div>
 <div class="tapcard-body">
-<div style="font-size:14px;color:var(--t1);line-height:1.7;margin-bottom:12px">Most people think Toastmasters is a public speaking club. It's not — or at least, that's not why people stay. Toastmasters is a <strong style="color:var(--w)">platform where opportunities are made</strong>. You learn to speak, lead, and think on your feet — then you <strong style="color:var(--w)">deploy those skills everywhere</strong>: job interviews, boardrooms, pitches, negotiations, even difficult conversations at home. The speeches are practice. The real game is what you do with the skills outside this room.</div>
+<div style="font-size:15px;color:var(--t1);line-height:1.7;margin-bottom:12px">Most people think Toastmasters is a public speaking club. It's not — or at least, that's not why people stay. Toastmasters is a <strong style="color:var(--w)">platform where opportunities are made</strong>. You learn to speak, lead, and think on your feet — then you <strong style="color:var(--w)">deploy those skills everywhere</strong>: job interviews, boardrooms, pitches, negotiations, even difficult conversations at home. The speeches are practice. The real game is what you do with the skills outside this room.</div>
 
-<div style="background:rgba(255,255,255,0.03);border-radius:10px;padding:12px;margin-bottom:8px;border:1px solid rgba(255,255,255,0.05)">
-<div style="font-size:13px;font-weight:700;color:var(--ok);margin-bottom:6px">📅 How a Meeting Works</div>
-<div style="font-size:13px;color:var(--t1);line-height:1.6">Every meeting has 4 parts: <strong>Prepared Speeches</strong> (members deliver planned speeches), <strong>Table Topics</strong> (impromptu 1-2 min responses), <strong>Sharing Session</strong> (knowledge exchange), and <strong>Evaluations</strong> (structured feedback from the team).</div>
+<div style="background:rgba(255,255,255,0.03);border-radius:10px;padding:14px;margin-bottom:8px;border:1px solid rgba(255,255,255,0.05)">
+<div style="font-size:14px;font-weight:700;color:var(--ok);margin-bottom:6px">📅 How a Meeting Works</div>
+<div style="font-size:14px;color:var(--t1);line-height:1.6">Every meeting has 4 parts: <strong>Prepared Speeches</strong> (members deliver planned speeches), <strong>Table Topics</strong> (impromptu 1-2 min responses), <strong>Sharing Session</strong> (knowledge exchange), and <strong>Evaluations</strong> (structured feedback from the team).</div>
 </div>
 
-<div style="background:rgba(255,255,255,0.03);border-radius:10px;padding:12px;margin-bottom:8px;border:1px solid rgba(255,255,255,0.05)">
-<div style="font-size:13px;font-weight:700;color:#BB6BD9;margin-bottom:6px">🗺️ Pathways — Your Learning Journey</div>
-<div style="font-size:13px;color:var(--t1);line-height:1.6">Pathways is TM's education program. You pick a <strong>path</strong> (like Dynamic Leadership or Presentation Mastery), then complete <strong>14 projects</strong> across <strong>5 levels</strong> — each building a specific skill through speeches and activities. Think of it like a skill tree in a game.</div>
+<div style="background:rgba(255,255,255,0.03);border-radius:10px;padding:14px;margin-bottom:8px;border:1px solid rgba(255,255,255,0.05)">
+<div style="font-size:14px;font-weight:700;color:#BB6BD9;margin-bottom:6px">🗺️ Pathways — Your Learning Journey</div>
+<div style="font-size:14px;color:var(--t1);line-height:1.6">Pathways is TM's education program. You pick a <strong>path</strong> (like Dynamic Leadership or Presentation Mastery), then complete <strong>14 projects</strong> across <strong>5 levels</strong> — each building a specific skill through speeches and activities. Think of it like a skill tree in a game.</div>
 </div>
 
-<div style="background:var(--s0);border-radius:10px;padding:12px">
-<div style="font-size:13px;font-weight:700;color:#E8A04C;margin-bottom:6px">🎭 Why Meeting Roles Matter</div>
-<div style="font-size:13px;color:var(--t1);line-height:1.6">Every meeting needs a Timer, Ah-Counter, Grammarian, Evaluators, and more. <strong>Members take these roles</strong> — that's how you practice leadership, listening, and giving feedback. Even "small" roles like Timer teach you precision and confidence. The goal: everyone contributes, everyone grows.</div>
+<div style="background:var(--s0);border-radius:10px;padding:14px">
+<div style="font-size:14px;font-weight:700;color:#E8A04C;margin-bottom:6px">🎭 Why Meeting Roles Matter</div>
+<div style="font-size:14px;color:var(--t1);line-height:1.6">Every meeting needs a Timer, Ah-Counter, Grammarian, Evaluators, and more. <strong>Members take these roles</strong> — that's how you practice leadership, listening, and giving feedback. Even "small" roles like Timer teach you precision and confidence. The goal: everyone contributes, everyone grows.</div>
 </div>
 
 </div>
@@ -971,7 +974,7 @@ a{color:var(--info);text-decoration:none}
 <div id="tab-roles" class="tc"><div id="roles-content"></div></div>
 <div id="tab-master" class="tc"><div id="master-content"></div></div>
 <div id="tab-club" class="tc"><div id="club-announcements"></div><div class="sl" style="margin-top:16px">Club Members</div><div id="club-list"></div></div>
-<div class="app-footer">5A+ TMC App v8.9 · Built by Kian How</div>
+<div class="app-footer">5A+ TMC App v8.21 · Built by Kian How</div>
 </div>
 
 <div class="bnav" id="bottom-nav"></div>
@@ -1605,9 +1608,13 @@ window.closePathManager=window.closePathSwitcher;
 function getPlannedPids(){
   const planned={};if(!S||!S.plan||!S.plan.slots)return planned;
   const today=new Date().toISOString().slice(0,10);
+  const activePath=S.path;
   Object.entries(S.plan.slots).forEach(([date,slots])=>{
     if(date<today)return;// only future
     slots.forEach(s=>{
+      // Path-specific slots: skip if stamped for another path
+      // (legacy slots without pathCode belong to current path for back-compat)
+      if(s.pathCode&&s.pathCode!==activePath)return;
       // Prefer pid if stored (handles role-as-project slots like Active Listening)
       if(s.pid&&PD[s.pid]){planned[s.pid]=date;return;}
       if(s.type==="project"){
@@ -1783,10 +1790,11 @@ function rSmartBanner(){
 // Once per session (first time dashboard loads), flash the smart card then collapse it to a bar.
 // Subsequent re-renders within the same session keep whatever state the user chose.
 let _smartCardState=null;// null (not shown yet) | "expanded" | "collapsed"
+let _smartPeekedThisLoad=false;// runtime flag — resets on every page load/reload
 function maybePeekAndCollapse(){
   const card=document.getElementById("smart-card");if(!card)return;
-  // If we've already shown the peek animation this session, respect the current state
-  if(sessionStorage.getItem("tm-pw-smart-peeked")){
+  // If we've already shown the peek animation during this page load, respect the current state
+  if(_smartPeekedThisLoad){
     if(_smartCardState==="collapsed")card.classList.add("collapsed");
     return;
   }
@@ -1796,7 +1804,7 @@ function maybePeekAndCollapse(){
     const tourEl=document.getElementById("onboard-overlay");
     if(tourEl&&tourEl.innerHTML.trim().length>0)return;// tour is up — bail out, flag stays unset
     // Safe to peek now. Only flag it at the moment we actually commit to peeking.
-    sessionStorage.setItem("tm-pw-smart-peeked","1");
+    _smartPeekedThisLoad=true;
     card.classList.add("peek");
     setTimeout(()=>{
       card.classList.remove("peek");
@@ -1952,15 +1960,6 @@ function rLevels(){
     h+='</div><div class="lvl-body'+(isOpen?" open":"")+'" id="lvl-body-'+l+'">';
     if(isLocked)h+='<div style="font-size:13px;color:var(--t4);margin-bottom:10px;padding:8px 12px;background:var(--s0);border-radius:8px;text-align:center">🔒 Complete Level '+workingLv+' to unlock — you can preview projects below</div>';
 
-    // Bulk action (only for unlocked levels)
-    if(!isLocked){
-    if(!levelDone){
-      h+='<div style="text-align:right;margin-bottom:8px"><button class="togbtn" onclick="event.stopPropagation();bulkComplete('+l+')" style="font-size:10px;color:var(--ok)">✓ Mark Level Complete</button></div>';
-    }else{
-      h+='<div style="text-align:right;margin-bottom:8px"><button class="togbtn" onclick="event.stopPropagation();bulkUncomplete('+l+')" style="font-size:10px;color:var(--t4)">↩ Undo Level</button></div>';
-    }
-    }
-
     // Required
     h+='<div class="sl">Required Projects</div>';
     r.forEach(pid=>{h+=pC(pid,"required",S.done[pid],S.path)});
@@ -1974,6 +1973,15 @@ function rLevels(){
         const starBtn='<button class="sbtn" onclick="event.stopPropagation();tSl(\''+pid+'\')" style="'+(st?"background:"+p.c+"30;color:"+p.c:"")+'">'+(st?"★":"☆")+'</button>';
         h+=pC(pid,"elective",S.done[pid],S.path,starBtn);
       });
+    }
+
+    // Mark Level Complete / Undo — same small style, now at the bottom instead of top
+    if(!isLocked){
+      if(!levelDone){
+        h+='<div style="text-align:right;margin-top:8px"><button class="togbtn" onclick="event.stopPropagation();bulkComplete('+l+')" style="font-size:10px;color:var(--ok)">✓ Mark Level Complete</button></div>';
+      }else{
+        h+='<div style="text-align:right;margin-top:8px"><button class="togbtn" onclick="event.stopPropagation();bulkUncomplete('+l+')" style="font-size:10px;color:var(--t4)">↩ Undo Level</button></div>';
+      }
     }
 
     // More info - collapsed by default
@@ -2035,14 +2043,32 @@ window.bulkComplete=function(l){
 };
 
 window.bulkUncomplete=function(l){
-  if(!confirm("Undo all projects in Level "+l+"?"))return;
-  const{r,e}=gP(S.path,l);
-  r.forEach(pid=>{delete S.done[pid];});
-  e.forEach(pid=>{delete S.done[pid];});
-  let lv=1;for(let ll=1;ll<=5;ll++){const g=gP(S.path,ll);
-    if(g.r.every(p=>S.done[p])&&g.e.filter(p=>S.done[p]).length>=g.en)lv=ll+1;else break;}
-  S.cLv=Math.min(lv,5);sv();rD();
-  sT("Level "+l+" progress reset");
+  // Defensive: verify state
+  if(!S){sT("⚠ No user data loaded");return;}
+  if(!S.path){sT("⚠ No active path");return;}
+  if(!S.done)S.done={};
+  const lvl=Number(l);
+  if(!lvl||lvl<1||lvl>5){sT("⚠ Invalid level: "+l);return;}
+  if(!confirm("Undo all projects in Level "+lvl+"?\n\nThis clears all your progress for this level."))return;
+  // Get the level's required + elective pids
+  const g=gP(S.path,lvl);
+  if(!g){sT("⚠ Could not load level "+lvl+" data");return;}
+  const pidsToClear=[...(g.r||[]),...(g.e||[])];
+  let cleared=0;
+  pidsToClear.forEach(pid=>{
+    if(S.done[pid]){delete S.done[pid];cleared++;}
+  });
+  // Recalculate current level from scratch
+  let newLv=1;
+  for(let ll=1;ll<=5;ll++){
+    const gg=gP(S.path,ll);
+    const allReqDone=(gg.r||[]).every(p=>S.done[p]);
+    const enoughElec=(gg.e||[]).filter(p=>S.done[p]).length>=(gg.en||0);
+    if(allReqDone&&enoughElec)newLv=ll+1;else break;
+  }
+  S.cLv=Math.max(1,Math.min(newLv,5));
+  sv();rD();
+  sT("↩ Level "+lvl+" reset ("+cleared+" project"+(cleared!==1?"s":"")+" cleared)");
 };
 
 function pC(pid,type,isDn,pc,starHtml){const p=PA[pc],d=PD[pid];if(!d)return"";const lt=LEAD_TIME[pid];const pl=getPlannedPids();
@@ -2143,7 +2169,7 @@ function rPl(){const c=document.getElementById("planner-content");if(!S)return;c
 
   // Plan My Term — direct to questionnaire
   const hasGoal=S.plan.goal;
-  h+='<div style="background:var(--s1);border:1px solid var(--b1);border-radius:14px;padding:16px;margin-bottom:14px;text-align:center">';
+  h+='<div id="ai-planner-card" style="background:var(--s1);border:1px solid var(--b1);border-radius:14px;padding:16px;margin-bottom:14px;text-align:center">';
   if(hasGoal){
     h+='<div style="font-size:13px;color:var(--t3);margin-bottom:4px">🎯 My Term Goal</div>';
     h+='<div style="font-size:16px;font-weight:600;color:var(--w);margin-bottom:12px">'+S.plan.goal+'</div>';
@@ -2175,15 +2201,16 @@ function rPl(){const c=document.getElementById("planner-content");if(!S)return;c
     const mySlots=((S.plan.slots||{})[todayStr])||[];
     h+='<div class="meeting-today-banner">📢 Your meeting is TODAY!'+(mySlots.length?' You have '+mySlots.length+' slot'+(mySlots.length>1?'s':'')+' assigned.':' Tap to assign roles.')+'</div>';
   }
-  h+='<div class="sl">Meeting Dates</div>';
-  if((clubData.dates||[]).filter(d=>!(clubData.skipped||{})[d]).length){
-    h+='<div style="margin-bottom:12px"><button class="sb ical-btn" onclick="exportICS()" style="background:var(--info)20;color:var(--info);border:1px solid var(--info)40;padding:8px 14px;border-radius:10px;font-weight:600;font-size:13px;display:inline-flex;align-items:center;gap:6px">📅 Export to iCal</button></div>';
-  }
-  h+='<div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px;font-size:12px;color:var(--t3)">';
+  h+='<div id="meetings-section">';
+  h+='<div class="meetings-title" style="font-size:20px;font-weight:700;color:var(--w);margin:18px 0 12px;letter-spacing:-.01em">📅 Meeting Dates</div>';
+  h+='<div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:10px;font-size:12px;color:var(--t3)">';
   h+='<span><span style="display:inline-block;width:12px;height:12px;border-radius:3px;background:var(--ok)30;border:1px solid var(--ok)50;vertical-align:middle;margin-right:4px"></span>You have a role</span>';
   h+='<span><span style="display:inline-block;width:12px;height:12px;border-radius:3px;border:1.5px dashed var(--b2);vertical-align:middle;margin-right:4px"></span>No role yet</span>';
   h+='<span><span style="display:inline-block;width:12px;height:12px;border-radius:3px;background:var(--b1);border:1px solid var(--b2);vertical-align:middle;margin-right:4px"></span>Skipped</span>';
   h+='</div>';
+  if((clubData.dates||[]).filter(d=>!(clubData.skipped||{})[d]).length){
+    h+='<div style="margin-bottom:14px"><button class="sb ical-btn" onclick="exportICS()" style="background:var(--info)20;color:var(--info);border:1px solid var(--info)40;padding:8px 14px;border-radius:10px;font-weight:600;font-size:13px;display:inline-flex;align-items:center;gap:6px">📅 Export to iCal</button></div>';
+  }
   const dates=(clubData.dates||[]).sort();
   if(!dates.length)h+='<div class="empty">'+(S.role!=="member"?"Generate dates above.":"Your VPE hasn\'t set meeting dates yet.")+'</div>';
   
@@ -2240,6 +2267,7 @@ function rPl(){const c=document.getElementById("planner-content");if(!S)return;c
     });
   }
   if(dates.length&&!dates.some(d=>!(clubData.skipped||{})[d]))h+='<div class="empty">No upcoming meetings</div>';
+  h+='</div>';// /#meetings-section
   c.innerHTML=h;
   // Setup drag and drop
   initSlotDrag();
@@ -2781,7 +2809,18 @@ window.assignItem=function(date,type,label,opts){opts=opts||{};if(type==="custom
     }
   }
   if(!S.plan.slots)S.plan.slots={};if(!S.plan.slots[date])S.plan.slots[date]=[];
-  const slot={type,label};if(opts.pid)slot.pid=opts.pid;
+  // Enforce one role per meeting — warn and require replace-or-cancel
+  const existing=S.plan.slots[date];
+  if(existing.length){
+    const dfmt=new Date(date+"T00:00:00").toLocaleDateString("en-US",{weekday:"short",month:"short",day:"numeric"});
+    const existingLabels=existing.map(s=>s.label).join(", ");
+    if(!confirm("⚠️ You already have a booking on "+dfmt+":\n\n• "+existingLabels+"\n\nOnly 1 role per meeting is allowed.\n\nOK = Replace with new booking\nCancel = Keep existing")){
+      return;// user kept existing, cancel new booking
+    }
+    S.plan.slots[date]=[];// clear before adding new
+  }
+  const slot={type,label};
+  if(opts.pid){slot.pid=opts.pid;slot.pathCode=S.path;}
   S.plan.slots[date].push(slot);sv();
   document.getElementById("modal-root").innerHTML="";rPl();
   if(navigator.vibrate)navigator.vibrate(10);
@@ -3508,13 +3547,17 @@ window.showSingleStepBooking=function(pid,title,dur){
   }
   
   h+='<div style="font-size:14px;color:var(--t2);margin-bottom:8px">Pick a meeting date:</div>';
+  // Show only FREE dates (strict one-role-per-meeting)
+  const freeDates=available.filter(d=>!((S.plan.slots||{})[d]||[]).length);
+  if(!freeDates.length){
+    h+='<div style="padding:16px;background:var(--warn)12;border:1px solid var(--warn)30;border-radius:10px;color:var(--warn);font-size:13px;line-height:1.5;margin-bottom:14px">⚠️ All upcoming meetings already have bookings. Cancel an existing booking to free up a date.</div>';
+    h+='<div style="display:flex;gap:8px"><button class="modal-close" style="flex:1" onclick="closeModal()">Close</button></div></div></div>';
+    mr.innerHTML=h;return;
+  }
   h+='<select id="single-book-date" style="width:100%;padding:12px;background:var(--s0);border:1px solid var(--b2);border-radius:10px;color:var(--t1);font-size:15px;font-family:\'Source Sans 3\',sans-serif;margin-bottom:16px">';
-  available.forEach((d,i)=>{
-    const existing=((S.plan.slots||{})[d])||[];
-    const hasSlot=existing.length>0;
+  freeDates.forEach((d,i)=>{
     const dfmt=new Date(d+"T00:00:00").toLocaleDateString("en-US",{weekday:"short",month:"short",day:"numeric"});
-    const note=hasSlot?" ("+existing.length+" slot"+(existing.length>1?"s":"")+" assigned)":"";
-    h+='<option value="'+d+'"'+(i===0?" selected":"")+'>'+dfmt+note+'</option>';
+    h+='<option value="'+d+'"'+(i===0?" selected":"")+'>'+dfmt+'</option>';
   });
   h+='</select>';
   
@@ -3533,21 +3576,17 @@ window.applySingleBooking=function(pid){
   const label=d.t+" ("+d.dur+")";
   const exists=S.plan.slots[date].some(s=>s.label===label);
   if(exists){sT("Already booked on this date");return;}
-  // Conflict: already has a slot
+  // Enforce one role per meeting
   const cur=S.plan.slots[date];
   if(cur.length){
     const dfmt=new Date(date+"T00:00:00").toLocaleDateString("en-US",{weekday:"short",month:"short",day:"numeric"});
     const existing=cur.map(s=>s.label).join(", ");
-    if(!confirm("⚠️ You already have a slot on "+dfmt+":\n\n• "+existing+"\n\nRemember: 1 role per meeting. Do you want to replace it, or add anyway?\n\nOK = Replace · Cancel = Keep both")){
-      // Keep both
-      S.plan.slots[date].push({type:"project",label:label,pid:pid});
-    }else{
-      // Replace
-      S.plan.slots[date]=[{type:"project",label:label,pid:pid}];
+    if(!confirm("⚠️ You already have a booking on "+dfmt+":\n\n• "+existing+"\n\nOnly 1 role per meeting is allowed.\n\nOK = Replace with "+d.t+"\nCancel = Keep existing")){
+      return;// keep existing, cancel new
     }
-  }else{
-    S.plan.slots[date].push({type:"project",label:label,pid:pid});
+    S.plan.slots[date]=[];// clear before adding
   }
+  S.plan.slots[date].push({type:"project",label:label,pid:pid,pathCode:S.path});
   sv();closeModal();closeProjectOverlay();goToPlanner();
   sT("✅ "+d.t+" booked!");
   setTimeout(()=>scrollToDateDot(date),300);
@@ -3577,24 +3616,41 @@ window.showMultiStepBooking=function(pid,title,multiStep,startDate){
   
   h+='<div style="font-size:13px;color:var(--warn);margin-bottom:14px;font-weight:600">This project needs '+multiStep.steps.length+' meetings:</div>';
   
+  // Compute smart defaults: start at startDate (or first available), space each step ~2 meetings apart,
+  // but advance past any already-booked date so defaults never overlap with existing bookings.
+  // (User can still override by picking a booked date — they'll get a replace-or-cancel prompt on confirm.)
+  const slotsMap=S.plan.slots||{};
+  const isBookedAt=d=>((slotsMap[d]||[]).length>0);
+  const defaultIndices=[];
+  const startIdx=startIdxInAvailable>=0?startIdxInAvailable:0;
+  for(let s=0;s<multiStep.steps.length;s++){
+    let idx=startIdx+s*2;
+    // Walk forward past booked dates or dates already chosen for earlier steps.
+    // Honor user's explicit startDate for step 0 even if it's booked.
+    while(idx<available.length){
+      const d=available[idx];
+      const honorUserStart=(s===0&&startIdxInAvailable>=0&&idx===startIdxInAvailable);
+      if(honorUserStart)break;
+      if(!isBookedAt(d)&&!defaultIndices.includes(idx))break;
+      idx++;
+    }
+    // Fallback if we ran off the end — use ideal position capped
+    if(idx>=available.length)idx=Math.min(startIdx+s*2,available.length-1);
+    defaultIndices.push(idx);
+  }
+  
   // Show each step with a date picker
   multiStep.steps.forEach((step,i)=>{
     h+='<div style="display:flex;gap:10px;align-items:center;padding:10px 12px;background:var(--s0);border-radius:8px;margin-bottom:6px;border-left:3px solid '+p.c+'">';
     h+='<div style="width:24px;height:24px;background:'+p.c+'20;color:'+p.c+';border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0">'+(i+1)+'</div>';
     h+='<div style="flex:1"><div style="font-size:14px;font-weight:600;color:var(--w)">'+step+'</div></div>';
     h+='<select id="multi-date-'+i+'" style="padding:6px 8px;background:var(--s1);border:1px solid var(--b2);border-radius:6px;color:var(--t1);font-size:12px;font-family:\'DM Mono\',monospace">';
-    // Default: if startDate was supplied, anchor step 0 there and space the rest out from it.
-    // Otherwise fall back to every-other-meeting defaults.
-    let defaultIdx;
-    if(startIdxInAvailable>=0){
-      defaultIdx=Math.min(startIdxInAvailable+i*2,available.length-1);
-    }else{
-      defaultIdx=Math.min(i*2,available.length-1);
-    }
+    const defaultIdx=defaultIndices[i];
     available.forEach((d,di)=>{
       const dfmt=new Date(d+"T00:00:00").toLocaleDateString("en-US",{month:"short",day:"numeric"});
+      const mark=isBookedAt(d)?" 🔒":"";
       const selected=di===defaultIdx;
-      h+='<option value="'+d+'"'+(selected?" selected":"")+'>'+dfmt+'</option>';
+      h+='<option value="'+d+'"'+(selected?" selected":"")+'>'+dfmt+mark+'</option>';
     });
     h+='</select>';
     h+='</div>';
@@ -3621,27 +3677,19 @@ window.applyMultiStepBooking=function(pid,stepCount){
       conflicts.push(dfmt+": "+cur.map(s=>s.label).join(", "));
     }
   }
+  // Enforce one role per meeting — user must explicitly replace existing bookings
   if(conflicts.length){
-    const action=confirm("⚠️ Some dates already have slots:\n\n• "+conflicts.join("\n• ")+"\n\nRemember: 1 role per meeting.\n\nOK = Replace existing slots\nCancel = Keep both");
-    // action true = replace, false = keep both
-    for(let i=0;i<stepCount;i++){
-      const date=document.getElementById("multi-date-"+i).value;
-      if(!date)continue;
-      if(!S.plan.slots[date])S.plan.slots[date]=[];
-      const label=multiStep.steps[i];
-      if(action&&S.plan.slots[date].length){S.plan.slots[date]=[];}
-      const exists=S.plan.slots[date].some(s=>s.label.includes(d.t));
-      if(!exists)S.plan.slots[date].push({type:"project",label:label,pid:pid});
+    if(!confirm("⚠️ Some dates already have bookings:\n\n• "+conflicts.join("\n• ")+"\n\nOnly 1 role per meeting is allowed.\n\nOK = Replace existing bookings with this project\nCancel = Go back and pick different dates")){
+      return;// user cancelled — let them pick different dates
     }
-  }else{
-    for(let i=0;i<stepCount;i++){
-      const date=document.getElementById("multi-date-"+i).value;
-      if(!date)continue;
-      if(!S.plan.slots[date])S.plan.slots[date]=[];
-      const label=multiStep.steps[i];
-      const exists=S.plan.slots[date].some(s=>s.label.includes(d.t));
-      if(!exists)S.plan.slots[date].push({type:"project",label:label,pid:pid});
-    }
+  }
+  // Apply: always replace any existing slot on each target date (strict one-per-meeting)
+  for(let i=0;i<stepCount;i++){
+    const date=document.getElementById("multi-date-"+i).value;
+    if(!date)continue;
+    const label=multiStep.steps[i];
+    // Replace anything currently there
+    S.plan.slots[date]=[{type:"project",label:label,pid:pid,pathCode:S.path}];
   }
   let firstDate=document.getElementById("multi-date-0")?.value||"";
   // Collect all booked dates so we can flash them all
@@ -3757,6 +3805,7 @@ window.showPrepPopup=function(date){
   let h='<div class="modal-bg" onclick="closeModal(event)"><div class="modal" onclick="event.stopPropagation()" style="max-width:420px">';
   h+='<div class="modal-title">📋 Your Role — '+dfmt+'</div>';
   h+='<div style="font-size:14px;color:var(--t3);margin-bottom:14px">Here\'s what you signed up for.</div>';
+  const hasMultiplePaths=S.paths&&S.paths.length>1;
   mySlots.forEach((s,i)=>{
     const isRole=s.type==="role";
     const isProject=s.type==="project";
@@ -3767,9 +3816,15 @@ window.showPrepPopup=function(date){
     const msIdx=linkedPid?getMultiStepIndex(s):-1;
     const msHelp=(msIdx>=0&&MULTI_STEP_HELP[linkedPid])?MULTI_STEP_HELP[linkedPid][msIdx]:null;
     const projHelp=(!msHelp&&linkedPid&&PROJECT_HELP[linkedPid])?PROJECT_HELP[linkedPid]:null;
+    // Path badge — only when user has multiple paths AND this slot is path-stamped
+    let pathBadge="";
+    if(hasMultiplePaths&&s.pathCode&&PA[s.pathCode]){
+      const pp=PA[s.pathCode];
+      pathBadge=' <span style="font-size:11px;padding:2px 7px;background:'+pp.c+'25;color:'+pp.c+';border:1px solid '+pp.c+'50;border-radius:5px;font-weight:600;vertical-align:1px;white-space:nowrap">'+pp.i+' '+pp.n+'</span>';
+    }
     
     h+='<div style="background:rgba(255,255,255,0.06);border-left:3px solid '+accent+';border-radius:10px;padding:12px;margin-bottom:10px">';
-    h+='<div style="font-size:15px;font-weight:600;color:var(--w);margin-bottom:4px">'+(isRole?"🎭":"📝")+' '+s.label+'</div>';
+    h+='<div style="font-size:15px;font-weight:600;color:var(--w);margin-bottom:4px">'+(isRole?"🎭":"📝")+' '+s.label+pathBadge+'</div>';
     
     if(msHelp){
       const totalSteps=MULTI_STEP_PROJECTS[linkedPid].steps.length;
@@ -3808,15 +3863,27 @@ window.showPrepPopup=function(date){
 
 // Cancel a slot from the prep popup with confirmation — handles multi-step companion slots
 window.cancelBookingFromPopup=function(date,idx){
-  const slot=S.plan.slots&&S.plan.slots[date]&&S.plan.slots[date][idx];
-  if(!slot)return;
+  // Defensive: verify state and inputs
+  if(!S||!S.plan||!S.plan.slots){sT("⚠ No planner data");return;}
+  const slots=S.plan.slots[date];
+  if(!slots||!slots.length){sT("⚠ No booking found on "+date);return;}
+  const slot=slots[idx];
+  if(!slot){sT("⚠ Slot index "+idx+" not found");return;}
   const pid=slot.pid;
   const isMulti=pid&&MULTI_STEP_PROJECTS[pid];
-  // If multi-step, find all sibling slots across dates
+  // If multi-step, find all sibling slots across dates — matching pid AND pathCode
+  // (so a multi-path user only cancels siblings from the same path's booking)
   const siblings=[];
   if(isMulti){
-    Object.entries(S.plan.slots||{}).forEach(([d,slots])=>{
-      slots.forEach((s,i)=>{if(s.pid===pid&&!(d===date&&i===idx))siblings.push({date:d,idx:i,label:s.label});});
+    const pc=slot.pathCode;
+    Object.entries(S.plan.slots||{}).forEach(([d,dslots])=>{
+      if(!dslots||!dslots.forEach)return;
+      dslots.forEach((s,i)=>{
+        if(s.pid!==pid)return;
+        if(d===date&&i===idx)return;
+        if(pc&&s.pathCode&&s.pathCode!==pc)return;
+        siblings.push({date:d,idx:i,label:s.label});
+      });
     });
   }
   let msg="Cancel this booking?\n\n"+slot.label;
@@ -3827,10 +3894,17 @@ window.cancelBookingFromPopup=function(date,idx){
   if(!confirm(msg))return;
   // Collect all slots to remove, sort by date+idx descending so splice indices stay valid
   const toRemove=[{date,idx}].concat(siblings);
-  const byDate={};toRemove.forEach(r=>{if(!byDate[r.date])byDate[r.date]=[];byDate[r.date].push(r.idx);});
-  Object.entries(byDate).forEach(([d,idxs])=>{idxs.sort((a,b)=>b-a).forEach(i=>{S.plan.slots[d].splice(i,1);});if(!S.plan.slots[d].length)delete S.plan.slots[d];});
+  const byDate={};
+  toRemove.forEach(r=>{if(!byDate[r.date])byDate[r.date]=[];byDate[r.date].push(r.idx);});
+  let removed=0;
+  Object.entries(byDate).forEach(([d,idxs])=>{
+    idxs.sort((a,b)=>b-a).forEach(i=>{
+      if(S.plan.slots[d]&&S.plan.slots[d][i]!==undefined){S.plan.slots[d].splice(i,1);removed++;}
+    });
+    if(S.plan.slots[d]&&!S.plan.slots[d].length)delete S.plan.slots[d];
+  });
   sv();closeModal();rPl();
-  sT("✅ Booking cancelled");
+  sT("✅ Cancelled "+removed+" slot"+(removed!==1?"s":""));
 };
 
 // Open a project detail view focused on the Notes & Photos section
@@ -6277,6 +6351,25 @@ window.toggleWelcomeTheme=function(){
 };
 
 // ═══ INIT ═══
+// Force reset via URL (?reset=1) — wipes localStorage, unregisters service worker, reloads cleanly
+if(new URLSearchParams(location.search).has("reset")){
+  try{localStorage.clear();}catch{}
+  try{sessionStorage.clear();}catch{}
+  if("serviceWorker" in navigator){
+    navigator.serviceWorker.getRegistrations().then(rs=>{
+      return Promise.all(rs.map(r=>r.unregister()));
+    }).then(()=>{
+      if(window.caches){return caches.keys().then(keys=>Promise.all(keys.map(k=>caches.delete(k))));}
+    }).then(()=>{
+      // Strip ?reset=1 and reload
+      location.replace(location.pathname);
+    });
+  }else{
+    location.replace(location.pathname);
+  }
+  // Stop further init while reset is in progress
+  throw new Error("Resetting — please wait");
+}
 rS();S=ld();
 document.getElementById("app-loader").style.display="none";
 if(S){document.getElementById("welcome-screen").style.display="none";document.getElementById("setup-screen").style.display="none";document.getElementById("dashboard").classList.add("active");buildNav();
@@ -6457,11 +6550,30 @@ const TOUR_STEPS=[
     target:"#smart-banner",pos:"below",
     setup:function(){cTab="path";switchTab("path");}},
   {title:"Your Levels",text:"All 5 levels of your path. Current level opens automatically. Complete all projects AND required meeting roles to unlock the next level.",
-    target:".lvl-acc",pos:"below",
+    target:"#levels-list",pos:"below",
     setup:function(){cLv=window._workingLv||1;oD=null;rLevels();}},
-  {title:"Plan Your Meetings",text:"Assign speeches and roles to meeting dates. Use 'Plan My Term' for a personalized schedule. Remember: 1 role per meeting!",
-    target:"#tab-planner",pos:"below",
+  {title:"AI Planner",text:"Too busy to plan? Tap <strong>Trust the AI</strong> and it builds a full term schedule for you based on your level, goals, and available meeting dates.",
+    target:"#ai-planner-card",pos:"below",
     setup:function(){cTab="planner";switchTab("planner");}},
+  {title:"Your Meeting Calendar",text:"Or plan manually — tap any date cube to assign a role or speech. Green = you have a role · dashed = free · grey = skipped. Remember: 1 role per meeting!",
+    target:"#meetings-section",pos:"below",
+    setup:function(){
+      cTab="planner";switchTab("planner");
+      // Pulse one upcoming FREE date cube to demo "tap to book"
+      setTimeout(()=>{
+        const today=new Date().toISOString().slice(0,10);
+        const cubes=document.querySelectorAll("#meetings-section [data-date]");
+        for(const cube of cubes){
+          const d=cube.getAttribute("data-date");
+          if(d<today)continue;
+          if((clubData.skipped||{})[d])continue;
+          const slots=((S.plan.slots||{})[d])||[];
+          if(slots.length)continue;// skip already-booked
+          cube.classList.add("tour-pulse");
+          break;
+        }
+      },400);
+    }},
   {title:"Role Toolkit",text:"Every meeting role has a guide + interactive AI tool. Tap any role to expand, then toggle between 🔥 Practical and 📖 Official. Try the tools — they'll help you prepare!",
     target:"#tab-roles",pos:"below",
     setup:function(){cTab="roles";switchTab("roles");
@@ -6513,6 +6625,7 @@ function renderTour(){
   const el=document.getElementById("onboard-overlay");
   // Cleanup previous
   document.querySelectorAll(".tour-highlight").forEach(e=>{e.classList.remove("tour-highlight");e.style.position="";e.style.zIndex="";});
+  document.querySelectorAll(".tour-pulse").forEach(e=>e.classList.remove("tour-pulse"));
 
   if(tourStep>=TOUR_STEPS.length){
     checkTourNever();
@@ -6534,31 +6647,17 @@ function renderTour(){
       target.classList.add("tour-highlight");
       target.style.position="relative";
       target.style.zIndex="401";
-      target.scrollIntoView({behavior:"smooth",block:"center"});
+      // Scroll so target sits near the TOP of viewport (leaves room for tip below)
+      target.scrollIntoView({behavior:"smooth",block:"start"});
+      // Add scroll offset so the outline-offset/glow ring isn't clipped at top
+      setTimeout(()=>{window.scrollBy({top:-24,behavior:"smooth"});},20);
     }
 
     // Wait for scroll to settle before positioning tip
     setTimeout(()=>{
-      const rect=target?target.getBoundingClientRect():{top:200,bottom:300};
-      const vh=window.innerHeight;
-      let tipTop;
-
-      const spaceBelow=vh-rect.bottom;
-      const spaceAbove=rect.top;
-
-      // Place tip where there's more room
-      if(spaceBelow>=160){
-        tipTop=rect.bottom+12;
-      }else if(spaceAbove>=160){
-        tipTop=rect.top-150;
-      }else{
-        // Element is very tall — put tip at bottom
-        tipTop=vh-170;
-      }
-
       let h='<div class="tour-backdrop" onclick="nextTour()"></div>';
-      h+='<div class="tour-tip" style="position:fixed;top:'+tipTop+'px;left:16px;right:16px;max-width:380px;margin:0 auto">';
-      h+='<div class="tour-tip-title"><span style="font-size:18px">'+["⚡","📂","📅","📋"][tourStep]+'</span> '+s.title+'</div>';
+      h+='<div class="tour-tip" style="position:fixed;top:-9999px;left:16px;right:16px;max-width:380px;margin:0 auto;visibility:hidden">';
+      h+='<div class="tour-tip-title"><span style="font-size:18px">'+["⚡","📂","🤖","📅","📋"][tourStep]+'</span> '+s.title+'</div>';
       h+='<div class="tour-tip-text">'+s.text+'</div>';
       h+='<div class="tour-tip-footer"><div class="tour-tip-dots">';
       for(let i=0;i<total;i++)h+='<div class="tour-tip-dot'+(i===tourStep?" active":"")+'"></div>';
@@ -6570,41 +6669,85 @@ function renderTour(){
       }
       h+=' <button class="tour-tip-skip" onclick="event.stopPropagation();skipTour()">Skip</button>';
       h+='</div></div>';
-      h+='<label style="display:flex;align-items:center;gap:6px;font-size:12px;color:#8a8078;cursor:pointer;margin-top:10px"><input type="checkbox" id="tour-never-inline" style="accent-color:#1a1a2e"> Don\'t show tour again</label>';
       h+='</div>';
       el.innerHTML=h;
-    },300);
+
+      // Measure and reposition
+      requestAnimationFrame(()=>{
+        const tipEl=document.querySelector(".tour-tip");
+        if(!tipEl)return;
+        const tipH=tipEl.offsetHeight;
+        const vh=window.innerHeight;
+        const GAP=16;
+        const OUT=12;// outline (3) + offset (6) + small buffer
+        let tipTop;
+        if(target){
+          let rect=target.getBoundingClientRect();
+          const targetBottomVisual=rect.bottom+OUT;
+          const targetTopVisual=rect.top-OUT;
+          const spaceBelow=vh-targetBottomVisual;
+          const spaceAbove=targetTopVisual;
+          if(spaceBelow>=tipH+GAP){
+            // Comfortable fit below target
+            tipTop=targetBottomVisual+GAP;
+          }else if(spaceAbove>=tipH+GAP){
+            // Fits above target
+            tipTop=targetTopVisual-GAP-tipH;
+          }else{
+            // Target too tall to fit the tip cleanly. Scroll so target bottom sits
+            // right above where the tip will dock, so the tip's top edge sits below
+            // the visible target portion (no overlap with visible content).
+            // If this requires scrolling target's TOP off-screen, so be it — user
+            // keeps seeing the bottom of the card (buttons/actions) which is what
+            // the tour step usually describes.
+            const desiredTipTop=vh-tipH-10;
+            const desiredTargetBottom=desiredTipTop-GAP-OUT;
+            const scrollDelta=rect.bottom-desiredTargetBottom;
+            window.scrollBy(0,scrollDelta);
+            tipTop=desiredTipTop;
+          }
+        }else{
+          tipTop=vh-tipH-10;
+        }
+        // Clamp inside viewport
+        tipTop=Math.max(10,Math.min(vh-tipH-10,tipTop));
+        tipEl.style.top=tipTop+"px";
+        tipEl.style.visibility="visible";
+      });
+    },400);
   },200);
 }
 
 function checkTourNever(){
-  const cb=document.getElementById("tour-never-inline");
-  if(cb&&cb.checked){localStorage.setItem("tm-pw-onboarded","1");localStorage.setItem("tm-pw-path-toured","1");}
+  // Tour completion/skip always marks the user as onboarded (the inline
+  // "don't show again" checkbox was removed; the welcome prompt still has one).
+  localStorage.setItem("tm-pw-onboarded","1");
+  localStorage.setItem("tm-pw-path-toured","1");
 }
 
 window.nextTour=function(){
   const isLast=tourStep>=TOUR_STEPS.length-1;
   if(isLast)checkTourNever();
   document.querySelectorAll(".tour-highlight").forEach(e=>{e.classList.remove("tour-highlight");e.style.position="";e.style.zIndex="";});
+  document.querySelectorAll(".tour-pulse").forEach(e=>e.classList.remove("tour-pulse"));
   tourStep++;renderTour();
 };
 window.skipTour=function(){
   checkTourNever();
   document.querySelectorAll(".tour-highlight").forEach(e=>{e.classList.remove("tour-highlight");e.style.position="";e.style.zIndex="";});
+  document.querySelectorAll(".tour-pulse").forEach(e=>e.classList.remove("tour-pulse"));
   tourStep=TOUR_STEPS.length;renderTour();
 };
 
 document.getElementById("logout-btn").onclick=function(){
   if(!confirm("Are you sure you want to log out?"))return;
   localStorage.removeItem("tm-pw-data");
-  sessionStorage.removeItem("tm-pw-smart-peeked");
   S=null;location.reload();};
 document.getElementById("reset-btn").onclick=function(){
   if(!confirm("⚠️ WARNING: This will permanently delete ALL your progress, completed projects, and planner data. This cannot be undone.\n\nAre you absolutely sure?"))return;
   const key=nameKey(S.name);
   if(db&&S)db.ref("clubs/"+S.club+"/members/"+key).remove();
   localStorage.removeItem("tm-pw-data");
-  sessionStorage.removeItem("tm-pw-smart-peeked");
   S=null;location.reload();};
 if("serviceWorker"in navigator){
   navigator.serviceWorker.register("/sw.js").then(reg=>{
@@ -6906,16 +7049,38 @@ if(localStorage.getItem("tm-welcome-theme")==="light"){
 
 // PWA Install Prompt
 let deferredPrompt=null;
-window.addEventListener("beforeinstallprompt",e=>{e.preventDefault();deferredPrompt=e;showInstallHint();});
+window.addEventListener("beforeinstallprompt",e=>{
+  e.preventDefault();
+  deferredPrompt=e;
+  showInstallHint();
+});
 
+// Single source of truth — shows the banner with platform-appropriate copy + button
 function showInstallHint(){
   if(localStorage.getItem("tm-pw-install-dismissed"))return;
-  if(window.matchMedia("(display-mode:standalone)").matches)return;
+  if(window.matchMedia("(display-mode:standalone)").matches)return;// already installed
   const el=document.getElementById("welcome-install");
   const ins=document.getElementById("install-instructions");
+  const btn=document.getElementById("install-btn");
   if(!el||!ins)return;
   if(deferredPrompt){
-    ins.textContent="Tap Install to add 5A+ TMC to your home screen.";
+    // Android/Chrome/Edge/Samsung — real install prompt available
+    ins.innerHTML='Tap <strong>Install</strong> to add 5A+ TMC to your home screen — works offline and feels like a real app.';
+    if(btn){btn.textContent="Install";btn.style.display="inline-block";}
+  }else{
+    const isIOS=/iPad|iPhone|iPod/.test(navigator.userAgent);
+    const isSafari=/Safari/.test(navigator.userAgent)&&!/Chrome|CriOS|FxiOS/.test(navigator.userAgent);
+    if(isIOS||isSafari){
+      ins.innerHTML='Tap <strong>Share</strong> ⎙ at the bottom, then choose <strong>"Add to Home Screen"</strong>.';
+      if(btn)btn.style.display="none";// no real install API on iOS
+    }else if(/Android/.test(navigator.userAgent)){
+      // Android but no prompt yet — manifest/SW may not have qualified, or user needs more engagement
+      ins.innerHTML='Tap your browser menu <strong>⋮</strong> then <strong>"Add to Home Screen"</strong>. <span style="font-size:11px;color:var(--t4)">(For best results, use Chrome.)</span>';
+      if(btn)btn.style.display="none";
+    }else{
+      ins.innerHTML='Use your browser menu to add this app to your home screen.';
+      if(btn)btn.style.display="none";
+    }
   }
   el.style.display="block";
 }
@@ -6924,15 +7089,16 @@ window.installApp=function(){
   if(deferredPrompt){
     deferredPrompt.prompt();
     deferredPrompt.userChoice.then(r=>{
-      if(r.outcome==="accepted")sT("🎉 App installed!");
+      if(r.outcome==="accepted"){sT("🎉 App installed!");}
       deferredPrompt=null;
-      document.getElementById("welcome-install").style.display="none";
+      const el=document.getElementById("welcome-install");
+      if(el)el.style.display="none";
     });
   }else{
+    // Shouldn't happen since button is hidden when no deferredPrompt — defensive fallback
     const isIOS=/iPad|iPhone|iPod/.test(navigator.userAgent);
-    const isSafari=/Safari/.test(navigator.userAgent)&&!/Chrome/.test(navigator.userAgent);
-    if(isIOS||isSafari){sT("Tap Share ↗ then 'Add to Home Screen'");}
-    else{sT("Use browser menu ⋮ → 'Add to Home Screen'");}
+    if(isIOS)sT("Tap Share ⎙ then 'Add to Home Screen'");
+    else sT("Use browser menu ⋮ → 'Add to Home Screen'");
   }
 };
 
@@ -6942,19 +7108,10 @@ window.dismissInstall=function(){
   const w=document.getElementById("welcome-install");if(w)w.style.display="none";
 };
 
-// Show install hint on load if not standalone and not dismissed
+// Initial show after short delay — gives Chrome on Android time to fire beforeinstallprompt first
+// so the banner comes up already showing the real Install button rather than flipping text
 if(!window.matchMedia("(display-mode:standalone)").matches&&!localStorage.getItem("tm-pw-install-dismissed")){
-  setTimeout(()=>{
-    const el=document.getElementById("welcome-install");
-    const ins=document.getElementById("install-instructions");
-    if(!el||!ins)return;
-    const isIOS=/iPad|iPhone|iPod/.test(navigator.userAgent);
-    const isSafari=/Safari/.test(navigator.userAgent)&&!/Chrome/.test(navigator.userAgent);
-    if(isIOS||isSafari){ins.innerHTML='Tap <strong>Share ↗</strong> then <strong>"Add to Home Screen"</strong>';}
-    else if(/Android/.test(navigator.userAgent)){ins.innerHTML='Tap <strong>⋮ Menu</strong> then <strong>"Add to Home Screen"</strong>';}
-    else{ins.innerHTML='Use your browser menu to add this app to your home screen.';}
-    el.style.display="block";
-  },1500);
+  setTimeout(()=>showInstallHint(),1500);
 }
 </script>
 </body>
