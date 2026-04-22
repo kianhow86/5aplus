@@ -122,8 +122,8 @@ a{color:var(--info);text-decoration:none}
 .light-theme .app-footer{color:#aaaacc !important}
 
 /* Light: modals and overlays */
-.light-theme .onboard-overlay{background:rgba(180,200,235,0.5) !important}
-.light-theme .modal-bg{background:rgba(180,200,235,0.5) !important}
+.light-theme .onboard-overlay{background:rgba(180,200,235,0.45) !important;backdrop-filter:blur(12px) !important;-webkit-backdrop-filter:blur(12px) !important}
+.light-theme .modal-bg{background:rgba(180,200,235,0.4) !important;backdrop-filter:blur(12px) !important;-webkit-backdrop-filter:blur(12px) !important}
 .light-theme .modal{background:rgba(220,232,252,0.88) !important;backdrop-filter:blur(20px) !important;-webkit-backdrop-filter:blur(20px) !important;border:1px solid rgba(255,255,255,0.5) !important;color:#1a1a2e !important}
 
 /* Light: tour tips */
@@ -154,7 +154,7 @@ a{color:var(--info);text-decoration:none}
 .light-theme .path-opt.lvl-pick{filter:saturate(1.2) brightness(0.95)}
 
 /* Light: path preview */
-.light-theme .path-preview{background:rgba(225,235,252,0.95) !important;backdrop-filter:blur(20px) !important;-webkit-backdrop-filter:blur(20px) !important;border:1px solid rgba(255,255,255,0.5) !important}
+.light-theme .path-preview{background:rgba(220,232,252,0.6) !important;backdrop-filter:blur(16px) !important;-webkit-backdrop-filter:blur(16px) !important;border:1px solid rgba(255,255,255,0.5) !important;box-shadow:0 4px 20px rgba(80,120,180,0.08) !important}
 
 /* Light: hw accordion in guest */
 .light-theme .hw-acc{border:1px solid rgba(150,180,220,0.3) !important}
@@ -188,7 +188,7 @@ a{color:var(--info);text-decoration:none}
 @keyframes neonFlickerTM{0%,100%{box-shadow:0 0 5px #F2DF7460,0 0 15px #F2DF7430}40%{box-shadow:0 0 10px #F2DF7480,0 0 25px #F2DF7450}42%{box-shadow:0 0 2px #F2DF7420}44%{box-shadow:0 0 10px #F2DF7480,0 0 25px #F2DF7450}}
 
 /* Onboarding */
-.onboard-overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:500;display:flex;align-items:center;justify-content:center;padding:20px;animation:fadeIn .3s ease}
+.onboard-overlay{position:fixed;inset:0;background:rgba(0,0,0,.4);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);z-index:500;display:flex;align-items:center;justify-content:center;padding:20px;animation:fadeIn .3s ease}
 .onboard-card{background:rgba(240,235,225,0.95);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border:none;border-radius:24px;padding:32px 24px;max-width:380px;width:100%;text-align:center;animation:fadeIn .3s ease;box-shadow:0 16px 48px rgba(0,0,0,.5)}
 .onboard-icon{font-size:48px;margin-bottom:12px}
 .onboard-title{font-family:'Montserrat',sans-serif;font-size:20px;font-weight:700;color:#1a1a2e;margin-bottom:8px}
@@ -268,8 +268,15 @@ a{color:var(--info);text-decoration:none}
 .guest-join-steps{display:flex;flex-direction:column;gap:10px}
 .guest-join-step{display:flex;align-items:flex-start;gap:12px;font-size:15px;color:var(--t1);line-height:1.5}
 .guest-join-num{width:28px;height:28px;border-radius:50%;background:var(--info);color:#fff;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;flex-shrink:0}
-.path-preview-overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:300;display:flex;align-items:center;justify-content:center;padding:20px;animation:fadeIn .2s ease}
-.path-preview{background:rgba(15,25,35,0.95);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,0.1);border-radius:20px;padding:24px 20px;max-width:420px;width:100%;max-height:80vh;overflow-y:auto;animation:fadeIn .2s ease}
+.path-preview-overlay{position:fixed;inset:0;background:rgba(0,0,0,.35);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);z-index:300;display:flex;align-items:center;justify-content:center;padding:env(safe-area-inset-top,20px) 16px 20px;overflow-y:auto;animation:fadeIn .2s ease;visibility:visible !important}
+.light-theme .path-preview-overlay{background:rgba(180,200,235,0.45) !important}
+.path-preview{background:rgba(15,25,35,0.95);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,0.10);border-radius:24px;padding:32px 24px;max-width:460px;width:100%;max-height:calc(100vh - 40px);overflow-y:auto;box-shadow:0 12px 40px rgba(0,0,0,.5);animation:fadeIn .2s ease;margin:auto 0}
+@media(max-width:480px){.path-preview{padding:28px 18px}}
+/* Custom dropdown panel — opaque bg so it never bleeds through */
+.cdd-panel{background:#182430 !important;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,0.10) !important}
+.light-theme .cdd-panel{background:#e8eef8 !important;border:1px solid rgba(100,120,160,0.25) !important;box-shadow:0 10px 28px rgba(50,70,110,0.18) !important}
+.cdd-opt:hover{background:rgba(255,255,255,0.06) !important}
+.light-theme .cdd-opt:hover{background:rgba(100,140,200,0.15) !important}
 .path-preview .pp-title{font-family:'Montserrat',sans-serif;font-size:20px;font-weight:700;margin-bottom:4px;display:flex;align-items:center;gap:8px;line-height:1.2}
 .path-preview .pp-desc{font-size:15px;color:var(--t2);line-height:1.6;margin-bottom:14px}
 .path-preview .pp-fin-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--warn);margin-bottom:4px}
@@ -472,8 +479,8 @@ a{color:var(--info);text-decoration:none}
 .sync-ok{background:#1A2A1A;color:var(--ok)}.sync-off{background:#2A1A1A;color:var(--danger)}
 
 /* Modal */
-.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:300;display:flex;align-items:flex-end;justify-content:center}
-.modal{background:rgba(15,25,35,0.95);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,0.1);border-radius:20px 20px 0 0;padding:24px 20px 40px;width:100%;max-width:500px;max-height:70vh;overflow-y:auto}
+.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.35);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);z-index:300;display:flex;align-items:center;justify-content:center;padding:20px;overflow-y:auto}
+.modal{background:rgba(15,25,35,0.95);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,0.1);border-radius:20px;padding:24px 20px;width:100%;max-width:500px;max-height:calc(100vh - 40px);overflow-y:auto;margin:auto 0}
 .modal-title{font-size:16px;font-weight:600;color:var(--w);margin-bottom:16px}
 .modal-opt{padding:12px 14px;background:var(--s1);border:1px solid var(--b1);border-radius:8px;margin-bottom:6px;cursor:pointer;font-size:14px;color:var(--t1);transition:all .15s}
 .modal-opt:hover{border-color:var(--t3)}
@@ -974,7 +981,7 @@ a{color:var(--info);text-decoration:none}
 <div id="tab-roles" class="tc"><div id="roles-content"></div></div>
 <div id="tab-master" class="tc"><div id="master-content"></div></div>
 <div id="tab-club" class="tc"><div id="club-announcements"></div><div class="sl" style="margin-top:16px">Club Members</div><div id="club-list"></div></div>
-<div class="app-footer">5A+ TMC App v8.25 · Built by Kian How</div>
+<div class="app-footer">5A+ TMC App v8.35 · Built by Kian How</div>
 </div>
 
 <div class="bnav" id="bottom-nav"></div>
@@ -1504,6 +1511,9 @@ function rS(){const g=document.getElementById("path-grid");const lg=document.get
     ppH+='</div></div>';
     pp.innerHTML=ppH;
     document.body.style.overflow="hidden";
+    // Hide the parent setup-card so only the blurred page gradient shows behind the preview
+    const sc=document.querySelector(".setup-screen .setup-card");
+    if(sc)sc.style.visibility="hidden";
   }
 
   window.selectPath=function(code){
@@ -1522,6 +1532,8 @@ function rS(){const g=document.getElementById("path-grid");const lg=document.get
     if(e&&e.target!==e.currentTarget)return;
     document.getElementById("path-preview").innerHTML="";
     document.body.style.overflow="";
+    const sc=document.querySelector(".setup-screen .setup-card");
+    if(sc)sc.style.visibility="";
   };
   Object.entries(PA).forEach(([k,v])=>{
     if(ACTIVE_PATHS.includes(k))makeBtn(k,v,g);
@@ -2196,6 +2208,19 @@ function rPl(){const c=document.getElementById("planner-content");if(!S)return;c
   if(!S.plan)S.plan={goal:"",notes:"",slots:{}};
   let h='';
 
+  // Pending booking banner — shows when user was bumped from project view
+  if(window._pendingBooking&&window._pendingBooking.title){
+    const pb=window._pendingBooking;
+    h+='<div style="background:linear-gradient(135deg,var(--ok)18,var(--info)18);border:1px solid var(--ok)50;border-radius:14px;padding:14px 16px;margin-bottom:14px;display:flex;align-items:center;gap:12px">';
+    h+='<div style="font-size:22px;flex-shrink:0">📅</div>';
+    h+='<div style="flex:1;min-width:0">';
+    h+='<div style="font-size:12px;font-weight:700;color:var(--ok);text-transform:uppercase;letter-spacing:.06em;margin-bottom:2px">Tap a date to book</div>';
+    h+='<div style="font-size:15px;font-weight:600;color:var(--w);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+pb.title+(pb.dur?' <span style="font-weight:400;color:var(--t3);font-size:13px">· '+pb.dur+'</span>':'')+'</div>';
+    h+='</div>';
+    h+='<button class="sb" style="padding:6px 12px;background:var(--b1);color:var(--t2);border-radius:8px;font-size:12px;flex-shrink:0" onclick="cancelPendingBooking()">Cancel</button>';
+    h+='</div>';
+  }
+
   // Plan My Term — direct to questionnaire
   const hasGoal=S.plan.goal;
   h+='<div id="ai-planner-card" style="background:var(--s1);border:1px solid var(--b1);border-radius:14px;padding:16px;margin-bottom:14px;text-align:center">';
@@ -2283,7 +2308,7 @@ function rPl(){const c=document.getElementById("planner-content");if(!S)return;c
         let dotClick;
         if(isSkipped){dotClick='sT("'+(clubData.skipped[d]||"Meeting skipped").replace(/"/g,"&quot;")+'")';}
         else if(mySlots.length){dotClick="showPrepPopup('"+d+"')";}
-        else{dotClick="openAssign('"+d+"')";}
+        else{dotClick="handleDateClick('"+d+"')";}
         h+='<div data-date="'+d+'" onclick="'+dotClick+'" title="'+tooltip+'" style="cursor:pointer;min-width:48px;padding:6px 6px 5px;border-radius:10px;background:'+bg+';color:'+color+';display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;opacity:'+opacity+';border:'+border+';font-family:\'Source Sans 3\',sans-serif;line-height:1">';
         h+='<div style="font-size:8.5px;font-weight:700;letter-spacing:.08em;color:'+weekdayColor+';opacity:.85">'+weekday+'</div>';
         h+='<div style="font-size:18px;font-weight:700;font-family:\'DM Mono\',monospace;margin-top:1px">'+day+'</div>';
@@ -2497,12 +2522,12 @@ window.createVoting=function(){
   h+='<div class="modal-title">🗳 Create Voting Session</div>';
   
   h+='<label style="font-size:13px;color:var(--t3);display:block;margin-bottom:4px">Meeting Date</label>';
-  h+='<select id="vote-date" style="width:100%;padding:10px;background:var(--s0);border:1px solid var(--b2);border-radius:8px;color:var(--t1);font-size:14px;font-family:\'Source Sans 3\',sans-serif;margin-bottom:14px">';
-  if(dates.length){dates.forEach((d,i)=>{
-    const dfmt=new Date(d+"T00:00:00").toLocaleDateString("en-US",{weekday:"short",month:"short",day:"numeric"});
-    h+='<option value="'+d+'"'+(i===0?" selected":"")+'>'+dfmt+'</option>';
-  });}else{h+='<option value="'+today+'">Today</option>';}
-  h+='</select>';
+  const voteDateOpts=dates.length
+    ?dates.map(d=>({value:d,label:new Date(d+"T00:00:00").toLocaleDateString("en-US",{weekday:"short",month:"short",day:"numeric"})}))
+    :[{value:today,label:"Today"}];
+  h+='<div style="margin-bottom:14px">';
+  h+=cDropdown({id:"vote-date-dd",value:voteDateOpts[0].value,options:voteDateOpts,placeholder:"Pick a date..."});
+  h+='</div>';
   
   h+='<label style="font-size:13px;color:var(--t3);display:block;margin-bottom:6px">Award Categories</label>';
   h+='<div id="vote-cats-list">';
@@ -2537,7 +2562,7 @@ window.addVoteCatRow=function(){
 };
 
 window.launchVoting=function(){
-  const date=document.getElementById("vote-date").value;
+  const date=cDropdownGet("vote-date-dd");
   const inputs=document.querySelectorAll(".vote-cat-input");
   const categories=[];
   inputs.forEach(inp=>{
@@ -2668,10 +2693,8 @@ function renderVotePage(root,vote,club,voteRef){
       (vote.categories||[]).forEach(cat=>{
         h+='<div style="margin-bottom:16px">';
         h+='<label style="font-size:14px;font-weight:600;color:var(--w);display:block;margin-bottom:6px">'+cat.icon+' '+cat.name+'</label>';
-        h+='<select id="vote-pick-'+cat.id+'" style="width:100%;padding:10px;background:var(--s0);border:1px solid var(--b2);border-radius:10px;color:var(--t1);font-size:14px;font-family:\'Source Sans 3\',sans-serif">';
-        h+='<option value="">— Select —</option>';
-        names.forEach(n=>{h+='<option value="'+n+'">'+n+'</option>';});
-        h+='</select>';
+        const vOpts=names.map(n=>({value:n,label:n}));
+        h+=cDropdown({id:"vote-pick-dd-"+cat.id,value:"",placeholder:"— Select —",options:vOpts});
         h+='</div>';
       });
       
@@ -2695,8 +2718,8 @@ window.submitVote=function(club,voterId){
     const picks={voterName:name.value.trim()};
     let hasVote=false;
     (vote.categories||[]).forEach(cat=>{
-      const sel=document.getElementById("vote-pick-"+cat.id);
-      if(sel&&sel.value){picks[cat.id]=sel.value;hasVote=true;}
+      const v=cDropdownGet("vote-pick-dd-"+cat.id);
+      if(v){picks[cat.id]=v;hasVote=true;}
     });
     
     if(!hasVote){sT("Please vote in at least one category");return;}
@@ -2931,6 +2954,88 @@ window.doMoveSlot=function(fromDate,idx,toDate){
   if(navigator.vibrate)navigator.vibrate(10);
   sT("📅 Moved to "+new Date(toDate+"T00:00:00").toLocaleDateString("en-US",{month:"short",day:"numeric"}));
 };
+// ═══ CUSTOM DROPDOWN COMPONENT ═══
+// Themed dropdown that matches app UI — replaces native <select> on mobile
+// Usage: cDropdown({id, value, options:[{value,label}|{group:'Header'}], placeholder, onchange:'code'})
+window._cDropdowns=window._cDropdowns||{};
+window.cDropdown=function(opts){
+  const id=opts.id,val=opts.value||"",options=opts.options||[],ph=opts.placeholder||"Select...",oc=opts.onchange||"";
+  window._cDropdowns[id]={options:options,onchange:oc};
+  const sel=options.find(o=>!o.group&&o.value===val);
+  const display=sel?sel.label:ph;
+  const esc=s=>(s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#39;");
+  let h='<div class="cdd" data-cdd-id="'+id+'" style="position:relative;width:100%">';
+  h+='<div class="cdd-trigger" onclick="cDropdownToggle(\''+id+'\',event)" style="width:100%;padding:12px 14px;background:var(--s0);border:1px solid var(--b2);border-radius:10px;color:'+(sel?"var(--t1)":"var(--t4)")+';font-size:14px;font-family:\'Source Sans 3\',sans-serif;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:8px;user-select:none;-webkit-tap-highlight-color:transparent">';
+  h+='<span class="cdd-display" style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1;text-align:left">'+esc(display)+'</span>';
+  h+='<span class="cdd-chev" style="color:var(--t4);font-size:10px;transition:transform .2s">▼</span>';
+  h+='</div>';
+  h+='<div class="cdd-panel" style="display:none;position:absolute;top:calc(100% + 2px);left:0;right:0;background:var(--s1);border:1px solid var(--b2);border-radius:10px;box-shadow:0 8px 24px rgba(0,0,0,.45);max-height:320px;overflow-y:auto;z-index:500;font-family:\'Source Sans 3\',sans-serif">';
+  options.forEach(o=>{
+    if(o.group){
+      h+='<div style="padding:10px 14px 6px;font-size:10px;font-weight:700;color:var(--t4);text-transform:uppercase;letter-spacing:.08em;border-top:1px solid var(--b2)">'+esc(o.group)+'</div>';
+    }else{
+      const isSel=o.value===val;
+      const bg=isSel?"rgba(91,192,190,.15)":"transparent";
+      const col=isSel?"var(--brand,var(--w))":"var(--t1)";
+      const fw=isSel?"600":"400";
+      h+='<div class="cdd-opt" data-val="'+esc(o.value)+'" onclick="cDropdownSelect(\''+id+'\',\''+esc(o.value).replace(/'/g,"\\'")+'\',event)" style="padding:11px 14px;cursor:pointer;font-size:14px;color:'+col+';font-weight:'+fw+';background:'+bg+';line-height:1.4" ontouchstart="this.style.background=\'var(--s2)\'" ontouchend="this.style.background=\''+bg+'\'">'+esc(o.label)+'</div>';
+    }
+  });
+  h+='</div></div>';
+  return h;
+};
+window.cDropdownToggle=function(id,ev){
+  if(ev){ev.stopPropagation();}
+  const root=document.querySelector('[data-cdd-id="'+id+'"]');
+  if(!root)return;
+  const panel=root.querySelector('.cdd-panel');
+  const chev=root.querySelector('.cdd-chev');
+  const wasOpen=panel.style.display==="block";
+  // Close all other dropdowns
+  document.querySelectorAll('.cdd-panel').forEach(p=>p.style.display="none");
+  document.querySelectorAll('.cdd-chev').forEach(c=>c.style.transform="");
+  if(!wasOpen){
+    panel.style.display="block";
+    chev.style.transform="rotate(180deg)";
+  }
+};
+window.cDropdownSelect=function(id,val,ev){
+  if(ev){ev.stopPropagation();}
+  const state=window._cDropdowns[id];
+  if(!state)return;
+  const root=document.querySelector('[data-cdd-id="'+id+'"]');
+  if(!root)return;
+  const opt=state.options.find(o=>!o.group&&o.value===val);
+  if(opt){
+    const disp=root.querySelector('.cdd-display');
+    disp.textContent=opt.label;
+    root.querySelector('.cdd-trigger').style.color="var(--t1)";
+  }
+  root.querySelector('.cdd-panel').style.display="none";
+  root.querySelector('.cdd-chev').style.transform="";
+  state.value=val;
+  // Run onchange handler — value is available as 'this'
+  if(state.onchange){
+    try{(new Function("val","this.value=val;"+state.onchange)).call({value:val},val);}
+    catch(e){console.error("cDropdown onchange error:",e);}
+  }
+};
+window.cDropdownGet=function(id){return window._cDropdowns[id]?window._cDropdowns[id].value:"";};
+window.cDropdownSet=function(id,val){
+  const state=window._cDropdowns[id];if(!state)return;
+  state.value=val;
+  const root=document.querySelector('[data-cdd-id="'+id+'"]');if(!root)return;
+  const opt=state.options.find(o=>!o.group&&o.value===val);
+  if(opt){root.querySelector('.cdd-display').textContent=opt.label;root.querySelector('.cdd-trigger').style.color="var(--t1)";}
+};
+// Close dropdowns when clicking outside
+document.addEventListener('click',function(e){
+  if(!e.target.closest('.cdd')){
+    document.querySelectorAll('.cdd-panel').forEach(p=>p.style.display="none");
+    document.querySelectorAll('.cdd-chev').forEach(c=>c.style.transform="");
+  }
+},true);
+
 window.closeModal=function(e){if(!e||e.target.classList.contains("modal-bg"))document.getElementById("modal-root").innerHTML="";};
 
 // ═══ ACTIONS ═══
@@ -3572,52 +3677,62 @@ window.bookSlot=function(title,dur){
 };
 
 window.showSingleStepBooking=function(pid,title,dur){
-  const mr=document.getElementById("modal-root");
-  const p=PA[S.path];
   const today=new Date().toISOString().slice(0,10);
   const available=(clubData.dates||[]).filter(d=>d>=today&&!(clubData.skipped||{})[d]).sort();
-  
   if(!available.length){sT("No meeting dates available yet.");return;}
-  
-  let h='<div class="modal-bg" onclick="closeModal(event)"><div class="modal" onclick="event.stopPropagation()" style="max-width:400px">';
-  h+='<div class="modal-title">📅 Book Slot</div>';
-  h+='<div style="font-size:15px;font-weight:600;color:var(--w);margin-bottom:4px">'+title+'</div>';
-  h+='<div style="font-size:13px;color:var(--t3);margin-bottom:12px">'+dur+'</div>';
-  
-  // Lead time warning
+  const freeDates=available.filter(d=>!((S.plan.slots||{})[d]||[]).length);
+  if(!freeDates.length){sT("⚠️ All upcoming meetings already have bookings.");return;}
+  // Lead-time projects still show the warning before jumping
   const lt=LEAD_TIME[pid];
   if(lt){
-    h+='<div style="background:var(--warn)12;border:1px solid var(--warn)30;border-radius:10px;padding:12px;margin-bottom:14px">';
-    h+='<div style="font-size:14px;font-weight:600;color:var(--warn);margin-bottom:4px">⏱ Heads up — this takes advance prep!</div>';
-    h+='<div style="font-size:13px;color:var(--t2);line-height:1.5">'+lt+'</div>';
-    h+='<div style="font-size:12px;color:var(--t3);margin-top:6px;font-style:italic">Book the speech date, but make sure you\'ve started the groundwork well before.</div>';
-    h+='</div>';
+    if(!confirm("⏱ Heads up — this project takes advance prep!\n\n"+lt.replace(/<[^>]+>/g,"")+"\n\nBook the speech date, but make sure you've started the groundwork well before.\n\nOK = Continue to planner\nCancel = Go back")){
+      return;
+    }
   }
-  
-  h+='<div style="font-size:14px;color:var(--t2);margin-bottom:8px">Pick a meeting date:</div>';
-  // Show only FREE dates (strict one-role-per-meeting)
-  const freeDates=available.filter(d=>!((S.plan.slots||{})[d]||[]).length);
-  if(!freeDates.length){
-    h+='<div style="padding:16px;background:var(--warn)12;border:1px solid var(--warn)30;border-radius:10px;color:var(--warn);font-size:13px;line-height:1.5;margin-bottom:14px">⚠️ All upcoming meetings already have bookings. Cancel an existing booking to free up a date.</div>';
-    h+='<div style="display:flex;gap:8px"><button class="modal-close" style="flex:1" onclick="closeModal()">Close</button></div></div></div>';
-    mr.innerHTML=h;return;
+  // Set pending booking state and navigate to planner
+  window._pendingBooking={pid:pid,title:title,dur:dur};
+  closeProjectOverlay();
+  goToPlanner();
+  // Banner + toast
+  setTimeout(()=>{rPl();sT("📅 Tap any green date to book "+title);},80);
+};
+window.cancelPendingBooking=function(){
+  window._pendingBooking=null;
+  rPl();
+  sT("Booking cancelled");
+};
+window.handleDateClick=function(date){
+  if(window._pendingBooking){applyPendingBooking(date);return;}
+  openAssign(date);
+};
+window.applyPendingBooking=function(date){
+  const pb=window._pendingBooking;
+  if(!pb)return false;
+  const d=PD[pb.pid];
+  if(!d){window._pendingBooking=null;return false;}
+  if(!S.plan.slots[date])S.plan.slots[date]=[];
+  const label=d.t+" ("+d.dur+")";
+  // Enforce one role per meeting
+  const cur=S.plan.slots[date];
+  if(cur.length){
+    const dfmt=new Date(date+"T00:00:00").toLocaleDateString("en-US",{weekday:"short",month:"short",day:"numeric"});
+    const existing=cur.map(s=>s.label).join(", ");
+    if(!confirm("⚠️ You already have a booking on "+dfmt+":\n\n• "+existing+"\n\nOnly 1 role per meeting is allowed.\n\nOK = Replace with "+d.t+"\nCancel = Keep existing")){
+      return true;// handled (user cancelled replacement)
+    }
+    S.plan.slots[date]=[];
   }
-  h+='<select id="single-book-date" style="width:100%;padding:12px;background:var(--s0);border:1px solid var(--b2);border-radius:10px;color:var(--t1);font-size:15px;font-family:\'Source Sans 3\',sans-serif;margin-bottom:16px">';
-  freeDates.forEach((d,i)=>{
-    const dfmt=new Date(d+"T00:00:00").toLocaleDateString("en-US",{weekday:"short",month:"short",day:"numeric"});
-    h+='<option value="'+d+'"'+(i===0?" selected":"")+'>'+dfmt+'</option>';
-  });
-  h+='</select>';
-  
-  h+='<div style="display:flex;gap:8px">';
-  h+='<button class="modal-close" style="flex:1" onclick="closeModal()">Cancel</button>';
-  h+='<button class="modal-close" style="flex:1;background:var(--ok);color:#fff" onclick="applySingleBooking(\''+pid+'\')">Book It</button>';
-  h+='</div></div></div>';
-  mr.innerHTML=h;
+  S.plan.slots[date].push({type:"project",label:label,pid:pb.pid,pathCode:S.path});
+  window._pendingBooking=null;
+  sv();rPl();
+  const dfmt=new Date(date+"T00:00:00").toLocaleDateString("en-US",{weekday:"short",month:"short",day:"numeric"});
+  sT("✅ "+d.t+" booked for "+dfmt);
+  setTimeout(()=>scrollToDateDot(date),200);
+  return true;
 };
 
 window.applySingleBooking=function(pid){
-  const date=document.getElementById("single-book-date").value;
+  const date=cDropdownGet("single-book-date-dd");
   if(!date)return;
   const d=PD[pid];if(!d)return;
   if(!S.plan.slots[date])S.plan.slots[date]=[];
@@ -3691,16 +3806,15 @@ window.showMultiStepBooking=function(pid,title,multiStep,startDate){
   multiStep.steps.forEach((step,i)=>{
     h+='<div style="display:flex;gap:10px;align-items:center;padding:10px 12px;background:var(--s0);border-radius:8px;margin-bottom:6px;border-left:3px solid '+p.c+'">';
     h+='<div style="width:24px;height:24px;background:'+p.c+'20;color:'+p.c+';border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0">'+(i+1)+'</div>';
-    h+='<div style="flex:1"><div style="font-size:14px;font-weight:600;color:var(--w)">'+step+'</div></div>';
-    h+='<select id="multi-date-'+i+'" style="padding:6px 8px;background:var(--s1);border:1px solid var(--b2);border-radius:6px;color:var(--t1);font-size:12px;font-family:\'DM Mono\',monospace">';
+    h+='<div style="flex:1;min-width:0"><div style="font-size:14px;font-weight:600;color:var(--w);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+step+'</div></div>';
     const defaultIdx=defaultIndices[i];
-    available.forEach((d,di)=>{
-      const dfmt=new Date(d+"T00:00:00").toLocaleDateString("en-US",{month:"short",day:"numeric"});
-      const mark=isBookedAt(d)?" 🔒":"";
-      const selected=di===defaultIdx;
-      h+='<option value="'+d+'"'+(selected?" selected":"")+'>'+dfmt+mark+'</option>';
-    });
-    h+='</select>';
+    const dateOpts=available.map(d=>({
+      value:d,
+      label:new Date(d+"T00:00:00").toLocaleDateString("en-US",{month:"short",day:"numeric"})+(isBookedAt(d)?" 🔒":"")
+    }));
+    h+='<div style="width:140px;flex-shrink:0">';
+    h+=cDropdown({id:"multi-date-dd-"+i,value:available[defaultIdx]||"",options:dateOpts,placeholder:"Date"});
+    h+='</div>';
     h+='</div>';
   });
   
@@ -3717,7 +3831,7 @@ window.applyMultiStepBooking=function(pid,stepCount){
   // Check for conflicts first
   let conflicts=[];
   for(let i=0;i<stepCount;i++){
-    const date=document.getElementById("multi-date-"+i).value;
+    const date=cDropdownGet("multi-date-dd-"+i);
     if(!date)continue;
     const cur=(S.plan.slots[date]||[]);
     if(cur.length){
@@ -3733,17 +3847,17 @@ window.applyMultiStepBooking=function(pid,stepCount){
   }
   // Apply: always replace any existing slot on each target date (strict one-per-meeting)
   for(let i=0;i<stepCount;i++){
-    const date=document.getElementById("multi-date-"+i).value;
+    const date=cDropdownGet("multi-date-dd-"+i);
     if(!date)continue;
     const label=multiStep.steps[i];
     // Replace anything currently there
     S.plan.slots[date]=[{type:"project",label:label,pid:pid,pathCode:S.path}];
   }
-  let firstDate=document.getElementById("multi-date-0")?.value||"";
+  let firstDate=cDropdownGet("multi-date-dd-0")||"";
   // Collect all booked dates so we can flash them all
   const bookedDates=[];
   for(let i=0;i<stepCount;i++){
-    const v=document.getElementById("multi-date-"+i)?.value;
+    const v=cDropdownGet("multi-date-dd-"+i);
     if(v&&!bookedDates.includes(v))bookedDates.push(v);
   }
   sv();closeModal();closeProjectOverlay();goToPlanner();
@@ -4619,18 +4733,29 @@ window.openEvalAssistant=function(){
   h+='<div class="detail-title" style="text-align:center;margin-bottom:4px">📝 Evaluation Assistant</div>';
   h+='<div style="text-align:center;font-size:14px;color:var(--t3);margin-bottom:16px">Select the project you\'re evaluating to get specific guidance</div>';
   
-  h+='<select id="eval-project" onchange="showEvalGuidance()" style="width:100%;padding:12px;background:var(--s0);border:1px solid var(--b2);border-radius:10px;color:var(--t1);font-size:15px;font-family:\'Source Sans 3\',sans-serif;margin-bottom:14px">';
-  h+='<option value="">— Choose a project —</option>';
-  Object.entries(PD).forEach(([pid,d])=>{h+='<option value="'+pid+'">'+d.t+' ('+d.dur+')</option>';});
-  h+='</select>';
+  // Build options grouped by level if user has a path
+  const evalOpts=[];
+  if(S&&S.path){
+    for(let l=1;l<=5;l++){const g=gP(S.path,l);const pids=[...(g.r||[]),...(g.e||[])];
+      const avail=pids.filter(id=>PD[id]);
+      if(!avail.length)continue;
+      evalOpts.push({group:"Level "+l});
+      avail.forEach(id=>{evalOpts.push({value:id,label:PD[id].t+" ("+PD[id].dur+")"});});
+    }
+  }else{
+    Object.entries(PD).forEach(([pid,d])=>{evalOpts.push({value:pid,label:d.t+" ("+d.dur+")"});});
+  }
+  h+='<div style="margin-bottom:14px">';
+  h+=cDropdown({id:"eval-project-dd",value:"",placeholder:"— Choose a project —",options:evalOpts,onchange:"showEvalGuidance(val)"});
+  h+='</div>';
   
   h+='<div id="eval-guidance"></div>';
   h+='</div></div>';
   mr.innerHTML=h;
 };
 
-window.showEvalGuidance=function(){
-  const pid=document.getElementById("eval-project").value;
+window.showEvalGuidance=function(pidArg){
+  const pid=pidArg||cDropdownGet("eval-project-dd");
   const el=document.getElementById("eval-guidance");
   if(!pid){el.innerHTML="";return;}
   const d=PD[pid],tp=TIPS[pid]||{};
@@ -5834,22 +5959,25 @@ function _practicePickerHtml(pid){
       '<button class="sb" onclick="changePracticeProject()" style="padding:6px 12px;font-size:12px;background:var(--b1);color:var(--t2);border-radius:6px;margin-left:8px">Change</button></div>';
   }
   let h='<label style="font-size:12px;color:var(--t4);text-transform:uppercase;letter-spacing:.05em;font-weight:700;margin-bottom:6px;display:block">What are you practicing?</label>';
-  h+='<select onchange="window._practicePid=this.value;document.getElementById(\'practice-picker\').innerHTML=_practicePickerHtml(this.value)" style="width:100%;padding:12px;background:var(--s0);border:1px solid var(--b2);border-radius:10px;color:var(--t1);font-size:14px;font-family:\'Source Sans 3\',sans-serif">';
-  h+='<option value="">Pick a project...</option>';
-  h+='<option value="freestyle">🎤 Freestyle — no target time</option>';
-  // Group by level if we have an active path
+  // Build options array for custom dropdown
+  const opts=[{value:"freestyle",label:"🎤 Freestyle — no target time"}];
   if(S&&S.path){
     for(let l=1;l<=5;l++){const g=gP(S.path,l);const pids=[...(g.r||[]),...(g.e||[])];
       const avail=pids.filter(id=>PD[id]);
       if(!avail.length)continue;
-      h+='<optgroup label="Level '+l+'">';
-      avail.forEach(id=>{h+='<option value="'+id+'">'+PD[id].t+' ('+PD[id].dur+')</option>';});
-      h+='</optgroup>';
+      opts.push({group:"Level "+l});
+      avail.forEach(id=>{opts.push({value:id,label:PD[id].t+" ("+PD[id].dur+")"});});
     }
   }else{
-    Object.entries(PD).forEach(([id,d])=>{h+='<option value="'+id+'">'+d.t+' ('+d.dur+')</option>';});
+    Object.entries(PD).forEach(([id,d])=>{opts.push({value:id,label:d.t+" ("+d.dur+")"});});
   }
-  h+='</select>';
+  h+=cDropdown({
+    id:"practice-project-dd",
+    value:pid||"",
+    placeholder:"Pick a project...",
+    options:opts,
+    onchange:"window._practicePid=val;document.getElementById('practice-picker').innerHTML=_practicePickerHtml(val)"
+  });
   return h;
 }
 window._practicePickerHtml=_practicePickerHtml;
@@ -6127,7 +6255,20 @@ window.requestPracticeCoaching=function(){
   const topFillers=Object.entries(_practiceState.fillerMap||{}).sort((a,b)=>b[1]-a[1]).slice(0,5).map(([f,c])=>f+" ×"+c).join(", ")||"none detected";
 
   const projectBlock=isProj
-    ?"Project: \""+d.t+"\"\nProject purpose: "+(d.p||"")+"\nProject objective: "+(d.o||"")+"\nTarget duration: "+dur.min+"–"+dur.max+" minutes\n"
+    ?(()=>{
+      const tips=(typeof TIPS!=="undefined"&&TIPS[pid])||{};
+      let b="Project: \""+d.t+"\"\n";
+      b+="Project PURPOSE (what this teaches): "+(d.p||"")+"\n";
+      b+="Project OBJECTIVE (what the member must accomplish): "+(d.o||"")+"\n";
+      b+="Project INCLUDES: "+(d.inc||"")+"\n";
+      b+="Target duration: "+dur.min+"–"+dur.max+" minutes\n";
+      // Strip HTML tags from tips for clean prompt text
+      const clean=s=>(s||"").replace(/<[^>]+>/g,"");
+      if(tips.tip)b+="What to do for THIS project: "+clean(tips.tip)+"\n";
+      if(tips.how)b+="Recommended approach: "+clean(tips.how)+"\n";
+      if(tips.avoid)b+="Common mistakes to avoid: "+clean(tips.avoid)+"\n";
+      return b;
+    })()
     :"Freestyle practice — no specific project objective.\n";
 
   const prompt="You are a warm, experienced Toastmasters mentor giving a member feedback on a speech they just practiced. You care about their growth and speak with honesty and encouragement.\n\n"
@@ -6136,9 +6277,22 @@ window.requestPracticeCoaching=function(){
     +"Word count: "+_practiceState.words+"\n"
     +"Top fillers detected: "+topFillers+"\n"
     +"\nTranscript (automatic speech recognition, may have small errors):\n\"\"\"\n"+transcript+"\n\"\"\"\n\n"
-    +"Give feedback in EXACTLY this structure, as a JSON object. Be specific — quote actual phrases from the transcript so the member knows you truly listened. Avoid generic advice that could apply to any speech.\n\n"
-    +"{\n  \"worked\": [\"2–3 specific things that worked well — quote the phrase or moment\"],\n  \"focus\": [\"2–3 specific opportunities — point to a specific moment and explain\"],\n  \"tryNext\": \"One concrete thing to try in the next rehearsal — actionable, single sentence\"\n}\n\n"
-    +"Rules:\n- Quote the transcript in both worked and focus items\n- Keep each bullet under 35 words\n- Be warm but honest. Don't praise things that weren't there.\n- If the transcript is too unclear or too short to analyze a point, say so honestly rather than inventing.\n- Return ONLY the JSON object, no preamble.";
+    +"Evaluate this speech against the project's specific objective first — this is the most important part. For example: if the project is 'Ice Breaker' (introduce yourself), check whether the member actually shared personal details about themselves. If the project is 'Researching and Presenting', check whether they actually presented research. Don't skip this — it's why the member is practicing.\n\n"
+    +"Return feedback as a JSON object in EXACTLY this structure. Be specific — quote actual phrases from the transcript so the member knows you truly listened. Avoid generic advice that could apply to any speech.\n\n"
+    +"{\n"
+    +"  \"objectiveMet\": \"full\" | \"partial\" | \"missed\",\n"
+    +"  \"objectiveNote\": \"One sentence explaining WHY, with a transcript quote or specific observation. If missed or partial, say exactly what's missing relative to the project's objective.\",\n"
+    +"  \"worked\": [\"2–3 specific things that worked well — quote the phrase or moment\"],\n"
+    +"  \"focus\": [\"2–3 specific opportunities — point to a specific moment and explain\"],\n"
+    +"  \"tryNext\": \"One concrete thing to try in the next rehearsal — actionable, single sentence\"\n"
+    +"}\n\n"
+    +"Rules:\n"
+    +"- The objective check is NOT optional. Even if the speech was well-delivered, if it didn't do what the project asked, say so clearly.\n"
+    +"- Quote the transcript in worked and focus items\n"
+    +"- Keep each bullet under 35 words\n"
+    +"- Be warm but honest. Don't praise things that weren't there.\n"
+    +"- If freestyle mode, set objectiveMet to \"full\" and use objectiveNote to comment on overall focus/coherence instead.\n"
+    +"- Return ONLY the JSON object, no preamble.";
 
   btn.disabled=true;
   btn.innerHTML='<span style="display:inline-block;animation:spin 1s linear infinite">🤖</span> Analyzing your speech...';
@@ -6158,6 +6312,17 @@ window.requestPracticeCoaching=function(){
       return;
     }
     let r='';
+    // Objective check — rendered first since it's the most important
+    if(parsed.objectiveMet&&parsed.objectiveNote){
+      const met=parsed.objectiveMet;
+      const cfg=met==="full"?{icon:"✅",label:"Objective met",color:"var(--ok)",bg:"var(--ok)10",brd:"var(--ok)30"}
+               :met==="partial"?{icon:"⚠️",label:"Partially met",color:"var(--warn)",bg:"var(--warn)10",brd:"var(--warn)30"}
+               :{icon:"❌",label:"Objective missed",color:"var(--danger)",bg:"var(--danger)10",brd:"var(--danger)30"};
+      r+='<div style="padding:12px;background:'+cfg.bg+';border:1px solid '+cfg.brd+';border-radius:10px;margin-bottom:8px">';
+      r+='<div style="display:flex;align-items:center;gap:8px;margin-bottom:6px"><span style="font-size:16px">'+cfg.icon+'</span><div style="font-size:11px;font-weight:700;color:'+cfg.color+';text-transform:uppercase;letter-spacing:.06em">'+cfg.label+'</div></div>';
+      r+='<div style="font-size:13px;color:var(--t1);line-height:1.6">'+parsed.objectiveNote+'</div>';
+      r+='</div>';
+    }
     if(parsed.worked&&parsed.worked.length){
       r+='<div style="padding:12px;background:var(--ok)10;border:1px solid var(--ok)30;border-radius:10px;margin-bottom:8px">';
       r+='<div style="font-size:11px;font-weight:700;color:var(--ok);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px">✨ What worked</div>';
