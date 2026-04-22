@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="theme-color" content="#1A1A1A">
@@ -761,7 +761,7 @@ a{color:var(--info);text-decoration:none}
 <div id="tab-roles" class="tc"><div id="roles-content"></div></div>
 <div id="tab-master" class="tc"><div id="master-content"></div></div>
 <div id="tab-club" class="tc"><div id="club-announcements"></div><div class="sl" style="margin-top:16px">Club Members</div><div id="club-list"></div></div>
-<div class="app-footer">5A+ TMC App v6.2 · Built by Kian How</div>
+<div class="app-footer">5A+ TMC App v6.3 · Built by Kian How</div>
 </div>
 
 <div class="bnav" id="bottom-nav"></div>
@@ -1611,15 +1611,15 @@ function pC(pid,type,isDn,pc,starHtml){const p=PA[pc],d=PD[pid];if(!d)return"";c
 
 // ═══ RENDER: MEETING ROLES SOP ═══
 const ROLE_GRID=[
-  {idx:0,icon:"✅",short:"SAA",color:"#6BBF6B",tool:true},
-  {idx:1,icon:"🎩",short:"TMD",color:"#6BBF6B",tool:true},
-  {idx:2,icon:"⏱",short:"Timer",color:"#6BBF6B",tool:true},
-  {idx:3,icon:"🎙",short:"Ah-Counter",color:"#7BA7CC",tool:true},
-  {idx:4,icon:"📖",short:"Grammarian",color:"#BB6BD9",tool:true},
-  {idx:5,icon:"💬",short:"TTM",color:"#7BA7CC",tool:true},
-  {idx:6,icon:"🎤",short:"Speaker",color:"#E8A04C",tool:false},
-  {idx:7,icon:"📝",short:"IE",color:"#E8A04C",tool:true},
-  {idx:8,icon:"🔍",short:"GE",color:"#7BA7CC",tool:true}
+  {idx:0,icon:"🛎️",short:"SAA",full:"Sergeant at Arms",color:"#6BBF6B",bg:"#6BBF6B12",tool:true},
+  {idx:1,icon:"🎪",short:"TMD",full:"Toastmaster of the Day",color:"#E85D3A",bg:"#E85D3A12",tool:true},
+  {idx:2,icon:"⏱️",short:"Timer",full:"Timer",color:"#F2C94C",bg:"#F2C94C12",tool:true},
+  {idx:3,icon:"👂",short:"Ah-Counter",full:"Ah-Counter",color:"#7BA7CC",bg:"#7BA7CC12",tool:true},
+  {idx:4,icon:"✍️",short:"Grammarian",full:"Grammarian",color:"#BB6BD9",bg:"#BB6BD912",tool:true},
+  {idx:5,icon:"🎯",short:"TTM",full:"Table Topics Master",color:"#2D9CDB",bg:"#2D9CDB12",tool:true},
+  {idx:6,icon:"🎤",short:"Speaker",full:"Prepared Speech Speaker",color:"#E8A04C",bg:"#E8A04C12",tool:false},
+  {idx:7,icon:"🪞",short:"Evaluator",full:"Individual Evaluator",color:"#EB5757",bg:"#EB575712",tool:true},
+  {idx:8,icon:"🦅",short:"GE",full:"General Evaluator",color:"#5BC0BE",bg:"#5BC0BE12",tool:true}
 ];
 
 function rRoles(){
@@ -1627,13 +1627,12 @@ function rRoles(){
   let h='<div class="sl" style="margin-top:0">Role Toolkit</div>';
   h+='<div style="font-size:13px;color:var(--t3);margin-bottom:14px;line-height:1.6">Tap any role for its guide and AI tool.</div>';
   
-  // Grid
-  h+='<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:16px">';
+  h+='<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px">';
   ROLE_GRID.forEach(r=>{
-    h+='<div onclick="openRoleDetail('+r.idx+')" style="cursor:pointer;background:var(--s1);border-radius:14px;padding:16px 8px;text-align:center;border:1px solid var(--b1);transition:all .15s;position:relative">';
-    h+='<div style="font-size:28px;margin-bottom:6px">'+r.icon+'</div>';
-    h+='<div style="font-size:12px;font-weight:600;color:var(--w)">'+r.short+'</div>';
-    if(r.tool)h+='<div style="font-size:9px;color:'+r.color+';margin-top:4px;font-weight:600">🔧 AI Tool</div>';
+    h+='<div onclick="openRoleDetail('+r.idx+')" style="cursor:pointer;background:'+r.bg+';border-radius:16px;padding:18px 8px 14px;text-align:center;border:1px solid '+r.color+'20;transition:all .15s">';
+    h+='<div style="font-size:32px;margin-bottom:8px">'+r.icon+'</div>';
+    h+='<div style="font-size:13px;font-weight:700;color:var(--w)">'+r.short+'</div>';
+    if(r.tool)h+='<div style="font-size:10px;color:'+r.color+';margin-top:5px;font-weight:600;letter-spacing:.03em">🔧 AI Tool</div>';
     h+='</div>';
   });
   h+='</div>';
@@ -3897,48 +3896,42 @@ window.selectWOD=function(i){
 window.openSAAChecklist=function(){
   const mr=document.getElementById("modal-root");
   const checks=[
-    {phase:"45 min before",items:["Print agenda","Prepare snacks and awards","Prepare gifts for Sharing Master (if any)"]},
-    {phase:"30 min before — Venue Setup",items:["Display club banner and boards","Set up projector/camera","Write meeting theme on whiteboard","Set up registration table: agenda, guest forms, name badges, pens, IE forms","Set up meeting table: name tags, evaluation sheets, bell, timing cards, gavel"]},
-    {phase:"15 min before — Reception",items:["Staff the registration table","Greet every arriving guest by name","Provide name tags and agenda to everyone","Seat guests with a member buddy if possible"]},
-    {phase:"Meeting Start",items:["15:55 — Announce meeting starts in 5 min","15:58 — Announce 2 minutes","16:00 — Call to order","Introduce four taboos (phone rules)","Ask phones to silent","Introduce President"]},
-    {phase:"During Meeting",items:["Register any late arrivals","Monitor guest comfort","Manage break timing — call back to order"]},
-    {phase:"After Meeting",items:["Collect and categorize all evaluation sheets","Collect all name badges","Pack up club property","Clean the venue","Ensure nothing is left behind"]}
+    {phase:"⏰ Before Meeting",color:"var(--info)",items:["Agenda printed","Snacks & awards ready","Banner & boards displayed","Registration table set up (badges, forms, pens)","Meeting table set up (bell, timing cards, gavel)","Theme written on whiteboard"]},
+    {phase:"🎙 During Meeting",color:"var(--ok)",items:["Greet every guest","Call to order on time","Register late arrivals","Manage break — call back to order"]},
+    {phase:"🏁 After Meeting",color:"var(--warn)",items:["Collect evaluation sheets","Collect all name badges","Pack club property","Venue clean & nothing left behind"]}
   ];
   
-  // Load saved state
   const saved=JSON.parse(localStorage.getItem("tm-saa-checks")||"{}");
   
   let h='<div class="project-overlay" style="background:var(--bg)">';
   h+='<div class="project-overlay-close"><button onclick="closeProjectOverlay()">✕ Close</button></div>';
   h+='<div class="detail" style="background:var(--s1);max-width:500px">';
-  h+='<div class="detail-title" style="text-align:center;margin-bottom:4px">✅ SAA Meeting Checklist</div>';
-  h+='<div style="text-align:center;font-size:13px;color:var(--t3);margin-bottom:16px">Tap to check off — progress saves automatically</div>';
+  h+='<div class="detail-title" style="text-align:center;margin-bottom:4px">🛎️ SAA Meeting Checklist</div>';
+  h+='<div style="text-align:center;font-size:13px;color:var(--t3);margin-bottom:16px">Tap to check off — saves automatically</div>';
   
   let totalItems=0,checkedItems=0;
   checks.forEach((phase,pi)=>{
-    h+='<div style="margin-bottom:14px">';
-    h+='<div style="font-size:12px;font-weight:600;color:var(--info);margin-bottom:8px">'+phase.phase+'</div>';
+    h+='<div style="margin-bottom:16px">';
+    h+='<div style="font-size:13px;font-weight:700;color:'+phase.color+';margin-bottom:8px">'+phase.phase+'</div>';
     phase.items.forEach((item,ii)=>{
       const key=pi+"-"+ii;
       const checked=saved[key];
       if(checked)checkedItems++;
       totalItems++;
-      h+='<div onclick="toggleSAACheck(\''+key+'\')" style="display:flex;align-items:flex-start;gap:10px;padding:8px 10px;background:'+(checked?"var(--ok)08":"var(--s0)")+';border-radius:8px;margin-bottom:4px;cursor:pointer;transition:all .15s">';
-      h+='<div style="width:20px;height:20px;border-radius:6px;border:2px solid '+(checked?"var(--ok)":"var(--b2)")+';background:'+(checked?"var(--ok)":"transparent")+';display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px">';
-      if(checked)h+='<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>';
+      h+='<div onclick="toggleSAACheck(\''+key+'\')" style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:'+(checked?"var(--ok)08":"var(--s0)")+';border-radius:10px;margin-bottom:5px;cursor:pointer;transition:all .15s">';
+      h+='<div style="width:22px;height:22px;border-radius:7px;border:2px solid '+(checked?"var(--ok)":"var(--b2)")+';background:'+(checked?"var(--ok)":"transparent")+';display:flex;align-items:center;justify-content:center;flex-shrink:0">';
+      if(checked)h+='<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>';
       h+='</div>';
-      h+='<div style="font-size:13px;color:'+(checked?"var(--t3)":"var(--t1)")+';line-height:1.5;'+(checked?"text-decoration:line-through":"")+'">'+item+'</div>';
+      h+='<div style="font-size:14px;color:'+(checked?"var(--t4)":"var(--t1)")+';'+(checked?"text-decoration:line-through":"")+'">'+item+'</div>';
       h+='</div>';
     });
     h+='</div>';
   });
   
   const pct=totalItems?Math.round(checkedItems/totalItems*100):0;
-  h+='<div style="margin-top:8px;text-align:center">';
-  h+='<div style="height:6px;background:var(--b2);border-radius:3px;margin-bottom:8px"><div style="height:100%;width:'+pct+'%;background:var(--ok);border-radius:3px;transition:width .3s"></div></div>';
-  h+='<div style="font-size:12px;color:var(--t3)">'+checkedItems+'/'+totalItems+' completed ('+pct+'%)</div>';
-  h+='<button class="sb" style="margin-top:10px;padding:8px 16px;background:var(--s0);color:var(--t3);border-radius:8px;font-size:12px" onclick="resetSAAChecklist()">🔄 Reset All</button>';
-  h+='</div>';
+  h+='<div style="height:8px;background:var(--b2);border-radius:4px;margin-bottom:8px"><div style="height:100%;width:'+pct+'%;background:var(--ok);border-radius:4px;transition:width .3s"></div></div>';
+  h+='<div style="text-align:center;font-size:13px;color:var(--t3)">'+checkedItems+'/'+totalItems+(pct===100?' ✅ All done!':' ('+pct+'%)')+'</div>';
+  h+='<div style="text-align:center;margin-top:12px"><button class="sb" style="padding:8px 16px;background:var(--s0);color:var(--t4);border-radius:8px;font-size:12px" onclick="resetSAAChecklist()">🔄 Reset</button></div>';
   
   h+='</div></div>';
   mr.innerHTML=h;
