@@ -1019,7 +1019,7 @@ a{color:var(--info);text-decoration:none}
 <div id="tab-roles" class="tc"><div id="roles-content"></div></div>
 <div id="tab-master" class="tc"><div id="master-content"></div></div>
 <div id="tab-club" class="tc"><div id="club-announcements"></div><div class="sl" style="margin-top:16px">Club Members</div><div id="club-list"></div></div>
-<div class="app-footer">5A+ TMC App v8.39 · Built by Kian How</div>
+<div class="app-footer">5A+ TMC App v8.41 · Built by Kian How</div>
 </div>
 
 <div class="bnav" id="bottom-nav"></div>
@@ -2241,6 +2241,14 @@ window.openRoleDetail=function(idx){
   // Content
   h+='<div id="role-detail-content" class="sop-body" style="display:block;padding:0">';
   h+=content;
+  // Script Templates tool — append for roles that have templates
+  if(typeof ROLE_SCRIPTS!=="undefined"&&ROLE_SCRIPTS[role.title]){
+    h+='<div style="margin-top:14px;padding:16px;background:#5BC0BE12;border:1px solid #5BC0BE35;border-radius:14px;text-align:center">';
+    h+='<div style="font-size:15px;font-weight:700;color:var(--w);margin-bottom:4px">📋 Script Templates</div>';
+    h+='<div style="font-size:13px;color:var(--t3);margin-bottom:10px">Ready-to-use intro and report scripts. Fill in a few details, copy, and go.</div>';
+    h+='<button class="sb" style="background:#5BC0BE;color:#fff;padding:10px 24px;border-radius:10px;font-size:14px;font-weight:600" onclick="openRoleScripts(\''+role.title.replace(/'/g,"\\'")+'\')">Open Templates →</button>';
+    h+='</div>';
+  }
   h+='</div>';
   
   h+='</div></div>';
@@ -5479,6 +5487,237 @@ window.selectWOD=function(i){
   const w=window._wodWords[i];
   sT("📖 Selected: "+w.word);
 };
+
+// ═══ ROLE SCRIPT TEMPLATES ═══
+// Generic, fill-in-the-blanks intro + report templates for function roles.
+// Users type their details, preview updates live, copy to clipboard.
+const ROLE_SCRIPTS={
+  "Sergeant at Arms (SAA)":{
+    intro:{
+      title:"Call to Order",
+      subtitle:"Open the meeting and hand off to the TMD or President.",
+      template:"Good morning everyone, and welcome to {{clubName}}!\n\nPlease take your seats — we're about to begin.\n\nToday's meeting theme is \"{{theme}}.\"\n\nA quick housekeeping note: please silence your phones, and if you need to step out, do so between segments.\n\nI now call this meeting to order. Please join me in welcoming our Toastmaster of the Day, {{tmdName}}!",
+      fields:[
+        {key:"myName",label:"Your name",placeholder:"e.g., Samuel"},
+        {key:"clubName",label:"Club name",placeholder:"e.g., 5A+ Toastmasters"},
+        {key:"theme",label:"Meeting theme",placeholder:"e.g., New Beginnings"},
+        {key:"tmdName",label:"TMD's name",placeholder:"e.g., Maria"}
+      ]
+    },
+    report:{
+      title:"Meeting Closing",
+      subtitle:"Close the meeting after the TMD hands back to you.",
+      template:"Thank you {{tmdName}}.\n\nThat concludes today's meeting of {{clubName}}. Our next meeting is on {{nextMeeting}}.\n\nBefore you leave — please return your chairs, grab your personal belongings, and make sure the venue is as we found it.\n\nThank you all for a wonderful meeting. See you next time!",
+      fields:[
+        {key:"tmdName",label:"TMD's name"},
+        {key:"clubName",label:"Club name"},
+        {key:"nextMeeting",label:"Next meeting",placeholder:"e.g., Sunday Jul 12, same time"}
+      ]
+    }
+  },
+  "Timer":{
+    intro:{
+      title:"Timer's Introduction",
+      subtitle:"Use this at the start when the TMD hands off to you.",
+      template:"Thank you {{tmdName}}.\n\nI'm {{myName}}, your Timer for today. My role is to monitor time for each speaker and segment.\n\nHere's how I'll signal:\n• Green card = minimum time reached\n• Yellow = midpoint\n• Red = maximum time\n• Bell = 30 seconds grace used — speaker is disqualified\n\nToday's timing rules:\n• Prepared Speeches (5–7 min): Green 5:00, Yellow 6:00, Red 7:00, Bell 7:30\n• Table Topics (1–2 min): Green 1:00, Yellow 1:30, Red 2:00, Bell 2:30\n• Individual Evaluator (2–3 min): Green 2:00, Yellow 2:30, Red 3:00, Bell 3:30\n\nSpeakers, please glance at me once so I know you've seen the signal.\n\nBack to you, {{tmdName}}.",
+      fields:[
+        {key:"myName",label:"Your name"},
+        {key:"tmdName",label:"TMD's name"}
+      ]
+    },
+    report:{
+      title:"Timer's Report",
+      subtitle:"Use this when the General Evaluator hands off to you.",
+      template:"Thank you {{geName}}.\n\nPrepared speakers today:\n{{preparedTimes}}\n\nIndividual evaluators:\n{{evalTimes}}\n\nFor Table Topics: {{tableTopicsNote}}\n\nThat concludes my Timer's report. Back to you, {{geName}}.",
+      fields:[
+        {key:"geName",label:"GE's name"},
+        {key:"preparedTimes",label:"Prepared speaker times",placeholder:"e.g.,\n• John — 6:42 — within range\n• Maria — 7:18 — 18s over",type:"textarea"},
+        {key:"evalTimes",label:"Evaluator times",placeholder:"e.g.,\n• David — 2:48\n• Sam — 3:05 (disqualified)",type:"textarea"},
+        {key:"tableTopicsNote",label:"Table Topics summary",placeholder:"e.g., 4 of 5 speakers were within time; Rachel went 20s over"}
+      ]
+    }
+  },
+  "Ah-Counter":{
+    intro:{
+      title:"Ah-Counter's Introduction",
+      subtitle:"Use this at the start when the TMD hands off to you.",
+      template:"Thank you {{tmdName}}.\n\nI'm {{myName}}, your Ah-Counter for today.\n\nMy role is to listen for filler words — like \"um,\" \"ah,\" \"so,\" \"like,\" \"you know,\" and \"basically\" — along with repeated words, incomplete sentences, and gender misuse (saying \"he\" when \"she\" was meant).\n\nI'll track these for every speaker — including role-takers — and report back at the end.\n\nFillers are a natural part of speech — awareness is how we improve. A brief pause always sounds more confident than a filler.\n\nBack to you, {{tmdName}}.",
+      fields:[
+        {key:"myName",label:"Your name"},
+        {key:"tmdName",label:"TMD's name"}
+      ]
+    },
+    report:{
+      title:"Ah-Counter's Report",
+      subtitle:"Name specific fillers per speaker — not just totals.",
+      template:"Thank you {{geName}}.\n\nHere are the notable fillers I tracked:\n\n{{fillers}}\n\nOur Ah {{kingOrQueen}} for today is {{ahKingName}} with {{totalCount}} fillers.\n\nRemember — a brief pause sounds more confident than a filler. Back to you, {{geName}}.",
+      fields:[
+        {key:"geName",label:"GE's name"},
+        {key:"fillers",label:"Fillers per speaker",placeholder:"e.g.,\n• Sarah — \"um\" ×3, \"you know\" ×2\n• Mike — \"so\" ×5, \"basically\" ×1",type:"textarea"},
+        {key:"kingOrQueen",label:"King or Queen",placeholder:"King / Queen"},
+        {key:"ahKingName",label:"Ah King/Queen name"},
+        {key:"totalCount",label:"Their total count",placeholder:"e.g., 7"}
+      ]
+    }
+  },
+  "Grammarian":{
+    intro:{
+      title:"Grammarian's Introduction",
+      subtitle:"Announce the Word of the Day and your role.",
+      template:"Thank you {{tmdName}}.\n\nI'm {{myName}}, your Grammarian today. My role is to listen for interesting language use, creative expressions, and any grammatical stumbles throughout the meeting.\n\nToday's Word of the Day is \"{{word}}\" — {{partOfSpeech}}.\n\nIt means: {{definition}}\n\nFor example: \"{{example}}\"\n\nI encourage everyone to use \"{{word}}\" in your Table Topics, evaluations, or prepared speeches today. I'll be tracking who uses it!\n\nBack to you, {{tmdName}}.",
+      fields:[
+        {key:"myName",label:"Your name"},
+        {key:"tmdName",label:"TMD's name"},
+        {key:"word",label:"Word of the Day"},
+        {key:"partOfSpeech",label:"Part of speech",placeholder:"noun / verb / adjective / adverb"},
+        {key:"definition",label:"Definition",type:"textarea"},
+        {key:"example",label:"Example sentence using the word",type:"textarea"}
+      ]
+    },
+    report:{
+      title:"Grammarian's Report",
+      subtitle:"Highlight language — not just mistakes.",
+      template:"Thank you {{geName}}.\n\nOur Word of the Day, \"{{word}},\" was used {{usageCount}} time(s) today.\n\n{{bestUsages}}\n\nNotable language I enjoyed:\n{{goodLanguage}}\n\nA few moments with room for improvement:\n{{improvements}}\n\nOverall, a wonderful display of language today. Back to you, {{geName}}.",
+      fields:[
+        {key:"geName",label:"GE's name"},
+        {key:"word",label:"Word of the Day"},
+        {key:"usageCount",label:"Times used",placeholder:"e.g., 4"},
+        {key:"bestUsages",label:"Best usages (optional)",placeholder:"e.g.,\n• Sarah said \"the resilient team pushed through\"\n• Mike used it twice",type:"textarea"},
+        {key:"goodLanguage",label:"Notable language",placeholder:"e.g.,\n• Emily's metaphor about 'weathering the storm'\n• David's phrase 'quietly revolutionary'",type:"textarea"},
+        {key:"improvements",label:"Room for improvement",placeholder:"e.g.,\n• 'Less people' — it's 'fewer people'\n• 'Me and John' → 'John and I'",type:"textarea"}
+      ]
+    }
+  },
+  "Table Topics Master (TTM)":{
+    intro:{
+      title:"TTM's Introduction",
+      subtitle:"Open Table Topics and explain the format.",
+      template:"Thank you {{tmdName}}!\n\nI'm {{myName}}, your Table Topics Master for today.\n\nTable Topics is our chance to practice thinking on our feet — I'll pose a question, and you respond with a 1–2 minute speech, no prep.\n\nOur theme today: \"{{theme}}.\" All my questions will tie into this somehow.\n\nA few ground rules:\n• Don't worry about the \"right\" answer — speak from experience or imagination\n• Green card at 1 minute, Yellow at 1:30, Red at 2:00\n• If you'd rather not speak, just let me know — no pressure\n\nLet's begin! My first question goes to... {{firstSpeaker}}.",
+      fields:[
+        {key:"myName",label:"Your name"},
+        {key:"tmdName",label:"TMD's name"},
+        {key:"theme",label:"Table Topics theme"},
+        {key:"firstSpeaker",label:"First speaker's name",placeholder:"e.g., Sarah"}
+      ]
+    }
+  },
+  "General Evaluator (GE)":{
+    intro:{
+      title:"GE's Introduction",
+      subtitle:"Introduce the evaluation segment and your team.",
+      template:"Thank you {{tmdName}}.\n\nI'm {{myName}}, your General Evaluator for today.\n\nMy role is to evaluate the meeting — how it ran, how our role-takers performed, and what we can all learn. I won't be evaluating the prepared speeches — that's our individual evaluators' job.\n\nOur evaluation team today:\n{{evalTeam}}\n\nAfter our individual evaluators share their reports, you'll hear from our Timer, Ah-Counter, and Grammarian. I'll wrap up with my overall evaluation.\n\nBack to you, {{tmdName}}, to introduce our evaluators.",
+      fields:[
+        {key:"myName",label:"Your name"},
+        {key:"tmdName",label:"TMD's name"},
+        {key:"evalTeam",label:"Evaluation team lineup",placeholder:"e.g.,\n• David evaluating John\n• Lisa evaluating Maria\n• Timer: Sam\n• Ah-Counter: Rachel\n• Grammarian: Emily",type:"textarea"}
+      ]
+    },
+    report:{
+      title:"GE's Report",
+      subtitle:"Structured, warm, honest feedback on the meeting.",
+      template:"Thank you {{tmdName}}.\n\nToday's meeting was {{openingComment}}\n\nOn the meeting itself:\n{{meetingStandard}}\n\nOn our role-takers:\n{{roleFeedback}}\n\nOn our evaluators:\n{{evalFeedback}}\n\nOne thing to celebrate: {{celebrate}}\nOne thing to work toward: {{improve}}\n\nThank you everyone. Back to you, {{tmdName}}.",
+      fields:[
+        {key:"tmdName",label:"TMD's name"},
+        {key:"openingComment",label:"Overall feel of the meeting",placeholder:"e.g., warm, energetic, and well-paced"},
+        {key:"meetingStandard",label:"Meeting flow & timing",placeholder:"e.g.,\n• Started on time\n• Transitions were smooth\n• Energy stayed high throughout",type:"textarea"},
+        {key:"roleFeedback",label:"Feedback per role-taker",placeholder:"e.g.,\n• TMD Maria — warm intros, clear transitions\n• Timer Sam — signals clear, explanation was rushed\n• Grammarian Lisa — WOD was well-chosen",type:"textarea"},
+        {key:"evalFeedback",label:"Feedback for evaluators",placeholder:"e.g.,\n• David — specific examples, balanced positives with improvements\n• Lisa — strong opening, could add one concrete improvement",type:"textarea"},
+        {key:"celebrate",label:"One thing to celebrate"},
+        {key:"improve",label:"One thing to work toward"}
+      ]
+    }
+  }
+};
+
+function _rsEsc(s){return(s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");}
+function _rsPreview(template,fields,values){
+  let out=template;
+  fields.forEach(f=>{
+    const val=(values[f.key]||"").trim();
+    const replacement=val?val:"["+f.label+"]";
+    out=out.split("{{"+f.key+"}}").join(replacement);
+  });
+  return out;
+}
+window._scriptState={role:null,section:"intro",values:{}};
+
+window.openRoleScripts=function(role){
+  if(!ROLE_SCRIPTS[role])return;
+  // Pre-populate values from persisted storage (so name sticks across roles/sessions)
+  const saved=JSON.parse(localStorage.getItem("tm-pw-script-values")||"{}");
+  window._scriptState={role:role,section:"intro",values:{...saved}};
+  _rsRender();
+};
+window.switchScriptSection=function(section){
+  window._scriptState.section=section;
+  _rsRender();
+};
+window.updateScriptField=function(key,val){
+  window._scriptState.values[key]=val;
+  localStorage.setItem("tm-pw-script-values",JSON.stringify(window._scriptState.values));
+  // Only update the preview — not the full modal — so input focus and cursor stay put
+  const {role,section,values}=window._scriptState;
+  const sect=ROLE_SCRIPTS[role][section];
+  const el=document.getElementById("rsc-preview");
+  if(el)el.textContent=_rsPreview(sect.template,sect.fields,values);
+};
+window.copyScript=function(){
+  const el=document.getElementById("rsc-preview");if(!el)return;
+  const text=el.textContent;
+  if(navigator.clipboard&&navigator.clipboard.writeText){
+    navigator.clipboard.writeText(text).then(()=>sT("✅ Script copied to clipboard")).catch(()=>sT("Couldn't copy — tap and hold the preview to select"));
+  }else{sT("Couldn't copy — tap and hold the preview to select");}
+};
+
+function _rsRender(){
+  const {role,section,values}=window._scriptState;
+  const data=ROLE_SCRIPTS[role];if(!data)return;
+  // Fall back to intro if the requested section doesn't exist (e.g. TTM has no report)
+  const actualSection=data[section]?section:"intro";
+  window._scriptState.section=actualSection;
+  const sect=data[actualSection];
+  const mr=document.getElementById("modal-root");
+  let h='<div class="modal-bg" onclick="closeModal(event)"><div class="modal" onclick="event.stopPropagation()" style="max-width:540px">';
+  h+='<div class="modal-title">📋 '+_rsEsc(role)+' Scripts</div>';
+  // Tabs only if role has BOTH intro and report
+  if(data.intro&&data.report){
+    h+='<div style="display:flex;gap:6px;margin-bottom:12px">';
+    ["intro","report"].forEach(s=>{
+      const isActive=s===actualSection;
+      const lbl=s==="intro"?data.intro.title:data.report.title;
+      h+='<button onclick="switchScriptSection(\''+s+'\')" style="flex:1;padding:10px 6px;border-radius:8px;font-size:13px;font-weight:600;border:none;background:'+(isActive?"var(--info)":"var(--b1)")+';color:'+(isActive?"#fff":"var(--t3)")+';font-family:inherit;cursor:pointer">'+_rsEsc(lbl)+'</button>';
+    });
+    h+='</div>';
+  }
+  h+='<div style="font-size:13px;color:var(--t3);margin-bottom:14px;line-height:1.5">'+_rsEsc(sect.subtitle)+'</div>';
+  // Form
+  sect.fields.forEach(f=>{
+    const val=values[f.key]||"";
+    const ph=_rsEsc(f.placeholder||"");
+    const escVal=_rsEsc(val);
+    h+='<div style="margin-bottom:10px">';
+    h+='<label style="font-size:12px;font-weight:600;color:var(--t3);display:block;margin-bottom:4px">'+_rsEsc(f.label)+'</label>';
+    if(f.type==="textarea"){
+      h+='<textarea oninput="updateScriptField(\''+f.key+'\',this.value)" placeholder="'+ph+'" style="width:100%;padding:10px;background:var(--s0);border:1px solid var(--b2);border-radius:10px;color:var(--t1);font-size:14px;font-family:\'Source Sans 3\',sans-serif;min-height:72px;resize:vertical;box-sizing:border-box;line-height:1.5">'+escVal+'</textarea>';
+    }else{
+      h+='<input type="text" oninput="updateScriptField(\''+f.key+'\',this.value)" placeholder="'+ph+'" value="'+escVal+'" style="width:100%;padding:10px;background:var(--s0);border:1px solid var(--b2);border-radius:10px;color:var(--t1);font-size:14px;font-family:\'Source Sans 3\',sans-serif;box-sizing:border-box">';
+    }
+    h+='</div>';
+  });
+  // Preview
+  const preview=_rsPreview(sect.template,sect.fields,values);
+  h+='<div style="background:var(--s0);border:1px solid var(--b1);border-radius:12px;padding:14px;margin:16px 0 12px">';
+  h+='<div style="font-size:10px;font-weight:700;color:var(--t4);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px">Your Script</div>';
+  h+='<div id="rsc-preview" style="font-size:14px;color:var(--t1);line-height:1.65;white-space:pre-wrap">'+_rsEsc(preview)+'</div>';
+  h+='</div>';
+  // Buttons
+  h+='<div style="display:flex;gap:8px">';
+  h+='<button class="modal-close" style="flex:1" onclick="closeModal()">Close</button>';
+  h+='<button class="modal-close" style="flex:1;background:var(--ok);color:#fff" onclick="copyScript()">📋 Copy Script</button>';
+  h+='</div>';
+  h+='</div></div>';
+  mr.innerHTML=h;
+}
 
 // ═══ SAA CHECKLIST ═══
 window.openSAAChecklist=function(){
