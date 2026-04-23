@@ -1021,8 +1021,8 @@ a{color:var(--info);text-decoration:none}
 <div id="tab-planner" class="tc"><div id="planner-content"></div></div>
 <div id="tab-roles" class="tc"><div id="roles-content"></div></div>
 <div id="tab-master" class="tc"><div id="master-content"></div></div>
-<div id="tab-club" class="tc"><div id="club-announcements"></div><div class="sl" style="margin-top:16px">Club Members</div><div id="club-list"></div></div>
-<div class="app-footer">5A+ TMC App v8.53 · Built by Kian How</div>
+<div id="tab-club" class="tc"><div id="club-announcements"></div><div id="club-next-meeting" style="margin-top:16px"></div></div>
+<div class="app-footer">5A+ TMC App v8.55 · Built by Kian How</div>
 </div>
 
 <div class="bnav" id="bottom-nav"></div>
@@ -1374,7 +1374,7 @@ function initFB(cb){
   if(!window._fbReady||typeof firebase==="undefined"){fbOk=false;updSync();if(cb)cb();return;}
   try{if(!firebase.apps.length)firebase.initializeApp(FB_CONFIG);db=firebase.database();fbOk=true;updSync();
   db.ref("clubs/"+S.club+"/members").on("value",snap=>{allMembers=snap.val()||{};rCl();if(S.role==="master"||S.role==="vpe")rMaster();});
-  db.ref("clubs/"+S.club+"/club").on("value",snap=>{const d=snap.val();if(d){clubData=d;rPl();if(S.role==="master"||S.role==="vpe")rMaster();}});
+  db.ref("clubs/"+S.club+"/club").on("value",snap=>{const d=snap.val();if(d){clubData=d;rPl();rClubAnnouncements();rCl();buildNav();if(S.role==="master"||S.role==="vpe")rMaster();}});
   if(cb)cb();}catch(e){console.error(e);fbOk=false;updSync();if(cb)cb();}}
 
 // Try to load existing member data from Firebase by name
@@ -2567,6 +2567,56 @@ function getRoleCategory(label,type){
 }
 function getCategoryInfo(id){return ROLE_CATEGORIES.find(c=>c.id===id)||ROLE_CATEGORIES[4];}
 
+// ═══ MEETING ROLE TEMPLATE ═══
+// The fixed slate of roles for every meeting. Admin can override per-meeting
+// by adding custom slots or skipping template roles (stored in clubData.meetingOverrides).
+// Support roles come first (preparation), then hosting, function, speakers, evaluators.
+const ROLE_TEMPLATE=[
+  // Support (meeting prep / logistics)
+  {category:"others",label:"Ambassador of the Day"},
+  {category:"others",label:"Reception"},
+  {category:"others",label:"IT"},
+  {category:"others",label:"Photographer"},
+  // Hosting
+  {category:"hosting",label:"TMD"},
+  {category:"hosting",label:"TTM"},
+  // Evaluation (GE here — before speakers because structurally it's hosting-adjacent)
+  {category:"evaluation",label:"GE"},
+  // Function
+  {category:"function",label:"Timer"},
+  {category:"function",label:"Ah-Counter"},
+  {category:"function",label:"Grammarian"},
+  {category:"function",label:"Master Listener"}
+  // Speakers and IEs are generated dynamically from speechSlots count
+];
+function getMeetingTemplate(date){
+  // Return the effective template for this date — base + speakers/IEs by count, minus any skipped
+  const speechSlots=(clubData.settings&&clubData.settings.speechSlots)||3;
+  const overrides=(clubData.meetingOverrides&&clubData.meetingOverrides[date])||{};
+  const skipped=overrides.skipped||[];
+  const base=ROLE_TEMPLATE.slice();
+  // Dynamic speaker + IE slots
+  for(let i=1;i<=speechSlots;i++)base.push({category:"speakers",label:"Speaker "+i});
+  for(let i=1;i<=speechSlots;i++)base.push({category:"evaluation",label:"IE "+i});
+  // Add custom slots (admin-added per meeting)
+  (overrides.custom||[]).forEach(label=>base.push({category:"others",label,custom:true}));
+  // Filter skipped
+  return base.filter(t=>!skipped.includes(t.label));
+}
+// Match a member's booked slot to a template role — by normalized name
+function matchBookedToTemplate(bookedLabel,bookedType,bookedPid,bookedPathCode){
+  const norm=normalizeRoleName(bookedLabel);
+  // Project bookings fill Speaker slots (first available)
+  if(bookedType==="project"&&!bookedLabel.toLowerCase().includes("evaluator")){
+    const pd=bookedPid?PD[bookedPid]:null;
+    if(pd&&pd.roleAs&&pd.roleAs.toLowerCase()==="evaluator"){
+      return{category:"evaluation",match:"evaluator-slot"};
+    }
+    return{category:"speakers",match:"speaker-slot"};
+  }
+  return{category:null,match:norm};
+}
+
 // ═══ ADMIN: ROUTING STATE ═══
 let _adminTab=localStorage.getItem("tm-pw-admin-tab")||"meetings";
 let _adminMeetingOpen={};  // date -> bool (expanded state)
@@ -2634,23 +2684,6 @@ function rAdminAnnouncements(){
     h+='<div style="font-size:13px;color:var(--t4);text-align:center;padding:12px 0">No announcements yet.</div>';
   }
   h+='</div>';
-  
-  // Meeting date generator also lives here
-  const dates=(clubData.dates||[]).sort();
-  h+='<div class="sl">📅 Meeting Dates</div>';
-  h+='<div class="auto-gen" style="margin-bottom:18px">';
-  h+='<div style="font-size:13px;color:var(--t3);margin-bottom:10px">Generate a batch of meeting dates for the club.</div>';
-  h+='<div class="ag-row"><label>Every</label><select id="ag-freq"><option value="1">Week</option><option value="2">2 Weeks</option></select><label>on</label><select id="ag-day"><option value="0">Sun</option><option value="1">Mon</option><option value="2">Tue</option><option value="3">Wed</option><option value="4">Thu</option><option value="5">Fri</option><option value="6">Sat</option></select></div>';
-  h+='<div class="ag-row"><label>From</label><input type="date" id="ag-start"><label>To</label><input type="date" id="ag-end"></div>';
-  h+='<div class="ag-row"><button class="sb" style="background:var(--info);color:#fff" onclick="autoGen()">Generate</button>';
-  if(dates.length)h+='<button class="sb" style="background:var(--b1);color:var(--danger)" onclick="clearDates()">Clear All</button>';
-  h+='</div>';
-  if(dates.length){
-    const todayStr=new Date().toISOString().slice(0,10);
-    const upcoming=dates.filter(d=>d>=todayStr).length;
-    h+='<div style="font-size:12px;color:var(--t3);margin-top:8px;padding-top:8px;border-top:1px solid var(--b1)">'+dates.length+' total · '+upcoming+' upcoming</div>';
-  }
-  h+='</div>';
   return h;
 }
 
@@ -2704,9 +2737,42 @@ function rAdminVoting(){
 function rAdminMeetings(){
   const dates=(clubData.dates||[]).filter(d=>!(clubData.skipped||{})[d]).sort();
   const cap=clubData.settings||{speechSlots:3,roleSlots:5};
-  let h='<div class="sl" style="margin-top:0">📅 Master Meeting Plan</div>';
+  let h='';
+  
+  // Meeting Date Generator (collapsible, at the top)
+  const genOpen=_adminMeetingOpen["__gen__"];
+  h+='<div style="background:var(--s1);border:1px solid var(--b1);border-radius:12px;margin-bottom:14px;overflow:hidden">';
+  h+='<div onclick="toggleAdminGen()" style="cursor:pointer;display:flex;align-items:center;gap:10px;padding:12px 14px;user-select:none">';
+  h+='<span style="font-size:16px">📅</span>';
+  h+='<div style="flex:1;font-size:13px;font-weight:600;color:var(--w)">Meeting Date Generator</div>';
+  const allDates=(clubData.dates||[]).sort();
+  if(allDates.length){
+    const todayStr=new Date().toISOString().slice(0,10);
+    const upcoming=allDates.filter(d=>d>=todayStr).length;
+    h+='<span style="font-size:11px;color:var(--t4)">'+upcoming+" upcoming</span>";
+  }
+  h+='<span style="color:var(--t4);font-size:13px;transition:transform .2s;transform:rotate('+(genOpen?180:0)+'deg)">▾</span>';
+  h+='</div>';
+  if(genOpen){
+    h+='<div class="auto-gen" style="margin:0;border:none;border-top:1px solid var(--b1);border-radius:0">';
+    h+='<div style="font-size:13px;color:var(--t3);margin-bottom:10px">Generate a batch of meeting dates for the club.</div>';
+    h+='<div class="ag-row"><label>Every</label><select id="ag-freq"><option value="1">Week</option><option value="2">2 Weeks</option></select><label>on</label><select id="ag-day"><option value="0">Sun</option><option value="1">Mon</option><option value="2">Tue</option><option value="3">Wed</option><option value="4">Thu</option><option value="5">Fri</option><option value="6">Sat</option></select></div>';
+    h+='<div class="ag-row"><label>From</label><input type="date" id="ag-start"><label>To</label><input type="date" id="ag-end"></div>';
+    h+='<div class="ag-row"><button class="sb" style="background:var(--info);color:#fff" onclick="autoGen()">Generate</button>';
+    if(allDates.length)h+='<button class="sb" style="background:var(--b1);color:var(--danger)" onclick="clearDates()">Clear All</button>';
+    h+='</div>';
+    if(allDates.length){
+      const todayStr=new Date().toISOString().slice(0,10);
+      const upcoming=allDates.filter(d=>d>=todayStr).length;
+      h+='<div style="font-size:12px;color:var(--t3);margin-top:8px;padding-top:8px;border-top:1px solid var(--b1)">'+allDates.length+' total · '+upcoming+' upcoming</div>';
+    }
+    h+='</div>';
+  }
+  h+='</div>';
+  
+  h+='<div class="sl" style="margin-top:0">📅 Master Meeting Plan</div>';
   if(!dates.length){
-    h+='<div class="empty">No meeting dates set. Go to Announcements → Meeting Dates to generate.</div>';
+    h+='<div class="empty">No meeting dates set. Expand the Meeting Date Generator above to create some.</div>';
     return h;
   }
   // Filter to today + future for the main view
@@ -2716,109 +2782,158 @@ function rAdminMeetings(){
   
   h+='<div style="font-size:12px;color:var(--t3);margin-bottom:10px">'+upcomingDates.length+' upcoming meeting'+(upcomingDates.length!==1?"s":"")+(pastDates.length?" · "+pastDates.length+" past":"")+"</div>";
   
-  upcomingDates.forEach(d=>{h+=renderMeetingStrip(d,cap);});
+  upcomingDates.forEach(d=>{h+=renderMeetingStrip(d,cap,"admin");});
   
   if(pastDates.length){
     const pastOpen=_adminMeetingOpen["__past__"];
     h+='<div style="margin-top:16px"><button onclick="toggleAdminPast()" style="width:100%;padding:10px;background:var(--s1);border:1px solid var(--b1);border-radius:10px;color:var(--t3);font-size:13px;font-weight:600;cursor:pointer;font-family:\'Source Sans 3\',sans-serif">'+(pastOpen?"▾ Hide past meetings":"▸ Show "+pastDates.length+" past meetings")+'</button></div>';
     if(pastOpen){
       h+='<div style="margin-top:10px;opacity:.7">';
-      pastDates.reverse().forEach(d=>{h+=renderMeetingStrip(d,cap);});
+      pastDates.reverse().forEach(d=>{h+=renderMeetingStrip(d,cap,"admin");});
       h+='</div>';
     }
   }
   return h;
 }
 
+window.toggleAdminGen=function(){
+  _adminMeetingOpen["__gen__"]=!_adminMeetingOpen["__gen__"];
+  rMaster();
+};
+
 window.toggleAdminPast=function(){
   _adminMeetingOpen["__past__"]=!_adminMeetingOpen["__past__"];
   rMaster();
 };
 
-function renderMeetingStrip(d,cap){
-  const dfmt=new Date(d+"T00:00:00").toLocaleDateString("en-US",{weekday:"short",month:"short",day:"numeric"});
-  // Tally assignments per category
-  const byCategory={hosting:[],function:[],evaluation:[],speakers:[],others:[]};
+// Build per-meeting slot map: for each template slot, who (if anyone) has that booking?
+// Returns {slots: [{template, filledBy?}], extras: [{memberName, label, type}]}
+function buildMeetingSlotMap(d){
+  const template=getMeetingTemplate(d);
+  const slots=template.map(t=>({template:t,filledBy:null,memberId:null}));
+  const extras=[];// bookings that don't match a template slot (goes into Others)
+  
+  // Collect all bookings for this date
+  const bookings=[];
   Object.entries(allMembers||{}).forEach(([uid,m])=>{
-    const slots=(m.plan&&m.plan.slots&&m.plan.slots[d])||[];
-    slots.forEach(s=>{
-      const cat=getRoleCategory(s.label,s.type);
-      byCategory[cat].push({member:m.name,memberId:uid,label:s.label,type:s.type,pid:s.pid||null});
-    });
+    const sArr=(m.plan&&m.plan.slots&&m.plan.slots[d])||[];
+    sArr.forEach(s=>{bookings.push({memberId:uid,memberName:m.name||"Unknown",label:s.label,type:s.type,pid:s.pid||null,raw:s});});
   });
   
-  const totalAssigned=Object.values(byCategory).reduce((n,arr)=>n+arr.length,0);
-  // Key-role deficit check (highlight strip if critical roles missing)
-  const hasHosting=byCategory.hosting.length>0;
-  const hasTimer=byCategory.function.some(r=>/timer/i.test(r.label));
-  const hasGE=byCategory.evaluation.some(r=>/general eval|^ge$/i.test(r.label));
-  const missing=[];
-  if(!hasHosting)missing.push("TMD");
-  if(!hasTimer)missing.push("Timer");
-  if(!hasGE)missing.push("GE");
+  // First pass: assign specific-name bookings (TMD, Timer, etc.) to matching template slots
+  bookings.forEach(b=>{
+    if(b._matched)return;
+    if(b.type==="project"&&!b.label.toLowerCase().includes("evaluator")){
+      // Is this a role-as-project evaluator? (e.g. "Evaluator — Effective Body Language")
+      const pd=b.pid?PD[b.pid]:null;
+      if(pd&&pd.roleAs&&pd.roleAs.toLowerCase()==="evaluator")return;// handled in 2nd pass
+      // Speaker: fill next open Speaker slot
+      const idx=slots.findIndex(s=>s.template.category==="speakers"&&!s.filledBy);
+      if(idx>=0){slots[idx].filledBy=b.memberName;slots[idx].memberId=b.memberId;slots[idx].bookedLabel=b.label;b._matched=true;}
+    }else if(b.type==="role"){
+      // Try to match by name (TMD, TTM, Timer, etc.)
+      const norm=normalizeRoleName(b.label);
+      const idx=slots.findIndex(s=>normalizeRoleName(s.template.label)===norm&&!s.filledBy);
+      if(idx>=0){slots[idx].filledBy=b.memberName;slots[idx].memberId=b.memberId;slots[idx].bookedLabel=b.label;b._matched=true;}
+    }
+  });
   
-  // Conflict check: any singleton role held by >1 member? Capacity limits breached?
+  // Second pass: role-as-project evaluators → next open IE slot
+  bookings.forEach(b=>{
+    if(b._matched)return;
+    const pd=b.pid?PD[b.pid]:null;
+    const isEvaluator=b.type==="role"&&normalizeRoleName(b.label)==="Evaluator";
+    const isRoleAsEval=b.type==="project"&&pd&&pd.roleAs&&pd.roleAs.toLowerCase()==="evaluator";
+    if(isEvaluator||isRoleAsEval){
+      const idx=slots.findIndex(s=>/^IE\s*\d/i.test(s.template.label)&&!s.filledBy);
+      if(idx>=0){slots[idx].filledBy=b.memberName;slots[idx].memberId=b.memberId;slots[idx].bookedLabel=b.label;b._matched=true;}
+    }
+  });
+  
+  // Unmatched bookings → extras (custom stuff, anything outside the template)
+  bookings.forEach(b=>{if(!b._matched)extras.push(b);});
+  
+  return{slots,extras,bookings};
+}
+
+// Shared renderer for a meeting strip. Modes: "admin" (interactive) or "member" (read-only).
+function renderMeetingStrip(d,cap,mode){
+  mode=mode||"admin";
+  const dfmt=new Date(d+"T00:00:00").toLocaleDateString("en-US",{weekday:"short",month:"short",day:"numeric"});
+  const{slots,extras}=buildMeetingSlotMap(d);
+  const total=slots.length+extras.length;
+  const filled=slots.filter(s=>s.filledBy).length+extras.length;
+  
+  // Conflict check: any singleton held by >1 member? (Dual assignments to a template slot shouldn't happen now, but extras could have dupes)
   const conflicts=[];
   const singletonCount={};
-  [].concat(byCategory.hosting,byCategory.function,byCategory.evaluation,byCategory.others).forEach(it=>{
+  const allAssigned=[].concat(slots.filter(s=>s.filledBy).map(s=>({label:s.bookedLabel||s.template.label,member:s.filledBy})),extras.map(e=>({label:e.label,member:e.memberName})));
+  allAssigned.forEach(it=>{
     if(isSingletonRole(it.label)){
       const n=normalizeRoleName(it.label);
       singletonCount[n]=(singletonCount[n]||[]).concat(it.member);
     }
   });
-  Object.entries(singletonCount).forEach(([role,members])=>{
-    if(members.length>1)conflicts.push(role+" × "+members.length);
-  });
-  const sCap=(clubData.settings&&clubData.settings.speechSlots)||3;
-  if(byCategory.speakers.length>sCap)conflicts.push(byCategory.speakers.length+" speakers (cap "+sCap+")");
+  Object.entries(singletonCount).forEach(([role,members])=>{if(members.length>1)conflicts.push(role+" × "+members.length);});
   
-  const open=!!_adminMeetingOpen[d];
+  // Missing critical roles
+  const tmdSlot=slots.find(s=>normalizeRoleName(s.template.label)==="TMD");
+  const timerSlot=slots.find(s=>normalizeRoleName(s.template.label)==="Timer");
+  const geSlot=slots.find(s=>normalizeRoleName(s.template.label)==="GE");
+  const missing=[];
+  if(tmdSlot&&!tmdSlot.filledBy)missing.push("TMD");
+  if(timerSlot&&!timerSlot.filledBy)missing.push("Timer");
+  if(geSlot&&!geSlot.filledBy)missing.push("GE");
+  
+  const open=(mode==="member")?true:!!_adminMeetingOpen[d];
   const borderColor=conflicts.length?"rgba(224,82,82,.5)":(missing.length?"rgba(224,82,82,.3)":"var(--b1)");
   let h='<div style="background:var(--s1);border-radius:12px;margin-bottom:10px;border:1px solid '+borderColor+';overflow:hidden">';
   
-  // Strip header
-  h+='<div onclick="toggleAdminMeeting(\''+d+'\')" style="display:flex;align-items:center;gap:10px;padding:14px 14px;cursor:pointer;user-select:none">';
+  // Strip header (clickable in admin mode; static in member mode)
+  if(mode==="admin"){
+    h+='<div onclick="toggleAdminMeeting(\''+d+'\')" style="display:flex;align-items:center;gap:10px;padding:14px 14px;cursor:pointer;user-select:none">';
+  }else{
+    h+='<div style="display:flex;align-items:center;gap:10px;padding:14px 14px">';
+  }
   h+='<div style="flex:1;min-width:0">';
   h+='<div style="font-size:14px;font-weight:700;color:var(--w)">'+dfmt+'</div>';
   h+='<div style="font-size:12px;color:var(--t3);margin-top:2px">';
-  if(totalAssigned===0){
-    h+='<span style="color:var(--t4)">No roles assigned yet</span>';
-  }else{
-    const counts=[];
-    if(byCategory.speakers.length)counts.push(byCategory.speakers.length+" speaker"+(byCategory.speakers.length>1?"s":""));
-    if(byCategory.hosting.length)counts.push(byCategory.hosting.length+" hosting");
-    const fCount=byCategory.function.length+byCategory.evaluation.length+byCategory.others.length;
-    if(fCount)counts.push(fCount+" role"+(fCount>1?"s":""));
-    h+=counts.join(" · ");
-  }
+  h+=filled+" / "+total+" slots filled";
   if(conflicts.length)h+=' <span style="color:var(--danger);font-weight:700">· 🔴 Conflict: '+conflicts.join(", ")+'</span>';
-  if(missing.length)h+=' <span style="color:var(--danger);font-weight:600">· ⚠️ Missing '+missing.join(", ")+'</span>';
-  h+='</div>';
-  h+='</div>';
-  h+='<span style="color:var(--t4);font-size:14px;transition:transform .2s;transform:rotate('+(open?180:0)+'deg)">▾</span>';
+  else if(missing.length)h+=' <span style="color:var(--danger);font-weight:600">· ⚠️ Missing '+missing.join(", ")+'</span>';
+  h+='</div></div>';
+  if(mode==="admin")h+='<span style="color:var(--t4);font-size:14px;transition:transform .2s;transform:rotate('+(open?180:0)+'deg)">▾</span>';
   h+='</div>';
   
-  // Expanded body
+  // Body: render slots grouped by category
   if(open){
     h+='<div style="padding:0 14px 14px 14px;border-top:1px solid var(--b1)">';
-    if(totalAssigned===0){
-      h+='<div style="padding:16px 0;text-align:center;color:var(--t4);font-size:13px">No assignments yet. Members book their own speeches; role assignments by admin coming in v8.52.</div>';
-    }else{
-      ROLE_CATEGORIES.forEach(cat=>{
-        const items=byCategory[cat.id];
-        if(!items.length)return;
-        h+='<div style="margin-top:12px">';
-        h+='<div style="font-size:11px;font-weight:700;color:'+cat.color+';text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px">'+cat.icon+' '+cat.label+' ('+items.length+')</div>';
-        items.forEach(it=>{
-          h+='<div style="display:flex;align-items:center;gap:10px;padding:8px 10px;background:var(--s0);border-radius:8px;margin-bottom:4px;border-left:3px solid '+cat.color+'">';
-          h+='<div style="flex:1;min-width:0">';
-          h+='<div style="font-size:13px;font-weight:600;color:var(--w);line-height:1.3">'+_shEsc(it.member)+'</div>';
-          h+='<div style="font-size:12px;color:var(--t3);margin-top:1px">'+_shEsc(it.label)+'</div>';
-          h+='</div>';
-          h+='</div>';
-        });
-        h+='</div>';
+    ROLE_CATEGORIES.forEach(cat=>{
+      const catSlots=slots.filter(s=>s.template.category===cat.id);
+      const catExtras=extras.filter(e=>getRoleCategory(e.label,e.type)===cat.id);
+      if(!catSlots.length&&!catExtras.length)return;
+      h+='<div style="margin-top:12px">';
+      h+='<div style="font-size:11px;font-weight:700;color:'+cat.color+';text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px">'+cat.icon+' '+cat.label+'</div>';
+      // Render template slots
+      catSlots.forEach(s=>{
+        h+=renderSlot(s,cat,d,mode);
       });
+      // Render extras (unmatched bookings)
+      catExtras.forEach(e=>{
+        h+='<div style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--s0);border-radius:8px;margin-bottom:4px;border-left:3px solid '+cat.color+'">';
+        h+='<div style="flex:1;min-width:0">';
+        h+='<div style="font-size:13px;font-weight:600;color:var(--w);line-height:1.3">'+_shEsc(e.memberName)+'</div>';
+        h+='<div style="font-size:12px;color:var(--t3);margin-top:1px">'+_shEsc(e.label)+'</div>';
+        h+='</div></div>';
+      });
+      h+='</div>';
+    });
+    // Admin: add-custom-slot button at the bottom
+    if(mode==="admin"){
+      h+='<div style="margin-top:14px;padding-top:12px;border-top:1px dashed var(--b1);display:flex;gap:8px">';
+      h+='<button onclick="adminAddCustomSlot(\''+d+'\')" style="flex:1;padding:8px;background:var(--s0);border:1px dashed var(--b2);border-radius:8px;color:var(--t3);font-size:12px;cursor:pointer;font-family:\'Source Sans 3\',sans-serif">+ Add Custom Slot</button>';
+      h+='<button onclick="adminManageTemplate(\''+d+'\')" style="flex:1;padding:8px;background:var(--s0);border:1px dashed var(--b2);border-radius:8px;color:var(--t3);font-size:12px;cursor:pointer;font-family:\'Source Sans 3\',sans-serif">⚙ Manage Slots</button>';
+      h+='</div>';
     }
     h+='</div>';
   }
@@ -2826,9 +2941,268 @@ function renderMeetingStrip(d,cap){
   return h;
 }
 
+// Render a single template slot (filled or empty, admin or member mode)
+function renderSlot(slot,cat,date,mode){
+  const label=slot.template.label;
+  const isCustom=slot.template.custom;
+  if(slot.filledBy){
+    // Filled — show member name + (for admin) action buttons
+    let h='<div style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--s0);border-radius:8px;margin-bottom:4px;border-left:3px solid '+cat.color+'">';
+    h+='<div style="flex:1;min-width:0">';
+    h+='<div style="font-size:13px;font-weight:600;color:var(--w);line-height:1.3">'+_shEsc(slot.filledBy)+'</div>';
+    h+='<div style="font-size:12px;color:var(--t3);margin-top:1px">'+_shEsc(label)+'</div>';
+    h+='</div>';
+    if(mode==="admin"){
+      h+='<button onclick="event.stopPropagation();adminReassignSlot(\''+date+'\',\''+slot.template.label.replace(/'/g,"\\'")+'\',\''+slot.memberId+'\')" style="padding:6px 10px;background:var(--b1);color:var(--t2);border:none;border-radius:6px;font-size:11px;font-weight:600;cursor:pointer;font-family:\'Source Sans 3\',sans-serif">Change</button>';
+    }
+    h+='</div>';
+    return h;
+  }else{
+    // Empty slot
+    const isYou=false;// member mode: compare to S.name? (not needed — member sees "empty" the same either way)
+    if(mode==="admin"){
+      let h='<div onclick="adminAssignSlot(\''+date+'\',\''+slot.template.label.replace(/'/g,"\\'")+'\')" style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:transparent;border:1px dashed var(--b2);border-radius:8px;margin-bottom:4px;cursor:pointer;transition:all .15s" onmouseover="this.style.background=\'var(--s0)\'" onmouseout="this.style.background=\'transparent\'">';
+      h+='<div style="flex:1;min-width:0">';
+      h+='<div style="font-size:13px;font-weight:500;color:var(--t3);line-height:1.3">'+_shEsc(label)+'</div>';
+      h+='<div style="font-size:11px;color:var(--t4);margin-top:1px">Tap to assign</div>';
+      h+='</div>';
+      h+='<span style="color:'+cat.color+';font-size:13px;font-weight:700">+ Assign</span>';
+      h+='</div>';
+      return h;
+    }else{
+      // Member mode: tap to book (jump to planner with confirm)
+      let h='<div onclick="memberBookFromClub(\''+date+'\',\''+label.replace(/'/g,"\\'")+'\',\''+slot.template.category+'\')" style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:transparent;border:1px dashed var(--b2);border-radius:8px;margin-bottom:4px;cursor:pointer;transition:all .15s">';
+      h+='<div style="flex:1;min-width:0">';
+      h+='<div style="font-size:13px;font-weight:500;color:var(--t3);line-height:1.3">'+_shEsc(label)+'</div>';
+      h+='<div style="font-size:11px;color:var(--t4);margin-top:1px">Open — tap to book</div>';
+      h+='</div>';
+      h+='<span style="color:'+cat.color+';font-size:13px;font-weight:700">📝 Book</span>';
+      h+='</div>';
+      return h;
+    }
+  }
+}
+
 window.toggleAdminMeeting=function(d){
   _adminMeetingOpen[d]=!_adminMeetingOpen[d];
   rMaster();
+};
+
+// ═══ ADMIN: ASSIGN / REASSIGN / MEMBER PICKER ═══
+window.adminAssignSlot=function(date,slotLabel){
+  openMemberPicker(date,slotLabel,null);
+};
+window.adminReassignSlot=function(date,slotLabel,currentMemberId){
+  openMemberPicker(date,slotLabel,currentMemberId);
+};
+
+// Opens a modal listing all members. Highlights those already booked on this date.
+// On pick: writes to members/{pickedUid}/plan/slots/{date}, and optionally clears current holder.
+function openMemberPicker(date,slotLabel,currentMemberId){
+  const mr=document.getElementById("modal-root");
+  const dfmt=new Date(date+"T00:00:00").toLocaleDateString("en-US",{weekday:"short",month:"short",day:"numeric"});
+  // Sort members alphabetically
+  const members=Object.entries(allMembers||{}).sort((a,b)=>(a[1].name||"").localeCompare(b[1].name||""));
+  // Snapshot: who has bookings on this date
+  const dateBookings={};
+  members.forEach(([uid,m])=>{
+    const sArr=(m.plan&&m.plan.slots&&m.plan.slots[date])||[];
+    if(sArr.length)dateBookings[uid]=sArr.map(s=>s.label).join(", ");
+  });
+  
+  let h='<div class="modal-bg" onclick="closeModal(event)"><div class="modal" onclick="event.stopPropagation()" style="max-width:440px">';
+  h+='<div class="modal-title">Assign '+_shEsc(slotLabel)+'</div>';
+  h+='<div style="font-size:13px;color:var(--t3);margin-bottom:12px">'+dfmt+' · Pick a member to assign to this slot.</div>';
+  
+  // Currently-assigned section
+  if(currentMemberId){
+    const curMember=allMembers[currentMemberId];
+    if(curMember){
+      h+='<div style="background:var(--info)10;border:1px solid var(--info)30;border-radius:10px;padding:10px 12px;margin-bottom:12px;display:flex;align-items:center;gap:10px">';
+      h+='<div style="flex:1"><div style="font-size:11px;color:var(--t4);text-transform:uppercase;letter-spacing:.06em;font-weight:700">Currently assigned</div>';
+      h+='<div style="font-size:14px;font-weight:600;color:var(--w);margin-top:2px">'+_shEsc(curMember.name)+'</div></div>';
+      h+='<button onclick="adminUnassignSlot(\''+date+'\',\''+slotLabel.replace(/'/g,"\\'")+'\',\''+currentMemberId+'\')" style="padding:6px 10px;background:var(--danger)15;color:var(--danger);border:none;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer;font-family:\'Source Sans 3\',sans-serif">Unassign</button>';
+      h+='</div>';
+    }
+  }
+  
+  // Search input
+  h+='<input id="member-picker-search" placeholder="🔍 Search members..." oninput="filterMemberPicker()" style="width:100%;padding:10px 12px;background:var(--s0);border:1px solid var(--b2);border-radius:8px;color:var(--t1);font-size:14px;font-family:\'Source Sans 3\',sans-serif;box-sizing:border-box;margin-bottom:10px">';
+  
+  // Member list
+  h+='<div id="member-picker-list" style="max-height:50vh;overflow-y:auto;-webkit-overflow-scrolling:touch;border:1px solid var(--b1);border-radius:10px">';
+  members.forEach(([uid,m])=>{
+    const isBusy=!!dateBookings[uid];
+    const isCurrent=uid===currentMemberId;
+    const bgColor=isCurrent?"rgba(91,192,190,.15)":(isBusy?"rgba(123,167,204,.08)":"transparent");
+    const nameColor=isCurrent?"var(--info)":(isBusy?"var(--t2)":"var(--t1)");
+    h+='<div class="mp-row" data-name="'+_shEsc((m.name||"").toLowerCase())+'" onclick="adminPickMember(\''+date+'\',\''+slotLabel.replace(/'/g,"\\'")+'\',\''+uid+'\',\''+(currentMemberId||"")+'\')" style="padding:12px 14px;cursor:pointer;border-bottom:1px solid var(--b1);background:'+bgColor+';display:flex;align-items:center;gap:10px">';
+    h+='<div style="flex:1;min-width:0">';
+    h+='<div style="font-size:14px;font-weight:600;color:'+nameColor+';line-height:1.3">'+_shEsc(m.name||"Unknown")+(isCurrent?" ✓":"")+'</div>';
+    if(isBusy)h+='<div style="font-size:11px;color:var(--t4);margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Also: '+_shEsc(dateBookings[uid])+'</div>';
+    h+='</div></div>';
+  });
+  h+='</div>';
+  
+  h+='<div style="margin-top:14px;display:flex;gap:8px">';
+  h+='<button class="modal-close" onclick="closeModal()" style="flex:1">Cancel</button>';
+  h+='</div></div></div>';
+  mr.innerHTML=h;
+  setTimeout(()=>{const i=document.getElementById("member-picker-search");if(i)i.focus();},50);
+}
+
+window.filterMemberPicker=function(){
+  const q=(document.getElementById("member-picker-search").value||"").toLowerCase().trim();
+  document.querySelectorAll(".mp-row").forEach(row=>{
+    const name=row.dataset.name||"";
+    row.style.display=(!q||name.includes(q))?"flex":"none";
+  });
+};
+
+window.adminPickMember=function(date,slotLabel,pickedUid,currentUid){
+  const picked=allMembers[pickedUid];
+  if(!picked)return;
+  // Determine slot type
+  const slotLower=slotLabel.toLowerCase();
+  let type="role",label=slotLabel;
+  if(/^speaker\s*\d/i.test(slotLabel)){
+    // Speaker slot — but admin doesn't know which project, so use "Speech" as placeholder
+    type="role";label="Speech — "+slotLabel;
+  }else if(/^ie\s*\d/i.test(slotLabel)){
+    type="role";label="Evaluator";
+  }
+  
+  // Write to picked member's plan
+  if(!db){alert("Firebase not ready — try again in a moment");return;}
+  const memberRef=db.ref("clubs/"+S.club+"/members/"+pickedUid+"/plan/slots/"+date);
+  memberRef.once("value").then(snap=>{
+    const existing=snap.val()||[];
+    // Check for conflict (admin override is still subject to hard rules for non-admin booking — BUT with the user's choice "Any member can be assigned to any role", we skip eligibility gate but still enforce singleton conflicts)
+    // Unassign current holder first (if reassigning)
+    const unassignPromise=currentUid?db.ref("clubs/"+S.club+"/members/"+currentUid+"/plan/slots/"+date).once("value").then(s=>{
+      const arr=s.val()||[];
+      const filtered=arr.filter(x=>normalizeRoleName(x.label)!==normalizeRoleName(label));
+      return db.ref("clubs/"+S.club+"/members/"+currentUid+"/plan/slots/"+date).set(filtered.length?filtered:null);
+    }):Promise.resolve();
+    
+    return unassignPromise.then(()=>{
+      const newArr=existing.concat([{type,label,assignedBy:"admin"}]);
+      return memberRef.set(newArr);
+    });
+  }).then(()=>{
+    closeModal();
+    sT("✓ "+picked.name+" assigned to "+slotLabel);
+    rMaster();
+  }).catch(err=>{
+    console.error(err);
+    alert("Failed to assign: "+(err.message||"unknown error"));
+  });
+};
+
+window.adminUnassignSlot=function(date,slotLabel,memberId){
+  if(!db){alert("Firebase not ready");return;}
+  if(!confirm("Unassign "+slotLabel+" from this member?"))return;
+  const ref=db.ref("clubs/"+S.club+"/members/"+memberId+"/plan/slots/"+date);
+  ref.once("value").then(snap=>{
+    const arr=snap.val()||[];
+    const norm=normalizeRoleName(slotLabel);
+    const filtered=arr.filter(x=>{
+      const xNorm=normalizeRoleName(x.label);
+      if(/^speaker\s*\d/i.test(slotLabel))return x.type!=="project"||x.label.toLowerCase().includes("evaluator");
+      if(/^ie\s*\d/i.test(slotLabel))return xNorm!=="Evaluator";
+      return xNorm!==norm;
+    });
+    return ref.set(filtered.length?filtered:null);
+  }).then(()=>{
+    closeModal();
+    sT("✓ Unassigned");
+    rMaster();
+  }).catch(err=>alert("Failed: "+err.message));
+};
+
+window.adminAddCustomSlot=function(date){
+  const label=prompt("Custom slot label (e.g., 'Workshop — Project Management', 'Sharing Session'):");
+  if(!label||!label.trim())return;
+  if(!clubData.meetingOverrides)clubData.meetingOverrides={};
+  if(!clubData.meetingOverrides[date])clubData.meetingOverrides[date]={};
+  if(!clubData.meetingOverrides[date].custom)clubData.meetingOverrides[date].custom=[];
+  clubData.meetingOverrides[date].custom.push(label.trim());
+  syncClub();rMaster();sT("✓ Custom slot added");
+};
+
+window.adminManageTemplate=function(date){
+  const mr=document.getElementById("modal-root");
+  const overrides=(clubData.meetingOverrides&&clubData.meetingOverrides[date])||{};
+  const skipped=overrides.skipped||[];
+  const customs=overrides.custom||[];
+  const dfmt=new Date(date+"T00:00:00").toLocaleDateString("en-US",{weekday:"short",month:"short",day:"numeric"});
+  
+  let h='<div class="modal-bg" onclick="closeModal(event)"><div class="modal" onclick="event.stopPropagation()" style="max-width:440px">';
+  h+='<div class="modal-title">⚙ Manage Slots — '+dfmt+'</div>';
+  h+='<div style="font-size:13px;color:var(--t3);margin-bottom:12px">Skip template slots that aren\'t needed this meeting, or remove custom slots.</div>';
+  
+  h+='<div style="font-size:11px;font-weight:700;color:var(--t4);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px">Template Slots</div>';
+  ROLE_TEMPLATE.forEach(t=>{
+    const isSkipped=skipped.includes(t.label);
+    const cat=getCategoryInfo(t.category);
+    h+='<div style="display:flex;align-items:center;gap:10px;padding:8px 10px;background:var(--s0);border-radius:8px;margin-bottom:4px;opacity:'+(isSkipped?".5":"1")+'">';
+    h+='<span style="color:'+cat.color+'">'+cat.icon+'</span>';
+    h+='<div style="flex:1;font-size:13px;color:var(--w);'+(isSkipped?"text-decoration:line-through":"")+'">'+_shEsc(t.label)+'</div>';
+    if(isSkipped){
+      h+='<button onclick="adminUnskipSlot(\''+date+'\',\''+t.label.replace(/'/g,"\\'")+'\')" style="padding:4px 10px;background:var(--ok)15;color:var(--ok);border:none;border-radius:6px;font-size:11px;font-weight:600;cursor:pointer;font-family:\'Source Sans 3\',sans-serif">Restore</button>';
+    }else{
+      h+='<button onclick="adminSkipSlot(\''+date+'\',\''+t.label.replace(/'/g,"\\'")+'\')" style="padding:4px 10px;background:var(--danger)15;color:var(--danger);border:none;border-radius:6px;font-size:11px;font-weight:600;cursor:pointer;font-family:\'Source Sans 3\',sans-serif">Skip</button>';
+    }
+    h+='</div>';
+  });
+  
+  if(customs.length){
+    h+='<div style="font-size:11px;font-weight:700;color:var(--t4);text-transform:uppercase;letter-spacing:.06em;margin:14px 0 6px">Custom Slots</div>';
+    customs.forEach((label,i)=>{
+      h+='<div style="display:flex;align-items:center;gap:10px;padding:8px 10px;background:var(--s0);border-radius:8px;margin-bottom:4px">';
+      h+='<span>📋</span>';
+      h+='<div style="flex:1;font-size:13px;color:var(--w)">'+_shEsc(label)+'</div>';
+      h+='<button onclick="adminRemoveCustomSlot(\''+date+'\','+i+')" style="padding:4px 10px;background:var(--danger)15;color:var(--danger);border:none;border-radius:6px;font-size:11px;font-weight:600;cursor:pointer;font-family:\'Source Sans 3\',sans-serif">Remove</button>';
+      h+='</div>';
+    });
+  }
+  
+  h+='<div style="margin-top:14px"><button class="modal-close" onclick="closeModal()" style="width:100%">Done</button></div>';
+  h+='</div></div>';
+  mr.innerHTML=h;
+};
+
+window.adminSkipSlot=function(date,label){
+  if(!clubData.meetingOverrides)clubData.meetingOverrides={};
+  if(!clubData.meetingOverrides[date])clubData.meetingOverrides[date]={};
+  if(!clubData.meetingOverrides[date].skipped)clubData.meetingOverrides[date].skipped=[];
+  if(!clubData.meetingOverrides[date].skipped.includes(label))clubData.meetingOverrides[date].skipped.push(label);
+  syncClub();adminManageTemplate(date);rMaster();
+};
+window.adminUnskipSlot=function(date,label){
+  const o=clubData.meetingOverrides&&clubData.meetingOverrides[date];
+  if(!o||!o.skipped)return;
+  o.skipped=o.skipped.filter(s=>s!==label);
+  syncClub();adminManageTemplate(date);rMaster();
+};
+window.adminRemoveCustomSlot=function(date,idx){
+  const o=clubData.meetingOverrides&&clubData.meetingOverrides[date];
+  if(!o||!o.custom)return;
+  o.custom.splice(idx,1);
+  syncClub();adminManageTemplate(date);rMaster();
+};
+
+// ═══ MEMBER: BOOK FROM CLUB TAB ═══
+window.memberBookFromClub=function(date,slotLabel,category){
+  const dfmt=new Date(date+"T00:00:00").toLocaleDateString("en-US",{weekday:"short",month:"short",day:"numeric"});
+  if(!confirm("Book "+slotLabel+" for "+dfmt+"?\n\nThis will take you to the Planner to confirm."))return;
+  // Jump to Planner and open the assign modal for that date
+  cTab="planner";
+  document.querySelectorAll(".nb").forEach(x=>x.classList.remove("act"));
+  const btn=document.querySelector('[data-tab="planner"]');if(btn)btn.classList.add("act");
+  document.querySelectorAll(".tc").forEach(x=>x.classList.remove("act"));
+  const t=document.getElementById("tab-planner");if(t)t.classList.add("act");
+  setTimeout(()=>{if(typeof openAssign==="function")openAssign(date);},100);
 };
 
 // Placeholder — we used to attach live listeners here; no-op for now but reserved
@@ -3086,12 +3460,23 @@ function rClubAnnouncements(){
   c.innerHTML=h;
 }
 
-function rCl(){const c=document.getElementById("club-list");const members=fbOk?Object.values(allMembers):[];
-  if(!fbOk&&S)members.push({name:S.name,path:S.path,completedCount:Object.values(S.done||{}).filter(Boolean).length,level:S.cLv||1,role:S.role});
-  if(!members.length){c.innerHTML='<div class="empty">No members yet.</div>';return;}
-  members.sort((a,b)=>(b.completedCount||0)-(a.completedCount||0));
-  c.innerHTML=members.map(m=>{const mp=PA[m.path]||{n:m.path,i:"?",c:"#5A6B7D"};const badge=m.role==="master"?" (Admin)":m.role==="vpe"?" (VPE)":"";
-    return'<div class="cc"><div class="ca" style="background:'+mp.c+'20;color:'+mp.c+'">'+(m.name||"?")[0].toUpperCase()+'</div><div style="flex:1"><div class="cn">'+m.name+(badge?'<span style="font-size:10px;color:var(--info)">'+badge+'</span>':'')+'</div><div class="cm">'+mp.i+' '+mp.n+' · L'+(m.level||1)+' · '+(m.completedCount||0)+' done</div></div></div>';}).join("");}
+function rCl(){
+  const c=document.getElementById("club-next-meeting");
+  if(!c)return;
+  const dates=(clubData.dates||[]).filter(d=>!(clubData.skipped||{})[d]).sort();
+  const todayStr=new Date().toISOString().slice(0,10);
+  const nextDate=dates.find(d=>d>=todayStr);
+  if(!nextDate){
+    c.innerHTML='<div class="sl" style="margin-top:0">📅 Next Meeting</div><div class="empty">No upcoming meetings scheduled yet. Check back soon!</div>';
+    return;
+  }
+  const cap=clubData.settings||{speechSlots:3};
+  let h='<div class="sl" style="margin-top:0">📅 Next Meeting</div>';
+  h+=renderMeetingStrip(nextDate,cap,"member");
+  // Link to planner for full view
+  h+='<div style="text-align:center;margin-top:12px"><button onclick="switchTab(\'planner\')" style="padding:10px 20px;background:transparent;border:1px solid var(--b2);border-radius:10px;color:var(--t2);font-size:13px;font-weight:600;cursor:pointer;font-family:\'Source Sans 3\',sans-serif">📅 See all meetings in Planner →</button></div>';
+  c.innerHTML=h;
+}
 
 // ═══ ASSIGN MODAL ═══
 function openAssign(date){const mr=document.getElementById("modal-root"),p=PA[S.path];
@@ -8450,6 +8835,7 @@ const TOUR_STEPS=[
 let tourStep=0;
 
 function switchTab(tab){
+  cTab=tab;
   document.querySelectorAll(".nb").forEach(x=>x.classList.remove("act"));
   document.querySelectorAll(".tc").forEach(x=>x.classList.remove("act"));
   const btn=document.querySelector('[data-tab="'+tab+'"]');
@@ -8457,6 +8843,7 @@ function switchTab(tab){
   const panel=document.getElementById("tab-"+tab);
   if(panel)panel.classList.add("act");
 }
+window.switchTab=switchTab;
 
 function startOnboarding(){
   if(localStorage.getItem("tm-pw-onboarded"))return;
