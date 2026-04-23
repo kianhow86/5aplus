@@ -1031,7 +1031,7 @@ html.light-theme{background:#e4eaf6 !important}
 <div id="tab-roles" class="tc"><div id="roles-content"></div></div>
 <div id="tab-master" class="tc"><div id="master-content"></div></div>
 <div id="tab-club" class="tc"><div id="club-announcements"></div><div id="club-next-meeting" style="margin-top:16px"></div></div>
-<div class="app-footer">5A+ TMC App v9.0.14 · Built by Kian How</div>
+<div class="app-footer">5A+ TMC App v9.0.15 · Built by Kian How</div>
 </div>
 
 <div class="bnav" id="bottom-nav"></div>
@@ -5575,17 +5575,92 @@ const PREP_PATTERNS=[
 ];
 
 window.analyzePrepProblem=function(pid,date){
-  const t=(document.getElementById("prep-freeform")?.value||"").trim().toLowerCase();
+  const t=(document.getElementById("prep-freeform")?.value||"").trim();
   const resEl=document.getElementById("prep-freeform-result");
   if(!resEl)return;
   if(t.length<5){sT("Describe your challenge first — a sentence is plenty");return;}
-  const matches=PREP_PATTERNS.filter(p=>p.re.test(t));
+  
+  // Gather context for AI
+  const d=PD[pid]||{};
+  const path=PA[S.path]||{};
+  const today=new Date().toISOString().slice(0,10);
+  const ms=new Date(date+"T00:00:00")-new Date(today+"T00:00:00");
+  const days=Math.max(0,Math.round(ms/86400000));
+  // Extra personalization: their last 3 completed projects + term goal (if set)
+  const completedIds=Object.entries(S.done||{}).filter(([,v])=>v).map(([k])=>k);
+  const completedTitles=completedIds.slice(-3).map(id=>(PD[id]||{}).t).filter(Boolean).join(", ");
+  const goal=(S.plan&&S.plan.goal)?S.plan.goal:"";
+  
+  // Loading state
+  resEl.innerHTML='<div style="padding:12px;background:var(--bg);border-radius:8px;font-size:13px;color:var(--t3);text-align:center;display:flex;align-items:center;justify-content:center;gap:8px"><span style="display:inline-block;width:14px;height:14px;border:2px solid var(--b2);border-top-color:var(--t2);border-radius:50%;animation:spin .8s linear infinite"></span>Thinking through your situation...</div>';
+  
+  const prompt="A Toastmasters member is preparing for an upcoming meeting and describes this specific challenge:\n\n\""+t+"\"\n\n"+
+    "CONTEXT ABOUT THEIR SITUATION:\n"+
+    "• Project: "+(d.t||"Unknown")+" ("+(d.dur||"")+")\n"+
+    "• What this project asks them to do: "+(d.o||"")+"\n"+
+    "• Project purpose: "+(d.p||"")+"\n"+
+    (d.inc?"• Includes: "+d.inc+"\n":"")+
+    "• Days until they deliver: "+days+"\n"+
+    "• Path they're on: "+(path.n||"Unknown")+"\n"+
+    (completedTitles?"• Recently completed projects: "+completedTitles+"\n":"")+
+    (goal?"• Their term goal: \""+goal+"\"\n":"")+
+    "\nYOUR JOB:\n"+
+    "Give 2-3 SHARP, SPECIFIC tips tailored to THIS member's EXACT words AND this EXACT project. Reference what they actually wrote. Factor in the "+days+"-day timeline — advice for 2 days looks very different from advice for 3 weeks.\n\n"+
+    "BAD tips (NEVER write anything like these):\n"+
+    "❌ \"Practice in front of a mirror\"\n"+
+    "❌ \"Take deep breaths before you speak\"\n"+
+    "❌ \"Know your audience\"\n"+
+    "❌ \"Use the 3-part structure: intro, body, conclusion\"\n"+
+    "❌ Generic advice that could apply to any speech\n\n"+
+    "GREAT tips (always do these):\n"+
+    "✅ Quote or reference their exact words from the challenge\n"+
+    "✅ Reference the specific project purpose or outcome above\n"+
+    "✅ Give ONE concrete action they can do in the next hour (not \"later this week\")\n"+
+    "✅ Explain WHY this helps THEIR specific problem (not just \"this is good practice\")\n\n"+
+    "Each tip: 2-3 punchy sentences. Be warm but direct. No throat-clearing, no \"it's important to remember that...\"\n\n"+
+    "If rehearsing out loud would genuinely solve their stated problem, set suggestPractice:true. If their problem is earlier in the prep pipeline (topic, structure, content, nerves), set suggestPractice:false.\n\n"+
+    "Respond with ONLY a JSON object (no markdown fences):\n"+
+    "{\"tips\":[{\"title\":\"Short headline with 1 emoji\",\"body\":\"2-3 sentence tip, specific to THEIR exact words and this project\"}],\"suggestPractice\":true/false}";
+  
+  fetchAI({
+    model:"claude-sonnet-4-6",
+    max_tokens:1200,
+    temperature:0.7,
+    messages:[{role:"user",content:prompt}]
+  }).then(r=>r.json()).then(data=>{
+    const text=data.content.map(c=>c.text||"").join("").replace(/```json|```/g,"").trim();
+    try{
+      const parsed=JSON.parse(text);
+      if(!parsed.tips||!parsed.tips.length)throw new Error("no tips");
+      let h='<div style="padding:12px;background:var(--ok)10;border:1px solid var(--ok)30;border-radius:10px">';
+      h+='<div style="font-size:11px;color:var(--ok);text-transform:uppercase;letter-spacing:.05em;font-weight:700;margin-bottom:8px">💡 Personalized for you</div>';
+      parsed.tips.forEach(tip=>{
+        h+='<div style="margin-bottom:10px"><div style="font-size:13px;font-weight:700;color:var(--w);margin-bottom:4px">'+(tip.title||"")+'</div>';
+        h+='<div style="font-size:13px;color:var(--t2);line-height:1.6">'+(tip.body||"")+'</div></div>';
+      });
+      if(parsed.suggestPractice){
+        h+='<button class="btn-pri" style="margin-top:4px;padding:8px 16px;font-size:13px;width:auto" onclick="closeModal();openPracticeStudio(\''+pid+'\',\''+date+'\')">🎙 Open Practice Studio</button>';
+      }
+      h+='</div>';
+      resEl.innerHTML=h;
+    }catch(e){
+      _fallbackPrepTips(pid,date,t,resEl);
+    }
+  }).catch(()=>{
+    _fallbackPrepTips(pid,date,t,resEl);
+  });
+};
+
+// Regex fallback for when AI is unreachable or returns malformed output
+function _fallbackPrepTips(pid,date,t,resEl){
+  const tLower=t.toLowerCase();
+  const matches=PREP_PATTERNS.filter(p=>p.re.test(tLower));
   if(!matches.length){
-    resEl.innerHTML='<div style="padding:10px 12px;background:var(--bg);border-radius:8px;font-size:13px;color:var(--t2);line-height:1.5">I\'m not catching the issue — try mentioning words like <em>topic, writing, nervous, structure, timing, feedback,</em> or <em>practice</em> and I\'ll point you to a fix.</div>';
+    resEl.innerHTML='<div style="padding:10px 12px;background:var(--warn)10;border:1px solid var(--warn)30;border-radius:8px;font-size:13px;color:var(--t2);line-height:1.5">⚠️ AI couldn\'t connect. Try mentioning words like <em>topic, writing, nervous, structure, timing, feedback,</em> or <em>practice</em> to get fallback tips — or check your VPN and try again.</div>';
     return;
   }
   let h='<div style="padding:12px;background:var(--ok)10;border:1px solid var(--ok)30;border-radius:10px">';
-  h+='<div style="font-size:11px;color:var(--ok);text-transform:uppercase;letter-spacing:.05em;font-weight:700;margin-bottom:8px">Here\'s what I\'d try</div>';
+  h+='<div style="font-size:11px;color:var(--ok);text-transform:uppercase;letter-spacing:.05em;font-weight:700;margin-bottom:8px">Here\'s what I\'d try <span style="font-size:9px;font-weight:600;color:var(--t4);letter-spacing:.02em;text-transform:none">(offline fallback)</span></div>';
   matches.forEach(m=>{
     h+='<div style="margin-bottom:10px"><div style="font-size:13px;font-weight:700;color:var(--w);margin-bottom:4px">'+m.title+'</div>';
     h+='<div style="font-size:13px;color:var(--t2);line-height:1.6">'+m.tip+'</div></div>';
@@ -5595,7 +5670,7 @@ window.analyzePrepProblem=function(pid,date){
   }
   h+='</div>';
   resEl.innerHTML=h;
-};
+}
 
 window.showPrepPopup=function(date){
   const mySlots=((S.plan.slots||{})[date])||[];
@@ -6699,18 +6774,46 @@ function fmtSec(s){const m=Math.floor(s/60);const sec=s%60;return m+":"+(sec<10?
 // ═══ WOD GENERATOR ═══
 window.openWODGenerator=function(){
   const mr=document.getElementById("modal-root");
+  if(!window._wodDiff)window._wodDiff="balanced";// default: balanced
   let h='<div class="project-overlay" style="background:var(--bg)">';
   h+='<div class="project-overlay-close"><button onclick="closeProjectOverlay()">✕ Close</button></div>';
   h+='<div class="detail" style="background:var(--s1);max-width:500px">';
   h+='<div class="detail-title" style="text-align:center;margin-bottom:4px">📖 Word of the Day Generator</div>';
   h+='<div style="text-align:center;font-size:14px;color:var(--t3);margin-bottom:16px">Enter the meeting theme to get curated word suggestions</div>';
   
-  h+='<input id="wod-theme" placeholder="e.g. Leadership, Change, Resilience..." style="width:100%;padding:12px;background:var(--s0);border:1px solid var(--b2);border-radius:10px;color:var(--t1);font-size:15px;font-family:\'Source Sans 3\',sans-serif;box-sizing:border-box;margin-bottom:14px">';
+  h+='<input id="wod-theme" placeholder="e.g. Leadership, Change, Resilience..." style="width:100%;padding:12px;background:var(--s0);border:1px solid var(--b2);border-radius:10px;color:var(--t1);font-size:15px;font-family:\'Source Sans 3\',sans-serif;box-sizing:border-box;margin-bottom:12px">';
+  
+  // Difficulty toggles — 3 levels, default: Balanced
+  h+='<div style="font-size:11px;color:var(--t4);text-transform:uppercase;letter-spacing:.06em;font-weight:700;margin-bottom:6px">Difficulty</div>';
+  h+='<div style="display:flex;gap:6px;margin-bottom:14px">';
+  const diffs=[
+    {k:"practical",label:"Practical",sub:"Everyday"},
+    {k:"balanced",label:"Balanced",sub:"Elevated"},
+    {k:"advanced",label:"Advanced",sub:"Sophisticated"}
+  ];
+  diffs.forEach(di=>{
+    const active=(window._wodDiff===di.k);
+    h+='<button class="wod-diff-btn" data-diff="'+di.k+'" onclick="setWODDifficulty(\''+di.k+'\')" style="flex:1;padding:8px 6px;background:'+(active?"#BB6BD9":"var(--s0)")+';border:1px solid '+(active?"#BB6BD9":"var(--b2)")+';border-radius:8px;color:'+(active?"#fff":"var(--t2)")+';font-size:13px;font-weight:600;cursor:pointer;font-family:\'Source Sans 3\',sans-serif;transition:all .15s;display:flex;flex-direction:column;align-items:center;gap:1px"><span>'+di.label+'</span><span style="font-size:10px;opacity:.75;font-weight:500">'+di.sub+'</span></button>';
+  });
+  h+='</div>';
+  
   h+='<button class="btn-pri" onclick="generateWOD()" style="width:100%">🎲 Generate Words</button>';
   h+='<div id="wod-result" style="margin-top:16px"></div>';
   h+='</div></div>';
   mr.innerHTML=h;
   document.getElementById("wod-theme").focus();
+};
+
+window.setWODDifficulty=function(diff){
+  window._wodDiff=diff;
+  document.querySelectorAll(".wod-diff-btn").forEach(b=>{
+    const isActive=b.getAttribute("data-diff")===diff;
+    b.style.background=isActive?"#BB6BD9":"var(--s0)";
+    b.style.borderColor=isActive?"#BB6BD9":"var(--b2)";
+    b.style.color=isActive?"#fff":"var(--t2)";
+  });
+  // Reset previously-shown words so the new difficulty isn't filtered by old exclusions
+  window._lastWodWords=[];
 };
 
 window.generateWOD=function(){
@@ -6728,8 +6831,17 @@ window.generateWOD=function(){
   const originHint=origins[Math.floor(Math.random()*origins.length)];
   const exclude=(window._lastWodWords||[]).map(w=>w.word).join(", ");
   
+  // Difficulty spec — shapes what kind of words the AI picks
+  const diff=window._wodDiff||"balanced";
+  const diffSpecs={
+    practical:"PRACTICAL / EVERYDAY — pick words a busy professional would genuinely use in a Monday meeting. Familiar-sounding but still a step up from basic vocabulary. Examples of the RIGHT level: candid, deliberate, pivotal, cultivate, articulate, concise, refine, harness. AVOID anything that sounds pretentious, literary, or obscure.",
+    balanced:"BALANCED / ELEVATED — pick polished but accessible words. Slightly more refined than everyday speech but still clearly usable in Toastmasters and work contexts. Examples of the RIGHT level: galvanize, tenacious, nuance, pragmatic, catalyst, eloquent, resonate, discerning. Sweet spot between recognizable and sophisticated.",
+    advanced:"ADVANCED / SOPHISTICATED — pick rich, evocative vocabulary for elevated speeches. Still USABLE (not archaic or too obscure to remember), but clearly elevated. Examples of the RIGHT level: mellifluous, ephemeral, ineffable, perspicacious, sanguine, quintessential, incisive, magnanimous. Someone could use these in a wedding toast or eulogy."
+  };
+  const diffText=diffSpecs[diff]||diffSpecs.balanced;
+  
   fetchAI({model:"claude-haiku-4-5-20251001",max_tokens:800,temperature:1.0,
-      messages:[{role:"user",content:"[Seed: "+seed+"] Generate 5 Word of the Day options for a Toastmasters meeting.\n\nTheme: "+theme+"\nWord vibe: "+vibe+"\nPrefer mix of: "+wordTypes.slice(0,3).join(", ")+"\nBonus: include one word with "+originHint+" origins\n"+(exclude?"EXCLUDE these words (already shown): "+exclude+"\n":"")+"\nCRITICAL RULES:\n- Words must be USEFUL in everyday professional conversation\n- NOT too obscure — someone should genuinely want to use this word tomorrow\n- NOT basic — no words like 'happy', 'good', 'nice', 'great'\n- Each word should feel fresh and interesting, not the typical WOD list\n- Mix word lengths — some short punchy words, some elegant longer ones\n\nRespond with ONLY a JSON array: [{\"word\":\"...\",\"type\":\"noun/verb/adj/adv\",\"definition\":\"clear 1-sentence definition\",\"example\":\"natural example sentence using the word\",\"tip\":\"when and how to use it in real conversation\"}]"}]
+      messages:[{role:"user",content:"[Seed: "+seed+"] Generate 5 Word of the Day options for a Toastmasters meeting.\n\nTheme: "+theme+"\nDifficulty: "+diffText+"\nWord vibe: "+vibe+"\nPrefer mix of: "+wordTypes.slice(0,3).join(", ")+"\nBonus: include one word with "+originHint+" origins\n"+(exclude?"EXCLUDE these words (already shown): "+exclude+"\n":"")+"\nCRITICAL RULES:\n- Match the difficulty level SPECIFIED ABOVE — this is the most important constraint\n- Each word should feel fresh and interesting, not the typical WOD list\n- NOT basic — no words like 'happy', 'good', 'nice', 'great' (even on Practical)\n- Mix word lengths — some short punchy words, some elegant longer ones\n\nRespond with ONLY a JSON array: [{\"word\":\"...\",\"type\":\"noun/verb/adj/adv\",\"definition\":\"clear 1-sentence definition\",\"example\":\"natural example sentence using the word\",\"tip\":\"when and how to use it in real conversation\"}]"}]
     }).then(r=>r.json()).then(data=>{
     const text=data.content.map(c=>c.text||"").join("").replace(/```json|```/g,"").trim();
     try{const words=JSON.parse(text);window._lastWodWords=words;showWODResult(words,theme);}
