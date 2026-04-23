@@ -212,9 +212,16 @@ html.light-theme{background:#e4eaf6 !important}
 .intro-dot{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,0.2);cursor:pointer;transition:all .3s}
 .intro-dot.active{background:#5BC0BE;width:24px;border-radius:4px;box-shadow:0 0 12px rgba(91,192,190,0.7)}
 
+/* Cinematic entrance animation shared by onboard-card and tour-tip — matches the
+   guest intro "dramatic fade-in" (blur + scale + opacity) over a longer duration. */
+@keyframes tourCinematicIn{
+  0%{opacity:0;transform:translateY(14px) scale(0.94);filter:blur(6px)}
+  100%{opacity:1;transform:translateY(0) scale(1);filter:blur(0)}
+}
+@keyframes tourBackdropIn{from{opacity:0}to{opacity:1}}
 /* Onboarding — restyled to match guest intro aesthetic (dark card + cyan glow) */
-.onboard-overlay{position:fixed;inset:0;background:rgba(5,11,22,0.92);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);z-index:500;display:flex;align-items:center;justify-content:center;padding:20px;animation:fadeIn .35s ease}
-.onboard-card{background:rgba(255,255,255,0.04);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border:1px solid rgba(91,192,190,0.25);border-radius:24px;padding:36px 28px 28px;max-width:380px;width:100%;text-align:center;animation:fadeIn .35s ease;box-shadow:0 12px 48px rgba(0,0,0,0.5),0 0 80px rgba(91,192,190,0.15)}
+.onboard-overlay{position:fixed;inset:0;background:rgba(5,11,22,0.92);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);z-index:500;display:flex;align-items:center;justify-content:center;padding:20px;animation:tourBackdropIn .5s ease}
+.onboard-card{background:rgba(255,255,255,0.04);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border:1px solid rgba(91,192,190,0.25);border-radius:24px;padding:36px 28px 28px;max-width:380px;width:100%;text-align:center;animation:tourCinematicIn .9s cubic-bezier(.22,.61,.36,1) both;animation-delay:.3s;box-shadow:0 12px 48px rgba(0,0,0,0.5),0 0 80px rgba(91,192,190,0.15)}
 .onboard-icon{font-size:48px;margin-bottom:14px;filter:drop-shadow(0 0 20px rgba(91,192,190,0.3))}
 .onboard-title{font-family:'Playfair Display','New York',Georgia,serif;font-size:26px;font-weight:900;color:#fff;margin-bottom:10px;letter-spacing:-.01em;line-height:1.15}
 .onboard-text{font-family:'Inter','Source Sans 3',sans-serif;font-size:15px;color:rgba(255,255,255,0.72);line-height:1.55;margin-bottom:22px;font-weight:500}
@@ -227,11 +234,11 @@ html.light-theme{background:#e4eaf6 !important}
 
 /* Path tour highlight — same ring as guest intro (cyan glow) */
 .tour-backdrop{position:fixed;inset:0;background:rgba(5,11,22,0.92);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);z-index:400;pointer-events:auto}
-.tour-highlight{position:relative;z-index:401;border-radius:12px !important;outline:2px solid #5BC0BE;outline-offset:6px;box-shadow:0 0 24px rgba(91,192,190,.5),0 0 48px rgba(91,192,190,.25) !important;background:var(--bg) !important;backdrop-filter:none !important;-webkit-backdrop-filter:none !important;pointer-events:none;transition:outline-offset .2s ease}
+.tour-highlight{position:relative;z-index:401;border-radius:12px !important;outline:2px solid #5BC0BE;outline-offset:6px;box-shadow:0 0 24px rgba(91,192,190,.5),0 0 48px rgba(91,192,190,.25) !important;background:var(--bg) !important;backdrop-filter:none !important;-webkit-backdrop-filter:none !important;pointer-events:none;transition:outline-offset .4s ease}
 .tour-pulse{position:relative;z-index:402 !important;animation:tourPulse 1.4s ease-in-out infinite;border-radius:10px}
 @keyframes tourPulse{0%,100%{box-shadow:0 0 0 0 rgba(91,192,190,.7),0 0 0 0 rgba(91,192,190,.5);transform:scale(1)}50%{box-shadow:0 0 0 8px rgba(91,192,190,.35),0 0 0 16px rgba(91,192,190,.15);transform:scale(1.08)}}
-/* Tour tip card — matches guest intro tip card style exactly */
-.tour-tip{position:fixed;z-index:402;background:#0a1628;border:1px solid rgba(91,192,190,0.4);border-radius:14px;padding:14px 16px;max-width:300px;width:calc(100% - 32px);box-shadow:0 12px 32px rgba(0,0,0,0.6),0 0 40px rgba(91,192,190,0.25);animation:fadeIn .3s ease}
+/* Tour tip card — matches guest intro tip card style AND pacing */
+.tour-tip{position:fixed;z-index:402;background:#0a1628;border:1px solid rgba(91,192,190,0.4);border-radius:14px;padding:14px 16px;max-width:300px;width:calc(100% - 32px);box-shadow:0 12px 32px rgba(0,0,0,0.6),0 0 40px rgba(91,192,190,0.25);animation:tourCinematicIn .45s cubic-bezier(.22,.61,.36,1) both}
 .tour-tip-title{font-family:'Inter','Source Sans 3',sans-serif;font-size:14px;font-weight:700;color:#5BC0BE;margin-bottom:6px;display:flex;align-items:center;gap:6px}
 .tour-tip-text{font-size:14px;color:rgba(255,255,255,0.85);line-height:1.5;margin-bottom:12px}
 .tour-tip-footer{display:flex;align-items:center;justify-content:space-between;gap:10px}
@@ -767,7 +774,7 @@ html.light-theme{background:#e4eaf6 !important}
 </div>
 
 <!-- GUEST EXPERIENCE -->
-<div id="guest-screen" class="setup-screen glass-bg" style="display:none;padding:calc(env(safe-area-inset-top,0px) + 20px) 0 16px">
+<div id="guest-screen" class="setup-screen glass-bg" style="display:none;align-items:flex-start;padding:calc(env(safe-area-inset-top,0px) + 40px) 16px 24px">
 
 <!-- Guest intro — 2 statement slides + 3 spotlight tips. Shown every time user
      enters guest mode, unless they've tapped Skip before (remembered via
@@ -1140,7 +1147,7 @@ html.light-theme{background:#e4eaf6 !important}
 <div id="tab-roles" class="tc"><div id="roles-content"></div></div>
 <div id="tab-master" class="tc"><div id="master-content"></div></div>
 <div id="tab-club" class="tc"><div id="club-announcements"></div><div id="club-next-meeting" style="margin-top:16px"></div></div>
-<div class="app-footer">5A+ SH TMC v9.0.27 · Built by Kian How</div>
+<div class="app-footer">5A+ SH TMC v9.0.33 · Built by Kian How</div>
 </div>
 
 <div class="bnav" id="bottom-nav"></div>
@@ -5157,6 +5164,38 @@ window.bookSlot=function(title,dur){
   // Find the project ID for this title
   let pid="";
   Object.entries(PD).forEach(([id,d])=>{if(d.t===title)pid=id;});
+  
+  // Duplicate-booking guard — warn (don't block) if the user has already
+  // completed this project OR already has it booked on an upcoming date.
+  // Some members legitimately redo a project (e.g. tackling it on a different
+  // path), so this is a "are you sure?" prompt, not a hard block.
+  if(pid&&S){
+    const alreadyDone=!!(S.done&&S.done[pid]);
+    // Check if it's already booked upcoming on any date for this user
+    let bookedDate="";
+    if(S.plan&&S.plan.slots){
+      const today=new Date().toISOString().slice(0,10);
+      Object.entries(S.plan.slots).forEach(([d,slots])=>{
+        if(bookedDate)return;
+        if(d<today)return;// ignore past bookings
+        (slots||[]).forEach(s=>{if(s.pid===pid)bookedDate=d;});
+      });
+    }
+    if(alreadyDone||bookedDate){
+      let msg="⚠️ Heads up — you've ";
+      if(alreadyDone&&bookedDate){
+        const dfmt=new Date(bookedDate+"T00:00:00").toLocaleDateString("en-US",{weekday:"short",month:"short",day:"numeric"});
+        msg+="already completed \""+title+"\" before, AND it's currently booked for "+dfmt+".";
+      }else if(alreadyDone){
+        msg+="already completed \""+title+"\" before.";
+      }else{
+        const dfmt=new Date(bookedDate+"T00:00:00").toLocaleDateString("en-US",{weekday:"short",month:"short",day:"numeric"});
+        msg+="already booked \""+title+"\" for "+dfmt+".";
+      }
+      msg+="\n\nBooking it again is fine if you want to redo it — but most members move on to the next project.\n\nContinue booking anyway?";
+      if(!confirm(msg))return;
+    }
+  }
   
   const multiStep=MULTI_STEP_PROJECTS[pid];
   if(multiStep){
@@ -10034,6 +10073,21 @@ function renderTour(){
       h+='</div></div>';
       h+='</div>';
       el.innerHTML=h;
+      h+='<div class="tour-tip" style="position:fixed;top:-9999px;left:16px;right:16px;max-width:380px;margin:0 auto;visibility:hidden">';
+      h+='<div class="tour-tip-title"><span style="font-size:18px">'+["⚡","📂","🤖","📅","📋"][tourStep]+'</span> '+s.title+'</div>';
+      h+='<div class="tour-tip-text">'+s.text+'</div>';
+      h+='<div class="tour-tip-footer"><div class="tour-tip-dots">';
+      for(let i=0;i<total;i++)h+='<div class="tour-tip-dot'+(i===tourStep?" active":"")+'"></div>';
+      h+='</div><div>';
+      if(tourStep<total-1){
+        h+='<button class="tour-tip-btn" onclick="event.stopPropagation();nextTour()">Next →</button>';
+      }else{
+        h+='<button class="tour-tip-btn" onclick="event.stopPropagation();nextTour()">Got It! 🎉</button>';
+      }
+      h+=' <button class="tour-tip-skip" onclick="event.stopPropagation();skipTour()">Skip</button>';
+      h+='</div></div>';
+      h+='</div>';
+      el.innerHTML=h;
 
       // Measure and reposition
       requestAnimationFrame(()=>{
@@ -10051,18 +10105,10 @@ function renderTour(){
           const spaceBelow=vh-targetBottomVisual;
           const spaceAbove=targetTopVisual;
           if(spaceBelow>=tipH+GAP){
-            // Comfortable fit below target
             tipTop=targetBottomVisual+GAP;
           }else if(spaceAbove>=tipH+GAP){
-            // Fits above target
             tipTop=targetTopVisual-GAP-tipH;
           }else{
-            // Target too tall to fit the tip cleanly. Scroll so target bottom sits
-            // right above where the tip will dock, so the tip's top edge sits below
-            // the visible target portion (no overlap with visible content).
-            // If this requires scrolling target's TOP off-screen, so be it — user
-            // keeps seeing the bottom of the card (buttons/actions) which is what
-            // the tour step usually describes.
             const desiredTipTop=vh-tipH-10;
             const desiredTargetBottom=desiredTipTop-GAP-OUT;
             const scrollDelta=rect.bottom-desiredTargetBottom;
@@ -10072,13 +10118,12 @@ function renderTour(){
         }else{
           tipTop=vh-tipH-10;
         }
-        // Clamp inside viewport
         tipTop=Math.max(10,Math.min(vh-tipH-10,tipTop));
         tipEl.style.top=tipTop+"px";
         tipEl.style.visibility="visible";
       });
-    },400);
-  },200);
+    },200);
+  },100);
 }
 
 function checkTourNever(){
@@ -10091,12 +10136,24 @@ function checkTourNever(){
 window.nextTour=function(){
   const isLast=tourStep>=TOUR_STEPS.length-1;
   if(isLast)checkTourNever();
+  // Instantly hide the current tip so the user sees immediate feedback that
+  // their click registered. The backdrop + ring stay visible; only the tip
+  // disappears, then the new tip animates in once setup is ready.
+  const curTip=document.querySelector(".tour-tip");
+  if(curTip){
+    curTip.style.animation="none";
+    curTip.style.transition="opacity .15s ease";
+    curTip.style.opacity="0";
+    curTip.style.pointerEvents="none";
+  }
   document.querySelectorAll(".tour-highlight").forEach(e=>{e.classList.remove("tour-highlight");e.style.position="";e.style.zIndex="";});
   document.querySelectorAll(".tour-pulse").forEach(e=>e.classList.remove("tour-pulse"));
   tourStep++;renderTour();
 };
 window.skipTour=function(){
   checkTourNever();
+  const curTip=document.querySelector(".tour-tip");
+  if(curTip){curTip.style.animation="none";curTip.style.opacity="0";curTip.style.pointerEvents="none";}
   document.querySelectorAll(".tour-highlight").forEach(e=>{e.classList.remove("tour-highlight");e.style.position="";e.style.zIndex="";});
   document.querySelectorAll(".tour-pulse").forEach(e=>e.classList.remove("tour-pulse"));
   tourStep=TOUR_STEPS.length;renderTour();
