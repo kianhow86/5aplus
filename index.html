@@ -650,9 +650,10 @@ html.light-theme{background:#e4eaf6 !important}
 /* Cyberpunk overrides */
 @keyframes destPulseCyber{0%,100%{box-shadow:0 0 0 0 rgba(0,240,255,.15)}50%{box-shadow:0 0 0 8px rgba(0,240,255,0)}}
 @keyframes itemPulseCyber{0%,100%{box-shadow:0 0 0 0 rgba(0,255,136,.3)}50%{box-shadow:0 0 0 8px rgba(0,255,136,0)}}
-@keyframes guestIntroFade{from{opacity:0}to{opacity:1}}
 .gi-dot.active{background:#5BC0BE!important;width:22px!important;border-radius:4px!important;box-shadow:0 0 10px rgba(91,192,190,0.7)}
 .gi-tip-dot.active{background:#5BC0BE!important;box-shadow:0 0 8px rgba(91,192,190,0.7)}
+.gi-skip-link{background:none;border:none;color:rgba(255,255,255,0.4);font-size:12px;cursor:pointer;padding:4px 8px;font-family:'Inter','Source Sans 3',sans-serif;text-decoration:underline;text-decoration-color:rgba(255,255,255,0.2);text-underline-offset:2px;transition:color .2s}
+.gi-skip-link:hover{color:rgba(255,255,255,0.7);text-decoration-color:rgba(255,255,255,0.5)}
 </style>
 </head>
 <body>
@@ -779,24 +780,30 @@ html.light-theme{background:#e4eaf6 !important}
 
 <!-- Guest intro — 2 statement slides + 3 spotlight tips. Shown every time user
      enters guest mode, unless they've tapped Skip before (remembered via
-     localStorage 'tm-guest-intro-skipped'). See showGuestIntro() in script. -->
-<div id="guest-intro-overlay" style="display:none;position:fixed;inset:0;z-index:9000;background:rgba(8,14,26,0.88);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);animation:guestIntroFade .35s ease">
-  <button onclick="skipGuestIntro()" style="position:absolute;top:calc(env(safe-area-inset-top,0px) + 16px);right:18px;background:rgba(255,255,255,0.08);border:1px solid rgba(91,192,190,0.3);color:#5BC0BE;padding:7px 14px;border-radius:18px;font-family:'Inter','Source Sans 3',sans-serif;font-size:13px;font-weight:600;cursor:pointer;z-index:10;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)">Skip intro ✕</button>
+     localStorage 'tm-guest-intro-skipped'). See showGuestIntro() in script.
+     Overlay appears instantly (opacity 1) so there's no flash of guest content
+     behind it; the drama comes from the card animating in from black instead. -->
+<div id="guest-intro-overlay" style="display:none;position:fixed;inset:0;z-index:9000;background:rgba(5,11,22,1);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px)">
   <!-- Statement slide box, centered -->
-  <div id="guest-intro-box" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:rgba(255,255,255,0.04);border:1px solid rgba(91,192,190,0.25);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-radius:24px;padding:44px 32px;max-width:440px;width:calc(100% - 40px);text-align:center;box-shadow:0 12px 48px rgba(0,0,0,0.5),0 0 80px rgba(91,192,190,0.15);transition:opacity .4s ease,transform .4s ease">
+  <div id="guest-intro-box" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) scale(0.92);opacity:0;filter:blur(4px);background:rgba(255,255,255,0.04);border:1px solid rgba(91,192,190,0.25);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-radius:24px;padding:44px 32px 28px;max-width:440px;width:calc(100% - 40px);text-align:center;box-shadow:0 12px 48px rgba(0,0,0,0.5),0 0 80px rgba(91,192,190,0.15)">
     <div id="guest-intro-kicker" style="font-family:'Inter','Source Sans 3',sans-serif;font-size:11px;font-weight:700;color:#5BC0BE;letter-spacing:.22em;text-transform:uppercase;margin-bottom:18px;text-shadow:0 0 20px rgba(91,192,190,0.6)">For Guests</div>
     <div id="guest-intro-h1" style="font-family:'Playfair Display','New York',Georgia,serif;font-size:42px;line-height:1.04;font-weight:900;letter-spacing:-.02em;color:#fff;margin:0 0 14px"></div>
     <div id="guest-intro-sub" style="font-family:'Inter','Source Sans 3',sans-serif;font-size:16px;line-height:1.5;color:rgba(255,255,255,0.75);font-weight:500;margin:0"></div>
-    <div style="display:flex;justify-content:center;gap:6px;margin-top:26px">
-      <span class="gi-dot" data-i="0" style="width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,0.2);transition:all .3s"></span>
-      <span class="gi-dot" data-i="1" style="width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,0.2);transition:all .3s"></span>
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-top:28px;gap:12px">
+      <div style="display:flex;gap:6px">
+        <span class="gi-dot" data-i="0" style="width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,0.2);transition:all .3s"></span>
+        <span class="gi-dot" data-i="1" style="width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,0.2);transition:all .3s"></span>
+      </div>
+      <button onclick="advanceGuestIntro()" style="background:linear-gradient(135deg,#5BC0BE,#2EE5D6);color:#0a1628;border:none;padding:9px 22px;border-radius:22px;font-size:14px;font-weight:700;cursor:pointer;font-family:'Inter','Source Sans 3',sans-serif;box-shadow:0 4px 20px rgba(91,192,190,0.4)">Next →</button>
+    </div>
+    <div style="text-align:center;margin-top:16px">
+      <button onclick="skipGuestIntro()" class="gi-skip-link">Skip intro</button>
     </div>
   </div>
   <!-- Spotlight stage (for tips) — hidden when statement slides are showing -->
   <div id="guest-intro-spotlight" style="display:none;position:absolute;inset:0">
-    <!-- Hole cutout is drawn via CSS box-shadow on the spotlight card itself -->
-    <div id="gi-spotlight-ring" style="position:absolute;pointer-events:none;box-shadow:0 0 0 9999px rgba(8,14,26,0.85);border-radius:16px;transition:top .4s ease,left .4s ease,width .4s ease,height .4s ease;border:2px solid #5BC0BE"></div>
-    <div id="gi-tip-card" style="position:absolute;background:#0a1628;border:1px solid rgba(91,192,190,0.4);border-radius:14px;padding:14px 16px;max-width:300px;box-shadow:0 12px 32px rgba(0,0,0,0.6),0 0 40px rgba(91,192,190,0.25);transition:all .4s ease">
+    <div id="gi-spotlight-ring" style="position:absolute;pointer-events:none;box-shadow:0 0 0 9999px rgba(5,11,22,0.92);border-radius:16px;transition:top .5s cubic-bezier(.22,.61,.36,1),left .5s cubic-bezier(.22,.61,.36,1),width .5s cubic-bezier(.22,.61,.36,1),height .5s cubic-bezier(.22,.61,.36,1);border:2px solid #5BC0BE"></div>
+    <div id="gi-tip-card" style="position:absolute;opacity:0;background:#0a1628;border:1px solid rgba(91,192,190,0.4);border-radius:14px;padding:14px 16px;max-width:300px;box-shadow:0 12px 32px rgba(0,0,0,0.6),0 0 40px rgba(91,192,190,0.25);transition:opacity .5s ease,top .5s ease,left .5s ease">
       <div id="gi-tip-title" style="font-family:'Inter','Source Sans 3',sans-serif;font-size:14px;font-weight:700;color:#5BC0BE;margin-bottom:6px"></div>
       <div id="gi-tip-body" style="font-size:14px;color:rgba(255,255,255,0.85);line-height:1.5;margin-bottom:12px"></div>
       <div style="display:flex;justify-content:space-between;align-items:center;gap:10px">
@@ -806,6 +813,9 @@ html.light-theme{background:#e4eaf6 !important}
           <span class="gi-tip-dot" data-i="2" style="width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,0.2)"></span>
         </div>
         <button onclick="advanceGuestIntro()" id="gi-tip-next" style="background:linear-gradient(135deg,#5BC0BE,#2EE5D6);color:#0a1628;border:none;padding:7px 18px;border-radius:20px;font-size:13px;font-weight:700;cursor:pointer;font-family:'Inter','Source Sans 3',sans-serif">Next →</button>
+      </div>
+      <div style="text-align:center;margin-top:10px">
+        <button onclick="skipGuestIntro()" class="gi-skip-link">Skip intro</button>
       </div>
     </div>
   </div>
@@ -1139,7 +1149,7 @@ html.light-theme{background:#e4eaf6 !important}
 <div id="tab-roles" class="tc"><div id="roles-content"></div></div>
 <div id="tab-master" class="tc"><div id="master-content"></div></div>
 <div id="tab-club" class="tc"><div id="club-announcements"></div><div id="club-next-meeting" style="margin-top:16px"></div></div>
-<div class="app-footer">5A+ SH TMC v9.0.25 · Built by Kian How</div>
+<div class="app-footer">5A+ SH TMC v9.0.26 · Built by Kian How</div>
 </div>
 
 <div class="bnav" id="bottom-nav"></div>
@@ -8850,16 +8860,25 @@ window.copyWechat=function(){
 
 window.showGuestPage=function(){
   document.getElementById("welcome-screen").style.display="none";
+  // If the intro will play, render the overlay FIRST at full opacity (covering
+  // what's about to become the guest page). This prevents the split-second flash
+  // of guest content that otherwise leaked through before the overlay caught up.
+  const willPlayIntro=!(function(){try{return localStorage.getItem("tm-guest-intro-skipped")==="1";}catch{return false;}})();
+  if(willPlayIntro){
+    const ov=document.getElementById("guest-intro-overlay");
+    if(ov){ov.style.display="block";ov.style.opacity="1";}
+  }
   document.getElementById("guest-screen").style.display="flex";
   resetGuest();
-  // Play the guest intro every time — unless they explicitly skipped it before.
-  // Short delay so the guest screen has time to render before the overlay lands.
-  setTimeout(()=>{if(window.maybeShowGuestIntro)window.maybeShowGuestIntro();},120);
+  if(willPlayIntro){
+    window._guestIntroStep=0;
+    renderGuestIntroStep(true);// true = first render, plays the dramatic delay
+  }
 };
 
 // ═══ GUEST INTRO — 2 statement slides + 3 spotlight tips ═══
 // Plays EVERY time the user enters guest mode (Kian's intent: remind each visit),
-// but only if they haven't hit "Skip intro ✕" previously. Skipping sets a
+// but only if they haven't hit "Skip intro" previously. Skipping sets a
 // localStorage flag that persists across sessions.
 window._guestIntroStep=0;// 0..4 — slides 0,1 are statement, 2,3,4 are spotlight tips
 const GUEST_INTRO_SLIDES=[
@@ -8875,59 +8894,97 @@ window.maybeShowGuestIntro=function(){
   if(!ov)return false;
   window._guestIntroStep=0;
   ov.style.display="block";
-  renderGuestIntroStep();
+  ov.style.opacity="1";
+  renderGuestIntroStep(true);
   return true;
 };
-window.skipGuestIntro=function(){
+window.skipGuestIntro=function(e){
+  if(e&&e.stopPropagation)e.stopPropagation();
   try{localStorage.setItem("tm-guest-intro-skipped","1");}catch{}
   finishGuestIntro();
 };
 window.finishGuestIntro=function(){
   const ov=document.getElementById("guest-intro-overlay");
   if(!ov)return;
-  ov.style.transition="opacity .35s ease";
+  ov.style.transition="opacity .5s ease";
   ov.style.opacity="0";
-  setTimeout(()=>{ov.style.display="none";ov.style.opacity="";ov.style.transition="";},350);
+  setTimeout(()=>{
+    ov.style.display="none";ov.style.opacity="";ov.style.transition="";
+    // Reset internal elements so next play starts clean
+    const box=document.getElementById("guest-intro-box");
+    if(box){box.style.opacity="0";box.style.transform="translate(-50%,-50%) scale(0.92)";box.style.filter="blur(4px)";}
+    const card=document.getElementById("gi-tip-card");
+    if(card)card.style.opacity="0";
+  },520);
 };
-window.advanceGuestIntro=function(){
-  window._guestIntroStep++;
-  if(window._guestIntroStep>=GUEST_INTRO_SLIDES.length){finishGuestIntro();return;}
-  renderGuestIntroStep();
+// Advance with a fade-out of the current element before rendering the next
+window.advanceGuestIntro=function(e){
+  if(e&&e.stopPropagation)e.stopPropagation();
+  const curStep=GUEST_INTRO_SLIDES[window._guestIntroStep];
+  const nextIdx=window._guestIntroStep+1;
+  if(nextIdx>=GUEST_INTRO_SLIDES.length){finishGuestIntro();return;}
+  // Fade out the current visible element first
+  const box=document.getElementById("guest-intro-box");
+  const card=document.getElementById("gi-tip-card");
+  if(curStep&&curStep.type==="slide"&&box){
+    box.style.transition="opacity .35s ease,transform .35s ease,filter .35s ease";
+    box.style.opacity="0";
+    box.style.transform="translate(-50%,-52%) scale(0.96)";
+    box.style.filter="blur(2px)";
+  }else if(curStep&&curStep.type==="spot"&&card){
+    card.style.transition="opacity .3s ease";
+    card.style.opacity="0";
+  }
+  setTimeout(()=>{
+    window._guestIntroStep=nextIdx;
+    renderGuestIntroStep(false);
+  },370);
 };
-// Clicking anywhere on the overlay (during statement slides) advances; spotlight
-// tips have an explicit Next button + can tap the highlighted element to advance too.
-function renderGuestIntroStep(){
+
+function renderGuestIntroStep(isInitial){
   const step=GUEST_INTRO_SLIDES[window._guestIntroStep];
   if(!step)return;
   const overlay=document.getElementById("guest-intro-overlay");
   const box=document.getElementById("guest-intro-box");
   const spot=document.getElementById("guest-intro-spotlight");
   if(step.type==="slide"){
-    // Statement slide mode: full dark backdrop + blur, centered box on top.
+    // Statement slide: solid dark overlay + centered card.
     if(overlay){
-      overlay.style.background="rgba(8,14,26,0.88)";
+      overlay.style.background="rgba(5,11,22,1)";
       overlay.style.backdropFilter="blur(18px)";
       overlay.style.webkitBackdropFilter="blur(18px)";
     }
     if(spot)spot.style.display="none";
     if(box){
       box.style.display="block";
-      box.style.opacity="0";box.style.transform="translate(-50%,-46%)";
-      setTimeout(()=>{box.style.opacity="1";box.style.transform="translate(-50%,-50%)";},30);
+      // Update content BEFORE animating in
+      document.getElementById("guest-intro-kicker").textContent=step.kicker;
+      document.getElementById("guest-intro-h1").innerHTML=step.h1;
+      document.getElementById("guest-intro-sub").innerHTML=step.sub;
+      document.querySelectorAll(".gi-dot").forEach(d=>{
+        const i=parseInt(d.dataset.i,10);
+        d.classList.toggle("active",i===window._guestIntroStep);
+      });
+      // Reset to invisible-blurred-scaled-down state
+      box.style.transition="none";
+      box.style.opacity="0";
+      box.style.transform="translate(-50%,-50%) scale(0.92)";
+      box.style.filter="blur(4px)";
+      // First appearance is dramatic: longer delay + longer fade.
+      // Subsequent slides are faster but still elegant.
+      const delay=isInitial?500:150;
+      const duration=isInitial?1000:650;
+      // Force browser to settle the initial state before animating
+      void box.offsetWidth;
+      setTimeout(()=>{
+        box.style.transition="opacity "+duration+"ms ease-out,transform "+duration+"ms cubic-bezier(.22,.61,.36,1),filter "+duration+"ms ease-out";
+        box.style.opacity="1";
+        box.style.transform="translate(-50%,-50%) scale(1)";
+        box.style.filter="blur(0)";
+      },delay);
     }
-    document.getElementById("guest-intro-kicker").textContent=step.kicker;
-    document.getElementById("guest-intro-h1").innerHTML=step.h1;
-    document.getElementById("guest-intro-sub").innerHTML=step.sub;
-    // Update statement dots
-    document.querySelectorAll(".gi-dot").forEach(d=>{
-      const i=parseInt(d.dataset.i,10);
-      d.classList.toggle("active",i===window._guestIntroStep);
-    });
-    // Tap the box to advance
-    if(box)box.onclick=advanceGuestIntro;
   }else if(step.type==="spot"){
-    // Spotlight mode: the RING creates its own dark cutout via massive box-shadow.
-    // Overlay's own background/blur must come OFF so the cutout reveals content.
+    // Spotlight mode: overlay background off so ring's cutout reveals content.
     if(overlay){
       overlay.style.background="transparent";
       overlay.style.backdropFilter="none";
@@ -8939,9 +8996,18 @@ function renderGuestIntroStep(){
     const ring=document.getElementById("gi-spotlight-ring");
     const card=document.getElementById("gi-tip-card");
     if(!target||!ring||!card)return;
-    // Ensure target is scrolled into view
     target.scrollIntoView({behavior:"smooth",block:"center"});
-    // Measure after scroll completes (~350ms)
+    // Update tip content
+    document.getElementById("gi-tip-title").textContent=step.title;
+    document.getElementById("gi-tip-body").textContent=step.body;
+    const tipIdx=window._guestIntroStep-2;
+    document.querySelectorAll(".gi-tip-dot").forEach(d=>{
+      const i=parseInt(d.dataset.i,10);
+      d.classList.toggle("active",i===tipIdx);
+    });
+    const btn=document.getElementById("gi-tip-next");
+    if(btn)btn.textContent=(window._guestIntroStep===GUEST_INTRO_SLIDES.length-1)?"Got it ✓":"Next →";
+    // Position ring + card after scroll settles
     setTimeout(()=>{
       const r=target.getBoundingClientRect();
       const pad=8;
@@ -8949,16 +9015,14 @@ function renderGuestIntroStep(){
       ring.style.left=(r.left-pad)+"px";
       ring.style.width=(r.width+pad*2)+"px";
       ring.style.height=(r.height+pad*2)+"px";
-      // Place tip card below target if space; else above
       const vh=window.innerHeight;
-      const cardH=180;// approximate
+      const cardH=200;
       const belowY=r.bottom+16;
       const aboveY=r.top-cardH-16;
       let y,x;
       if(belowY+cardH<vh-20){y=belowY;}
       else if(aboveY>20){y=aboveY;}
       else{y=Math.max(20,Math.min(vh-cardH-20,r.top));}
-      // Horizontal: center on target, clamp to viewport
       const vw=window.innerWidth;
       const cardW=Math.min(300,vw-32);
       x=Math.max(16,Math.min(vw-cardW-16,r.left+r.width/2-cardW/2));
@@ -8966,18 +9030,10 @@ function renderGuestIntroStep(){
       card.style.left=x+"px";
       card.style.right="auto";
       card.style.maxWidth=cardW+"px";
-    },380);
-    document.getElementById("gi-tip-title").textContent=step.title;
-    document.getElementById("gi-tip-body").textContent=step.body;
-    // Update tip dots
-    const tipIdx=window._guestIntroStep-2;
-    document.querySelectorAll(".gi-tip-dot").forEach(d=>{
-      const i=parseInt(d.dataset.i,10);
-      d.classList.toggle("active",i===tipIdx);
-    });
-    // Last tip: change button to "Got it"
-    const btn=document.getElementById("gi-tip-next");
-    if(btn)btn.textContent=(window._guestIntroStep===GUEST_INTRO_SLIDES.length-1)?"Got it ✓":"Next →";
+      // Fade in the tip card once positioned
+      card.style.transition="opacity .5s ease";
+      card.style.opacity="1";
+    },400);
   }
 }
 
