@@ -296,6 +296,8 @@ html.light-theme{background:#e4eaf6 !important}
 .resources-box[open] .resources-chevron{transform:rotate(180deg)}
 @keyframes bookCubePulse{0%,100%{box-shadow:0 0 0 0 rgba(107,191,107,.7),0 2px 8px rgba(107,191,107,.4)}50%{box-shadow:0 0 0 8px rgba(107,191,107,0),0 2px 12px rgba(107,191,107,.5)}}
 .book-cube-pulse{animation:bookCubePulse 1.4s ease-in-out infinite}
+.legend-wrap.open{max-width:500px !important;opacity:1 !important}
+.legend-chev.open{transform:rotate(90deg)}
 .top-bar{display:flex;align-items:center;justify-content:flex-end;gap:2px;padding:12px 0 8px;margin-top:8px}
 .top-bar .tb-btn{background:none;border:none;color:var(--t5);font-size:13px;cursor:pointer;font-family:'Source Sans 3',sans-serif;padding:6px 10px;border-radius:8px;transition:all .2s}
 .top-bar .tb-btn:hover{color:var(--t3);background:var(--s2)}
@@ -1029,7 +1031,7 @@ html.light-theme{background:#e4eaf6 !important}
 <div id="tab-roles" class="tc"><div id="roles-content"></div></div>
 <div id="tab-master" class="tc"><div id="master-content"></div></div>
 <div id="tab-club" class="tc"><div id="club-announcements"></div><div id="club-next-meeting" style="margin-top:16px"></div></div>
-<div class="app-footer">5A+ TMC App v9.0.12 · Built by Kian How</div>
+<div class="app-footer">5A+ TMC App v9.0.14 · Built by Kian How</div>
 </div>
 
 <div class="bnav" id="bottom-nav"></div>
@@ -2732,31 +2734,33 @@ function rPl(){const c=document.getElementById("planner-content");if(!S)return;c
     h+='<div class="meeting-today-banner">📢 Your meeting is TODAY!'+(mySlots.length?' You have '+mySlots.length+' slot'+(mySlots.length>1?'s':'')+' assigned.':' Tap to assign roles.')+'</div>';
   }
   h+='<div id="meetings-section">';
-  h+='<div class="meetings-title" style="font-size:20px;font-weight:700;color:var(--w);margin:18px 0 12px;letter-spacing:-.01em">📅 Meeting Dates</div>';
-  h+='<div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:10px;font-size:12px;color:var(--t3)">';
-  h+='<span><span style="display:inline-block;width:12px;height:12px;border-radius:3px;background:var(--ok)30;border:1px solid var(--ok)50;vertical-align:middle;margin-right:4px"></span>You have a role</span>';
+  h+='<div class="meetings-hdr-row" style="display:flex;align-items:center;gap:10px;margin:18px 0 12px;flex-wrap:wrap">';
+  h+='<button onclick="toggleMeetingLegend()" style="background:none;border:none;color:var(--w);font-size:20px;font-weight:700;cursor:pointer;padding:0;display:flex;align-items:center;gap:6px;letter-spacing:-.01em;font-family:\'Source Sans 3\',sans-serif">';
+  h+='📅 Meeting Dates';
+  h+='<span id="legend-chev" class="legend-chev" style="font-size:11px;color:var(--t4);transition:transform .2s">▶</span>';
+  h+='</button>';
+  h+='<div id="meetings-legend" class="legend-wrap" style="display:flex;align-items:center;gap:10px;font-size:12px;color:var(--t3);max-width:0;overflow:hidden;transition:max-width .35s ease,opacity .2s;opacity:0;white-space:nowrap">';
+  h+='<span><span style="display:inline-block;width:12px;height:12px;border-radius:3px;background:var(--ok);border:1px solid var(--ok);vertical-align:middle;margin-right:4px;opacity:.7"></span>You have a role</span>';
   h+='<span><span style="display:inline-block;width:12px;height:12px;border-radius:3px;border:1.5px dashed var(--b2);vertical-align:middle;margin-right:4px"></span>No role yet</span>';
   h+='<span><span style="display:inline-block;width:12px;height:12px;border-radius:3px;background:var(--b1);border:1px solid var(--b2);vertical-align:middle;margin-right:4px"></span>Skipped</span>';
-  // Pulsing date-cube style "tap to book" marker — pushed to the right of the legend.
-  // Visually matches the meeting date cubes (same shape/size) with a solid green tint
-  // to signal: "tap any date like this one." Disappears once the booking is placed.
+  h+='</div>';
+  h+='</div>';
+  // Full-width solid green "tap to book" strip — appears between header and date grid
+  // when a booking is waiting to be placed. Disappears once a date is tapped.
   if(window._pendingBooking&&window._pendingBooking.title){
     const pb=window._pendingBooking;
-    h+='<div style="margin-left:auto;display:inline-flex;align-items:center;gap:8px;max-width:100%;overflow:hidden">';
-    h+='<div class="book-cube-pulse" style="flex-shrink:0;min-width:48px;padding:6px 6px 5px;border-radius:10px;background:var(--ok);color:#0a1628;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;border:1px solid var(--ok);font-family:\'Source Sans 3\',sans-serif;line-height:1">';
+    h+='<div style="display:flex;align-items:center;gap:12px;padding:10px 14px;margin-bottom:14px;background:var(--ok);border-radius:10px;color:#0a1628">';
+    h+='<div class="book-cube-pulse" style="flex-shrink:0;min-width:48px;padding:6px 6px 5px;border-radius:10px;background:#fff;color:#0a1628;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;border:1px solid rgba(10,22,40,0.15);font-family:\'Source Sans 3\',sans-serif;line-height:1">';
     h+='<div style="font-size:14px;line-height:1">📅</div>';
-    h+='<div style="font-size:8.5px;font-weight:800;letter-spacing:.08em;margin-top:2px">TAP</div>';
-    h+='<div style="font-size:8px;font-weight:800;letter-spacing:.06em;margin-top:1px;opacity:.8">BOOK</div>';
+    h+='<div style="font-size:8.5px;font-weight:800;letter-spacing:.08em;margin-top:2px;color:var(--ok)">TAP</div>';
+    h+='<div style="font-size:8px;font-weight:800;letter-spacing:.06em;margin-top:1px;color:var(--ok);opacity:.85">BOOK</div>';
     h+='</div>';
-    h+='<div style="display:flex;align-items:center;gap:6px;min-width:0;overflow:hidden">';
-    h+='<span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:600;font-size:12px;color:var(--w)">'+pb.title+'</span>';
-    h+='<button onclick="cancelPendingBooking()" style="flex-shrink:0;background:var(--b1);border:none;color:var(--t3);width:20px;height:20px;border-radius:50%;font-size:11px;font-weight:900;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;padding:0" aria-label="Cancel">✕</button>';
+    h+='<div style="flex:1;min-width:0">';
+    h+='<div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;opacity:.65;margin-bottom:1px">Tap any date to book</div>';
+    h+='<div style="font-size:15px;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+pb.title+'</div>';
     h+='</div>';
+    h+='<button onclick="cancelPendingBooking()" style="flex-shrink:0;background:rgba(10,22,40,0.15);border:none;color:#0a1628;width:24px;height:24px;border-radius:50%;font-size:13px;font-weight:900;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;padding:0" aria-label="Cancel">✕</button>';
     h+='</div>';
-  }
-  h+='</div>';
-  if((clubData.dates||[]).filter(d=>!(clubData.skipped||{})[d]).length){
-    h+='<div style="margin-bottom:14px"><button class="sb ical-btn" onclick="exportICS()" style="background:var(--info)20;color:var(--info);border:1px solid var(--info)40;padding:8px 14px;border-radius:10px;font-weight:600;font-size:13px;display:inline-flex;align-items:center;gap:6px">📅 Export to iCal</button></div>';
   }
   const dates=(clubData.dates||[]).sort();
   if(!dates.length)h+='<div class="empty">'+(S.role!=="member"?"Generate dates above.":"Your VPE hasn\'t set meeting dates yet.")+'</div>';
@@ -2821,6 +2825,10 @@ function rPl(){const c=document.getElementById("planner-content");if(!S)return;c
     h+='<button class="btn-sec" onclick="clearAllPlan()" style="padding:8px 16px;font-size:13px;color:var(--danger);border-color:var(--danger)35;background:var(--danger)08">🗑 Clear my plan</button>';
     h+='<div style="font-size:11px;color:var(--t4);margin-top:6px">Wipes all planned slots and goal so you can start fresh.</div>';
     h+='</div>';
+  }
+  // Export to iCal — moved to the bottom of the planner as a utility action
+  if((clubData.dates||[]).filter(d=>!(clubData.skipped||{})[d]).length){
+    h+='<div style="text-align:center;margin-top:14px"><button class="sb ical-btn" onclick="exportICS()" style="background:var(--info)15;color:var(--info);border:1px solid var(--info)30;padding:8px 14px;border-radius:10px;font-weight:600;font-size:13px;display:inline-flex;align-items:center;gap:6px">📅 Export to iCal</button></div>';
   }
   h+='</div>';// /#meetings-section
   c.innerHTML=h;
@@ -5048,6 +5056,14 @@ window.cancelPendingBooking=function(){
   window._pendingBooking=null;
   rPl();
   sT("Booking cancelled");
+};
+// Toggle the Meeting Dates legend (sideways reveal to the right of the title)
+window.toggleMeetingLegend=function(){
+  const wrap=document.getElementById("meetings-legend");
+  const chev=document.getElementById("legend-chev");
+  if(!wrap)return;
+  wrap.classList.toggle("open");
+  if(chev)chev.classList.toggle("open");
 };
 window.handleDateClick=function(date){
   if(window._pendingBooking){applyPendingBooking(date);return;}
