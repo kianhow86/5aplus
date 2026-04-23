@@ -131,14 +131,11 @@ html.light-theme{background:#e4eaf6 !important}
 .light-theme .app-footer{color:#aaaacc !important}
 
 /* Light: modals and overlays */
-.light-theme .onboard-overlay{background:rgba(180,200,235,0.45) !important;backdrop-filter:blur(12px) !important;-webkit-backdrop-filter:blur(12px) !important}
 .light-theme .modal-bg{background:rgba(180,200,235,0.4) !important;backdrop-filter:blur(12px) !important;-webkit-backdrop-filter:blur(12px) !important}
 .light-theme .modal{background:rgba(220,232,252,0.88) !important;backdrop-filter:blur(20px) !important;-webkit-backdrop-filter:blur(20px) !important;border:1px solid rgba(255,255,255,0.5) !important;color:#1a1a2e !important}
 
-/* Light: tour tips */
-.light-theme .tour-tip,.light-theme .ig-tip{background:rgba(235,240,252,0.92) !important;backdrop-filter:blur(20px) !important;-webkit-backdrop-filter:blur(20px) !important;border:1px solid rgba(255,255,255,0.6) !important;box-shadow:0 8px 32px rgba(80,120,180,0.12) !important}
-.light-theme .tour-tip-title,.light-theme .ig-tip-title{color:#1a1a2e !important}
-.light-theme .tour-tip-text,.light-theme .ig-tip-text{color:#3a3a55 !important}
+/* Tour + guest intro use the dark aesthetic in BOTH themes for consistency —
+   they're "spotlight" moments, always cinematic regardless of the app theme. */
 
 /* Light: suggestion cards — fully opaque so swipe-reveal red doesn't bleed through */
 .light-theme .swipe-tip-content{background:#e0ebfa !important;border:1px solid rgba(150,180,220,0.45) !important}
@@ -168,15 +165,6 @@ html.light-theme{background:#e4eaf6 !important}
 .light-theme .hw-acc{border:1px solid rgba(150,180,220,0.3) !important}
 .light-theme .hw-header{background:rgba(210,225,248,0.4) !important}
 .light-theme .hw-phase{background:rgba(220,232,252,0.5) !important}
-
-/* Light: onboarding/tour welcome modal — match blue theme instead of beige */
-.light-theme .onboard-card{background:rgba(235,242,252,0.96) !important;backdrop-filter:blur(24px) !important;-webkit-backdrop-filter:blur(24px) !important;border:1px solid rgba(255,255,255,0.6) !important;box-shadow:0 16px 48px rgba(80,120,180,0.25) !important}
-.light-theme .onboard-title{color:#1a1a2e !important}
-.light-theme .onboard-text{color:#3a3a55 !important}
-.light-theme .onboard-dot{background:rgba(140,170,215,0.5) !important}
-.light-theme .onboard-dot.active{background:#1a1a2e !important}
-.light-theme .onboard-btn{background:#1a1a2e !important;color:#fff !important}
-.light-theme .onboard-skip{color:#6a6a85 !important}
 
 /* Light: Plan Your Term inner buttons (Trust the AI / I can do better) */
 .light-theme button[onclick="startPlanWizard()"]{background:rgba(91,192,190,0.18) !important;border:1px solid rgba(91,192,190,0.4) !important;box-shadow:0 2px 8px rgba(80,120,180,0.08) !important}
@@ -224,32 +212,35 @@ html.light-theme{background:#e4eaf6 !important}
 .intro-dot{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,0.2);cursor:pointer;transition:all .3s}
 .intro-dot.active{background:#5BC0BE;width:24px;border-radius:4px;box-shadow:0 0 12px rgba(91,192,190,0.7)}
 
-/* Onboarding */
-.onboard-overlay{position:fixed;inset:0;background:rgba(0,0,0,.4);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);z-index:500;display:flex;align-items:center;justify-content:center;padding:20px;animation:fadeIn .3s ease}
-.onboard-card{background:rgba(240,235,225,0.95);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border:none;border-radius:24px;padding:32px 24px;max-width:380px;width:100%;text-align:center;animation:fadeIn .3s ease;box-shadow:0 16px 48px rgba(0,0,0,.5)}
-.onboard-icon{font-size:48px;margin-bottom:12px}
-.onboard-title{font-family:'Montserrat',sans-serif;font-size:20px;font-weight:700;color:#1a1a2e;margin-bottom:8px}
-.onboard-text{font-size:15px;color:#4a4540;line-height:1.6;margin-bottom:20px}
+/* Onboarding — restyled to match guest intro aesthetic (dark card + cyan glow) */
+.onboard-overlay{position:fixed;inset:0;background:rgba(5,11,22,0.92);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);z-index:500;display:flex;align-items:center;justify-content:center;padding:20px;animation:fadeIn .35s ease}
+.onboard-card{background:rgba(255,255,255,0.04);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border:1px solid rgba(91,192,190,0.25);border-radius:24px;padding:36px 28px 28px;max-width:380px;width:100%;text-align:center;animation:fadeIn .35s ease;box-shadow:0 12px 48px rgba(0,0,0,0.5),0 0 80px rgba(91,192,190,0.15)}
+.onboard-icon{font-size:48px;margin-bottom:14px;filter:drop-shadow(0 0 20px rgba(91,192,190,0.3))}
+.onboard-title{font-family:'Playfair Display','New York',Georgia,serif;font-size:26px;font-weight:900;color:#fff;margin-bottom:10px;letter-spacing:-.01em;line-height:1.15}
+.onboard-text{font-family:'Inter','Source Sans 3',sans-serif;font-size:15px;color:rgba(255,255,255,0.72);line-height:1.55;margin-bottom:22px;font-weight:500}
 .onboard-dots{display:flex;justify-content:center;gap:8px;margin-bottom:20px}
-.onboard-dot{width:8px;height:8px;border-radius:50%;background:#d0cac0;transition:all .2s}
-.onboard-dot.active{background:#1a1a2e;transform:scale(1.2)}
-.onboard-btn{padding:12px 32px;border:none;border-radius:12px;font-size:15px;font-weight:600;cursor:pointer;font-family:'Source Sans 3',sans-serif;color:#fff;background:#1a1a2e;margin:0 4px}
-.onboard-skip{padding:8px 16px;border:none;border-radius:8px;font-size:13px;cursor:pointer;font-family:'Source Sans 3',sans-serif;color:#8a8078;background:transparent;margin-top:8px}
+.onboard-dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,0.2);transition:all .2s}
+.onboard-dot.active{background:#5BC0BE;transform:scale(1.2);box-shadow:0 0 10px rgba(91,192,190,0.7)}
+.onboard-btn{padding:12px 32px;border:none;border-radius:22px;font-size:15px;font-weight:700;cursor:pointer;font-family:'Inter','Source Sans 3',sans-serif;color:#0a1628;background:linear-gradient(135deg,#5BC0BE,#2EE5D6);margin:0 4px;box-shadow:0 4px 20px rgba(91,192,190,0.4);transition:transform .15s,box-shadow .15s}
+.onboard-btn:hover{transform:translateY(-1px);box-shadow:0 6px 24px rgba(91,192,190,0.55)}
+.onboard-skip{padding:8px 16px;border:none;border-radius:8px;font-size:13px;cursor:pointer;font-family:'Inter','Source Sans 3',sans-serif;color:rgba(255,255,255,0.5);background:transparent;margin-top:8px;text-decoration:underline;text-decoration-color:rgba(255,255,255,0.2);text-underline-offset:2px}
 
-/* Path tour highlight */
-.tour-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.55);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);z-index:400;pointer-events:auto}
-.tour-highlight{position:relative;z-index:401;border-radius:12px !important;outline:3px solid rgba(91,192,190,.9);outline-offset:6px;box-shadow:0 0 24px rgba(91,192,190,.5),0 0 48px rgba(91,192,190,.25) !important;background:var(--bg) !important;backdrop-filter:none !important;-webkit-backdrop-filter:none !important;pointer-events:none;transition:outline-offset .2s ease}
+/* Path tour highlight — same ring as guest intro (cyan glow) */
+.tour-backdrop{position:fixed;inset:0;background:rgba(5,11,22,0.92);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);z-index:400;pointer-events:auto}
+.tour-highlight{position:relative;z-index:401;border-radius:12px !important;outline:2px solid #5BC0BE;outline-offset:6px;box-shadow:0 0 24px rgba(91,192,190,.5),0 0 48px rgba(91,192,190,.25) !important;background:var(--bg) !important;backdrop-filter:none !important;-webkit-backdrop-filter:none !important;pointer-events:none;transition:outline-offset .2s ease}
 .tour-pulse{position:relative;z-index:402 !important;animation:tourPulse 1.4s ease-in-out infinite;border-radius:10px}
 @keyframes tourPulse{0%,100%{box-shadow:0 0 0 0 rgba(91,192,190,.7),0 0 0 0 rgba(91,192,190,.5);transform:scale(1)}50%{box-shadow:0 0 0 8px rgba(91,192,190,.35),0 0 0 16px rgba(91,192,190,.15);transform:scale(1.08)}}
-.tour-tip{position:fixed;z-index:402;background:rgba(240,235,225,0.95);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border:none;border-radius:20px;padding:16px;max-width:300px;width:calc(100% - 32px);box-shadow:0 16px 48px rgba(0,0,0,.5);animation:fadeIn .2s ease}
-.tour-tip-title{font-size:15px;font-weight:700;color:#1a1a2e;margin-bottom:6px;display:flex;align-items:center;gap:6px}
-.tour-tip-text{font-size:13px;color:#4a4540;line-height:1.5;margin-bottom:12px}
-.tour-tip-footer{display:flex;align-items:center;justify-content:space-between}
-.tour-tip-dots{display:flex;gap:6px}
-.tour-tip-dot{width:6px;height:6px;border-radius:50%;background:#d0cac0}
-.tour-tip-dot.active{background:#1a1a2e}
-.tour-tip-btn{padding:8px 18px;border:none;border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;font-family:'Source Sans 3',sans-serif;color:#fff;background:#1a1a2e}
-.tour-tip-skip{border:none;background:none;color:#8a8078;font-size:12px;cursor:pointer;font-family:'Source Sans 3',sans-serif}
+/* Tour tip card — matches guest intro tip card style exactly */
+.tour-tip{position:fixed;z-index:402;background:#0a1628;border:1px solid rgba(91,192,190,0.4);border-radius:14px;padding:14px 16px;max-width:300px;width:calc(100% - 32px);box-shadow:0 12px 32px rgba(0,0,0,0.6),0 0 40px rgba(91,192,190,0.25);animation:fadeIn .3s ease}
+.tour-tip-title{font-family:'Inter','Source Sans 3',sans-serif;font-size:14px;font-weight:700;color:#5BC0BE;margin-bottom:6px;display:flex;align-items:center;gap:6px}
+.tour-tip-text{font-size:14px;color:rgba(255,255,255,0.85);line-height:1.5;margin-bottom:12px}
+.tour-tip-footer{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.tour-tip-dots{display:flex;gap:4px}
+.tour-tip-dot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,0.2)}
+.tour-tip-dot.active{background:#5BC0BE;box-shadow:0 0 8px rgba(91,192,190,0.7)}
+.tour-tip-btn{padding:7px 18px;border:none;border-radius:20px;font-size:13px;font-weight:700;cursor:pointer;font-family:'Inter','Source Sans 3',sans-serif;color:#0a1628;background:linear-gradient(135deg,#5BC0BE,#2EE5D6)}
+.tour-tip-skip{border:none;background:none;color:rgba(255,255,255,0.4);font-size:12px;cursor:pointer;font-family:'Inter','Source Sans 3',sans-serif;text-decoration:underline;text-decoration-color:rgba(255,255,255,0.2);text-underline-offset:2px;padding:4px 8px}
+.tour-tip-skip:hover{color:rgba(255,255,255,0.7)}
 .setup-title{font-family:'Montserrat',serif;font-size:28px;font-weight:600;color:var(--w);letter-spacing:-.02em;margin-bottom:2px;text-align:center}
 .setup-sub{font-size:14px;color:var(--t3);margin-bottom:28px;text-align:center}
 .label{display:block;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--t3);margin-bottom:8px}
@@ -776,7 +767,7 @@ html.light-theme{background:#e4eaf6 !important}
 </div>
 
 <!-- GUEST EXPERIENCE -->
-<div id="guest-screen" class="setup-screen glass-bg" style="display:none;padding:16px 0">
+<div id="guest-screen" class="setup-screen glass-bg" style="display:none;padding:calc(env(safe-area-inset-top,0px) + 20px) 0 16px">
 
 <!-- Guest intro — 2 statement slides + 3 spotlight tips. Shown every time user
      enters guest mode, unless they've tapped Skip before (remembered via
@@ -1149,7 +1140,7 @@ html.light-theme{background:#e4eaf6 !important}
 <div id="tab-roles" class="tc"><div id="roles-content"></div></div>
 <div id="tab-master" class="tc"><div id="master-content"></div></div>
 <div id="tab-club" class="tc"><div id="club-announcements"></div><div id="club-next-meeting" style="margin-top:16px"></div></div>
-<div class="app-footer">5A+ SH TMC v9.0.26 · Built by Kian How</div>
+<div class="app-footer">5A+ SH TMC v9.0.27 · Built by Kian How</div>
 </div>
 
 <div class="bnav" id="bottom-nav"></div>
@@ -9965,15 +9956,15 @@ window.switchTab=switchTab;
 
 function startOnboarding(){
   if(localStorage.getItem("tm-pw-onboarded"))return;
-  // Show prompt asking if they want the tour
+  // Welcome dialog — dark card style matching the guest intro aesthetic.
   const el=document.getElementById("onboard-overlay");
   let h='<div class="onboard-overlay"><div class="onboard-card">';
   h+='<div class="onboard-icon">👋</div>';
-  h+='<div class="onboard-title">Welcome! Want a quick tour?</div>';
+  h+='<div class="onboard-title">Welcome!<br><span style="background:linear-gradient(135deg,#5BC0BE,#2EE5D6);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;font-style:italic">Want a quick tour?</span></div>';
   h+='<div class="onboard-text">We\'ll walk you through the app in 5 quick steps — takes about 30 seconds.</div>';
-  h+='<button class="onboard-btn" onclick="beginTour()" style="width:100%;margin-bottom:8px">Yes, show me around →</button>';
-  h+='<button class="onboard-btn" onclick="dismissTour()" style="width:100%;background:transparent;color:#8a8078;border:1px solid #d0cac0;margin-bottom:12px">No thanks, I\'ll explore</button>';
-  h+='<label style="display:flex;align-items:center;gap:8px;font-size:13px;color:#8a8078;cursor:pointer;justify-content:center"><input type="checkbox" id="tour-never" style="accent-color:#1a1a2e"> Don\'t show this again</label>';
+  h+='<button class="onboard-btn" onclick="beginTour()" style="width:100%;margin:0 0 10px">Yes, show me around →</button>';
+  h+='<button onclick="dismissTour()" style="width:100%;padding:11px 28px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.15);border-radius:22px;font-size:14px;font-weight:600;cursor:pointer;font-family:\'Inter\',\'Source Sans 3\',sans-serif;color:rgba(255,255,255,0.85);margin-bottom:16px">No thanks, I\'ll explore</button>';
+  h+='<label style="display:flex;align-items:center;gap:8px;font-size:13px;color:rgba(255,255,255,0.5);cursor:pointer;justify-content:center;font-family:\'Inter\',\'Source Sans 3\',sans-serif"><input type="checkbox" id="tour-never" style="accent-color:#5BC0BE"> Don\'t show this again</label>';
   h+='</div></div>';
   el.innerHTML=h;
 }
