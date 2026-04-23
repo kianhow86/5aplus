@@ -1,0 +1,9 @@
+{
+  "name": "5aplus-tmc-app",
+  "version": "9.0.0",
+  "description": "5A+ Toastmasters Club Pathways planner/coaching app",
+  "private": true,
+  "dependencies": {
+    "@netlify/blobs": "^8.1.0"
+  }
+}
