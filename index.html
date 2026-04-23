@@ -42,7 +42,8 @@ function loadFirebase(){
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{--bg:#0f1923;--s0:rgba(255,255,255,0.03);--s1:rgba(255,255,255,0.05);--s2:rgba(255,255,255,0.08);--b1:rgba(255,255,255,0.06);--b2:rgba(255,255,255,0.10);--t1:#F0EDE8;--t2:#B8B0A8;--t3:#8A8078;--t4:#6A6058;--t5:#4A4038;--w:#F5F2EE;--danger:#E05252;--info:#7BA7CC;--ok:#6BBF6B;--warn:#E8A04C;--nav-bg:rgba(15,25,35,0.85)}
-body{font-family:'Source Sans 3',sans-serif;background:linear-gradient(135deg,#0a1628 0%,#1a1a2e 30%,#16213e 60%,#0f1923 100%);background-attachment:fixed;color:var(--t1);min-height:100dvh;-webkit-font-smoothing:antialiased}
+html{height:100%;height:100dvh}
+body{font-family:'Source Sans 3',sans-serif;background:linear-gradient(135deg,#0a1628 0%,#1a1a2e 30%,#16213e 60%,#0f1923 100%);background-attachment:fixed;color:var(--t1);min-height:100%;min-height:100dvh;height:100%;height:100dvh;-webkit-font-smoothing:antialiased;margin:0;overscroll-behavior-y:none}
 .app-loading{position:fixed;inset:0;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:600;gap:16px}
 .app-loading-spinner{width:32px;height:32px;border:3px solid var(--b2);border-top-color:var(--w);border-radius:50%;animation:spin .8s linear infinite}
 .app-loading-text{font-size:14px;color:var(--t3)}
@@ -162,8 +163,7 @@ a{color:var(--info);text-decoration:none}
 /* Level-picker uses same class but needs lighter treatment (text + row layout) */
 .light-theme .path-opt.lvl-pick{filter:saturate(1.2) brightness(0.95)}
 
-/* Light: path preview */
-.light-theme .path-preview{background:rgba(220,232,252,0.6) !important;backdrop-filter:blur(16px) !important;-webkit-backdrop-filter:blur(16px) !important;border:1px solid rgba(255,255,255,0.5) !important;box-shadow:0 4px 20px rgba(80,120,180,0.08) !important}
+/* Light: path preview — defined in main section below */
 
 /* Light: hw accordion in guest */
 .light-theme .hw-acc{border:1px solid rgba(150,180,220,0.3) !important}
@@ -277,10 +277,11 @@ a{color:var(--info);text-decoration:none}
 .guest-join-steps{display:flex;flex-direction:column;gap:10px}
 .guest-join-step{display:flex;align-items:flex-start;gap:12px;font-size:15px;color:var(--t1);line-height:1.5}
 .guest-join-num{width:28px;height:28px;border-radius:50%;background:var(--info);color:#fff;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;flex-shrink:0}
-.path-preview-overlay{position:fixed;inset:0;background:rgba(0,0,0,.35);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);z-index:300;display:flex;align-items:center;justify-content:center;padding:env(safe-area-inset-top,20px) 16px 20px;overflow-y:auto;animation:fadeIn .2s ease;visibility:visible !important}
-.light-theme .path-preview-overlay{background:rgba(180,200,235,0.45) !important}
-.path-preview{background:rgba(15,25,35,0.95);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,0.10);border-radius:24px;padding:32px 24px;max-width:460px;width:100%;max-height:calc(100vh - 40px);overflow-y:auto;box-shadow:0 12px 40px rgba(0,0,0,.5);animation:fadeIn .2s ease;margin:auto 0}
-@media(max-width:480px){.path-preview{padding:28px 18px}}
+.path-preview-overlay{position:fixed;inset:0;background:#0f1923;z-index:9999;display:flex;align-items:center;justify-content:center;padding:env(safe-area-inset-top,20px) 16px env(safe-area-inset-bottom,20px);animation:fadeIn .2s ease;visibility:visible !important}
+.light-theme .path-preview-overlay{background:#c8d6ea !important}
+.path-preview{background:#172130;border:1px solid rgba(255,255,255,0.08);border-radius:24px;padding:32px 24px;max-width:460px;width:100%;max-height:100%;overflow-y:auto;box-shadow:0 12px 40px rgba(0,0,0,.5);animation:fadeIn .2s ease;-webkit-overflow-scrolling:touch}
+.light-theme .path-preview{background:#e8eef8 !important;border:1px solid rgba(100,120,160,0.25) !important;box-shadow:0 12px 40px rgba(80,120,180,.25) !important}
+@media(max-width:480px){.path-preview{padding:24px 18px}}
 /* Custom dropdown panel — opaque bg so it never bleeds through */
 .cdd-panel{background:#182430 !important;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,0.10) !important}
 .light-theme .cdd-panel{background:#e8eef8 !important;border:1px solid rgba(100,120,160,0.25) !important;box-shadow:0 10px 28px rgba(50,70,110,0.18) !important}
@@ -668,7 +669,7 @@ a{color:var(--info);text-decoration:none}
 <div id="welcome-next-meeting" style="margin-bottom:16px;padding:12px;background:rgba(255,255,255,0.04);border-radius:14px;text-align:center;display:none;border:1px solid rgba(255,255,255,0.06)">
 <div style="font-size:12px;font-weight:600;color:var(--t4);text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px">Next Meeting</div>
 <div id="welcome-next-date" style="font-size:16px;font-weight:700;color:var(--w)"></div>
-<div style="font-size:13px;color:var(--t3);margin-top:2px">Sundays · 14:00–16:30 · Shanghai</div>
+<div style="font-size:13px;color:var(--t3);margin-top:2px">Sundays · 16:40–18:00 · Shanghai</div>
 </div>
 <div style="font-size:13px;color:var(--t4);margin-bottom:20px;line-height:1.6">Track your path · Plan your speeches · Prep for any role</div>
 <button class="btn-pri" onclick="showMemberLogin()" style="margin-bottom:10px;background:linear-gradient(135deg,#5BC0BE,#3A9E9B);border:none;box-shadow:0 4px 15px rgba(91,192,190,0.3)">🔑 I'm a Member</button>
@@ -704,7 +705,7 @@ a{color:var(--info);text-decoration:none}
 </div>
 <span class="tapcard-toggle">▼</span>
 </div>
-<div style="font-size:15px;color:var(--t1);line-height:1.7;margin-bottom:14px">Since <strong style="color:var(--w)">2009</strong>, we've been one of Shanghai's leading English-speaking Toastmasters clubs. Every Sunday from <strong style="color:var(--w)">14:00 to 16:30</strong>, members gather to speak, lead, and level up — together.</div>
+<div style="font-size:15px;color:var(--t1);line-height:1.7;margin-bottom:14px">Since <strong style="color:var(--w)">2009</strong>, we've been one of Shanghai's leading English-speaking Toastmasters clubs. Members gather <a href="#" onclick="event.preventDefault();event.stopPropagation();showGuestVisit();return false" style="color:var(--info);font-weight:600;text-decoration:none;border-bottom:1.5px dotted var(--info)">from 16:40-18:00 at this location</a> to speak, lead, and level up — together.</div>
 
 <!-- The 5 A's — last thing in the head -->
 <div style="font-size:14px;color:var(--t2);line-height:1.6;padding:12px 14px;background:rgba(255,255,255,0.05);border-radius:10px">
@@ -730,23 +731,8 @@ a{color:var(--info);text-decoration:none}
 <span class="tapcard-toggle">▼</span>
 </div>
 <div class="tapcard-body">
-<div style="font-size:15px;color:var(--t1);line-height:1.7;margin-bottom:12px">Most people think Toastmasters is a public speaking club. It's not — or at least, that's not why people stay. Toastmasters is a <strong style="color:var(--w)">platform where opportunities are made</strong>. You learn to speak, lead, and think on your feet — then you <strong style="color:var(--w)">deploy those skills everywhere</strong>: job interviews, boardrooms, pitches, negotiations, even difficult conversations at home. The speeches are practice. The real game is what you do with the skills outside this room.</div>
-
-<div style="background:rgba(255,255,255,0.03);border-radius:10px;padding:14px;margin-bottom:8px;border:1px solid rgba(255,255,255,0.05)">
-<div style="font-size:14px;font-weight:700;color:var(--ok);margin-bottom:6px">📅 How a Meeting Works</div>
-<div style="font-size:14px;color:var(--t1);line-height:1.6">Every meeting has 4 parts: <strong>Prepared Speeches</strong> (members deliver planned speeches), <strong>Table Topics</strong> (impromptu 1-2 min responses), <strong>Sharing Session</strong> (knowledge exchange), and <strong>Evaluations</strong> (structured feedback from the team).</div>
-</div>
-
-<div style="background:rgba(255,255,255,0.03);border-radius:10px;padding:14px;margin-bottom:8px;border:1px solid rgba(255,255,255,0.05)">
-<div style="font-size:14px;font-weight:700;color:#BB6BD9;margin-bottom:6px">🗺️ Pathways — Your Learning Journey</div>
-<div style="font-size:14px;color:var(--t1);line-height:1.6">Pathways is TM's education program. You pick a <strong>path</strong> (like Dynamic Leadership or Presentation Mastery), then complete <strong>14 projects</strong> across <strong>5 levels</strong> — each building a specific skill through speeches and activities. Think of it like a skill tree in a game.</div>
-</div>
-
-<div style="background:var(--s0);border-radius:10px;padding:14px">
-<div style="font-size:14px;font-weight:700;color:#E8A04C;margin-bottom:6px">🎭 Why Meeting Roles Matter</div>
-<div style="font-size:14px;color:var(--t1);line-height:1.6">Every meeting needs a Timer, Ah-Counter, Grammarian, Evaluators, and more. <strong>Members take these roles</strong> — that's how you practice leadership, listening, and giving feedback. Even "small" roles like Timer teach you precision and confidence. The goal: everyone contributes, everyone grows.</div>
-</div>
-
+<div style="font-size:15px;color:var(--t1);line-height:1.7;margin-bottom:14px">Most people think Toastmasters is a public speaking club. It's not — or at least, that's not why people stay. Toastmasters is a <strong style="color:var(--w)">platform where opportunities are made</strong>. You learn to speak, lead, and think on your feet — then you <strong style="color:var(--w)">deploy those skills everywhere</strong>: job interviews, boardrooms, pitches, negotiations, even difficult conversations at home. The speeches are practice. The real game is what you do with the skills outside this room.</div>
+<a href="https://www.toastmasters.org/about" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()" style="display:block;text-align:center;padding:12px 16px;background:rgba(123,167,204,0.12);border:1px solid rgba(123,167,204,0.3);border-radius:10px;color:#7BA7CC;font-size:14px;font-weight:600;text-decoration:none">🌐 Learn more on Toastmasters.org →</a>
 </div>
 </div>
 
@@ -895,7 +881,7 @@ a{color:var(--info);text-decoration:none}
 <div style="border-top:1px solid var(--b1);margin:14px 0"></div>
 <div class="guest-about-section">
 <div class="guest-about-label">🕐 Time</div>
-<div class="guest-about-text">15:40 – 18:30, Sundays (except for holidays)</div>
+<div class="guest-about-text">16:40 – 18:00, Sundays (except for holidays)</div>
 </div>
 <div class="guest-about-section">
 <div class="guest-about-label">📍 Onsite Venue</div>
@@ -919,19 +905,31 @@ a{color:var(--info);text-decoration:none}
 </div>
 <div style="text-align:center;margin-top:12px"><button class="btn-sec" onclick="resetGuest()" style="width:auto;padding:8px 20px;font-size:13px;color:var(--t4);border-color:var(--b1)">← Back to menu</button></div>
 </div>
+<div id="guest-visit" style="display:none">
+<div class="guest-result-card">
+<div class="guest-result-icon">📍</div>
+<div class="guest-result-title">Visit Us</div>
+<div class="guest-about-text" style="text-align:center;margin-bottom:18px">Drop by on a Sunday — we'd love to meet you.</div>
+
+<div class="guest-about-section">
+<div class="guest-about-label">🕐 Time</div>
+<div class="guest-about-text">16:40 – 18:00, Sundays (except for holidays)</div>
+</div>
+
+<div class="guest-about-section">
+<div class="guest-about-label">📍 Onsite Venue</div>
+<div class="guest-about-text">4/F, Financial Plaza, No. 333, Jiujiang Road<br>黄浦区金融广场4楼</div>
+</div>
+
+<div style="display:flex;gap:10px;margin-top:18px">
+<button onclick="openMapChoice()" style="flex:1;padding:13px 10px;background:var(--info);color:#fff;border:none;border-radius:12px;font-size:14px;font-weight:600;cursor:pointer;font-family:'Source Sans 3',sans-serif;display:inline-flex;align-items:center;justify-content:center;gap:6px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg>Get Directions</button>
+<button onclick="copyWechat()" style="flex:1;padding:13px 10px;background:#07C160;color:#fff;border:none;border-radius:12px;font-size:14px;font-weight:600;cursor:pointer;font-family:'Source Sans 3',sans-serif;display:inline-flex;align-items:center;justify-content:center;gap:6px"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M8.5 3C4.91 3 2 5.46 2 8.5c0 1.77.99 3.34 2.53 4.35L4 15l2.15-1.06c.74.28 1.53.46 2.35.51-.13-.42-.2-.86-.2-1.32C8.3 10.39 11.2 8 14.82 8c.27 0 .53.01.78.04C15.12 5.2 12.13 3 8.5 3zM6 7.5c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm5 0c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm3.82 2c-3.32 0-6 2.05-6 4.5 0 2.46 2.68 4.5 6 4.5.7 0 1.37-.09 2-.25l1.88.94-.48-1.64c1.59-.83 2.6-2.13 2.6-3.55 0-2.45-2.68-4.5-6-4.5zm-2 2.25c.41 0 .75.34.75.75s-.34.75-.75.75-.75-.34-.75-.75.34-.75.75-.75zm4 0c.41 0 .75.34.75.75s-.34.75-.75.75-.75-.34-.75-.75.34-.75.75-.75z"/></svg>WeChat VPM</button>
+</div>
+</div>
+<div style="text-align:center;margin-top:12px"><button class="btn-sec" onclick="resetGuest()" style="width:auto;padding:8px 20px;font-size:13px;color:var(--t4);border-color:var(--b1)">← Back to menu</button></div>
+</div>
 <div id="guest-footer" style="text-align:center;margin-top:12px">
-<div style="display:flex;gap:8px;margin-bottom:10px">
-<div style="flex:1;background:var(--s1);border:1px solid var(--b1);border-radius:10px;padding:10px 8px">
-<div style="font-size:13px;font-weight:600;color:var(--w);margin-bottom:4px">📍 Visit Us</div>
-<div style="font-size:12px;color:var(--t3);line-height:1.4">Sun 15:40–18:30</div>
-<a href="#" onclick="event.preventDefault();openMapChoice()" style="display:inline-block;margin-top:6px;padding:5px 12px;background:var(--info);color:#fff;border-radius:6px;font-size:12px;font-weight:600;text-decoration:none">🗺️ Maps</a>
-</div>
-<div style="flex:1;background:var(--s1);border:1px solid var(--b1);border-radius:10px;padding:10px 8px">
-<div style="font-size:13px;font-weight:600;color:var(--w);margin-bottom:4px">💬 Contact VPM</div>
-<div style="font-size:12px;color:var(--t3);line-height:1.4">Questions? Reach out!</div>
-<a href="#" onclick="event.preventDefault();copyWechat()" style="display:inline-block;margin-top:6px;padding:5px 12px;background:#07C160;color:#fff;border-radius:6px;font-size:12px;font-weight:600;text-decoration:none">💬 WeChat</a>
-</div>
-</div>
+<button onclick="showGuestVisit()" style="width:100%;padding:14px 16px;background:var(--s1);border:1px solid var(--b1);border-radius:10px;color:var(--w);font-size:14px;font-weight:600;cursor:pointer;font-family:'Source Sans 3',sans-serif;display:inline-flex;align-items:center;justify-content:center;gap:10px;margin-bottom:10px;transition:all .15s"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#7BA7CC" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 7-8 13-8 13s-8-6-8-13a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/></svg>Visit Us &amp; Contact Details</button>
 <button class="btn-sec" onclick="backToWelcome()" style="width:auto;padding:6px 20px;font-size:13px;color:var(--t4);border-color:var(--b1)">← Back</button>
 </div>
 </div>
@@ -1019,7 +1017,7 @@ a{color:var(--info);text-decoration:none}
 <div id="tab-roles" class="tc"><div id="roles-content"></div></div>
 <div id="tab-master" class="tc"><div id="master-content"></div></div>
 <div id="tab-club" class="tc"><div id="club-announcements"></div><div class="sl" style="margin-top:16px">Club Members</div><div id="club-list"></div></div>
-<div class="app-footer">5A+ TMC App v8.41 · Built by Kian How</div>
+<div class="app-footer">5A+ TMC App v8.49 · Built by Kian How</div>
 </div>
 
 <div class="bnav" id="bottom-nav"></div>
@@ -1498,15 +1496,28 @@ window.removePath=function(idx){
 function buildNav(){
   const nav=document.getElementById("bottom-nav");
   const icons={path:"📚",planner:"📅",roles:"📋",club:"📢",master:"⚙️"};
-  let tabs=[{id:"path",label:"My Path"},{id:"planner",label:"Planner"},{id:"roles",label:"Role Toolkit"},{id:"club",label:"Club"}];
-  if(!S.testMode&&(S.role==="vpe"||S.role==="master")){
-    tabs.push({id:"master",label:"VPE"});
+  // Master role gets an admin-only experience — no member tabs
+  const isMasterOnly=!S.testMode&&S.role==="master";
+  let tabs;
+  if(isMasterOnly){
+    tabs=[{id:"master",label:"Admin"}];
+  }else{
+    tabs=[{id:"path",label:"My Path"},{id:"planner",label:"Planner"},{id:"roles",label:"Role Toolkit"},{id:"club",label:"Club"}];
+    if(!S.testMode&&S.role==="vpe"){
+      tabs.push({id:"master",label:"VPE"});
+    }
   }
   const seen={};tabs=tabs.filter(t=>{if(seen[t.id])return false;seen[t.id]=true;return true;});
   const lastSeen=localStorage.getItem("tm-pw-last-ann")||"";
   const anns=clubData.announcements||[];
   const hasNewAnn=anns.length&&anns[0].posted>lastSeen;
   nav.innerHTML=tabs.map((t,i)=>'<button class="nb'+(i===0?" act":"")+'" data-tab="'+t.id+'"><span class="nav-icon">'+(icons[t.id]||"")+(t.id==="club"&&hasNewAnn?'<span class="nav-alert">!</span>':"")+'</span>'+t.label+'</button>').join("");
+  // If master-only, also switch the active tab-content to master
+  if(isMasterOnly){
+    cTab="master";
+    document.querySelectorAll(".tc").forEach(x=>x.classList.remove("act"));
+    const mt=document.getElementById("tab-master");if(mt)mt.classList.add("act");
+  }
   nav.querySelectorAll(".nb").forEach(b=>{b.onclick=()=>{if(navigator.vibrate)navigator.vibrate(8);cTab=b.dataset.tab;nav.querySelectorAll(".nb").forEach(x=>x.classList.remove("act"));b.classList.add("act");document.querySelectorAll(".tc").forEach(x=>x.classList.remove("act"));document.getElementById("tab-"+cTab).classList.add("act");if(b.dataset.tab==="club"){localStorage.setItem("tm-pw-last-ann",anns.length?anns[0].posted:"");const al=b.querySelector(".nav-alert");if(al)al.remove();}};});
 }
 
@@ -1536,7 +1547,13 @@ function rS(){const g=document.getElementById("path-grid");const lg=document.get
   };target.appendChild(b);};
 
   function showPathPopup(k,v){
-    const pp=document.getElementById("path-preview");
+    // Render into a body-level container so it's NOT a child of .setup-card (avoids bleed-through)
+    let pp=document.getElementById("path-preview-root");
+    if(!pp){
+      pp=document.createElement("div");
+      pp.id="path-preview-root";
+      document.body.appendChild(pp);
+    }
     let ppH='<div class="path-preview-overlay" onclick="closePathPopup(event)">';
     ppH+='<div class="path-preview" style="border-color:'+v.c+'30" onclick="event.stopPropagation()">';
     ppH+='<div class="pp-title" style="color:'+v.c+'"><span>'+v.i+'</span> '+v.n+'</div>';
@@ -1549,9 +1566,6 @@ function rS(){const g=document.getElementById("path-grid");const lg=document.get
     ppH+='</div></div>';
     pp.innerHTML=ppH;
     document.body.style.overflow="hidden";
-    // Hide the parent setup-card so only the blurred page gradient shows behind the preview
-    const sc=document.querySelector(".setup-screen .setup-card");
-    if(sc)sc.style.visibility="hidden";
   }
 
   window.selectPath=function(code){
@@ -1568,8 +1582,10 @@ function rS(){const g=document.getElementById("path-grid");const lg=document.get
 
   window.closePathPopup=function(e){
     if(e&&e.target!==e.currentTarget)return;
-    document.getElementById("path-preview").innerHTML="";
+    const pp=document.getElementById("path-preview-root");
+    if(pp)pp.innerHTML="";
     document.body.style.overflow="";
+    // Safety — if v8.34's visibility hack was applied, restore it
     const sc=document.querySelector(".setup-screen .setup-card");
     if(sc)sc.style.visibility="";
   };
@@ -1584,7 +1600,17 @@ window.toggleLegacy=function(){const lg=document.getElementById("legacy-grid");c
 };
 
 // ═══ RENDER: DASHBOARD ═══
-function rD(){if(!S)return;const p=PA[S.path],tot=tP(S.path),dn=Object.values(S.done||{}).filter(Boolean).length,pct=tot?Math.round(dn/tot*100):0;
+function rD(){if(!S)return;
+  const isMasterOnly=!S.testMode&&S.role==="master";
+  // Master-only view: hide path header, skip member renders
+  if(isMasterOnly){
+    const hp=document.getElementById("h-path");
+    if(hp){hp.innerHTML='<span style="color:var(--info);font-size:14px;font-weight:600;letter-spacing:.04em">⚙️ CLUB ADMIN</span>';hp.style.cursor="default";hp.onclick=null;}
+    document.getElementById("h-name").textContent=S.name;
+    rMaster();
+    return;
+  }
+  const p=PA[S.path],tot=tP(S.path),dn=Object.values(S.done||{}).filter(Boolean).length,pct=tot?Math.round(dn/tot*100):0;
   let workLv=1;for(let l=1;l<=5;l++){const g=gP(S.path,l);if(g.r.every(pp=>S.done[pp])&&g.e.filter(pp=>S.done[pp]).length>=g.en){workLv=l+1;}else break;}workLv=Math.min(workLv,5);
   
   // Path header: clickable if multi-path, with chevron hint
@@ -2321,7 +2347,7 @@ function rPl(){const c=document.getElementById("planner-content");if(!S)return;c
     h+='</div>';// end plan-card
   }
 
-  if(S.role==="vpe"||S.role==="master"){
+  if(S.role==="vpe"){
     h+='<div class="auto-gen"><div class="sl" style="margin-top:0">Generate Club Meeting Dates</div>';
     h+='<div class="ag-row"><label>Every</label><select id="ag-freq"><option value="1">Week</option><option value="2">2 Weeks</option></select><label>on</label><select id="ag-day"><option value="0">Sun</option><option value="1">Mon</option><option value="2">Tue</option><option value="3">Wed</option><option value="4">Thu</option><option value="5">Fri</option><option value="6">Sat</option></select></div>';
     h+='<div class="ag-row"><label>From</label><input type="date" id="ag-start"><label>To</label><input type="date" id="ag-end"></div>';
@@ -2511,6 +2537,48 @@ function initSlotDrag(){
 function rMaster(){const c=document.getElementById("master-content");if(!S||S.role==="member")return;
   const dates=(clubData.dates||[]).sort();const cap=clubData.settings||{speechSlots:3,roleSlots:5};
   let h='';
+  
+  // Master-only: admin quick actions at the top (announcements + meeting generator)
+  if(S.role==="master"&&!S.testMode){
+    // Announcements management — note: we pass the post time so we can find the item regardless of sort
+    const anns=(clubData.announcements||[]).slice().sort((a,b)=>(b.posted||"").localeCompare(a.posted||""));
+    h+='<div class="sl" style="margin-top:0">📢 Announcements</div>';
+    h+='<div style="background:var(--s1);border-radius:14px;padding:16px;margin-bottom:18px;box-shadow:0 1px 3px rgba(0,0,0,.3)">';
+    h+='<button class="btn-pri" onclick="addAnnouncement()" style="width:100%;margin-bottom:'+(anns.length?"12px":"0")+'">➕ Post New Announcement</button>';
+    if(anns.length){
+      h+='<div style="font-size:11px;color:var(--t4);text-transform:uppercase;letter-spacing:.06em;font-weight:600;margin-bottom:8px">Posted ('+anns.length+')</div>';
+      anns.slice(0,5).forEach(a=>{
+        const origIdx=(clubData.announcements||[]).indexOf(a);
+        const icon=a.type==="event"?"📅":"📣";
+        const dateStr=a.date?new Date(a.date+"T00:00:00").toLocaleDateString("en-US",{month:"short",day:"numeric"}):"";
+        h+='<div style="display:flex;align-items:flex-start;gap:10px;padding:10px 12px;background:var(--s0);border-radius:10px;margin-bottom:6px;border-left:3px solid '+(a.type==="event"?"var(--info)":"var(--ok)")+'">';
+        h+='<span style="font-size:16px;flex-shrink:0">'+icon+'</span>';
+        h+='<div style="flex:1;min-width:0"><div style="font-size:14px;font-weight:600;color:var(--w);line-height:1.3">'+(a.title||"Untitled")+'</div>';
+        if(dateStr)h+='<div style="font-size:12px;color:var(--t3);margin-top:2px">'+dateStr+'</div>';
+        h+='</div>';
+        h+='<button class="sb" style="padding:4px 10px;font-size:12px;background:var(--danger)15;color:var(--danger);border-radius:6px;flex-shrink:0" onclick="removeAnnouncement('+origIdx+')">Delete</button>';
+        h+='</div>';
+      });
+      if(anns.length>5)h+='<div style="font-size:12px;color:var(--t4);text-align:center;margin-top:4px">+'+(anns.length-5)+' more</div>';
+    }
+    h+='</div>';
+    
+    // Meeting date generator
+    h+='<div class="sl">📅 Meeting Dates</div>';
+    h+='<div class="auto-gen" style="margin-bottom:18px">';
+    h+='<div style="font-size:13px;color:var(--t3);margin-bottom:10px">Generate a batch of meeting dates for the club.</div>';
+    h+='<div class="ag-row"><label>Every</label><select id="ag-freq"><option value="1">Week</option><option value="2">2 Weeks</option></select><label>on</label><select id="ag-day"><option value="0">Sun</option><option value="1">Mon</option><option value="2">Tue</option><option value="3">Wed</option><option value="4">Thu</option><option value="5">Fri</option><option value="6">Sat</option></select></div>';
+    h+='<div class="ag-row"><label>From</label><input type="date" id="ag-start"><label>To</label><input type="date" id="ag-end"></div>';
+    h+='<div class="ag-row"><button class="sb" style="background:var(--info);color:#fff" onclick="autoGen()">Generate</button>';
+    if(dates.length)h+='<button class="sb" style="background:var(--b1);color:var(--danger)" onclick="clearDates()">Clear All</button>';
+    h+='</div>';
+    if(dates.length){
+      const todayStr=new Date().toISOString().slice(0,10);
+      const upcoming=dates.filter(d=>d>=todayStr).length;
+      h+='<div style="font-size:12px;color:var(--t3);margin-top:8px;padding-top:8px;border-top:1px solid var(--b1)">'+dates.length+' total · '+upcoming+' upcoming</div>';
+    }
+    h+='</div>';
+  }
   
   // Voting System
   h+='<div class="sl" style="margin-top:0">🗳 Meeting Awards Voting</div>';
@@ -6981,15 +7049,18 @@ window.showMemberLogin=function(){
   document.getElementById("setup-screen").style.display="flex";
 };
 window.openMapChoice=function(){
-  const addr="黄浦区九江路333号金融广场4楼";
-  const lat=31.2396,lng=121.4858;
+  const addrEn="Financial Plaza, 333 Jiujiang Road, Huangpu District, Shanghai";
+  const addrCn="上海市黄浦区九江路333号金融广场";
+  const qEn=encodeURIComponent(addrEn);
+  const qCn=encodeURIComponent(addrCn);
   const mr=document.getElementById("modal-root");
   let h='<div class="modal-bg" onclick="closeModal(event)"><div class="modal" onclick="event.stopPropagation()">';
   h+='<div class="modal-title">Open in Maps</div>';
-  h+='<div class="modal-opt" onclick="closeModal();window.open(\'https://maps.apple.com/?q='+lat+','+lng+'&ll='+lat+','+lng+'&z=16\',\'_blank\')">🍎 Apple Maps</div>';
-  h+='<div class="modal-opt" onclick="closeModal();window.open(\'https://www.google.com/maps/search/?api=1&query='+lat+','+lng+'\',\'_blank\')">🗺️ Google Maps</div>';
-  h+='<div class="modal-opt" onclick="closeModal();window.open(\'https://map.baidu.com/?latlng='+lat+','+lng+'&title=5A%2B+TMC&content='+encodeURIComponent(addr)+'\',\'_blank\')">🇨🇳 Baidu Maps 百度地图</div>';
-  h+='<div class="modal-opt" onclick="closeModal();window.open(\'https://uri.amap.com/marker?position='+lng+','+lat+'&name=5A%2B+TMC&callnative=1\',\'_blank\')">🇨🇳 Amap 高德地图</div>';
+  h+='<div style="font-size:13px;color:var(--t3);line-height:1.5;margin-bottom:14px">Financial Plaza, 333 Jiujiang Road<br><span style="color:var(--t4)">金融广场 · 黄浦区九江路333号</span></div>';
+  h+='<div class="modal-opt" onclick="closeModal();window.open(\'https://maps.apple.com/?q='+qEn+'\',\'_blank\')">🍎 Apple Maps</div>';
+  h+='<div class="modal-opt" onclick="closeModal();window.open(\'https://www.google.com/maps/search/?api=1&query='+qEn+'\',\'_blank\')">🗺️ Google Maps</div>';
+  h+='<div class="modal-opt" onclick="closeModal();window.open(\'https://map.baidu.com/search/\'+encodeURIComponent(\'金融广场 九江路333号\'),\'_blank\')">🇨🇳 Baidu Maps 百度地图</div>';
+  h+='<div class="modal-opt" onclick="closeModal();window.open(\'https://uri.amap.com/search?keyword='+qCn+'\',\'_blank\')">🇨🇳 Amap 高德地图</div>';
   h+='<button class="modal-close" onclick="closeModal()">Cancel</button></div></div>';
   mr.innerHTML=h;
 };
@@ -7008,7 +7079,7 @@ window.showGuestPage=function(){
 };
 window.resetGuest=function(){
   ["guest-body","guest-footer"].forEach(id=>{const el=document.getElementById(id);if(el)el.style.display="block";});
-  ["guest-result","guest-roles","guest-about","guest-join","guest-howworks","guest-try-tt","guest-role-explorer","guest-path-quiz","guest-next-meeting"].forEach(id=>{const el=document.getElementById(id);if(el)el.style.display="none";});
+  ["guest-result","guest-roles","guest-about","guest-join","guest-visit","guest-howworks","guest-try-tt","guest-role-explorer","guest-path-quiz","guest-next-meeting"].forEach(id=>{const el=document.getElementById(id);if(el)el.style.display="none";});
   const gt=document.getElementById("guest-title");if(gt)gt.style.display="none";
   window.scrollTo({top:0,behavior:'smooth'});
 };
@@ -7038,7 +7109,7 @@ const GUEST_RESULTS={
 };
 
 function showGuestPanel(id){
-  ["guest-body","guest-result","guest-roles","guest-about","guest-join","guest-howworks","guest-try-tt","guest-role-explorer","guest-path-quiz","guest-next-meeting"].forEach(pid=>{const el=document.getElementById(pid);if(el)el.style.display="none";});
+  ["guest-body","guest-result","guest-roles","guest-about","guest-join","guest-visit","guest-howworks","guest-try-tt","guest-role-explorer","guest-path-quiz","guest-next-meeting"].forEach(pid=>{const el=document.getElementById(pid);if(el)el.style.display="none";});
   document.getElementById("guest-title").style.display="none";
   document.getElementById("guest-footer").style.display="none";
   document.getElementById(id).style.display="block";
@@ -7323,7 +7394,7 @@ function renderNextMeeting(el,dates,clubInfo){
     h+='<div style="font-size:16px;color:var(--t2);margin-bottom:16px">'+monthDay+'</div>';
     
     h+='<div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:20px">';
-    h+='<div style="background:var(--s0);border-radius:10px;padding:10px 16px;text-align:center"><div style="font-size:12px;color:var(--t3)">Time</div><div style="font-size:15px;font-weight:600;color:var(--w)">14:00–16:30</div></div>';
+    h+='<div style="background:var(--s0);border-radius:10px;padding:10px 16px;text-align:center"><div style="font-size:12px;color:var(--t3)">Time</div><div style="font-size:15px;font-weight:600;color:var(--w)">16:40–18:00</div></div>';
     h+='<div style="background:var(--s0);border-radius:10px;padding:10px 16px;text-align:center"><div style="font-size:12px;color:var(--t3)">Location</div><div style="font-size:15px;font-weight:600;color:var(--w)">Shanghai</div></div>';
     h+='</div>';
     
@@ -7422,6 +7493,7 @@ window.showGuestRoleSOP=function(){
 };
 
 window.showGuestAbout=function(){showGuestPanel("guest-about");};
+window.showGuestVisit=function(){showGuestPanel("guest-visit");};
 
 window.showGuestJoin=function(){showGuestPanel("guest-join");};
 
