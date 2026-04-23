@@ -1031,7 +1031,7 @@ html.light-theme{background:#e4eaf6 !important}
 <div id="tab-roles" class="tc"><div id="roles-content"></div></div>
 <div id="tab-master" class="tc"><div id="master-content"></div></div>
 <div id="tab-club" class="tc"><div id="club-announcements"></div><div id="club-next-meeting" style="margin-top:16px"></div></div>
-<div class="app-footer">5A+ TMC App v9.0.15 · Built by Kian How</div>
+<div class="app-footer">5A+ TMC App v9.0.16 · Built by Kian How</div>
 </div>
 
 <div class="bnav" id="bottom-nav"></div>
@@ -2119,7 +2119,10 @@ function getNextProjects(){
   const curEDone=curE.filter(p=>done[p]).length;
 
   // ── SPEECH PREP REMINDER — earliest upcoming booked project ──
-  // Always show at the top if a project is booked in the next 60 days
+  // Always show at the top if a project is booked in the next 60 days.
+  // If nothing is booked yet, still surface a "Try prep help" card using
+  // the next logical project + an upcoming meeting date, so the AI mentor
+  // is always reachable for feedback/testing.
   let nextPrep=null;
   Object.entries(S.plan.slots||{}).forEach(([date,slots])=>{
     if(date<today)return;
@@ -2127,16 +2130,38 @@ function getNextProjects(){
       if(!s.pid||!PD[s.pid])return;
       if(s.pathCode&&s.pathCode!==S.path)return;
       if(done[s.pid])return;
-      if(!nextPrep||date<nextPrep.date)nextPrep={date,pid:s.pid,label:s.label||PD[s.pid].t};
+      if(!nextPrep||date<nextPrep.date)nextPrep={date,pid:s.pid,label:s.label||PD[s.pid].t,booked:true};
     });
   });
+  // Fallback: no booked project → use next logical project from path + nearest upcoming meeting date
+  if(!nextPrep){
+    // Pick the first incomplete project in the user's current working level
+    let candidatePid="";
+    for(let l=workLv;l<=5&&!candidatePid;l++){
+      const{r,e}=gP(S.path,l);
+      for(const pp of r.concat(e)){if(!done[pp]&&!planned[pp]){candidatePid=pp;break;}}
+    }
+    // Pick the nearest upcoming meeting date (or fabricate one 14 days out)
+    const upcomingDates=(clubData.dates||[]).filter(d=>d>=today&&!(clubData.skipped||{})[d]).sort();
+    let candidateDate=upcomingDates[0];
+    if(!candidateDate){
+      const future=new Date();future.setDate(future.getDate()+14);
+      candidateDate=future.toISOString().slice(0,10);
+    }
+    if(candidatePid&&PD[candidatePid]){
+      nextPrep={date:candidateDate,pid:candidatePid,label:PD[candidatePid].t,booked:false};
+    }
+  }
   if(nextPrep){
     const ms=new Date(nextPrep.date+"T00:00:00")-new Date(today+"T00:00:00");
     const days=Math.max(0,Math.round(ms/86400000));
     const dfmt=new Date(nextPrep.date+"T00:00:00").toLocaleDateString("en-US",{weekday:"short",month:"short",day:"numeric"});
     const when=days===0?"TODAY":days===1?"tomorrow":days+" days away";
+    const reason=nextPrep.booked
+      ?dfmt+" · "+when+". Tap for prep help."
+      :"Try the AI mentor on "+PD[nextPrep.pid].t+" · Get personalized tips.";
     items.push({type:"prep",icon:"🎯",title:"Prep: "+PD[nextPrep.pid].t,
-      reason:dfmt+" · "+when+". Tap for prep help.",priority:-2,pid:nextPrep.pid,date:nextPrep.date});
+      reason:reason,priority:-2,pid:nextPrep.pid,date:nextPrep.date});
   }
 
   // ── BRAND NEW MEMBER (nothing done) ──
@@ -5623,8 +5648,8 @@ window.analyzePrepProblem=function(pid,date){
     "{\"tips\":[{\"title\":\"Short headline with 1 emoji\",\"body\":\"2-3 sentence tip, specific to THEIR exact words and this project\"}],\"suggestPractice\":true/false}";
   
   fetchAI({
-    model:"claude-sonnet-4-6",
-    max_tokens:1200,
+    model:"claude-haiku-4-5-20251001",
+    max_tokens:800,
     temperature:0.7,
     messages:[{role:"user",content:prompt}]
   }).then(r=>r.json()).then(data=>{
@@ -5638,9 +5663,10 @@ window.analyzePrepProblem=function(pid,date){
         h+='<div style="margin-bottom:10px"><div style="font-size:13px;font-weight:700;color:var(--w);margin-bottom:4px">'+(tip.title||"")+'</div>';
         h+='<div style="font-size:13px;color:var(--t2);line-height:1.6">'+(tip.body||"")+'</div></div>';
       });
-      if(parsed.suggestPractice){
-        h+='<button class="btn-pri" style="margin-top:4px;padding:8px 16px;font-size:13px;width:auto" onclick="closeModal();openPracticeStudio(\''+pid+'\',\''+date+'\')">🎙 Open Practice Studio</button>';
-      }
+      // Always offer Practice Studio as a next step — rehearsing out loud helps
+      // at every stage of prep (not just when the AI guesses it's right). Users
+      // can just close the popup if they don't want it.
+      h+='<button class="btn-pri" style="margin-top:4px;padding:8px 16px;font-size:13px;width:auto" onclick="closeModal();openPracticeStudio(\''+pid+'\',\''+date+'\')">🎙 Open Practice Studio</button>';
       h+='</div>';
       resEl.innerHTML=h;
     }catch(e){
