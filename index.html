@@ -1012,7 +1012,7 @@ a{color:var(--info);text-decoration:none}
 <div id="tab-roles" class="tc"><div id="roles-content"></div></div>
 <div id="tab-master" class="tc"><div id="master-content"></div></div>
 <div id="tab-club" class="tc"><div id="club-announcements"></div><div id="club-next-meeting" style="margin-top:16px"></div></div>
-<div class="app-footer">5A+ TMC App v9.0-beta · Built by Kian How</div>
+<div class="app-footer">5A+ TMC App v9.0.2 · Built by Kian How</div>
 </div>
 
 <div class="bnav" id="bottom-nav"></div>
@@ -1396,12 +1396,21 @@ let _lastTickAt = 0;
 let _pendingWrites = 0; // count of in-flight writes — used to delay polls briefly
 
 // ─── Low-level API helpers ───
+// fetchWithTimeout: AbortController-based timeout so slow/dead connections
+// don't hang the polling loop forever.
+function fetchWithTimeout(url, opts, ms) {
+  const ctrl = new AbortController();
+  const timer = setTimeout(() => ctrl.abort(), ms || 10000);
+  return fetch(url, Object.assign({}, opts, { signal: ctrl.signal }))
+    .finally(() => clearTimeout(timer));
+}
+
 async function apiRead(path) {
   try {
-    const res = await fetch(API_BASE + "?op=read&path=" + encodeURIComponent(path), {
+    const res = await fetchWithTimeout(API_BASE + "?op=read&path=" + encodeURIComponent(path), {
       method: "GET",
       cache: "no-store"
-    });
+    }, 10000);
     if (!res.ok) throw new Error("read failed: " + res.status);
     const body = await res.json();
     return body.value;
@@ -1413,10 +1422,10 @@ async function apiRead(path) {
 
 async function apiList(prefix) {
   try {
-    const res = await fetch(API_BASE + "?op=list&prefix=" + encodeURIComponent(prefix), {
+    const res = await fetchWithTimeout(API_BASE + "?op=list&prefix=" + encodeURIComponent(prefix), {
       method: "GET",
       cache: "no-store"
-    });
+    }, 10000);
     if (!res.ok) throw new Error("list failed: " + res.status);
     const body = await res.json();
     return body.values || {};
@@ -1426,29 +1435,47 @@ async function apiList(prefix) {
   }
 }
 
+// Per-path write queue — guarantees writes to the same path arrive at the server in order.
+// Different paths run in parallel. Without this, a quick double-write to "clubs/5aplus/club"
+// can arrive out-of-order at the server, and Netlify Blobs is last-write-wins → earlier
+// content overwrites later content.
+const _writeQueues = new Map();
+
 async function apiWrite(path, value) {
   if (!S || !S.authCode) {
     console.warn("apiWrite: no authCode — skipping");
     return false;
   }
-  _pendingWrites++;
-  try {
-    const res = await fetch(API_BASE, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ op: "write", path, value, clubCode: S.authCode })
-    });
-    if (!res.ok) {
-      console.warn("apiWrite failed:", path, res.status);
+  // Chain this write onto any pending write for the same path
+  const prev = _writeQueues.get(path) || Promise.resolve();
+  const wrapped = prev.then(async () => {
+    _pendingWrites++;
+    try {
+      const res = await fetchWithTimeout(API_BASE, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ op: "write", path, value, clubCode: S.authCode })
+      }, 10000);
+      if (!res.ok) {
+        console.warn("apiWrite failed:", path, res.status);
+        return false;
+      }
+      return true;
+    } catch (e) {
+      console.warn("apiWrite error:", path, e.message);
       return false;
+    } finally {
+      _pendingWrites--;
     }
-    return true;
-  } catch (e) {
-    console.warn("apiWrite error:", path, e.message);
-    return false;
-  } finally {
-    _pendingWrites--;
-  }
+  });
+  // Catch to prevent the queue chain from breaking on one error
+  const queueEntry = wrapped.catch(() => {});
+  _writeQueues.set(path, queueEntry);
+  // Remove queue entry when this write settles — but only if no newer write has stacked on
+  queueEntry.finally(() => {
+    if (_writeQueues.get(path) === queueEntry) _writeQueues.delete(path);
+  });
+  return wrapped;
 }
 
 async function apiDelete(path) {
@@ -1549,17 +1576,28 @@ async function syncTick() {
     apiList("clubs/" + S.club + "/members/")
   ]);
 
-  // Connection status: both reads must NOT be undefined to claim "synced"
+  // Debounced status flip: 1 success → online immediately.
+  // But requires 3 consecutive failures → offline (prevents badge flicker on
+  // occasional slow China-Netlify network hiccups).
   if (clubVal === undefined || membersMap === undefined) {
-    if (window._apiOk) { window._apiOk = false; updSync(); }
+    window._apiFailCount = (window._apiFailCount || 0) + 1;
+    if (window._apiFailCount >= 3 && window._apiOk) {
+      window._apiOk = false;
+      updSync();
+    }
     return;
   }
+  window._apiFailCount = 0;
   if (!window._apiOk) { window._apiOk = true; updSync(); }
 
   // Diff + re-render only if changed (cheap hash via JSON.stringify)
   let changedClub = false, changedMembers = false;
 
-  if (clubVal) {
+  // Only update clubData if there are no pending writes for it.
+  // Without this, a write in flight can be clobbered by the polling tick.
+  const clubPath = "clubs/" + S.club + "/club";
+  const clubWriteInFlight = _writeQueues && _writeQueues.has(clubPath);
+  if (clubVal && !clubWriteInFlight) {
     const newClubStr = JSON.stringify(clubVal);
     if (newClubStr !== window._lastClubStr) {
       clubData = clubVal;
