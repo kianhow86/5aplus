@@ -232,6 +232,45 @@ html.light-theme{background:#e4eaf6 !important}
 .onboard-btn:hover{transform:translateY(-1px);box-shadow:0 6px 24px rgba(91,192,190,0.55)}
 .onboard-skip{padding:8px 16px;border:none;border-radius:8px;font-size:13px;cursor:pointer;font-family:'Inter','Source Sans 3',sans-serif;color:rgba(255,255,255,0.5);background:transparent;margin-top:8px;text-decoration:underline;text-decoration-color:rgba(255,255,255,0.2);text-underline-offset:2px}
 
+/* ═══ LAUNCHER HUB ═══ Post-login intent picker */
+.launcher-screen{position:fixed;inset:0;z-index:100;background:linear-gradient(180deg,#050b16 0%,#0a1628 45%,#0f1923 100%);overflow-y:auto;-webkit-overflow-scrolling:touch}
+.launcher-glow{position:fixed;pointer-events:none;border-radius:50%;filter:blur(80px);opacity:.35;z-index:0}
+.launcher-glow-1{top:-120px;right:-140px;width:420px;height:420px;background:radial-gradient(circle,#5BC0BE 0%,transparent 70%)}
+.launcher-glow-2{bottom:-120px;left:-140px;width:420px;height:420px;background:radial-gradient(circle,#2EE5D6 0%,transparent 70%);animation:launcherGlowDrift 12s ease-in-out infinite alternate}
+@keyframes launcherGlowDrift{0%{transform:translate(0,0)}100%{transform:translate(40px,30px)}}
+
+.launcher-container{position:relative;z-index:1;max-width:720px;margin:0 auto;padding:calc(env(safe-area-inset-top,0px) + 48px) 20px calc(env(safe-area-inset-bottom,0px) + 32px);min-height:100vh;min-height:100dvh;display:flex;flex-direction:column;box-sizing:border-box}
+
+.launcher-header{margin-bottom:32px}
+.launcher-kicker{font-family:'Inter','Source Sans 3',sans-serif;font-size:11px;font-weight:700;color:#5BC0BE;letter-spacing:.22em;text-transform:uppercase;margin-bottom:14px;text-shadow:0 0 20px rgba(91,192,190,0.6);animation:launcherFadeUp .7s cubic-bezier(.22,.61,.36,1) both}
+.launcher-greeting{font-family:'Playfair Display','New York',Georgia,serif;font-size:38px;font-weight:900;color:#fff;line-height:1.08;letter-spacing:-.02em;margin-bottom:12px;animation:launcherFadeUp .9s cubic-bezier(.22,.61,.36,1) both;animation-delay:.1s}
+.launcher-name{background:linear-gradient(135deg,#5BC0BE,#2EE5D6,#7FF0E2);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;font-style:italic;filter:drop-shadow(0 0 16px rgba(91,192,190,0.35))}
+.launcher-subtitle{font-family:'Inter','Source Sans 3',sans-serif;font-size:15px;color:rgba(255,255,255,0.62);font-weight:500;animation:launcherFadeUp .9s cubic-bezier(.22,.61,.36,1) both;animation-delay:.2s}
+
+.launcher-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+@media(min-width:640px){.launcher-grid{grid-template-columns:repeat(3,1fr)}}
+
+.launcher-tile{position:relative;background:rgba(255,255,255,0.035);border:1px solid rgba(91,192,190,0.22);border-radius:20px;padding:20px 16px;min-height:148px;display:flex;flex-direction:column;justify-content:space-between;cursor:pointer;transition:transform .18s cubic-bezier(.22,.61,.36,1),box-shadow .18s ease,border-color .18s ease,background .18s ease;box-shadow:0 4px 16px rgba(0,0,0,0.25);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);overflow:hidden;animation:launcherFadeUp .7s cubic-bezier(.22,.61,.36,1) both}
+.launcher-tile:nth-child(1){animation-delay:.3s}
+.launcher-tile:nth-child(2){animation-delay:.36s}
+.launcher-tile:nth-child(3){animation-delay:.42s}
+.launcher-tile:nth-child(4){animation-delay:.48s}
+.launcher-tile:nth-child(5){animation-delay:.54s}
+.launcher-tile:nth-child(6){animation-delay:.6s}
+.launcher-tile::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 20% 0%,rgba(91,192,190,0.18) 0%,transparent 55%);opacity:0;transition:opacity .3s;pointer-events:none}
+.launcher-tile:hover{transform:translateY(-3px);border-color:rgba(91,192,190,0.45);box-shadow:0 10px 32px rgba(91,192,190,0.18)}
+.launcher-tile:hover::before{opacity:1}
+.launcher-tile:active{transform:translateY(-1px) scale(0.985);transition-duration:.1s}
+.tile-icon{font-size:40px;line-height:1;filter:drop-shadow(0 0 16px rgba(91,192,190,0.35));margin-bottom:10px}
+.tile-title{font-family:'Inter','Source Sans 3',sans-serif;font-size:15px;font-weight:700;color:#fff;margin-bottom:4px;letter-spacing:-.005em}
+.tile-sub{font-family:'Inter','Source Sans 3',sans-serif;font-size:12px;color:rgba(255,255,255,0.55);line-height:1.4}
+
+.launcher-footer{margin-top:auto;padding-top:32px;display:flex;justify-content:center;gap:12px;animation:launcherFadeUp .7s ease-out both;animation-delay:.78s}
+.launcher-footer-btn{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);color:rgba(255,255,255,0.6);padding:8px 18px;border-radius:18px;font-family:'Inter','Source Sans 3',sans-serif;font-size:13px;font-weight:500;cursor:pointer;transition:all .2s}
+.launcher-footer-btn:hover{background:rgba(255,255,255,0.08);color:rgba(255,255,255,0.9);border-color:rgba(255,255,255,0.18)}
+
+@keyframes launcherFadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+
 /* Path tour highlight — same ring as guest intro (cyan glow) */
 .tour-backdrop{position:fixed;inset:0;background:rgba(5,11,22,0.92);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);z-index:400;pointer-events:auto}
 .tour-highlight{position:relative;z-index:401;border-radius:12px !important;outline:2px solid #5BC0BE;outline-offset:6px;box-shadow:0 0 24px rgba(91,192,190,.5),0 0 48px rgba(91,192,190,.25) !important;background:var(--bg) !important;backdrop-filter:none !important;-webkit-backdrop-filter:none !important;pointer-events:none;transition:outline-offset .4s ease}
@@ -344,8 +383,16 @@ html.light-theme{background:#e4eaf6 !important}
 .prog-fill{height:100%;border-radius:4px;transition:width .6s ease}
 .prog-lbl{font-size:13px;color:var(--t3);margin-top:8px}
 
-/* Nav */
-.bnav{position:fixed;bottom:0;left:0;right:0;background:var(--nav-bg);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-top:1px solid rgba(255,255,255,.06);display:flex;justify-content:center;z-index:100;padding-bottom:env(safe-area-inset-bottom,0)}
+/* Nav — replaced with a single 🏠 Hub button at the bottom in hub-centric
+   mode. The original tab nav (buildNav renders into #bottom-nav) is emptied
+   out; a fixed-position Hub button takes its place. Only visible while the
+   dashboard is active (i.e. user is on a tab); launcher itself has no hub
+   button because you're already there. */
+.bnav{display:none}
+.hub-bar{position:fixed;bottom:0;left:0;right:0;display:flex;align-items:center;justify-content:center;padding:14px 0 calc(env(safe-area-inset-bottom,0px) + 14px);background:linear-gradient(180deg,transparent 0%,rgba(5,11,22,0.7) 40%,rgba(5,11,22,0.95) 100%);z-index:99;pointer-events:none}
+.hub-bar-btn{pointer-events:auto;width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,#5BC0BE,#2EE5D6);color:#0a1628;border:none;font-size:22px;cursor:pointer;box-shadow:0 8px 24px rgba(91,192,190,0.45),0 2px 8px rgba(0,0,0,0.3);transition:transform .18s cubic-bezier(.22,.61,.36,1),box-shadow .18s ease;display:flex;align-items:center;justify-content:center;font-family:'Inter','Source Sans 3',sans-serif;font-weight:700}
+.hub-bar-btn:hover{transform:translateY(-2px);box-shadow:0 12px 32px rgba(91,192,190,0.55),0 2px 8px rgba(0,0,0,0.3)}
+.hub-bar-btn:active{transform:translateY(0) scale(0.92);transition-duration:.08s}
 .nb{flex:1;max-width:140px;padding:10px 0 8px;background:none;border:none;border-top:none;color:var(--t4);font-size:10px;font-weight:600;cursor:pointer;letter-spacing:.02em;font-family:'Source Sans 3',sans-serif;transition:all .15s;display:flex;flex-direction:column;align-items:center;gap:4px}
 .nb .nav-icon{font-size:20px;line-height:1;position:relative}
 .nav-alert{position:absolute;top:-6px;right:-10px;background:var(--danger);color:#fff;font-size:10px;font-weight:700;min-width:18px;height:18px;border-radius:9px;display:flex;align-items:center;justify-content:center;animation:alertPulse 1s ease-in-out infinite;box-shadow:0 0 6px var(--danger),0 0 12px var(--danger)60;padding:0 4px}
@@ -1120,6 +1167,72 @@ html.light-theme{background:#e4eaf6 !important}
 </div>
 
 <!-- DASHBOARD -->
+<!-- ═══ LAUNCHER HUB — post-login intent picker ═══
+     Appears after every login (and after setup for first-time users). Routes
+     to one of six destinations. The classic dashboard still exists behind it;
+     clicking a tile hides the launcher and activates the relevant tab. A 🏠
+     Hub button in the top-bar brings the launcher back. -->
+<div id="launcher-screen" class="launcher-screen" style="display:none">
+  <div class="launcher-glow launcher-glow-1"></div>
+  <div class="launcher-glow launcher-glow-2"></div>
+  <div class="launcher-container">
+    <div class="launcher-header">
+      <div class="launcher-kicker">5A+ SH TMC</div>
+      <div class="launcher-greeting">Welcome back,<br><span class="launcher-name" id="launcher-name">there</span></div>
+      <div class="launcher-subtitle">What's today about?</div>
+    </div>
+    <div class="launcher-grid">
+      <div class="launcher-tile" onclick="launcherGo('path')">
+        <div class="tile-icon">🎯</div>
+        <div class="tile-body">
+          <div class="tile-title">Plan &amp; Book</div>
+          <div class="tile-sub">Your path, your progress</div>
+        </div>
+      </div>
+      <div class="launcher-tile" onclick="launcherGo('prep-role')">
+        <div class="tile-icon">🎤</div>
+        <div class="tile-body">
+          <div class="tile-title">Prep My Role</div>
+          <div class="tile-sub">Get ready for Sunday</div>
+        </div>
+      </div>
+      <div class="launcher-tile" onclick="launcherGo('practice')">
+        <div class="tile-icon">✨</div>
+        <div class="tile-body">
+          <div class="tile-title">Practice Tools</div>
+          <div class="tile-sub">Timer, filler detector, recorder</div>
+        </div>
+      </div>
+      <div class="launcher-tile" onclick="launcherGo('lookup')">
+        <div class="tile-icon">📚</div>
+        <div class="tile-body">
+          <div class="tile-title">Look Up Projects</div>
+          <div class="tile-sub">Browse any project or path</div>
+        </div>
+      </div>
+      <div class="launcher-tile" onclick="launcherGo('ai')">
+        <div class="tile-icon">🤖</div>
+        <div class="tile-body">
+          <div class="tile-title">AI Coach</div>
+          <div class="tile-sub">Personalized advice &amp; help</div>
+        </div>
+      </div>
+      <div class="launcher-tile" onclick="launcherGo('progress')">
+        <div class="tile-icon">🏆</div>
+        <div class="tile-body">
+          <div class="tile-title">My Progress</div>
+          <div class="tile-sub">Your journey so far</div>
+        </div>
+      </div>
+    </div>
+    <div class="launcher-footer">
+      <button data-action="theme" class="launcher-footer-btn">🌙 Theme</button>
+      <button data-action="logout" class="launcher-footer-btn">Sign out</button>
+      <button data-action="reset" class="launcher-footer-btn">Reset</button>
+    </div>
+  </div>
+</div>
+
 <div id="dashboard" class="dashboard">
 <div class="container">
 <div class="top-bar">
@@ -1147,10 +1260,18 @@ html.light-theme{background:#e4eaf6 !important}
 <div id="tab-roles" class="tc"><div id="roles-content"></div></div>
 <div id="tab-master" class="tc"><div id="master-content"></div></div>
 <div id="tab-club" class="tc"><div id="club-announcements"></div><div id="club-next-meeting" style="margin-top:16px"></div></div>
-<div class="app-footer">5A+ SH TMC v9.0.33 · Built by Kian How</div>
+<div class="app-footer">5A+ SH TMC v9.0.41 · Built by Kian How</div>
 </div>
 
 <div class="bnav" id="bottom-nav"></div>
+</div>
+
+<!-- Hub bar — single 🏠 button at the bottom, always rendered. The launcher
+     overlay (z-index:100) naturally covers it when open, so no JS toggling
+     is needed for visibility. Click is handled via event delegation attached
+     at the bottom of the script to avoid any function-scope ordering issues. -->
+<div class="hub-bar" id="hub-bar">
+  <button class="hub-bar-btn" data-action="hub" title="Back to Hub">🏠</button>
 </div>
 
 <script>
@@ -2083,6 +2204,11 @@ window.toggleLegacy=function(){const lg=document.getElementById("legacy-grid");c
 
 // ═══ RENDER: DASHBOARD ═══
 function rD(){if(!S)return;
+  // Hub-centric flow: new users land on the launcher before picking a path.
+  // Don't attempt to render path-dependent views until a path exists — the
+  // launcher shows regardless. Tiles that need a path invoke showPathPicker()
+  // which sets S.path then calls rD() again.
+  if(!S.path)return;
   const isMasterOnly=!S.testMode&&S.role==="master";
   // Master-only view: hide path header, skip member renders
   if(isMasterOnly){
@@ -4324,6 +4450,13 @@ window.assignItem=function(date,type,label,opts){opts=opts||{};if(type==="custom
   // Role-as-project: some "projects" (like Active Listening) are actually roles.
   // opts.pid lets the caller store the linked project ID; opts.roleAs turns the slot into a role slot.
   if(opts.roleAs){type="role";label=opts.roleAs+" — "+label;}
+  // Duplicate-booking guard — Planner path (date cube → project picker). This
+  // MUST fire here too, not just in bookSlot, because Planner-route bookings
+  // skip bookSlot entirely. Only applies to projects (roles can repeat freely).
+  if(type==="project"&&opts.pid&&!opts.bypassDupeCheck){
+    const projTitle=(PD[opts.pid]&&PD[opts.pid].t)||label.replace(/\s*\([^)]*\)\s*$/,"");
+    if(!window._checkDupeBooking(opts.pid,projTitle))return;
+  }
   // Multi-step project: if this project spans multiple meetings (e.g. Eval & Feedback,
   // Improvisational Humor), hand off to the multi-step booking modal so user can
   // schedule all parts across dates — not just drop one slot here.
@@ -5160,43 +5293,44 @@ const PROJECT_HELP={
   }
 };
 
+// Shared duplicate-booking check — returns true if the user confirmed to proceed
+// (or there was no duplicate), false if they cancelled. Must be called from EVERY
+// project-booking entry point: bookSlot (My Path → project detail → Book Slot)
+// AND assignItem (Planner → date cube → project picker). If only one entry point
+// guards, the other silently allows the duplicate.
+window._checkDupeBooking=function(pid,title){
+  if(!pid||!S)return true;
+  const alreadyDone=!!(S.done&&S.done[pid]);
+  let bookedDate="";
+  if(S.plan&&S.plan.slots){
+    const today=new Date().toISOString().slice(0,10);
+    Object.entries(S.plan.slots).forEach(([d,slots])=>{
+      if(bookedDate)return;
+      if(d<today)return;
+      (slots||[]).forEach(s=>{if(s.pid===pid)bookedDate=d;});
+    });
+  }
+  if(!alreadyDone&&!bookedDate)return true;// no duplicate
+  let msg="⚠️ Heads up — you've ";
+  if(alreadyDone&&bookedDate){
+    const dfmt=new Date(bookedDate+"T00:00:00").toLocaleDateString("en-US",{weekday:"short",month:"short",day:"numeric"});
+    msg+="already completed \""+title+"\" before, AND it's currently booked for "+dfmt+".";
+  }else if(alreadyDone){
+    msg+="already completed \""+title+"\" before.";
+  }else{
+    const dfmt=new Date(bookedDate+"T00:00:00").toLocaleDateString("en-US",{weekday:"short",month:"short",day:"numeric"});
+    msg+="already booked \""+title+"\" for "+dfmt+".";
+  }
+  msg+="\n\nBooking it again is fine if you want to redo it — but most members move on to the next project.\n\nContinue booking anyway?";
+  return confirm(msg);
+};
+
 window.bookSlot=function(title,dur){
   // Find the project ID for this title
   let pid="";
   Object.entries(PD).forEach(([id,d])=>{if(d.t===title)pid=id;});
-  
-  // Duplicate-booking guard — warn (don't block) if the user has already
-  // completed this project OR already has it booked on an upcoming date.
-  // Some members legitimately redo a project (e.g. tackling it on a different
-  // path), so this is a "are you sure?" prompt, not a hard block.
-  if(pid&&S){
-    const alreadyDone=!!(S.done&&S.done[pid]);
-    // Check if it's already booked upcoming on any date for this user
-    let bookedDate="";
-    if(S.plan&&S.plan.slots){
-      const today=new Date().toISOString().slice(0,10);
-      Object.entries(S.plan.slots).forEach(([d,slots])=>{
-        if(bookedDate)return;
-        if(d<today)return;// ignore past bookings
-        (slots||[]).forEach(s=>{if(s.pid===pid)bookedDate=d;});
-      });
-    }
-    if(alreadyDone||bookedDate){
-      let msg="⚠️ Heads up — you've ";
-      if(alreadyDone&&bookedDate){
-        const dfmt=new Date(bookedDate+"T00:00:00").toLocaleDateString("en-US",{weekday:"short",month:"short",day:"numeric"});
-        msg+="already completed \""+title+"\" before, AND it's currently booked for "+dfmt+".";
-      }else if(alreadyDone){
-        msg+="already completed \""+title+"\" before.";
-      }else{
-        const dfmt=new Date(bookedDate+"T00:00:00").toLocaleDateString("en-US",{weekday:"short",month:"short",day:"numeric"});
-        msg+="already booked \""+title+"\" for "+dfmt+".";
-      }
-      msg+="\n\nBooking it again is fine if you want to redo it — but most members move on to the next project.\n\nContinue booking anyway?";
-      if(!confirm(msg))return;
-    }
-  }
-  
+  // Duplicate-booking guard (shared with assignItem)
+  if(!window._checkDupeBooking(pid,title))return;
   const multiStep=MULTI_STEP_PROJECTS[pid];
   if(multiStep){
     showMultiStepBooking(pid,title,multiStep);
@@ -9727,7 +9861,7 @@ if(S&&!S.testMode&&!S.authCode){
 document.getElementById("app-loader").style.display="none";
 if(S){document.getElementById("welcome-screen").style.display="none";document.getElementById("setup-screen").style.display="none";document.getElementById("dashboard").classList.add("active");buildNav();
   if(S.testMode){genTestDates();seedTestBookings();}
-  updSync();rD();startOnboarding();
+  updSync();rD();showLauncher();
   // Check for new announcements
   setTimeout(()=>{
     const anns=clubData.announcements||[];
@@ -9829,11 +9963,21 @@ document.getElementById("login-btn").onclick=function(){
         document.getElementById("setup-screen").style.display="none";
         document.getElementById("dashboard").classList.add("active");
         buildNav();initFB();rD();
-        if(S.role==="master"){showMasterGreeting();}else{sT("Welcome back, "+S.name+"!");startOnboarding();}
+        if(S.role==="master"){showMasterGreeting();}else{sT("Welcome back, "+S.name+"!");showLauncher();}
       }else{
-        window._setupName=name;window._setupRole=role;window._setupClub=club;window._testMode=false;
-        document.getElementById("step1").style.display="none";
-        document.getElementById("step2").className="step2 active";
+        // New user — hub-centric signup: skip path/level picker. Create a
+        // minimal S record with path="" and drop them on the launcher. They
+        // pick a path only when they tap Plan & Book or My Progress.
+        S={uid:nameKey(name),name:name,club:club,path:"",role:role,cLv:1,
+           done:{},sel:{},plan:{goal:"",notes:"",slots:{}},
+           paths:[],activePathIdx:-1,authCode:code};
+        sv();
+        document.getElementById("setup-screen").style.display="none";
+        document.getElementById("dashboard").classList.add("active");
+        buildNav();initFB();
+        // Note: no rD() yet — it short-circuits without a path anyway
+        sT("👋 Welcome, "+name+"!");
+        showLauncher();
       }
     });
   });
@@ -9919,7 +10063,7 @@ window.finishSetup=function(){
   sv();document.getElementById("setup-screen").style.display="none";document.getElementById("dashboard").classList.add("active");
   buildNav();updSync();rD();
   if(!isTest)loadFirebase().then(()=>{initFB();});
-  if(S.role==="master"){showMasterGreeting();}else{startOnboarding();}
+  if(S.role==="master"){showMasterGreeting();}else{showLauncher();}
 };
 
 // ═══ MASTER GREETING ═══
@@ -9992,6 +10136,256 @@ function switchTab(tab){
   if(panel)panel.classList.add("act");
 }
 window.switchTab=switchTab;
+
+// ═══ LAUNCHER HUB — post-login intent picker ═══
+// Shown every time a member logs in. Replaces the old "drop them into My Path"
+// behavior. Six tiles route to existing pages; the dashboard stays behind,
+// re-shown when a tile is clicked. A 🏠 button in the top-bar brings it back.
+window.showLauncher=function(){
+  const launcher=document.getElementById("launcher-screen");
+  if(!launcher||!S)return;
+  const nameEl=document.getElementById("launcher-name");
+  if(nameEl){
+    // Use the first name only — keeps the greeting personal + short
+    const first=(S.name||"there").split(/\s+/)[0];
+    nameEl.textContent=first;
+  }
+  const dash=document.getElementById("dashboard");
+  if(dash)dash.classList.remove("active");
+  launcher.style.display="block";
+  // Scroll launcher container to top so the entrance animations play cleanly
+  try{launcher.scrollTop=0;}catch{}
+  // Re-trigger tile stagger animations on re-open
+  const tiles=launcher.querySelectorAll(".launcher-tile");
+  tiles.forEach(t=>{t.style.animation="none";});
+  void launcher.offsetWidth;
+  tiles.forEach(t=>{t.style.animation="";});
+};
+window.hideLauncher=function(){
+  document.getElementById("launcher-screen").style.display="none";
+  const dash=document.getElementById("dashboard");
+  if(dash)dash.classList.add("active");
+};
+// Maps a role label (as stored in S.plan.slots) to its ROLE_GRID index so the
+// Prep My Role tile can jump straight to the right toolkit overlay. Covers
+// both the short + full role names the codebase uses interchangeably.
+const LAUNCHER_ROLE_MAP={
+  "SAA":0,"Sergeant at Arms":0,
+  "TMD":1,"Toastmaster":1,"Toastmaster of the Day":1,
+  "Timer":2,
+  "Ah-Counter":3,
+  "Grammarian":4,
+  "Topicsmaster":5,"TTM":5,"Table Topics Master":5,
+  "Speaker":6,"Prepared Speech Speaker":6,
+  "Evaluator":7,"Individual Evaluator":7,
+  "General Evaluator":8,"GE":8
+};
+function findNextBookedRole(){
+  if(!S||!S.plan||!S.plan.slots)return null;
+  const today=new Date().toISOString().slice(0,10);
+  const dates=Object.keys(S.plan.slots).filter(d=>d>=today).sort();
+  for(const d of dates){
+    const slots=S.plan.slots[d]||[];
+    for(const slot of slots){
+      if(slot.type!=="role")continue;
+      const label=slot.label||"";
+      // Labels can be bare ("Evaluator") or role-as-project ("Speaker — Ice Breaker (5-7 min)")
+      const roleName=label.split(" — ")[0].split(" (")[0].trim();
+      const idx=LAUNCHER_ROLE_MAP[roleName];
+      if(typeof idx==="number"){
+        const dateFmt=new Date(d+"T00:00:00").toLocaleDateString("en-US",{weekday:"short",month:"short",day:"numeric"});
+        return{idx:idx,roleName:roleName,date:d,dateFmt:dateFmt};
+      }
+    }
+  }
+  return null;
+}
+
+window.launcherGo=function(dest){
+  // Path-dependent tiles: if user hasn't picked a path yet (first-time
+  // hub-centric signup), show the path picker first and then route.
+  if((dest==="path"||dest==="progress"||dest==="lookup")&&S&&!S.path){
+    showPathPicker(function(){
+      hideLauncher();
+      if(dest==="path"){switchTab("path");}
+      else if(dest==="progress"){switchTab("path");setTimeout(()=>showProgressView(),200);}
+      else if(dest==="lookup"){switchTab("path");sT("📚 Tap any project card to see requirements, tips, and details");}
+    });
+    return;
+  }
+  hideLauncher();
+  switch(dest){
+    case"path":
+      switchTab("path");
+      // First-time members: kick off the tour ~400ms after they land on path
+      if(!localStorage.getItem("tm-pw-onboarded")){
+        setTimeout(()=>{if(window.startOnboarding)startOnboarding();},500);
+      }
+      break;
+    case"prep-role":
+      switchTab("roles");
+      // Deep link: find the user's next booked role and auto-open its detail
+      // overlay so they land directly on prep content, not a list. If no role
+      // is booked, show a helpful hint and leave them on the toolkit grid.
+      setTimeout(()=>{
+        const next=findNextBookedRole();
+        if(next){
+          sT("🎤 Prepping "+next.roleName+" — "+next.dateFmt);
+          setTimeout(()=>{if(window.openRoleDetail)openRoleDetail(next.idx);},550);
+        }else{
+          sT("No upcoming role booked — tap any role below to browse prep guides");
+        }
+      },250);
+      break;
+    case"practice":
+      switchTab("path");
+      setTimeout(()=>{if(window.openPracticeStudio)openPracticeStudio();},250);
+      break;
+    case"lookup":
+      switchTab("path");
+      sT("📚 Tap any project card to see requirements, tips, and details");
+      break;
+    case"ai":
+      switchTab("path");
+      setTimeout(()=>{if(window.openSmartHelp)openSmartHelp();},250);
+      break;
+    case"progress":
+      switchTab("path");
+      setTimeout(()=>showProgressView(),200);
+      break;
+  }
+};
+// Sign out directly (no delegation to a hidden button — that's proven unreliable
+// across browsers when the button is inside a display:none parent).
+window.launcherSignOut=function(){
+  if(!confirm("Are you sure you want to log out?"))return;
+  try{localStorage.removeItem("tm-pw-data");}catch{}
+  S=null;
+  location.reload();
+};
+window.launcherReset=function(){
+  if(!confirm("⚠️ WARNING: This will permanently delete ALL your progress, completed projects, and planner data. This cannot be undone.\n\nAre you absolutely sure?"))return;
+  try{
+    if(window._apiOk&&S&&S.name&&S.club){
+      const key=nameKey(S.name);
+      apiDelete("clubs/"+S.club+"/members/"+key);
+    }
+    localStorage.removeItem("tm-pw-data");
+  }catch{}
+  S=null;
+  location.reload();
+};
+
+// ═══ PATH PICKER — standalone modal ═══
+// Used by the hub-centric flow when a user taps a path-dependent tile (Plan &
+// Book, My Progress) without having chosen a path yet. Presents the 11
+// Pathways paths as tappable cards. On selection: sets S.path / S.cLv, kicks
+// rD() to populate the dashboard, and fires the onPicked callback so the
+// caller can navigate to the original destination.
+window.showPathPicker=function(onPicked){
+  if(!S)return;
+  const mr=document.getElementById("modal-root");
+  const entries=Object.entries(PA);
+  let h='<div class="modal-bg" onclick="event.stopPropagation()"><div class="modal" style="max-width:480px;max-height:85vh;overflow-y:auto;-webkit-overflow-scrolling:touch">';
+  h+='<div style="text-align:center;font-size:40px;margin-bottom:8px;filter:drop-shadow(0 0 20px rgba(91,192,190,0.35))">🧭</div>';
+  h+='<div style="font-family:\'Playfair Display\',Georgia,serif;font-size:26px;font-weight:900;text-align:center;color:var(--w);margin-bottom:6px;letter-spacing:-.01em">Pick your <span style="background:linear-gradient(135deg,#5BC0BE,#2EE5D6);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;font-style:italic">Pathways path</span></div>';
+  h+='<div style="font-size:14px;color:var(--t3);text-align:center;margin-bottom:18px;line-height:1.5">This unlocks your project list, progress tracking, and personalized AI coaching.</div>';
+  h+='<div style="display:flex;flex-direction:column;gap:8px">';
+  entries.forEach(([code,p])=>{
+    const color=p.color||"#5BC0BE";
+    h+='<div class="path-pick-opt" data-code="'+code+'" style="cursor:pointer;padding:14px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:12px;display:flex;align-items:center;gap:12px;transition:all .15s">';
+    h+='<div style="font-size:26px;flex-shrink:0">'+(p.icon||"📘")+'</div>';
+    h+='<div style="flex:1;min-width:0">';
+    h+='<div style="font-weight:700;color:var(--w);font-size:14px">'+(p.n||code)+'</div>';
+    if(p.tag)h+='<div style="font-size:12px;color:var(--t3);margin-top:2px;line-height:1.4">'+p.tag+'</div>';
+    h+='</div>';
+    h+='<div style="color:'+color+';font-size:18px;flex-shrink:0">→</div>';
+    h+='</div>';
+  });
+  h+='</div>';
+  h+='<button onclick="closeModal()" style="margin-top:16px;width:100%;padding:10px;background:transparent;border:1px solid rgba(255,255,255,0.1);color:var(--t3);border-radius:10px;font-family:\'Inter\',\'Source Sans 3\',sans-serif;font-size:13px;cursor:pointer">← Back to hub</button>';
+  h+='</div></div>';
+  mr.innerHTML=h;
+  // Wire up path-card clicks with subtle feedback
+  mr.querySelectorAll(".path-pick-opt").forEach(el=>{
+    el.onmouseenter=function(){el.style.background="rgba(91,192,190,0.08)";el.style.borderColor="rgba(91,192,190,0.35)";};
+    el.onmouseleave=function(){el.style.background="rgba(255,255,255,0.04)";el.style.borderColor="rgba(255,255,255,0.1)";};
+    el.onclick=function(){
+      const code=el.dataset.code;
+      if(!PA[code])return;
+      S.path=code;
+      S.cLv=1;
+      if(!S.paths)S.paths=[];
+      S.paths.push({code:code,cLv:1,done:{},stars:{},startedAt:Date.now()});
+      S.activePathIdx=S.paths.length-1;
+      sv();
+      rD();// render dashboard now that we have a path
+      closeModal();
+      sT("📘 Path set: "+PA[code].n);
+      if(typeof onPicked==="function")setTimeout(onPicked,350);
+    };
+  });
+};
+
+
+window.showProgressView=function(){
+  if(!S)return;
+  // No path yet? Route to picker first, then re-enter this view.
+  if(!S.path){showPathPicker(()=>showProgressView());return;}
+  if(!PA[S.path])return;
+  const path=PA[S.path];
+  const pathName=path.name||"Your path";
+  // Count completed & total project slots per Pathways requirements
+  let completed=0,total=0;
+  for(let l=1;l<=5;l++){
+    const g=gP(S.path,l);
+    total+=g.r.length+g.en;// required count + electives needed for the level
+    completed+=g.r.filter(p=>S.done&&S.done[p]).length;
+    completed+=Math.min(g.en,g.e.filter(p=>S.done&&S.done[p]).length);
+  }
+  // Determine current working level — first level that still has incomplete items
+  let curLv=5;
+  for(let l=1;l<=5;l++){
+    const g=gP(S.path,l);
+    if(!g.r.every(p=>S.done&&S.done[p])||g.e.filter(p=>S.done&&S.done[p]).length<g.en){curLv=l;break;}
+  }
+  // Upcoming bookings count (projects + roles)
+  const today=new Date().toISOString().slice(0,10);
+  let upcomingCount=0;
+  if(S.plan&&S.plan.slots){
+    Object.entries(S.plan.slots).forEach(([d,slots])=>{
+      if(d>=today)upcomingCount+=(slots||[]).length;
+    });
+  }
+  const pct=total>0?Math.round((completed/total)*100):0;
+  const mr=document.getElementById("modal-root");
+  let h='<div class="modal-bg" onclick="closeModal(event)"><div class="modal" onclick="event.stopPropagation()" style="max-width:420px">';
+  h+='<div style="text-align:center;font-size:48px;margin-bottom:10px;filter:drop-shadow(0 0 24px rgba(91,192,190,0.4))">🏆</div>';
+  h+='<div style="font-family:\'Playfair Display\',Georgia,serif;font-size:28px;font-weight:900;text-align:center;color:var(--w);margin-bottom:4px;letter-spacing:-.01em">Your Journey</div>';
+  h+='<div style="text-align:center;color:var(--t3);font-size:14px;margin-bottom:24px">'+pathName+'</div>';
+  // Progress ring
+  const dash=Math.round(pct*3.77);
+  h+='<div style="position:relative;width:140px;height:140px;margin:0 auto 22px">';
+  h+='<svg width="140" height="140" viewBox="0 0 140 140" style="transform:rotate(-90deg)"><circle cx="70" cy="70" r="60" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="10"/><circle cx="70" cy="70" r="60" fill="none" stroke="url(#prog-grad)" stroke-width="10" stroke-linecap="round" stroke-dasharray="'+dash+' 377"/><defs><linearGradient id="prog-grad"><stop offset="0%" stop-color="#5BC0BE"/><stop offset="100%" stop-color="#2EE5D6"/></linearGradient></defs></svg>';
+  h+='<div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center">';
+  h+='<div style="font-size:32px;font-weight:900;color:var(--w);font-family:\'Playfair Display\',Georgia,serif;line-height:1">'+pct+'%</div>';
+  h+='<div style="font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:.12em;font-weight:700;margin-top:4px">complete</div>';
+  h+='</div></div>';
+  // Stats tiles
+  h+='<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:18px">';
+  const statTile=(val,label)=>'<div style="background:rgba(91,192,190,0.08);border:1px solid rgba(91,192,190,0.22);border-radius:12px;padding:12px 6px;text-align:center"><div style="font-size:24px;font-weight:800;color:#5BC0BE;line-height:1">'+val+'</div><div style="font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-top:4px">'+label+'</div></div>';
+  h+=statTile(curLv,"Current Level")+statTile(completed,"Completed")+statTile(upcomingCount,"Upcoming");
+  h+='</div>';
+  // Motivational footer
+  if(pct>=100){
+    h+='<div style="text-align:center;padding:14px;background:linear-gradient(135deg,rgba(91,192,190,0.18),rgba(46,229,214,0.1));border:1px solid rgba(91,192,190,0.3);border-radius:12px;margin-bottom:16px"><strong style="color:#5BC0BE">🎉 Path complete!</strong><br><span style="font-size:13px;color:var(--t2)">DTM territory next — keep going.</span></div>';
+  }else{
+    h+='<div style="text-align:center;font-size:13px;color:var(--t2);padding:14px;background:rgba(255,255,255,0.04);border-radius:12px;margin-bottom:16px;line-height:1.5"><strong style="color:var(--w)">'+completed+'</strong> down, <strong style="color:var(--w)">'+(total-completed)+'</strong> to go.<br>You\'re '+pct+'% of the way there.</div>';
+  }
+  h+='<button class="btn-pri" onclick="closeModal()" style="width:100%">Got it ✓</button>';
+  h+='</div></div>';
+  mr.innerHTML=h;
+};
 
 function startOnboarding(){
   if(localStorage.getItem("tm-pw-onboarded"))return;
@@ -10554,6 +10948,43 @@ window.dismissInstall=function(){
 if(!window.matchMedia("(display-mode:standalone)").matches&&!localStorage.getItem("tm-pw-install-dismissed")){
   setTimeout(()=>maybeShowIOSInstallIcon(),1500);
 }
+
+// ═══ HUB / LAUNCHER BUTTON DELEGATION ═══
+// Event delegation on document.body for the hub-bar button and the launcher
+// footer buttons. Using delegation (instead of inline onclick or per-element
+// addEventListener) guarantees handlers work even if the function definitions
+// are re-declared / shadowed / loaded out of order somewhere in the ~10k-line
+// script. This is the bulletproof last-resort binding.
+document.body.addEventListener("click",function(ev){
+  const btn=ev.target.closest("[data-action]");
+  if(!btn)return;
+  const action=btn.dataset.action;
+  if(action==="hub"){
+    ev.preventDefault();
+    if(typeof window.showLauncher==="function")window.showLauncher();
+  }else if(action==="logout"){
+    ev.preventDefault();
+    if(!confirm("Are you sure you want to log out?"))return;
+    try{localStorage.removeItem("tm-pw-data");}catch{}
+    window.S=null;
+    location.reload();
+  }else if(action==="reset"){
+    ev.preventDefault();
+    if(!confirm("⚠️ WARNING: This will permanently delete ALL your progress, completed projects, and planner data. This cannot be undone.\n\nAre you absolutely sure?"))return;
+    try{
+      if(window._apiOk&&window.S&&window.S.name&&window.S.club){
+        const key=nameKey(window.S.name);
+        apiDelete("clubs/"+window.S.club+"/members/"+key);
+      }
+      localStorage.removeItem("tm-pw-data");
+    }catch{}
+    window.S=null;
+    location.reload();
+  }else if(action==="theme"){
+    ev.preventDefault();
+    if(typeof window.toggleWelcomeTheme==="function")window.toggleWelcomeTheme();
+  }
+});
 </script>
 </body>
 </html>
