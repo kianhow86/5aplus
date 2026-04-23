@@ -393,6 +393,11 @@ a{color:var(--info);text-decoration:none}
 @keyframes bcPop{0%{transform:scale(.6);opacity:0}100%{transform:scale(1);opacity:1}}
 .bc-icon-wrap{position:relative;width:100px;height:100px;margin:0 auto 8px;display:flex;align-items:center;justify-content:center}
 .bc-icon{font-size:56px;animation:bcBounce .7s cubic-bezier(.175,.885,.32,1.275) .1s both;line-height:1}
+.bc-cal-tile{width:72px;height:76px;background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 4px 14px rgba(0,0,0,.25),0 0 0 1px rgba(0,0,0,.08);animation:bcBounce .7s cubic-bezier(.175,.885,.32,1.275) .1s both;display:flex;flex-direction:column}
+.bc-cal-tile .bc-cal-month{background:#D64545;color:#fff;font-size:11px;font-weight:800;letter-spacing:.08em;padding:4px 4px 3px;text-align:center;line-height:1.1;text-transform:uppercase;border-bottom:1px solid rgba(0,0,0,.08);position:relative}
+.bc-cal-tile .bc-cal-month::before,.bc-cal-tile .bc-cal-month::after{content:"";position:absolute;top:-2px;width:4px;height:6px;background:#c0c0c0;border-radius:2px}
+.bc-cal-tile .bc-cal-month::before{left:14px}.bc-cal-tile .bc-cal-month::after{right:14px}
+.bc-cal-tile .bc-cal-day{flex:1;display:flex;align-items:center;justify-content:center;font-size:30px;font-weight:700;color:#1a1a1a;line-height:1;font-family:'Source Sans 3',sans-serif;padding-bottom:4px}
 @keyframes bcBounce{0%{transform:scale(0) rotate(-20deg)}60%{transform:scale(1.25) rotate(8deg)}100%{transform:scale(1) rotate(0)}}
 .bc-sparkle{position:absolute;font-size:22px;opacity:0;pointer-events:none}
 .bc-s1{top:8px;left:12%;animation:bcSpark 1.4s ease-out .4s forwards;--sx:-12px;--sy:-14px}
@@ -996,7 +1001,7 @@ a{color:var(--info);text-decoration:none}
 <button class="tb-btn" onclick="toggleWelcomeTheme()" id="app-theme-btn" style="font-size:16px">🌙</button>
 <button class="tb-btn tb-gear" onclick="toggleSettings()" style="display:none">⚙</button>
 <button class="tb-btn tb-danger" id="reset-btn">Reset</button>
-<button class="tb-btn" onclick="showHelpCenter()" style="color:var(--ok)">Guide</button>
+<button class="tb-btn" id="smart-help-btn" onclick="openSmartHelp()" style="color:var(--info)">💡 Help</button>
 <button class="tb-btn" id="logout-btn">Log out</button>
 </div>
 <div id="settings-panel" class="settings-panel" style="display:none"></div>
@@ -1017,7 +1022,7 @@ a{color:var(--info);text-decoration:none}
 <div id="tab-roles" class="tc"><div id="roles-content"></div></div>
 <div id="tab-master" class="tc"><div id="master-content"></div></div>
 <div id="tab-club" class="tc"><div id="club-announcements"></div><div class="sl" style="margin-top:16px">Club Members</div><div id="club-list"></div></div>
-<div class="app-footer">5A+ TMC App v8.49 · Built by Kian How</div>
+<div class="app-footer">5A+ TMC App v8.53 · Built by Kian How</div>
 </div>
 
 <div class="bnav" id="bottom-nav"></div>
@@ -1607,9 +1612,13 @@ function rD(){if(!S)return;
     const hp=document.getElementById("h-path");
     if(hp){hp.innerHTML='<span style="color:var(--info);font-size:14px;font-weight:600;letter-spacing:.04em">⚙️ CLUB ADMIN</span>';hp.style.cursor="default";hp.onclick=null;}
     document.getElementById("h-name").textContent=S.name;
+    // Hide Smart Help button — admins don't need member-facing help
+    const hb=document.getElementById("smart-help-btn");if(hb)hb.style.display="none";
     rMaster();
     return;
   }
+  // Member view — make sure Help button is visible
+  const hb=document.getElementById("smart-help-btn");if(hb)hb.style.display="";
   const p=PA[S.path],tot=tP(S.path),dn=Object.values(S.done||{}).filter(Boolean).length,pct=tot?Math.round(dn/tot*100):0;
   let workLv=1;for(let l=1;l<=5;l++){const g=gP(S.path,l);if(g.r.every(pp=>S.done[pp])&&g.e.filter(pp=>S.done[pp]).length>=g.en){workLv=l+1;}else break;}workLv=Math.min(workLv,5);
   
@@ -2533,56 +2542,122 @@ function initSlotDrag(){
   function cleanDragOver(){document.querySelectorAll(".drag-over").forEach(r=>r.classList.remove("drag-over"));}
 }
 
-// ═══ RENDER: VPE MASTER VIEW ═══
+
+// ═══ ADMIN: ROLE CATEGORIZATION ═══
+// Maps role labels to one of 5 categories. Standard Toastmasters roles +
+// Master Listener (5A+ custom). Anything unmatched falls into "others".
+const ROLE_CATEGORIES=[
+  {id:"hosting",label:"Hosting",icon:"🎤",color:"#E85D3A",roles:["Toastmaster of the Day","TMD","Table Topics Master","TTM","Topicsmaster","Chairperson"]},
+  {id:"function",label:"Function Roles",icon:"🛠",color:"#7BA7CC",roles:["Grammarian","Ah-Counter","Timer","Master Listener"]},
+  {id:"evaluation",label:"Evaluation",icon:"⭐",color:"#F2C94C",roles:["General Evaluator","GE","Evaluator","IE","Individual Evaluator"]},
+  {id:"speakers",label:"Speakers",icon:"🗣",color:"#5BC0BE"},
+  {id:"others",label:"Others",icon:"📋",color:"#BB6BD9"}
+];
+function getRoleCategory(label,type){
+  if(!label)return "others";
+  // Speeches (project type) always go into speakers
+  if(type==="project")return "speakers";
+  // Match against known role lists
+  const lc=label.toLowerCase();
+  for(const cat of ROLE_CATEGORIES){
+    if(!cat.roles)continue;
+    if(cat.roles.some(r=>lc===r.toLowerCase()||lc.startsWith(r.toLowerCase()+" ")))return cat.id;
+  }
+  return "others";
+}
+function getCategoryInfo(id){return ROLE_CATEGORIES.find(c=>c.id===id)||ROLE_CATEGORIES[4];}
+
+// ═══ ADMIN: ROUTING STATE ═══
+let _adminTab=localStorage.getItem("tm-pw-admin-tab")||"meetings";
+let _adminMeetingOpen={};  // date -> bool (expanded state)
+
 function rMaster(){const c=document.getElementById("master-content");if(!S||S.role==="member")return;
-  const dates=(clubData.dates||[]).sort();const cap=clubData.settings||{speechSlots:3,roleSlots:5};
+  const isMasterOnly=S.role==="master"&&!S.testMode;
   let h='';
   
-  // Master-only: admin quick actions at the top (announcements + meeting generator)
-  if(S.role==="master"&&!S.testMode){
-    // Announcements management — note: we pass the post time so we can find the item regardless of sort
-    const anns=(clubData.announcements||[]).slice().sort((a,b)=>(b.posted||"").localeCompare(a.posted||""));
-    h+='<div class="sl" style="margin-top:0">📢 Announcements</div>';
-    h+='<div style="background:var(--s1);border-radius:14px;padding:16px;margin-bottom:18px;box-shadow:0 1px 3px rgba(0,0,0,.3)">';
-    h+='<button class="btn-pri" onclick="addAnnouncement()" style="width:100%;margin-bottom:'+(anns.length?"12px":"0")+'">➕ Post New Announcement</button>';
-    if(anns.length){
-      h+='<div style="font-size:11px;color:var(--t4);text-transform:uppercase;letter-spacing:.06em;font-weight:600;margin-bottom:8px">Posted ('+anns.length+')</div>';
-      anns.slice(0,5).forEach(a=>{
-        const origIdx=(clubData.announcements||[]).indexOf(a);
-        const icon=a.type==="event"?"📅":"📣";
-        const dateStr=a.date?new Date(a.date+"T00:00:00").toLocaleDateString("en-US",{month:"short",day:"numeric"}):"";
-        h+='<div style="display:flex;align-items:flex-start;gap:10px;padding:10px 12px;background:var(--s0);border-radius:10px;margin-bottom:6px;border-left:3px solid '+(a.type==="event"?"var(--info)":"var(--ok)")+'">';
-        h+='<span style="font-size:16px;flex-shrink:0">'+icon+'</span>';
-        h+='<div style="flex:1;min-width:0"><div style="font-size:14px;font-weight:600;color:var(--w);line-height:1.3">'+(a.title||"Untitled")+'</div>';
-        if(dateStr)h+='<div style="font-size:12px;color:var(--t3);margin-top:2px">'+dateStr+'</div>';
-        h+='</div>';
-        h+='<button class="sb" style="padding:4px 10px;font-size:12px;background:var(--danger)15;color:var(--danger);border-radius:6px;flex-shrink:0" onclick="removeAnnouncement('+origIdx+')">Delete</button>';
-        h+='</div>';
-      });
-      if(anns.length>5)h+='<div style="font-size:12px;color:var(--t4);text-align:center;margin-top:4px">+'+(anns.length-5)+' more</div>';
-    }
+  // Top chip nav (master only — VPE keeps the single voting view below)
+  if(isMasterOnly){
+    const chips=[
+      {id:"announcements",label:"Announcements",icon:"📢"},
+      {id:"voting",label:"Voting",icon:"🗳"},
+      {id:"meetings",label:"Meeting Plan",icon:"📅"}
+    ];
+    h+='<div style="display:flex;gap:6px;margin:-4px -4px 18px -4px;padding:4px;overflow-x:auto;-webkit-overflow-scrolling:touch">';
+    chips.forEach(chip=>{
+      const active=_adminTab===chip.id;
+      h+='<button onclick="setAdminTab(\''+chip.id+'\')" style="flex:1;min-width:0;padding:10px 12px;background:'+(active?"var(--info)":"var(--s1)")+';color:'+(active?"#fff":"var(--t2)")+';border:1px solid '+(active?"var(--info)":"var(--b1)")+';border-radius:10px;font-size:13px;font-weight:'+(active?"700":"500")+';cursor:pointer;font-family:\'Source Sans 3\',sans-serif;transition:all .15s;white-space:nowrap;text-overflow:ellipsis;overflow:hidden">'+chip.icon+' '+chip.label+'</button>';
+    });
     h+='</div>';
     
-    // Meeting date generator
-    h+='<div class="sl">📅 Meeting Dates</div>';
-    h+='<div class="auto-gen" style="margin-bottom:18px">';
-    h+='<div style="font-size:13px;color:var(--t3);margin-bottom:10px">Generate a batch of meeting dates for the club.</div>';
-    h+='<div class="ag-row"><label>Every</label><select id="ag-freq"><option value="1">Week</option><option value="2">2 Weeks</option></select><label>on</label><select id="ag-day"><option value="0">Sun</option><option value="1">Mon</option><option value="2">Tue</option><option value="3">Wed</option><option value="4">Thu</option><option value="5">Fri</option><option value="6">Sat</option></select></div>';
-    h+='<div class="ag-row"><label>From</label><input type="date" id="ag-start"><label>To</label><input type="date" id="ag-end"></div>';
-    h+='<div class="ag-row"><button class="sb" style="background:var(--info);color:#fff" onclick="autoGen()">Generate</button>';
-    if(dates.length)h+='<button class="sb" style="background:var(--b1);color:var(--danger)" onclick="clearDates()">Clear All</button>';
-    h+='</div>';
-    if(dates.length){
-      const todayStr=new Date().toISOString().slice(0,10);
-      const upcoming=dates.filter(d=>d>=todayStr).length;
-      h+='<div style="font-size:12px;color:var(--t3);margin-top:8px;padding-top:8px;border-top:1px solid var(--b1)">'+dates.length+' total · '+upcoming+' upcoming</div>';
-    }
-    h+='</div>';
+    // Route to the right subpage
+    if(_adminTab==="announcements")h+=rAdminAnnouncements();
+    else if(_adminTab==="voting")h+=rAdminVoting();
+    else h+=rAdminMeetings();
+  }else{
+    // VPE view — unchanged (single voting + meeting plan page below)
+    h+=rAdminVoting();
+    h+=rAdminMeetings();
   }
   
-  // Voting System
-  h+='<div class="sl" style="margin-top:0">🗳 Meeting Awards Voting</div>';
+  c.innerHTML=h;
+  // Post-render: RSVP subscriptions for meeting plan
+  attachAdminLiveListeners();
+}
+
+window.setAdminTab=function(id){
+  _adminTab=id;
+  localStorage.setItem("tm-pw-admin-tab",id);
+  rMaster();
+};
+
+// ─── ADMIN PAGE: ANNOUNCEMENTS ───
+function rAdminAnnouncements(){
+  const anns=(clubData.announcements||[]).slice().sort((a,b)=>(b.posted||"").localeCompare(a.posted||""));
+  let h='<div class="sl" style="margin-top:0">📢 Announcements</div>';
+  h+='<div style="background:var(--s1);border-radius:14px;padding:16px;margin-bottom:18px;box-shadow:0 1px 3px rgba(0,0,0,.3)">';
+  h+='<button class="btn-pri" onclick="addAnnouncement()" style="width:100%;margin-bottom:'+(anns.length?"12px":"0")+'">➕ Post New Announcement</button>';
+  if(anns.length){
+    h+='<div style="font-size:11px;color:var(--t4);text-transform:uppercase;letter-spacing:.06em;font-weight:600;margin-bottom:8px">Posted ('+anns.length+')</div>';
+    anns.forEach(a=>{
+      const origIdx=(clubData.announcements||[]).indexOf(a);
+      const icon=a.type==="event"?"📅":"📣";
+      const dateStr=a.date?new Date(a.date+"T00:00:00").toLocaleDateString("en-US",{month:"short",day:"numeric"}):"";
+      h+='<div style="display:flex;align-items:flex-start;gap:10px;padding:10px 12px;background:var(--s0);border-radius:10px;margin-bottom:6px;border-left:3px solid '+(a.type==="event"?"var(--info)":"var(--ok)")+'">';
+      h+='<span style="font-size:16px;flex-shrink:0">'+icon+'</span>';
+      h+='<div style="flex:1;min-width:0"><div style="font-size:14px;font-weight:600;color:var(--w);line-height:1.3">'+(a.title||"Untitled")+'</div>';
+      if(dateStr)h+='<div style="font-size:12px;color:var(--t3);margin-top:2px">'+dateStr+'</div>';
+      h+='</div>';
+      h+='<button class="sb" style="padding:4px 10px;font-size:12px;background:var(--danger)15;color:var(--danger);border-radius:6px;flex-shrink:0" onclick="removeAnnouncement('+origIdx+')">Delete</button>';
+      h+='</div>';
+    });
+  }else{
+    h+='<div style="font-size:13px;color:var(--t4);text-align:center;padding:12px 0">No announcements yet.</div>';
+  }
+  h+='</div>';
+  
+  // Meeting date generator also lives here
+  const dates=(clubData.dates||[]).sort();
+  h+='<div class="sl">📅 Meeting Dates</div>';
+  h+='<div class="auto-gen" style="margin-bottom:18px">';
+  h+='<div style="font-size:13px;color:var(--t3);margin-bottom:10px">Generate a batch of meeting dates for the club.</div>';
+  h+='<div class="ag-row"><label>Every</label><select id="ag-freq"><option value="1">Week</option><option value="2">2 Weeks</option></select><label>on</label><select id="ag-day"><option value="0">Sun</option><option value="1">Mon</option><option value="2">Tue</option><option value="3">Wed</option><option value="4">Thu</option><option value="5">Fri</option><option value="6">Sat</option></select></div>';
+  h+='<div class="ag-row"><label>From</label><input type="date" id="ag-start"><label>To</label><input type="date" id="ag-end"></div>';
+  h+='<div class="ag-row"><button class="sb" style="background:var(--info);color:#fff" onclick="autoGen()">Generate</button>';
+  if(dates.length)h+='<button class="sb" style="background:var(--b1);color:var(--danger)" onclick="clearDates()">Clear All</button>';
+  h+='</div>';
+  if(dates.length){
+    const todayStr=new Date().toISOString().slice(0,10);
+    const upcoming=dates.filter(d=>d>=todayStr).length;
+    h+='<div style="font-size:12px;color:var(--t3);margin-top:8px;padding-top:8px;border-top:1px solid var(--b1)">'+dates.length+' total · '+upcoming+' upcoming</div>';
+  }
+  h+='</div>';
+  return h;
+}
+
+// ─── ADMIN PAGE: VOTING ───
+function rAdminVoting(){
   const activeVote=clubData.activeVote||null;
+  let h='<div class="sl" style="margin-top:0">🗳 Meeting Awards Voting</div>';
   if(activeVote){
     const vdfmt=new Date(activeVote.date+"T00:00:00").toLocaleDateString("en-US",{weekday:"short",month:"short",day:"numeric"});
     h+='<div style="background:var(--s1);border-radius:14px;padding:16px;margin-bottom:14px;box-shadow:0 1px 3px rgba(0,0,0,.3)">';
@@ -2591,8 +2666,6 @@ function rMaster(){const c=document.getElementById("master-content");if(!S||S.ro
     h+='<div style="font-size:13px;color:var(--t3)">'+vdfmt+'</div></div>';
     if(!activeVote.closed)h+='<div style="width:10px;height:10px;background:var(--ok);border-radius:50%;animation:alertPulse 2s infinite"></div>';
     h+='</div>';
-    
-    // QR Code / Link
     const voteUrl=window.location.origin+window.location.pathname+"?vote="+S.club;
     h+='<div style="background:var(--s0);border-radius:10px;padding:12px;margin-bottom:12px;text-align:center">';
     h+='<div style="font-size:12px;color:var(--t3);margin-bottom:8px">Share this link for members to vote:</div>';
@@ -2600,101 +2673,167 @@ function rMaster(){const c=document.getElementById("master-content");if(!S||S.ro
     h+='<input readonly value="'+voteUrl+'" style="width:100%;padding:8px;background:var(--bg);border:1px solid var(--b2);border-radius:8px;color:var(--t1);font-size:12px;font-family:\'DM Mono\',monospace;text-align:center;box-sizing:border-box" onclick="this.select();navigator.clipboard.writeText(this.value);sT(\'📋 Link copied!\')">';
     h+='<div style="font-size:10px;color:var(--t4);margin-top:4px">Tap to copy</div>';
     h+='</div>';
-    
-    // Results
     const votes=activeVote.votes||{};
     const voteCount=Object.keys(votes).length;
     h+='<div style="font-size:14px;color:var(--t2);margin-bottom:10px">'+voteCount+' vote'+(voteCount!==1?"s":"")+" received</div>";
-    
-    // Tally per category
     (activeVote.categories||[]).forEach(cat=>{
       h+='<div style="margin-bottom:10px">';
       h+='<div style="font-size:13px;font-weight:600;color:var(--t3);margin-bottom:4px">'+cat.icon+' '+cat.name+'</div>';
-      // Count votes
       const tally={};
       Object.values(votes).forEach(v=>{const pick=v[cat.id];if(pick){tally[pick]=(tally[pick]||0)+1;}});
       const sorted=Object.entries(tally).sort((a,b)=>b[1]-a[1]);
       if(!sorted.length)h+='<div style="font-size:13px;color:var(--t4);padding:4px 0">No votes yet</div>';
       sorted.forEach(([name,count],ri)=>{
         const pct=voteCount?Math.round(count/voteCount*100):0;
-        h+='<div style="display:flex;align-items:center;gap:8px;margin-bottom:4px">';
-        if(ri===0&&count>0)h+='<span style="font-size:15px">🏆</span>';
-        else h+='<span style="width:14px"></span>';
-        h+='<div style="flex:1"><div style="font-size:14px;color:var(--w)">'+name+'</div>';
-        h+='<div style="height:4px;background:var(--b2);border-radius:2px;margin-top:2px"><div style="height:100%;width:'+pct+'%;background:var(--ok);border-radius:2px"></div></div>';
-        h+='</div>';
-        h+='<span style="font-size:13px;color:var(--t3);font-family:\'DM Mono\',monospace;min-width:40px;text-align:right">'+count+' ('+pct+'%)</span>';
-        h+='</div>';
+        const medal=ri===0?"🥇 ":ri===1?"🥈 ":ri===2?"🥉 ":"";
+        h+='<div style="display:flex;align-items:center;gap:8px;padding:4px 0;font-size:14px"><span style="flex:1;color:var(--w)">'+medal+name+'</span><span style="color:var(--t3);font-size:12px">'+count+' ('+pct+'%)</span></div>';
       });
       h+='</div>';
     });
-    
     h+='<div style="display:flex;gap:8px;margin-top:12px">';
-    if(!activeVote.closed){
-      h+='<button class="sb" style="flex:1;padding:10px;background:var(--danger)15;color:var(--danger);border-radius:8px;font-size:14px;font-weight:600" onclick="closeVoting()">Close Voting</button>';
-    }else{
-      h+='<button class="sb" style="flex:1;padding:10px;background:var(--ok)15;color:var(--ok);border-radius:8px;font-size:14px;font-weight:600" onclick="reopenVoting()">Reopen</button>';
-    }
-    h+='<button class="sb" style="flex:1;padding:10px;background:var(--b2);color:var(--t2);border-radius:8px;font-size:14px;font-weight:600" onclick="editVoteCategories()">Edit Categories</button>';
-    h+='<button class="sb" style="padding:10px;background:var(--danger)15;color:var(--danger);border-radius:8px;font-size:13px" onclick="deleteVoting()">✕</button>';
+    if(!activeVote.closed)h+='<button class="sb" style="flex:1;background:var(--danger);color:#fff" onclick="closeVoting()">Close Voting</button>';
+    h+='<button class="sb" style="flex:1;background:var(--b1);color:var(--t2)" onclick="deleteVoting()">Delete</button>';
     h+='</div></div>';
   }else{
-    h+='<button class="sb" style="width:100%;padding:14px;background:var(--ok)15;color:var(--ok);border:1px solid var(--ok)30;border-radius:14px;font-size:15px;font-weight:600;margin-bottom:14px" onclick="createVoting()">🗳 Create New Voting Session</button>';
+    h+='<button class="btn-pri" onclick="createVoting()" style="width:100%;margin-bottom:18px">🗳 Create New Voting Session</button>';
   }
+  return h;
+}
+
+// ─── ADMIN PAGE: MEETING PLAN ───
+function rAdminMeetings(){
+  const dates=(clubData.dates||[]).filter(d=>!(clubData.skipped||{})[d]).sort();
+  const cap=clubData.settings||{speechSlots:3,roleSlots:5};
+  let h='<div class="sl" style="margin-top:0">📅 Master Meeting Plan</div>';
+  if(!dates.length){
+    h+='<div class="empty">No meeting dates set. Go to Announcements → Meeting Dates to generate.</div>';
+    return h;
+  }
+  // Filter to today + future for the main view
+  const todayStr=new Date().toISOString().slice(0,10);
+  const upcomingDates=dates.filter(d=>d>=todayStr);
+  const pastDates=dates.filter(d=>d<todayStr);
   
-  h+='<div class="sl">Meeting Capacity</div>';
-  h+='<div class="vpe-cap"><label>Speech slots/meeting</label><input type="number" min="1" max="10" value="'+(cap.speechSlots||3)+'" onchange="updCap(\'speechSlots\',this.value)"><label>Role slots</label><input type="number" min="1" max="15" value="'+(cap.roleSlots||5)+'" onchange="updCap(\'roleSlots\',this.value)"></div>';
-  h+='<div class="sl">Guest RSVPs</div>';
-  h+='<div id="vpe-rsvps" style="margin-bottom:14px"><div style="font-size:13px;color:var(--t3)">Loading...</div></div>';
-  // Load RSVPs from Firebase
-  loadFirebase().then(ok=>{
-    if(!ok)return;
-    const today=new Date().toISOString().slice(0,10);
-    const nextDates=(clubData.dates||[]).filter(d=>d>=today&&!(clubData.skipped||{})[d]).sort().slice(0,3);
-    const rsvpEl=document.getElementById("vpe-rsvps");
-    if(!rsvpEl||!nextDates.length){if(rsvpEl)rsvpEl.innerHTML='<div style="font-size:13px;color:var(--t4)">No upcoming dates</div>';return;}
-    firebase.database().ref("clubs/5aplus/club/rsvps").once("value").then(snap=>{
-      const all=snap.val()||{};
-      let rh='';
-      nextDates.forEach(d=>{
-        const dfmt=new Date(d+"T00:00:00").toLocaleDateString("en-US",{weekday:"short",month:"short",day:"numeric"});
-        const guests=all[d]?Object.values(all[d]):[];
-        rh+='<div style="background:var(--s0);border-radius:10px;padding:10px 12px;margin-bottom:6px">';
-        rh+='<div style="display:flex;justify-content:space-between;align-items:center">';
-        rh+='<div style="font-size:14px;font-weight:600;color:var(--w)">'+dfmt+'</div>';
-        rh+='<div style="font-size:13px;color:'+(guests.length?'var(--ok)':'var(--t4)')+'">'+guests.length+' guest'+(guests.length!==1?'s':'')+'</div>';
-        rh+='</div>';
-        if(guests.length){rh+='<div style="margin-top:6px">';
-          guests.forEach(g=>{rh+='<div style="font-size:13px;color:var(--t2);padding:2px 0">👤 '+g.name+'</div>';});
-          rh+='</div>';}
-        rh+='</div>';
-      });
-      rsvpEl.innerHTML=rh;
+  h+='<div style="font-size:12px;color:var(--t3);margin-bottom:10px">'+upcomingDates.length+' upcoming meeting'+(upcomingDates.length!==1?"s":"")+(pastDates.length?" · "+pastDates.length+" past":"")+"</div>";
+  
+  upcomingDates.forEach(d=>{h+=renderMeetingStrip(d,cap);});
+  
+  if(pastDates.length){
+    const pastOpen=_adminMeetingOpen["__past__"];
+    h+='<div style="margin-top:16px"><button onclick="toggleAdminPast()" style="width:100%;padding:10px;background:var(--s1);border:1px solid var(--b1);border-radius:10px;color:var(--t3);font-size:13px;font-weight:600;cursor:pointer;font-family:\'Source Sans 3\',sans-serif">'+(pastOpen?"▾ Hide past meetings":"▸ Show "+pastDates.length+" past meetings")+'</button></div>';
+    if(pastOpen){
+      h+='<div style="margin-top:10px;opacity:.7">';
+      pastDates.reverse().forEach(d=>{h+=renderMeetingStrip(d,cap);});
+      h+='</div>';
+    }
+  }
+  return h;
+}
+
+window.toggleAdminPast=function(){
+  _adminMeetingOpen["__past__"]=!_adminMeetingOpen["__past__"];
+  rMaster();
+};
+
+function renderMeetingStrip(d,cap){
+  const dfmt=new Date(d+"T00:00:00").toLocaleDateString("en-US",{weekday:"short",month:"short",day:"numeric"});
+  // Tally assignments per category
+  const byCategory={hosting:[],function:[],evaluation:[],speakers:[],others:[]};
+  Object.entries(allMembers||{}).forEach(([uid,m])=>{
+    const slots=(m.plan&&m.plan.slots&&m.plan.slots[d])||[];
+    slots.forEach(s=>{
+      const cat=getRoleCategory(s.label,s.type);
+      byCategory[cat].push({member:m.name,memberId:uid,label:s.label,type:s.type,pid:s.pid||null});
     });
   });
+  
+  const totalAssigned=Object.values(byCategory).reduce((n,arr)=>n+arr.length,0);
+  // Key-role deficit check (highlight strip if critical roles missing)
+  const hasHosting=byCategory.hosting.length>0;
+  const hasTimer=byCategory.function.some(r=>/timer/i.test(r.label));
+  const hasGE=byCategory.evaluation.some(r=>/general eval|^ge$/i.test(r.label));
+  const missing=[];
+  if(!hasHosting)missing.push("TMD");
+  if(!hasTimer)missing.push("Timer");
+  if(!hasGE)missing.push("GE");
+  
+  // Conflict check: any singleton role held by >1 member? Capacity limits breached?
+  const conflicts=[];
+  const singletonCount={};
+  [].concat(byCategory.hosting,byCategory.function,byCategory.evaluation,byCategory.others).forEach(it=>{
+    if(isSingletonRole(it.label)){
+      const n=normalizeRoleName(it.label);
+      singletonCount[n]=(singletonCount[n]||[]).concat(it.member);
+    }
+  });
+  Object.entries(singletonCount).forEach(([role,members])=>{
+    if(members.length>1)conflicts.push(role+" × "+members.length);
+  });
+  const sCap=(clubData.settings&&clubData.settings.speechSlots)||3;
+  if(byCategory.speakers.length>sCap)conflicts.push(byCategory.speakers.length+" speakers (cap "+sCap+")");
+  
+  const open=!!_adminMeetingOpen[d];
+  const borderColor=conflicts.length?"rgba(224,82,82,.5)":(missing.length?"rgba(224,82,82,.3)":"var(--b1)");
+  let h='<div style="background:var(--s1);border-radius:12px;margin-bottom:10px;border:1px solid '+borderColor+';overflow:hidden">';
+  
+  // Strip header
+  h+='<div onclick="toggleAdminMeeting(\''+d+'\')" style="display:flex;align-items:center;gap:10px;padding:14px 14px;cursor:pointer;user-select:none">';
+  h+='<div style="flex:1;min-width:0">';
+  h+='<div style="font-size:14px;font-weight:700;color:var(--w)">'+dfmt+'</div>';
+  h+='<div style="font-size:12px;color:var(--t3);margin-top:2px">';
+  if(totalAssigned===0){
+    h+='<span style="color:var(--t4)">No roles assigned yet</span>';
+  }else{
+    const counts=[];
+    if(byCategory.speakers.length)counts.push(byCategory.speakers.length+" speaker"+(byCategory.speakers.length>1?"s":""));
+    if(byCategory.hosting.length)counts.push(byCategory.hosting.length+" hosting");
+    const fCount=byCategory.function.length+byCategory.evaluation.length+byCategory.others.length;
+    if(fCount)counts.push(fCount+" role"+(fCount>1?"s":""));
+    h+=counts.join(" · ");
+  }
+  if(conflicts.length)h+=' <span style="color:var(--danger);font-weight:700">· 🔴 Conflict: '+conflicts.join(", ")+'</span>';
+  if(missing.length)h+=' <span style="color:var(--danger);font-weight:600">· ⚠️ Missing '+missing.join(", ")+'</span>';
+  h+='</div>';
+  h+='</div>';
+  h+='<span style="color:var(--t4);font-size:14px;transition:transform .2s;transform:rotate('+(open?180:0)+'deg)">▾</span>';
+  h+='</div>';
+  
+  // Expanded body
+  if(open){
+    h+='<div style="padding:0 14px 14px 14px;border-top:1px solid var(--b1)">';
+    if(totalAssigned===0){
+      h+='<div style="padding:16px 0;text-align:center;color:var(--t4);font-size:13px">No assignments yet. Members book their own speeches; role assignments by admin coming in v8.52.</div>';
+    }else{
+      ROLE_CATEGORIES.forEach(cat=>{
+        const items=byCategory[cat.id];
+        if(!items.length)return;
+        h+='<div style="margin-top:12px">';
+        h+='<div style="font-size:11px;font-weight:700;color:'+cat.color+';text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px">'+cat.icon+' '+cat.label+' ('+items.length+')</div>';
+        items.forEach(it=>{
+          h+='<div style="display:flex;align-items:center;gap:10px;padding:8px 10px;background:var(--s0);border-radius:8px;margin-bottom:4px;border-left:3px solid '+cat.color+'">';
+          h+='<div style="flex:1;min-width:0">';
+          h+='<div style="font-size:13px;font-weight:600;color:var(--w);line-height:1.3">'+_shEsc(it.member)+'</div>';
+          h+='<div style="font-size:12px;color:var(--t3);margin-top:1px">'+_shEsc(it.label)+'</div>';
+          h+='</div>';
+          h+='</div>';
+        });
+        h+='</div>';
+      });
+    }
+    h+='</div>';
+  }
+  h+='</div>';
+  return h;
+}
 
-  h+='<div class="sl">Master Meeting Plan</div>';
-  if(!dates.length){h+='<div class="empty">No dates set. Go to Planner to generate.</div>';c.innerHTML=h;return;}
-  dates.forEach(d=>{if((clubData.skipped||{})[d])return;
-    const dfmt=new Date(d+"T00:00:00").toLocaleDateString("en-US",{weekday:"long",month:"short",day:"numeric"});
-    h+='<div class="vpe-meeting"><div class="vpe-date">'+dfmt+'</div>';
-    let speeches=[],roles=[],edu=[];
-    Object.entries(allMembers).forEach(([uid,m])=>{const slots=(m.plan&&m.plan.slots&&m.plan.slots[d])||[];
-      slots.forEach(s=>{const item={member:m.name,label:s.label,type:s.type};
-        if(s.type==="project")speeches.push(item);else if(s.type==="role")roles.push(item);else edu.push(item);});});
-    const sMax=cap.speechSlots||3;
-    h+='<div class="sl" style="margin-top:0">Speeches ('+speeches.length+'/'+sMax+')</div>';
-    if(speeches.length>sMax)h+='<div class="vpe-conflict">⚠ Over capacity — '+speeches.length+' speeches, '+sMax+' slots</div>';
-    if(!speeches.length)h+='<div class="vpe-empty">No speeches planned</div>';
-    speeches.forEach(s=>h+='<div class="vpe-slot"><span class="vs-member">'+s.member+'</span><span class="vs-item">'+s.label+'</span><span class="bdg b-req">Speech</span></div>');
-    h+='<div class="sl" style="margin-top:8px">Roles ('+roles.length+')</div>';
-    if(!roles.length)h+='<div class="vpe-empty">No roles assigned</div>';
-    roles.forEach(s=>h+='<div class="vpe-slot"><span class="vs-member">'+s.member+'</span><span class="vs-item">'+s.label+'</span></div>');
-    if(edu.length){h+='<div class="sl" style="margin-top:8px">Education ('+edu.length+')</div>';
-      edu.forEach(s=>h+='<div class="vpe-slot"><span class="vs-member">'+s.member+'</span><span class="vs-item">'+s.label+'</span></div>');}
-    h+='</div>';});c.innerHTML=h;}
+window.toggleAdminMeeting=function(d){
+  _adminMeetingOpen[d]=!_adminMeetingOpen[d];
+  rMaster();
+};
 
-// ═══ VOTING SYSTEM ═══
+// Placeholder — we used to attach live listeners here; no-op for now but reserved
+function attachAdminLiveListeners(){/* reserved for v8.52 */}
+
 const DEFAULT_VOTE_CATS=[
   {id:"best-speaker",name:"Best Prepared Speaker",icon:"🎤"},
   {id:"best-evaluator",name:"Best Evaluator",icon:"📝"},
@@ -2966,15 +3105,29 @@ function openAssign(date){const mr=document.getElementById("modal-root"),p=PA[S.
     r.forEach(pid=>{const d=PD[pid];if(d&&!S.done[pid])reqItems.push({type:"project",label:d.t+" ("+d.dur+")",lvl:l,pid});});
     e.forEach(pid=>{const d=PD[pid];if(d&&!S.done[pid])elecItems.push({type:"project",label:d.t+" ("+d.dur+")",lvl:l,pid});});
   }
-  ["Evaluator","Timer","Ah-Counter","Grammarian","Topicsmaster","Toastmaster of the Day","General Evaluator","SAA"].forEach(r=>roleItems.push({type:"role",label:r}));
+  ["Evaluator","Timer","Ah-Counter","Grammarian","Topicsmaster","Toastmaster of the Day","General Evaluator","SAA","Master Listener"].forEach(r=>roleItems.push({type:"role",label:r}));
 
+  // Snapshot club-wide availability for this date
+  const avail=getDateAvailability(date,S&&S.memberId);
+  
   // Suggestions
   const suggestions=getNextProjects().filter(s=>!getPlannedPids()[s.pid]);
 
   const dfmt=new Date(date+"T00:00:00").toLocaleDateString("en-US",{weekday:"long",month:"short",day:"numeric"});
   let h='<div class="modal-bg" onclick="closeModal(event)"><div class="modal" onclick="event.stopPropagation()"><div class="modal-title">'+dfmt+'</div>';
 
-  // Current slots
+  // Club-wide availability summary
+  const summary=[];
+  const spkLeft=avail.speakerLimit-avail.speakerCount;
+  const evalLeft=avail.evaluatorLimit-avail.evaluatorCount;
+  if(spkLeft<=0)summary.push('<span style="color:var(--danger);font-weight:600">🎤 Speeches full</span>');
+  else summary.push('🎤 '+spkLeft+' of '+avail.speakerLimit+' speech slot'+(avail.speakerLimit>1?"s":"")+" left");
+  summary.push('⭐ '+Math.max(0,evalLeft)+' of '+avail.evaluatorLimit+' evaluator slot'+(avail.evaluatorLimit>1?"s":"")+" left");
+  const takenCount=Object.keys(avail.takenSingletons).length;
+  if(takenCount)summary.push('<span style="color:var(--t3)">'+takenCount+' role'+(takenCount>1?"s":"")+" already taken</span>");
+  h+='<div style="padding:10px 12px;background:var(--s0);border-radius:10px;margin-bottom:12px;font-size:12px;color:var(--t2);line-height:1.6">'+summary.join(" · ")+"</div>";
+
+  // Current slots (own)
   const cur=((S.plan.slots||{})[date])||[];
   if(cur.length){h+='<div class="sl">Already assigned</div>';cur.forEach((s,i)=>h+='<div class="modal-opt" style="color:var(--t3);font-size:14px;cursor:default">'+s.label+'</div>');}
 
@@ -2987,20 +3140,26 @@ function openAssign(date){const mr=document.getElementById("modal-root"),p=PA[S.
     suggestions.forEach(s=>{const d=PD[s.pid];if(!d||S.done[s.pid])return;
       const optsStr=d.roleAs?'{pid:\''+s.pid+'\',roleAs:\''+d.roleAs+'\'}':'{pid:\''+s.pid+'\'}';
       const badge=d.roleAs?'<span style="font-size:9px;font-weight:700;padding:2px 6px;background:var(--warn)20;color:var(--warn);border-radius:6px;margin-left:6px">'+d.roleAs.toUpperCase()+' ROLE</span>':'';
-      h+='<div class="modal-opt" style="border-left:3px solid var(--ok)" onclick="assignItem(\''+date+'\',\'project\',\''+d.t.replace(/'/g,"\\'")+' ('+d.dur+')\','+optsStr+')"><div style="font-weight:600">'+d.t+' <span style="font-weight:400;color:var(--t3)">('+d.dur+')</span>'+badge+'</div><div style="font-size:12px;color:var(--t3);margin-top:2px">'+s.reason+'</div></div>';});
+      // Check if this project/role would conflict
+      const conflict=checkBookingConflict(date,"project",d.t+" ("+d.dur+")",{pid:s.pid,roleAs:d.roleAs});
+      const blocked=conflict&&conflict.severity==="block";
+      const statusBadge=blocked?'<span style="font-size:9px;font-weight:700;padding:2px 6px;background:var(--danger)20;color:var(--danger);border-radius:6px;margin-left:6px">FULL</span>':'';
+      const style=blocked?'border-left:3px solid var(--danger);opacity:.55':'border-left:3px solid var(--ok)';
+      const clickHandler=blocked?'alert(\''+((conflict.message||"").replace(/'/g,"\\'").replace(/\n/g,"\\n"))+'\')':'assignItem(\''+date+'\',\'project\',\''+d.t.replace(/'/g,"\\'")+' ('+d.dur+')\','+optsStr+')';
+      h+='<div class="modal-opt" style="'+style+'" onclick="'+clickHandler+'"><div style="font-weight:600">'+d.t+' <span style="font-weight:400;color:var(--t3)">('+d.dur+')</span>'+badge+statusBadge+'</div><div style="font-size:12px;color:var(--t3);margin-top:2px">'+s.reason+'</div></div>';});
     h+='</div></div>';}
 
   // 3 Category dropdowns
-  h+=assignCategory("📝 Pathways Projects","assign-cat-req",reqItems,date,p,"Required, Level ");
-  h+=assignCategory("⭐ Elective Projects","assign-cat-elec",elecItems,date,p,"Elective, Level ");
-  h+=assignCategory("🎭 Meeting Roles","assign-cat-roles",roleItems,date,p,"");
+  h+=assignCategory("📝 Pathways Projects","assign-cat-req",reqItems,date,p,"Required, Level ",avail);
+  h+=assignCategory("⭐ Elective Projects","assign-cat-elec",elecItems,date,p,"Elective, Level ",avail);
+  h+=assignCategory("🎭 Meeting Roles","assign-cat-roles",roleItems,date,p,"",avail);
 
   // Custom entry
   h+='<div class="modal-opt" style="margin-top:10px;text-align:center;color:var(--t3)" onclick="assignItem(\''+date+'\',\'custom\',\'\')">+ Custom Entry</div>';
 
   h+='<button class="modal-close" onclick="closeModal()">Done</button></div></div>';mr.innerHTML=h;}
 
-function assignCategory(title,id,items,date,p,lvlPrefix){
+function assignCategory(title,id,items,date,p,lvlPrefix,avail){
   if(!items.length)return'';
   let h='<div class="assign-cat" style="margin-top:12px">';
   h+='<div class="assign-cat-hdr" onclick="toggleAssignCat(\''+id+'\')" style="cursor:pointer;display:flex;align-items:center;justify-content:space-between;padding:10px 12px;background:var(--s0);border-radius:8px;margin-bottom:4px">';
@@ -3017,9 +3176,26 @@ function assignCategory(title,id,items,date,p,lvlPrefix){
     const projDef=it.pid?PD[it.pid]:null;
     const roleAs=projDef&&projDef.roleAs;
     const optsStr=roleAs?'{pid:\''+it.pid+'\',roleAs:\''+roleAs+'\'}':(it.pid?'{pid:\''+it.pid+'\'}':'null');
-    const onclickCall='assignItem(\''+date+'\',\''+it.type+'\',\''+it.label.replace(/'/g,"\\'")+'\','+optsStr+')';
     const badge=roleAs?'<span style="font-size:9px;font-weight:700;padding:2px 6px;background:var(--warn)20;color:var(--warn);border-radius:6px;margin-left:6px;letter-spacing:.03em">'+roleAs.toUpperCase()+' ROLE</span>':'';
-    h+='<div class="modal-opt" onclick="'+onclickCall+'">'+it.label+badge+'</div>';
+    // Check conflict for this specific item
+    let statusBadge='',style='',clickHandler='assignItem(\''+date+'\',\''+it.type+'\',\''+it.label.replace(/'/g,"\\'")+'\','+optsStr+')';
+    if(avail){
+      const conflict=checkBookingConflict(date,it.type,it.label,{pid:it.pid,roleAs:roleAs});
+      if(conflict&&conflict.severity==="block"){
+        // Show taken-by info for singletons, FULL for capacity
+        const canonical=normalizeRoleName(roleAs||it.label);
+        if(avail.takenSingletons[canonical]){
+          statusBadge='<span style="font-size:9px;font-weight:700;padding:2px 6px;background:var(--danger)20;color:var(--danger);border-radius:6px;margin-left:6px">📍 '+_shEsc(avail.takenSingletons[canonical])+'</span>';
+        }else{
+          statusBadge='<span style="font-size:9px;font-weight:700;padding:2px 6px;background:var(--danger)20;color:var(--danger);border-radius:6px;margin-left:6px">FULL</span>';
+        }
+        style='opacity:.5;';
+        clickHandler='alert(\''+((conflict.message||"").replace(/'/g,"\\'").replace(/\n/g,"\\n"))+'\')';
+      }else if(conflict&&conflict.severity==="warn"){
+        statusBadge='<span style="font-size:9px;font-weight:700;padding:2px 6px;background:var(--warn)20;color:var(--warn);border-radius:6px;margin-left:6px">⚠️ '+(avail.evaluatorLimit-avail.evaluatorCount<=0?"FULL":"LIMITED")+"</span>";
+      }
+    }
+    h+='<div class="modal-opt" style="'+style+'" onclick="'+clickHandler+'">'+it.label+badge+statusBadge+'</div>';
   });
   h+='</div></div>';
   return h;
@@ -3033,6 +3209,92 @@ window.toggleAssignCat=function(id){
   el.style.display=isOpen?"none":"block";
   if(arrow)arrow.style.transform=isOpen?"":"rotate(180deg)";
 };
+// ═══ CROSS-MEMBER CONFLICT DETECTION ═══
+// Singleton roles: only ONE person can hold per meeting. Hard block.
+const SINGLETON_ROLES=[
+  "Toastmaster of the Day","TMD",
+  "Table Topics Master","Topicsmaster","TTM",
+  "General Evaluator","GE",
+  "Timer","Ah-Counter","Grammarian","Master Listener","SAA","Chairperson"
+];
+// Normalize a role label to its canonical form for conflict matching.
+// Strips " — suffix" and " (modifier)" and maps common aliases.
+function normalizeRoleName(label){
+  if(!label)return "";
+  let n=label.split(" — ")[0].split(" (")[0].trim();
+  // Alias map — long-form → short-form for matching
+  const aliases={"Toastmaster of the Day":"TMD","Table Topics Master":"TTM","Topicsmaster":"TTM","General Evaluator":"GE","Sergeant at Arms":"SAA","Sergeant-at-Arms":"SAA","Individual Evaluator":"Evaluator","IE":"Evaluator"};
+  return aliases[n]||n;
+}
+function isSingletonRole(label){
+  const n=normalizeRoleName(label);
+  return SINGLETON_ROLES.some(r=>normalizeRoleName(r)===n);
+}
+// Check if a label is an Individual Evaluator slot
+function isEvaluatorRole(label){
+  const n=normalizeRoleName(label);
+  return n==="Evaluator";
+}
+
+// Snapshot what's booked across the club for a given date.
+// Returns: {
+//   takenSingletons: {canonicalName: memberName},
+//   speakerCount: N,
+//   evaluatorCount: N,
+//   speakerLimit: N,
+//   evaluatorLimit: N
+// }
+function getDateAvailability(date,excludeMemberId){
+  const cap=(clubData&&clubData.settings)||{speechSlots:3,roleSlots:5};
+  const speakerLimit=cap.speechSlots||3;
+  const evaluatorLimit=speakerLimit;// 1 IE per speaker
+  const taken={};let speakerCount=0,evaluatorCount=0;
+  Object.entries(allMembers||{}).forEach(([uid,m])=>{
+    if(excludeMemberId&&uid===excludeMemberId)return;
+    const slots=(m.plan&&m.plan.slots&&m.plan.slots[date])||[];
+    slots.forEach(s=>{
+      if(s.type==="project"&&!s.label.includes("(Evaluator)")&&!(s.pid&&PD[s.pid]&&PD[s.pid].roleAs==="Evaluator")){
+        speakerCount++;
+      }else if(s.type==="role"){
+        const n=normalizeRoleName(s.label);
+        if(isEvaluatorRole(s.label)){evaluatorCount++;}
+        else if(isSingletonRole(s.label)){taken[n]=m.name||"Someone";}
+      }
+    });
+  });
+  return{takenSingletons:taken,speakerCount,evaluatorCount,speakerLimit,evaluatorLimit};
+}
+
+// Check if a booking would cause a conflict. Returns null if OK, or a {severity, message} if blocked/warned.
+function checkBookingConflict(date,type,label,opts){
+  opts=opts||{};
+  const myId=S&&S.memberId;
+  const avail=getDateAvailability(date,myId);
+  const dfmt=new Date(date+"T00:00:00").toLocaleDateString("en-US",{weekday:"short",month:"short",day:"numeric"});
+  
+  // Speakers (project slots that aren't role-as-project)
+  if(type==="project"&&!opts.roleAs){
+    if(avail.speakerCount>=avail.speakerLimit){
+      return{severity:"block",message:"⚠️ "+dfmt+" is full\n\n"+avail.speakerCount+" of "+avail.speakerLimit+" speech slots are already taken by other members.\n\nPick a different date for this speech."};
+    }
+  }
+  // Role: check singletons (hard) + evaluator capacity (soft)
+  if(type==="role"||(type==="project"&&opts.roleAs)){
+    const effectiveLabel=opts.roleAs||label;
+    if(isSingletonRole(effectiveLabel)){
+      const canonical=normalizeRoleName(effectiveLabel);
+      if(avail.takenSingletons[canonical]){
+        return{severity:"block",message:"⚠️ "+canonical+" already taken on "+dfmt+"\n\n"+avail.takenSingletons[canonical]+" has booked this role.\n\nPick another date, another role, or coordinate with "+avail.takenSingletons[canonical]+"."};
+      }
+    }else if(isEvaluatorRole(effectiveLabel)){
+      if(avail.evaluatorCount>=avail.evaluatorLimit){
+        return{severity:"warn",message:"⚠️ Evaluator slots on "+dfmt+" are full\n\nAll "+avail.evaluatorLimit+" evaluator slots are taken. You can still book if someone drops out, but this may not be needed.\n\nBook anyway?"};
+      }
+    }
+  }
+  return null;
+}
+
 window.assignItem=function(date,type,label,opts){opts=opts||{};if(type==="custom"){label=prompt("Enter label:");if(!label)return;}
   // Role-as-project: some "projects" (like Active Listening) are actually roles.
   // opts.pid lets the caller store the linked project ID; opts.roleAs turns the slot into a role slot.
@@ -3046,6 +3308,18 @@ window.assignItem=function(date,type,label,opts){opts=opts||{};if(type==="custom
     document.getElementById("modal-root").innerHTML="";
     showMultiStepBooking(opts.pid,title,multiStep,date);
     return;
+  }
+  // Cross-member conflict check (singletons hard-block, capacity soft-warn)
+  if(!opts.bypassConflict){
+    const conflict=checkBookingConflict(date,type,label,opts);
+    if(conflict){
+      if(conflict.severity==="block"){
+        alert(conflict.message);
+        return;
+      }else if(conflict.severity==="warn"){
+        if(!confirm(conflict.message))return;
+      }
+    }
   }
   // Role difficulty gate: warn if user is below recommended level for this role
   if(type==="role"&&!opts.bypassGate){
@@ -3943,12 +4217,18 @@ window.showBookingCelebration=function(pid,date,opts){
   // Multi-step: list every date (with step labels if we have them)
   const multiStep=MULTI_STEP_PROJECTS[pid];
   const allDates=(opts.allDates&&opts.allDates.length>1)?opts.allDates.slice().sort():null;
+  // Build a custom calendar tile with the ACTUAL booking date (emoji can't show dynamic dates)
+  // For multi-step bookings, show the first date (earliest)
+  const displayDate=(allDates&&allDates.length)?allDates[0]:date;
+  const dObj=new Date(displayDate+"T00:00:00");
+  const monthLbl=dObj.toLocaleDateString("en-US",{month:"short"}).toUpperCase();
+  const dayLbl=dObj.getDate();
   const mr=document.getElementById("modal-root");
   let h='<div class="book-celebrate" onclick="dismissBookingCelebration(event)">';
   h+='<div class="bc-card" onclick="event.stopPropagation()">';
   h+='<div class="bc-icon-wrap">';
   h+='<div class="bc-sparkle bc-s1">✨</div><div class="bc-sparkle bc-s2">⭐</div><div class="bc-sparkle bc-s3">✨</div><div class="bc-sparkle bc-s4">💫</div>';
-  h+='<div class="bc-icon">📅</div>';
+  h+='<div class="bc-cal-tile"><div class="bc-cal-month">'+monthLbl+'</div><div class="bc-cal-day">'+dayLbl+'</div></div>';
   h+='</div>';
   h+='<div class="bc-title">'+msg+'</div>';
   h+='<div class="bc-sub">You\'ve booked</div>';
@@ -5786,6 +6066,285 @@ function _rsRender(){
   h+='</div></div>';
   mr.innerHTML=h;
 }
+
+// ═══ SMART HELP (AI + FAQ chips) ═══
+// Curated quick-answer chips. Tap = instant answer. AI fallback at the bottom.
+const SMART_HELP_CHIPS=[
+  {q:"How do I book a role or project?",a:"Two ways:\n\n1) **From My Path** — tap any project card, then tap **Book Slot**. You'll jump to the Planner where you tap any green date to lock it in.\n\n2) **From the Planner** — tap any upcoming date cube, then pick a project or functional role from the list.\n\nOnly one role per meeting — you'll get a confirmation if you try to replace an existing booking.",action:"goToPlanner",actionLabel:"Open Planner"},
+  {q:"What's the difference between Required and Elective?",a:"**Required projects** (REQ badge) — you must complete ALL of these to finish a level. They're the core curriculum.\n\n**Elective projects** (ELEC badge) — you pick a certain number from a list. Every path has different elective minimums per level.\n\nExample: Level 1 usually needs all required + 1 elective. The level summary card tells you exactly what's required to advance."},
+  {q:"How do I complete a level?",a:"A level is complete when:\n\n• All **required** projects are checked ✅\n• You've hit the elective minimum for that level\n\nOnce both conditions are met, a **Mark Level Complete** button appears on the level card. Tap it to advance — this unlocks the next level's projects."},
+  {q:"What does the AI Speech Coach do?",a:"After you practice a speech in the **Practice Studio**, tap **✨ Analyze my speech**. An AI mentor:\n\n• Checks if you met the project's objective\n• Quotes what worked (with actual phrases from your transcript)\n• Points out where to focus next\n• Gives one concrete thing to try in the next rehearsal\n\nIt's trained on your specific project — Ice Breaker feedback is different from Research and Present.",action:"goToRoles",actionLabel:"Open Role Toolkit"},
+  {q:"How do I use Practice Studio?",a:"Tap **Role Toolkit** → **🎙 Practice Studio** (or from a project card → **Practice**).\n\n1. Pick the project you're rehearsing (or Freestyle)\n2. Tap the mic to start\n3. Deliver your speech — live timing + filler detection\n4. Tap stop — get a full report (timing grade, WPM, fillers)\n5. Tap **Analyze my speech** for AI coaching\n\nYour transcript is processed locally on your phone — nothing is saved unless you hit Analyze.",action:"goToRoles",actionLabel:"Open Role Toolkit"},
+  {q:"What are Script Templates for?",a:"Every function role (Timer, Ah-Counter, Grammarian, TMD, GE, etc.) has intro and report scripts you can fill in and copy.\n\nOpen **Role Toolkit** → tap a role → scroll to **📋 Script Templates**. Type a few details (your name, speaker names, timings) and the template fills in live. Copy to clipboard and you're ready.\n\nYour name and other details stick across sessions so you only type the things that change."},
+  {q:"Why can't I see next month's meeting dates?",a:"Meeting dates are published by your VPE (or club admin) in batches.\n\nIf dates are missing, either:\n• They haven't been generated yet (ping your VPE)\n• They're further in the future than what's currently loaded\n\nYou can still book speeches on any date that shows up as an open cube."},
+  {q:"How do I know which project to do next?",a:"The **Smart Suggestions** card at the top of My Path ranks what to do next based on:\n\n• What's still needed for your current level\n• Upcoming meetings with no prep yet\n• Roles you haven't tried\n\nOr tap **🤖 Plan Your Term** for an AI-powered term planner that maps your projects across meeting dates."},
+  {q:"What's the Destination project?",a:"Your **Destination** is the Level 5 capstone — the final project that defines your path. It's an 8–22 minute speech depending on the path, and it demonstrates everything you've built.\n\nYou can preview it anytime from the path selector (tap any path → see the flag 🏁). Planning for it early is one of the best things you can do."}
+];
+
+// Tutorial data — carried over from the old Guide center
+const SMART_HELP_TUTORIALS=[
+  {icon:"📅",title:"How to book a speech project",action:"closeModal();switchTab('path')",actionLabel:"Go to My Path →",steps:[
+    "Go to <strong>My Path</strong> and tap a project to open it",
+    "Read the tips and requirements",
+    "Tap <strong>📅 Book Slot</strong> at the bottom",
+    "Pick a meeting date from the dropdown",
+    "If the date already has a slot, you'll be asked to replace or keep both",
+    "Tap <strong>Book It</strong> — you'll be taken to the Planner with the green dot flashing on your booked date"
+  ]},
+  {icon:"📋",title:"How to use Plan My Term",action:"closeModal();goToPlanner()",actionLabel:"Go to Planner →",steps:[
+    "Go to <strong>Planner</strong> tab and tap <strong>Get Started</strong>",
+    "Answer 3 questions: how often you attend, how many levels to target, and your favorite roles",
+    "Review the generated schedule — it spaces speeches 3+ meetings apart, max 1 per month",
+    "Multi-step projects (like Eval & Feedback) are automatically scheduled across consecutive meetings",
+    "Tap <strong>Apply Plan</strong> to add all slots to your calendar",
+    "You can always tap <strong>Adjust Plan</strong> to regenerate"
+  ]},
+  {icon:"🟢",title:"Understanding the date dots",action:"closeModal();goToPlanner()",actionLabel:"See my dates →",steps:[
+    "<strong style='color:var(--ok)'>● Green</strong> — You have a role or speech assigned. Tap to see prep details.",
+    "<strong style='color:var(--t3)'>◌ Dashed outline</strong> — Meeting day, but no role assigned yet. Tap to assign one.",
+    "<strong style='color:var(--t4)'>● Grey</strong> — Meeting skipped (holiday, special event, etc.)",
+    "<strong style='color:var(--danger)'>◎ Red ring</strong> — Today's meeting",
+    "Past dates appear faded at 40% opacity"
+  ]},
+  {icon:"🔄",title:"Multi-step projects explained",steps:[
+    "Some projects need <strong>multiple meetings</strong> to complete:",
+    "<strong>Evaluation & Feedback</strong> (3 meetings) — Speech 1 → Evaluator role → Speech 2",
+    "<strong>HPL / Manage Projects</strong> (2 meetings) — Plan speech → Reflect speech",
+    "<strong>Social Speeches / Impromptu Humor</strong> (2 meetings) — Two separate speeches",
+    "When you book these, you'll pick dates for <strong>each part</strong>",
+    "The Plan My Term wizard handles this automatically"
+  ]},
+  {icon:"✅",title:"How to track your progress",action:"closeModal();switchTab('path')",actionLabel:"Go to My Path →",steps:[
+    "Open a project and tap <strong>☐ Mark Complete</strong> when you've delivered it",
+    "A celebration popup shows your progress and suggests what's next",
+    "Complete all projects in a level to unlock the next one",
+    "Each level also requires <strong>meeting roles</strong> — you'll be reminded when leveling up",
+    "Your progress syncs across devices via Firebase (if online)"
+  ]},
+  {icon:"📋",title:"Role Toolkit — Guides & AI Tools",action:"closeModal();switchTab('roles')",actionLabel:"Go to Role Toolkit →",steps:[
+    "Go to the <strong>Role Toolkit</strong> tab",
+    "Tap any role to expand it",
+    "Each role has <strong>two versions</strong> you can toggle between:",
+    "<strong>🔥 Practical</strong> — The no-nonsense version. What you actually need to know in 5 bullets.",
+    "<strong>📖 Official</strong> — The full formal version from the Toastmasters manual.",
+    "Start with Practical. Use Official when you want the complete picture."
+  ]},
+  {icon:"🆘",title:"Need help preparing?",action:"closeModal();goToPlanner()",actionLabel:"Go to Planner →",steps:[
+    "In the <strong>Planner</strong>, tap a <strong>green date dot</strong> to see your prep popup",
+    "Each role card shows a <strong>🆘 Need help?</strong> button",
+    "This gives you checklists, tips, and external resources specific to that role",
+    "For the <strong>Topicsmaster</strong> role, there's an <strong>🤖 AI Topics Generator</strong> — enter a theme and get 10 creative questions",
+    "You can also find helpful links inside each project's detail view"
+  ]}
+];
+
+let _smartHelpSection="faq"; // "tutorials", "faq", "ask"
+
+window.openSmartHelp=function(){
+  const mr=document.getElementById("modal-root");
+  let h='<div class="modal-bg" onclick="closeModal(event)"><div class="modal" onclick="event.stopPropagation()" style="max-width:540px">';
+  h+='<div class="modal-title">💡 Help</div>';
+  
+  // Three-section tab nav
+  const sections=[
+    {id:"faq",label:"Quick FAQs",icon:"⚡"},
+    {id:"tutorials",label:"Tutorials",icon:"📖"},
+    {id:"ask",label:"Ask AI",icon:"🤖"}
+  ];
+  h+='<div style="display:flex;gap:4px;margin-bottom:16px;padding:4px;background:var(--s0);border-radius:10px">';
+  sections.forEach(sec=>{
+    const active=_smartHelpSection===sec.id;
+    h+='<button onclick="setSmartHelpSection(\''+sec.id+'\')" style="flex:1;padding:8px 6px;background:'+(active?"var(--info)":"transparent")+';color:'+(active?"#fff":"var(--t3)")+';border:none;border-radius:8px;font-size:12px;font-weight:'+(active?"700":"500")+';cursor:pointer;font-family:\'Source Sans 3\',sans-serif;transition:all .15s">'+sec.icon+' '+sec.label+'</button>';
+  });
+  h+='</div>';
+  
+  h+='<div id="smart-help-body">'+renderSmartHelpSection()+'</div>';
+  
+  h+='<div style="margin-top:14px;text-align:center">';
+  h+='<button class="modal-close" onclick="closeModal()" style="padding:10px 20px">Close</button>';
+  h+='</div>';
+  h+='</div></div>';
+  mr.innerHTML=h;
+};
+
+window.setSmartHelpSection=function(id){
+  _smartHelpSection=id;
+  // Re-render just the section switcher + body without closing modal
+  openSmartHelp();
+};
+
+function renderSmartHelpSection(){
+  if(_smartHelpSection==="tutorials")return renderSHTutorials();
+  if(_smartHelpSection==="ask")return renderSHAsk();
+  return renderSHFAQ();
+}
+
+function renderSHFAQ(){
+  let h='<div style="font-size:13px;color:var(--t3);margin-bottom:12px;line-height:1.5">Tap any question for an instant answer.</div>';
+  h+='<div id="smart-help-chips" style="display:flex;flex-direction:column;gap:6px">';
+  SMART_HELP_CHIPS.forEach((c,i)=>{
+    h+='<button onclick="smartHelpAnswer('+i+')" style="text-align:left;padding:12px 14px;background:var(--s0);border:1px solid var(--b2);border-radius:10px;color:var(--t1);font-size:14px;font-weight:500;cursor:pointer;font-family:\'Source Sans 3\',sans-serif;line-height:1.4;transition:all .15s" ontouchstart="this.style.background=\'var(--s2)\'" ontouchend="this.style.background=\'var(--s0)\'">'+_shEsc(c.q)+'</button>';
+  });
+  h+='</div>';
+  h+='<div id="smart-help-answer" style="display:none;margin-top:12px"></div>';
+  return h;
+}
+
+function renderSHTutorials(){
+  let h='<div style="font-size:13px;color:var(--t3);margin-bottom:12px;line-height:1.5">Step-by-step walkthroughs for core app features.</div>';
+  SMART_HELP_TUTORIALS.forEach((g,i)=>{
+    h+='<div style="background:var(--s0);border-radius:12px;margin-bottom:8px;overflow:hidden;border:1px solid var(--b2)">';
+    h+='<div onclick="toggleSHTutorial('+i+')" style="cursor:pointer;display:flex;align-items:center;gap:12px;padding:12px 14px">';
+    h+='<div style="font-size:18px;flex-shrink:0">'+g.icon+'</div>';
+    h+='<div style="flex:1;font-size:14px;font-weight:600;color:var(--w);line-height:1.3">'+g.title+'</div>';
+    h+='<span id="sh-tut-arrow-'+i+'" style="font-size:10px;color:var(--t4);transition:transform .2s">▼</span>';
+    h+='</div>';
+    h+='<div id="sh-tut-body-'+i+'" style="display:none;padding:0 14px 14px">';
+    g.steps.forEach((s,si)=>{
+      h+='<div style="display:flex;gap:10px;align-items:flex-start;margin-bottom:8px">';
+      h+='<div style="width:20px;height:20px;background:var(--s2);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:var(--t3);flex-shrink:0;margin-top:2px">'+(si+1)+'</div>';
+      h+='<div style="font-size:13px;color:var(--t2);line-height:1.6">'+s+'</div>';
+      h+='</div>';
+    });
+    if(g.action){
+      h+='<button class="sb" style="width:100%;padding:10px;margin-top:8px;background:var(--info)15;color:var(--info);border-radius:8px;font-size:13px;font-weight:600" onclick="'+g.action+'">'+g.actionLabel+'</button>';
+    }
+    h+='</div>';
+    h+='</div>';
+  });
+  return h;
+}
+
+window.toggleSHTutorial=function(i){
+  const body=document.getElementById("sh-tut-body-"+i);
+  const arrow=document.getElementById("sh-tut-arrow-"+i);
+  if(!body)return;
+  if(body.style.display==="none"){
+    body.style.display="block";
+    arrow.style.transform="rotate(180deg)";
+  }else{
+    body.style.display="none";
+    arrow.style.transform="rotate(0deg)";
+  }
+};
+
+function renderSHAsk(){
+  let h='<div style="font-size:13px;color:var(--t3);margin-bottom:12px;line-height:1.5">Ask anything about Toastmasters or how to use the app. Personalized to your path & progress.</div>';
+  h+='<div style="background:linear-gradient(135deg,rgba(91,192,190,.08),rgba(123,167,204,.08));border:1px solid rgba(91,192,190,.2);border-radius:12px;padding:14px">';
+  h+='<label style="font-size:12px;font-weight:600;color:var(--t3);display:block;margin-bottom:6px">🤖 Your question</label>';
+  h+='<textarea id="smart-help-input" placeholder="e.g. How do I prepare for my first evaluation?" style="width:100%;padding:10px;background:var(--s0);border:1px solid var(--b2);border-radius:8px;color:var(--t1);font-size:14px;font-family:\'Source Sans 3\',sans-serif;resize:vertical;min-height:72px;box-sizing:border-box;line-height:1.5"></textarea>';
+  h+='<button id="smart-help-ask-btn" onclick="smartHelpAsk()" style="width:100%;padding:11px;margin-top:10px;background:var(--info);color:#fff;border:none;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;font-family:\'Source Sans 3\',sans-serif">✨ Ask the AI Mentor</button>';
+  h+='</div>';
+  h+='<div id="smart-help-answer" style="display:none;margin-top:12px"></div>';
+  return h;
+}
+
+function _shEsc(s){return(s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
+// Render plain text with **bold** and line breaks
+function _shFormat(txt){
+  const esc=_shEsc(txt);
+  return esc
+    .replace(/\*\*(.+?)\*\*/g,'<strong style="color:var(--w)">$1</strong>')
+    .replace(/\n/g,"<br>");
+}
+
+window.smartHelpAnswer=function(idx){
+  const c=SMART_HELP_CHIPS[idx];if(!c)return;
+  const el=document.getElementById("smart-help-answer");
+  const chips=document.getElementById("smart-help-chips");
+  let h='<div style="padding:14px;background:var(--s1);border:1px solid var(--b2);border-radius:12px;margin-bottom:12px">';
+  h+='<div style="font-size:13px;font-weight:700;color:var(--info);margin-bottom:8px">'+_shEsc(c.q)+'</div>';
+  h+='<div style="font-size:14px;color:var(--t1);line-height:1.6">'+_shFormat(c.a)+'</div>';
+  if(c.action&&c.actionLabel){
+    h+='<button onclick="closeModal();'+c.action+'()" style="margin-top:10px;padding:8px 14px;background:var(--info);color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;font-family:\'Source Sans 3\',sans-serif">'+_shEsc(c.actionLabel)+' →</button>';
+  }
+  h+='<button onclick="smartHelpBack()" style="margin-top:10px;margin-left:8px;padding:8px 14px;background:var(--b1);color:var(--t2);border:none;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;font-family:\'Source Sans 3\',sans-serif">← Other questions</button>';
+  h+='</div>';
+  el.innerHTML=h;el.style.display="block";
+  chips.style.display="none";
+};
+window.smartHelpBack=function(){
+  document.getElementById("smart-help-answer").style.display="none";
+  document.getElementById("smart-help-answer").innerHTML="";
+  document.getElementById("smart-help-chips").style.display="flex";
+};
+// Navigation helpers the chips CTAs use
+window.goToRoles=window.goToRoles||function(){
+  cTab="roles";
+  document.querySelectorAll(".nb").forEach(x=>x.classList.remove("act"));
+  const btn=document.querySelector('[data-tab="roles"]');if(btn)btn.classList.add("act");
+  document.querySelectorAll(".tc").forEach(x=>x.classList.remove("act"));
+  const t=document.getElementById("tab-roles");if(t)t.classList.add("act");
+};
+
+// Rate-limit: don't let users spam the button
+let _smartHelpLastAskMs=0;
+window.smartHelpAsk=function(){
+  const now=Date.now();
+  if(now-_smartHelpLastAskMs<5000){sT("Please wait a few seconds between questions");return;}
+  const input=document.getElementById("smart-help-input");
+  const q=(input.value||"").trim();
+  if(q.length<5){sT("Type a question first");return;}
+  if(q.length>500){sT("Question too long — keep it under 500 characters");return;}
+  _smartHelpLastAskMs=now;
+  const btn=document.getElementById("smart-help-ask-btn");
+  const el=document.getElementById("smart-help-answer");
+  const chips=document.getElementById("smart-help-chips");
+  btn.disabled=true;btn.innerHTML='<span style="display:inline-block;animation:spin 1s linear infinite">🤖</span> Thinking...';
+  el.style.display="block";
+  el.innerHTML='<div style="padding:14px;background:var(--s1);border-radius:12px;text-align:center;color:var(--t3);font-size:13px">Working on your answer…</div>';
+  chips.style.display="none";
+  
+  // Build context-aware prompt
+  const path=S&&S.path&&PA[S.path]?PA[S.path].n:"unknown";
+  const workLv=(function(){if(!S)return 1;let wl=1;for(let l=1;l<=5;l++){const g=gP(S.path,l);if(g.r.every(pp=>S.done[pp])&&g.e.filter(pp=>S.done[pp]).length>=g.en){wl=l+1;}else break;}return Math.min(wl,5);})();
+  const doneCount=S?Object.values(S.done||{}).filter(Boolean).length:0;
+  const totalProj=S?tP(S.path):0;
+  
+  const sys="You are a warm, experienced Toastmasters mentor helping a member use the 5A+ TMC App. Answer their question concisely (under 150 words) with specific, actionable guidance.\n\n"
+    +"IMPORTANT rules:\n"
+    +"• Only answer questions about Toastmasters, public speaking, the Pathways program, meeting roles, or this app. If asked anything else (homework, general chat, coding, etc.), politely redirect: \"That's outside what I can help with — I'm focused on Toastmasters questions. Try asking your VPM on WeChat for anything else.\"\n"
+    +"• Reference the app's specific features when relevant. App features include: My Path (levels, projects, destination), Planner (meeting dates, role booking), Role Toolkit (SOPs, Practice Studio, Script Templates, Filler Detector, WOD Generator, Topics Generator, Eval Assistant, GE Framework), AI Speech Coach (analyzes practiced speeches), Smart Suggestions (personalized next-actions), Plan Your Term (AI-powered planner).\n"
+    +"• Do NOT invent features. If the user asks about something the app doesn't do, say so honestly.\n"
+    +"• Use **bold** for key terms/button names and bullet points for steps.\n"
+    +"• Warm but direct tone — don't pad with unnecessary pleasantries.\n\n"
+    +"Member context:\n"
+    +"• Path: "+path+"\n"
+    +"• Working level: "+workLv+"\n"
+    +"• Projects done: "+doneCount+"/"+totalProj+"\n\n"
+    +"Question: "+q;
+  
+  fetch("/.netlify/functions/ai",{
+    method:"POST",headers:{"Content-Type":"application/json"},
+    body:JSON.stringify({model:"claude-sonnet-4-6",max_tokens:500,messages:[{role:"user",content:sys}]})
+  }).then(r=>r.json()).then(data=>{
+    if(data.error)throw new Error(data.error.message||"AI service error");
+    const text=(data.content||[]).map(c=>c.text||"").join("").trim();
+    if(!text)throw new Error("No answer returned");
+    // Log to Firebase (anonymized — just question + timestamp)
+    if(fbOk&&db&&S&&S.club){
+      try{
+        db.ref("clubs/"+S.club+"/help_log").push({
+          q:q.slice(0,500),
+          asked:new Date().toISOString(),
+          path:path,
+          workLv:workLv
+        });
+      }catch(e){/* non-blocking */}
+    }
+    let h='<div style="padding:14px;background:linear-gradient(135deg,rgba(91,192,190,.1),rgba(123,167,204,.1));border:1px solid rgba(91,192,190,.3);border-radius:12px;margin-bottom:12px">';
+    h+='<div style="font-size:11px;font-weight:700;color:var(--info);text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px">🤖 AI Mentor</div>';
+    h+='<div style="font-size:13px;font-weight:600;color:var(--w);margin-bottom:8px;font-style:italic">"'+_shEsc(q)+'"</div>';
+    h+='<div style="font-size:14px;color:var(--t1);line-height:1.65">'+_shFormat(text)+'</div>';
+    h+='<div style="margin-top:12px;padding-top:10px;border-top:1px solid var(--b1);font-size:12px;color:var(--t4);line-height:1.5">Still unclear? <a href="#" onclick="event.preventDefault();closeModal();copyWechat();" style="color:var(--ok);font-weight:600;text-decoration:none">Ask VPM on WeChat →</a></div>';
+    h+='<button onclick="smartHelpBack();document.getElementById(\'smart-help-input\').value=\'\';document.getElementById(\'smart-help-ask-btn\').disabled=false;document.getElementById(\'smart-help-ask-btn\').innerHTML=\'✨ Ask\'" style="margin-top:10px;padding:8px 14px;background:var(--b1);color:var(--t2);border:none;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;font-family:\'Source Sans 3\',sans-serif">← Ask another</button>';
+    h+='</div>';
+    el.innerHTML=h;
+  }).catch(err=>{
+    el.innerHTML='<div style="padding:12px;background:var(--danger)10;color:var(--danger);border-radius:10px;font-size:13px">Couldn\'t reach the AI mentor ('+_shEsc(err.message||"network error")+'). Try again in a moment, or <a href="#" onclick="event.preventDefault();closeModal();copyWechat();" style="color:var(--danger);font-weight:700">ask VPM on WeChat</a>.</div>';
+    btn.disabled=false;btn.innerHTML='✨ Ask';
+  });
+};
 
 // ═══ SAA CHECKLIST ═══
 window.openSAAChecklist=function(){
