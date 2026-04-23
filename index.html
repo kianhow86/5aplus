@@ -11,31 +11,50 @@
 <link rel="apple-touch-icon" href="icons/icon-192.png">
 <style>
 /* Self-hosted font faces with China-friendly fallbacks */
-@font-face{font-family:'Montserrat';font-weight:400;font-style:normal;font-display:swap;src:url('https://cdn.jsdelivr.net/fontsource/fonts/montserrat@latest/latin-400-normal.woff2') format('woff2')}
-@font-face{font-family:'Montserrat';font-weight:500;font-style:normal;font-display:swap;src:url('https://cdn.jsdelivr.net/fontsource/fonts/montserrat@latest/latin-500-normal.woff2') format('woff2')}
-@font-face{font-family:'Montserrat';font-weight:600;font-style:normal;font-display:swap;src:url('https://cdn.jsdelivr.net/fontsource/fonts/montserrat@latest/latin-600-normal.woff2') format('woff2')}
-@font-face{font-family:'Montserrat';font-weight:700;font-style:normal;font-display:swap;src:url('https://cdn.jsdelivr.net/fontsource/fonts/montserrat@latest/latin-700-normal.woff2') format('woff2')}
-@font-face{font-family:'Source Sans 3';font-weight:400;font-style:normal;font-display:swap;src:url('https://cdn.jsdelivr.net/fontsource/fonts/source-sans-3@latest/latin-400-normal.woff2') format('woff2')}
-@font-face{font-family:'Source Sans 3';font-weight:500;font-style:normal;font-display:swap;src:url('https://cdn.jsdelivr.net/fontsource/fonts/source-sans-3@latest/latin-500-normal.woff2') format('woff2')}
-@font-face{font-family:'Source Sans 3';font-weight:600;font-style:normal;font-display:swap;src:url('https://cdn.jsdelivr.net/fontsource/fonts/source-sans-3@latest/latin-600-normal.woff2') format('woff2')}
-@font-face{font-family:'Source Sans 3';font-weight:700;font-style:normal;font-display:swap;src:url('https://cdn.jsdelivr.net/fontsource/fonts/source-sans-3@latest/latin-700-normal.woff2') format('woff2')}
-@font-face{font-family:'DM Mono';font-weight:400;font-style:normal;font-display:swap;src:url('https://cdn.jsdelivr.net/fontsource/fonts/dm-mono@latest/latin-400-normal.woff2') format('woff2')}
+/* System fonts — no external CDN required (jsdelivr is blocked in China).
+   SF Pro on Apple, Roboto on Android, Segoe UI on Windows — always native-looking. */
+@font-face{font-family:'Montserrat';font-weight:400;font-style:normal;src:local('SF Pro Display'),local('Segoe UI'),local('Roboto'),local('Helvetica Neue')}
+@font-face{font-family:'Montserrat';font-weight:500;font-style:normal;src:local('SF Pro Display Medium'),local('Segoe UI Semibold'),local('Roboto Medium')}
+@font-face{font-family:'Montserrat';font-weight:600;font-style:normal;src:local('SF Pro Display Semibold'),local('Segoe UI Semibold'),local('Roboto Medium')}
+@font-face{font-family:'Montserrat';font-weight:700;font-style:normal;src:local('SF Pro Display Bold'),local('Segoe UI Bold'),local('Roboto Bold')}
+@font-face{font-family:'Source Sans 3';font-weight:400;font-style:normal;src:local('SF Pro Text'),local('Segoe UI'),local('Roboto'),local('Helvetica Neue')}
+@font-face{font-family:'Source Sans 3';font-weight:500;font-style:normal;src:local('SF Pro Text Medium'),local('Segoe UI Semibold'),local('Roboto Medium')}
+@font-face{font-family:'Source Sans 3';font-weight:600;font-style:normal;src:local('SF Pro Text Semibold'),local('Segoe UI Semibold'),local('Roboto Medium')}
+@font-face{font-family:'Source Sans 3';font-weight:700;font-style:normal;src:local('SF Pro Text Bold'),local('Segoe UI Bold'),local('Roboto Bold')}
+@font-face{font-family:'DM Mono';font-weight:400;font-style:normal;src:local('SF Mono'),local('Menlo'),local('Consolas')}
 </style>
 <script>
 // Async Firebase loader — won't block page if unreachable
 window._fbReady=false;
 function loadFirebase(){
   return new Promise(function(resolve){
-    var timeout=setTimeout(function(){console.warn("Firebase unavailable — running offline");resolve(false);},5000);
-    var s1=document.createElement("script");s1.src="https://cdn.jsdelivr.net/npm/firebase@10.12.0/firebase-app-compat.min.js";
-    s1.onload=function(){
-      var s2=document.createElement("script");s2.src="https://cdn.jsdelivr.net/npm/firebase@10.12.0/firebase-database-compat.min.js";
-      s2.onload=function(){clearTimeout(timeout);window._fbReady=true;resolve(true);};
-      s2.onerror=function(){clearTimeout(timeout);resolve(false);};
-      document.head.appendChild(s2);
-    };
-    s1.onerror=function(){clearTimeout(timeout);resolve(false);};
-    document.head.appendChild(s1);
+    // Try multiple CDNs — jsdelivr is often blocked in China, so fall back progressively
+    const CDNS=[
+      "https://cdn.jsdelivr.net/npm/firebase@10.12.0",
+      "https://unpkg.com/firebase@10.12.0",
+      "https://cdn.staticfile.net/firebase/10.12.0"// China-accessible CDN
+    ];
+    let done=false;
+    function finish(ok){if(done)return;done=true;clearTimeout(timeout);resolve(ok);}
+    var timeout=setTimeout(function(){console.warn("Firebase load timed out — running offline");finish(false);},3500);
+    function tryLoadFrom(idx){
+      if(done)return;
+      if(idx>=CDNS.length){console.warn("All Firebase CDNs failed — running offline");finish(false);return;}
+      const base=CDNS[idx];
+      var s1=document.createElement("script");
+      s1.src=base+"/firebase-app-compat.min.js";
+      s1.onload=function(){
+        if(done)return;
+        var s2=document.createElement("script");
+        s2.src=base+"/firebase-database-compat.min.js";
+        s2.onload=function(){window._fbReady=true;finish(true);};
+        s2.onerror=function(){tryLoadFrom(idx+1);};
+        document.head.appendChild(s2);
+      };
+      s1.onerror=function(){tryLoadFrom(idx+1);};
+      document.head.appendChild(s1);
+    }
+    tryLoadFrom(0);
   });
 }
 </script>
@@ -1022,7 +1041,7 @@ a{color:var(--info);text-decoration:none}
 <div id="tab-roles" class="tc"><div id="roles-content"></div></div>
 <div id="tab-master" class="tc"><div id="master-content"></div></div>
 <div id="tab-club" class="tc"><div id="club-announcements"></div><div id="club-next-meeting" style="margin-top:16px"></div></div>
-<div class="app-footer">5A+ TMC App v8.57 · Built by Kian How</div>
+<div class="app-footer">5A+ TMC App v8.59 · Built by Kian How</div>
 </div>
 
 <div class="bnav" id="bottom-nav"></div>
@@ -1387,7 +1406,11 @@ function loadFromFB(club,name,role,callback){
       if(existing&&existing.path){
         // Found existing member — restore their data
         S={uid:key,name:existing.name||name,club:club,path:existing.path,done:existing.done||{},sel:existing.sel||{},
-          plan:existing.plan||{goal:"",notes:"",slots:{}},role:role,cLv:existing.level||1};
+          plan:existing.plan||{goal:"",notes:"",slots:{}},role:role,cLv:existing.level||1,testMode:false,
+          paths:existing.paths,activePathIdx:existing.activePathIdx};
+        // Ensure paths structure exists (migrate legacy single-path to the paths array)
+        migratePaths(S);
+        syncActiveToFlat();
         sv();callback(true);
       }else{callback(false);}
     }).catch(()=>callback(false));
@@ -1395,12 +1418,36 @@ function loadFromFB(club,name,role,callback){
 }
 
 function syncMe(){if(!db||!S||S.testMode)return;const key=nameKey(S.name);
-  const myRec={name:S.name,path:S.path,done:S.done||{},sel:S.sel||{},plan:S.plan||{},role:S.role,completedCount:Object.values(S.done||{}).filter(Boolean).length,level:S.cLv||1,updatedAt:Date.now()};
+  const myRec={name:S.name,path:S.path,done:S.done||{},sel:S.sel||{},plan:S.plan||{},role:S.role,completedCount:Object.values(S.done||{}).filter(Boolean).length,level:S.cLv||1,paths:S.paths||null,activePathIdx:S.activePathIdx!=null?S.activePathIdx:0,updatedAt:Date.now()};
   // Update local cache immediately so same-turn renders see the new data (Firebase roundtrip is async)
   if(allMembers)allMembers[key]=myRec;
   db.ref("clubs/"+S.club+"/members/"+key).set(myRec);}
 function syncClub(){if(!db||!S||S.testMode)return;db.ref("clubs/"+S.club+"/club").set(clubData);}
-function updSync(){const b=document.getElementById("sync-badge");if(b){if(S&&S.testMode){b.className="sync-status sync-off";b.textContent="● test mode";}else{b.className="sync-status "+(fbOk?"sync-ok":"sync-off");b.textContent=fbOk?"● synced":"● local";}}}
+function updSync(){
+  const b=document.getElementById("sync-badge");
+  if(b){
+    if(S&&S.testMode){b.className="sync-status sync-off";b.textContent="● test mode";b.title="Test mode — no sync";}
+    else{
+      b.className="sync-status "+(fbOk?"sync-ok":"sync-off");
+      b.textContent=fbOk?"● synced":"● offline";
+      b.title=fbOk?"Real-time sync with club data":"Running offline — progress is saved locally. Enable VPN to sync with other members.";
+    }
+  }
+  // Show a one-time banner if we're running offline AND user isn't a tester
+  if(S&&!S.testMode&&!fbOk&&!sessionStorage.getItem("tm-pw-offline-dismissed")){
+    showOfflineBanner();
+  }
+}
+function showOfflineBanner(){
+  if(document.getElementById("offline-banner"))return;// already shown
+  const b=document.createElement("div");
+  b.id="offline-banner";
+  b.style.cssText="position:fixed;top:12px;left:12px;right:12px;z-index:10000;background:linear-gradient(135deg,#E8A04C,#D4833A);color:#fff;padding:12px 14px;border-radius:12px;box-shadow:0 4px 16px rgba(0,0,0,.3);font-size:13px;line-height:1.4;display:flex;align-items:flex-start;gap:10px;font-family:'Source Sans 3',sans-serif";
+  b.innerHTML='<span style="font-size:18px;flex-shrink:0">⚠️</span><div style="flex:1"><div style="font-weight:700;margin-bottom:2px">Running offline</div><div style="opacity:.92">Cloud sync unavailable. Your progress is saved locally — but you won\'t see other members\' bookings. (Enable VPN if you\'re in mainland China.)</div></div><button onclick="document.getElementById(\'offline-banner\').remove();sessionStorage.setItem(\'tm-pw-offline-dismissed\',\'1\')" style="background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.3);color:#fff;border-radius:6px;padding:4px 10px;font-size:12px;font-weight:600;cursor:pointer;flex-shrink:0;font-family:inherit">✕</button>';
+  document.body.appendChild(b);
+  // Auto-dismiss after 10s
+  setTimeout(()=>{if(document.getElementById("offline-banner"))document.getElementById("offline-banner").remove();},10000);
+}
 // ═══ MULTI-PATH DATA MODEL ═══
 // S.paths = [{code, cLv, done, stars, startedAt}, ...]
 // S.activePathIdx = index of currently-active path
@@ -1664,7 +1711,22 @@ function pathProgressSummary(pth){
 }
 
 window.openPathSwitcher=function(){
+  if(!S){alert("Not logged in");return;}
+  // Handle members whose paths array is missing (legacy data)
+  if(!S.paths||!Array.isArray(S.paths)||!S.paths.length){
+    // Auto-migrate: create a single path from S.path/done
+    if(S.path){
+      S.paths=[{code:S.path,cLv:S.cLv||1,done:S.done||{},stars:S.stars||{},startedAt:Date.now()}];
+      S.activePathIdx=0;
+      sv();
+    }else{
+      // No path at all — send directly to add flow
+      addNewPath();
+      return;
+    }
+  }
   const ov=document.getElementById("path-switcher-overlay");
+  if(!ov){alert("Path switcher element missing — please refresh");return;}
   let h='<div class="ps-modal" onclick="event.stopPropagation()">';
   h+='<div class="ps-title">Your Paths</div>';
   h+='<div class="ps-sub">Switch between paths or add a new one</div>';
@@ -2634,6 +2696,50 @@ function matchBookedToTemplate(bookedLabel,bookedType,bookedPid,bookedPathCode){
   return{category:null,match:norm};
 }
 
+// ═══ ADMIN: BULK SEED MEMBER ROSTER ═══
+// One-time seeding of club members so they appear in the admin picker + meeting plan
+// even before they've logged in. Call via the admin UI or browser console:
+// seedClubRoster(["Alex Fang","Bailey Ji",...])
+window.seedClubRoster=function(names){
+  if(!db||!S){alert("Firebase not ready — log in as admin first");return;}
+  if(S.role!=="master"){alert("Only master can seed roster");return;}
+  if(!Array.isArray(names)||!names.length){alert("Pass an array of names");return;}
+  const updates={};
+  let added=0,skipped=0;
+  names.forEach(n=>{
+    const name=String(n||"").trim();
+    if(!name)return;
+    const key=nameKey(name);
+    // Skip if this member already exists — don't overwrite real data
+    if(allMembers&&allMembers[key]){skipped++;return;}
+    // Placeholder record — members will overwrite on first login
+    updates["clubs/"+S.club+"/members/"+key]={
+      name:name,
+      path:"DL",// default — members pick their actual path on first login
+      done:{},sel:{},plan:{goal:"",notes:"",slots:{}},
+      role:"member",level:1,completedCount:0,
+      seeded:true,seededAt:Date.now()
+    };
+    added++;
+  });
+  if(!added){
+    sT("No new members to add ("+skipped+" already exist)");
+    return;
+  }
+  db.ref().update(updates).then(()=>{
+    sT("✓ Added "+added+" members"+(skipped?" ("+skipped+" already existed)":""));
+  }).catch(err=>{
+    alert("Failed to seed: "+err.message);
+  });
+};
+
+// Convenience: seed the 5A+ roster in one call.
+window.seed5APlusRoster=function(){
+  const roster=["Alex Fang","Bailey Ji","Bonnie Yang","Daniel Burton","Emma Shao","Fei Chen","Joe Zhu","Jun Ye","Kian How Yoa","Lassie Chen","Lemon Liu","Linxi Zhang","Maggie Gu","Maggie ZHAO","Melody Li","Nicole Wang","Nokkia Wong","Sam Yao","Samuel Zhang","Tejendre Aubeeluck","Terrance Zhang","Tim Xi","Vivienne Qu","Weike Gao","Zhen Wang","Demi Dai","Henry Butler"];
+  if(!confirm("Seed "+roster.length+" members into the 5A+ roster?\n\nThis creates placeholder records so names appear in the admin picker. Members will overwrite their own record when they first log in with the club code."))return;
+  seedClubRoster(roster);
+};
+
 // ═══ ADMIN: ROUTING STATE ═══
 let _adminTab=localStorage.getItem("tm-pw-admin-tab")||"meetings";
 let _adminMeetingOpen={};  // date -> bool (expanded state)
@@ -2700,6 +2806,15 @@ function rAdminAnnouncements(){
   }else{
     h+='<div style="font-size:13px;color:var(--t4);text-align:center;padding:12px 0">No announcements yet.</div>';
   }
+  h+='</div>';
+  
+  // Roster seeding (one-time admin utility)
+  const memberCount=Object.keys(allMembers||{}).length;
+  h+='<div class="sl">👥 Member Roster</div>';
+  h+='<div style="background:var(--s1);border-radius:14px;padding:16px;margin-bottom:18px">';
+  h+='<div style="font-size:13px;color:var(--t3);margin-bottom:10px;line-height:1.5">Currently <strong style="color:var(--w)">'+memberCount+'</strong> member'+(memberCount!==1?"s":"")+' in the club. Seed placeholder records so the full roster appears in the assign-member picker before they\'ve logged in.</div>';
+  h+='<button class="sb" style="width:100%;padding:10px;background:var(--info)15;color:var(--info);border:1px solid var(--info)35;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;font-family:\'Source Sans 3\',sans-serif" onclick="seed5APlusRoster()">🌱 Seed 5A+ Roster (27 members)</button>';
+  h+='<div style="font-size:11px;color:var(--t4);margin-top:8px;line-height:1.5">⚠️ Safe to run multiple times — existing member data is preserved. Only creates records for names not already present.</div>';
   h+='</div>';
   return h;
 }
@@ -4892,8 +5007,61 @@ window.openRoleSOP=function(roleName){
   // Switch to Roles tab and open the matching role
   switchTab("roles");
   setTimeout(()=>{
-    let idx=-1;
-    SOP.forEach((r,i)=>{if(r.title===roleName||roleName.includes(r.title)||r.title.includes(roleName))idx=i;});
+    if(!roleName){return;}
+    const lc=roleName.toLowerCase().trim();
+    // Strip " — suffix" and " (...)" for clean matching
+    const clean=lc.split(" — ")[0].split(" (")[0].trim();
+    // ═══ EXPLICIT LOOKUP TABLE ═══
+    // Direct mapping from common role labels to SOP array indices.
+    // SOP[0]=SAA, [1]=TMD, [2]=Timer, [3]=Ah-Counter, [4]=Grammarian, [5]=TTM, [6]=Speaker, [7]=IE, [8]=GE
+    const directIdx={
+      "saa":0,"sergeant at arms":0,
+      "tmd":1,"toastmaster of the day":1,"toastmaster":1,
+      "timer":2,
+      "ah-counter":3,"ah counter":3,"ahcounter":3,
+      "grammarian":4,
+      "ttm":5,"table topics master":5,"topicsmaster":5,
+      "speaker":6,"prepared speech speaker":6,"speech":6,
+      // IE variants — ALL of these must route to idx 7, not 8
+      "ie":7,"individual evaluator":7,"evaluator":7,
+      "ge":8,"general evaluator":8
+    };
+    // Also handle numbered variants: "IE 1", "IE 2", "Speaker 1", etc.
+    const numPrefix=clean.match(/^(ie|speaker)\s*\d*/i);
+    if(numPrefix){
+      const base=numPrefix[1].toLowerCase();
+      if(directIdx[base]!==undefined){
+        openRoleDetail(directIdx[base]);
+        return;
+      }
+    }
+    if(directIdx[clean]!==undefined){
+      openRoleDetail(directIdx[clean]);
+      return;
+    }
+    // Fallback: heuristic scoring (for anything not in the direct table)
+    const aliases={
+      "ie":"Individual Evaluator",
+      "evaluator":"Individual Evaluator",
+      "ge":"General Evaluator",
+      "tmd":"Toastmaster of the Day",
+      "ttm":"Table Topics Master",
+      "topicsmaster":"Table Topics Master",
+      "saa":"Sergeant at Arms"
+    };
+    const target=(aliases[clean]||clean).toLowerCase();
+    let idx=-1,bestScore=0;
+    SOP.forEach((r,i)=>{
+      const rTitle=(r.title||"").toLowerCase();
+      const rClean=rTitle.split(" (")[0].trim();
+      let score=0;
+      if(rClean===target)score=100;
+      else if(rClean.startsWith(target))score=50;
+      else if(rTitle.startsWith(target))score=40;
+      else if(rTitle===target)score=30;
+      else if(rTitle.includes(target)&&target.length>=4)score=10;
+      if(score>bestScore){bestScore=score;idx=i;}
+    });
     if(idx>=0)openRoleDetail(idx);
   },100);
 };
