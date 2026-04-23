@@ -9,6 +9,12 @@
 <title>5A+ TMC App</title>
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icons/icon-192.png">
+<!-- Google Fonts for intro screen typography (Playfair Display + Inter).
+     Preconnect speeds up the handshake. display=swap means system fallback shows
+     immediately while the web font loads — no invisible text flash. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Inter:wght@500;700&display=swap">
 <style>
 /* Self-hosted font faces with China-friendly fallbacks */
 /* System fonts — no external CDN required (jsdelivr is blocked in China).
@@ -188,6 +194,35 @@ html.light-theme{background:#e4eaf6 !important}
 .test-btn-style{width:auto;padding:10px 24px;font-size:14px;font-weight:700;color:#0A0A2A;background:#F0FF00;border-color:#F0FF00;border-radius:10px;animation:neonFlicker 2s ease-in-out infinite}
 @keyframes neonFlicker{0%,100%{box-shadow:0 0 5px #F0FF0060,0 0 15px #F0FF0030}40%{box-shadow:0 0 10px #F0FF0080,0 0 25px #F0FF0050,0 0 40px #F0FF0020}42%{box-shadow:0 0 2px #F0FF0020}44%{box-shadow:0 0 10px #F0FF0080,0 0 25px #F0FF0050}70%{box-shadow:0 0 5px #F0FF0060,0 0 15px #F0FF0030}72%{box-shadow:0 0 2px #F0FF0010}74%{box-shadow:0 0 8px #F0FF0070,0 0 20px #F0FF0040}}
 @keyframes neonFlickerTM{0%,100%{box-shadow:0 0 5px #F2DF7460,0 0 15px #F2DF7430}40%{box-shadow:0 0 10px #F2DF7480,0 0 25px #F2DF7450}42%{box-shadow:0 0 2px #F2DF7420}44%{box-shadow:0 0 10px #F2DF7480,0 0 25px #F2DF7450}}
+
+/* ═══ FIRST-RUN INTRO (Apple-style, 5A+ neon, card-framed like login screen) ═══ */
+/* Matches welcome/login screen: same gradient background, same centered-card layout,
+   same max-width (460px), same glass effect. Just a different "page" of the app. */
+#intro-screen{position:fixed;inset:0;background:linear-gradient(135deg,#0a1628 0%,#1a1a2e 30%,#16213e 60%,#0f1923 100%);z-index:10000;overflow:hidden;display:flex;align-items:center;justify-content:center;padding:24px;min-height:100dvh;box-sizing:border-box}
+.intro-glow-bg{position:absolute;width:60vw;height:60vw;max-width:700px;max-height:700px;border-radius:50%;filter:blur(100px);opacity:.45;pointer-events:none;background:radial-gradient(circle,#5BC0BE 0%,transparent 70%);top:-15vw;left:-15vw;animation:introGlow 8s ease-in-out infinite;z-index:0}
+.intro-glow-bg-2{background:radial-gradient(circle,#2EE5D6 0%,transparent 70%);top:auto;left:auto;bottom:-20vw;right:-20vw;opacity:.4;animation:introGlow 10s ease-in-out infinite reverse;animation-delay:-3s}
+@keyframes introGlow{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(5vw,5vw) scale(1.15)}}
+/* The frame — identical dimensions to .setup-card so it feels like the same screen */
+.intro-card{background:rgba(255,255,255,0.04);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-radius:24px;max-width:460px;width:100%;border:1px solid rgba(255,255,255,0.08);box-shadow:0 8px 32px rgba(0,0,0,.4),inset 0 1px 0 rgba(255,255,255,0.05);position:relative;z-index:1;display:flex;flex-direction:column;overflow:hidden;aspect-ratio:3/4.2;max-height:calc(100dvh - 48px)}
+.intro-skip{position:absolute;top:14px;right:16px;background:rgba(255,255,255,0.06);border:1px solid rgba(91,192,190,0.25);color:#5BC0BE;padding:6px 12px;border-radius:18px;font-family:'Inter','Source Sans 3',sans-serif;font-size:12px;font-weight:600;cursor:pointer;z-index:10;transition:all .2s}
+.intro-skip:hover{background:rgba(91,192,190,0.15);border-color:rgba(91,192,190,0.5)}
+.intro-track-wrap{flex:1;overflow:hidden;position:relative}
+.intro-track{display:flex;height:100%;width:500%;transition:transform .55s cubic-bezier(.22,.61,.36,1);will-change:transform}
+.intro-page{width:20%;flex-shrink:0;display:flex;flex-direction:column;align-items:flex-start;justify-content:center;padding:32px 28px;box-sizing:border-box}
+.intro-kicker{font-family:'Inter','Source Sans 3',sans-serif;font-size:11px;font-weight:700;color:#5BC0BE;letter-spacing:.22em;text-transform:uppercase;margin-bottom:18px;opacity:0;transform:translateY(10px);transition:opacity .7s ease,transform .7s ease;transition-delay:.1s;text-shadow:0 0 20px rgba(91,192,190,0.6)}
+.intro-h1{font-family:'Playfair Display','New York','Times New Roman',Georgia,serif;font-size:46px;line-height:1.04;font-weight:900;letter-spacing:-.02em;color:#fff;margin:0 0 20px;opacity:0;transform:translateY(20px);transition:opacity .8s ease,transform .8s ease;transition-delay:.25s}
+@media(max-width:380px){.intro-h1{font-size:38px}}
+.intro-word{display:inline-block}
+.intro-accent{font-style:italic;font-weight:700;background:linear-gradient(135deg,#5BC0BE 0%,#2EE5D6 50%,#7FF0E2 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;filter:drop-shadow(0 0 24px rgba(91,192,190,0.5));display:inline-block}
+.intro-brand{font-style:normal;font-weight:900;background:linear-gradient(135deg,#5BC0BE 0%,#2EE5D6 40%,#F2C94C 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;filter:drop-shadow(0 0 32px rgba(91,192,190,0.6));font-size:1.1em}
+.intro-sub{font-family:'Inter','Source Sans 3',sans-serif;font-size:16px;line-height:1.5;color:rgba(255,255,255,0.72);margin:0;font-weight:500;opacity:0;transform:translateY(15px);transition:opacity .8s ease,transform .8s ease;transition-delay:.45s}
+.intro-page.active .intro-kicker,.intro-page.active .intro-h1,.intro-page.active .intro-sub{opacity:1;transform:translateY(0)}
+.intro-cta{margin-top:32px;padding:13px 30px;background:linear-gradient(135deg,#5BC0BE,#2EE5D6);color:#0a1628;border:none;border-radius:28px;font-family:'Inter','Source Sans 3',sans-serif;font-size:15px;font-weight:700;letter-spacing:.02em;cursor:pointer;box-shadow:0 4px 30px rgba(91,192,190,0.5),0 0 0 1px rgba(91,192,190,0.3);opacity:0;transform:translateY(20px);transition:opacity .8s ease,transform .8s ease,box-shadow .3s;transition-delay:.65s;align-self:flex-start}
+.intro-page.active .intro-cta{opacity:1;transform:translateY(0)}
+.intro-cta:hover{box-shadow:0 4px 40px rgba(91,192,190,0.7),0 0 0 1px rgba(91,192,190,0.5);transform:translateY(-2px) !important}
+.intro-dots{display:flex;gap:8px;justify-content:center;padding:18px 0 22px;z-index:10}
+.intro-dot{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,0.2);cursor:pointer;transition:all .3s}
+.intro-dot.active{background:#5BC0BE;width:24px;border-radius:4px;box-shadow:0 0 12px rgba(91,192,190,0.7)}
 
 /* Onboarding */
 .onboard-overlay{position:fixed;inset:0;background:rgba(0,0,0,.4);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);z-index:500;display:flex;align-items:center;justify-content:center;padding:20px;animation:fadeIn .3s ease}
@@ -623,6 +658,52 @@ html.light-theme{background:#e4eaf6 !important}
 <div id="onboard-overlay"></div>
 <div id="modal-root"></div>
 
+<!-- FIRST-RUN INTRO — 5 swipeable statement pages (Apple-style, card-framed) -->
+<div id="intro-screen" style="display:none">
+  <div class="intro-glow-bg"></div>
+  <div class="intro-glow-bg intro-glow-bg-2"></div>
+  <div class="intro-card">
+    <button class="intro-skip" onclick="skipIntro()">Skip →</button>
+    <div class="intro-track-wrap">
+      <div id="intro-track" class="intro-track">
+        <section class="intro-page" data-page="0">
+          <div class="intro-kicker">5A+ TMC</div>
+          <h1 class="intro-h1"><span class="intro-word">Toastmasters,</span><br><span class="intro-accent">reimagined.</span></h1>
+          <p class="intro-sub">A club companion for your Pathways journey.</p>
+        </section>
+        <section class="intro-page" data-page="1">
+          <div class="intro-kicker">Built for speakers</div>
+          <h1 class="intro-h1"><span class="intro-word">Your path.</span><br><span class="intro-word">Your plan.</span><br><span class="intro-accent">Your practice.</span></h1>
+          <p class="intro-sub">Every project, every meeting, every role — mapped.</p>
+        </section>
+        <section class="intro-page" data-page="2">
+          <div class="intro-kicker">Powered by AI</div>
+          <h1 class="intro-h1"><span class="intro-word">AI that</span><br><span class="intro-accent">actually coaches.</span></h1>
+          <p class="intro-sub">Smart tools for every role. Personalized prep for every speech.</p>
+        </section>
+        <section class="intro-page" data-page="3">
+          <div class="intro-kicker">From zero to DTM</div>
+          <h1 class="intro-h1"><span class="intro-word">One tap to book.</span><br><span class="intro-accent">One tap to grow.</span></h1>
+          <p class="intro-sub">From Ice Breaker to DTM — we'll get you there.</p>
+        </section>
+        <section class="intro-page" data-page="4">
+          <div class="intro-kicker">Let's begin</div>
+          <h1 class="intro-h1"><span class="intro-word">Welcome to</span><br><span class="intro-accent intro-brand">5A+.</span></h1>
+          <p class="intro-sub">Let's build your term.</p>
+          <button class="intro-cta" onclick="finishIntro()">Get Started</button>
+        </section>
+      </div>
+    </div>
+    <div class="intro-dots" id="intro-dots">
+      <span class="intro-dot active" data-dot="0" onclick="goIntroPage(0)"></span>
+      <span class="intro-dot" data-dot="1" onclick="goIntroPage(1)"></span>
+      <span class="intro-dot" data-dot="2" onclick="goIntroPage(2)"></span>
+      <span class="intro-dot" data-dot="3" onclick="goIntroPage(3)"></span>
+      <span class="intro-dot" data-dot="4" onclick="goIntroPage(4)"></span>
+    </div>
+  </div>
+</div>
+
 <!-- WELCOME -->
 <div id="welcome-screen" class="setup-screen">
 <div style="position:absolute;top:env(safe-area-inset-top,16px);right:16px;padding-top:12px"><button onclick="toggleWelcomeTheme()" id="theme-toggle-btn" style="background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.15);border-radius:50%;width:36px;height:36px;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center">🌙</button></div>
@@ -685,6 +766,7 @@ html.light-theme{background:#e4eaf6 !important}
 <div style="font-size:13px;color:var(--t4);margin-bottom:20px;line-height:1.6">Track your path · Plan your speeches · Prep for any role</div>
 <button class="btn-pri" onclick="showMemberLogin()" style="margin-bottom:10px;background:linear-gradient(135deg,#5BC0BE,#3A9E9B);border:none;box-shadow:0 4px 15px rgba(91,192,190,0.3)">🔑 I'm a Member</button>
 <button class="btn-sec" onclick="showGuestPage()" style="border-color:rgba(255,255,255,0.15);color:var(--t2);font-size:15px;backdrop-filter:blur(4px)">👋 I'm a Guest</button>
+<div style="text-align:center;margin-top:14px"><button onclick="replayIntro()" style="background:none;border:none;color:var(--t4);font-size:12px;cursor:pointer;padding:4px 8px;text-decoration:underline;font-family:'Source Sans 3',sans-serif">👋 Replay intro</button></div>
 <div id="welcome-install" style="display:none;margin-top:16px;padding:14px;background:rgba(91,192,190,0.08);border:1px solid rgba(91,192,190,0.25);border-radius:12px;font-size:14px;color:var(--t2);line-height:1.5;text-align:center">
 <span style="font-size:22px">📲</span><br>
 <strong style="color:var(--t1);font-size:15px">Add to Home Screen</strong><br>
@@ -1031,7 +1113,7 @@ html.light-theme{background:#e4eaf6 !important}
 <div id="tab-roles" class="tc"><div id="roles-content"></div></div>
 <div id="tab-master" class="tc"><div id="master-content"></div></div>
 <div id="tab-club" class="tc"><div id="club-announcements"></div><div id="club-next-meeting" style="margin-top:16px"></div></div>
-<div class="app-footer">5A+ TMC App v9.0.16 · Built by Kian How</div>
+<div class="app-footer">5A+ TMC App v9.0.18 · Built by Kian How</div>
 </div>
 
 <div class="bnav" id="bottom-nav"></div>
@@ -9304,6 +9386,76 @@ window.toggleWelcomeTheme=function(){
   localStorage.setItem("tm-welcome-theme",isLight?"dark":"light");
 };
 
+// ═══ FIRST-RUN INTRO (Apple-style onboarding before login) ═══
+// Shows 5 full-screen statement pages the first time the app opens on this device.
+// Uses localStorage flag "tm-intro-seen" — device-level, no cloud sync needed.
+// Accessible later via "Replay intro" link on the welcome screen.
+window._introIdx=0;
+window.maybeShowIntro=function(){
+  try{
+    if(localStorage.getItem("tm-intro-seen")==="1")return false;
+  }catch{}
+  // Hide welcome screen while intro plays
+  const ws=document.getElementById("welcome-screen");
+  if(ws)ws.style.display="none";
+  const intro=document.getElementById("intro-screen");
+  if(!intro)return false;
+  intro.style.display="flex";
+  window._introIdx=0;
+  updIntroPage();
+  // Touch swipe support
+  let tx=0,ty=0,moved=false;
+  intro.addEventListener("touchstart",e=>{tx=e.touches[0].clientX;ty=e.touches[0].clientY;moved=false;},{passive:true});
+  intro.addEventListener("touchmove",e=>{moved=true;},{passive:true});
+  intro.addEventListener("touchend",e=>{
+    if(!moved)return;
+    const dx=e.changedTouches[0].clientX-tx;
+    const dy=e.changedTouches[0].clientY-ty;
+    // Horizontal swipe only — ignore if more vertical than horizontal
+    if(Math.abs(dx)<50||Math.abs(dy)>Math.abs(dx))return;
+    if(dx<0&&window._introIdx<4){window._introIdx++;updIntroPage();}
+    else if(dx>0&&window._introIdx>0){window._introIdx--;updIntroPage();}
+  },{passive:true});
+  return true;
+};
+function updIntroPage(){
+  const track=document.getElementById("intro-track");
+  if(track)track.style.transform="translateX(-"+(window._introIdx*20)+"%)";
+  document.querySelectorAll(".intro-dot").forEach((d,i)=>{
+    d.classList.toggle("active",i===window._introIdx);
+  });
+  document.querySelectorAll(".intro-page").forEach((p,i)=>{
+    p.classList.toggle("active",i===window._introIdx);
+  });
+}
+window.goIntroPage=function(idx){
+  if(idx<0||idx>4)return;
+  window._introIdx=idx;
+  updIntroPage();
+};
+window.skipIntro=function(){finishIntro();};
+window.finishIntro=function(){
+  try{localStorage.setItem("tm-intro-seen","1");}catch{}
+  const intro=document.getElementById("intro-screen");
+  if(intro){
+    intro.style.transition="opacity .4s ease";
+    intro.style.opacity="0";
+    setTimeout(()=>{
+      intro.style.display="none";
+      intro.style.opacity="";
+      intro.style.transition="";
+      // Show the welcome screen that was hidden during intro
+      const ws=document.getElementById("welcome-screen");
+      if(ws)ws.style.display="flex";
+    },400);
+  }
+};
+// Lets anyone replay the intro from the welcome screen
+window.replayIntro=function(){
+  try{localStorage.removeItem("tm-intro-seen");}catch{}
+  window.maybeShowIntro();
+};
+
 // ═══ INIT ═══
 // Force reset via URL (?reset=1) — wipes localStorage, unregisters service worker, reloads cleanly
 if(new URLSearchParams(location.search).has("reset")){
@@ -9347,6 +9499,10 @@ if(S){document.getElementById("welcome-screen").style.display="none";document.ge
   },2000);
   // Load Firebase in background
   if(!S.testMode)loadFirebase().then(()=>{initFB();});
+}else{
+  // Logged-out users: show the first-run intro if they haven't seen it yet.
+  // maybeShowIntro() is a no-op if the localStorage flag is already set.
+  if(window.maybeShowIntro)window.maybeShowIntro();
 }
 
 function seedTestBookings(){
