@@ -1022,7 +1022,7 @@ a{color:var(--info);text-decoration:none}
 <div id="tab-roles" class="tc"><div id="roles-content"></div></div>
 <div id="tab-master" class="tc"><div id="master-content"></div></div>
 <div id="tab-club" class="tc"><div id="club-announcements"></div><div id="club-next-meeting" style="margin-top:16px"></div></div>
-<div class="app-footer">5A+ TMC App v8.55 · Built by Kian How</div>
+<div class="app-footer">5A+ TMC App v8.57 · Built by Kian How</div>
 </div>
 
 <div class="bnav" id="bottom-nav"></div>
@@ -1395,7 +1395,10 @@ function loadFromFB(club,name,role,callback){
 }
 
 function syncMe(){if(!db||!S||S.testMode)return;const key=nameKey(S.name);
-  db.ref("clubs/"+S.club+"/members/"+key).set({name:S.name,path:S.path,done:S.done||{},sel:S.sel||{},plan:S.plan||{},role:S.role,completedCount:Object.values(S.done||{}).filter(Boolean).length,level:S.cLv||1,updatedAt:Date.now()});}
+  const myRec={name:S.name,path:S.path,done:S.done||{},sel:S.sel||{},plan:S.plan||{},role:S.role,completedCount:Object.values(S.done||{}).filter(Boolean).length,level:S.cLv||1,updatedAt:Date.now()};
+  // Update local cache immediately so same-turn renders see the new data (Firebase roundtrip is async)
+  if(allMembers)allMembers[key]=myRec;
+  db.ref("clubs/"+S.club+"/members/"+key).set(myRec);}
 function syncClub(){if(!db||!S||S.testMode)return;db.ref("clubs/"+S.club+"/club").set(clubData);}
 function updSync(){const b=document.getElementById("sync-badge");if(b){if(S&&S.testMode){b.className="sync-status sync-off";b.textContent="● test mode";}else{b.className="sync-status "+(fbOk?"sync-ok":"sync-off");b.textContent=fbOk?"● synced":"● local";}}}
 // ═══ MULTI-PATH DATA MODEL ═══
@@ -1443,22 +1446,34 @@ window.switchActivePath=function(idx){
 };
 
 window.addNewPath=function(){
-  closePathSwitcher();
+  // Close the path switcher modal if open
+  try{closePathSwitcher();}catch(e){}
+  const ov=document.getElementById("path-switcher-overlay");
+  if(ov){ov.style.display="none";ov.innerHTML="";}
+  document.body.style.overflow="";
   // Reset wizard state
   window._addingPath=true;
   window._selectedPath=null;
   window._startLevel=0;
-  // Hide dashboard, show setup screen at step 2 (path picker)
-  document.getElementById("dashboard").classList.remove("active");
-  document.getElementById("setup-screen").style.display="flex";
-  document.getElementById("step1").style.display="none";
-  document.getElementById("step2").className="step2 active";
-  document.getElementById("step3").style.display="none";
-  document.getElementById("path-preview").innerHTML="";
+  // Make sure all screens are in the right display state
+  const ws=document.getElementById("welcome-screen");if(ws)ws.style.display="none";
+  const gs=document.getElementById("guest-screen");if(gs)gs.style.display="none";
+  const dash=document.getElementById("dashboard");if(dash)dash.classList.remove("active");
+  const setup=document.getElementById("setup-screen");
+  if(!setup){alert("Setup screen missing — please refresh the app");return;}
+  setup.style.display="flex";
+  // Inside setup: show step2 only
+  const s1=document.getElementById("step1");if(s1)s1.style.display="none";
+  const s2=document.getElementById("step2");if(s2)s2.className="step2 active";
+  const s3=document.getElementById("step3");if(s3)s3.style.display="none";
+  const pq=document.getElementById("path-quiz");if(pq)pq.style.display="none";
+  const pp=document.getElementById("path-preview");if(pp)pp.innerHTML="";
+  // Clear any body-level path preview overlay
+  const ppr=document.getElementById("path-preview-root");if(ppr)ppr.innerHTML="";
   // Rebuild path grid (clears any prior selection)
-  rS();
-  // Grey-out paths the user already has, and dim "Start My Path" until one is picked
-  const existing=new Set(S.paths.map(p=>p.code));
+  try{rS();}catch(e){console.error("rS failed:",e);alert("Error rebuilding path picker: "+(e.message||"unknown"));return;}
+  // Grey-out paths the user already has
+  const existing=new Set((S&&S.paths?S.paths:[]).map(p=>p.code));
   document.querySelectorAll(".path-opt").forEach(b=>{
     if(existing.has(b.dataset.code)){
       b.style.opacity="0.35";
@@ -1468,8 +1483,10 @@ window.addNewPath=function(){
       b.title="You already have this path";
     }
   });
-  document.getElementById("start-btn").disabled=true;
-  document.getElementById("start-btn").textContent="Add This Path";
+  const sbtn=document.getElementById("start-btn");
+  if(sbtn){sbtn.disabled=true;sbtn.textContent="Add This Path";}
+  // Scroll to top so user sees the picker
+  window.scrollTo({top:0,behavior:"instant"});
 };
 
 window.cancelAddPath=function(){
@@ -3195,14 +3212,45 @@ window.adminRemoveCustomSlot=function(date,idx){
 // ═══ MEMBER: BOOK FROM CLUB TAB ═══
 window.memberBookFromClub=function(date,slotLabel,category){
   const dfmt=new Date(date+"T00:00:00").toLocaleDateString("en-US",{weekday:"short",month:"short",day:"numeric"});
-  if(!confirm("Book "+slotLabel+" for "+dfmt+"?\n\nThis will take you to the Planner to confirm."))return;
-  // Jump to Planner and open the assign modal for that date
-  cTab="planner";
-  document.querySelectorAll(".nb").forEach(x=>x.classList.remove("act"));
-  const btn=document.querySelector('[data-tab="planner"]');if(btn)btn.classList.add("act");
-  document.querySelectorAll(".tc").forEach(x=>x.classList.remove("act"));
-  const t=document.getElementById("tab-planner");if(t)t.classList.add("act");
-  setTimeout(()=>{if(typeof openAssign==="function")openAssign(date);},100);
+  // Speaker slots need a project picker — member has to pick which speech to deliver
+  if(/^speaker\s*\d/i.test(slotLabel)){
+    if(!confirm("Book a speech slot for "+dfmt+"?\n\nYou'll pick which project to deliver in the Planner."))return;
+    cTab="planner";
+    document.querySelectorAll(".nb").forEach(x=>x.classList.remove("act"));
+    const btn=document.querySelector('[data-tab="planner"]');if(btn)btn.classList.add("act");
+    document.querySelectorAll(".tc").forEach(x=>x.classList.remove("act"));
+    const t=document.getElementById("tab-planner");if(t)t.classList.add("act");
+    setTimeout(()=>{if(typeof openAssign==="function")openAssign(date);},100);
+    return;
+  }
+  // Direct book for everything else — named roles, IE slots, custom slots
+  const roleLabel=/^ie\s*\d/i.test(slotLabel)?"Evaluator":slotLabel;
+  if(!confirm("Book "+slotLabel+" for "+dfmt+"?"))return;
+  // Check conflicts before write
+  const conflict=checkBookingConflict(date,"role",roleLabel,{});
+  if(conflict){
+    if(conflict.severity==="block"){alert(conflict.message);return;}
+    if(conflict.severity==="warn"&&!confirm(conflict.message))return;
+  }
+  // Save to member's own plan
+  if(!S.plan.slots)S.plan.slots={};
+  if(!S.plan.slots[date])S.plan.slots[date]=[];
+  // Enforce one-role-per-meeting (for self)
+  const existing=S.plan.slots[date];
+  if(existing.length){
+    const existingLabels=existing.map(s=>s.label).join(", ");
+    if(!confirm("⚠️ You already have a booking on "+dfmt+":\n\n• "+existingLabels+"\n\nOnly 1 role per meeting is allowed.\n\nOK = Replace with "+roleLabel+"\nCancel = Keep existing")){
+      return;
+    }
+    S.plan.slots[date]=[];
+  }
+  S.plan.slots[date].push({type:"role",label:roleLabel});
+  sv();
+  if(navigator.vibrate)navigator.vibrate(10);
+  sT("✓ Booked "+slotLabel+" for "+dfmt);
+  // Re-render Club tab immediately (allMembers cache was updated in syncMe)
+  rCl();
+  rPl();
 };
 
 // Placeholder — we used to attach live listeners here; no-op for now but reserved
