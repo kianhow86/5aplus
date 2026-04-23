@@ -6,7 +6,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="theme-color" content="#1A1A1A">
-<title>5A+ TMC App</title>
+<title>5A+ SH TMC</title>
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icons/icon-192.png">
 <!-- Google Fonts for intro screen typography (Playfair Display + Inter).
@@ -650,6 +650,9 @@ html.light-theme{background:#e4eaf6 !important}
 /* Cyberpunk overrides */
 @keyframes destPulseCyber{0%,100%{box-shadow:0 0 0 0 rgba(0,240,255,.15)}50%{box-shadow:0 0 0 8px rgba(0,240,255,0)}}
 @keyframes itemPulseCyber{0%,100%{box-shadow:0 0 0 0 rgba(0,255,136,.3)}50%{box-shadow:0 0 0 8px rgba(0,255,136,0)}}
+@keyframes guestIntroFade{from{opacity:0}to{opacity:1}}
+.gi-dot.active{background:#5BC0BE!important;width:22px!important;border-radius:4px!important;box-shadow:0 0 10px rgba(91,192,190,0.7)}
+.gi-tip-dot.active{background:#5BC0BE!important;box-shadow:0 0 8px rgba(91,192,190,0.7)}
 </style>
 </head>
 <body>
@@ -667,7 +670,7 @@ html.light-theme{background:#e4eaf6 !important}
     <div class="intro-track-wrap">
       <div id="intro-track" class="intro-track">
         <section class="intro-page" data-page="0">
-          <div class="intro-kicker">5A+ TMC</div>
+          <div class="intro-kicker">5A+ SH TMC</div>
           <h1 class="intro-h1"><span class="intro-word">Toastmasters,</span><br><span class="intro-accent">reimagined.</span></h1>
           <p class="intro-sub">A club companion for your Pathways journey.</p>
         </section>
@@ -706,8 +709,11 @@ html.light-theme{background:#e4eaf6 !important}
 
 <!-- WELCOME -->
 <div id="welcome-screen" class="setup-screen">
-<div style="position:absolute;top:env(safe-area-inset-top,16px);right:16px;padding-top:12px"><button onclick="toggleWelcomeTheme()" id="theme-toggle-btn" style="background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.15);border-radius:50%;width:36px;height:36px;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center">🌙</button></div>
-<div class="setup-card" style="text-align:center">
+<div class="setup-card" style="text-align:center;position:relative">
+<div style="position:absolute;top:14px;right:14px;display:flex;gap:6px;align-items:center;z-index:5">
+<button onclick="showIOSInstallModal()" id="ios-install-btn" title="Install app" style="display:none;background:rgba(91,192,190,0.12);border:1px solid rgba(91,192,190,0.3);border-radius:50%;width:32px;height:32px;cursor:pointer;font-size:14px;align-items:center;justify-content:center;color:#5BC0BE;padding:0">📲</button>
+<button onclick="toggleWelcomeTheme()" id="theme-toggle-btn" style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:50%;width:32px;height:32px;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center">🌙</button>
+</div>
 <svg class="starfish-logo" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" width="120" height="120" style="margin-bottom:12px">
 <defs>
 <linearGradient id="arm1" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#5BC0BE"/><stop offset="100%" stop-color="#3A9E9B"/></linearGradient>
@@ -748,9 +754,8 @@ html.light-theme{background:#e4eaf6 !important}
 <text x="40" y="178" text-anchor="middle" font-size="7" font-weight="600" fill="#9B51E0" font-family="Source Sans 3,sans-serif" transform="rotate(20,40,178)">Adaptability</text>
 <text x="18" y="62" text-anchor="middle" font-size="7" font-weight="600" fill="#2180B9" font-family="Source Sans 3,sans-serif" transform="rotate(-30,18,62)">Action</text>
 </svg>
-<div class="setup-title">5A+ TMC App</div>
+<div class="setup-title">5A+ SH TMC</div>
 <div class="setup-sub" style="color:var(--t2);margin-bottom:20px">by Kian How</div>
-<div style="font-size:14px;color:var(--t3);margin-bottom:8px;letter-spacing:.02em">Thriving since 2009 · Shanghai</div>
 <div style="display:flex;justify-content:center;gap:5px;margin-bottom:24px;flex-wrap:wrap">
 <span data-value-pill style="font-size:12px;padding:4px 10px;border-radius:20px;background:rgba(91,192,190,0.1);color:#5BC0BE;border:1px solid rgba(91,192,190,0.2)">Attitude</span>
 <span data-value-pill style="font-size:12px;padding:4px 10px;border-radius:20px;background:rgba(232,184,48,0.1);color:#E8B830;border:1px solid rgba(232,184,48,0.2)">Aspiration</span>
@@ -763,33 +768,54 @@ html.light-theme{background:#e4eaf6 !important}
 <div id="welcome-next-date" style="font-size:16px;font-weight:700;color:var(--w)"></div>
 <div style="font-size:13px;color:var(--t3);margin-top:2px">Sundays · 16:40–18:00 · Shanghai</div>
 </div>
-<div style="font-size:13px;color:var(--t4);margin-bottom:20px;line-height:1.6">Track your path · Plan your speeches · Prep for any role</div>
 <button class="btn-pri" onclick="showMemberLogin()" style="margin-bottom:10px;background:linear-gradient(135deg,#5BC0BE,#3A9E9B);border:none;box-shadow:0 4px 15px rgba(91,192,190,0.3)">🔑 I'm a Member</button>
 <button class="btn-sec" onclick="showGuestPage()" style="border-color:rgba(255,255,255,0.15);color:var(--t2);font-size:15px;backdrop-filter:blur(4px)">👋 I'm a Guest</button>
 <div style="text-align:center;margin-top:14px"><button onclick="replayIntro()" style="background:none;border:none;color:var(--t4);font-size:12px;cursor:pointer;padding:4px 8px;text-decoration:underline;font-family:'Source Sans 3',sans-serif">👋 Replay intro</button></div>
-<div id="welcome-install" style="display:none;margin-top:16px;padding:14px;background:rgba(91,192,190,0.08);border:1px solid rgba(91,192,190,0.25);border-radius:12px;font-size:14px;color:var(--t2);line-height:1.5;text-align:center">
-<span style="font-size:22px">📲</span><br>
-<strong style="color:var(--t1);font-size:15px">Add to Home Screen</strong><br>
-<span id="install-instructions" style="display:inline-block;margin-top:4px"></span>
-<div style="margin-top:10px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap">
-<button id="install-btn" class="sb" onclick="installApp()" style="display:none;background:#5BC0BE;color:#fff;padding:8px 22px;font-size:14px;font-weight:600;border-radius:8px;border:none">Install</button>
-<button class="sb" onclick="dismissInstall()" style="background:transparent;color:var(--t4);padding:8px 14px;font-size:13px">Not now</button></div>
-</div>
 </div>
 </div>
 
 <!-- GUEST EXPERIENCE -->
 <div id="guest-screen" class="setup-screen glass-bg" style="display:none;padding:16px 0">
-<div class="setup-card" style="max-width:720px;padding:20px;border-radius:20px">
-<div class="setup-title" id="guest-title" style="display:none">Welcome to 5A+ TMC App!</div>
-<div id="guest-body">
-<div style="text-align:center;margin-bottom:20px">
-<div style="font-size:40px;margin-bottom:8px">👋</div>
-<div style="font-size:30px;font-weight:700;color:var(--w);margin-bottom:4px">Welcome, Guest!</div>
+
+<!-- Guest intro — 2 statement slides + 3 spotlight tips. Shown every time user
+     enters guest mode, unless they've tapped Skip before (remembered via
+     localStorage 'tm-guest-intro-skipped'). See showGuestIntro() in script. -->
+<div id="guest-intro-overlay" style="display:none;position:fixed;inset:0;z-index:9000;background:rgba(8,14,26,0.88);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);animation:guestIntroFade .35s ease">
+  <button onclick="skipGuestIntro()" style="position:absolute;top:calc(env(safe-area-inset-top,0px) + 16px);right:18px;background:rgba(255,255,255,0.08);border:1px solid rgba(91,192,190,0.3);color:#5BC0BE;padding:7px 14px;border-radius:18px;font-family:'Inter','Source Sans 3',sans-serif;font-size:13px;font-weight:600;cursor:pointer;z-index:10;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)">Skip intro ✕</button>
+  <!-- Statement slide box, centered -->
+  <div id="guest-intro-box" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:rgba(255,255,255,0.04);border:1px solid rgba(91,192,190,0.25);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-radius:24px;padding:44px 32px;max-width:440px;width:calc(100% - 40px);text-align:center;box-shadow:0 12px 48px rgba(0,0,0,0.5),0 0 80px rgba(91,192,190,0.15);transition:opacity .4s ease,transform .4s ease">
+    <div id="guest-intro-kicker" style="font-family:'Inter','Source Sans 3',sans-serif;font-size:11px;font-weight:700;color:#5BC0BE;letter-spacing:.22em;text-transform:uppercase;margin-bottom:18px;text-shadow:0 0 20px rgba(91,192,190,0.6)">For Guests</div>
+    <div id="guest-intro-h1" style="font-family:'Playfair Display','New York',Georgia,serif;font-size:42px;line-height:1.04;font-weight:900;letter-spacing:-.02em;color:#fff;margin:0 0 14px"></div>
+    <div id="guest-intro-sub" style="font-family:'Inter','Source Sans 3',sans-serif;font-size:16px;line-height:1.5;color:rgba(255,255,255,0.75);font-weight:500;margin:0"></div>
+    <div style="display:flex;justify-content:center;gap:6px;margin-top:26px">
+      <span class="gi-dot" data-i="0" style="width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,0.2);transition:all .3s"></span>
+      <span class="gi-dot" data-i="1" style="width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,0.2);transition:all .3s"></span>
+    </div>
+  </div>
+  <!-- Spotlight stage (for tips) — hidden when statement slides are showing -->
+  <div id="guest-intro-spotlight" style="display:none;position:absolute;inset:0">
+    <!-- Hole cutout is drawn via CSS box-shadow on the spotlight card itself -->
+    <div id="gi-spotlight-ring" style="position:absolute;pointer-events:none;box-shadow:0 0 0 9999px rgba(8,14,26,0.85);border-radius:16px;transition:top .4s ease,left .4s ease,width .4s ease,height .4s ease;border:2px solid #5BC0BE"></div>
+    <div id="gi-tip-card" style="position:absolute;background:#0a1628;border:1px solid rgba(91,192,190,0.4);border-radius:14px;padding:14px 16px;max-width:300px;box-shadow:0 12px 32px rgba(0,0,0,0.6),0 0 40px rgba(91,192,190,0.25);transition:all .4s ease">
+      <div id="gi-tip-title" style="font-family:'Inter','Source Sans 3',sans-serif;font-size:14px;font-weight:700;color:#5BC0BE;margin-bottom:6px"></div>
+      <div id="gi-tip-body" style="font-size:14px;color:rgba(255,255,255,0.85);line-height:1.5;margin-bottom:12px"></div>
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:10px">
+        <div style="display:flex;gap:4px">
+          <span class="gi-tip-dot" data-i="0" style="width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,0.2)"></span>
+          <span class="gi-tip-dot" data-i="1" style="width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,0.2)"></span>
+          <span class="gi-tip-dot" data-i="2" style="width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,0.2)"></span>
+        </div>
+        <button onclick="advanceGuestIntro()" id="gi-tip-next" style="background:linear-gradient(135deg,#5BC0BE,#2EE5D6);color:#0a1628;border:none;padding:7px 18px;border-radius:20px;font-size:13px;font-weight:700;cursor:pointer;font-family:'Inter','Source Sans 3',sans-serif">Next →</button>
+      </div>
+    </div>
+  </div>
 </div>
 
+<div class="setup-card" style="max-width:720px;padding:20px;border-radius:20px">
+<div class="setup-title" id="guest-title" style="display:none">Welcome to 5A+ SH TMC!</div>
+<div id="guest-body">
 <!-- About 5A+ — collapsible hero card (club takes precedence) -->
-<div class="tapcard" onclick="this.classList.toggle('expanded')" style="background:linear-gradient(135deg,rgba(91,192,190,0.10),rgba(123,167,204,0.10));border-radius:16px;padding:20px;margin-bottom:14px;border:1px solid rgba(91,192,190,0.25)">
+<div id="guest-tour-about" class="tapcard" onclick="this.classList.toggle('expanded')" style="background:linear-gradient(135deg,rgba(91,192,190,0.10),rgba(123,167,204,0.10));border-radius:16px;padding:20px;margin-bottom:14px;border:1px solid rgba(91,192,190,0.25)">
 <!-- Head: always visible -->
 <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
 <div style="display:flex;align-items:center;gap:10px">
@@ -830,7 +856,7 @@ html.light-theme{background:#e4eaf6 !important}
 </div>
 
 <!-- 6 cubes -->
-<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:20px">
+<div id="guest-tour-cubes" style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:20px">
 <div onclick="showGuestTryTT()" style="cursor:pointer;background:rgba(107,191,107,0.08);backdrop-filter:blur(8px);border:1px solid rgba(107,191,107,0.15);border-radius:16px;padding:18px 8px 14px;text-align:center;transition:all .15s">
 <div style="font-size:32px;margin-bottom:6px">💬</div>
 <div style="font-size:13px;font-weight:700;color:var(--w)">Try Table Topics</div>
@@ -1022,7 +1048,7 @@ html.light-theme{background:#e4eaf6 !important}
 <div style="text-align:center;margin-top:12px"><button class="btn-sec" onclick="resetGuest()" style="width:auto;padding:8px 20px;font-size:13px;color:var(--t4);border-color:var(--b1)">← Back to menu</button></div>
 </div>
 <div id="guest-footer" style="text-align:center;margin-top:12px">
-<button onclick="showGuestVisit()" style="width:100%;padding:14px 16px;background:var(--s1);border:1px solid var(--b1);border-radius:10px;color:var(--w);font-size:14px;font-weight:600;cursor:pointer;font-family:'Source Sans 3',sans-serif;display:inline-flex;align-items:center;justify-content:center;gap:10px;margin-bottom:10px;transition:all .15s"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#7BA7CC" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 7-8 13-8 13s-8-6-8-13a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/></svg>Visit Us &amp; Contact Details</button>
+<button id="guest-tour-visit" onclick="showGuestVisit()" style="width:100%;padding:14px 16px;background:var(--s1);border:1px solid var(--b1);border-radius:10px;color:var(--w);font-size:14px;font-weight:600;cursor:pointer;font-family:'Source Sans 3',sans-serif;display:inline-flex;align-items:center;justify-content:center;gap:10px;margin-bottom:10px;transition:all .15s"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#7BA7CC" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 7-8 13-8 13s-8-6-8-13a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/></svg>Visit Us &amp; Contact Details</button>
 <button class="btn-sec" onclick="backToWelcome()" style="width:auto;padding:6px 20px;font-size:13px;color:var(--t4);border-color:var(--b1)">← Back</button>
 </div>
 </div>
@@ -1031,7 +1057,7 @@ html.light-theme{background:#e4eaf6 !important}
 <!-- SETUP: Step 1 - Name & Code -->
 <div id="setup-screen" class="setup-screen glass-bg" style="display:none">
 <div class="setup-card">
-<div class="setup-title">5A+ TMC App</div>
+<div class="setup-title">5A+ SH TMC</div>
 <div class="setup-sub" style="margin-bottom:16px">by Kian How</div>
 <div id="step1">
 <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:12px;margin-bottom:16px;font-size:14px;color:var(--t2);line-height:1.5;text-align:center">
@@ -1113,7 +1139,7 @@ html.light-theme{background:#e4eaf6 !important}
 <div id="tab-roles" class="tc"><div id="roles-content"></div></div>
 <div id="tab-master" class="tc"><div id="master-content"></div></div>
 <div id="tab-club" class="tc"><div id="club-announcements"></div><div id="club-next-meeting" style="margin-top:16px"></div></div>
-<div class="app-footer">5A+ TMC App v9.0.18 · Built by Kian How</div>
+<div class="app-footer">5A+ SH TMC v9.0.25 · Built by Kian How</div>
 </div>
 
 <div class="bnav" id="bottom-nav"></div>
@@ -7502,7 +7528,7 @@ window.smartHelpAsk=function(){
   const doneCount=S?Object.values(S.done||{}).filter(Boolean).length:0;
   const totalProj=S?tP(S.path):0;
   
-  const sys="You are a warm, experienced Toastmasters mentor helping a member use the 5A+ TMC App. Answer their question concisely (under 150 words) with specific, actionable guidance.\n\n"
+  const sys="You are a warm, experienced Toastmasters mentor helping a member use the 5A+ SH TMC app. Answer their question concisely (under 150 words) with specific, actionable guidance.\n\n"
     +"IMPORTANT rules:\n"
     +"• Only answer questions about Toastmasters, public speaking, the Pathways program, meeting roles, or this app. If asked anything else (homework, general chat, coding, etc.), politely redirect: \"That's outside what I can help with — I'm focused on Toastmasters questions. Try asking your VPM on WeChat for anything else.\"\n"
     +"• Reference the app's specific features when relevant. App features include: My Path (levels, projects, destination), Planner (meeting dates, role booking), Role Toolkit (SOPs, Practice Studio, Script Templates, Filler Detector, WOD Generator, Topics Generator, Eval Assistant, GE Framework), AI Speech Coach (analyzes practiced speeches), Smart Suggestions (personalized next-actions), Plan Your Term (AI-powered planner).\n"
@@ -8826,7 +8852,135 @@ window.showGuestPage=function(){
   document.getElementById("welcome-screen").style.display="none";
   document.getElementById("guest-screen").style.display="flex";
   resetGuest();
+  // Play the guest intro every time — unless they explicitly skipped it before.
+  // Short delay so the guest screen has time to render before the overlay lands.
+  setTimeout(()=>{if(window.maybeShowGuestIntro)window.maybeShowGuestIntro();},120);
 };
+
+// ═══ GUEST INTRO — 2 statement slides + 3 spotlight tips ═══
+// Plays EVERY time the user enters guest mode (Kian's intent: remind each visit),
+// but only if they haven't hit "Skip intro ✕" previously. Skipping sets a
+// localStorage flag that persists across sessions.
+window._guestIntroStep=0;// 0..4 — slides 0,1 are statement, 2,3,4 are spotlight tips
+const GUEST_INTRO_SLIDES=[
+  {type:"slide",kicker:"For Guests",h1:"Welcome, Guest.",sub:"To 5A+ SH Toastmasters."},
+  {type:"slide",kicker:"Explore",h1:"This space is <span style=\"background:linear-gradient(135deg,#5BC0BE,#2EE5D6);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;font-style:italic\">for you.</span>",sub:"Learn about us, try our tools, and decide if it feels right."},
+  {type:"spot",target:"guest-tour-about",title:"🎙️ About 5A+",body:"Who we are, why we started, and what makes our club tick. Tap the card to expand the full story."},
+  {type:"spot",target:"guest-tour-cubes",title:"✨ Explore Hands-On",body:"Six tools — try Table Topics, take the path quiz, test the AI filler detector, and more. Most are interactive."},
+  {type:"spot",target:"guest-tour-visit",title:"📍 Come Visit",body:"Sundays 16:40–18:00 in central Shanghai. Bring a friend. First visit is free — we'd love to meet you."}
+];
+window.maybeShowGuestIntro=function(){
+  try{if(localStorage.getItem("tm-guest-intro-skipped")==="1")return false;}catch{}
+  const ov=document.getElementById("guest-intro-overlay");
+  if(!ov)return false;
+  window._guestIntroStep=0;
+  ov.style.display="block";
+  renderGuestIntroStep();
+  return true;
+};
+window.skipGuestIntro=function(){
+  try{localStorage.setItem("tm-guest-intro-skipped","1");}catch{}
+  finishGuestIntro();
+};
+window.finishGuestIntro=function(){
+  const ov=document.getElementById("guest-intro-overlay");
+  if(!ov)return;
+  ov.style.transition="opacity .35s ease";
+  ov.style.opacity="0";
+  setTimeout(()=>{ov.style.display="none";ov.style.opacity="";ov.style.transition="";},350);
+};
+window.advanceGuestIntro=function(){
+  window._guestIntroStep++;
+  if(window._guestIntroStep>=GUEST_INTRO_SLIDES.length){finishGuestIntro();return;}
+  renderGuestIntroStep();
+};
+// Clicking anywhere on the overlay (during statement slides) advances; spotlight
+// tips have an explicit Next button + can tap the highlighted element to advance too.
+function renderGuestIntroStep(){
+  const step=GUEST_INTRO_SLIDES[window._guestIntroStep];
+  if(!step)return;
+  const overlay=document.getElementById("guest-intro-overlay");
+  const box=document.getElementById("guest-intro-box");
+  const spot=document.getElementById("guest-intro-spotlight");
+  if(step.type==="slide"){
+    // Statement slide mode: full dark backdrop + blur, centered box on top.
+    if(overlay){
+      overlay.style.background="rgba(8,14,26,0.88)";
+      overlay.style.backdropFilter="blur(18px)";
+      overlay.style.webkitBackdropFilter="blur(18px)";
+    }
+    if(spot)spot.style.display="none";
+    if(box){
+      box.style.display="block";
+      box.style.opacity="0";box.style.transform="translate(-50%,-46%)";
+      setTimeout(()=>{box.style.opacity="1";box.style.transform="translate(-50%,-50%)";},30);
+    }
+    document.getElementById("guest-intro-kicker").textContent=step.kicker;
+    document.getElementById("guest-intro-h1").innerHTML=step.h1;
+    document.getElementById("guest-intro-sub").innerHTML=step.sub;
+    // Update statement dots
+    document.querySelectorAll(".gi-dot").forEach(d=>{
+      const i=parseInt(d.dataset.i,10);
+      d.classList.toggle("active",i===window._guestIntroStep);
+    });
+    // Tap the box to advance
+    if(box)box.onclick=advanceGuestIntro;
+  }else if(step.type==="spot"){
+    // Spotlight mode: the RING creates its own dark cutout via massive box-shadow.
+    // Overlay's own background/blur must come OFF so the cutout reveals content.
+    if(overlay){
+      overlay.style.background="transparent";
+      overlay.style.backdropFilter="none";
+      overlay.style.webkitBackdropFilter="none";
+    }
+    if(box)box.style.display="none";
+    if(spot)spot.style.display="block";
+    const target=document.getElementById(step.target);
+    const ring=document.getElementById("gi-spotlight-ring");
+    const card=document.getElementById("gi-tip-card");
+    if(!target||!ring||!card)return;
+    // Ensure target is scrolled into view
+    target.scrollIntoView({behavior:"smooth",block:"center"});
+    // Measure after scroll completes (~350ms)
+    setTimeout(()=>{
+      const r=target.getBoundingClientRect();
+      const pad=8;
+      ring.style.top=(r.top-pad)+"px";
+      ring.style.left=(r.left-pad)+"px";
+      ring.style.width=(r.width+pad*2)+"px";
+      ring.style.height=(r.height+pad*2)+"px";
+      // Place tip card below target if space; else above
+      const vh=window.innerHeight;
+      const cardH=180;// approximate
+      const belowY=r.bottom+16;
+      const aboveY=r.top-cardH-16;
+      let y,x;
+      if(belowY+cardH<vh-20){y=belowY;}
+      else if(aboveY>20){y=aboveY;}
+      else{y=Math.max(20,Math.min(vh-cardH-20,r.top));}
+      // Horizontal: center on target, clamp to viewport
+      const vw=window.innerWidth;
+      const cardW=Math.min(300,vw-32);
+      x=Math.max(16,Math.min(vw-cardW-16,r.left+r.width/2-cardW/2));
+      card.style.top=y+"px";
+      card.style.left=x+"px";
+      card.style.right="auto";
+      card.style.maxWidth=cardW+"px";
+    },380);
+    document.getElementById("gi-tip-title").textContent=step.title;
+    document.getElementById("gi-tip-body").textContent=step.body;
+    // Update tip dots
+    const tipIdx=window._guestIntroStep-2;
+    document.querySelectorAll(".gi-tip-dot").forEach(d=>{
+      const i=parseInt(d.dataset.i,10);
+      d.classList.toggle("active",i===tipIdx);
+    });
+    // Last tip: change button to "Got it"
+    const btn=document.getElementById("gi-tip-next");
+    if(btn)btn.textContent=(window._guestIntroStep===GUEST_INTRO_SLIDES.length-1)?"Got it ✓":"Next →";
+  }
+}
+
 window.resetGuest=function(){
   ["guest-body","guest-footer"].forEach(id=>{const el=document.getElementById(id);if(el)el.style.display="block";});
   ["guest-result","guest-roles","guest-about","guest-join","guest-visit","guest-howworks","guest-try-tt","guest-role-explorer","guest-path-quiz","guest-next-meeting"].forEach(id=>{const el=document.getElementById(id);if(el)el.style.display="none";});
@@ -10210,71 +10364,91 @@ if(localStorage.getItem("tm-welcome-theme")==="light"){
   }).catch(()=>{});
 })();
 
-// PWA Install Prompt
+// ═══ PWA INSTALL — Option D ═══
+// Android (Chrome/Edge/Samsung): we get a `beforeinstallprompt` event. Stash it,
+// then auto-call prompt() after a short delay once the user is on the welcome
+// screen. This triggers the native OS install dialog — no custom UI in our app,
+// maximally premium.
+// iOS Safari: no install API exists. Show a small 📲 icon in the welcome screen
+// corner that opens a bottom-sheet modal with Share→Add-to-Home-Screen instructions.
 let deferredPrompt=null;
 window.addEventListener("beforeinstallprompt",e=>{
   e.preventDefault();
   deferredPrompt=e;
-  showInstallHint();
+  maybeAutoPromptAndroid();
 });
 
-// Single source of truth — shows the banner with platform-appropriate copy + button
-function showInstallHint(){
+// Fire the native install prompt on Android automatically — but only when
+// (a) we have a deferredPrompt, (b) the user hasn't dismissed before,
+// (c) they're not already in the installed standalone app, and
+// (d) the welcome screen is currently visible (don't interrupt the dashboard).
+function maybeAutoPromptAndroid(){
+  if(!deferredPrompt)return;
   if(localStorage.getItem("tm-pw-install-dismissed"))return;
-  if(window.matchMedia("(display-mode:standalone)").matches)return;// already installed
-  const el=document.getElementById("welcome-install");
-  const ins=document.getElementById("install-instructions");
-  const btn=document.getElementById("install-btn");
-  if(!el||!ins)return;
-  if(deferredPrompt){
-    // Android/Chrome/Edge/Samsung — real install prompt available
-    ins.innerHTML='Tap <strong>Install</strong> to add 5A+ TMC to your home screen — works offline and feels like a real app.';
-    if(btn){btn.textContent="Install";btn.style.display="inline-block";}
-  }else{
-    const isIOS=/iPad|iPhone|iPod/.test(navigator.userAgent);
-    const isSafari=/Safari/.test(navigator.userAgent)&&!/Chrome|CriOS|FxiOS/.test(navigator.userAgent);
-    if(isIOS||isSafari){
-      ins.innerHTML='Tap <strong>Share</strong> ⎙ at the bottom, then choose <strong>"Add to Home Screen"</strong>.';
-      if(btn)btn.style.display="none";// no real install API on iOS
-    }else if(/Android/.test(navigator.userAgent)){
-      // Android but no prompt yet — manifest/SW may not have qualified, or user needs more engagement
-      ins.innerHTML='Tap your browser menu <strong>⋮</strong> then <strong>"Add to Home Screen"</strong>. <span style="font-size:11px;color:var(--t4)">(For best results, use Chrome.)</span>';
-      if(btn)btn.style.display="none";
-    }else{
-      ins.innerHTML='Use your browser menu to add this app to your home screen.';
-      if(btn)btn.style.display="none";
-    }
-  }
-  el.style.display="block";
-}
-
-window.installApp=function(){
-  if(deferredPrompt){
+  if(window.matchMedia("(display-mode:standalone)").matches)return;
+  const ws=document.getElementById("welcome-screen");
+  if(!ws||ws.style.display==="none")return;// only while welcome is showing
+  // Tiny delay so the page can settle before the OS dialog fires
+  setTimeout(()=>{
+    if(!deferredPrompt)return;
     deferredPrompt.prompt();
     deferredPrompt.userChoice.then(r=>{
       if(r.outcome==="accepted"){sT("🎉 App installed!");}
+      // Whether accepted or dismissed, mark so we don't auto-fire again
+      localStorage.setItem("tm-pw-install-dismissed","1");
       deferredPrompt=null;
-      const el=document.getElementById("welcome-install");
-      if(el)el.style.display="none";
-    });
+    }).catch(()=>{deferredPrompt=null;});
+  },2500);
+}
+
+// iOS / non-Android devices: reveal the small 📲 icon in the welcome corner
+// so users can opt-in to see Add-to-Home-Screen instructions.
+function maybeShowIOSInstallIcon(){
+  if(localStorage.getItem("tm-pw-install-dismissed"))return;
+  if(window.matchMedia("(display-mode:standalone)").matches)return;
+  const isIOS=/iPad|iPhone|iPod/.test(navigator.userAgent);
+  const isAndroid=/Android/.test(navigator.userAgent);
+  // Show icon on iOS always; on desktop/other show it too (harmless, nice option).
+  // Android with deferredPrompt uses auto-prompt instead, so hide icon there.
+  if(isAndroid&&deferredPrompt)return;
+  const btn=document.getElementById("ios-install-btn");
+  if(btn)btn.style.display="flex";
+  // Store platform hint so the modal knows what to show
+  window._installPlatform=isIOS?"ios":isAndroid?"android-manual":"desktop";
+}
+
+// Small bottom-sheet modal with Add-to-Home-Screen instructions
+window.showIOSInstallModal=function(){
+  const mr=document.getElementById("modal-root");
+  if(!mr)return;
+  const plat=window._installPlatform||"ios";
+  let instructions="";
+  if(plat==="ios"){
+    instructions='<div style="font-size:15px;color:var(--t1);line-height:1.7"><strong style="color:#5BC0BE">1.</strong> Tap the Share button <span style="font-size:18px">⎙</span> at the bottom of Safari<br><strong style="color:#5BC0BE">2.</strong> Scroll and tap <strong>"Add to Home Screen"</strong><br><strong style="color:#5BC0BE">3.</strong> Tap <strong>Add</strong> in the top right</div>';
+  }else if(plat==="android-manual"){
+    instructions='<div style="font-size:15px;color:var(--t1);line-height:1.7"><strong style="color:#5BC0BE">1.</strong> Tap the menu <span style="font-size:18px">⋮</span> in your browser<br><strong style="color:#5BC0BE">2.</strong> Tap <strong>"Add to Home Screen"</strong> or <strong>"Install app"</strong><br><br><span style="font-size:13px;color:var(--t4)">Works best in Chrome.</span></div>';
   }else{
-    // Shouldn't happen since button is hidden when no deferredPrompt — defensive fallback
-    const isIOS=/iPad|iPhone|iPod/.test(navigator.userAgent);
-    if(isIOS)sT("Tap Share ⎙ then 'Add to Home Screen'");
-    else sT("Use browser menu ⋮ → 'Add to Home Screen'");
+    instructions='<div style="font-size:15px;color:var(--t1);line-height:1.7">Open your browser menu and choose <strong>"Install app"</strong> or <strong>"Add to home screen"</strong>.</div>';
   }
+  let h='<div class="modal-bg" onclick="closeModal(event)"><div class="modal" onclick="event.stopPropagation()" style="max-width:360px;text-align:center">';
+  h+='<div style="font-size:42px;margin-bottom:8px">📲</div>';
+  h+='<div class="modal-title" style="margin-bottom:6px">Install 5A+ SH TMC</div>';
+  h+='<div style="font-size:13px;color:var(--t3);margin-bottom:18px">Add it to your home screen for a real-app feel — works offline, launches instantly.</div>';
+  h+='<div style="background:var(--s0);border-radius:10px;padding:14px 16px;text-align:left;margin-bottom:16px">'+instructions+'</div>';
+  h+='<button class="modal-close" style="width:100%" onclick="closeModal()">Got it</button>';
+  h+='<div style="margin-top:10px"><button onclick="dismissInstall();closeModal()" style="background:none;border:none;color:var(--t4);font-size:12px;cursor:pointer;text-decoration:underline">Don\'t show the icon again</button></div>';
+  h+='</div></div>';
+  mr.innerHTML=h;
 };
 
 window.dismissInstall=function(){
   localStorage.setItem("tm-pw-install-dismissed","1");
-  const b=document.getElementById("install-banner");if(b)b.remove();
-  const w=document.getElementById("welcome-install");if(w)w.style.display="none";
+  const btn=document.getElementById("ios-install-btn");if(btn)btn.style.display="none";
 };
 
-// Initial show after short delay — gives Chrome on Android time to fire beforeinstallprompt first
-// so the banner comes up already showing the real Install button rather than flipping text
+// Reveal the iOS/manual icon once welcome screen is visible
 if(!window.matchMedia("(display-mode:standalone)").matches&&!localStorage.getItem("tm-pw-install-dismissed")){
-  setTimeout(()=>showInstallHint(),1500);
+  setTimeout(()=>maybeShowIOSInstallIcon(),1500);
 }
 </script>
 </body>
