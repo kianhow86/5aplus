@@ -24,39 +24,10 @@
 @font-face{font-family:'DM Mono';font-weight:400;font-style:normal;src:local('SF Mono'),local('Menlo'),local('Consolas')}
 </style>
 <script>
-// Async Firebase loader — won't block page if unreachable
+// v9.0 — Firebase removed. Sync now via Netlify Blobs over HTTP.
+// loadFirebase() kept as a resolved-promise stub so existing call sites don't need to change.
 window._fbReady=false;
-function loadFirebase(){
-  return new Promise(function(resolve){
-    // Try multiple CDNs — jsdelivr is often blocked in China, so fall back progressively
-    const CDNS=[
-      "https://cdn.jsdelivr.net/npm/firebase@10.12.0",
-      "https://unpkg.com/firebase@10.12.0",
-      "https://cdn.staticfile.net/firebase/10.12.0"// China-accessible CDN
-    ];
-    let done=false;
-    function finish(ok){if(done)return;done=true;clearTimeout(timeout);resolve(ok);}
-    var timeout=setTimeout(function(){console.warn("Firebase load timed out — running offline");finish(false);},3500);
-    function tryLoadFrom(idx){
-      if(done)return;
-      if(idx>=CDNS.length){console.warn("All Firebase CDNs failed — running offline");finish(false);return;}
-      const base=CDNS[idx];
-      var s1=document.createElement("script");
-      s1.src=base+"/firebase-app-compat.min.js";
-      s1.onload=function(){
-        if(done)return;
-        var s2=document.createElement("script");
-        s2.src=base+"/firebase-database-compat.min.js";
-        s2.onload=function(){window._fbReady=true;finish(true);};
-        s2.onerror=function(){tryLoadFrom(idx+1);};
-        document.head.appendChild(s2);
-      };
-      s1.onerror=function(){tryLoadFrom(idx+1);};
-      document.head.appendChild(s1);
-    }
-    tryLoadFrom(0);
-  });
-}
+function loadFirebase(){return Promise.resolve(false);}
 </script>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -1041,7 +1012,7 @@ a{color:var(--info);text-decoration:none}
 <div id="tab-roles" class="tc"><div id="roles-content"></div></div>
 <div id="tab-master" class="tc"><div id="master-content"></div></div>
 <div id="tab-club" class="tc"><div id="club-announcements"></div><div id="club-next-meeting" style="margin-top:16px"></div></div>
-<div class="app-footer">5A+ TMC App v8.61 · Built by Kian How</div>
+<div class="app-footer">5A+ TMC App v9.0-beta · Built by Kian How</div>
 </div>
 
 <div class="bnav" id="bottom-nav"></div>
@@ -1380,74 +1351,286 @@ const SOP_PRACTICAL=[
 ];
 
 // ═══ STATE & FIREBASE ═══
-let S=null,cTab="path",cLv=1,sE=false,oD=null,db=null,fbOk=false;
+let S=null,cTab="path",cLv=1,sE=false,oD=null;
 let allMembers={},clubData={dates:[],skipped:{},settings:{speechSlots:3,roleSlots:5}};
+// v9.0: fbOk is now a live alias for window._apiOk (the HTTP backend health flag).
+// Kept as a property getter/setter so existing code using `fbOk` keeps working.
+Object.defineProperty(window,"fbOk",{
+  get:function(){return !!window._apiOk;},
+  set:function(v){window._apiOk=!!v;}
+});
 const cS='<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';
 function sT(m){const el=document.getElementById("toast");el.textContent=m;el.classList.add("show");setTimeout(()=>el.classList.remove("show"),2500);}
 
-const FB_CONFIG={apiKey:"AIzaSyCwTdM3AY8IvniKukfYf_IVGbvITZmle3Q",authDomain:"awesome-project-1-c239b.firebaseapp.com",databaseURL:"https://awesome-project-1-c239b-default-rtdb.asia-southeast1.firebasedatabase.app",projectId:"awesome-project-1-c239b",storageBucket:"awesome-project-1-c239b.firebasestorage.app",messagingSenderId:"674859487801",appId:"1:674859487801:web:24ffc630fbb3b21087f3e8"};
-
 function nameKey(n){return n.toLowerCase().replace(/[^a-z0-9]/g,"-").replace(/-+/g,"-").replace(/^-|-$/g,"")}
 
-function initFB(cb){
-  if(!window._fbReady||typeof firebase==="undefined"){fbOk=false;updSync();if(cb)cb();return;}
-  try{if(!firebase.apps.length)firebase.initializeApp(FB_CONFIG);db=firebase.database();
-    // Only mark fbOk=true when we actually RECEIVE data from the database.
-    // .info/connected can falsely report true in partial-connectivity scenarios (GFW).
-    let connTimeout=setTimeout(function(){
-      if(!fbOk){console.warn("Firebase data didn't arrive within 4s — marking offline");fbOk=false;updSync();if(cb){cb();cb=null;}}
-    },4000);
-    // Set up listeners — fbOk flips true only when real data lands
-    db.ref("clubs/"+S.club+"/members").on("value",snap=>{
-      const val=snap.val();
-      if(!fbOk){fbOk=true;clearTimeout(connTimeout);updSync();if(cb){cb();cb=null;}}
-      allMembers=val||{};rCl();if(S.role==="master"||S.role==="vpe")rMaster();
-    },err=>{console.warn("members ref error:",err);});
-    db.ref("clubs/"+S.club+"/club").on("value",snap=>{
-      const d=snap.val();
-      if(d&&!fbOk){fbOk=true;clearTimeout(connTimeout);updSync();if(cb){cb();cb=null;}}
-      if(d){clubData=d;rPl();rClubAnnouncements();rCl();buildNav();if(S.role==="master"||S.role==="vpe")rMaster();}
-    },err=>{console.warn("club ref error:",err);});
-  }catch(e){console.error(e);fbOk=false;updSync();if(cb)cb();}
+// ═══ v9.0 BACKWARD-COMPATIBLE WRAPPERS ═══
+// These preserve the old function names so the rest of the app doesn't need to change.
+// Under the hood, they now call the HTTP-based sync layer (defined below).
+
+// initFB was the Firebase init entry point — now starts HTTP polling
+function initFB(cb){initSync(cb);}
+
+// loadFromFB was the one-shot member record loader — now an HTTP GET
+function loadFromFB(club,name,role,callback){loadMemberData(club,name,role,callback);}
+
+// syncMe / syncClub were fire-and-forget writes — now HTTP POSTs
+function syncMe(){apiSyncMe();}
+function syncClub(){apiSyncClub();}
+
+// ═════════════════════════════════════════════════════════════════════════════
+// ═══ v9.0 SYNC LAYER — Netlify Blobs via HTTP (replaces Firebase) ═══
+// ═════════════════════════════════════════════════════════════════════════════
+// Design: polling-based sync. Every 15s while app is focused, fetch the club +
+// members blobs and compare to current state. Re-render on any change.
+// Local writes are optimistic (update local state immediately + POST to server).
+// Uses S.authCode (the club code the user typed at login) to authenticate writes.
+
+const API_BASE = "/.netlify/functions/data";
+const POLL_INTERVAL_MS = 15000;
+
+// Connection state for the new backend
+window._apiOk = false;
+let _pollTimer = null;
+let _lastTickAt = 0;
+let _pendingWrites = 0; // count of in-flight writes — used to delay polls briefly
+
+// ─── Low-level API helpers ───
+async function apiRead(path) {
+  try {
+    const res = await fetch(API_BASE + "?op=read&path=" + encodeURIComponent(path), {
+      method: "GET",
+      cache: "no-store"
+    });
+    if (!res.ok) throw new Error("read failed: " + res.status);
+    const body = await res.json();
+    return body.value;
+  } catch (e) {
+    console.warn("apiRead failed:", path, e.message);
+    return undefined;// undefined signals error; null is valid "not found"
+  }
 }
 
-// Try to load existing member data from Firebase by name
-// Critical: Firebase's once() never rejects on network failure — it retries silently forever.
-// We wrap it in a 4-second timeout so the UI doesn't hang if the DB is unreachable (e.g. GFW block).
-function loadFromFB(club,name,role,callback){
-  if(!window._fbReady||typeof firebase==="undefined"){callback(false);return;}
-  let done=false;
-  const finish=function(found){if(done)return;done=true;callback(found);};
-  // Hard timeout — if Firebase doesn't respond in 4s, proceed as "not found" (new user flow)
-  setTimeout(function(){
-    if(!done){console.warn("Firebase database unreachable — proceeding offline");fbOk=false;updSync();finish(false);}
-  },4000);
-  try{if(!firebase.apps.length)firebase.initializeApp(FB_CONFIG);db=firebase.database();
-    const key=nameKey(name);
-    db.ref("clubs/"+club+"/members/"+key).once("value").then(snap=>{
-      // Data actually arrived — we're truly online
-      fbOk=true;updSync();
-      const existing=snap.val();
-      if(existing&&existing.path){
-        // Found existing member — restore their data
-        S={uid:key,name:existing.name||name,club:club,path:existing.path,done:existing.done||{},sel:existing.sel||{},
-          plan:existing.plan||{goal:"",notes:"",slots:{}},role:role,cLv:existing.level||1,testMode:false,
-          paths:existing.paths,activePathIdx:existing.activePathIdx};
-        // Ensure paths structure exists (migrate legacy single-path to the paths array)
-        migratePaths(S);
-        syncActiveToFlat();
-        sv();finish(true);
-      }else{finish(false);}
-    }).catch(()=>{fbOk=false;updSync();finish(false);});
-  }catch(e){console.error(e);fbOk=false;updSync();finish(false);}
+async function apiList(prefix) {
+  try {
+    const res = await fetch(API_BASE + "?op=list&prefix=" + encodeURIComponent(prefix), {
+      method: "GET",
+      cache: "no-store"
+    });
+    if (!res.ok) throw new Error("list failed: " + res.status);
+    const body = await res.json();
+    return body.values || {};
+  } catch (e) {
+    console.warn("apiList failed:", prefix, e.message);
+    return undefined;
+  }
 }
 
-function syncMe(){if(!db||!S||S.testMode)return;const key=nameKey(S.name);
-  const myRec={name:S.name,path:S.path,done:S.done||{},sel:S.sel||{},plan:S.plan||{},role:S.role,completedCount:Object.values(S.done||{}).filter(Boolean).length,level:S.cLv||1,paths:S.paths||null,activePathIdx:S.activePathIdx!=null?S.activePathIdx:0,updatedAt:Date.now()};
-  // Update local cache immediately so same-turn renders see the new data (Firebase roundtrip is async)
-  if(allMembers)allMembers[key]=myRec;
-  db.ref("clubs/"+S.club+"/members/"+key).set(myRec);}
-function syncClub(){if(!db||!S||S.testMode)return;db.ref("clubs/"+S.club+"/club").set(clubData);}
+async function apiWrite(path, value) {
+  if (!S || !S.authCode) {
+    console.warn("apiWrite: no authCode — skipping");
+    return false;
+  }
+  _pendingWrites++;
+  try {
+    const res = await fetch(API_BASE, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ op: "write", path, value, clubCode: S.authCode })
+    });
+    if (!res.ok) {
+      console.warn("apiWrite failed:", path, res.status);
+      return false;
+    }
+    return true;
+  } catch (e) {
+    console.warn("apiWrite error:", path, e.message);
+    return false;
+  } finally {
+    _pendingWrites--;
+  }
+}
+
+async function apiDelete(path) {
+  if (!S || !S.authCode) return false;
+  try {
+    const res = await fetch(API_BASE, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ op: "delete", path, clubCode: S.authCode })
+    });
+    return res.ok;
+  } catch { return false; }
+}
+
+// ─── Core sync operations ───
+
+// Load single member record on login (replaces loadFromFB)
+// Signature matches loadFromFB: (club, name, role, callback) → callback(foundBoolean)
+async function loadMemberData(club, name, role, callback) {
+  // Hard 4s timeout so a dead backend doesn't hang the login UI
+  let done = false;
+  const finish = function(found) { if (done) return; done = true; callback(found); };
+  const timeout = setTimeout(function() {
+    if (!done) { console.warn("Backend unreachable — proceeding offline"); window._apiOk = false; updSync(); finish(false); }
+  }, 4000);
+
+  try {
+    const key = nameKey(name);
+    const existing = await apiRead("clubs/" + club + "/members/" + key);
+    clearTimeout(timeout);
+    if (existing === undefined) {
+      // Network/server error (not just missing blob)
+      window._apiOk = false; updSync(); finish(false);
+      return;
+    }
+    window._apiOk = true; updSync();
+
+    if (existing && existing.path) {
+      S = {
+        uid: key, name: existing.name || name, club: club,
+        path: existing.path, done: existing.done || {}, sel: existing.sel || {},
+        plan: existing.plan || { goal: "", notes: "", slots: {} },
+        role: role, cLv: existing.level || 1, testMode: false,
+        paths: existing.paths, activePathIdx: existing.activePathIdx,
+        authCode: S && S.authCode ? S.authCode : null // preserved by caller
+      };
+      migratePaths(S);
+      syncActiveToFlat();
+      sv();
+      finish(true);
+    } else {
+      finish(false);
+    }
+  } catch (e) {
+    console.error("loadMemberData error:", e);
+    clearTimeout(timeout);
+    window._apiOk = false; updSync();
+    finish(false);
+  }
+}
+
+// Write current user's record to server (replaces Firebase syncMe)
+async function apiSyncMe() {
+  if (!S || S.testMode) return;
+  const key = nameKey(S.name);
+  const myRec = {
+    name: S.name, path: S.path, done: S.done || {}, sel: S.sel || {}, plan: S.plan || {},
+    role: S.role, completedCount: Object.values(S.done || {}).filter(Boolean).length,
+    level: S.cLv || 1, paths: S.paths || null,
+    activePathIdx: S.activePathIdx != null ? S.activePathIdx : 0,
+    updatedAt: Date.now()
+  };
+  // Optimistic local update so renders see fresh data immediately
+  if (allMembers) allMembers[key] = myRec;
+  const ok = await apiWrite("clubs/" + S.club + "/members/" + key, myRec);
+  if (!ok) {
+    window._apiOk = false;
+    updSync();
+  }
+}
+
+// Write clubData (announcements, dates, settings, meetingOverrides)
+async function apiSyncClub() {
+  if (!S || S.testMode) return;
+  const ok = await apiWrite("clubs/" + S.club + "/club", clubData);
+  if (!ok) { window._apiOk = false; updSync(); }
+}
+
+// ─── Polling tick: fetch latest club + members, re-render on change ───
+async function syncTick() {
+  if (!S || S.testMode) return;
+  if (_pendingWrites > 0) return; // wait for in-flight writes to settle
+  _lastTickAt = Date.now();
+
+  // Fire both in parallel — they're independent
+  const [clubVal, membersMap] = await Promise.all([
+    apiRead("clubs/" + S.club + "/club"),
+    apiList("clubs/" + S.club + "/members/")
+  ]);
+
+  // Connection status: both reads must NOT be undefined to claim "synced"
+  if (clubVal === undefined || membersMap === undefined) {
+    if (window._apiOk) { window._apiOk = false; updSync(); }
+    return;
+  }
+  if (!window._apiOk) { window._apiOk = true; updSync(); }
+
+  // Diff + re-render only if changed (cheap hash via JSON.stringify)
+  let changedClub = false, changedMembers = false;
+
+  if (clubVal) {
+    const newClubStr = JSON.stringify(clubVal);
+    if (newClubStr !== window._lastClubStr) {
+      clubData = clubVal;
+      window._lastClubStr = newClubStr;
+      changedClub = true;
+    }
+  }
+
+  // membersMap is { "clubs/5aplus/members/kian-how": {...}, ... }
+  // Convert to the flat { "kian-how": {...} } shape that allMembers uses
+  const newMembers = {};
+  const prefix = "clubs/" + S.club + "/members/";
+  Object.keys(membersMap).forEach(p => {
+    if (p.startsWith(prefix)) {
+      const nk = p.slice(prefix.length);
+      newMembers[nk] = membersMap[p];
+    }
+  });
+  // Preserve OUR own record from local S — prevents polling from overwriting
+  // any in-flight local changes that haven't been synced yet.
+  const myKey = nameKey(S.name);
+  if (S && !S.testMode) {
+    newMembers[myKey] = {
+      name: S.name, path: S.path, done: S.done || {}, sel: S.sel || {}, plan: S.plan || {},
+      role: S.role, completedCount: Object.values(S.done || {}).filter(Boolean).length,
+      level: S.cLv || 1, paths: S.paths || null,
+      activePathIdx: S.activePathIdx != null ? S.activePathIdx : 0
+    };
+  }
+  const newMembersStr = JSON.stringify(newMembers);
+  if (newMembersStr !== window._lastMembersStr) {
+    allMembers = newMembers;
+    window._lastMembersStr = newMembersStr;
+    changedMembers = true;
+  }
+
+  // Re-render as needed
+  if (changedClub) { rPl(); rClubAnnouncements(); buildNav(); }
+  if (changedMembers) rCl();
+  if ((changedClub || changedMembers) && (S.role === "master" || S.role === "vpe")) rMaster();
+}
+
+// ─── Lifecycle: start/stop polling ───
+function startSyncPolling() {
+  if (_pollTimer) clearInterval(_pollTimer);
+  // Immediate tick + regular interval
+  syncTick();
+  _pollTimer = setInterval(syncTick, POLL_INTERVAL_MS);
+}
+function stopSyncPolling() {
+  if (_pollTimer) { clearInterval(_pollTimer); _pollTimer = null; }
+}
+
+// Pause when app is backgrounded, resume on focus
+document.addEventListener("visibilitychange", function() {
+  if (document.hidden) {
+    stopSyncPolling();
+  } else if (S && !S.testMode) {
+    // On return, tick immediately (user may have been away for a while)
+    startSyncPolling();
+  }
+});
+
+// initSync replaces initFB — no SDK to load, just start the polling loop
+function initSync(cb) {
+  if (!S || S.testMode) { window._apiOk = false; updSync(); if (cb) cb(); return; }
+  startSyncPolling();
+  // Callback after first tick completes (best-effort; we don't block on it)
+  setTimeout(() => { if (cb) cb(); }, 500);
+}
+
 function updSync(){
   const b=document.getElementById("sync-badge");
   if(b){
@@ -2736,37 +2919,40 @@ function matchBookedToTemplate(bookedLabel,bookedType,bookedPid,bookedPathCode){
 // One-time seeding of club members so they appear in the admin picker + meeting plan
 // even before they've logged in. Call via the admin UI or browser console:
 // seedClubRoster(["Alex Fang","Bailey Ji",...])
-window.seedClubRoster=function(names){
-  if(!db||!S){alert("Firebase not ready — log in as admin first");return;}
+window.seedClubRoster=async function(names){
+  if(!S||!window._apiOk){alert("Server not reachable — try again in a moment");return;}
   if(S.role!=="master"){alert("Only master can seed roster");return;}
   if(!Array.isArray(names)||!names.length){alert("Pass an array of names");return;}
-  const updates={};
-  let added=0,skipped=0;
+  let added=0,skipped=0,failed=0;
+  const writes=[];
   names.forEach(n=>{
     const name=String(n||"").trim();
     if(!name)return;
     const key=nameKey(name);
     // Skip if this member already exists — don't overwrite real data
     if(allMembers&&allMembers[key]){skipped++;return;}
-    // Placeholder record — members will overwrite on first login
-    updates["clubs/"+S.club+"/members/"+key]={
+    const rec={
       name:name,
       path:"DL",// default — members pick their actual path on first login
       done:{},sel:{},plan:{goal:"",notes:"",slots:{}},
       role:"member",level:1,completedCount:0,
       seeded:true,seededAt:Date.now()
     };
-    added++;
+    writes.push(apiWrite("clubs/"+S.club+"/members/"+key,rec).then(ok=>{
+      if(ok){added++;if(allMembers)allMembers[key]=rec;}else{failed++;}
+    }));
   });
-  if(!added){
+  if(!writes.length){
     sT("No new members to add ("+skipped+" already exist)");
     return;
   }
-  db.ref().update(updates).then(()=>{
-    sT("✓ Added "+added+" members"+(skipped?" ("+skipped+" already existed)":""));
-  }).catch(err=>{
+  try{
+    await Promise.all(writes);
+    sT("✓ Added "+added+" members"+(skipped?" ("+skipped+" existed)":"")+(failed?" · "+failed+" failed":""));
+    syncTick();// refresh immediately
+  }catch(err){
     alert("Failed to seed: "+err.message);
-  });
+  }
 };
 
 // Convenience: seed the 5A+ roster in one call.
@@ -3241,51 +3427,77 @@ window.adminPickMember=function(date,slotLabel,pickedUid,currentUid){
   }
   
   // Write to picked member's plan
-  if(!db){alert("Firebase not ready — try again in a moment");return;}
-  const memberRef=db.ref("clubs/"+S.club+"/members/"+pickedUid+"/plan/slots/"+date);
-  memberRef.once("value").then(snap=>{
-    const existing=snap.val()||[];
-    // Check for conflict (admin override is still subject to hard rules for non-admin booking — BUT with the user's choice "Any member can be assigned to any role", we skip eligibility gate but still enforce singleton conflicts)
-    // Unassign current holder first (if reassigning)
-    const unassignPromise=currentUid?db.ref("clubs/"+S.club+"/members/"+currentUid+"/plan/slots/"+date).once("value").then(s=>{
-      const arr=s.val()||[];
-      const filtered=arr.filter(x=>normalizeRoleName(x.label)!==normalizeRoleName(label));
-      return db.ref("clubs/"+S.club+"/members/"+currentUid+"/plan/slots/"+date).set(filtered.length?filtered:null);
-    }):Promise.resolve();
-    
-    return unassignPromise.then(()=>{
-      const newArr=existing.concat([{type,label,assignedBy:"admin"}]);
-      return memberRef.set(newArr);
-    });
-  }).then(()=>{
-    closeModal();
-    sT("✓ "+picked.name+" assigned to "+slotLabel);
-    rMaster();
-  }).catch(err=>{
-    console.error(err);
-    alert("Failed to assign: "+(err.message||"unknown error"));
-  });
+  if(!window._apiOk){alert("Server not reachable — try again in a moment");return;}
+  const memberPath="clubs/"+S.club+"/members/"+pickedUid;
+  (async function(){
+    try{
+      // Fetch the latest picked member record
+      const pickedRec=await apiRead(memberPath);
+      if(pickedRec===undefined){alert("Failed to load member data");return;}
+      const rec=pickedRec||{name:picked.name,path:"DL",role:"member",done:{},sel:{},plan:{goal:"",notes:"",slots:{}}};
+      if(!rec.plan)rec.plan={goal:"",notes:"",slots:{}};
+      if(!rec.plan.slots)rec.plan.slots={};
+      const existing=rec.plan.slots[date]||[];
+      rec.plan.slots[date]=existing.concat([{type,label,assignedBy:"admin"}]);
+      rec.updatedAt=Date.now();
+
+      // Unassign the current holder (if reassigning)
+      if(currentUid){
+        const curPath="clubs/"+S.club+"/members/"+currentUid;
+        const curRec=await apiRead(curPath);
+        if(curRec&&curRec.plan&&curRec.plan.slots&&curRec.plan.slots[date]){
+          const filtered=curRec.plan.slots[date].filter(x=>normalizeRoleName(x.label)!==normalizeRoleName(label));
+          if(filtered.length)curRec.plan.slots[date]=filtered;else delete curRec.plan.slots[date];
+          curRec.updatedAt=Date.now();
+          const ok1=await apiWrite(curPath,curRec);
+          if(!ok1){alert("Failed to unassign current holder");return;}
+          if(allMembers)allMembers[currentUid]=curRec;
+        }
+      }
+
+      const ok=await apiWrite(memberPath,rec);
+      if(!ok){alert("Failed to assign");return;}
+      if(allMembers)allMembers[pickedUid]=rec;
+      closeModal();
+      sT("✓ "+picked.name+" assigned to "+slotLabel);
+      rMaster();
+      syncTick();// pull fresh state for everyone
+    }catch(err){
+      console.error(err);
+      alert("Failed to assign: "+(err.message||"unknown error"));
+    }
+  })();
 };
 
 window.adminUnassignSlot=function(date,slotLabel,memberId){
-  if(!db){alert("Firebase not ready");return;}
+  if(!window._apiOk){alert("Server not reachable");return;}
   if(!confirm("Unassign "+slotLabel+" from this member?"))return;
-  const ref=db.ref("clubs/"+S.club+"/members/"+memberId+"/plan/slots/"+date);
-  ref.once("value").then(snap=>{
-    const arr=snap.val()||[];
-    const norm=normalizeRoleName(slotLabel);
-    const filtered=arr.filter(x=>{
-      const xNorm=normalizeRoleName(x.label);
-      if(/^speaker\s*\d/i.test(slotLabel))return x.type!=="project"||x.label.toLowerCase().includes("evaluator");
-      if(/^ie\s*\d/i.test(slotLabel))return xNorm!=="Evaluator";
-      return xNorm!==norm;
-    });
-    return ref.set(filtered.length?filtered:null);
-  }).then(()=>{
-    closeModal();
-    sT("✓ Unassigned");
-    rMaster();
-  }).catch(err=>alert("Failed: "+err.message));
+  const memberPath="clubs/"+S.club+"/members/"+memberId;
+  (async function(){
+    try{
+      const rec=await apiRead(memberPath);
+      if(!rec||!rec.plan||!rec.plan.slots||!rec.plan.slots[date]){
+        closeModal();sT("Already unassigned");rMaster();return;
+      }
+      const arr=rec.plan.slots[date]||[];
+      const norm=normalizeRoleName(slotLabel);
+      const filtered=arr.filter(x=>{
+        const xNorm=normalizeRoleName(x.label);
+        if(/^speaker\s*\d/i.test(slotLabel))return x.type!=="project"||x.label.toLowerCase().includes("evaluator");
+        if(/^ie\s*\d/i.test(slotLabel))return xNorm!=="Evaluator";
+        return xNorm!==norm;
+      });
+      if(filtered.length)rec.plan.slots[date]=filtered;else delete rec.plan.slots[date];
+      rec.updatedAt=Date.now();
+      const ok=await apiWrite(memberPath,rec);
+      if(!ok){alert("Failed to save");return;}
+      if(allMembers)allMembers[memberId]=rec;
+      closeModal();
+      sT("✓ Unassigned");
+      rMaster();
+      syncTick();
+    }catch(err){alert("Failed: "+err.message);}
+  })();
 };
 
 window.adminAddCustomSlot=function(date){
@@ -6958,10 +7170,11 @@ window.smartHelpAsk=function(){
     if(data.error)throw new Error(data.error.message||"AI service error");
     const text=(data.content||[]).map(c=>c.text||"").join("").trim();
     if(!text)throw new Error("No answer returned");
-    // Log to Firebase (anonymized — just question + timestamp)
-    if(fbOk&&db&&S&&S.club){
+    // Log to the backend (anonymized — just question + timestamp)
+    if(window._apiOk&&S&&S.club){
       try{
-        db.ref("clubs/"+S.club+"/help_log").push({
+        const logKey=Date.now()+"-"+Math.random().toString(36).slice(2,8);
+        apiWrite("clubs/"+S.club+"/help_log/"+logKey,{
           q:q.slice(0,500),
           asked:new Date().toISOString(),
           path:path,
@@ -8854,6 +9067,13 @@ if(new URLSearchParams(location.search).has("reset")){
   throw new Error("Resetting — please wait");
 }
 rS();S=ld();
+// v9.0 migration: users from pre-v9 have S in localStorage but no authCode.
+// Without authCode, writes won't work. Force them to re-login once.
+if(S&&!S.testMode&&!S.authCode){
+  console.log("v9.0 migration: forcing re-login to pick up authCode");
+  localStorage.removeItem("tm-pw-data");
+  S=null;
+}
 document.getElementById("app-loader").style.display="none";
 if(S){document.getElementById("welcome-screen").style.display="none";document.getElementById("setup-screen").style.display="none";document.getElementById("dashboard").classList.add("active");buildNav();
   if(S.testMode){genTestDates();seedTestBookings();}
@@ -8927,6 +9147,10 @@ document.getElementById("login-btn").onclick=function(){
   else if(code===VPE_CODE){role="vpe";club="5aplus";}
   else if(code===CLUB_CODE){role="member";club="5aplus";}
   else{sT("Invalid club code");return;}
+  // Stash authCode for writes — used by the HTTP API to authenticate
+  window._setupAuthCode=code;
+  // Seed an S stub so loadMemberData can preserve authCode when it rebuilds S
+  if(!S)S={authCode:code};else S.authCode=code;
   // Disable button + show progress
   const loginBtn=this;loginBtn.disabled=true;const origText=loginBtn.textContent;loginBtn.textContent="Connecting...";
   sT("Connecting...");
@@ -8946,6 +9170,8 @@ document.getElementById("login-btn").onclick=function(){
       clearTimeout(safetyTimeout);
       loginBtn.disabled=false;loginBtn.textContent=origText;
       if(found){
+        // Ensure authCode persists in the restored S record
+        S.authCode=code;sv();
         document.getElementById("setup-screen").style.display="none";
         document.getElementById("dashboard").classList.add("active");
         buildNav();initFB();rD();
@@ -9018,7 +9244,8 @@ window.finishSetup=function(){
 
   S={uid:nameKey(window._setupName),name:window._setupName,club:window._setupClub,path:pc,
     done:{},sel:{},plan:{goal:"",notes:"",slots:{}},role:window._setupRole,cLv:1,testMode:isTest,
-    paths:[{code:pc,cLv:1,done:{},stars:{},startedAt:Date.now()}],activePathIdx:0};
+    paths:[{code:pc,cLv:1,done:{},stars:{},startedAt:Date.now()}],activePathIdx:0,
+    authCode:window._setupAuthCode||null};
 
   // Auto-complete earlier levels
   const startLvl=window._startLevel||0;
@@ -9267,7 +9494,7 @@ document.getElementById("logout-btn").onclick=function(){
 document.getElementById("reset-btn").onclick=function(){
   if(!confirm("⚠️ WARNING: This will permanently delete ALL your progress, completed projects, and planner data. This cannot be undone.\n\nAre you absolutely sure?"))return;
   const key=nameKey(S.name);
-  if(db&&S)db.ref("clubs/"+S.club+"/members/"+key).remove();
+  if(window._apiOk&&S)apiDelete("clubs/"+S.club+"/members/"+key);
   localStorage.removeItem("tm-pw-data");
   S=null;location.reload();};
 if("serviceWorker"in navigator){
