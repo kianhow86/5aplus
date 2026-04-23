@@ -32,7 +32,7 @@ function loadFirebase(){return Promise.resolve(false);}
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{--bg:#0f1923;--s0:rgba(255,255,255,0.03);--s1:rgba(255,255,255,0.05);--s2:rgba(255,255,255,0.08);--b1:rgba(255,255,255,0.06);--b2:rgba(255,255,255,0.10);--t1:#F0EDE8;--t2:#B8B0A8;--t3:#8A8078;--t4:#6A6058;--t5:#4A4038;--w:#F5F2EE;--danger:#E05252;--info:#7BA7CC;--ok:#6BBF6B;--warn:#E8A04C;--nav-bg:rgba(15,25,35,0.85)}
-html{height:100%;height:100dvh}
+html{height:100%;height:100dvh;background:#0f1923}
 body{font-family:'Source Sans 3',sans-serif;background:linear-gradient(135deg,#0a1628 0%,#1a1a2e 30%,#16213e 60%,#0f1923 100%);background-attachment:fixed;color:var(--t1);min-height:100%;min-height:100dvh;height:100%;height:100dvh;-webkit-font-smoothing:antialiased;margin:0;overscroll-behavior-y:none}
 .app-loading{position:fixed;inset:0;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:600;gap:16px}
 .app-loading-spinner{width:32px;height:32px;border:3px solid var(--b2);border-top-color:var(--w);border-radius:50%;animation:spin .8s linear infinite}
@@ -288,7 +288,9 @@ a{color:var(--info);text-decoration:none}
 
 /* Dashboard */
 .dashboard{display:none}.dashboard.active{display:block}
-.container{max-width:680px;margin:0 auto;padding:0 16px 100px;padding-top:env(safe-area-inset-top,0)}
+.container{max-width:680px;margin:0 auto;padding:0 16px calc(100px + env(safe-area-inset-bottom,0));padding-top:env(safe-area-inset-top,0)}
+.resources-box summary::-webkit-details-marker{display:none}
+.resources-box[open] .resources-chevron{transform:rotate(180deg)}
 .top-bar{display:flex;align-items:center;justify-content:flex-end;gap:2px;padding:12px 0 8px;margin-top:8px}
 .top-bar .tb-btn{background:none;border:none;color:var(--t5);font-size:13px;cursor:pointer;font-family:'Source Sans 3',sans-serif;padding:6px 10px;border-radius:8px;transition:all .2s}
 .top-bar .tb-btn:hover{color:var(--t3);background:var(--s2)}
@@ -388,6 +390,13 @@ a{color:var(--info);text-decoration:none}
 .bc-cal-tile .bc-cal-month::before,.bc-cal-tile .bc-cal-month::after{content:"";position:absolute;top:-2px;width:4px;height:6px;background:#c0c0c0;border-radius:2px}
 .bc-cal-tile .bc-cal-month::before{left:14px}.bc-cal-tile .bc-cal-month::after{right:14px}
 .bc-cal-tile .bc-cal-day{flex:1;display:flex;align-items:center;justify-content:center;font-size:30px;font-weight:700;color:#1a1a1a;line-height:1;font-family:'Source Sans 3',sans-serif;padding-bottom:4px}
+.bc-icon-wrap-multi{width:auto;height:auto;min-height:90px;padding:4px 0}
+.bc-cal-fan{display:flex;justify-content:center;align-items:center;gap:8px;flex-wrap:wrap;max-width:280px}
+.bc-cal-mini{width:56px;height:62px;box-shadow:0 3px 10px rgba(0,0,0,.22),0 0 0 1px rgba(0,0,0,.08)}
+.bc-cal-mini .bc-cal-month{font-size:9px;padding:3px 2px;letter-spacing:.05em}
+.bc-cal-mini .bc-cal-month::before,.bc-cal-mini .bc-cal-month::after{width:3px;height:4px;top:-2px}
+.bc-cal-mini .bc-cal-month::before{left:10px}.bc-cal-mini .bc-cal-month::after{right:10px}
+.bc-cal-mini .bc-cal-day{font-size:22px}
 @keyframes bcBounce{0%{transform:scale(0) rotate(-20deg)}60%{transform:scale(1.25) rotate(8deg)}100%{transform:scale(1) rotate(0)}}
 .bc-sparkle{position:absolute;font-size:22px;opacity:0;pointer-events:none}
 .bc-s1{top:8px;left:12%;animation:bcSpark 1.4s ease-out .4s forwards;--sx:-12px;--sy:-14px}
@@ -939,6 +948,9 @@ a{color:var(--info);text-decoration:none}
 <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:12px;margin-bottom:16px;font-size:14px;color:var(--t2);line-height:1.5;text-align:center">
 <strong style="color:var(--w)">👋 First time here?</strong><br>Try the Tester account below to explore the app — no login needed!
 </div>
+<div style="background:rgba(232,160,76,0.08);border:1px solid rgba(232,160,76,0.2);border-radius:10px;padding:10px 12px;margin-bottom:16px;font-size:12px;color:var(--t3);line-height:1.5;text-align:center">
+🌏 <strong style="color:var(--w)">In mainland China?</strong> Keep your VPN on for best experience.
+</div>
 <label class="label">Your Name</label>
 <input class="input" id="setup-name" placeholder="Enter your name" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:12px">
 <label class="label">Club Code</label>
@@ -1012,7 +1024,7 @@ a{color:var(--info);text-decoration:none}
 <div id="tab-roles" class="tc"><div id="roles-content"></div></div>
 <div id="tab-master" class="tc"><div id="master-content"></div></div>
 <div id="tab-club" class="tc"><div id="club-announcements"></div><div id="club-next-meeting" style="margin-top:16px"></div></div>
-<div class="app-footer">5A+ TMC App v9.0.2 · Built by Kian How</div>
+<div class="app-footer">5A+ TMC App v9.0.9 · Built by Kian How</div>
 </div>
 
 <div class="bnav" id="bottom-nav"></div>
@@ -1405,6 +1417,18 @@ function fetchWithTimeout(url, opts, ms) {
     .finally(() => clearTimeout(timer));
 }
 
+// fetchAI: centralized AI endpoint call with a 30s timeout. Without this, a
+// slow/flaky network (common in China even with VPN) makes AI calls hang
+// forever — spinners spin, no error ever fires. 30s is long enough for normal
+// generations and short enough that users know something's wrong.
+function fetchAI(body, ms) {
+  return fetchWithTimeout("/.netlify/functions/ai", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(body)
+  }, ms || 30000);
+}
+
 async function apiRead(path) {
   try {
     const res = await fetchWithTimeout(API_BASE + "?op=read&path=" + encodeURIComponent(path), {
@@ -1550,24 +1574,25 @@ async function apiSyncMe() {
   };
   // Optimistic local update so renders see fresh data immediately
   if (allMembers) allMembers[key] = myRec;
-  const ok = await apiWrite("clubs/" + S.club + "/members/" + key, myRec);
-  if (!ok) {
-    window._apiOk = false;
-    updSync();
-  }
+  // Fire-and-forget. Don't flip _apiOk on failure — polling tick handles status.
+  // If the write fails, the next poll will resync the correct state.
+  await apiWrite("clubs/" + S.club + "/members/" + key, myRec);
 }
 
 // Write clubData (announcements, dates, settings, meetingOverrides)
 async function apiSyncClub() {
   if (!S || S.testMode) return;
-  const ok = await apiWrite("clubs/" + S.club + "/club", clubData);
-  if (!ok) { window._apiOk = false; updSync(); }
+  // Fire-and-forget. Don't flip _apiOk on failure — polling tick handles status.
+  await apiWrite("clubs/" + S.club + "/club", clubData);
 }
 
 // ─── Polling tick: fetch latest club + members, re-render on change ───
 async function syncTick() {
   if (!S || S.testMode) return;
-  if (_pendingWrites > 0) return; // wait for in-flight writes to settle
+  // Note: we intentionally do NOT guard on _pendingWrites here. The per-path
+  // _writeQueues check in the clubData merge below handles the specific race
+  // case (polling overwriting a pending write). Guarding globally here would
+  // starve initial sync if a write happens to be in flight at login time.
   _lastTickAt = Date.now();
 
   // Fire both in parallel — they're independent
@@ -1576,19 +1601,27 @@ async function syncTick() {
     apiList("clubs/" + S.club + "/members/")
   ]);
 
-  // Debounced status flip: 1 success → online immediately.
-  // But requires 3 consecutive failures → offline (prevents badge flicker on
-  // occasional slow China-Netlify network hiccups).
+  // Hysteresis to avoid badge flapping:
+  // - 3 consecutive failures → offline
+  // - First success → online (startup)
+  // - After going offline, require 2 consecutive successes → online (prevents flapping)
   if (clubVal === undefined || membersMap === undefined) {
     window._apiFailCount = (window._apiFailCount || 0) + 1;
+    window._apiOkStreak = 0;
     if (window._apiFailCount >= 3 && window._apiOk) {
       window._apiOk = false;
+      window._hasBeenOffline = true;
       updSync();
     }
     return;
   }
   window._apiFailCount = 0;
-  if (!window._apiOk) { window._apiOk = true; updSync(); }
+  window._apiOkStreak = (window._apiOkStreak || 0) + 1;
+  const requiredStreak = window._hasBeenOffline ? 2 : 1;
+  if (!window._apiOk && window._apiOkStreak >= requiredStreak) {
+    window._apiOk = true;
+    updSync();
+  }
 
   // Diff + re-render only if changed (cheap hash via JSON.stringify)
   let changedClub = false, changedMembers = false;
@@ -4555,11 +4588,15 @@ window.tDt=function(pid,type,viewOnly){
   h+='</label></div>';
   h+='</div></div>';
   const res=RESOURCES[pid]||[];
-  h+='<div style="margin-top:12px;padding-top:10px;border-top:1px solid var(--b1)">';
-  h+='<div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--t4);margin-bottom:6px">📚 Helpful Links & Resources</div>';
+  h+='<details class="resources-box" style="margin-top:12px;padding:10px 12px;border:1px solid var(--b1);border-radius:10px;background:var(--s0)">';
+  h+='<summary style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--t3);cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between;padding:2px 0">';
+  h+='<span>📚 Helpful Links & Resources</span>';
+  h+='<span class="resources-chevron" style="font-size:12px;color:var(--t4);transition:transform .2s">▼</span>';
+  h+='</summary>';
+  h+='<div style="margin-top:8px;padding-top:8px;border-top:1px solid var(--b1)">';
   h+='<div class="dl"><a href="'+EVAL_URL+'" target="_blank">📋 Evaluation Form → TM Resource Library</a></div>';
   res.forEach(r=>{h+='<div class="dl" style="margin-top:4px"><a href="'+r.u+'" target="_blank">'+r.t+' →</a></div>';});
-  h+='</div>';
+  h+='</div></details>';
   if(!isLocked&&!viewOnly){
   h+='<div style="display:flex;gap:8px;margin-top:16px">';
   h+='<div class="detail-toggle'+(isDn?" completed":"")+'" style="flex:1;'+(isDn?"background:"+p.c+"15;border-color:"+p.c+";color:"+p.c:"color:var(--t3)")+'" onclick="tD(\''+pid+'\')">';
@@ -5052,18 +5089,33 @@ window.showBookingCelebration=function(pid,date,opts){
   const multiStep=MULTI_STEP_PROJECTS[pid];
   const allDates=(opts.allDates&&opts.allDates.length>1)?opts.allDates.slice().sort():null;
   // Build a custom calendar tile with the ACTUAL booking date (emoji can't show dynamic dates)
-  // For multi-step bookings, show the first date (earliest)
-  const displayDate=(allDates&&allDates.length)?allDates[0]:date;
-  const dObj=new Date(displayDate+"T00:00:00");
-  const monthLbl=dObj.toLocaleDateString("en-US",{month:"short"}).toUpperCase();
-  const dayLbl=dObj.getDate();
+  // For multi-step bookings, show a fan of all dates instead of just one
   const mr=document.getElementById("modal-root");
   let h='<div class="book-celebrate" onclick="dismissBookingCelebration(event)">';
   h+='<div class="bc-card" onclick="event.stopPropagation()">';
-  h+='<div class="bc-icon-wrap">';
-  h+='<div class="bc-sparkle bc-s1">✨</div><div class="bc-sparkle bc-s2">⭐</div><div class="bc-sparkle bc-s3">✨</div><div class="bc-sparkle bc-s4">💫</div>';
-  h+='<div class="bc-cal-tile"><div class="bc-cal-month">'+monthLbl+'</div><div class="bc-cal-day">'+dayLbl+'</div></div>';
-  h+='</div>';
+  if(allDates&&allDates.length>1){
+    // Multi-date: a fanned row of mini calendar tiles
+    h+='<div class="bc-icon-wrap bc-icon-wrap-multi">';
+    h+='<div class="bc-sparkle bc-s1">✨</div><div class="bc-sparkle bc-s2">⭐</div><div class="bc-sparkle bc-s3">✨</div><div class="bc-sparkle bc-s4">💫</div>';
+    h+='<div class="bc-cal-fan">';
+    allDates.forEach((dd,i)=>{
+      const dO=new Date(dd+"T00:00:00");
+      const mLbl=dO.toLocaleDateString("en-US",{month:"short"}).toUpperCase();
+      const dLbl=dO.getDate();
+      h+='<div class="bc-cal-tile bc-cal-mini" style="animation-delay:'+(0.1+i*0.08)+'s"><div class="bc-cal-month">'+mLbl+'</div><div class="bc-cal-day">'+dLbl+'</div></div>';
+    });
+    h+='</div>';
+    h+='</div>';
+  }else{
+    const displayDate=(allDates&&allDates.length)?allDates[0]:date;
+    const dObj=new Date(displayDate+"T00:00:00");
+    const monthLbl=dObj.toLocaleDateString("en-US",{month:"short"}).toUpperCase();
+    const dayLbl=dObj.getDate();
+    h+='<div class="bc-icon-wrap">';
+    h+='<div class="bc-sparkle bc-s1">✨</div><div class="bc-sparkle bc-s2">⭐</div><div class="bc-sparkle bc-s3">✨</div><div class="bc-sparkle bc-s4">💫</div>';
+    h+='<div class="bc-cal-tile"><div class="bc-cal-month">'+monthLbl+'</div><div class="bc-cal-day">'+dayLbl+'</div></div>';
+    h+='</div>';
+  }
   h+='<div class="bc-title">'+msg+'</div>';
   h+='<div class="bc-sub">You\'ve booked</div>';
   h+='<div class="bc-project">'+title+'</div>';
@@ -6214,10 +6266,7 @@ window.generateEvalGuidance=function(pid){
   
   const prompt="You are a senior Toastmasters evaluator coach. A member needs to evaluate a speech for the project: \""+d.t+"\"\n\nProject details:\n- Purpose: "+d.p+"\n- Overview: "+d.o+"\n- Includes: "+d.inc+"\n"+(tp.tip?"- Focus areas: "+tp.tip+"\n":"")+(tp.avoid?"- Common mistakes: "+tp.avoid+"\n":"")+"\nProvide specific evaluation guidance. Respond with ONLY a JSON object:\n{\"questions\":[\"5 specific questions the evaluator should answer while watching the speech\"],\"lookFor\":[\"5 specific things to watch for that are unique to THIS project\"],\"phrases\":[\"3 example evaluation phrases the evaluator can adapt\"],\"redFlags\":[\"3 things that would indicate the speaker missed the project objective\"]}\n\nBe very specific to this project. Do NOT give generic speech evaluation advice.";
   
-  fetch("/.netlify/functions/ai",{
-    method:"POST",headers:{"Content-Type":"application/json"},
-    body:JSON.stringify({model:"claude-haiku-4-5-20251001",max_tokens:800,messages:[{role:"user",content:prompt}]})
-  }).then(r=>r.json()).then(data=>{
+  fetchAI({model:"claude-haiku-4-5-20251001",max_tokens:800,messages:[{role:"user",content:prompt}]}).then(r=>r.json()).then(data=>{
     const text=data.content.map(c=>c.text||"").join("").replace(/```json|```/g,"").trim();
     try{
       const result=JSON.parse(text);
@@ -6388,11 +6437,9 @@ window.generateTMDInspiration=function(){
   const seed=Math.floor(Math.random()*99999);
   const sectionNames={opening:"Meeting Opening",speaker:"Speaker Introduction (P.O.E.T.S format)",transition:"Transitions between speakers","tt-intro":"Table Topics Session Introduction","eval-intro":"Evaluation Session Introduction",closing:"Meeting Closing"};
   
-  fetch("/.netlify/functions/ai",{method:"POST",headers:{"Content-Type":"application/json"},
-    body:JSON.stringify({model:"claude-haiku-4-5-20251001",max_tokens:1000,temperature:1.0,
+  fetchAI({model:"claude-haiku-4-5-20251001",max_tokens:1000,temperature:1.0,
       messages:[{role:"user",content:"[Seed:"+seed+"] You are a Toastmaster of the Day script writer. Generate 3 different script variations for this meeting section.\n\nSection: "+sectionNames[section]+"\nMeeting theme: "+theme+"\nVibe: "+vibe+"\n\nRules:\n- Each variation should be 2-4 sentences\n- Make them ready to read aloud\n- Include the theme naturally\n- For speaker intros, use P.O.E.T.S format (Project, Objective, Evaluator, Timing, Title, Speaker)\n- For speaker intros, use [Speaker Name], [Project], [Evaluator], [Title] as placeholders\n- Be creative — don't start all 3 the same way\n\nRespond with ONLY a JSON array of 3 objects: [{\"label\":\"short label\",\"script\":\"the actual script text\"}]"}]
-    })
-  }).then(r=>r.json()).then(data=>{
+    }).then(r=>r.json()).then(data=>{
     if(data.error)throw new Error(data.error.message);
     const text=data.content.map(c=>c.text||"").join("").replace(/```json|```/g,"").trim();
     try{
@@ -6631,12 +6678,9 @@ window.generateWOD=function(){
   const originHint=origins[Math.floor(Math.random()*origins.length)];
   const exclude=(window._lastWodWords||[]).map(w=>w.word).join(", ");
   
-  fetch("/.netlify/functions/ai",{
-    method:"POST",headers:{"Content-Type":"application/json"},
-    body:JSON.stringify({model:"claude-haiku-4-5-20251001",max_tokens:800,temperature:1.0,
+  fetchAI({model:"claude-haiku-4-5-20251001",max_tokens:800,temperature:1.0,
       messages:[{role:"user",content:"[Seed: "+seed+"] Generate 5 Word of the Day options for a Toastmasters meeting.\n\nTheme: "+theme+"\nWord vibe: "+vibe+"\nPrefer mix of: "+wordTypes.slice(0,3).join(", ")+"\nBonus: include one word with "+originHint+" origins\n"+(exclude?"EXCLUDE these words (already shown): "+exclude+"\n":"")+"\nCRITICAL RULES:\n- Words must be USEFUL in everyday professional conversation\n- NOT too obscure — someone should genuinely want to use this word tomorrow\n- NOT basic — no words like 'happy', 'good', 'nice', 'great'\n- Each word should feel fresh and interesting, not the typical WOD list\n- Mix word lengths — some short punchy words, some elegant longer ones\n\nRespond with ONLY a JSON array: [{\"word\":\"...\",\"type\":\"noun/verb/adj/adv\",\"definition\":\"clear 1-sentence definition\",\"example\":\"natural example sentence using the word\",\"tip\":\"when and how to use it in real conversation\"}]"}]
-    })
-  }).then(r=>r.json()).then(data=>{
+    }).then(r=>r.json()).then(data=>{
     const text=data.content.map(c=>c.text||"").join("").replace(/```json|```/g,"").trim();
     try{const words=JSON.parse(text);window._lastWodWords=words;showWODResult(words,theme);}
     catch(e){showWODFallback(theme);}
@@ -7201,10 +7245,7 @@ window.smartHelpAsk=function(){
     +"• Projects done: "+doneCount+"/"+totalProj+"\n\n"
     +"Question: "+q;
   
-  fetch("/.netlify/functions/ai",{
-    method:"POST",headers:{"Content-Type":"application/json"},
-    body:JSON.stringify({model:"claude-sonnet-4-6",max_tokens:500,messages:[{role:"user",content:sys}]})
-  }).then(r=>r.json()).then(data=>{
+  fetchAI({model:"claude-sonnet-4-6",max_tokens:500,messages:[{role:"user",content:sys}]}).then(r=>r.json()).then(data=>{
     if(data.error)throw new Error(data.error.message||"AI service error");
     const text=(data.content||[]).map(c=>c.text||"").join("").trim();
     if(!text)throw new Error("No answer returned");
@@ -7229,7 +7270,9 @@ window.smartHelpAsk=function(){
     h+='</div>';
     el.innerHTML=h;
   }).catch(err=>{
-    el.innerHTML='<div style="padding:12px;background:var(--danger)10;color:var(--danger);border-radius:10px;font-size:13px">Couldn\'t reach the AI mentor ('+_shEsc(err.message||"network error")+'). Try again in a moment, or <a href="#" onclick="event.preventDefault();closeModal();copyWechat();" style="color:var(--danger);font-weight:700">ask VPM on WeChat</a>.</div>';
+    const isTimeout=err.name==="AbortError";
+    const msg=isTimeout?"Request timed out after 30s — network may be slow":(err.message||"network error");
+    el.innerHTML='<div style="padding:12px;background:var(--danger)10;color:var(--danger);border-radius:10px;font-size:13px">Couldn\'t reach the AI mentor ('+_shEsc(msg)+'). Try again in a moment, or <a href="#" onclick="event.preventDefault();closeModal();copyWechat();" style="color:var(--danger);font-weight:700">ask VPM on WeChat</a>.</div>';
     btn.disabled=false;btn.innerHTML='✨ Ask';
   });
 };
@@ -7696,10 +7739,7 @@ function generateFillerCoaching(){
     '{"grade":"one word rating","summary":"1 sentence overall assessment","tips":["tip 1","tip 2","tip 3"],"exercise":"one specific practice exercise they can try right now"}\n'+
     "Be encouraging but honest. Tips should be specific and actionable.";
   
-  fetch("/.netlify/functions/ai",{
-    method:"POST",headers:{"Content-Type":"application/json"},
-    body:JSON.stringify({model:"claude-haiku-4-5-20251001",max_tokens:500,messages:[{role:"user",content:prompt}]})
-  }).then(r=>r.json()).then(data=>{
+  fetchAI({model:"claude-haiku-4-5-20251001",max_tokens:500,messages:[{role:"user",content:prompt}]}).then(r=>r.json()).then(data=>{
     const text=data.content.map(c=>c.text||"").join("").replace(/```json|```/g,"").trim();
     try{
       const result=JSON.parse(text);
@@ -8230,10 +8270,7 @@ window.requestPracticeCoaching=function(){
   btn.innerHTML='<span style="display:inline-block;animation:spin 1s linear infinite">🤖</span> Analyzing your speech...';
   out.innerHTML='';
 
-  fetch("/.netlify/functions/ai",{
-    method:"POST",headers:{"Content-Type":"application/json"},
-    body:JSON.stringify({model:"claude-sonnet-4-6",max_tokens:1024,messages:[{role:"user",content:prompt}]})
-  }).then(r=>r.json()).then(data=>{
+  fetchAI({model:"claude-sonnet-4-6",max_tokens:1024,messages:[{role:"user",content:prompt}]}).then(r=>r.json()).then(data=>{
     if(data.error)throw new Error(data.error.message||"AI service error");
     const text=(data.content||[]).map(c=>c.text||"").join("").replace(/```json|```/g,"").trim();
     let parsed;
@@ -8337,16 +8374,12 @@ window.generateTopics=function(){
   const angles=["from a child's perspective","from a CEO's perspective","10 years from now","if money didn't exist","in a parallel universe","if you had a superpower","at 3am","on a desert island","during a zombie apocalypse","in your grandparents' era"];
   const angleHint=angles[Math.floor(Math.random()*angles.length)];
   
-  fetch("/.netlify/functions/ai",{
-    method:"POST",
-    headers:{"Content-Type":"application/json"},
-    body:JSON.stringify({
+  fetchAI({
       model:"claude-haiku-4-5-20251001",
       max_tokens:1000,
       temperature:1.0,
       messages:[{role:"user",content:"[Seed: "+seed+"] Generate exactly 10 UNIQUE Table Topics questions for Toastmasters.\n\nTheme: "+theme+"\nDifficulty: "+diff+" — "+diffGuide[diff]+"\nStyles to use: "+styleGuide+"\n\nCRITICAL RULES:\n- MAXIMUM 15 WORDS per question. Short and punchy.\n- Questions must be memorizable — if the speaker forgets it, it's too long\n- Open-ended, answerable in 1-2 minutes\n- No 'What does X mean to you' or 'Tell us about a time'\n- No political, religious, or deeply personal questions\n- Every question must start differently\n\nGood examples: 'What's the worst advice you ever followed?' or 'Sell me this pen in 60 seconds.'\nBad examples: 'If you could travel back in time to any historical period and meet one person who changed the course of history, who would it be and what would you ask them?'\n\nRespond with ONLY a JSON array of 10 strings."}]
     })
-  })
   .then(r=>r.json())
   .then(data=>{
     try{
@@ -8596,12 +8629,9 @@ window.generateTTQuestion=function(){
   const styles=["hypothetical","storytelling","moral dilemma","role-play","comparison","time-travel","creative challenge","advice","debate","sensory"];
   const style=styles[Math.floor(Math.random()*styles.length)];
   
-  fetch("/.netlify/functions/ai",{
-    method:"POST",headers:{"Content-Type":"application/json"},
-    body:JSON.stringify({model:"claude-haiku-4-5-20251001",max_tokens:200,temperature:1.0,
+  fetchAI({model:"claude-haiku-4-5-20251001",max_tokens:200,temperature:1.0,
       messages:[{role:"user",content:"[Seed:"+seed+"] Generate 1 Table Topics question for Toastmasters. Theme: "+theme+". Style: "+style+". MAXIMUM 15 words. Short, punchy, memorable. Respond with ONLY the question text, no quotes."}]
-    })
-  }).then(r=>r.json()).then(data=>{
+    }).then(r=>r.json()).then(data=>{
     const q=data.content.map(c=>c.text||"").join("").trim().replace(/^["']|["']$/g,"");
     showTTQuestion(q,theme);
   }).catch(()=>{
