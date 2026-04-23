@@ -1041,7 +1041,7 @@ a{color:var(--info);text-decoration:none}
 <div id="tab-roles" class="tc"><div id="roles-content"></div></div>
 <div id="tab-master" class="tc"><div id="master-content"></div></div>
 <div id="tab-club" class="tc"><div id="club-announcements"></div><div id="club-next-meeting" style="margin-top:16px"></div></div>
-<div class="app-footer">5A+ TMC App v8.60 · Built by Kian How</div>
+<div class="app-footer">5A+ TMC App v8.61 · Built by Kian How</div>
 </div>
 
 <div class="bnav" id="bottom-nav"></div>
@@ -1392,25 +1392,22 @@ function nameKey(n){return n.toLowerCase().replace(/[^a-z0-9]/g,"-").replace(/-+
 function initFB(cb){
   if(!window._fbReady||typeof firebase==="undefined"){fbOk=false;updSync();if(cb)cb();return;}
   try{if(!firebase.apps.length)firebase.initializeApp(FB_CONFIG);db=firebase.database();
-    // Test the DB connection. Firebase exposes a special ".info/connected" path that resolves quickly.
-    // If we're blocked, we set up listeners anyway — they'll just never fire — but mark fbOk=false
-    // so UI shows the offline state.
+    // Only mark fbOk=true when we actually RECEIVE data from the database.
+    // .info/connected can falsely report true in partial-connectivity scenarios (GFW).
     let connTimeout=setTimeout(function(){
-      if(!fbOk){console.warn("Firebase DB not connected within 3s — marking offline");fbOk=false;updSync();if(cb){cb();cb=null;}}
-    },3000);
-    db.ref(".info/connected").on("value",function(snap){
-      const connected=!!snap.val();
-      if(connected){
-        clearTimeout(connTimeout);
-        fbOk=true;updSync();
-        if(cb){cb();cb=null;}
-      }else if(!fbOk){
-        // Not yet connected — wait for the timeout
-      }
-    });
-    // Set up the data listeners regardless — they'll fire once connection works.
-    db.ref("clubs/"+S.club+"/members").on("value",snap=>{allMembers=snap.val()||{};rCl();if(S.role==="master"||S.role==="vpe")rMaster();});
-    db.ref("clubs/"+S.club+"/club").on("value",snap=>{const d=snap.val();if(d){clubData=d;rPl();rClubAnnouncements();rCl();buildNav();if(S.role==="master"||S.role==="vpe")rMaster();}});
+      if(!fbOk){console.warn("Firebase data didn't arrive within 4s — marking offline");fbOk=false;updSync();if(cb){cb();cb=null;}}
+    },4000);
+    // Set up listeners — fbOk flips true only when real data lands
+    db.ref("clubs/"+S.club+"/members").on("value",snap=>{
+      const val=snap.val();
+      if(!fbOk){fbOk=true;clearTimeout(connTimeout);updSync();if(cb){cb();cb=null;}}
+      allMembers=val||{};rCl();if(S.role==="master"||S.role==="vpe")rMaster();
+    },err=>{console.warn("members ref error:",err);});
+    db.ref("clubs/"+S.club+"/club").on("value",snap=>{
+      const d=snap.val();
+      if(d&&!fbOk){fbOk=true;clearTimeout(connTimeout);updSync();if(cb){cb();cb=null;}}
+      if(d){clubData=d;rPl();rClubAnnouncements();rCl();buildNav();if(S.role==="master"||S.role==="vpe")rMaster();}
+    },err=>{console.warn("club ref error:",err);});
   }catch(e){console.error(e);fbOk=false;updSync();if(cb)cb();}
 }
 
@@ -1425,9 +1422,11 @@ function loadFromFB(club,name,role,callback){
   setTimeout(function(){
     if(!done){console.warn("Firebase database unreachable — proceeding offline");fbOk=false;updSync();finish(false);}
   },4000);
-  try{if(!firebase.apps.length)firebase.initializeApp(FB_CONFIG);db=firebase.database();fbOk=true;
+  try{if(!firebase.apps.length)firebase.initializeApp(FB_CONFIG);db=firebase.database();
     const key=nameKey(name);
     db.ref("clubs/"+club+"/members/"+key).once("value").then(snap=>{
+      // Data actually arrived — we're truly online
+      fbOk=true;updSync();
       const existing=snap.val();
       if(existing&&existing.path){
         // Found existing member — restore their data
@@ -1460,19 +1459,30 @@ function updSync(){
     }
   }
   // Show a one-time banner if we're running offline AND user isn't a tester
-  if(S&&!S.testMode&&!fbOk&&!sessionStorage.getItem("tm-pw-offline-dismissed")){
-    showOfflineBanner();
+  // Delayed 5s so Firebase has time to connect before we cry wolf
+  if(S&&!S.testMode&&!sessionStorage.getItem("tm-pw-offline-dismissed")&&!window._offlineBannerScheduled){
+    window._offlineBannerScheduled=true;
+    setTimeout(function(){
+      // Re-check at banner-show time — don't show if Firebase connected by now
+      if(!fbOk&&!sessionStorage.getItem("tm-pw-offline-dismissed")){
+        showOfflineBanner();
+      }
+    },5000);
   }
 }
 function showOfflineBanner(){
   if(document.getElementById("offline-banner"))return;// already shown
   const b=document.createElement("div");
   b.id="offline-banner";
-  b.style.cssText="position:fixed;top:12px;left:12px;right:12px;z-index:10000;background:linear-gradient(135deg,#E8A04C,#D4833A);color:#fff;padding:12px 14px;border-radius:12px;box-shadow:0 4px 16px rgba(0,0,0,.3);font-size:13px;line-height:1.4;display:flex;align-items:flex-start;gap:10px;font-family:'Source Sans 3',sans-serif";
-  b.innerHTML='<span style="font-size:18px;flex-shrink:0">⚠️</span><div style="flex:1"><div style="font-weight:700;margin-bottom:2px">Running offline</div><div style="opacity:.92">Cloud sync unavailable. Your progress is saved locally — but you won\'t see other members\' bookings. (Enable VPN if you\'re in mainland China.)</div></div><button onclick="document.getElementById(\'offline-banner\').remove();sessionStorage.setItem(\'tm-pw-offline-dismissed\',\'1\')" style="background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.3);color:#fff;border-radius:6px;padding:4px 10px;font-size:12px;font-weight:600;cursor:pointer;flex-shrink:0;font-family:inherit">✕</button>';
+  // Full-screen modal-style overlay matching the app's existing modals
+  b.style.cssText="position:fixed;inset:0;z-index:10000;background:rgba(0,0,0,.6);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;padding:24px;animation:fadeIn .25s ease;font-family:'Source Sans 3',sans-serif";
+  b.innerHTML='<div style="background:var(--s1);border:1px solid var(--b2);border-radius:20px;padding:28px 24px;max-width:380px;width:100%;box-shadow:0 16px 48px rgba(0,0,0,.5);text-align:center;animation:fadeIn .3s ease">'
+    +'<div style="font-size:48px;margin-bottom:12px">📡</div>'
+    +'<div style="font-size:18px;font-weight:700;color:var(--w);margin-bottom:8px">Running Offline</div>'
+    +'<div style="font-size:14px;color:var(--t2);line-height:1.5;margin-bottom:18px">Cloud sync unavailable. Your progress is saved locally.<br><br><strong style="color:var(--w)">What still works:</strong> path tracking, planner, role toolkit, speech timer, AI tools.<br><br><strong style="color:var(--w)">What needs VPN:</strong> seeing other members\' bookings, admin assignments.</div>'
+    +'<button onclick="document.getElementById(\'offline-banner\').remove();sessionStorage.setItem(\'tm-pw-offline-dismissed\',\'1\')" style="width:100%;padding:12px;background:linear-gradient(135deg,#5BC0BE,#3A9E9B);color:#fff;border:none;border-radius:12px;font-size:15px;font-weight:600;cursor:pointer;font-family:inherit;box-shadow:0 4px 15px rgba(91,192,190,0.3)">Got it</button>'
+    +'</div>';
   document.body.appendChild(b);
-  // Auto-dismiss after 10s
-  setTimeout(()=>{if(document.getElementById("offline-banner"))document.getElementById("offline-banner").remove();},10000);
 }
 // ═══ MULTI-PATH DATA MODEL ═══
 // S.paths = [{code, cLv, done, stars, startedAt}, ...]
