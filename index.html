@@ -1041,7 +1041,7 @@ a{color:var(--info);text-decoration:none}
 <div id="tab-roles" class="tc"><div id="roles-content"></div></div>
 <div id="tab-master" class="tc"><div id="master-content"></div></div>
 <div id="tab-club" class="tc"><div id="club-announcements"></div><div id="club-next-meeting" style="margin-top:16px"></div></div>
-<div class="app-footer">5A+ TMC App v8.59 · Built by Kian How</div>
+<div class="app-footer">5A+ TMC App v8.60 · Built by Kian How</div>
 </div>
 
 <div class="bnav" id="bottom-nav"></div>
@@ -1391,17 +1391,43 @@ function nameKey(n){return n.toLowerCase().replace(/[^a-z0-9]/g,"-").replace(/-+
 
 function initFB(cb){
   if(!window._fbReady||typeof firebase==="undefined"){fbOk=false;updSync();if(cb)cb();return;}
-  try{if(!firebase.apps.length)firebase.initializeApp(FB_CONFIG);db=firebase.database();fbOk=true;updSync();
-  db.ref("clubs/"+S.club+"/members").on("value",snap=>{allMembers=snap.val()||{};rCl();if(S.role==="master"||S.role==="vpe")rMaster();});
-  db.ref("clubs/"+S.club+"/club").on("value",snap=>{const d=snap.val();if(d){clubData=d;rPl();rClubAnnouncements();rCl();buildNav();if(S.role==="master"||S.role==="vpe")rMaster();}});
-  if(cb)cb();}catch(e){console.error(e);fbOk=false;updSync();if(cb)cb();}}
+  try{if(!firebase.apps.length)firebase.initializeApp(FB_CONFIG);db=firebase.database();
+    // Test the DB connection. Firebase exposes a special ".info/connected" path that resolves quickly.
+    // If we're blocked, we set up listeners anyway — they'll just never fire — but mark fbOk=false
+    // so UI shows the offline state.
+    let connTimeout=setTimeout(function(){
+      if(!fbOk){console.warn("Firebase DB not connected within 3s — marking offline");fbOk=false;updSync();if(cb){cb();cb=null;}}
+    },3000);
+    db.ref(".info/connected").on("value",function(snap){
+      const connected=!!snap.val();
+      if(connected){
+        clearTimeout(connTimeout);
+        fbOk=true;updSync();
+        if(cb){cb();cb=null;}
+      }else if(!fbOk){
+        // Not yet connected — wait for the timeout
+      }
+    });
+    // Set up the data listeners regardless — they'll fire once connection works.
+    db.ref("clubs/"+S.club+"/members").on("value",snap=>{allMembers=snap.val()||{};rCl();if(S.role==="master"||S.role==="vpe")rMaster();});
+    db.ref("clubs/"+S.club+"/club").on("value",snap=>{const d=snap.val();if(d){clubData=d;rPl();rClubAnnouncements();rCl();buildNav();if(S.role==="master"||S.role==="vpe")rMaster();}});
+  }catch(e){console.error(e);fbOk=false;updSync();if(cb)cb();}
+}
 
 // Try to load existing member data from Firebase by name
+// Critical: Firebase's once() never rejects on network failure — it retries silently forever.
+// We wrap it in a 4-second timeout so the UI doesn't hang if the DB is unreachable (e.g. GFW block).
 function loadFromFB(club,name,role,callback){
   if(!window._fbReady||typeof firebase==="undefined"){callback(false);return;}
+  let done=false;
+  const finish=function(found){if(done)return;done=true;callback(found);};
+  // Hard timeout — if Firebase doesn't respond in 4s, proceed as "not found" (new user flow)
+  setTimeout(function(){
+    if(!done){console.warn("Firebase database unreachable — proceeding offline");fbOk=false;updSync();finish(false);}
+  },4000);
   try{if(!firebase.apps.length)firebase.initializeApp(FB_CONFIG);db=firebase.database();fbOk=true;
     const key=nameKey(name);
-    db.ref("clubs/"+club+"/members/"+key).once("value",snap=>{
+    db.ref("clubs/"+club+"/members/"+key).once("value").then(snap=>{
       const existing=snap.val();
       if(existing&&existing.path){
         // Found existing member — restore their data
@@ -1411,10 +1437,10 @@ function loadFromFB(club,name,role,callback){
         // Ensure paths structure exists (migrate legacy single-path to the paths array)
         migratePaths(S);
         syncActiveToFlat();
-        sv();callback(true);
-      }else{callback(false);}
-    }).catch(()=>callback(false));
-  }catch(e){console.error(e);callback(false);}
+        sv();finish(true);
+      }else{finish(false);}
+    }).catch(()=>{fbOk=false;updSync();finish(false);});
+  }catch(e){console.error(e);fbOk=false;updSync();finish(false);}
 }
 
 function syncMe(){if(!db||!S||S.testMode)return;const key=nameKey(S.name);
@@ -8891,20 +8917,35 @@ document.getElementById("login-btn").onclick=function(){
   else if(code===VPE_CODE){role="vpe";club="5aplus";}
   else if(code===CLUB_CODE){role="member";club="5aplus";}
   else{sT("Invalid club code");return;}
+  // Disable button + show progress
+  const loginBtn=this;loginBtn.disabled=true;const origText=loginBtn.textContent;loginBtn.textContent="Connecting...";
   sT("Connecting...");
-  loadFirebase().then(()=>{
-  loadFromFB(club,name,role,function(found){
-    if(found){
-      document.getElementById("setup-screen").style.display="none";
-      document.getElementById("dashboard").classList.add("active");
-      buildNav();initFB();rD();
-      if(S.role==="master"){showMasterGreeting();}else{sT("Welcome back, "+S.name+"!");startOnboarding();}
-    }else{
+  // Overall safety net — if everything hangs, let the user proceed to new-user flow anyway
+  const safetyTimeout=setTimeout(function(){
+    if(loginBtn.disabled){
+      loginBtn.disabled=false;loginBtn.textContent=origText;
+      sT("⚠️ Server unreachable — continuing offline");
+      // Treat as new user — they can still pick a path and use the app locally
       window._setupName=name;window._setupRole=role;window._setupClub=club;window._testMode=false;
       document.getElementById("step1").style.display="none";
       document.getElementById("step2").className="step2 active";
     }
-  });
+  },8000);
+  loadFirebase().then(()=>{
+    loadFromFB(club,name,role,function(found){
+      clearTimeout(safetyTimeout);
+      loginBtn.disabled=false;loginBtn.textContent=origText;
+      if(found){
+        document.getElementById("setup-screen").style.display="none";
+        document.getElementById("dashboard").classList.add("active");
+        buildNav();initFB();rD();
+        if(S.role==="master"){showMasterGreeting();}else{sT("Welcome back, "+S.name+"!");startOnboarding();}
+      }else{
+        window._setupName=name;window._setupRole=role;window._setupClub=club;window._testMode=false;
+        document.getElementById("step1").style.display="none";
+        document.getElementById("step2").className="step2 active";
+      }
+    });
   });
 };
 document.getElementById("start-btn").onclick=function(){
