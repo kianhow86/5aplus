@@ -2267,7 +2267,7 @@ let S={
   mode:"",
   // Ala carte comfort level — only relevant when mode==="alacarte". Captured
   // during welcome flow to personalize project suggestions. "new" / "some" /
-  // "experienced". Kept loose; v0.36 may add follow-ups.
+  // "experienced". Kept loose; v0.38 may add follow-ups.
   alacarteComfort:"",
   // AI Coach config. Disabled by default. User configures in Settings.
   // mode: "direct" (user's own API key, stored locally — direct browser call)
@@ -2638,7 +2638,7 @@ function renderHub(app){
   }
   h+='</div>';
 
-  h+='<div class="app-footer">Toastmasters Companion · v0.36 · Your progress saves on this device</div>';
+  h+='<div class="app-footer">Toastmasters Companion · v0.38 · Your progress saves on this device</div>';
   h+='</div>';
   app.innerHTML=h;
 
@@ -2940,7 +2940,7 @@ function renderPathPicker(app){
   h+='<button class="quiz-prompt-btn" data-action="open-quiz">🧭 &nbsp; Not sure which one? Take the fun quiz</button>';
   h+='</div>';
 
-  h+='<div class="app-footer">Toastmasters Companion · v0.36 · Built with ❤️ for Toastmasters</div>';
+  h+='<div class="app-footer">Toastmasters Companion · v0.38 · Built with ❤️ for Toastmasters</div>';
   h+='</div>';
   app.innerHTML=h;
 
@@ -3236,7 +3236,7 @@ function renderPathBrowser(app){
   // Keeping it in the tree lets us toggle visibility without re-rendering.
   h+='<div class="path-complete-banner'+(pct>=100?'':' hidden')+'"><strong>🎉 Path complete!</strong><div style="font-size:13px;color:var(--text-muted);line-height:1.5">Next step: DTM. Keep going.</div></div>';
 
-  h+='<div class="app-footer">Toastmasters Companion · v0.36 · Your progress saves locally on this device</div>';
+  h+='<div class="app-footer">Toastmasters Companion · v0.38 · Your progress saves locally on this device</div>';
   h+='</div>';
   app.innerHTML=h;
 
@@ -4563,7 +4563,7 @@ function renderPracticeHub(app){
   h+=toolRow({color:"#6DB6B4",icon:"📝",name:"Speech Draft Builder",desc:"Structure your next speech from outline to close",badge:"Soon",placeholder:true});
 
   h+='</div>';
-  h+='<div class="app-footer">Toastmasters Companion · v0.36 · Practice tools work offline</div>';
+  h+='<div class="app-footer">Toastmasters Companion · v0.38 · Practice tools work offline</div>';
   h+='</div>';
   app.innerHTML=h;
 
@@ -6739,8 +6739,12 @@ async function enhancePathfinderWithAI(){
     "- Reference their goal and constraint where relevant.\n"+
     "- Milestones should be action-driven — what to actually do by that week.\n"+
     "- Return ONLY valid JSON. No markdown, no prose, no code fences. Just the JSON object.\n"+
-    "\nRETURN SHAPE (exactly this structure, 0-indexed week numbers):\n"+
-    '{"focuses":{"0":"...","1":"...","2":"...","3":"...","4":"...","5":"...","6":"...","7":"...","8":"...","9":"...","10":"...","11":"..."},"milestones":{"3":"...","7":"...","11":"..."}}';
+    // Return shape is dynamic — sprint=6 focuses, half=13, full=26
+    ("\nRETURN SHAPE (0-indexed, "+prog.weeks.length+" weekly focus lines + "+ciWeeks.length+" milestones):\n")+
+    JSON.stringify({
+      focuses:Object.fromEntries(prog.weeks.map((_,i)=>[String(i),"..."])),
+      milestones:Object.fromEntries(ciWeeks.map(wn=>[String(wn-1),"..."]))
+    });
 
   // Build compact user message with program context — AI doesn't need full
   // project details, just enough to understand the arc.
@@ -6752,6 +6756,14 @@ async function enhancePathfinderWithAI(){
     return "Week "+(i+1)+" ("+w.phase+"): "+(parts.join(" | ")||"open");
   }).join("\n");
 
+  // Build milestone lines using the plan's actual check-in weeks so it's safe
+  // for any term length (6-week sprint = weeks 0-5, not 7 or 11).
+  const ciWeeks=(prog.checkInWeeks&&prog.checkInWeeks.length?prog.checkInWeeks:[4,8,12]);
+  const ciLines=ciWeeks.map(wn=>{
+    const cw=prog.weeks[wn-1];
+    return"- Week "+wn+": "+(cw&&cw.milestone?cw.milestone:"(none)");
+  }).join("\n");
+
   const userMessage=
     "Path: "+pathName+"\n"+
     "Goal: "+goalLabel+"\n"+
@@ -6760,12 +6772,10 @@ async function enhancePathfinderWithAI(){
     (prog.frequency?"Meeting frequency: "+prog.frequency+"\n":"")+
     (prog.comfort?"Speaking comfort: "+prog.comfort+"\n":"")+
     (prog.interest?"Most energized by: "+prog.interest+"\n":"")+
-    "\n12-WEEK PROGRAM STRUCTURE:\n"+weeksSummary+
-    "\n\nExisting milestones to rewrite (week 4, 8, 12):\n"+
-    "- Week 4: "+(prog.weeks[3].milestone||"(none)")+"\n"+
-    "- Week 8: "+(prog.weeks[7].milestone||"(none)")+"\n"+
-    "- Week 12: "+(prog.weeks[11].milestone||"(none)")+"\n"+
-    "\nReturn the JSON as specified in the system prompt.";
+    "\n"+prog.weeks.length+"-WEEK PROGRAM STRUCTURE:\n"+weeksSummary+
+    "\n\nExisting milestones to rewrite:\n"+
+    ciLines+
+    "\n\nReturn the JSON as specified in the system prompt.";
 
   const raw=await callCoach(systemPrompt,userMessage,{maxTokens:2048});
 
@@ -7631,12 +7641,15 @@ function renderAICoach(app){
 
 async function sendCoachMessage(){
   const ta=document.getElementById("coach-input");
-  const text=(ta?ta.value:V._coachDraft||"").trim();
+  // Read from textarea OR the draft set by starter buttons — whichever is non-empty
+  const taVal=ta?ta.value.trim():"";
+  const text=(taVal||V._coachDraft||"").trim();
   if(!text||V._coachThinking)return;
 
   if(!V._coachHistory)V._coachHistory=[];
   V._coachHistory.push({role:"user",text});
   V._coachDraft="";
+  if(ta)ta.value=""; // also clear the textarea DOM element
   V._coachThinking=true;
   render(); // show user message + dots immediately
 
