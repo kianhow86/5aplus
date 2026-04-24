@@ -157,7 +157,7 @@ a{color:inherit;text-decoration:none}
 .smart-panel.flashing{animation:smartPanelFlash 1.3s cubic-bezier(.22,.61,.36,1) both}
 
 /* ═══ Hub tiles — unified aurora cube style, same system as path cubes ═══ */
-.hub-tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:6px}
+.hub-tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:18px}
 .hub-tile{position:relative;aspect-ratio:1;border-radius:16px;cursor:pointer;border:1px solid;transition:transform .15s ease,filter .15s ease;font-family:inherit;overflow:hidden;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px)}
 .hub-tile::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:0;background:linear-gradient(135deg,transparent 0%,rgba(255,255,255,0.12) 50%,transparent 100%);transform:translateX(-100%);transition:transform .6s ease,opacity .3s ease;z-index:3}
 .hub-tile:hover{transform:translateY(-2px);filter:brightness(1.1)}
@@ -1025,7 +1025,236 @@ a{color:inherit;text-decoration:none}
 @keyframes pfAiPulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.6;transform:scale(1.2)}}
 .pf-ai-error{font-size:12.5px;color:#E85D5D;padding:6px 0 12px;line-height:1.5;letter-spacing:-0.003em}
 
-/* ═══ My Paths dashboard — multi-path switcher ═══ */
+.role-ai-tool{background:linear-gradient(135deg,rgba(160,123,199,0.07),rgba(109,182,180,0.04));border:1px solid rgba(160,123,199,0.28);border-radius:16px;padding:18px;margin-top:16px}
+.role-ai-tool-hdr{display:flex;align-items:center;gap:8px;font-size:15px;font-weight:700;color:var(--text);letter-spacing:-0.006em;margin-bottom:6px}
+.role-ai-badge{font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;background:rgba(160,123,199,0.2);color:#A07BC7;padding:3px 8px;border-radius:6px}
+.role-ai-desc{font-size:13px;color:var(--text-3);line-height:1.5;letter-spacing:-0.003em;margin-bottom:14px}
+.role-ai-form{display:flex;flex-direction:column;gap:10px}
+.role-ai-label{font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-3)}
+.role-ai-input{background:rgba(0,0,0,0.25);border:1px solid var(--border);border-radius:11px;padding:11px 14px;color:var(--text);font-size:14px;font-family:inherit;letter-spacing:-0.003em;transition:border-color .15s}
+.role-ai-input:focus{outline:none;border-color:rgba(160,123,199,0.6)}
+.role-ai-input::placeholder{color:var(--text-3)}
+.role-ai-row{display:flex;gap:7px;flex-wrap:wrap}
+.role-ai-chip{padding:8px 14px;background:rgba(255,255,255,0.05);border:1px solid var(--border);border-radius:10px;color:var(--text-2);font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;transition:background .15s,border-color .15s,color .15s;display:flex;flex-direction:column;align-items:center;gap:1px}
+.role-ai-chip.active{background:rgba(160,123,199,0.18);border-color:rgba(160,123,199,0.6);color:#A07BC7}
+.role-ai-chip-sub{font-size:10px;color:var(--text-3);font-weight:400}
+.role-ai-chip.active .role-ai-chip-sub{color:rgba(160,123,199,0.7)}
+.role-ai-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+.role-ai-segment{padding:10px 8px;background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:10px;color:var(--text-2);font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;text-align:center;line-height:1.4;transition:background .15s,border-color .15s,color .15s}
+.role-ai-segment.active{background:rgba(232,93,58,0.14);border-color:rgba(232,93,58,0.5);color:#E85D3A}
+.role-ai-generate{padding:12px 18px;background:linear-gradient(135deg,#A07BC7,#6DB6B4);color:#0A0B0F;border:none;border-radius:11px;font-weight:700;font-size:14px;cursor:pointer;font-family:inherit;letter-spacing:-0.003em;transition:filter .15s,transform .12s}
+.role-ai-generate:hover{filter:brightness(1.08)}
+.role-ai-generate:active{transform:scale(0.98)}
+.role-ai-why-box{background:rgba(0,0,0,0.2);border-radius:12px;padding:14px 16px;margin-bottom:12px}
+.role-ai-why-title{font-size:14px;font-weight:700;color:var(--text);margin-bottom:6px;letter-spacing:-0.005em}
+.role-ai-why-text{font-size:13px;color:var(--text-2);line-height:1.6;letter-spacing:-0.003em}
+.role-ai-radio-row{display:flex;gap:8px}
+.role-ai-radio-btn{flex:1;padding:11px 8px;display:flex;align-items:center;justify-content:center;gap:8px;background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:11px;color:var(--text-2);font-size:13.5px;font-weight:600;cursor:pointer;font-family:inherit;transition:background .15s,border-color .15s,color .15s}
+.role-ai-radio-btn.active{background:rgba(160,123,199,0.12);border-color:rgba(160,123,199,0.5);color:#A07BC7}
+.role-ai-radio-dot{width:13px;height:13px;border-radius:50%;border:2px solid var(--border);flex-shrink:0;transition:border-color .15s,background .15s}
+.role-ai-radio-dot.active{border-color:#A07BC7;background:#A07BC7;box-shadow:0 0 0 3px rgba(160,123,199,0.2)}
+.role-ai-select-wrap{position:relative}
+.role-ai-select{width:100%;background:rgba(0,0,0,0.25);border:1px solid var(--border);border-radius:11px;padding:11px 14px;color:var(--text);font-size:14px;font-family:inherit;appearance:none;cursor:pointer}
+.role-ai-select:focus{outline:none;border-color:rgba(232,93,58,0.6)}
+.role-ai-output{margin-top:12px;padding-top:12px;border-top:1px solid rgba(255,255,255,0.06)}
+.role-ai-loading{display:flex;justify-content:center;padding:12px}
+.role-ai-error{font-size:13px;color:#E85D5D;padding:8px}
+.role-ai-results{display:flex;flex-direction:column;gap:8px}
+.role-ai-result-item{display:flex;align-items:flex-start;gap:10px;padding:10px 12px;background:rgba(255,255,255,0.04);border-radius:10px}
+.role-ai-result-n{font-size:12px;font-weight:700;color:var(--accent);flex-shrink:0;width:18px;padding-top:1px}
+.role-ai-result-item span:last-child{font-size:13.5px;color:var(--text-2);line-height:1.5;letter-spacing:-0.003em}
+.role-ai-wod-card{background:rgba(0,0,0,0.2);border-radius:12px;padding:16px;text-align:center}
+.role-ai-wod-word{font-size:28px;font-weight:800;color:var(--text);letter-spacing:-0.015em;margin-bottom:4px}
+.role-ai-wod-meta{font-size:12px;color:var(--text-3);letter-spacing:-0.003em;margin-bottom:10px}
+.role-ai-wod-def{font-size:14px;color:var(--text-2);line-height:1.55;letter-spacing:-0.003em;margin-bottom:8px}
+.role-ai-wod-ex{font-size:13px;color:var(--text-3);font-style:italic;line-height:1.5}
+.role-ai-script{background:rgba(0,0,0,0.2);border-radius:12px;padding:14px}
+.role-ai-script-label{font-size:10.5px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-3);margin-bottom:8px}
+.role-ai-script-text{font-size:14px;color:var(--text-2);line-height:1.65;letter-spacing:-0.003em}
+.role-ai-eval-guide{background:rgba(0,0,0,0.2);border-radius:12px;padding:14px}
+.role-ai-eval-project{font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#EB5757;margin-bottom:8px}
+.role-ai-eval-text{font-size:13.5px;color:var(--text-2);line-height:1.6;letter-spacing:-0.003em}
+.role-ai-eval-text p{margin:0 0 10px}
+.role-ai-eval-text p:last-child{margin:0}
+/* ═══ Evaluation Helper ═══ */
+.eh-view,.sd-view{padding-bottom:32px}
+.eh-picker-label,.sd-label{font-size:10.5px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-3);margin-bottom:7px}
+.eh-picker-wrap,.eh-notes-wrap,.sd-field{margin-bottom:14px}
+.eh-select-wrap,.sd-select-wrap{position:relative}
+.eh-select{width:100%;background:rgba(0,0,0,0.25);border:1px solid var(--border);border-radius:11px;padding:12px 14px;color:var(--text);font-size:14px;font-family:inherit;appearance:none;cursor:pointer;transition:border-color .15s}
+.eh-select:focus{outline:none;border-color:rgba(232,93,58,0.6)}
+.eh-focus-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px 18px;margin-bottom:14px}
+.eh-focus-kicker{font-size:10px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--text-3);margin-bottom:6px}
+.eh-focus-title{font-size:16px;font-weight:700;color:var(--text);margin-bottom:4px;letter-spacing:-0.006em}
+.eh-focus-purpose{font-size:12.5px;color:var(--text-3);margin-bottom:10px;line-height:1.5;letter-spacing:-0.003em}
+.eh-focus-how{font-size:13px;color:var(--text-2);line-height:1.6;letter-spacing:-0.003em;padding:10px 12px;background:rgba(255,255,255,0.03);border-radius:8px;margin-bottom:12px}
+.eh-crc-guide{display:flex;flex-direction:column;gap:7px}
+.eh-crc-item{display:flex;align-items:flex-start;gap:10px;font-size:13px;color:var(--text-2);line-height:1.5;letter-spacing:-0.003em}
+.eh-crc-badge{flex-shrink:0;padding:3px 9px;border-radius:6px;font-size:10.5px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase}
+.eh-crc-badge.green{background:rgba(94,185,117,0.15);color:#5EB975}
+.eh-crc-badge.amber{background:rgba(232,178,80,0.15);color:#E8B250}
+.eh-notes{width:100%;background:rgba(0,0,0,0.2);border:1px solid var(--border);border-radius:11px;padding:12px 14px;color:var(--text);font-size:13.5px;font-family:inherit;resize:vertical;line-height:1.5;letter-spacing:-0.003em;min-height:90px;box-sizing:border-box}
+.eh-notes:focus{outline:none;border-color:rgba(232,93,58,0.5)}
+.eh-notes::placeholder{color:var(--text-3)}
+.eh-generate-btn{width:100%;padding:13px 18px;background:linear-gradient(135deg,#A07BC7,#6DB6B4);color:#0A0B0F;border:none;border-radius:12px;font-weight:700;font-size:14.5px;cursor:pointer;font-family:inherit;letter-spacing:-0.003em;transition:filter .15s,transform .12s;margin-bottom:12px}
+.eh-generate-btn:hover{filter:brightness(1.08)}
+.eh-generate-btn:active{transform:scale(0.98)}
+.eh-output{margin-top:4px}
+.eh-draft{background:rgba(0,0,0,0.2);border:1px solid var(--border);border-radius:13px;padding:16px}
+.eh-draft-label{font-size:10px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--accent);margin-bottom:10px}
+.eh-draft-text{font-size:13.5px;color:var(--text-2);line-height:1.65;letter-spacing:-0.003em}
+.eh-draft-text p{margin:0 0 10px}
+.eh-draft-text p:last-child{margin:0}
+.eh-draft-hint{font-size:11.5px;color:var(--text-3);margin-top:10px;padding-top:10px;border-top:1px solid rgba(255,255,255,0.06);line-height:1.5;letter-spacing:-0.003em}
+.eh-ai-off-note{font-size:13px;color:var(--text-3);padding:12px 16px;background:var(--surface);border-radius:11px;line-height:1.5;letter-spacing:-0.003em}
+/* ═══ Speech Draft Builder ═══ */
+.sd-form{display:flex;flex-direction:column;gap:0}
+.sd-frameworks{display:flex;flex-direction:column;gap:7px}
+.sd-framework-btn{padding:12px 14px;background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:12px;text-align:left;cursor:pointer;font-family:inherit;transition:background .15s,border-color .15s}
+.sd-framework-btn.active{background:rgba(109,182,180,0.1);border-color:rgba(109,182,180,0.5)}
+.sd-fw-label{font-size:13.5px;font-weight:700;color:var(--text);letter-spacing:-0.005em;margin-bottom:3px}
+.sd-fw-desc{font-size:12px;color:var(--text-3);letter-spacing:-0.003em;line-height:1.4}
+.sd-framework-btn.active .sd-fw-label{color:var(--accent)}
+.sd-framework-btn.active .sd-fw-desc{color:var(--text-2)}
+.sd-preview{background:rgba(0,0,0,0.2);border-radius:11px;padding:12px 14px;margin:10px 0 16px;display:flex;flex-direction:column;gap:7px}
+.sd-preview-label{font-size:10px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--text-3);margin-bottom:2px}
+.sd-preview-pt{display:flex;gap:10px;align-items:flex-start;font-size:12.5px;color:var(--text-2);line-height:1.45;letter-spacing:-0.003em}
+.sd-preview-n{font-size:11px;font-weight:800;color:var(--accent);flex-shrink:0;padding-top:1px;width:14px}
+.sd-result-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:20px;margin-top:4px}
+.sd-result-title{font-size:19px;font-weight:800;color:var(--text);letter-spacing:-0.01em;margin-bottom:4px}
+.sd-result-project{font-size:12px;color:var(--text-3);margin-bottom:4px;letter-spacing:-0.003em}
+.sd-result-fw{font-size:11.5px;font-weight:700;color:var(--accent);letter-spacing:0.05em;text-transform:uppercase;margin-bottom:16px}
+.sd-result-section{margin-bottom:14px;padding-bottom:14px;border-bottom:1px solid rgba(255,255,255,0.05)}
+.sd-result-section:last-of-type{border-bottom:none;margin-bottom:0;padding-bottom:0}
+.sd-result-sec-label{font-size:10px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--text-3);margin-bottom:6px}
+.sd-result-text{font-size:13.5px;color:var(--text-2);line-height:1.65;letter-spacing:-0.003em}
+.sd-result-blank{font-size:13px;color:var(--text-3);line-height:1.55;letter-spacing:-0.003em;font-style:italic;padding:8px 12px;background:rgba(255,255,255,0.03);border-radius:8px;border-left:2px solid rgba(109,182,180,0.3)}
+.sd-result-hint{font-size:11.5px;color:var(--text-3);margin-top:14px;padding-top:12px;border-top:1px solid rgba(255,255,255,0.06);line-height:1.5;letter-spacing:-0.003em}
+.sd-loading{opacity:0.7}
+
+/* ═══ Table Topics AI section ═══ */
+.tt-ai-section{background:linear-gradient(135deg,rgba(160,123,199,0.07),rgba(109,182,180,0.04));border:1px solid rgba(160,123,199,0.28);border-radius:16px;padding:16px;margin-bottom:14px}
+.tt-ai-hdr{font-size:13px;font-weight:700;color:#A07BC7;letter-spacing:0.04em;margin-bottom:10px}
+.tt-ai-body{display:flex;flex-direction:column;gap:10px}
+.tt-ai-diff-row{display:flex;gap:8px}
+.tt-ai-diff-btn{flex:1;padding:10px 8px;display:flex;align-items:center;justify-content:center;gap:7px;background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:10px;color:var(--text-2);font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;transition:background .15s,border-color .15s,color .15s}
+.tt-ai-diff-btn.active{background:rgba(160,123,199,0.12);border-color:rgba(160,123,199,0.5);color:#A07BC7}
+.tt-ai-diff-dot{width:12px;height:12px;border-radius:50%;border:2px solid var(--border);flex-shrink:0;transition:border-color .15s,background .15s}
+.tt-ai-diff-dot.active{border-color:#A07BC7;background:#A07BC7}
+.tt-ai-generate-btn{padding:11px 16px;background:linear-gradient(135deg,#A07BC7,#6DB6B4);color:#0A0B0F;border:none;border-radius:10px;font-weight:700;font-size:13.5px;cursor:pointer;font-family:inherit;letter-spacing:-0.003em;transition:filter .15s,transform .12s}
+.tt-ai-generate-btn:hover{filter:brightness(1.08)}
+.tt-ai-generate-btn:active{transform:scale(0.98)}
+.tt-ai-results-wrap{margin-top:12px;padding-top:12px;border-top:1px solid rgba(255,255,255,0.07)}
+.tt-ai-results-label{font-size:10px;font-weight:700;letter-spacing:0.13em;text-transform:uppercase;color:var(--text-3);margin-bottom:8px}
+.tt-ai-results-list{display:flex;flex-direction:column;gap:6px}
+.tt-ai-result-item{display:flex;align-items:center;gap:10px;padding:11px 14px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);border-radius:11px;cursor:pointer;font-family:inherit;text-align:left;transition:background .15s,border-color .15s}
+.tt-ai-result-item:hover{background:rgba(160,123,199,0.1);border-color:rgba(160,123,199,0.35)}
+.tt-ai-result-n{font-size:11.5px;font-weight:700;color:var(--accent);flex-shrink:0;width:18px}
+.tt-ai-result-text{flex:1;font-size:13.5px;color:var(--text-2);line-height:1.4;letter-spacing:-0.003em}
+.tt-ai-result-arrow{color:var(--text-3);font-size:14px;flex-shrink:0;transition:color .15s,transform .15s}
+.tt-ai-result-item:hover .tt-ai-result-arrow{color:#A07BC7;transform:translateX(3px)}
+.tt-ai-divider{display:flex;align-items:center;gap:10px;margin:16px 0 10px;color:var(--text-3);font-size:12px;letter-spacing:-0.003em}
+.tt-ai-divider::before,.tt-ai-divider::after{content:"";flex:1;height:1px;background:rgba(255,255,255,0.07)}
+
+/* ═══ WOD AI section ═══ */
+.wod-ai-section{margin-top:16px}
+.wod-ai-toggle-btn{width:100%;padding:11px 16px;background:linear-gradient(135deg,rgba(160,123,199,0.12),rgba(109,182,180,0.08));border:1px solid rgba(160,123,199,0.3);border-radius:12px;color:#A07BC7;font-size:13.5px;font-weight:700;cursor:pointer;font-family:inherit;letter-spacing:-0.003em;transition:filter .15s,transform .12s}
+.wod-ai-toggle-btn:hover{filter:brightness(1.1)}
+.wod-ai-panel{background:linear-gradient(135deg,rgba(160,123,199,0.07),rgba(109,182,180,0.04));border:1px solid rgba(160,123,199,0.28);border-radius:14px;padding:16px;display:flex;flex-direction:column;gap:10px}
+.wod-ai-panel-hdr{display:flex;align-items:center;justify-content:space-between}
+.wod-ai-panel-title{font-size:13px;font-weight:700;color:#A07BC7}
+.wod-ai-close-btn{background:transparent;border:none;color:var(--text-3);cursor:pointer;font-size:15px;padding:2px 6px;border-radius:5px;transition:color .15s}
+.wod-ai-close-btn:hover{color:var(--text-2)}
+.wod-ai-diff-row{display:flex;gap:7px}
+.wod-ai-gen-btn{padding:11px 16px;background:linear-gradient(135deg,#A07BC7,#6DB6B4);color:#0A0B0F;border:none;border-radius:10px;font-weight:700;font-size:13.5px;cursor:pointer;font-family:inherit;letter-spacing:-0.003em;transition:filter .15s,transform .12s}
+.wod-ai-gen-btn:hover{filter:brightness(1.08)}
+.wod-ai-gen-btn:active{transform:scale(0.98)}
+.wod-ai-result-card{margin-top:2px;border-color:rgba(160,123,199,0.3);background:rgba(160,123,199,0.05)}
+
+.ps-view{display:flex;flex-direction:column;gap:14px;padding-bottom:24px}
+.ps-header{text-align:center;padding:8px 0 4px}
+.ps-header-icon{font-size:40px;margin-bottom:6px}
+.ps-header-title{font-size:22px;font-weight:800;letter-spacing:-0.015em;color:var(--text)}
+.ps-header-sub{font-size:13px;color:var(--text-3);letter-spacing:-0.003em;margin-top:3px}
+.ps-project-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px 18px}
+.ps-project-kicker{font-size:10.5px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-3);margin-bottom:6px}
+.ps-project-row{display:flex;align-items:center;gap:12px}
+.ps-project-info{flex:1;min-width:0}
+.ps-project-name{font-size:17px;font-weight:700;color:var(--text);letter-spacing:-0.008em;line-height:1.2}
+.ps-project-dur{font-size:12.5px;color:var(--text-3);margin-top:2px;letter-spacing:-0.003em}
+.ps-project-change{padding:8px 14px;background:rgba(255,255,255,0.07);border:1px solid var(--border);border-radius:9px;color:var(--text-2);font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;transition:background .15s,color .15s;flex-shrink:0}
+.ps-project-change:hover{background:rgba(255,255,255,0.12);color:var(--text)}
+.ps-project-dropdown{margin-top:12px;border-top:1px solid rgba(255,255,255,0.06);padding-top:10px}
+.ps-project-level-hdr{font-size:10px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--text-3);padding:8px 0 4px}
+.ps-project-option{display:block;width:100%;padding:10px 12px;background:transparent;border:none;border-radius:8px;text-align:left;cursor:pointer;font-family:inherit;font-size:13.5px;color:var(--text-2);letter-spacing:-0.003em;transition:background .15s,color .15s}
+.ps-project-option:hover,.ps-project-option.selected{background:rgba(255,255,255,0.05);color:var(--text)}
+.ps-project-option.selected{color:var(--accent);font-weight:600}
+.ps-project-elective{font-size:10px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--accent);opacity:0.7;margin-left:4px}
+.ps-project-opt-dur{color:var(--text-3);font-size:12px;margin-left:6px}
+.ps-timer-card{background:rgba(0,0,0,0.25);border:1px solid var(--border);border-radius:14px;padding:22px 18px;text-align:center;transition:border-color .35s ease,background .35s ease}
+.ps-timer-card.phase-green{border-color:#5EB975;background:rgba(94,185,117,0.06)}
+.ps-timer-card.phase-red{border-color:#E85D5D;background:rgba(232,93,93,0.08)}
+.ps-timer-state{font-size:10.5px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--text-3);margin-bottom:8px}
+.ps-timer-display{font-size:52px;font-weight:800;color:var(--text);font-variant-numeric:tabular-nums;letter-spacing:-0.03em;line-height:1}
+.ps-timer-hint{font-size:12.5px;color:var(--text-3);margin-top:10px;letter-spacing:-0.003em}
+.ps-timer-markers{display:flex;justify-content:center;gap:24px;margin-top:10px}
+.ps-marker{font-size:12px;font-weight:600;letter-spacing:-0.003em}
+.ps-marker.green{color:#5EB975}
+.ps-marker.red{color:#E85D5D}
+.ps-mic-wrap{display:flex;flex-direction:column;align-items:center;gap:10px;padding:8px 0}
+.ps-mic-btn{cursor:pointer;display:inline-flex;align-items:center;justify-content:center}
+.ps-mic-ring{width:88px;height:88px;border-radius:50%;border:3px solid rgba(109,182,180,0.4);display:flex;align-items:center;justify-content:center;transition:border-color .25s,box-shadow .25s;animation:psMicPulse 2.8s ease-in-out infinite}
+.ps-mic-btn:hover .ps-mic-ring{border-color:var(--accent);box-shadow:0 0 32px rgba(109,182,180,0.4)}
+.ps-mic-ring.active{border-color:#E85D5D;box-shadow:0 0 40px rgba(232,93,93,0.5);animation:psMicRecording 1s ease-in-out infinite alternate}
+@keyframes psMicPulse{0%,100%{box-shadow:0 0 0 rgba(109,182,180,0)}50%{box-shadow:0 0 28px rgba(109,182,180,0.25)}}
+@keyframes psMicRecording{from{box-shadow:0 0 20px rgba(232,93,93,0.4)}to{box-shadow:0 0 50px rgba(232,93,93,0.7)}}
+.ps-mic-icon{font-size:36px}
+.ps-mic-label{font-size:14px;font-weight:600;color:var(--text-2);letter-spacing:-0.003em}
+.ps-no-mic-note{font-size:11.5px;color:var(--text-3);text-align:center;letter-spacing:-0.003em;line-height:1.5}
+
+/* Active session */
+.ps-active-header{text-align:center;padding:6px 0 2px}
+.ps-active-title{font-size:17px;font-weight:700;color:var(--text);letter-spacing:-0.008em}
+.ps-active-target{font-size:12px;color:var(--text-3);letter-spacing:-0.003em;margin-top:2px}
+.ps-active-card{background:rgba(0,0,0,0.3);border:2px solid rgba(232,93,93,0.5);border-radius:16px;padding:24px 18px;text-align:center;animation:psBorderPulse 1.8s ease-in-out infinite}
+@keyframes psBorderPulse{0%,100%{border-color:rgba(232,93,93,0.5)}50%{border-color:rgba(232,93,93,0.9)}}
+.ps-active-card.phase-green{border-color:rgba(94,185,117,0.7);animation:none}
+.ps-active-card.phase-red{border-color:rgba(232,93,93,0.9);animation:none}
+.ps-active-state{font-size:10.5px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#E85D5D;margin-bottom:6px}
+.ps-active-display{font-size:64px;font-weight:800;color:var(--text);font-variant-numeric:tabular-nums;letter-spacing:-0.04em;line-height:1}
+.ps-active-markers{display:flex;justify-content:center;gap:20px;margin-top:10px}
+.ps-active-stats{display:flex;justify-content:center;gap:18px}
+.ps-stat-chip{display:flex;flex-direction:column;align-items:center;gap:3px;padding:10px 20px;background:var(--surface);border:1px solid var(--border);border-radius:12px}
+.ps-stat-n{font-size:24px;font-weight:800;color:var(--text);font-variant-numeric:tabular-nums;letter-spacing:-0.02em}
+.ps-stat-lbl{font-size:11px;color:var(--text-3);font-weight:600;letter-spacing:0.06em;text-transform:uppercase}
+
+/* Done screen */
+.ps-done-header{text-align:center;padding:10px 0}
+.ps-done-icon{font-size:42px;margin-bottom:6px}
+.ps-done-title{font-size:18px;font-weight:700;color:var(--text);letter-spacing:-0.008em}
+.ps-results-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.ps-result-card{background:var(--surface);border:1px solid var(--border);border-radius:13px;padding:16px;text-align:center}
+.ps-result-n{font-size:26px;font-weight:800;letter-spacing:-0.02em;font-variant-numeric:tabular-nums}
+.ps-result-n.green{color:#5EB975}
+.ps-result-n.amber{color:#E8B250}
+.ps-result-n.red{color:#E85D5D}
+.ps-result-lbl{font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-3);margin-top:4px}
+.ps-result-sub{font-size:11.5px;font-weight:600;margin-top:3px;letter-spacing:-0.003em}
+.ps-result-sub.green{color:#5EB975}
+.ps-result-sub.amber{color:#E8B250}
+.ps-result-sub.red{color:#E85D5D}
+.ps-filler-breakdown{background:var(--surface);border:1px solid var(--border);border-radius:13px;padding:14px 16px}
+.ps-filler-title{font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-3);margin-bottom:10px}
+.ps-filler-chips{display:flex;flex-wrap:wrap;gap:7px}
+.ps-filler-chip{display:flex;align-items:center;gap:5px;padding:5px 10px;background:rgba(232,93,93,0.1);border:1px solid rgba(232,93,93,0.25);border-radius:8px}
+.ps-filler-word{font-size:12.5px;color:var(--text-2);font-weight:500}
+.ps-filler-count{font-size:12px;font-weight:800;color:#E85D5D;min-width:14px;text-align:center}
+.ps-analysis-card{background:linear-gradient(135deg,rgba(160,123,199,0.07),rgba(109,182,180,0.04));border:1px solid rgba(160,123,199,0.3);border-radius:14px;padding:16px}
+.ps-analysis-hdr{font-size:12px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#A07BC7;margin-bottom:10px}
+.ps-analysis-text{font-size:13.5px;color:var(--text-2);line-height:1.6;letter-spacing:-0.003em}
+.ps-analysis-text p{margin:0 0 10px}
+.ps-analysis-text p:last-child{margin:0}
+.ps-analysis-loading,.ps-analysis-pending{display:flex;align-items:center;justify-content:center;padding:12px;color:var(--text-3);font-size:13px;gap:8px}
 .mp-list{display:flex;flex-direction:column;gap:12px;margin-top:16px;margin-bottom:18px}
 .mp-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:18px;transition:border-color .2s ease,background .2s ease}
 .mp-card.active{border-color:var(--pc);background:linear-gradient(135deg,rgba(255,255,255,0.02),rgba(255,255,255,0.005))}
@@ -2267,7 +2496,7 @@ let S={
   mode:"",
   // Ala carte comfort level — only relevant when mode==="alacarte". Captured
   // during welcome flow to personalize project suggestions. "new" / "some" /
-  // "experienced". Kept loose; v0.38 may add follow-ups.
+  // "experienced". Kept loose; v0.42 may add follow-ups.
   alacarteComfort:"",
   // AI Coach config. Disabled by default. User configures in Settings.
   // mode: "direct" (user's own API key, stored locally — direct browser call)
@@ -2314,6 +2543,12 @@ function load(){
     if(!S.pathArchive)S.pathArchive={};
     if(!S.aiConfig)S.aiConfig={enabled:true,mode:"backend",apiKey:"",endpoint:"/.netlify/functions/coach",model:"claude-sonnet-4-6"};
     if(S.tourSeen===undefined)S.tourSeen=false;
+    // Bootstrap enrolledPaths for users who enrolled before this was tracked
+    if(!S.enrolledPaths){
+      S.enrolledPaths=[];
+      if(S.path)S.enrolledPaths.push(S.path);
+      Object.keys(S.pathArchive||{}).forEach(c=>{if(PA[c])S.enrolledPaths.push(c);});
+    }
     // Migration: existing users with a path are path-mode by inference.
     // Only force welcome on true fresh installs.
     if(S.mode===undefined)S.mode="";
@@ -2334,7 +2569,12 @@ function save(){
 // only one active path — the archive is transparent.
 function switchPath(newCode){
   if(S.path===newCode)return; // nothing to do
+  // Track explicit enrollment — any path ever switched to is enrolled
+  if(!S.enrolledPaths)S.enrolledPaths=[];
+  if(!S.enrolledPaths.includes(newCode))S.enrolledPaths.push(newCode);
   if(S.path){
+    // Track outgoing path too (in case it was set before enrolledPaths existed)
+    if(!S.enrolledPaths.includes(S.path))S.enrolledPaths.push(S.path);
     // Archive current path's state
     S.pathArchive[S.path]={
       done:S.done||{},
@@ -2490,7 +2730,9 @@ function render(){
   else if(V.view==="pathfinder-program"){renderPathfinderProgram(app);}
   else if(V.view==="settings"){renderSettings(app);}
   else if(V.view==="ai-settings"){renderAISettings(app);}
-  else if(V.view==="ai-coach"){renderAICoach(app);}
+  else if(V.view==="ai-coach"){renderPracticeStudio(app);}
+  else if(V.view==="eval-helper"){renderEvalHelper(app);}
+  else if(V.view==="speech-draft"){renderSpeechDraft(app);}
   else if(V.view==="my-paths"){renderMyPaths(app);}
   else if(V.view==="welcome"){renderWelcome(app);}
   else if(V.view==="welcome-alacarte"){renderWelcomeAlacarte(app);}
@@ -2623,7 +2865,7 @@ function renderHub(app){
     h+=tile({hub:"all-projects",glyph:"path",color:"#D4A94C",name:"All Projects"});
     h+=tile({hub:"roles",glyph:"roles",color:"#E85D3A",name:"Club Roles"});
     h+=tile({hub:"path",glyph:"pathfinder",color:"#5B9DD9",name:"Try a Path"});
-    h+=tile({hub:"ai-coach",glyph:"coach",color:"#A07BC7",name:"AI Coach"});
+    h+=tile({hub:"ai-coach",glyph:"coach",color:"#A07BC7",name:"Practice Studio"});
     h+=tile({glyph:"community",color:"#DB8A6A",name:"Community",badge:"Soon",placeholder:true});
   }else{
     // Path mode: original 6-tile layout with Pick a Path primary.
@@ -2633,12 +2875,12 @@ function renderHub(app){
     h+=tile({hub:"roles",glyph:"roles",color:"#D4A94C",name:"Club Roles"});
     h+=tile({hub:"practice",glyph:"practice",color:"#5EB975",name:"Practice"});
     h+=tile({hub:"pathfinder",glyph:"pathfinder",color:"#5B9DD9",name:"Pathfinder"});
-    h+=tile({hub:"ai-coach",glyph:"coach",color:"#A07BC7",name:"AI Coach"});
+    h+=tile({hub:"ai-coach",glyph:"coach",color:"#A07BC7",name:"Practice Studio"});
     h+=tile({glyph:"community",color:"#DB8A6A",name:"Community",badge:"Soon",placeholder:true});
   }
   h+='</div>';
 
-  h+='<div class="app-footer">Toastmasters Companion · v0.38 · Your progress saves on this device</div>';
+  h+='<div class="app-footer">Toastmasters Companion · v0.42 · Your progress saves on this device</div>';
   h+='</div>';
   app.innerHTML=h;
 
@@ -2940,7 +3182,7 @@ function renderPathPicker(app){
   h+='<button class="quiz-prompt-btn" data-action="open-quiz">🧭 &nbsp; Not sure which one? Take the fun quiz</button>';
   h+='</div>';
 
-  h+='<div class="app-footer">Toastmasters Companion · v0.38 · Built with ❤️ for Toastmasters</div>';
+  h+='<div class="app-footer">Toastmasters Companion · v0.42 · Built with ❤️ for Toastmasters</div>';
   h+='</div>';
   app.innerHTML=h;
 
@@ -3057,6 +3299,8 @@ function renderModal(){
   const choosePathBtn=root.querySelector('[data-action="choose-path"]');
   if(choosePathBtn)choosePathBtn.addEventListener("click",e=>{
     const code=e.currentTarget.dataset.code;
+    if(!S.enrolledPaths)S.enrolledPaths=[];
+    if(!S.enrolledPaths.includes(code))S.enrolledPaths.push(code);
     switchPath(code);
     V.pathDetailShown=null;
     V.view="browser";
@@ -3236,7 +3480,7 @@ function renderPathBrowser(app){
   // Keeping it in the tree lets us toggle visibility without re-rendering.
   h+='<div class="path-complete-banner'+(pct>=100?'':' hidden')+'"><strong>🎉 Path complete!</strong><div style="font-size:13px;color:var(--text-muted);line-height:1.5">Next step: DTM. Keep going.</div></div>';
 
-  h+='<div class="app-footer">Toastmasters Companion · v0.38 · Your progress saves locally on this device</div>';
+  h+='<div class="app-footer">Toastmasters Companion · v0.42 · Your progress saves locally on this device</div>';
   h+='</div>';
   app.innerHTML=h;
 
@@ -3889,30 +4133,143 @@ function renderRoleDetail(app,roleId){
 
   h+='<div class="role-content" style="--role-color:'+role.color+'">'+content+'</div>';
 
-  // Cross-link to real tools where they exist; "coming soon" note otherwise.
+  // ── Role-specific tools ──
+  const aiOn=S.aiConfig&&S.aiConfig.enabled;
+
   if(role.id==="timer"){
     h+='<div class="role-tools-note" style="border-style:solid;border-color:rgba(109,182,180,0.45);background:rgba(109,182,180,0.1)">';
     h+='<div style="margin-bottom:10px">🎯 <strong>Speech Timer</strong> — the real thing, ready to use right now.</div>';
     h+='<button class="modal-cta" style="width:auto;padding:10px 22px;font-size:14px" data-action="open-timer">Open Speech Timer →</button>';
     h+='</div>';
+
   }else if(role.id==="ah"){
     h+='<div class="role-tools-note" style="border-style:solid;border-color:rgba(123,167,204,0.45);background:rgba(123,167,204,0.1)">';
     h+='<div style="margin-bottom:10px">🎙️ <strong>Filler Detector</strong> — practice your speech and see your specific fillers in real time.</div>';
     h+='<button class="modal-cta" style="width:auto;padding:10px 22px;font-size:14px;background:var(--blue);color:#fff" data-action="open-filler">Open Filler Detector →</button>';
     h+='</div>';
+
   }else if(role.id==="ttm"){
     h+='<div class="role-tools-note" style="border-style:solid;border-color:rgba(91,157,217,0.45);background:rgba(91,157,217,0.1)">';
     h+='<div style="margin-bottom:10px">🎯 <strong>Table Topics Generator</strong></div>';
     h+='<button class="modal-cta" style="width:auto;padding:10px 22px;font-size:14px;background:#5B9DD9;color:#fff" data-action="open-topics">Open Table Topics Generator</button>';
     h+='</div>';
+    if(aiOn){
+      h+='<div class="role-ai-tool">';
+      h+='<div class="role-ai-tool-hdr"><span class="role-ai-badge">✨ AI</span><span>AI Topics Generator</span></div>';
+      h+='<div class="role-ai-why-box">';
+      h+='<div class="role-ai-why-title">Why Table Topics matters</div>';
+      h+='<div class="role-ai-why-text">Table Topics trains you to think on your feet — a skill that transfers directly to job interviews, meetings, networking, and everyday conversations. The best impromptu speakers aren\'t born with it — they practice. Great questions make great practice. That\'s what this tool is for: generating questions that push speakers beyond "what\'s your favorite food" into genuinely thought-provoking territory.</div>';
+      h+='</div>';
+      h+='<div class="role-ai-form">';
+      h+='<div class="role-ai-label">MEETING THEME</div>';
+      h+='<input class="role-ai-input" id="tt-theme" placeholder="e.g. Travel, Childhood memories, Technology, Food…" />';
+      h+='<div class="role-ai-label">DIFFICULTY</div>';
+      h+='<div class="role-ai-radio-row">';
+      ['Easy','Medium','Challenging'].forEach(d=>{
+        const active=d==='Medium';
+        h+='<button class="role-ai-radio-btn'+(active?' active':'')+'" data-tt-diff="'+d+'">';
+        h+='<span class="role-ai-radio-dot'+(active?' active':'')+'"></span>'+d;
+        h+='</button>';
+      });
+      h+='</div>';
+      h+='<button class="role-ai-generate" data-action="tt-generate">🎲 Generate 10 Topics</button>';
+      h+='</div>';
+      h+='<div class="role-ai-output" id="tt-output" style="display:none"></div>';
+      h+='</div>';
+    }
+
   }else if(role.id==="gram"){
     h+='<div class="role-tools-note" style="border-style:solid;border-color:rgba(160,123,199,0.45);background:rgba(160,123,199,0.1)">';
     h+='<div style="margin-bottom:10px">📖 <strong>Word of the Day</strong></div>';
     h+='<button class="modal-cta" style="width:auto;padding:10px 22px;font-size:14px;background:#A07BC7;color:#fff" data-action="open-wod">Open Word of the Day</button>';
     h+='</div>';
+    if(aiOn){
+      h+='<div class="role-ai-tool" id="role-ai-gram">';
+      h+='<div class="role-ai-tool-hdr"><span class="role-ai-badge">✨ AI</span><span>AI Word of the Day</span></div>';
+      h+='<div class="role-ai-desc">Get a curated word matching your meeting theme with definition and usage example.</div>';
+      h+='<div class="role-ai-form">';
+      h+='<input class="role-ai-input" id="wod-theme" placeholder="Meeting theme (e.g. Leadership, Change…)" />';
+      h+='<div class="role-ai-row">';
+      [['Practical','Everyday'],['Balanced','Elevated'],['Advanced','Sophisticated']].forEach(([d,sub])=>{
+        h+='<button class="role-ai-chip'+(d==='Balanced'?' active':'')+'" data-wod-diff="'+d+'">'+d+'<span class="role-ai-chip-sub">'+sub+'</span></button>';
+      });
+      h+='</div>';
+      h+='<button class="role-ai-generate" data-action="wod-generate">🎲 Generate Word</button>';
+      h+='</div>';
+      h+='<div class="role-ai-output" id="wod-output" style="display:none"></div>';
+      h+='</div>';
+    }
+
+  }else if(role.id==="tmd"){
+    if(aiOn){
+      h+='<div class="role-ai-tool" id="role-ai-tmd">';
+      h+='<div class="role-ai-tool-hdr"><span class="role-ai-badge">✨ AI</span><span>TMD Script Generator</span></div>';
+      h+='<div class="role-ai-desc">Generate ready-to-use script ideas for any segment of your meeting.</div>';
+      h+='<div class="role-ai-form">';
+      h+='<input class="role-ai-input" id="tmd-theme" placeholder="Meeting theme (e.g. Courage, New Beginnings…)" />';
+      h+='<div class="role-ai-label">What do you need?</div>';
+      h+='<div class="role-ai-grid">';
+      [['Opening','Meeting Opening','🎬'],['Speaker Intro','Speaker Intro','🎤'],
+       ['Transitions','Transitions','🔄'],['TT Session','TT Session Intro','💬'],
+       ['Eval Session','Eval Session Intro','📝'],['Closing','Meeting Closing','🏁']
+      ].forEach(([id,label,icon])=>{
+        h+='<button class="role-ai-segment'+(id==='Opening'?' active':'')+'" data-tmd-seg="'+id+'">'+icon+'<br>'+label+'</button>';
+      });
+      h+='</div>';
+      h+='<div class="role-ai-label">Vibe</div>';
+      h+='<div class="role-ai-row">';
+      ['Energetic','Warm','Professional','Humorous'].forEach((v,i)=>{
+        h+='<button class="role-ai-chip'+(i===0?' active':'')+'" data-tmd-vibe="'+v+'">'+v+'</button>';
+      });
+      h+='</div>';
+      h+='<button class="role-ai-generate" data-action="tmd-generate">✨ Generate Script Ideas</button>';
+      h+='</div>';
+      h+='<div class="role-ai-output" id="tmd-output" style="display:none"></div>';
+      h+='</div>';
+    }else{
+      h+='<div class="role-tools-note">Enable AI in ✨ AI Settings to unlock the TMD Script Generator.</div>';
+    }
+
+  }else if(role.id==="ie"){
+    if(aiOn){
+      // Build project list for evaluator picker
+      const allProjects=[];
+      for(let lv=1;lv<=5;lv++){
+        const g=gP(S.path||"DL",lv);
+        const pids=[...g.r,...g.e].filter(pid=>PD[pid]&&PD[pid].dur&&PD[pid].dur.includes("min"));
+        if(pids.length)allProjects.push({level:lv,pids});
+      }
+      // Fallback: L1 universals
+      if(!allProjects.length){
+        allProjects.push({level:1,pids:["ice-breaker","writing-speech","intro-vvbl","eval-feedback"]});
+      }
+      h+='<div class="role-ai-tool" id="role-ai-eval">';
+      h+='<div class="role-ai-tool-hdr"><span class="role-ai-badge">✨ AI</span><span>Evaluation Assistant</span></div>';
+      h+='<div class="role-ai-desc">Select the project you\'re evaluating to get specific guidance on what to look for.</div>';
+      h+='<div class="role-ai-form">';
+      h+='<div class="role-ai-select-wrap">';
+      h+='<select class="role-ai-select" id="eval-pid"><option value="">— Choose a project —</option>';
+      allProjects.forEach(({level,pids})=>{
+        h+='<optgroup label="Level '+level+'">';
+        pids.forEach(pid=>{
+          const p=PD[pid];
+          if(p)h+='<option value="'+pid+'">'+p.t+' ('+p.dur+')</option>';
+        });
+        h+='</optgroup>';
+      });
+      h+='</select>';
+      h+='</div>';
+      h+='<button class="role-ai-generate" data-action="eval-generate">📝 Get Evaluation Guidance</button>';
+      h+='</div>';
+      h+='<div class="role-ai-output" id="eval-output" style="display:none"></div>';
+      h+='</div>';
+    }else{
+      h+='<div class="role-tools-note">Enable AI in ✨ AI Settings to unlock the Evaluation Assistant.</div>';
+    }
+
   }else{
     h+='<div class="role-tools-note">';
-    h+='<strong>AI-powered tools for this role</strong> — evaluation assistant, GE report framework, TMD script builder — <strong>coming soon</strong> once we wire up the AI backend for this app.';
+    h+='<strong>More AI tools coming</strong> — evaluation assistant, GE report framework, and more.';
     h+='</div>';
   }
 
@@ -3938,26 +4295,129 @@ function renderRoleDetail(app,roleId){
     });
   });
   const tb=app.querySelector('[data-action="open-timer"]');
-  if(tb)tb.addEventListener("click",()=>{
-    V.view="timer-select";
-    render();
-  });
+  if(tb)tb.addEventListener("click",()=>{V.view="timer-select";render();});
   const fb=app.querySelector('[data-action="open-filler"]');
-  if(fb)fb.addEventListener("click",()=>{
-    V.view="filler";
-    FD.phase="idle";
-    render();
-  });
+  if(fb)fb.addEventListener("click",()=>{V.view="filler";FD.phase="idle";render();});
   const tob=app.querySelector('[data-action="open-topics"]');
-  if(tob)tob.addEventListener("click",()=>{
-    V.view="topics-select";
-    render();
-  });
+  if(tob)tob.addEventListener("click",()=>{V.view="topics-select";render();});
   const wb=app.querySelector('[data-action="open-wod"]');
-  if(wb)wb.addEventListener("click",()=>{
-    V.view="wod";
-    wodBuildQueue();
-    render();
+  if(wb)wb.addEventListener("click",()=>{V.view="wod";wodBuildQueue();render();});
+
+  // ── AI tool chip selection ──
+  function wireChips(selector){
+    app.querySelectorAll(selector).forEach(btn=>{
+      btn.addEventListener("click",()=>{
+        app.querySelectorAll(selector).forEach(b=>{
+          b.classList.remove("active");
+          // update radio dot if present
+          const dot=b.querySelector(".role-ai-radio-dot");
+          if(dot)dot.classList.remove("active");
+        });
+        btn.classList.add("active");
+        const dot=btn.querySelector(".role-ai-radio-dot");
+        if(dot)dot.classList.add("active");
+      });
+    });
+  }
+  wireChips("[data-tt-diff]");
+  wireChips("[data-tmd-vibe]");
+  wireChips("[data-tmd-seg]");
+  wireChips("[data-wod-diff]");
+  wireChips("[data-role-ai-radio-btn]");
+
+  // ── AI Topics Generator ──
+  const ttGenBtn=app.querySelector('[data-action="tt-generate"]');
+  if(ttGenBtn)ttGenBtn.addEventListener("click",async()=>{
+    const theme=(app.querySelector("#tt-theme")||{}).value||"";
+    const diff=(app.querySelector("[data-tt-diff].active")||{}).dataset?.ttDiff||"Medium";
+    const out=app.querySelector("#tt-output");
+    out.style.display="block";
+    out.innerHTML='<div class="role-ai-loading"><span class="coach-dots"><span>.</span><span>.</span><span>.</span></span></div>';
+    try{
+      const sys="You are a Toastmasters Topicsmaster. Generate exactly 10 Table Topics questions. Return them as a numbered list 1-10, one per line. No preamble, no extra text. Each question should be a complete, thought-provoking prompt.";
+      const msg="Theme: "+(theme||"open")+" | Difficulty: "+diff+"\nDifficulty guide: Easy=personal/relatable, Medium=opinion/reflection, Challenging=abstract/philosophical.\nGenerate 10 questions.";
+      const text=await callCoach(sys,msg,{maxTokens:600,forceBase:true});
+      const lines=text.split("\n").filter(l=>l.trim()&&/^\d+\./.test(l.trim()));
+      out.innerHTML='<div class="role-ai-results">'+
+        lines.map((l,i)=>'<div class="role-ai-result-item"><span class="role-ai-result-n">'+(i+1)+'</span><span>'+
+          l.replace(/^\d+\.\s*/,"").replace(/&/g,"&amp;").replace(/</g,"&lt;")+'</span></div>').join("")+
+        '</div>';
+    }catch(e){out.innerHTML='<div class="role-ai-error">⚠ '+e.message+'</div>';}
+  });
+
+  // ── AI Word of the Day ──
+  const wodGenBtn=app.querySelector('[data-action="wod-generate"]');
+  if(wodGenBtn)wodGenBtn.addEventListener("click",async()=>{
+    const theme=(app.querySelector("#wod-theme")||{}).value||"";
+    const diff=(app.querySelector("[data-wod-diff].active")||{}).dataset?.wodDiff||"Balanced";
+    const out=app.querySelector("#wod-output");
+    out.style.display="block";
+    out.innerHTML='<div class="role-ai-loading"><span class="coach-dots"><span>.</span><span>.</span><span>.</span></span></div>';
+    try{
+      const sys="You are a Toastmasters Grammarian. Generate a single Word of the Day. Return ONLY: word, pronunciation, part of speech, definition, and one usage example sentence. Format as JSON: {\"word\":\"...\",\"pronunciation\":\"...\",\"pos\":\"...\",\"definition\":\"...\",\"example\":\"...\"}. No other text.";
+      const msg="Meeting theme: "+(theme||"open")+" | Level: "+diff+"\nPractical=common but often misused words, Balanced=elevated vocabulary, Advanced=rare/sophisticated words.";
+      const raw=await callCoach(sys,msg,{maxTokens:300,forceBase:true});
+      let cleaned=raw.trim().replace(/^```(?:json)?\s*/,"").replace(/\s*```\s*$/,"");
+      const w=JSON.parse(cleaned);
+      out.innerHTML='<div class="role-ai-wod-card">'+
+        '<div class="role-ai-wod-word">'+w.word+'</div>'+
+        '<div class="role-ai-wod-meta">'+w.pronunciation+' · '+w.pos+'</div>'+
+        '<div class="role-ai-wod-def">'+w.definition+'</div>'+
+        '<div class="role-ai-wod-ex">"'+w.example+'"</div>'+
+        '</div>';
+    }catch(e){out.innerHTML='<div class="role-ai-error">⚠ '+e.message+'</div>';}
+  });
+
+  // ── TMD Script Generator ──
+  const tmdGenBtn=app.querySelector('[data-action="tmd-generate"]');
+  if(tmdGenBtn)tmdGenBtn.addEventListener("click",async()=>{
+    const theme=(app.querySelector("#tmd-theme")||{}).value||"";
+    const seg=(app.querySelector("[data-tmd-seg].active")||{}).dataset?.tmdSeg||"Opening";
+    const vibe=(app.querySelector("[data-tmd-vibe].active")||{}).dataset?.tmdVibe||"Energetic";
+    const out=app.querySelector("#tmd-output");
+    out.style.display="block";
+    out.innerHTML='<div class="role-ai-loading"><span class="coach-dots"><span>.</span><span>.</span><span>.</span></span></div>';
+    try{
+      const sys="You are an experienced Toastmaster of the Day writing meeting scripts. Write naturally and engagingly. Return only the script text — no labels, no commentary, no markdown. Speak directly as the TMD would at the lectern.";
+      const segMap={
+        "Opening":"an energetic meeting opening that welcomes everyone and introduces the meeting theme",
+        "Speaker Intro":"a warm speaker introduction (use [SPEAKER NAME] and [SPEECH TITLE] as placeholders)",
+        "Transitions":"3 short transition lines between segments (use numbered lines: 1. 2. 3.)",
+        "TT Session":"an introduction to the Table Topics session that explains the format to guests",
+        "Eval Session":"an introduction to the evaluation segment that explains its purpose and value",
+        "Closing":"a warm meeting closing that thanks everyone and wraps up"
+      };
+      const msg="Meeting theme: "+(theme||"open theme")+" | Vibe: "+vibe+"\nWrite "+segMap[seg]+". Keep it 60-120 words.";
+      const text=await callCoach(sys,msg,{maxTokens:400,forceBase:true});
+      out.innerHTML='<div class="role-ai-script">'+
+        '<div class="role-ai-script-label">'+seg+' · '+vibe+'</div>'+
+        '<div class="role-ai-script-text">'+text.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/\n/g,"<br>")+'</div>'+
+        '</div>';
+    }catch(e){out.innerHTML='<div class="role-ai-error">⚠ '+e.message+'</div>';}
+  });
+
+  // ── Evaluation Assistant ──
+  const evalGenBtn=app.querySelector('[data-action="eval-generate"]');
+  if(evalGenBtn)evalGenBtn.addEventListener("click",async()=>{
+    const pid=(app.querySelector("#eval-pid")||{}).value||"";
+    const proj=pid?PD[pid]:null;
+    if(!proj){alert("Please choose a project first.");return;}
+    const out=app.querySelector("#eval-output");
+    out.style.display="block";
+    out.innerHTML='<div class="role-ai-loading"><span class="coach-dots"><span>.</span><span>.</span><span>.</span></span></div>';
+    try{
+      const sys="You are a senior Toastmasters evaluator coach. Write a practical evaluation guide for a specific project. Be direct and specific. No padding. Format: two short paragraphs — what to focus on during the speech, then how to structure the CRC feedback (Commend / Recommend / Commend). Under 200 words total.";
+      const tips=TIPS&&TIPS[pid];
+      const msg="Project: "+proj.t+" ("+proj.dur+")\nPurpose: "+proj.p+"\nOverview: "+proj.o+
+        (tips?"\nCoaching notes: "+tips.how:"");
+      const text=await callCoach(sys,msg,{maxTokens:400,forceBase:true});
+      out.innerHTML='<div class="role-ai-eval-guide">'+
+        '<div class="role-ai-eval-project">Evaluating: '+proj.t+'</div>'+
+        '<div class="role-ai-eval-text">'+
+          text.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/\n\n/g,"</p><p>").replace(/\n/g,"<br>")+
+        '</div>'+
+        '</div>';
+    }catch(e){out.innerHTML='<div class="role-ai-error">⚠ '+e.message+'</div>';}
   });
 }
 
@@ -4559,11 +5019,11 @@ function renderPracticeHub(app){
   h+=toolRow({tool:"topics",color:"#5B9DD9",icon:"🎯",name:"Table Topics",desc:"96 modern impromptu prompts across 8 themes"});
   h+=toolRow({tool:"filler",color:"#7BA7CC",icon:"🎙️",name:"Filler Detector",desc:"Counts your ums, ahs, likes in real time"});
   h+=toolRow({tool:"wod",color:"#A07BC7",icon:"📖",name:"Word of the Day",desc:"80 curated words with definitions + examples"});
-  h+=toolRow({color:"#E85D5D",icon:"🪞",name:"Evaluation Helper",desc:"Draft CRC-style feedback for any speech",badge:"Soon",placeholder:true});
-  h+=toolRow({color:"#6DB6B4",icon:"📝",name:"Speech Draft Builder",desc:"Structure your next speech from outline to close",badge:"Soon",placeholder:true});
+  h+=toolRow({tool:"eval-helper",color:"#E85D3A",icon:"🪞",name:"Evaluation Helper",desc:(S.aiConfig&&S.aiConfig.enabled)?"AI-drafted CRC feedback for any Pathways speech":"Draft CRC-style feedback for any Pathways speech"});
+  h+=toolRow({tool:"speech-draft",color:"#6DB6B4",icon:"📝",name:"Speech Draft Builder",desc:(S.aiConfig&&S.aiConfig.enabled)?"AI builds your speech outline and opening lines":"Structure your next speech from outline to close"});
 
   h+='</div>';
-  h+='<div class="app-footer">Toastmasters Companion · v0.38 · Practice tools work offline</div>';
+  h+='<div class="app-footer">Toastmasters Companion · v0.42 · Practice tools work offline</div>';
   h+='</div>';
   app.innerHTML=h;
 
@@ -4588,11 +5048,13 @@ function renderPracticeHub(app){
     });
   });
   app.querySelectorAll('[data-tool="wod"]').forEach(el=>{
-    el.addEventListener("click",()=>{
-      V.view="wod";
-      wodBuildQueue();
-      render();
-    });
+    el.addEventListener("click",()=>{V.view="wod";wodBuildQueue();render();});
+  });
+  app.querySelectorAll('[data-tool="eval-helper"]').forEach(el=>{
+    el.addEventListener("click",()=>{V.view="eval-helper";render();});
+  });
+  app.querySelectorAll('[data-tool="speech-draft"]').forEach(el=>{
+    el.addEventListener("click",()=>{V.view="speech-draft";render();});
   });
 }
 
@@ -4736,6 +5198,12 @@ function renderTimerFullScreen(app){
 // ═══════════════════════════════════════════════════════════════════════════
 
 function renderTopicsSelect(app){
+  const aiOn=S.aiConfig&&S.aiConfig.enabled;
+  if(!V._ttAiTheme)V._ttAiTheme="";
+  if(!V._ttAiDiff)V._ttAiDiff="Medium";
+  if(!V._ttAiResults)V._ttAiResults=null;
+  if(!V._ttAiLoading)V._ttAiLoading=false;
+
   let h='<div class="fade-up">';
   h+='<div class="top-bar">';
   const topicsBackLabel=V._practiceReturnTo==="pathfinder"?"← Back to program":"← Practice";
@@ -4745,9 +5213,45 @@ function renderTopicsSelect(app){
   h+='<h1 class="title">Pick a <span class="accent">theme</span></h1>';
   h+='<div class="subtitle">Impromptu speaking prompts organized by modern themes — for TTM prep or solo warmup. Tap through shuffled prompts at your own pace.</div>';
 
-  h+='<div class="topics-themes-grid">';
+  // ── AI Generator section ──
+  if(aiOn){
+    h+='<div class="tt-ai-section">';
+    h+='<div class="tt-ai-hdr">✨ AI Topics Generator</div>';
+    h+='<div class="tt-ai-body">';
+    h+='<input class="role-ai-input" id="tt-ai-theme" placeholder="Meeting theme (e.g. Courage, Technology, Food…)" value="'+escHtml(V._ttAiTheme)+'"/>';
+    h+='<div class="tt-ai-diff-row">';
+    ['Easy','Medium','Challenging'].forEach(d=>{
+      const active=d===V._ttAiDiff;
+      h+='<button class="tt-ai-diff-btn'+(active?' active':'')+'" data-tt-ai-diff="'+d+'">';
+      h+='<span class="tt-ai-diff-dot'+(active?' active':'')+'"></span>'+d;
+      h+='</button>';
+    });
+    h+='</div>';
+    h+='<button class="tt-ai-generate-btn" data-action="tt-ai-generate">🎲 Generate 10 Topics</button>';
+    h+='</div>';
 
-  // "All themes / random" — spans full width at the top
+    // Results or loading
+    if(V._ttAiLoading){
+      h+='<div class="tt-ai-results-wrap"><div class="role-ai-loading"><span class="coach-dots"><span>.</span><span>.</span><span>.</span></span></div></div>';
+    }else if(V._ttAiResults&&V._ttAiResults.length){
+      h+='<div class="tt-ai-results-wrap">';
+      h+='<div class="tt-ai-results-label">TAP A QUESTION TO PRACTICE WITH IT</div>';
+      h+='<div class="tt-ai-results-list">';
+      V._ttAiResults.forEach((q,i)=>{
+        h+='<button class="tt-ai-result-item" data-ai-q="'+escHtml(q)+'">';
+        h+='<span class="tt-ai-result-n">'+(i+1)+'</span>';
+        h+='<span class="tt-ai-result-text">'+q.replace(/&/g,"&amp;").replace(/</g,"&lt;")+'</span>';
+        h+='<span class="tt-ai-result-arrow">→</span>';
+        h+='</button>';
+      });
+      h+='</div>';
+      h+='</div>';
+    }
+    h+='</div>';
+    h+='<div class="tt-ai-divider"><span>or browse built-in themes</span></div>';
+  }
+
+  h+='<div class="topics-themes-grid">';
   h+='<button class="topics-theme-card topics-all-card" data-theme="all" style="--pc:#6DB6B4;background:rgba(109,182,180,0.07);border-color:rgba(109,182,180,0.26)">';
   h+='<div class="topics-theme-icon">🎲</div>';
   h+='<div class="topics-all-text">';
@@ -4755,7 +5259,6 @@ function renderTopicsSelect(app){
   h+='<div class="topics-theme-count">Shuffled grab-bag</div>';
   h+='</div>';
   h+='</button>';
-
   TOPICS_THEMES.forEach(theme=>{
     const bg=hexToRgba(theme.color,0.08);
     const bd=hexToRgba(theme.color,0.28);
@@ -4764,7 +5267,6 @@ function renderTopicsSelect(app){
     h+='<div class="topics-theme-name">'+theme.name+'</div>';
     h+='</button>';
   });
-
   h+='</div>';
   h+='</div>';
   app.innerHTML=h;
@@ -4772,15 +5274,66 @@ function renderTopicsSelect(app){
   app.querySelector('[data-action="topics-back-practice"]').addEventListener("click",()=>{
     const ret=V._practiceReturnTo;
     V._practiceReturnTo=null;
+    V._ttAiResults=null;V._ttAiLoading=false;
     if(ret==="pathfinder"){V.view="pathfinder-program";}
     else{V.view="practice";}
     render();
   });
+
+  // Built-in theme buttons
   app.querySelectorAll("[data-theme]").forEach(btn=>{
     btn.addEventListener("click",()=>{
-      const themeId=btn.dataset.theme;
-      TT.theme=themeId;
-      ttBuildQueue(themeId);
+      TT.theme=btn.dataset.theme;
+      ttBuildQueue(btn.dataset.theme);
+      V.view="topics-practice";
+      render();
+    });
+  });
+
+  // AI difficulty chips
+  app.querySelectorAll("[data-tt-ai-diff]").forEach(btn=>{
+    btn.addEventListener("click",()=>{
+      V._ttAiDiff=btn.dataset.ttAiDiff;
+      app.querySelectorAll("[data-tt-ai-diff]").forEach(b=>{
+        b.classList.remove("active");
+        const dot=b.querySelector(".tt-ai-diff-dot");
+        if(dot)dot.classList.remove("active");
+      });
+      btn.classList.add("active");
+      const dot=btn.querySelector(".tt-ai-diff-dot");
+      if(dot)dot.classList.add("active");
+    });
+  });
+
+  // Theme input tracking
+  const themeInput=app.querySelector("#tt-ai-theme");
+  if(themeInput)themeInput.addEventListener("input",()=>{V._ttAiTheme=themeInput.value;});
+
+  // AI generate
+  const aiGenBtn=app.querySelector('[data-action="tt-ai-generate"]');
+  if(aiGenBtn)aiGenBtn.addEventListener("click",async()=>{
+    const theme=(themeInput?themeInput.value.trim():"");
+    const diff=V._ttAiDiff||"Medium";
+    V._ttAiLoading=true;V._ttAiResults=null;
+    render();
+    try{
+      const sys="You are a Toastmasters Topicsmaster. Generate exactly 10 Table Topics questions. Return them as a numbered list 1-10, one per line. No preamble, no extra text.";
+      const msg="Theme: "+(theme||"open")+" | Difficulty: "+diff+"\nEasy=personal/relatable, Medium=opinion/reflection, Challenging=abstract/philosophical.\nGenerate 10 questions.";
+      const text=await callCoach(sys,msg,{maxTokens:600,forceBase:true});
+      const lines=text.split("\n").filter(l=>l.trim()).map(l=>l.replace(/^\d+[.)]\s*/,"").trim()).filter(Boolean);
+      V._ttAiResults=lines.slice(0,10);
+    }catch(e){V._ttAiResults=["⚠ "+e.message];}
+    V._ttAiLoading=false;
+    render();
+  });
+
+  // Tap AI result → load into practice as a single-question queue
+  app.querySelectorAll("[data-ai-q]").forEach(btn=>{
+    btn.addEventListener("click",()=>{
+      const q=btn.dataset.aiQ;
+      TT.theme="ai";
+      TT.queue=[q];
+      TT.idx=0;
       V.view="topics-practice";
       render();
     });
@@ -4789,10 +5342,10 @@ function renderTopicsSelect(app){
 
 function renderTopicsPractice(app){
   if(!TT.queue.length){V.view="topics-select";render();return;}
-  const themeObj=TT.theme==="all"?null:TOPICS_THEMES.find(t=>t.id===TT.theme);
-  const themeColor=themeObj?themeObj.color:"#6DB6B4";
-  const themeName=themeObj?themeObj.name:"All themes";
-  const themeIcon=themeObj?themeObj.icon:"🎲";
+  const themeObj=TT.theme==="all"||TT.theme==="ai"?null:TOPICS_THEMES.find(t=>t.id===TT.theme);
+  const themeColor=themeObj?themeObj.color:"#A07BC7";
+  const themeName=TT.theme==="ai"?"✨ AI Topics":themeObj?themeObj.name:"All themes";
+  const themeIcon=TT.theme==="ai"?"🤖":themeObj?themeObj.icon:"🎲";
   const currentPrompt=TT.queue[TT.idx];
 
   const pillBg=hexToRgba(themeColor,0.16);
@@ -4943,6 +5496,11 @@ function renderWODTool(app){
   const posLabelMap={"adj":"Adjective","verb":"Verb","noun":"Noun","adv":"Adverb"};
   const posLabel=word?(posLabelMap[word.p]||word.p):"";
   const tierMap={"e":"Easy","m":"Medium","h":"Hard"};
+  const aiOn=S.aiConfig&&S.aiConfig.enabled;
+  if(!V._wodAiOpen)V._wodAiOpen=false;
+  if(!V._wodAiTheme)V._wodAiTheme="";
+  if(!V._wodAiResult)V._wodAiResult=null;
+  if(!V._wodAiLoading)V._wodAiLoading=false;
 
   let h='<div class="fade-up">';
   h+='<div class="top-bar">';
@@ -4952,7 +5510,7 @@ function renderWODTool(app){
   h+='<h1 class="title">Expand your <span class="accent">vocabulary</span></h1>';
   h+='<div class="subtitle">For Grammarians prepping a WOD, or anyone adding polish to everyday speech. Each word shows part of speech, definition, and an example in context.</div>';
 
-  // ═ Tier pills — Easy / Medium / Hard / All ═
+  // Tier pills
   h+='<div class="wod-pills">';
   const tiers=[["all","All"],["e","Easy"],["m","Medium"],["h","Hard"]];
   tiers.forEach(([id,label])=>{
@@ -4981,23 +5539,93 @@ function renderWODTool(app){
   }else{
     h+='<div class="wod-card"><div class="wod-definition">No words in this tier yet.</div></div>';
   }
+
+  // AI section
+  if(aiOn){
+    h+='<div class="wod-ai-section">';
+    if(!V._wodAiOpen){
+      h+='<button class="wod-ai-toggle-btn" data-action="wod-ai-open">✨ Generate word by theme</button>';
+    }else{
+      h+='<div class="wod-ai-panel">';
+      h+='<div class="wod-ai-panel-hdr">';
+      h+='<span class="wod-ai-panel-title">✨ Generate word by theme</span>';
+      h+='<button class="wod-ai-close-btn" data-action="wod-ai-close">✕</button>';
+      h+='</div>';
+      h+='<input class="role-ai-input" id="wod-ai-theme" placeholder="Meeting theme (e.g. Leadership, Change, Resilience…)" value="'+escHtml(V._wodAiTheme)+'"/>';
+      h+='<div class="wod-ai-diff-row">';
+      [['Practical','Everyday'],['Balanced','Elevated'],['Advanced','Sophisticated']].forEach(([d,sub])=>{
+        const active=d===(V._wodAiDiff||'Balanced');
+        h+='<button class="role-ai-chip'+(active?' active':'')+'" data-wod-ai-diff="'+d+'">';
+        h+=d+'<span class="role-ai-chip-sub">'+sub+'</span>';
+        h+='</button>';
+      });
+      h+='</div>';
+      h+='<button class="wod-ai-gen-btn" data-action="wod-ai-generate">🎲 Generate Word</button>';
+
+      if(V._wodAiLoading){
+        h+='<div class="role-ai-loading" style="padding:16px"><span class="coach-dots"><span>.</span><span>.</span><span>.</span></span></div>';
+      }else if(V._wodAiResult){
+        const w=V._wodAiResult;
+        h+='<div class="wod-card wod-ai-result-card">';
+        h+='<div class="wod-meta-row"><div class="wod-pos-pill adj">'+w.pos+'</div><div class="wod-tier-pill" style="background:rgba(160,123,199,0.18);color:#A07BC7">AI</div></div>';
+        h+='<div class="wod-word">'+w.word+'</div>';
+        h+='<div class="wod-definition">'+w.definition+'</div>';
+        h+='<div class="wod-example">'+w.example+'</div>';
+        h+='</div>';
+      }
+      h+='</div>';
+    }
+    h+='</div>';
+  }
+
   h+='</div>';
   app.innerHTML=h;
 
   app.querySelector('[data-action="wod-back"]').addEventListener("click",()=>{
-    V.view="practice";
-    render();
+    V.view="practice";V._wodAiOpen=false;V._wodAiResult=null;render();
   });
   const nextBtn=app.querySelector('[data-action="wod-next"]');
   if(nextBtn)nextBtn.addEventListener("click",()=>{wodNext();render();});
   const shufBtn=app.querySelector('[data-action="wod-shuffle"]');
   if(shufBtn)shufBtn.addEventListener("click",()=>{wodBuildQueue(WOD.tier);render();});
-  // Tier pills — tap to filter and rebuild the queue
   app.querySelectorAll("[data-wod-tier]").forEach(btn=>{
+    btn.addEventListener("click",()=>{wodBuildQueue(btn.dataset.wodTier);render();});
+  });
+
+  // AI panel
+  const aiOpenBtn=app.querySelector('[data-action="wod-ai-open"]');
+  if(aiOpenBtn)aiOpenBtn.addEventListener("click",()=>{V._wodAiOpen=true;render();});
+  const aiCloseBtn=app.querySelector('[data-action="wod-ai-close"]');
+  if(aiCloseBtn)aiCloseBtn.addEventListener("click",()=>{V._wodAiOpen=false;V._wodAiResult=null;render();});
+
+  const themeInput=app.querySelector("#wod-ai-theme");
+  if(themeInput)themeInput.addEventListener("input",()=>{V._wodAiTheme=themeInput.value;});
+
+  app.querySelectorAll("[data-wod-ai-diff]").forEach(btn=>{
     btn.addEventListener("click",()=>{
-      wodBuildQueue(btn.dataset.wodTier);
-      render();
+      V._wodAiDiff=btn.dataset.wodAiDiff;
+      app.querySelectorAll("[data-wod-ai-diff]").forEach(b=>b.classList.remove("active"));
+      btn.classList.add("active");
     });
+  });
+
+  const wodAiGenBtn=app.querySelector('[data-action="wod-ai-generate"]');
+  if(wodAiGenBtn)wodAiGenBtn.addEventListener("click",async()=>{
+    const theme=(themeInput?themeInput.value.trim():"");
+    const diff=V._wodAiDiff||"Balanced";
+    V._wodAiLoading=true;V._wodAiResult=null;
+    render();
+    try{
+      const sys="You are a Toastmasters Grammarian. Generate ONE Word of the Day. Return ONLY valid JSON: {\"word\":\"...\",\"pronunciation\":\"...\",\"pos\":\"...\",\"definition\":\"...\",\"example\":\"...\"} — no markdown, no code fences, nothing else.";
+      const msg="Meeting theme: "+(theme||"open")+" | Level: "+diff+"\nPractical=common but often misused, Balanced=elevated vocabulary, Advanced=rare/sophisticated.";
+      const raw=await callCoach(sys,msg,{maxTokens:250,forceBase:true});
+      const cleaned=raw.trim().replace(/^```(?:json)?\s*/,"").replace(/\s*```\s*$/,"");
+      V._wodAiResult=JSON.parse(cleaned);
+    }catch(e){
+      V._wodAiResult={word:"Error",pronunciation:"",pos:"",definition:e.message,example:""};
+    }
+    V._wodAiLoading=false;
+    render();
   });
 }
 
@@ -5873,7 +6501,7 @@ function renderPathfinderIntro(app){
   if(S.path)enrolled.push(S.path);
   Object.keys(S.pathArchive||{}).forEach(code=>{
     if(code===S.path)return;
-    if(pathHasActivity(S.pathArchive[code]))enrolled.push(code);
+    if(pathHasActivity(S.pathArchive[code])||PA[code])enrolled.push(code);
   });
   const showMultipath=enrolled.length>=2&&!V._pfSkipMultipath;
 
@@ -6559,6 +7187,328 @@ function renderSettings(app){
 // AI SETTINGS — rendered at V.view === "ai-settings"
 // ═══════════════════════════════════════════════════════════════════════════
 
+// ═══════════════════════════════════════════════════════════════════════════
+// EVALUATION HELPER — draft CRC feedback for any Pathways speech
+// ═══════════════════════════════════════════════════════════════════════════
+// Evaluating a Toastmaster is a skill. This tool helps by showing you what
+// to look for per-project (based on the project's actual objectives) and
+// generating a structured CRC draft when AI is enabled.
+
+function renderEvalHelper(app){
+  const aiOn=S.aiConfig&&S.aiConfig.enabled;
+  if(!V._evalPid)V._evalPid="";
+  if(!V._evalNotes)V._evalNotes="";
+
+  // Build project list from active path or L1 fallback
+  const levelGroups=[];
+  const pathCode=S.path||"DL";
+  for(let lv=1;lv<=5;lv++){
+    const g=gP(pathCode,lv);
+    const pids=[...g.r,...g.e].filter(pid=>{
+      const p=PD[pid];
+      return p&&p.dur&&p.dur.includes("min");
+    });
+    if(pids.length)levelGroups.push({level:lv,pids});
+  }
+  if(!levelGroups.length){
+    levelGroups.push({level:1,pids:["ice-breaker","writing-speech","intro-vvbl","eval-feedback"]});
+  }
+
+  const selProj=V._evalPid?PD[V._evalPid]:null;
+
+  let h='<div class="fade-up eh-view">';
+  h+='<div class="top-bar">';
+  h+='<button class="top-bar-btn" data-action="eh-back">← Practice</button>';
+  h+='</div>';
+
+  h+='<div class="kicker">Practice</div>';
+  h+='<h1 class="title">🪞 Evaluation <span class="accent">Helper</span></h1>';
+  h+='<div class="subtitle">Select the project being delivered. We\'ll show you exactly what to listen for — and '+(aiOn?'draft your CRC feedback when you\'re ready.':'structure your CRC evaluation notes.')+'</div>';
+
+  // Project picker
+  h+='<div class="eh-picker-wrap">';
+  h+='<div class="eh-picker-label">WHICH PROJECT ARE YOU EVALUATING?</div>';
+  h+='<div class="eh-select-wrap">';
+  h+='<select class="eh-select" id="eh-pid">';
+  h+='<option value="">— Choose a project —</option>';
+  levelGroups.forEach(({level,pids})=>{
+    h+='<optgroup label="Level '+level+'">';
+    pids.forEach(pid=>{
+      const p=PD[pid];
+      if(p)h+='<option value="'+pid+'"'+(V._evalPid===pid?' selected':'')+'>'+p.t+' ('+p.dur+')</option>';
+    });
+    h+='</optgroup>';
+  });
+  h+='</select>';
+  h+='</div>';
+  h+='</div>';
+
+  // If project selected — show what to look for
+  if(selProj){
+    const tips=TIPS&&TIPS[V._evalPid];
+    h+='<div class="eh-focus-card">';
+    h+='<div class="eh-focus-kicker">WHAT TO WATCH FOR</div>';
+    h+='<div class="eh-focus-title">'+selProj.t+'</div>';
+    h+='<div class="eh-focus-purpose">Purpose: '+selProj.p+'</div>';
+    if(tips&&tips.how){
+      h+='<div class="eh-focus-how">'+tips.how.replace(/<strong>/g,'<b>').replace(/<\/strong>/g,'</b>')+'</div>';
+    }
+    h+='<div class="eh-crc-guide">';
+    h+='<div class="eh-crc-item"><span class="eh-crc-badge green">Commend</span>What did they do well <em>specifically for this project</em>?</div>';
+    h+='<div class="eh-crc-item"><span class="eh-crc-badge amber">Recommend</span>One thing to improve — tied to the project objective, with a specific suggestion.</div>';
+    h+='<div class="eh-crc-item"><span class="eh-crc-badge green">Commend</span>Encouragement — why the effort matters for their Pathways journey.</div>';
+    h+='</div>';
+    h+='</div>';
+
+    // Notes field
+    h+='<div class="eh-notes-wrap">';
+    h+='<div class="eh-picker-label">YOUR NOTES FROM THE SPEECH (optional)</div>';
+    h+='<textarea class="eh-notes" id="eh-notes" placeholder="Jot down moments, quotes, or observations while the speaker is presenting…" rows="4">'+escHtml(V._evalNotes)+'</textarea>';
+    h+='</div>';
+
+    if(aiOn){
+      h+='<button class="eh-generate-btn" data-action="eh-generate">✨ Draft my CRC evaluation</button>';
+      h+='<div class="eh-output" id="eh-output" style="display:none"></div>';
+    }else{
+      h+='<div class="eh-ai-off-note">Enable AI in ✨ AI Settings to generate a full CRC draft. Your manual notes above will guide your delivery.</div>';
+    }
+  }
+
+  h+='</div>';
+  app.innerHTML=h;
+
+  app.querySelector('[data-action="eh-back"]').addEventListener("click",()=>{
+    V.view="practice";V._evalPid="";V._evalNotes="";render();
+  });
+  const pidSel=app.querySelector("#eh-pid");
+  if(pidSel)pidSel.addEventListener("change",()=>{
+    V._evalPid=pidSel.value;
+    V._evalNotes="";
+    render();
+  });
+  const notesEl=app.querySelector("#eh-notes");
+  if(notesEl)notesEl.addEventListener("input",()=>{V._evalNotes=notesEl.value;});
+
+  const genBtn=app.querySelector('[data-action="eh-generate"]');
+  if(genBtn)genBtn.addEventListener("click",async()=>{
+    const proj=PD[V._evalPid];
+    if(!proj){alert("Please select a project first.");return;}
+    const notes=notesEl?notesEl.value.trim():"";
+    const out=app.querySelector("#eh-output");
+    out.style.display="block";
+    out.innerHTML='<div class="role-ai-loading"><span class="coach-dots"><span>.</span><span>.</span><span>.</span></span></div>';
+    try{
+      const tips=TIPS&&TIPS[V._evalPid];
+      const sys="You are a senior Toastmasters evaluator writing a 2-minute CRC evaluation (Commend, Recommend, Commend). Be specific to the project's objectives. Start directly with the first commendation — no preamble. Use natural spoken language, not bullet points. Each section should be 2-3 sentences. Total under 200 words.";
+      const msg="Project: "+proj.t+" ("+proj.dur+")\n"+
+        "Project purpose: "+proj.p+"\n"+
+        (tips?("Project coaching focus: "+tips.how+"\n"):"")+
+        (notes?"Speaker notes from today:\n"+notes+"\n\n":"(No specific notes — generate based on typical delivery patterns for this project)\n")+
+        "Write the full CRC evaluation draft.";
+      const text=await callCoach(sys,msg,{maxTokens:500});
+      out.innerHTML='<div class="eh-draft">'+
+        '<div class="eh-draft-label">YOUR CRC DRAFT</div>'+
+        '<div class="eh-draft-text">'+
+          text.replace(/&/g,"&amp;").replace(/</g,"&lt;")
+              .replace(/\n\n/g,"</p><p>").replace(/\n/g,"<br>")+
+        '</div>'+
+        '<div class="eh-draft-hint">Edit this draft in your notes app before the meeting. Delivery from memory lands better than reading.</div>'+
+        '</div>';
+    }catch(e){out.innerHTML='<div class="role-ai-error">⚠ '+e.message+'</div>';}
+  });
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// SPEECH DRAFT BUILDER — structure your next speech from topic to close
+// ═══════════════════════════════════════════════════════════════════════════
+// Helps speakers go from "I have a topic" to "I have a structure" in minutes.
+// AI mode: generates a full outline (hook + 3 points + close). Offline mode:
+// shows the chosen framework as a fill-in template.
+
+const SPEECH_FRAMEWORKS=[
+  {id:"psp",label:"Past → Present → Future",desc:"Reflective + personal. Great for Ice Breaker and story-based projects.",points:["Where I started (past)","Where I am now (present)","Where I'm heading (future / what I want the audience to take)"]},
+  {id:"psb",label:"Problem → Solution → Benefit",desc:"Persuasive + clear. Strong for proposals, change speeches, Level 3+.",points:["The problem (make it vivid and personal to the audience)","Your solution (specific, credible)","The benefit (what changes for them if they act)"]},
+  {id:"r3",label:"Rule of 3",desc:"Universal. Three parallel points, each with a story or example.",points:["Point one (open with a story or vivid example)","Point two (contrast or build on point one)","Point three (the most powerful — land it hard)"]},
+  {id:"mms",label:"Monroe's Motivated Sequence",desc:"Classic persuasion for speeches needing audience action.",points:["Attention (grab with a shocking fact or question)","Need (show the problem is urgent and affects them)","Satisfaction → Visualization → Action"]},
+  {id:"star",label:"Single Story Arc",desc:"One story, start to finish. Best for Storytelling and Ice Breaker.",points:["Setup (who, where, what was at stake)","Rising tension (what happened — the complication)","Resolution + lesson (what changed and why it matters)"]}
+];
+
+function renderSpeechDraft(app){
+  const aiOn=S.aiConfig&&S.aiConfig.enabled;
+  if(!V._sdPid)V._sdPid="";
+  if(!V._sdTopic)V._sdTopic="";
+  if(!V._sdFramework)V._sdFramework="psp";
+  if(!V._sdResult)V._sdResult=null;
+
+  const fw=SPEECH_FRAMEWORKS.find(f=>f.id===V._sdFramework)||SPEECH_FRAMEWORKS[0];
+
+  // Project list
+  const levelGroups=[];
+  const pathCode=S.path||"DL";
+  for(let lv=1;lv<=5;lv++){
+    const g=gP(pathCode,lv);
+    const pids=[...g.r,...g.e].filter(pid=>PD[pid]&&PD[pid].dur&&PD[pid].dur.includes("min"));
+    if(pids.length)levelGroups.push({level:lv,pids});
+  }
+
+  let h='<div class="fade-up sd-view">';
+  h+='<div class="top-bar">';
+  h+='<button class="top-bar-btn" data-action="sd-back">← Practice</button>';
+  if(V._sdResult)h+='<button class="top-bar-btn" data-action="sd-reset">Start over</button>';
+  h+='</div>';
+
+  h+='<div class="kicker">Practice</div>';
+  h+='<h1 class="title">📝 Speech <span class="accent">Draft Builder</span></h1>';
+  h+='<div class="subtitle">Turn a topic into a structured speech '+(aiOn?'with AI-written opening lines and point starters.':'using a proven framework.')+' Takes 2 minutes.</div>';
+
+  if(V._sdResult){
+    // ── Results view ──
+    h+=V._sdResult;
+    h+='</div>';
+    app.innerHTML=h;
+    app.querySelector('[data-action="sd-back"]').addEventListener("click",()=>{V.view="practice";V._sdResult=null;render();});
+    app.querySelector('[data-action="sd-reset"]').addEventListener("click",()=>{V._sdResult=null;render();});
+    return;
+  }
+
+  // ── Input form ──
+  h+='<div class="sd-form">';
+
+  // Project picker
+  h+='<div class="sd-field">';
+  h+='<div class="sd-label">PROJECT (optional)</div>';
+  h+='<select class="eh-select" id="sd-pid">';
+  h+='<option value="">Freestyle / no specific project</option>';
+  levelGroups.forEach(({level,pids})=>{
+    h+='<optgroup label="Level '+level+'">';
+    pids.forEach(pid=>{
+      const p=PD[pid];
+      if(p)h+='<option value="'+pid+'"'+(V._sdPid===pid?' selected':'')+'>'+p.t+'</option>';
+    });
+    h+='</optgroup>';
+  });
+  h+='</select>';
+  h+='</div>';
+
+  // Topic input
+  h+='<div class="sd-field">';
+  h+='<div class="sd-label">YOUR TOPIC OR ANGLE</div>';
+  h+='<input class="role-ai-input" id="sd-topic" placeholder="e.g. Why I started waking up at 5am, The day I got fired, Negotiating my first salary…" value="'+escHtml(V._sdTopic)+'"/>';
+  h+='</div>';
+
+  // Framework selector
+  h+='<div class="sd-field">';
+  h+='<div class="sd-label">SPEECH STRUCTURE</div>';
+  h+='<div class="sd-frameworks">';
+  SPEECH_FRAMEWORKS.forEach(f=>{
+    h+='<button class="sd-framework-btn'+(f.id===V._sdFramework?' active':'')+'" data-sd-fw="'+f.id+'">';
+    h+='<div class="sd-fw-label">'+f.label+'</div>';
+    h+='<div class="sd-fw-desc">'+f.desc+'</div>';
+    h+='</button>';
+  });
+  h+='</div>';
+  h+='</div>';
+
+  // Preview of chosen framework
+  h+='<div class="sd-preview">';
+  h+='<div class="sd-preview-label">STRUCTURE PREVIEW</div>';
+  fw.points.forEach((pt,i)=>{
+    h+='<div class="sd-preview-pt"><span class="sd-preview-n">'+(i+1)+'</span><span>'+pt+'</span></div>';
+  });
+  h+='</div>';
+
+  if(aiOn){
+    h+='<button class="eh-generate-btn" data-action="sd-generate">✨ Build my speech outline</button>';
+  }else{
+    h+='<button class="eh-generate-btn" data-action="sd-build-manual">📋 Build outline template</button>';
+  }
+  h+='</div>';
+  h+='</div>';
+  app.innerHTML=h;
+
+  app.querySelector('[data-action="sd-back"]').addEventListener("click",()=>{V.view="practice";render();});
+  const pidSel=app.querySelector("#sd-pid");
+  if(pidSel)pidSel.addEventListener("change",()=>{V._sdPid=pidSel.value;});
+  const topicEl=app.querySelector("#sd-topic");
+  if(topicEl)topicEl.addEventListener("input",()=>{V._sdTopic=topicEl.value;});
+  app.querySelectorAll("[data-sd-fw]").forEach(btn=>{
+    btn.addEventListener("click",()=>{
+      V._sdFramework=btn.dataset.sdFw;
+      render();
+    });
+  });
+
+  // Manual (offline) template
+  const manualBtn=app.querySelector('[data-action="sd-build-manual"]');
+  if(manualBtn)manualBtn.addEventListener("click",()=>{
+    const proj=V._sdPid?PD[V._sdPid]:null;
+    const topic=topicEl?topicEl.value.trim():"";
+    let html='<div class="sd-result-card">';
+    html+='<div class="sd-result-title">'+(topic||"My speech")+'</div>';
+    if(proj)html+='<div class="sd-result-project">'+proj.t+' · '+proj.dur+'</div>';
+    html+='<div class="sd-result-fw">'+fw.label+'</div>';
+    html+='<div class="sd-result-section"><div class="sd-result-sec-label">OPENING HOOK</div>';
+    html+='<div class="sd-result-blank">Start with a surprising question, bold statement, or vivid story moment that pulls the audience in immediately.</div></div>';
+    fw.points.forEach((pt,i)=>{
+      html+='<div class="sd-result-section">';
+      html+='<div class="sd-result-sec-label">POINT '+(i+1)+'</div>';
+      html+='<div class="sd-result-blank">'+pt+'</div>';
+      html+='</div>';
+    });
+    html+='<div class="sd-result-section"><div class="sd-result-sec-label">CLOSING</div>';
+    html+='<div class="sd-result-blank">Call back to your opening hook. End on one clear takeaway or invitation to act.</div></div>';
+    html+='</div>';
+    V._sdResult=html;
+    render();
+  });
+
+  // AI draft
+  const genBtn=app.querySelector('[data-action="sd-generate"]');
+  if(genBtn)genBtn.addEventListener("click",async()=>{
+    const proj=V._sdPid?PD[V._sdPid]:null;
+    const topic=(topicEl?topicEl.value.trim():"");
+    if(!topic){alert("Enter a topic or angle first.");return;}
+    // Show loading immediately
+    V._sdResult='<div class="sd-result-card sd-loading"><div class="eh-draft-label">BUILDING YOUR OUTLINE…</div><div style="display:flex;justify-content:center;padding:20px"><span class="coach-dots"><span>.</span><span>.</span><span>.</span></span></div></div>';
+    render();
+    try{
+      const sys="You are a Toastmasters speech coach writing a full speech outline. Be specific and practical. Write in second person, direct address to the speaker. Format your response as a structured outline with these sections: OPENING HOOK, POINT 1, POINT 2, POINT 3, CLOSING. For each section give 2-3 sentences of concrete starter content the speaker can build on. Total under 350 words. No markdown headers — use the section labels exactly as given.";
+      const msg="Topic: "+topic+"\n"+
+        "Framework: "+fw.label+"\n"+
+        "Framework points: "+fw.points.join(" / ")+"\n"+
+        (proj?"Speech project: "+proj.t+" — "+proj.p+"\nTarget duration: "+proj.dur+"\n":"")+
+        "Write a full outline with starter lines for each section.";
+      const text=await callCoach(sys,msg,{maxTokens:700});
+      // Parse sections
+      const sectionOrder=["OPENING HOOK","POINT 1","POINT 2","POINT 3","CLOSING"];
+      const sections={};
+      let current="";
+      text.split("\n").forEach(line=>{
+        const trimmed=line.trim();
+        const matchedSection=sectionOrder.find(s=>trimmed.toUpperCase().startsWith(s));
+        if(matchedSection){current=matchedSection;sections[current]="";}
+        else if(current&&trimmed){sections[current]+=(sections[current]?" ":"")+trimmed;}
+      });
+      let html='<div class="sd-result-card">';
+      html+='<div class="sd-result-title">'+topic+'</div>';
+      if(proj)html+='<div class="sd-result-project">'+proj.t+' · '+proj.dur+'</div>';
+      html+='<div class="sd-result-fw">'+fw.label+'</div>';
+      sectionOrder.forEach(sec=>{
+        html+='<div class="sd-result-section">';
+        html+='<div class="sd-result-sec-label">'+sec+'</div>';
+        html+='<div class="sd-result-text">'+(sections[sec]||"").replace(/&/g,"&amp;").replace(/</g,"&lt;")+'</div>';
+        html+='</div>';
+      });
+      html+='<div class="sd-result-hint">Use this outline as your scaffold. Replace the starter lines with your own words and stories — the structure does the work.</div>';
+      html+='</div>';
+      V._sdResult=html;
+    }catch(e){
+      V._sdResult='<div class="role-ai-error" style="padding:16px">⚠ '+e.message+'</div>';
+    }
+    render();
+  });
+}
+
 function renderAISettings(app){
   const cfg=S.aiConfig||{};
   let h='<div class="fade-up">';
@@ -6856,27 +7806,27 @@ function pathHasActivity(data){
 }
 
 function renderMyPaths(app){
-  // Build a uniform list of enrolled paths with consistent progress data
-  const enrolled=[];
-  if(S.path){
-    enrolled.push({
-      code:S.path,
-      active:true,
-      done:S.done||{},
-      levelSubmitted:S.levelSubmitted||{}
-    });
-  }
-  Object.keys(S.pathArchive||{}).forEach(code=>{
-    if(code===S.path)return; // already added as active
-    const data=S.pathArchive[code];
-    if(!pathHasActivity(data))return; // skip empty archive entries
-    enrolled.push({
-      code:code,
-      active:false,
-      done:data.done||{},
-      levelSubmitted:data.levelSubmitted||{}
-    });
+  // Build a uniform list of enrolled paths with consistent progress data.
+  // Source of truth: S.enrolledPaths (explicit enrollment list set by switchPath
+  // and choose-path handler). Falls back to S.path + pathArchive for legacy data.
+  const enrolledCodes=[];
+  // Ensure active path is always included
+  if(S.path&&!enrolledCodes.includes(S.path))enrolledCodes.push(S.path);
+  // Add all explicitly enrolled paths
+  (S.enrolledPaths||[]).forEach(code=>{
+    if(PA[code]&&!enrolledCodes.includes(code))enrolledCodes.push(code);
   });
+  // Legacy fallback: any archived path regardless of activity
+  Object.keys(S.pathArchive||{}).forEach(code=>{
+    if(PA[code]&&!enrolledCodes.includes(code))enrolledCodes.push(code);
+  });
+
+  const enrolled=enrolledCodes.map(code=>({
+    code,
+    active:code===S.path,
+    done:code===S.path?(S.done||{}):(S.pathArchive[code]?.done||{}),
+    levelSubmitted:code===S.path?(S.levelSubmitted||{}):(S.pathArchive[code]?.levelSubmitted||{})
+  })).filter(e=>PA[e.code]); // only valid path codes
 
   // Sort: active first, then by progress descending
   enrolled.sort((a,b)=>{
@@ -7519,7 +8469,7 @@ function buildCoachSystemPrompt(){
 
   // Multiple enrolled paths
   const enrolled=[S.path].filter(Boolean);
-  Object.keys(S.pathArchive||{}).forEach(c=>{if(pathHasActivity(S.pathArchive[c]))enrolled.push(c);});
+  Object.keys(S.pathArchive||{}).forEach(c=>{if(pathHasActivity(S.pathArchive[c])||PA[c])enrolled.push(c);});
   if(enrolled.length>1)lines.push("Also enrolled in: "+enrolled.filter(c=>c!==S.path).join(", "));
 
   lines.push("\n═══ END CONTEXT ═══");
@@ -7537,213 +8487,422 @@ const COACH_STARTERS=[
   "What does a good evaluator actually do?"
 ];
 
-function renderAICoach(app){
-  if(!V._coachHistory)V._coachHistory=[];
-  const isEmpty=V._coachHistory.length===0;
-  const aiOn=S.aiConfig&&S.aiConfig.enabled;
+// ═══════════════════════════════════════════════════════════════════════════
+// PRACTICE STUDIO — integrated rehearsal (replaces standalone AI Coach view)
+// ═══════════════════════════════════════════════════════════════════════════
+// Combines the speech timer + filler detection into one mic-driven flow,
+// with AI analysis of your performance when you're done.
+//
+// Flow: pick project → ready screen → active (timer + filler) → report + AI
+//
+// Runtime state in PS (separate from T and FD so standalone tools still work)
 
-  let h='<div class="fade-up ai-coach-view">';
-  h+='<div class="top-bar">';
-  h+='<button class="top-bar-btn" data-action="coach-back">← Hub</button>';
-  h+='<div class="top-bar-title">AI Coach</div>';
-  h+='<button class="top-bar-btn" data-action="coach-clear" style="color:var(--text-3)">Clear</button>';
-  h+='</div>';
+let PS={
+  pid:null,           // project being practiced (null = any/freestyle)
+  phase:"ready",      // "ready" | "active" | "done"
+  elapsed:0,          // seconds elapsed
+  _iv:null,           // clock interval
+  fillerCounts:{},
+  totalFillers:0,
+  startedAt:null,
+  aiAnalysis:null,    // cached Claude response after session
+  aiLoading:false
+};
 
-  if(!aiOn){
-    h+='<div class="coach-disabled">';
-    h+='<div class="coach-disabled-icon">✨</div>';
-    h+='<div class="coach-disabled-title">AI features are off</div>';
-    h+='<div class="coach-disabled-body">Enable them in AI Settings to start chatting with your coach.</div>';
-    h+='<button class="pf-start-btn" data-action="go-ai-settings">Open AI Settings</button>';
-    h+='</div>';
-    h+='</div>';
-    app.innerHTML=h;
-    app.querySelector('[data-action="coach-back"]').addEventListener("click",()=>{V.view="hub";render();});
-    app.querySelector('[data-action="go-ai-settings"]').addEventListener("click",()=>{V.view="ai-settings";render();});
-    return;
-  }
+// Parse target duration from project data e.g. "5–7 min" → {min:5, max:7}
+function parseDuration(durStr){
+  if(!durStr)return null;
+  const m=durStr.match(/(\d+)[–\-–](\d+)\s*min/);
+  if(m)return{min:parseInt(m[1]),max:parseInt(m[2])};
+  const s=durStr.match(/(\d+)\s*min/);
+  if(s)return{min:parseInt(s[1]),max:parseInt(s[1])};
+  return null;
+}
 
-  // Message thread
-  h+='<div class="coach-thread" id="coach-thread">';
-  if(isEmpty){
-    // Intro + starters
-    h+='<div class="coach-intro">';
-    h+='<div class="coach-intro-icon">🎙️</div>';
-    h+='<div class="coach-intro-title">Your Toastmasters Coach</div>';
-    h+='<div class="coach-intro-body">Ask me anything about your Pathways journey, your next speech, your struggles, or what to focus on next. I know where you are.</div>';
-    h+='</div>';
-    h+='<div class="coach-starters">';
-    COACH_STARTERS.forEach(q=>{
-      h+='<button class="coach-starter" data-starter="'+q.replace(/"/g,"&quot;")+'">'+q+'</button>';
-    });
-    h+='</div>';
-  }else{
-    V._coachHistory.forEach(msg=>{
-      if(msg.role==="user"){
-        h+='<div class="coach-msg user"><div class="coach-bubble user">'+escHtml(msg.text)+'</div></div>';
-      }else{
-        h+='<div class="coach-msg assistant"><div class="coach-bubble assistant">'+formatCoachResponse(msg.text)+'</div></div>';
-      }
-    });
-    if(V._coachThinking){
-      h+='<div class="coach-msg assistant"><div class="coach-bubble assistant thinking"><span class="coach-dots"><span>.</span><span>.</span><span>.</span></span></div></div>';
+// Build project options from the user's active path (or show all L1 projects
+// as fallback for ala carte mode). Returns [{pid, title, dur, level}]
+function getPracticeProjects(){
+  const out=[];
+  const pathCode=S.path;
+  if(pathCode){
+    for(let lv=1;lv<=5;lv++){
+      const g=gP(pathCode,lv);
+      // Include required projects that have a speech duration
+      g.r.forEach(pid=>{
+        const p=PD[pid];
+        if(p&&p.dur&&p.dur.includes("min")){
+          out.push({pid,title:p.t,dur:p.dur,level:lv});
+        }
+      });
+      // All electives at this level — not capped
+      g.e.forEach(pid=>{
+        const p=PD[pid];
+        if(p&&p.dur&&p.dur.includes("min")){
+          out.push({pid,title:p.t,dur:p.dur,level:lv,elective:true});
+        }
+      });
     }
   }
+  // Always include L1 universals as fallback
+  ["ice-breaker","writing-speech","intro-vvbl","eval-feedback"].forEach(pid=>{
+    if(!out.find(x=>x.pid===pid)){
+      const p=PD[pid];
+      if(p&&p.dur)out.push({pid,title:p.t,dur:p.dur,level:1});
+    }
+  });
+  return out;
+}
+
+function renderPracticeStudio(app){
+  const aiOn=S.aiConfig&&S.aiConfig.enabled;
+
+  if(PS.phase==="active"){renderPracticeStudioActive(app);return;}
+  if(PS.phase==="done"){renderPracticeStudioDone(app);return;}
+
+  // ── READY screen ──
+  const projects=getPracticeProjects();
+  const current=PS.pid?projects.find(x=>x.pid===PS.pid)||projects[0]:projects[0];
+  if(!PS.pid&&current)PS.pid=current.pid;
+
+  const dur=current?parseDuration(current.dur):null;
+  const hasRecognition=isSpeechRecognitionSupported();
+
+  let h='<div class="fade-up ps-view">';
+  h+='<div class="top-bar">';
+  h+='<button class="top-bar-btn" data-action="ps-back">← Hub</button>';
   h+='</div>';
 
-  // Input row
-  h+='<div class="coach-input-row">';
-  h+='<textarea class="coach-input" id="coach-input" placeholder="Ask your coach…" rows="1">'+(V._coachDraft||"")+'</textarea>';
-  h+='<button class="coach-send" id="coach-send" data-action="coach-send">↑</button>';
+  h+='<div class="ps-header">';
+  h+='<div class="ps-header-icon">🎙️</div>';
+  h+='<div class="ps-header-title">Practice Studio</div>';
+  h+='<div class="ps-header-sub">Live timing, filler detection'+(aiOn?', and AI analysis when you\'re done':'')+'</div>';
+  h+='</div>';
+
+  // Project picker
+  h+='<div class="ps-project-card">';
+  h+='<div class="ps-project-kicker">PRACTICING FOR</div>';
+  h+='<div class="ps-project-row">';
+  h+='<div class="ps-project-info">';
+  h+='<div class="ps-project-name">'+(current?current.title:"Freestyle")+'</div>';
+  if(dur)h+='<div class="ps-project-dur">Target: '+current.dur+'</div>';
+  h+='</div>';
+  h+='<button class="ps-project-change" data-action="ps-change-project">Change</button>';
+  h+='</div>';
+  // Project dropdown (hidden by default)
+  h+='<div class="ps-project-dropdown" id="ps-project-dropdown" style="display:none">';
+  let lastLv=0;
+  projects.forEach(p=>{
+    if(p.level!==lastLv){
+      h+='<div class="ps-project-level-hdr">Level '+p.level+'</div>';
+      lastLv=p.level;
+    }
+    h+='<button class="ps-project-option'+(p.pid===PS.pid?' selected':'')+'" data-ps-pid="'+p.pid+'">';
+    h+=p.title+(p.elective?' <span class="ps-project-elective">elective</span>':'')+' <span class="ps-project-opt-dur">'+p.dur+'</span>';
+    h+='</button>';
+  });
+  h+='<button class="ps-project-option" data-ps-pid="freestyle">🎲 Freestyle — no project</button>';
+  h+='</div>';
+  h+='</div>';
+
+  // Timer display
+  h+='<div class="ps-timer-card" id="ps-timer-card">';
+  h+='<div class="ps-timer-state">READY</div>';
+  h+='<div class="ps-timer-display" id="ps-timer-display">0:00</div>';
+  if(dur){
+    h+='<div class="ps-timer-markers">';
+    h+='<div class="ps-marker green">●  '+dur.min+':00</div>';
+    h+='<div class="ps-marker red">●  '+dur.max+':00</div>';
+    h+='</div>';
+  }
+  h+='<div class="ps-timer-hint">Pick a project, then tap the mic</div>';
+  h+='</div>';
+
+  // Mic button
+  h+='<div class="ps-mic-wrap">';
+  if(!hasRecognition){
+    h+='<div class="ps-mic-btn" data-action="ps-start-timer-only">';
+  }else{
+    h+='<div class="ps-mic-btn" data-action="ps-start">';
+  }
+  h+='<div class="ps-mic-ring"><div class="ps-mic-icon">🎙️</div></div>';
+  h+='</div>';
+  h+='<div class="ps-mic-label">Tap to start</div>';
+  h+='</div>';
+
+  if(!hasRecognition){
+    h+='<div class="ps-no-mic-note">Filler detection not supported in this browser. Timer will still run.</div>';
+  }
+
+  h+='</div>';
+  app.innerHTML=h;
+
+  app.querySelector('[data-action="ps-back"]').addEventListener("click",()=>{
+    V.view="hub";render();
+  });
+  app.querySelector('[data-action="ps-change-project"]').addEventListener("click",()=>{
+    const dd=document.getElementById("ps-project-dropdown");
+    if(dd)dd.style.display=dd.style.display==="none"?"block":"none";
+  });
+  app.querySelectorAll("[data-ps-pid]").forEach(btn=>{
+    btn.addEventListener("click",()=>{
+      PS.pid=btn.dataset.psPid==="freestyle"?null:btn.dataset.psPid;
+      const dd=document.getElementById("ps-project-dropdown");
+      if(dd)dd.style.display="none";
+      render();
+    });
+  });
+  const startBtn=app.querySelector('[data-action="ps-start"]');
+  if(startBtn)startBtn.addEventListener("click",psStart);
+  const startTimerOnly=app.querySelector('[data-action="ps-start-timer-only"]');
+  if(startTimerOnly)startTimerOnly.addEventListener("click",()=>psStart(true));
+}
+
+function psStart(timerOnly){
+  PS.phase="active";
+  PS.elapsed=0;
+  PS.fillerCounts={};
+  PS.totalFillers=0;
+  PS.startedAt=Date.now();
+  PS.aiAnalysis=null;
+  PS.aiLoading=false;
+
+  // Start clock
+  PS._iv=setInterval(()=>{
+    PS.elapsed++;
+    psUpdateActiveDisplay();
+  },1000);
+
+  // Start filler detection (unless browser unsupported or timer-only)
+  if(!timerOnly&&isSpeechRecognitionSupported()){
+    // Piggyback on FD state — reset it first
+    FD.phase="active";
+    FD.fillerCounts={};
+    FD.totalWords=0;
+    FD.transcript="";
+    FD.interimText="";
+    FD.startedAt=PS.startedAt;
+    FD._shouldReconnect=true;
+    fdStartRecognition();
+  }
+
+  render();
+}
+
+function psUpdateActiveDisplay(){
+  const display=document.getElementById("ps-active-display");
+  if(display)display.textContent=fmtMs(PS.elapsed*1000);
+  const fillerEl=document.getElementById("ps-active-fillers");
+  if(fillerEl){
+    const total=Object.values(FD.fillerCounts||{}).reduce((a,b)=>a+b,0);
+    PS.totalFillers=total;
+    fillerEl.textContent=total;
+  }
+  // Phase coloring
+  const card=document.getElementById("ps-active-card");
+  const proj=PS.pid?PD[PS.pid]:null;
+  if(card&&proj){
+    const dur=parseDuration(proj.dur);
+    if(dur){
+      card.classList.toggle("phase-green",PS.elapsed>=dur.min*60&&PS.elapsed<dur.max*60);
+      card.classList.toggle("phase-red",PS.elapsed>=dur.max*60);
+    }
+  }
+}
+
+function renderPracticeStudioActive(app){
+  const proj=PS.pid?PD[PS.pid]:null;
+  const dur=proj?parseDuration(proj.dur):null;
+  const elapsed=fmtMs(PS.elapsed*1000);
+
+  let h='<div class="fade-up ps-view">';
+  h+='<div class="ps-active-header">';
+  h+='<div class="ps-active-title">'+(proj?proj.t:"Freestyle")+'</div>';
+  if(dur)h+='<div class="ps-active-target">Target: '+proj.dur+'</div>';
+  h+='</div>';
+
+  h+='<div class="ps-active-card" id="ps-active-card">';
+  h+='<div class="ps-active-state">● RECORDING</div>';
+  h+='<div class="ps-active-display" id="ps-active-display">'+elapsed+'</div>';
+  if(dur){
+    h+='<div class="ps-active-markers">';
+    h+='<span class="ps-marker green">Green '+dur.min+':00</span>';
+    h+='<span class="ps-marker red">Red '+dur.max+':00</span>';
+    h+='</div>';
+  }
+  h+='</div>';
+
+  h+='<div class="ps-active-stats">';
+  const total=Object.values(FD.fillerCounts||{}).reduce((a,b)=>a+b,0);
+  h+='<div class="ps-stat-chip"><span class="ps-stat-n" id="ps-active-fillers">'+total+'</span><span class="ps-stat-lbl">Fillers</span></div>';
+  const mins=PS.elapsed/60;
+  const rate=mins>0?(total/mins).toFixed(1):"—";
+  h+='<div class="ps-stat-chip"><span class="ps-stat-n">'+rate+'</span><span class="ps-stat-lbl">Per min</span></div>';
+  h+='</div>';
+
+  // Stop mic button
+  h+='<div class="ps-mic-wrap">';
+  h+='<div class="ps-mic-btn active" data-action="ps-stop">';
+  h+='<div class="ps-mic-ring active"><div class="ps-mic-icon">■</div></div>';
+  h+='</div>';
+  h+='<div class="ps-mic-label">Tap to stop</div>';
   h+='</div>';
 
   h+='</div>';
   app.innerHTML=h;
 
-  // Scroll thread to bottom
-  const thread=app.querySelector("#coach-thread");
-  if(thread)thread.scrollTop=thread.scrollHeight;
-
-  // Auto-resize textarea
-  const ta=app.querySelector("#coach-input");
-  if(ta){
-    ta.addEventListener("input",()=>{
-      V._coachDraft=ta.value;
-      ta.style.height="auto";
-      ta.style.height=Math.min(120,ta.scrollHeight)+"px";
-    });
-    ta.addEventListener("keydown",e=>{
-      if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();sendCoachMessage();}
-    });
-    // Focus on input if no thinking in progress
-    if(!V._coachThinking)setTimeout(()=>ta.focus(),80);
-  }
-
-  app.querySelector('[data-action="coach-back"]').addEventListener("click",()=>{
-    V.view="hub";render();
-  });
-  app.querySelector('[data-action="coach-clear"]').addEventListener("click",()=>{
-    if(V._coachHistory.length===0)return;
-    if(!confirm("Clear this conversation?"))return;
-    V._coachHistory=[];
-    V._coachDraft="";
-    render();
-  });
-  app.querySelectorAll("[data-starter]").forEach(btn=>{
-    btn.addEventListener("click",()=>{
-      V._coachDraft=btn.dataset.starter;
-      sendCoachMessage();
-    });
-  });
-  const sendBtn=app.querySelector('[data-action="coach-send"]');
-  if(sendBtn)sendBtn.addEventListener("click",sendCoachMessage);
+  psUpdateActiveDisplay();
+  app.querySelector('[data-action="ps-stop"]').addEventListener("click",psStop);
 }
 
-async function sendCoachMessage(){
-  const ta=document.getElementById("coach-input");
-  // Read from textarea OR the draft set by starter buttons — whichever is non-empty
-  const taVal=ta?ta.value.trim():"";
-  const text=(taVal||V._coachDraft||"").trim();
-  if(!text||V._coachThinking)return;
+function psStop(){
+  // Stop clock
+  clearInterval(PS._iv);PS._iv=null;
+  // Stop filler detection
+  fdStop(false);
+  PS.phase="done";
+  PS.totalFillers=Object.values(FD.fillerCounts||{}).reduce((a,b)=>a+b,0);
+  PS.fillerCounts={...FD.fillerCounts};
+  render();
+  // Auto-trigger AI analysis
+  if(S.aiConfig&&S.aiConfig.enabled&&PS.elapsed>10){
+    psAnalyzeWithAI();
+  }
+}
 
-  if(!V._coachHistory)V._coachHistory=[];
-  V._coachHistory.push({role:"user",text});
-  V._coachDraft="";
-  if(ta)ta.value=""; // also clear the textarea DOM element
-  V._coachThinking=true;
-  render(); // show user message + dots immediately
+async function psAnalyzeWithAI(){
+  PS.aiLoading=true;
+  _psUpdateAnalysisSection();
+
+  const proj=PS.pid?PD[PS.pid]:null;
+  const dur=proj?parseDuration(proj.dur):null;
+  const mins=(PS.elapsed/60).toFixed(1);
+  const rate=PS.elapsed>0?((PS.totalFillers/(PS.elapsed/60)).toFixed(1)):"0";
+
+  const topFillers=Object.entries(PS.fillerCounts)
+    .sort((a,b)=>b[1]-a[1]).slice(0,5)
+    .map(([w,c])=>c+"× "+w).join(", ")||"none detected";
+
+  const systemPrompt=
+    "You are a direct, experienced Toastmasters coach giving post-speech feedback. "+
+    "Be concise (under 200 words), specific, and honest. No padding or generic praise. "+
+    "Give one thing they did well and two concrete improvements. "+
+    "Use plain paragraphs — no bullet lists, no headers.";
+
+  const userMsg=
+    (proj?"Project: "+proj.t+"\nProject purpose: "+proj.p+"\nTarget duration: "+proj.dur+"\n":"Project: Freestyle practice\n")+
+    "Actual duration: "+mins+" minutes\n"+
+    (dur?("Duration assessment: "+(PS.elapsed<dur.min*60?"Short — came in under target"
+      :PS.elapsed>dur.max*60?"Long — went over target"
+      :"On target — within the window")+"\n"):"") +
+    "Total filler words: "+PS.totalFillers+"\n"+
+    "Filler rate: "+rate+" per minute\n"+
+    "Top fillers: "+topFillers+"\n"+
+    "\nGive focused coaching on what to improve for the next practice run.";
 
   try{
-    const systemPrompt=buildCoachSystemPrompt();
-    // Build messages array from history (exclude the latest user msg — passed separately)
-    const history=V._coachHistory.slice(0,-1).map(m=>({
-      role:m.role==="user"?"user":"assistant",
-      content:m.text
-    }));
-    // callCoach takes a single userMessage, but for multi-turn we need to
-    // pass full history. Use a thin wrapper that sends history inline.
-    const response=await _callCoachMultiturn(systemPrompt,history,text);
-    V._coachHistory.push({role:"assistant",text:response});
+    const response=await callCoach(systemPrompt,userMsg,{maxTokens:400});
+    PS.aiAnalysis=response;
   }catch(err){
-    V._coachHistory.push({role:"assistant",text:"⚠️ "+(err.message||"Something went wrong. Check AI Settings.")});
-  }finally{
-    V._coachThinking=false;
-    render();
-    // Scroll to bottom after new message
-    setTimeout(()=>{
-      const thread=document.getElementById("coach-thread");
-      if(thread)thread.scrollTop=thread.scrollHeight;
-    },60);
+    PS.aiAnalysis="⚠ "+err.message;
+  }
+  PS.aiLoading=false;
+  _psUpdateAnalysisSection();
+}
+
+function _psUpdateAnalysisSection(){
+  const el=document.getElementById("ps-analysis");
+  if(!el)return;
+  if(PS.aiLoading){
+    el.innerHTML='<div class="ps-analysis-loading"><span class="coach-dots"><span>.</span><span>.</span><span>.</span></span></div>';
+  }else if(PS.aiAnalysis){
+    el.innerHTML='<div class="ps-analysis-text">'+
+      PS.aiAnalysis.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/\n\n/g,"</p><p>").replace(/\n/g,"<br>")+
+      '</div>';
   }
 }
 
-// Multi-turn version of callCoach — passes full conversation history
-async function _callCoachMultiturn(systemPrompt,history,latestUserMessage){
-  const cfg=S.aiConfig||{};
-  if(!cfg.enabled)throw new Error("AI features are disabled.");
+function renderPracticeStudioDone(app){
+  const proj=PS.pid?PD[PS.pid]:null;
+  const dur=proj?parseDuration(proj.dur):null;
+  const mins=(PS.elapsed/60).toFixed(1);
+  const rate=PS.elapsed>0?((PS.totalFillers/(PS.elapsed/60)).toFixed(1)):"0";
+  const aiOn=S.aiConfig&&S.aiConfig.enabled;
 
-  // Auto-escalate based on the latest message
-  const escalateSignals=[
-    /\b(stuck|struggling|frustrated|burnt.?out|lost.?motivation|don.t.know.?if|giving.?up|not.?working|pointless|plateau)\b/i,
-    /\b(what.?does.?this.?mean|why.?bother|should.?i.?(even|really)|big.?picture|long.?term.?goal|life|career.?change)\b/i,
-    /\b(not.?sure|confused|conflicted|torn.?between|help.?me.?decide|which.?path.?is.?better)\b/i
-  ];
-  let model=cfg.model||"claude-sonnet-4-6";
-  if(model!=="claude-haiku-4-5-20251001"&&escalateSignals.some(re=>re.test(latestUserMessage))){
-    model="claude-opus-4-7";
+  // Performance assessment
+  let durAssess="",durClass="";
+  if(dur){
+    if(PS.elapsed<dur.min*60){durAssess="Under target";durClass="red";}
+    else if(PS.elapsed>dur.max*60){durAssess="Over target";durClass="amber";}
+    else{durAssess="On target ✓";durClass="green";}
   }
+  const fillerClass=parseFloat(rate)>3?"red":parseFloat(rate)>1.5?"amber":"green";
 
-  const messages=[
-    ...history,
-    {role:"user",content:latestUserMessage}
-  ];
+  let h='<div class="fade-up ps-view">';
+  h+='<div class="top-bar">';
+  h+='<button class="top-bar-btn" data-action="ps-again">← Practice again</button>';
+  h+='<button class="top-bar-btn" data-action="ps-hub">Hub</button>';
+  h+='</div>';
 
-  const body=JSON.stringify({
-    model,max_tokens:1024,
-    system:systemPrompt,
-    messages
-  });
+  h+='<div class="ps-done-header">';
+  h+='<div class="ps-done-icon">✓</div>';
+  h+='<div class="ps-done-title">'+(proj?proj.t:"Freestyle")+'</div>';
+  h+='</div>';
 
-  if(cfg.mode==="direct"){
-    if(!cfg.apiKey)throw new Error("API key missing. Add yours in AI Settings.");
-    const resp=await fetch("https://api.anthropic.com/v1/messages",{
-      method:"POST",
-      headers:{
-        "content-type":"application/json",
-        "anthropic-version":"2023-06-01",
-        "anthropic-dangerous-direct-browser-access":"true",
-        "x-api-key":cfg.apiKey
-      },
-      body
+  // Stats grid
+  h+='<div class="ps-results-grid">';
+  h+='<div class="ps-result-card">';
+  h+='<div class="ps-result-n '+durClass+'">'+fmtMs(PS.elapsed*1000)+'</div>';
+  h+='<div class="ps-result-lbl">Duration</div>';
+  if(durAssess)h+='<div class="ps-result-sub '+durClass+'">'+durAssess+'</div>';
+  h+='</div>';
+  h+='<div class="ps-result-card">';
+  h+='<div class="ps-result-n '+fillerClass+'">'+PS.totalFillers+'</div>';
+  h+='<div class="ps-result-lbl">Fillers</div>';
+  h+='<div class="ps-result-sub '+fillerClass+'">'+rate+' per min</div>';
+  h+='</div>';
+  h+='</div>';
+
+  // Top fillers breakdown
+  const topFillers=Object.entries(PS.fillerCounts).sort((a,b)=>b[1]-a[1]).slice(0,6);
+  if(topFillers.length>0){
+    h+='<div class="ps-filler-breakdown">';
+    h+='<div class="ps-filler-title">Most used fillers</div>';
+    h+='<div class="ps-filler-chips">';
+    topFillers.forEach(([w,c])=>{
+      h+='<div class="ps-filler-chip"><span class="ps-filler-word">'+w+'</span><span class="ps-filler-count">'+c+'</span></div>';
     });
-    if(!resp.ok){const e=await resp.text().catch(()=>resp.statusText);throw new Error("API error "+resp.status+": "+e.slice(0,200));}
-    const data=await resp.json();
-    if(!data.content?.[0]?.text)throw new Error("Unexpected API response");
-    return data.content[0].text;
+    h+='</div></div>';
   }
 
-  // Backend
-  if(!cfg.endpoint)throw new Error("Endpoint URL missing. Add yours in AI Settings.");
-  const resp=await fetch(cfg.endpoint,{
-    method:"POST",
-    headers:{"content-type":"application/json"},
-    body:JSON.stringify({systemPrompt,messages,maxTokens:1024,model})
-  });
-  if(!resp.ok)throw new Error("Backend returned "+resp.status);
-  const data=await resp.json();
-  if(data.text)return data.text;
-  if(data.content?.[0]?.text)return data.content[0].text;
-  throw new Error("Backend response missing text");
-}
+  // AI Analysis section
+  if(aiOn){
+    h+='<div class="ps-analysis-card">';
+    h+='<div class="ps-analysis-hdr">✨ Coach Feedback</div>';
+    h+='<div id="ps-analysis">';
+    if(PS.aiLoading){
+      h+='<div class="ps-analysis-loading"><span class="coach-dots"><span>.</span><span>.</span><span>.</span></span></div>';
+    }else if(PS.aiAnalysis){
+      h+='<div class="ps-analysis-text"><p>'+
+        PS.aiAnalysis.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/\n\n/g,"</p><p>").replace(/\n/g,"<br>")+
+        '</p></div>';
+    }else{
+      h+='<div class="ps-analysis-pending">Generating feedback…</div>';
+    }
+    h+='</div>';
+    h+='</div>';
+  }
 
-// Escape HTML in user messages (prevent injection)
-function escHtml(str){
-  return str.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/\n/g,"<br>");
-}
-// Format Claude responses — preserve paragraph breaks, no markdown
-function formatCoachResponse(str){
-  return str.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")
-    .replace(/\n\n/g,"</p><p>").replace(/\n/g,"<br>");
+  h+='</div>';
+  app.innerHTML=h;
+
+  app.querySelector('[data-action="ps-again"]').addEventListener("click",()=>{
+    PS.phase="ready";PS.aiAnalysis=null;
+    render();
+  });
+  app.querySelector('[data-action="ps-hub"]').addEventListener("click",()=>{
+    PS.phase="ready";
+    V.view="hub";render();
+  });
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
