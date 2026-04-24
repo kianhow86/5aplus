@@ -1077,6 +1077,23 @@ a{color:inherit;text-decoration:none}
 .role-ai-eval-text p{margin:0 0 10px}
 .role-ai-eval-text p:last-child{margin:0}
 /* ═══ Evaluation Helper ═══ */
+.eh-project-list{display:flex;flex-direction:column;gap:7px;margin-top:4px}
+.eh-level-hdr{font-size:10px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--text-3);padding:8px 0 2px}
+.eh-project-btn{display:flex;align-items:center;gap:12px;padding:13px 16px;background:var(--surface);border:1px solid var(--border);border-radius:13px;cursor:pointer;font-family:inherit;text-align:left;transition:background .15s,border-color .15s,transform .12s}
+.eh-project-btn:hover{background:rgba(255,255,255,0.04);border-color:rgba(232,93,58,0.4)}
+.eh-project-btn:active{transform:scale(0.99)}
+.eh-project-btn-info{flex:1;min-width:0}
+.eh-project-btn-name{font-size:14.5px;font-weight:700;color:var(--text);letter-spacing:-0.005em;margin-bottom:2px}
+.eh-project-btn-dur{font-size:12px;color:var(--text-3);letter-spacing:-0.003em}
+.eh-project-btn-arrow{color:var(--text-3);font-size:16px;flex-shrink:0;transition:color .15s,transform .15s}
+.eh-project-btn:hover .eh-project-btn-arrow{color:#E85D3A;transform:translateX(3px)}
+.eh-focus-divider{height:1px;background:rgba(255,255,255,0.06);margin:10px 0}
+.eh-draft-section{display:flex;align-items:flex-start;gap:10px;padding:10px 12px;border-radius:10px;margin-bottom:7px;font-size:13.5px;line-height:1.55;letter-spacing:-0.003em}
+.eh-draft-section.green{background:rgba(94,185,117,0.1);border:1px solid rgba(94,185,117,0.25);color:var(--text-2)}
+.eh-draft-section.amber{background:rgba(232,178,80,0.1);border:1px solid rgba(232,178,80,0.25);color:var(--text-2)}
+.eh-draft-icon{flex-shrink:0;font-size:15px;margin-top:1px}
+.eh-draft-p{font-size:13.5px;color:var(--text-2);line-height:1.6;margin:0 0 8px;letter-spacing:-0.003em}
+
 .eh-view,.sd-view{padding-bottom:32px}
 .eh-picker-label,.sd-label{font-size:10.5px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-3);margin-bottom:7px}
 .eh-picker-wrap,.eh-notes-wrap,.sd-field{margin-bottom:14px}
@@ -1144,6 +1161,10 @@ a{color:inherit;text-decoration:none}
 .tt-ai-generate-btn{padding:11px 16px;background:linear-gradient(135deg,#A07BC7,#6DB6B4);color:#0A0B0F;border:none;border-radius:10px;font-weight:700;font-size:13.5px;cursor:pointer;font-family:inherit;letter-spacing:-0.003em;transition:filter .15s,transform .12s}
 .tt-ai-generate-btn:hover{filter:brightness(1.08)}
 .tt-ai-generate-btn:active{transform:scale(0.98)}
+.tt-ai-results-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.tt-ai-regen-btn{padding:5px 11px;background:transparent;border:1px solid rgba(160,123,199,0.4);border-radius:8px;color:#A07BC7;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;transition:background .15s}
+.tt-ai-regen-btn:hover{background:rgba(160,123,199,0.1)}
+
 .tt-ai-results-wrap{margin-top:12px;padding-top:12px;border-top:1px solid rgba(255,255,255,0.07)}
 .tt-ai-results-label{font-size:10px;font-weight:700;letter-spacing:0.13em;text-transform:uppercase;color:var(--text-3);margin-bottom:8px}
 .tt-ai-results-list{display:flex;flex-direction:column;gap:6px}
@@ -1254,6 +1275,12 @@ a{color:inherit;text-decoration:none}
 .ps-analysis-text{font-size:13.5px;color:var(--text-2);line-height:1.6;letter-spacing:-0.003em}
 .ps-analysis-text p{margin:0 0 10px}
 .ps-analysis-text p:last-child{margin:0}
+.ps-analysis-section{display:flex;align-items:flex-start;gap:10px;padding:10px 12px;border-radius:10px;margin-bottom:7px;font-size:13.5px;line-height:1.55;letter-spacing:-0.003em}
+.ps-analysis-section span:first-child{flex-shrink:0;font-size:16px;margin-top:1px}
+.ps-section-green{background:rgba(94,185,117,0.1);border:1px solid rgba(94,185,117,0.25);color:var(--text-2)}
+.ps-section-amber{background:rgba(232,178,80,0.1);border:1px solid rgba(232,178,80,0.25);color:var(--text-2)}
+.ps-section-blue{background:rgba(109,182,180,0.1);border:1px solid rgba(109,182,180,0.25);color:var(--text-2)}
+.ps-mic-denied-note{background:rgba(232,93,93,0.1);border:1px solid rgba(232,93,93,0.3);border-radius:10px;padding:10px 14px;font-size:12.5px;color:#E85D5D;line-height:1.5;margin-top:10px;letter-spacing:-0.003em}
 .ps-analysis-loading,.ps-analysis-pending{display:flex;align-items:center;justify-content:center;padding:12px;color:var(--text-3);font-size:13px;gap:8px}
 .mp-list{display:flex;flex-direction:column;gap:12px;margin-top:16px;margin-bottom:18px}
 .mp-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:18px;transition:border-color .2s ease,background .2s ease}
@@ -1475,6 +1502,14 @@ a{color:inherit;text-decoration:none}
 
 /* ═══ Word of the Day ═══ */
 .wod-card{background:var(--surface);border:1px solid var(--border);border-radius:22px;padding:36px 26px 32px;margin-bottom:18px;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);text-align:center}
+.wod-theme-form{display:flex;flex-direction:column;gap:10px;margin-bottom:16px}
+.wod-theme-label{font-size:10.5px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-3)}
+.wod-diff-row{display:flex;gap:8px}
+.wod-find-btn{padding:12px 18px;background:linear-gradient(135deg,#A07BC7,#6DB6B4);color:#0A0B0F;border:none;border-radius:11px;font-weight:700;font-size:14px;cursor:pointer;font-family:inherit;letter-spacing:-0.003em;transition:filter .15s,transform .12s}
+.wod-find-btn:hover{filter:brightness(1.08)}
+.wod-find-btn:active{transform:scale(0.98)}
+.wod-pronunciation{font-size:13px;color:var(--text-3);margin-top:2px;margin-bottom:4px;letter-spacing:0.02em}
+
 .wod-pills{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap}
 .wod-pill{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.14);color:var(--text);padding:9px 18px;border-radius:11px;font-size:13px;font-weight:600;font-family:inherit;cursor:pointer;transition:background .15s ease,border-color .15s ease,color .15s ease;letter-spacing:-0.005em}
 .wod-pill:hover{background:rgba(255,255,255,0.09);border-color:rgba(255,255,255,0.24)}
@@ -2496,7 +2531,7 @@ let S={
   mode:"",
   // Ala carte comfort level — only relevant when mode==="alacarte". Captured
   // during welcome flow to personalize project suggestions. "new" / "some" /
-  // "experienced". Kept loose; v0.42 may add follow-ups.
+  // "experienced". Kept loose; v0.44 may add follow-ups.
   alacarteComfort:"",
   // AI Coach config. Disabled by default. User configures in Settings.
   // mode: "direct" (user's own API key, stored locally — direct browser call)
@@ -2880,7 +2915,7 @@ function renderHub(app){
   }
   h+='</div>';
 
-  h+='<div class="app-footer">Toastmasters Companion · v0.42 · Your progress saves on this device</div>';
+  h+='<div class="app-footer">Toastmasters Companion · v0.44 · Your progress saves on this device</div>';
   h+='</div>';
   app.innerHTML=h;
 
@@ -3182,7 +3217,7 @@ function renderPathPicker(app){
   h+='<button class="quiz-prompt-btn" data-action="open-quiz">🧭 &nbsp; Not sure which one? Take the fun quiz</button>';
   h+='</div>';
 
-  h+='<div class="app-footer">Toastmasters Companion · v0.42 · Built with ❤️ for Toastmasters</div>';
+  h+='<div class="app-footer">Toastmasters Companion · v0.44 · Built with ❤️ for Toastmasters</div>';
   h+='</div>';
   app.innerHTML=h;
 
@@ -3480,7 +3515,7 @@ function renderPathBrowser(app){
   // Keeping it in the tree lets us toggle visibility without re-rendering.
   h+='<div class="path-complete-banner'+(pct>=100?'':' hidden')+'"><strong>🎉 Path complete!</strong><div style="font-size:13px;color:var(--text-muted);line-height:1.5">Next step: DTM. Keep going.</div></div>';
 
-  h+='<div class="app-footer">Toastmasters Companion · v0.42 · Your progress saves locally on this device</div>';
+  h+='<div class="app-footer">Toastmasters Companion · v0.44 · Your progress saves locally on this device</div>';
   h+='</div>';
   app.innerHTML=h;
 
@@ -4180,25 +4215,9 @@ function renderRoleDetail(app,roleId){
 
   }else if(role.id==="gram"){
     h+='<div class="role-tools-note" style="border-style:solid;border-color:rgba(160,123,199,0.45);background:rgba(160,123,199,0.1)">';
-    h+='<div style="margin-bottom:10px">📖 <strong>Word of the Day</strong></div>';
-    h+='<button class="modal-cta" style="width:auto;padding:10px 22px;font-size:14px;background:#A07BC7;color:#fff" data-action="open-wod">Open Word of the Day</button>';
+    h+='<div style="margin-bottom:10px">📖 <strong>Word of the Day</strong> — search by meeting theme'+(aiOn?', AI-powered':'')+'.</div>';
+    h+='<button class="modal-cta" style="width:auto;padding:10px 22px;font-size:14px;background:#A07BC7;color:#fff" data-action="open-wod">Open Word of the Day →</button>';
     h+='</div>';
-    if(aiOn){
-      h+='<div class="role-ai-tool" id="role-ai-gram">';
-      h+='<div class="role-ai-tool-hdr"><span class="role-ai-badge">✨ AI</span><span>AI Word of the Day</span></div>';
-      h+='<div class="role-ai-desc">Get a curated word matching your meeting theme with definition and usage example.</div>';
-      h+='<div class="role-ai-form">';
-      h+='<input class="role-ai-input" id="wod-theme" placeholder="Meeting theme (e.g. Leadership, Change…)" />';
-      h+='<div class="role-ai-row">';
-      [['Practical','Everyday'],['Balanced','Elevated'],['Advanced','Sophisticated']].forEach(([d,sub])=>{
-        h+='<button class="role-ai-chip'+(d==='Balanced'?' active':'')+'" data-wod-diff="'+d+'">'+d+'<span class="role-ai-chip-sub">'+sub+'</span></button>';
-      });
-      h+='</div>';
-      h+='<button class="role-ai-generate" data-action="wod-generate">🎲 Generate Word</button>';
-      h+='</div>';
-      h+='<div class="role-ai-output" id="wod-output" style="display:none"></div>';
-      h+='</div>';
-    }
 
   }else if(role.id==="tmd"){
     if(aiOn){
@@ -4346,27 +4365,7 @@ function renderRoleDetail(app,roleId){
   });
 
   // ── AI Word of the Day ──
-  const wodGenBtn=app.querySelector('[data-action="wod-generate"]');
-  if(wodGenBtn)wodGenBtn.addEventListener("click",async()=>{
-    const theme=(app.querySelector("#wod-theme")||{}).value||"";
-    const diff=(app.querySelector("[data-wod-diff].active")||{}).dataset?.wodDiff||"Balanced";
-    const out=app.querySelector("#wod-output");
-    out.style.display="block";
-    out.innerHTML='<div class="role-ai-loading"><span class="coach-dots"><span>.</span><span>.</span><span>.</span></span></div>';
-    try{
-      const sys="You are a Toastmasters Grammarian. Generate a single Word of the Day. Return ONLY: word, pronunciation, part of speech, definition, and one usage example sentence. Format as JSON: {\"word\":\"...\",\"pronunciation\":\"...\",\"pos\":\"...\",\"definition\":\"...\",\"example\":\"...\"}. No other text.";
-      const msg="Meeting theme: "+(theme||"open")+" | Level: "+diff+"\nPractical=common but often misused words, Balanced=elevated vocabulary, Advanced=rare/sophisticated words.";
-      const raw=await callCoach(sys,msg,{maxTokens:300,forceBase:true});
-      let cleaned=raw.trim().replace(/^```(?:json)?\s*/,"").replace(/\s*```\s*$/,"");
-      const w=JSON.parse(cleaned);
-      out.innerHTML='<div class="role-ai-wod-card">'+
-        '<div class="role-ai-wod-word">'+w.word+'</div>'+
-        '<div class="role-ai-wod-meta">'+w.pronunciation+' · '+w.pos+'</div>'+
-        '<div class="role-ai-wod-def">'+w.definition+'</div>'+
-        '<div class="role-ai-wod-ex">"'+w.example+'"</div>'+
-        '</div>';
-    }catch(e){out.innerHTML='<div class="role-ai-error">⚠ '+e.message+'</div>';}
-  });
+  // WOD is now renderWODTool — no inline handler needed
 
   // ── TMD Script Generator ──
   const tmdGenBtn=app.querySelector('[data-action="tmd-generate"]');
@@ -5018,12 +5017,11 @@ function renderPracticeHub(app){
   h+=toolRow({tool:"timer",color:"#D4A94C",icon:"⏱️",name:"Speech Timer",desc:"Green / yellow / red / bell — Toastmasters-accurate timing"});
   h+=toolRow({tool:"topics",color:"#5B9DD9",icon:"🎯",name:"Table Topics",desc:"96 modern impromptu prompts across 8 themes"});
   h+=toolRow({tool:"filler",color:"#7BA7CC",icon:"🎙️",name:"Filler Detector",desc:"Counts your ums, ahs, likes in real time"});
-  h+=toolRow({tool:"wod",color:"#A07BC7",icon:"📖",name:"Word of the Day",desc:"80 curated words with definitions + examples"});
   h+=toolRow({tool:"eval-helper",color:"#E85D3A",icon:"🪞",name:"Evaluation Helper",desc:(S.aiConfig&&S.aiConfig.enabled)?"AI-drafted CRC feedback for any Pathways speech":"Draft CRC-style feedback for any Pathways speech"});
   h+=toolRow({tool:"speech-draft",color:"#6DB6B4",icon:"📝",name:"Speech Draft Builder",desc:(S.aiConfig&&S.aiConfig.enabled)?"AI builds your speech outline and opening lines":"Structure your next speech from outline to close"});
 
   h+='</div>';
-  h+='<div class="app-footer">Toastmasters Companion · v0.42 · Practice tools work offline</div>';
+  h+='<div class="app-footer">Toastmasters Companion · v0.44 · Practice tools work offline</div>';
   h+='</div>';
   app.innerHTML=h;
 
@@ -5198,12 +5196,6 @@ function renderTimerFullScreen(app){
 // ═══════════════════════════════════════════════════════════════════════════
 
 function renderTopicsSelect(app){
-  const aiOn=S.aiConfig&&S.aiConfig.enabled;
-  if(!V._ttAiTheme)V._ttAiTheme="";
-  if(!V._ttAiDiff)V._ttAiDiff="Medium";
-  if(!V._ttAiResults)V._ttAiResults=null;
-  if(!V._ttAiLoading)V._ttAiLoading=false;
-
   let h='<div class="fade-up">';
   h+='<div class="top-bar">';
   const topicsBackLabel=V._practiceReturnTo==="pathfinder"?"← Back to program":"← Practice";
@@ -5213,52 +5205,13 @@ function renderTopicsSelect(app){
   h+='<h1 class="title">Pick a <span class="accent">theme</span></h1>';
   h+='<div class="subtitle">Impromptu speaking prompts organized by modern themes — for TTM prep or solo warmup. Tap through shuffled prompts at your own pace.</div>';
 
-  // ── AI Generator section ──
-  if(aiOn){
-    h+='<div class="tt-ai-section">';
-    h+='<div class="tt-ai-hdr">✨ AI Topics Generator</div>';
-    h+='<div class="tt-ai-body">';
-    h+='<input class="role-ai-input" id="tt-ai-theme" placeholder="Meeting theme (e.g. Courage, Technology, Food…)" value="'+escHtml(V._ttAiTheme)+'"/>';
-    h+='<div class="tt-ai-diff-row">';
-    ['Easy','Medium','Challenging'].forEach(d=>{
-      const active=d===V._ttAiDiff;
-      h+='<button class="tt-ai-diff-btn'+(active?' active':'')+'" data-tt-ai-diff="'+d+'">';
-      h+='<span class="tt-ai-diff-dot'+(active?' active':'')+'"></span>'+d;
-      h+='</button>';
-    });
-    h+='</div>';
-    h+='<button class="tt-ai-generate-btn" data-action="tt-ai-generate">🎲 Generate 10 Topics</button>';
-    h+='</div>';
-
-    // Results or loading
-    if(V._ttAiLoading){
-      h+='<div class="tt-ai-results-wrap"><div class="role-ai-loading"><span class="coach-dots"><span>.</span><span>.</span><span>.</span></span></div></div>';
-    }else if(V._ttAiResults&&V._ttAiResults.length){
-      h+='<div class="tt-ai-results-wrap">';
-      h+='<div class="tt-ai-results-label">TAP A QUESTION TO PRACTICE WITH IT</div>';
-      h+='<div class="tt-ai-results-list">';
-      V._ttAiResults.forEach((q,i)=>{
-        h+='<button class="tt-ai-result-item" data-ai-q="'+escHtml(q)+'">';
-        h+='<span class="tt-ai-result-n">'+(i+1)+'</span>';
-        h+='<span class="tt-ai-result-text">'+q.replace(/&/g,"&amp;").replace(/</g,"&lt;")+'</span>';
-        h+='<span class="tt-ai-result-arrow">→</span>';
-        h+='</button>';
-      });
-      h+='</div>';
-      h+='</div>';
-    }
-    h+='</div>';
-    h+='<div class="tt-ai-divider"><span>or browse built-in themes</span></div>';
-  }
-
   h+='<div class="topics-themes-grid">';
   h+='<button class="topics-theme-card topics-all-card" data-theme="all" style="--pc:#6DB6B4;background:rgba(109,182,180,0.07);border-color:rgba(109,182,180,0.26)">';
   h+='<div class="topics-theme-icon">🎲</div>';
   h+='<div class="topics-all-text">';
   h+='<div class="topics-theme-name">Random across all themes</div>';
   h+='<div class="topics-theme-count">Shuffled grab-bag</div>';
-  h+='</div>';
-  h+='</button>';
+  h+='</div></button>';
   TOPICS_THEMES.forEach(theme=>{
     const bg=hexToRgba(theme.color,0.08);
     const bd=hexToRgba(theme.color,0.28);
@@ -5267,73 +5220,20 @@ function renderTopicsSelect(app){
     h+='<div class="topics-theme-name">'+theme.name+'</div>';
     h+='</button>';
   });
-  h+='</div>';
-  h+='</div>';
+  h+='</div></div>';
   app.innerHTML=h;
 
   app.querySelector('[data-action="topics-back-practice"]').addEventListener("click",()=>{
     const ret=V._practiceReturnTo;
     V._practiceReturnTo=null;
-    V._ttAiResults=null;V._ttAiLoading=false;
     if(ret==="pathfinder"){V.view="pathfinder-program";}
     else{V.view="practice";}
     render();
   });
-
-  // Built-in theme buttons
   app.querySelectorAll("[data-theme]").forEach(btn=>{
     btn.addEventListener("click",()=>{
       TT.theme=btn.dataset.theme;
       ttBuildQueue(btn.dataset.theme);
-      V.view="topics-practice";
-      render();
-    });
-  });
-
-  // AI difficulty chips
-  app.querySelectorAll("[data-tt-ai-diff]").forEach(btn=>{
-    btn.addEventListener("click",()=>{
-      V._ttAiDiff=btn.dataset.ttAiDiff;
-      app.querySelectorAll("[data-tt-ai-diff]").forEach(b=>{
-        b.classList.remove("active");
-        const dot=b.querySelector(".tt-ai-diff-dot");
-        if(dot)dot.classList.remove("active");
-      });
-      btn.classList.add("active");
-      const dot=btn.querySelector(".tt-ai-diff-dot");
-      if(dot)dot.classList.add("active");
-    });
-  });
-
-  // Theme input tracking
-  const themeInput=app.querySelector("#tt-ai-theme");
-  if(themeInput)themeInput.addEventListener("input",()=>{V._ttAiTheme=themeInput.value;});
-
-  // AI generate
-  const aiGenBtn=app.querySelector('[data-action="tt-ai-generate"]');
-  if(aiGenBtn)aiGenBtn.addEventListener("click",async()=>{
-    const theme=(themeInput?themeInput.value.trim():"");
-    const diff=V._ttAiDiff||"Medium";
-    V._ttAiLoading=true;V._ttAiResults=null;
-    render();
-    try{
-      const sys="You are a Toastmasters Topicsmaster. Generate exactly 10 Table Topics questions. Return them as a numbered list 1-10, one per line. No preamble, no extra text.";
-      const msg="Theme: "+(theme||"open")+" | Difficulty: "+diff+"\nEasy=personal/relatable, Medium=opinion/reflection, Challenging=abstract/philosophical.\nGenerate 10 questions.";
-      const text=await callCoach(sys,msg,{maxTokens:600,forceBase:true});
-      const lines=text.split("\n").filter(l=>l.trim()).map(l=>l.replace(/^\d+[.)]\s*/,"").trim()).filter(Boolean);
-      V._ttAiResults=lines.slice(0,10);
-    }catch(e){V._ttAiResults=["⚠ "+e.message];}
-    V._ttAiLoading=false;
-    render();
-  });
-
-  // Tap AI result → load into practice as a single-question queue
-  app.querySelectorAll("[data-ai-q]").forEach(btn=>{
-    btn.addEventListener("click",()=>{
-      const q=btn.dataset.aiQ;
-      TT.theme="ai";
-      TT.queue=[q];
-      TT.idx=0;
       V.view="topics-practice";
       render();
     });
@@ -5490,144 +5390,225 @@ function _fmtTTTime(s){
 // tap Next to cycle through shuffled deck. Auto-reshuffles when exhausted.
 // ═══════════════════════════════════════════════════════════════════════════
 
+// ── Themed word bank for offline WOD search ──
+// ~200 words tagged with themes. Used when AI is off.
+// Schema: {w, p, d, e, th:[...theme keywords]}
+const WOD_THEMED=[
+  // Leadership
+  {w:"Tenacious",p:"adj",d:"Holding firmly to a purpose despite obstacles",e:"A tenacious leader keeps the team focused when the plan falls apart.",th:["leadership","resilience","success","determination"]},
+  {w:"Galvanise",p:"verb",d:"Shock or excite someone into action",e:"Her speech galvanised the team to push through the final hurdle.",th:["leadership","motivation","communication","change"]},
+  {w:"Visionary",p:"adj",d:"Thinking about the future with imagination and wisdom",e:"Visionary leaders see opportunity where others see obstacles.",th:["leadership","innovation","future","success"]},
+  {w:"Empathy",p:"noun",d:"The ability to understand and share the feelings of another",e:"Empathy is the foundation of every great leader.",th:["leadership","communication","relationships","teamwork"]},
+  {w:"Decisive",p:"adj",d:"Settling an issue quickly and effectively",e:"Being decisive doesn't mean being reckless — it means being clear.",th:["leadership","decision","success","confidence"]},
+  {w:"Delegate",p:"verb",d:"Entrust a task or responsibility to another person",e:"Leaders who delegate well grow faster than those who do everything alone.",th:["leadership","teamwork","trust","productivity"]},
+  {w:"Mentorship",p:"noun",d:"The guidance provided by a mentor, especially an experienced person",e:"Mentorship multiplies your impact beyond your own career.",th:["leadership","growth","relationships","learning"]},
+  {w:"Integrity",p:"noun",d:"Adherence to moral principles; honesty",e:"Integrity is doing the right thing even when no one is watching.",th:["leadership","values","trust","ethics"]},
+  // Communication
+  {w:"Articulate",p:"verb",d:"Express an idea clearly and effectively",e:"She could articulate complex problems in a way anyone could understand.",th:["communication","speaking","clarity","skills"]},
+  {w:"Persuasive",p:"adj",d:"Good at convincing people to believe or do something",e:"A persuasive argument is built on evidence and emotion together.",th:["communication","influence","speaking","marketing"]},
+  {w:"Candid",p:"adj",d:"Truthful, frank, and straightforward",e:"Candid feedback builds better speakers faster than gentle praise.",th:["communication","honesty","feedback","relationships"]},
+  {w:"Eloquence",p:"noun",d:"The ability to speak fluently, expressively, and persuasively",e:"Eloquence isn't about vocabulary — it's about clarity with warmth.",th:["communication","speaking","language","skills"]},
+  {w:"Succinct",p:"adj",d:"Briefly and clearly expressed",e:"The most powerful speeches are always the most succinct.",th:["communication","speaking","writing","clarity"]},
+  {w:"Convey",p:"verb",d:"Make an idea or feeling known to someone",e:"The best speakers convey not just information but meaning.",th:["communication","speaking","emotion","connection"]},
+  {w:"Nuance",p:"noun",d:"A subtle difference in meaning or expression",e:"Great communicators understand the nuance between assertive and aggressive.",th:["communication","language","thinking","awareness"]},
+  {w:"Rapport",p:"noun",d:"A close and harmonious relationship",e:"Building rapport with your audience is the first job of any speaker.",th:["communication","relationships","networking","connection"]},
+  // Change & Growth
+  {w:"Adapt",p:"verb",d:"Make oneself suitable to new conditions",e:"Those who adapt fastest don't just survive — they lead.",th:["change","resilience","growth","innovation","future"]},
+  {w:"Pivot",p:"verb",d:"Turn to face a new direction; change strategy significantly",e:"Knowing when to pivot is as important as knowing how to execute.",th:["change","strategy","business","innovation","leadership"]},
+  {w:"Disruptive",p:"adj",d:"Causing fundamental change to an existing system",e:"Disruptive thinking isn't just for tech companies — it belongs in every room.",th:["innovation","change","technology","business","creativity"]},
+  {w:"Evolve",p:"verb",d:"Develop gradually through a process of growth and change",e:"You don't have to revolutionise — sometimes you just have to evolve.",th:["change","growth","learning","nature","development"]},
+  {w:"Catalyst",p:"noun",d:"A person or thing that causes change",e:"One honest conversation can be a catalyst for years of growth.",th:["change","leadership","motivation","growth"]},
+  {w:"Paradigm",p:"noun",d:"A typical example or pattern; a framework for understanding",e:"Shifting your paradigm is harder than changing your behaviour.",th:["change","thinking","innovation","learning","mindset"]},
+  {w:"Metamorphosis",p:"noun",d:"A profound change in character or form",e:"The metamorphosis from nervous speaker to confident one happens through reps, not theory.",th:["change","growth","transformation","nature","learning"]},
+  {w:"Transcend",p:"verb",d:"Be or go beyond the range or limits of",e:"Great speeches transcend the room — they stay with people for years.",th:["growth","inspiration","speaking","success","values"]},
+  // Resilience & Courage
+  {w:"Persevere",p:"verb",d:"Continue despite difficulty or delay",e:"Those who persevere through failure become the most credible success stories.",th:["resilience","success","determination","challenge","courage"]},
+  {w:"Fortitude",p:"noun",d:"Courage in the face of pain or adversity",e:"Fortitude isn't the absence of fear — it's action despite it.",th:["resilience","courage","challenge","character","strength"]},
+  {w:"Grit",p:"noun",d:"Courage and resolve; strength of character",e:"Talent without grit fades. Grit without talent still gets you somewhere.",th:["resilience","success","character","determination","perseverance"]},
+  {w:"Steadfast",p:"adj",d:"Resolutely firm and unwavering",e:"Stay steadfast on your values, flexible on your methods.",th:["resilience","leadership","character","values","consistency"]},
+  {w:"Tenacity",p:"noun",d:"The quality of being very determined and persistent",e:"Tenacity is the differentiator no skill test can measure.",th:["resilience","success","determination","achievement","sports"]},
+  {w:"Undaunted",p:"adj",d:"Not intimidated or discouraged by difficulty",e:"She approached every challenge undaunted, even when the odds were against her.",th:["resilience","courage","character","challenge","leadership"]},
+  {w:"Vulnerable",p:"adj",d:"Exposed to the possibility of being hurt or challenged",e:"Being vulnerable in front of an audience is the quickest path to connection.",th:["courage","connection","speaking","relationships","authenticity"]},
+  {w:"Empowerment",p:"noun",d:"The process of becoming stronger and more confident",e:"Real empowerment comes from within — not from permission.",th:["resilience","leadership","motivation","growth","confidence"]},
+  // Success & Achievement
+  {w:"Diligence",p:"noun",d:"Steady, earnest, and energetic effort",e:"Diligence is unsexy — and it's also the most reliable path to expertise.",th:["success","work","achievement","productivity","character"]},
+  {w:"Acumen",p:"noun",d:"The ability to make good judgements and quick decisions",e:"Business acumen is rare. Communication acumen is rarer.",th:["success","intelligence","leadership","business","skills"]},
+  {w:"Prolific",p:"adj",d:"Producing much work or results",e:"The most prolific creators are not the most talented — they're the most consistent.",th:["success","creativity","achievement","productivity","art"]},
+  {w:"Benchmark",p:"noun",d:"A standard or point of reference against which things can be compared",e:"Set your own benchmark — don't let someone else define your ceiling.",th:["success","goals","measurement","performance","business"]},
+  {w:"Mastery",p:"noun",d:"Comprehensive knowledge or skill in a subject",e:"Mastery doesn't mean you stop making mistakes. It means you recover faster.",th:["success","learning","skills","achievement","growth"]},
+  {w:"Pinnacle",p:"noun",d:"The most successful point; the highest level",e:"Reaching the pinnacle is great — building others toward it is better.",th:["success","achievement","leadership","goals","ambition"]},
+  {w:"Perseverance",p:"noun",d:"Continued effort to do or achieve something despite difficulty",e:"Perseverance is the bridge between talent and results.",th:["success","resilience","determination","character","achievement"]},
+  // Teamwork & Collaboration
+  {w:"Synergy",p:"noun",d:"Interaction that produces a combined effect greater than the sum of parts",e:"Real synergy happens when different strengths are aimed at the same goal.",th:["teamwork","collaboration","business","leadership","innovation"]},
+  {w:"Cohesion",p:"noun",d:"The action of forming a unified whole",e:"A team with cohesion doesn't need a rulebook to know what's right.",th:["teamwork","leadership","culture","unity","trust"]},
+  {w:"Reciprocal",p:"adj",d:"Given, felt, or done in return",e:"Great partnerships are built on reciprocal trust, not just mutual benefit.",th:["teamwork","relationships","collaboration","communication","trust"]},
+  {w:"Consensus",p:"noun",d:"General agreement among a group of people",e:"Consensus isn't always possible, but understanding always is.",th:["teamwork","leadership","communication","decision","collaboration"]},
+  {w:"Interdependence",p:"noun",d:"The condition of being mutually reliant on each other",e:"In the best teams, interdependence is a strength, not a vulnerability.",th:["teamwork","relationships","community","collaboration","trust"]},
+  {w:"Solidarity",p:"noun",d:"Unity arising from common interests or goals",e:"Solidarity isn't built in good times — it's tested in hard ones.",th:["teamwork","community","values","relationships","courage"]},
+  // Innovation & Technology
+  {w:"Innovation",p:"noun",d:"A new method, idea, or product",e:"Innovation isn't always invention — it's often a better application of what exists.",th:["innovation","technology","business","creativity","change","future"]},
+  {w:"Disruption",p:"noun",d:"Radical change to an existing industry or status quo",e:"Every disruption looks reckless before it looks inevitable.",th:["innovation","change","technology","business","future"]},
+  {w:"Iterate",p:"verb",d:"Perform or repeat a process, learning at each step",e:"Don't wait for the perfect version — iterate your way to it.",th:["innovation","technology","learning","business","process"]},
+  {w:"Exponential",p:"adj",d:"Increasing very rapidly",e:"The gap between those who adapt and those who don't is growing at an exponential rate.",th:["technology","growth","change","future","business"]},
+  {w:"Autonomous",p:"adj",d:"Acting independently without external control",e:"The future of work rewards those who are autonomous, not just available.",th:["technology","future","work","independence","innovation"]},
+  {w:"Convergence",p:"noun",d:"The merging of distinct technologies into a unified whole",e:"The convergence of AI and communication will reshape public speaking.",th:["technology","innovation","change","future","society"]},
+  // Mindset & Values
+  {w:"Introspection",p:"noun",d:"The examination of one's own thoughts and feelings",e:"The best feedback you'll ever get comes from deep introspection.",th:["mindset","growth","awareness","values","learning"]},
+  {w:"Equanimity",p:"noun",d:"Mental calmness and composure in difficult situations",e:"Speaking under pressure requires practised equanimity.",th:["mindset","resilience","speaking","character","wellbeing"]},
+  {w:"Discern",p:"verb",d:"Recognise or find out with insight",e:"A good speaker helps the audience discern what matters most.",th:["mindset","wisdom","communication","thinking","values"]},
+  {w:"Conviction",p:"noun",d:"A firmly held belief or opinion",e:"Speak with conviction even when your voice shakes.",th:["values","courage","speaking","authenticity","leadership"]},
+  {w:"Humility",p:"noun",d:"A modest view of one's own importance",e:"Humility is what makes expertise approachable.",th:["values","character","leadership","relationships","communication"]},
+  {w:"Gratitude",p:"noun",d:"The quality of being thankful",e:"Gratitude shifts your perspective faster than any productivity technique.",th:["values","wellbeing","mindset","relationships","happiness"]},
+  {w:"Accountability",p:"noun",d:"Taking responsibility for one's actions and outcomes",e:"Accountability is not blame — it's ownership.",th:["values","leadership","character","teamwork","trust"]},
+  {w:"Integrity",p:"noun",d:"Adherence to moral principles; honesty",e:"Integrity is doing the right thing even when no one is watching.",th:["values","character","leadership","trust","ethics"]},
+  // Work & Productivity
+  {w:"Leverage",p:"verb",d:"Use something to maximum advantage",e:"Smart workers leverage their strengths and hire around their weaknesses.",th:["work","productivity","business","success","strategy"]},
+  {w:"Streamline",p:"verb",d:"Make more efficient by removing unnecessary steps",e:"Streamline your preparation — not to do less, but to focus on what matters.",th:["work","productivity","efficiency","business","process"]},
+  {w:"Holistic",p:"adj",d:"Treating the whole person or system, not just parts",e:"A holistic approach to performance includes sleep, not just practice.",th:["work","health","wellbeing","mindset","growth"]},
+  {w:"Pragmatic",p:"adj",d:"Dealing with things sensibly and realistically",e:"The best leaders are pragmatic about what's possible today and visionary about tomorrow.",th:["work","thinking","leadership","success","decision"]},
+  {w:"Proactive",p:"adj",d:"Creating or controlling a situation rather than just responding",e:"Proactive communicators don't wait for problems — they prevent them.",th:["work","leadership","productivity","communication","success"]},
+  {w:"Meticulous",p:"adj",d:"Showing great attention to detail",e:"Meticulous preparation makes spontaneity possible.",th:["work","skills","quality","character","success"]},
+  // Relationships & Society
+  {w:"Empathetic",p:"adj",d:"Showing the ability to understand and share feelings",e:"An empathetic speaker doesn't just communicate to — they communicate with.",th:["relationships","communication","leadership","connection","empathy"]},
+  {w:"Cultivate",p:"verb",d:"Try to develop or improve through careful effort",e:"Cultivate relationships before you need them — not after.",th:["relationships","networking","growth","community","leadership"]},
+  {w:"Reciprocity",p:"noun",d:"The practice of exchanging things for mutual benefit",e:"Reciprocity is the invisible currency of every great network.",th:["relationships","networking","community","values","collaboration"]},
+  {w:"Inclusive",p:"adj",d:"Not excluding any group; making everyone feel valued",e:"Inclusive language isn't political — it's just better communication.",th:["relationships","society","communication","values","community","diversity"]},
+  {w:"Community",p:"noun",d:"A group of people with shared characteristics, location, or interest",e:"Toastmasters isn't a programme — it's a community.",th:["relationships","society","belonging","values","teamwork"]},
+  {w:"Influence",p:"noun",d:"The capacity to have an effect on others' character or actions",e:"Influence is built slowly through trust, and lost quickly through inconsistency.",th:["relationships","leadership","communication","social","networking"]},
+  // Inspiration & Meaning
+  {w:"Purposeful",p:"adj",d:"Having a clear aim or intention",e:"Every purposeful speech begins with one question: why does this matter?",th:["inspiration","values","speaking","meaning","leadership"]},
+  {w:"Transcendent",p:"adj",d:"Surpassing ordinary limits",e:"The speeches that change people are transcendent — they leave the topic and touch something universal.",th:["inspiration","speaking","meaning","art","spirituality"]},
+  {w:"Legacy",p:"noun",d:"Something handed down from the past; how you are remembered",e:"Stop thinking about the meeting. Start thinking about the legacy.",th:["inspiration","values","leadership","meaning","achievement","future"]},
+  {w:"Aspire",p:"verb",d:"Have a strong desire to achieve something",e:"Aspire to be the speaker who makes the audience feel something — not just hear something.",th:["inspiration","growth","speaking","goals","motivation"]},
+  {w:"Inspire",p:"verb",d:"Fill someone with the urge to do something creative or noble",e:"The goal of every speech should be to inspire at least one action.",th:["inspiration","speaking","leadership","communication","motivation"]},
+  {w:"Fulfillment",p:"noun",d:"Satisfaction from achieving one's goals",e:"Fulfillment comes from growth, not from comfort.",th:["inspiration","meaning","happiness","values","success"]},
+];
+
+// Search word bank by theme keywords (offline fallback)
+function wodSearchByTheme(theme,difficulty){
+  const q=(theme||"").toLowerCase().split(/\s+/).filter(Boolean);
+  const diffMap={"Practical":"e","Balanced":"m","Advanced":"h","Easy":"e","Medium":"m","Hard":"h"};
+  const targetTier=diffMap[difficulty]||null;
+  if(!q.length)return WOD_THEMED[Math.floor(Math.random()*WOD_THEMED.length)];
+  const scored=WOD_THEMED.map(w=>{
+    let score=0;
+    q.forEach(kw=>{
+      if(w.th.some(t=>t.includes(kw)||kw.includes(t)))score+=2;
+      if(w.w.toLowerCase().includes(kw))score+=1;
+      if(w.d.toLowerCase().includes(kw))score+=1;
+    });
+    if(targetTier){
+      // map tier: easy=e, balanced=m, advanced=h
+      const wTier=w.p==="adj"?w.d.split(" ").length<8?"e":"m":"m";
+      // simple fallback - just use existing WORDS for tier filtering
+    }
+    return{...w,score};
+  }).filter(w=>w.score>0).sort((a,b)=>b.score-a.score||Math.random()-0.5);
+  return scored.length?scored[0]:WOD_THEMED[Math.floor(Math.random()*WOD_THEMED.length)];
+}
+
 function renderWODTool(app){
-  if(!WOD.queue.length)wodBuildQueue();
-  const word=WOD.queue[WOD.idx];
-  const posLabelMap={"adj":"Adjective","verb":"Verb","noun":"Noun","adv":"Adverb"};
-  const posLabel=word?(posLabelMap[word.p]||word.p):"";
-  const tierMap={"e":"Easy","m":"Medium","h":"Hard"};
+  // WOD is now the Grammarian tool — theme search first, AI-powered when available
   const aiOn=S.aiConfig&&S.aiConfig.enabled;
-  if(!V._wodAiOpen)V._wodAiOpen=false;
-  if(!V._wodAiTheme)V._wodAiTheme="";
-  if(!V._wodAiResult)V._wodAiResult=null;
-  if(!V._wodAiLoading)V._wodAiLoading=false;
+  if(V._wodTheme===undefined)V._wodTheme="";
+  if(!V._wodDiff)V._wodDiff="Balanced";
+  if(V._wodCard===undefined)V._wodCard=null;   // {word,pos,definition,example,source}
+  if(!V._wodLoading)V._wodLoading=false;
+
+  const posLabelMap={"adj":"Adjective","verb":"Verb","noun":"Noun","adv":"Adverb"};
 
   let h='<div class="fade-up">';
   h+='<div class="top-bar">';
-  h+='<button class="top-bar-btn" data-action="wod-back">← Practice</button>';
+  h+='<button class="top-bar-btn" data-action="wod-back">← Roles</button>';
   h+='</div>';
   h+='<div class="kicker">Word of the Day</div>';
   h+='<h1 class="title">Expand your <span class="accent">vocabulary</span></h1>';
-  h+='<div class="subtitle">For Grammarians prepping a WOD, or anyone adding polish to everyday speech. Each word shows part of speech, definition, and an example in context.</div>';
+  h+='<div class="subtitle">For Grammarians prepping a WOD, or anyone adding polish to everyday speech. Search by your meeting theme or pick a difficulty.</div>';
 
-  // Tier pills
-  h+='<div class="wod-pills">';
-  const tiers=[["all","All"],["e","Easy"],["m","Medium"],["h","Hard"]];
-  tiers.forEach(([id,label])=>{
-    const active=(WOD.tier||"all")===id;
-    h+='<button class="wod-pill'+(active?" active":"")+'" data-wod-tier="'+id+'">'+label+'</button>';
+  // Theme search
+  h+='<div class="wod-theme-form">';
+  h+='<div class="wod-theme-label">MEETING THEME (optional)</div>';
+  h+='<input class="role-ai-input" id="wod-theme-input" placeholder="e.g. Leadership, Courage, Change, Technology…" value="'+escHtml(V._wodTheme)+'"/>';
+  h+='<div class="wod-diff-row">';
+  [['Practical','Everyday'],['Balanced','Elevated'],['Advanced','Sophisticated']].forEach(([d,sub])=>{
+    const active=d===V._wodDiff;
+    h+='<button class="role-ai-chip'+(active?' active':'')+'" data-wod-diff="'+d+'">';
+    h+=d+'<span class="role-ai-chip-sub">'+sub+'</span>';
+    h+='</button>';
   });
   h+='</div>';
+  h+='<button class="wod-find-btn" data-action="wod-find">📖 '+(V._wodCard?"Find another word":"Find a word")+'</button>';
+  h+='</div>';
 
-  if(word){
+  // Word card
+  if(V._wodLoading){
+    h+='<div class="wod-card"><div class="wod-definition" style="text-align:center"><span class="coach-dots"><span>.</span><span>.</span><span>.</span></span></div></div>';
+  }else if(V._wodCard){
+    const w=V._wodCard;
+    const posLabel=posLabelMap[w.pos]||w.pos||"";
     h+='<div class="wod-card">';
     h+='<div class="wod-meta-row">';
-    h+='<div class="wod-pos-pill '+word.p+'">'+posLabel+'</div>';
-    if(word.t&&tierMap[word.t]){
-      h+='<div class="wod-tier-pill tier-'+word.t+'">'+tierMap[word.t]+'</div>';
-    }
+    if(posLabel)h+='<div class="wod-pos-pill adj">'+posLabel+'</div>';
+    if(w.source==="ai")h+='<div class="wod-tier-pill" style="background:rgba(160,123,199,0.18);color:#A07BC7">AI</div>';
+    else h+='<div class="wod-tier-pill" style="background:rgba(109,182,180,0.15);color:#6DB6B4">Bank</div>';
     h+='</div>';
-    h+='<div class="wod-word">'+word.w+'</div>';
-    h+='<div class="wod-definition">'+word.d+'</div>';
-    h+='<div class="wod-example">'+word.e+'</div>';
-    h+='</div>';
-
-    h+='<div class="topics-controls">';
-    h+='<button class="topics-btn-next" data-action="wod-next">Next word →</button>';
-    h+='<button class="topics-btn-timer" data-action="wod-shuffle">🎲 Reshuffle</button>';
-    h+='</div>';
-  }else{
-    h+='<div class="wod-card"><div class="wod-definition">No words in this tier yet.</div></div>';
-  }
-
-  // AI section
-  if(aiOn){
-    h+='<div class="wod-ai-section">';
-    if(!V._wodAiOpen){
-      h+='<button class="wod-ai-toggle-btn" data-action="wod-ai-open">✨ Generate word by theme</button>';
-    }else{
-      h+='<div class="wod-ai-panel">';
-      h+='<div class="wod-ai-panel-hdr">';
-      h+='<span class="wod-ai-panel-title">✨ Generate word by theme</span>';
-      h+='<button class="wod-ai-close-btn" data-action="wod-ai-close">✕</button>';
-      h+='</div>';
-      h+='<input class="role-ai-input" id="wod-ai-theme" placeholder="Meeting theme (e.g. Leadership, Change, Resilience…)" value="'+escHtml(V._wodAiTheme)+'"/>';
-      h+='<div class="wod-ai-diff-row">';
-      [['Practical','Everyday'],['Balanced','Elevated'],['Advanced','Sophisticated']].forEach(([d,sub])=>{
-        const active=d===(V._wodAiDiff||'Balanced');
-        h+='<button class="role-ai-chip'+(active?' active':'')+'" data-wod-ai-diff="'+d+'">';
-        h+=d+'<span class="role-ai-chip-sub">'+sub+'</span>';
-        h+='</button>';
-      });
-      h+='</div>';
-      h+='<button class="wod-ai-gen-btn" data-action="wod-ai-generate">🎲 Generate Word</button>';
-
-      if(V._wodAiLoading){
-        h+='<div class="role-ai-loading" style="padding:16px"><span class="coach-dots"><span>.</span><span>.</span><span>.</span></span></div>';
-      }else if(V._wodAiResult){
-        const w=V._wodAiResult;
-        h+='<div class="wod-card wod-ai-result-card">';
-        h+='<div class="wod-meta-row"><div class="wod-pos-pill adj">'+w.pos+'</div><div class="wod-tier-pill" style="background:rgba(160,123,199,0.18);color:#A07BC7">AI</div></div>';
-        h+='<div class="wod-word">'+w.word+'</div>';
-        h+='<div class="wod-definition">'+w.definition+'</div>';
-        h+='<div class="wod-example">'+w.example+'</div>';
-        h+='</div>';
-      }
-      h+='</div>';
-    }
+    h+='<div class="wod-word">'+w.word+'</div>';
+    if(w.pronunciation)h+='<div class="wod-pronunciation">'+w.pronunciation+'</div>';
+    h+='<div class="wod-definition">'+w.definition+'</div>';
+    h+='<div class="wod-example">'+w.example+'</div>';
     h+='</div>';
   }
 
   h+='</div>';
   app.innerHTML=h;
 
-  app.querySelector('[data-action="wod-back"]').addEventListener("click",()=>{
-    V.view="practice";V._wodAiOpen=false;V._wodAiResult=null;render();
-  });
-  const nextBtn=app.querySelector('[data-action="wod-next"]');
-  if(nextBtn)nextBtn.addEventListener("click",()=>{wodNext();render();});
-  const shufBtn=app.querySelector('[data-action="wod-shuffle"]');
-  if(shufBtn)shufBtn.addEventListener("click",()=>{wodBuildQueue(WOD.tier);render();});
-  app.querySelectorAll("[data-wod-tier]").forEach(btn=>{
-    btn.addEventListener("click",()=>{wodBuildQueue(btn.dataset.wodTier);render();});
+  const backBtn=app.querySelector('[data-action="wod-back"]');
+  if(backBtn)backBtn.addEventListener("click",()=>{
+    V._wodCard=null;V._wodTheme="";
+    // Go back to the role that launched this, or roles list
+    if(V.viewingRole){V.view="role";}else{V.view="roles";}
+    render();
   });
 
-  // AI panel
-  const aiOpenBtn=app.querySelector('[data-action="wod-ai-open"]');
-  if(aiOpenBtn)aiOpenBtn.addEventListener("click",()=>{V._wodAiOpen=true;render();});
-  const aiCloseBtn=app.querySelector('[data-action="wod-ai-close"]');
-  if(aiCloseBtn)aiCloseBtn.addEventListener("click",()=>{V._wodAiOpen=false;V._wodAiResult=null;render();});
+  const themeInput=app.querySelector("#wod-theme-input");
+  if(themeInput)themeInput.addEventListener("input",()=>{V._wodTheme=themeInput.value;});
 
-  const themeInput=app.querySelector("#wod-ai-theme");
-  if(themeInput)themeInput.addEventListener("input",()=>{V._wodAiTheme=themeInput.value;});
-
-  app.querySelectorAll("[data-wod-ai-diff]").forEach(btn=>{
+  app.querySelectorAll("[data-wod-diff]").forEach(btn=>{
     btn.addEventListener("click",()=>{
-      V._wodAiDiff=btn.dataset.wodAiDiff;
-      app.querySelectorAll("[data-wod-ai-diff]").forEach(b=>b.classList.remove("active"));
+      V._wodDiff=btn.dataset.wodDiff;
+      app.querySelectorAll("[data-wod-diff]").forEach(b=>b.classList.remove("active"));
       btn.classList.add("active");
     });
   });
 
-  const wodAiGenBtn=app.querySelector('[data-action="wod-ai-generate"]');
-  if(wodAiGenBtn)wodAiGenBtn.addEventListener("click",async()=>{
-    const theme=(themeInput?themeInput.value.trim():"");
-    const diff=V._wodAiDiff||"Balanced";
-    V._wodAiLoading=true;V._wodAiResult=null;
+  app.querySelector('[data-action="wod-find"]').addEventListener("click",async()=>{
+    const theme=(themeInput?themeInput.value.trim():V._wodTheme||"");
+    const diff=V._wodDiff||"Balanced";
+    V._wodLoading=true;V._wodCard=null;
     render();
-    try{
-      const sys="You are a Toastmasters Grammarian. Generate ONE Word of the Day. Return ONLY valid JSON: {\"word\":\"...\",\"pronunciation\":\"...\",\"pos\":\"...\",\"definition\":\"...\",\"example\":\"...\"} — no markdown, no code fences, nothing else.";
-      const msg="Meeting theme: "+(theme||"open")+" | Level: "+diff+"\nPractical=common but often misused, Balanced=elevated vocabulary, Advanced=rare/sophisticated.";
-      const raw=await callCoach(sys,msg,{maxTokens:250,forceBase:true});
-      const cleaned=raw.trim().replace(/^```(?:json)?\s*/,"").replace(/\s*```\s*$/,"");
-      V._wodAiResult=JSON.parse(cleaned);
-    }catch(e){
-      V._wodAiResult={word:"Error",pronunciation:"",pos:"",definition:e.message,example:""};
+
+    if(aiOn){
+      try{
+        const sys='You are a Toastmasters Grammarian. Return ONLY valid JSON (no markdown, no fences): {"word":"...","pronunciation":"...","pos":"...","definition":"...","example":"..."}';
+        const msg='Meeting theme: '+(theme||"open")+' | Level: '+diff+'\nPractical=common but often misused, Balanced=elevated vocabulary, Advanced=rare/sophisticated. Pick ONE relevant word.';
+        const raw=await callCoach(sys,msg,{maxTokens:200,forceBase:true});
+        const cleaned=raw.trim().replace(/^```(?:json)?\s*/,"").replace(/\s*```\s*$/,"");
+        const parsed=JSON.parse(cleaned);
+        V._wodCard={word:parsed.word,pronunciation:parsed.pronunciation||"",pos:parsed.pos||"adj",definition:parsed.definition,example:parsed.example,source:"ai"};
+      }catch(e){
+        // AI failed — fall back to word bank
+        const offline=wodSearchByTheme(theme,diff);
+        V._wodCard={word:offline.w,pronunciation:"",pos:offline.p,definition:offline.d,example:offline.e,source:"bank"};
+      }
+    }else{
+      const offline=wodSearchByTheme(theme,diff);
+      V._wodCard={word:offline.w,pronunciation:"",pos:offline.p,definition:offline.d,example:offline.e,source:"bank"};
     }
-    V._wodAiLoading=false;
+    V._wodLoading=false;
     render();
   });
 }
+
 
 // ═══════════════════════════════════════════════════════════════════════════
 // FILLER DETECTOR — Web Speech API, fully offline, no backend required.
@@ -5735,7 +5716,9 @@ function fdStartRecognition(){
     console.warn("SpeechRecognition error:",ev.error);
     if(ev.error==="not-allowed"||ev.error==="service-not-allowed"){
       FD._shouldReconnect=false;
-      alert("Microphone permission was denied. Enable mic access in your browser settings, then try again.");
+      PS.micGranted=false;
+      const note=document.getElementById("ps-mic-denied-note");
+      if(note)note.style.display="block";
       fdStop(false);
     }
     // "no-speech", "audio-capture", "network" all just let onend restart us
@@ -7196,127 +7179,117 @@ function renderSettings(app){
 
 function renderEvalHelper(app){
   const aiOn=S.aiConfig&&S.aiConfig.enabled;
-  if(!V._evalPid)V._evalPid="";
+  if(V._evalPid===undefined||V._evalPid===null)V._evalPid="";
   if(!V._evalNotes)V._evalNotes="";
 
-  // Build project list from active path or L1 fallback
   const levelGroups=[];
   const pathCode=S.path||"DL";
   for(let lv=1;lv<=5;lv++){
     const g=gP(pathCode,lv);
-    const pids=[...g.r,...g.e].filter(pid=>{
-      const p=PD[pid];
-      return p&&p.dur&&p.dur.includes("min");
-    });
+    const pids=[...g.r,...g.e].filter(pid=>PD[pid]&&PD[pid].dur&&PD[pid].dur.includes("min"));
     if(pids.length)levelGroups.push({level:lv,pids});
   }
-  if(!levelGroups.length){
-    levelGroups.push({level:1,pids:["ice-breaker","writing-speech","intro-vvbl","eval-feedback"]});
-  }
+  if(!levelGroups.length)levelGroups.push({level:1,pids:["ice-breaker","writing-speech","intro-vvbl","eval-feedback"]});
 
   const selProj=V._evalPid?PD[V._evalPid]:null;
 
   let h='<div class="fade-up eh-view">';
   h+='<div class="top-bar">';
   h+='<button class="top-bar-btn" data-action="eh-back">← Practice</button>';
+  if(selProj)h+='<button class="top-bar-btn" data-action="eh-change" style="color:var(--text-3)">Change</button>';
   h+='</div>';
-
   h+='<div class="kicker">Practice</div>';
   h+='<h1 class="title">🪞 Evaluation <span class="accent">Helper</span></h1>';
-  h+='<div class="subtitle">Select the project being delivered. We\'ll show you exactly what to listen for — and '+(aiOn?'draft your CRC feedback when you\'re ready.':'structure your CRC evaluation notes.')+'</div>';
 
-  // Project picker
-  h+='<div class="eh-picker-wrap">';
-  h+='<div class="eh-picker-label">WHICH PROJECT ARE YOU EVALUATING?</div>';
-  h+='<div class="eh-select-wrap">';
-  h+='<select class="eh-select" id="eh-pid">';
-  h+='<option value="">— Choose a project —</option>';
-  levelGroups.forEach(({level,pids})=>{
-    h+='<optgroup label="Level '+level+'">';
-    pids.forEach(pid=>{
-      const p=PD[pid];
-      if(p)h+='<option value="'+pid+'"'+(V._evalPid===pid?' selected':'')+'>'+p.t+' ('+p.dur+')</option>';
+  if(!selProj){
+    h+='<div class="subtitle">Tap the project you\'re evaluating — get specific coaching on what to listen for.</div>';
+    h+='<div class="eh-project-list">';
+    levelGroups.forEach(({level,pids})=>{
+      h+='<div class="eh-level-hdr">Level '+level+'</div>';
+      pids.forEach(pid=>{
+        const p=PD[pid];if(!p)return;
+        h+='<button class="eh-project-btn" data-eh-pid="'+pid+'">';
+        h+='<div class="eh-project-btn-info"><div class="eh-project-btn-name">'+p.t+'</div><div class="eh-project-btn-dur">'+p.dur+'</div></div>';
+        h+='<div class="eh-project-btn-arrow">→</div>';
+        h+='</button>';
+      });
     });
-    h+='</optgroup>';
-  });
-  h+='</select>';
-  h+='</div>';
-  h+='</div>';
-
-  // If project selected — show what to look for
-  if(selProj){
+    h+='</div>';
+  }else{
     const tips=TIPS&&TIPS[V._evalPid];
     h+='<div class="eh-focus-card">';
-    h+='<div class="eh-focus-kicker">WHAT TO WATCH FOR</div>';
+    h+='<div class="eh-focus-kicker">EVALUATING</div>';
     h+='<div class="eh-focus-title">'+selProj.t+'</div>';
-    h+='<div class="eh-focus-purpose">Purpose: '+selProj.p+'</div>';
-    if(tips&&tips.how){
-      h+='<div class="eh-focus-how">'+tips.how.replace(/<strong>/g,'<b>').replace(/<\/strong>/g,'</b>')+'</div>';
+    h+='<div class="eh-focus-purpose">'+selProj.p+'</div>';
+    if(tips&&(tips.how||tips.tip)){
+      h+='<div class="eh-focus-divider"></div>';
+      h+='<div class="eh-focus-kicker" style="margin-top:10px">WHAT TO LISTEN FOR</div>';
+      const howText=(tips.how||tips.tip||"").replace(/<strong>/g,'<b>').replace(/<\/strong>/g,'</b>');
+      h+='<div class="eh-focus-how">'+howText+'</div>';
     }
     h+='<div class="eh-crc-guide">';
-    h+='<div class="eh-crc-item"><span class="eh-crc-badge green">Commend</span>What did they do well <em>specifically for this project</em>?</div>';
-    h+='<div class="eh-crc-item"><span class="eh-crc-badge amber">Recommend</span>One thing to improve — tied to the project objective, with a specific suggestion.</div>';
-    h+='<div class="eh-crc-item"><span class="eh-crc-badge green">Commend</span>Encouragement — why the effort matters for their Pathways journey.</div>';
-    h+='</div>';
-    h+='</div>';
-
-    // Notes field
+    h+='<div class="eh-crc-item"><span class="eh-crc-badge green">C Commend</span><span>What specifically went well for <em>this</em> project objective?</span></div>';
+    h+='<div class="eh-crc-item"><span class="eh-crc-badge amber">R Recommend</span><span>One improvement tied to the project — give a specific technique, not a general tip.</span></div>';
+    h+='<div class="eh-crc-item"><span class="eh-crc-badge green">C Commend</span><span>Encouragement — why this effort matters for their Pathways journey.</span></div>';
+    h+='</div></div>';
     h+='<div class="eh-notes-wrap">';
     h+='<div class="eh-picker-label">YOUR NOTES FROM THE SPEECH (optional)</div>';
-    h+='<textarea class="eh-notes" id="eh-notes" placeholder="Jot down moments, quotes, or observations while the speaker is presenting…" rows="4">'+escHtml(V._evalNotes)+'</textarea>';
+    h+='<textarea class="eh-notes" id="eh-notes" placeholder="Jot down moments, specific lines, or observations…" rows="4">'+escHtml(V._evalNotes)+'</textarea>';
     h+='</div>';
-
     if(aiOn){
       h+='<button class="eh-generate-btn" data-action="eh-generate">✨ Draft my CRC evaluation</button>';
       h+='<div class="eh-output" id="eh-output" style="display:none"></div>';
     }else{
-      h+='<div class="eh-ai-off-note">Enable AI in ✨ AI Settings to generate a full CRC draft. Your manual notes above will guide your delivery.</div>';
+      h+='<div class="eh-ai-off-note">Enable AI in ✨ AI Settings to generate a full CRC draft.</div>';
     }
   }
-
   h+='</div>';
   app.innerHTML=h;
 
-  app.querySelector('[data-action="eh-back"]').addEventListener("click",()=>{
-    V.view="practice";V._evalPid="";V._evalNotes="";render();
-  });
-  const pidSel=app.querySelector("#eh-pid");
-  if(pidSel)pidSel.addEventListener("change",()=>{
-    V._evalPid=pidSel.value;
-    V._evalNotes="";
-    render();
+  app.querySelector('[data-action="eh-back"]').addEventListener("click",()=>{V.view="practice";V._evalPid="";V._evalNotes="";render();});
+  const changeBtn=app.querySelector('[data-action="eh-change"]');
+  if(changeBtn)changeBtn.addEventListener("click",()=>{V._evalPid="";render();});
+  app.querySelectorAll("[data-eh-pid]").forEach(btn=>{
+    btn.addEventListener("click",()=>{V._evalPid=btn.dataset.ehPid;V._evalNotes="";render();});
   });
   const notesEl=app.querySelector("#eh-notes");
   if(notesEl)notesEl.addEventListener("input",()=>{V._evalNotes=notesEl.value;});
-
   const genBtn=app.querySelector('[data-action="eh-generate"]');
   if(genBtn)genBtn.addEventListener("click",async()=>{
-    const proj=PD[V._evalPid];
-    if(!proj){alert("Please select a project first.");return;}
-    const notes=notesEl?notesEl.value.trim():"";
+    const proj=PD[V._evalPid];if(!proj)return;
+    const notes=notesEl?notesEl.value.trim():V._evalNotes||"";
     const out=app.querySelector("#eh-output");
     out.style.display="block";
     out.innerHTML='<div class="role-ai-loading"><span class="coach-dots"><span>.</span><span>.</span><span>.</span></span></div>';
     try{
       const tips=TIPS&&TIPS[V._evalPid];
-      const sys="You are a senior Toastmasters evaluator writing a 2-minute CRC evaluation (Commend, Recommend, Commend). Be specific to the project's objectives. Start directly with the first commendation — no preamble. Use natural spoken language, not bullet points. Each section should be 2-3 sentences. Total under 200 words.";
-      const msg="Project: "+proj.t+" ("+proj.dur+")\n"+
-        "Project purpose: "+proj.p+"\n"+
-        (tips?("Project coaching focus: "+tips.how+"\n"):"")+
-        (notes?"Speaker notes from today:\n"+notes+"\n\n":"(No specific notes — generate based on typical delivery patterns for this project)\n")+
-        "Write the full CRC evaluation draft.";
+      const sys=`You are a senior Toastmasters evaluator. Write a 2-minute spoken CRC evaluation.
+Format EXACTLY:
+✅ COMMEND: [2-3 sentences — specific praise tied to this project objective]
+🎯 RECOMMEND: [2-3 sentences — one improvement with a concrete technique]
+✅ COMMEND CLOSE: [2-3 sentences — encouragement about their Pathways journey]
+Total: under 180 words. Natural spoken language. Start directly — no preamble.`;
+      const msg="Project: "+proj.t+" ("+proj.dur+")\nPurpose: "+proj.p+"\n"+
+        (tips&&tips.how?"Key objective: "+tips.how.replace(/<[^>]+>/g,"")+"\n":"")+
+        (notes?"Speaker observations: "+notes+"\n":"(No notes — write for typical delivery)\n");
       const text=await callCoach(sys,msg,{maxTokens:500});
-      out.innerHTML='<div class="eh-draft">'+
-        '<div class="eh-draft-label">YOUR CRC DRAFT</div>'+
-        '<div class="eh-draft-text">'+
-          text.replace(/&/g,"&amp;").replace(/</g,"&lt;")
-              .replace(/\n\n/g,"</p><p>").replace(/\n/g,"<br>")+
-        '</div>'+
-        '<div class="eh-draft-hint">Edit this draft in your notes app before the meeting. Delivery from memory lands better than reading.</div>'+
-        '</div>';
+      const lines=text.split("\n").filter(l=>l.trim());
+      let draftHtml="";
+      lines.forEach(line=>{
+        const esc=line.replace(/&/g,"&amp;").replace(/</g,"&lt;");
+        if(line.startsWith("✅")||/COMMEND/i.test(line)){
+          draftHtml+='<div class="eh-draft-section green"><span class="eh-draft-icon">✅</span><span>'+esc.replace(/^✅\s*/,"").replace(/^.*COMMEND[^:]*:\s*/i,"")+('</span></div>');
+        }else if(line.startsWith("🎯")||/RECOMMEND/i.test(line)){
+          draftHtml+='<div class="eh-draft-section amber"><span class="eh-draft-icon">🎯</span><span>'+esc.replace(/^🎯\s*/,"").replace(/^.*RECOMMEND[^:]*:\s*/i,"")+('</span></div>');
+        }else if(esc.trim()){
+          draftHtml+='<p class="eh-draft-p">'+esc+'</p>';
+        }
+      });
+      out.innerHTML='<div class="eh-draft"><div class="eh-draft-label">CRC DRAFT — '+proj.t+'</div>'+draftHtml+'<div class="eh-draft-hint">Add specific names and moments before delivering. Speak from memory.</div></div>';
     }catch(e){out.innerHTML='<div class="role-ai-error">⚠ '+e.message+'</div>';}
   });
 }
+
 
 // ═══════════════════════════════════════════════════════════════════════════
 // SPEECH DRAFT BUILDER — structure your next speech from topic to close
@@ -8665,16 +8638,14 @@ function psStart(timerOnly){
   PS.startedAt=Date.now();
   PS.aiAnalysis=null;
   PS.aiLoading=false;
+  PS.micGranted=false;
+  PS.timerOnly=!!timerOnly;
 
-  // Start clock
-  PS._iv=setInterval(()=>{
-    PS.elapsed++;
-    psUpdateActiveDisplay();
-  },1000);
-
-  // Start filler detection (unless browser unsupported or timer-only)
+  // ── Start speech recognition FIRST, synchronously, while still in the
+  // user-gesture context (required for iOS Safari permission dialog).
+  // Any async work after this point would break the permission prompt.
   if(!timerOnly&&isSpeechRecognitionSupported()){
-    // Piggyback on FD state — reset it first
+    PS.micGranted=true;
     FD.phase="active";
     FD.fillerCounts={};
     FD.totalWords=0;
@@ -8682,8 +8653,14 @@ function psStart(timerOnly){
     FD.interimText="";
     FD.startedAt=PS.startedAt;
     FD._shouldReconnect=true;
-    fdStartRecognition();
+    fdStartRecognition(); // must be synchronous in gesture context
   }
+
+  // ── Start clock
+  PS._iv=setInterval(()=>{
+    PS.elapsed++;
+    psUpdateActiveDisplay();
+  },1000);
 
   render();
 }
@@ -8738,6 +8715,7 @@ function renderPracticeStudioActive(app){
   const rate=mins>0?(total/mins).toFixed(1):"—";
   h+='<div class="ps-stat-chip"><span class="ps-stat-n">'+rate+'</span><span class="ps-stat-lbl">Per min</span></div>';
   h+='</div>';
+  h+='<div class="ps-mic-denied-note" id="ps-mic-denied-note" style="display:none">⚠️ Mic access denied — only timing will be tracked. Allow mic access in your browser settings and try again.</div>';
 
   // Stop mic button
   h+='<div class="ps-mic-wrap">';
@@ -8777,30 +8755,42 @@ async function psAnalyzeWithAI(){
   const dur=proj?parseDuration(proj.dur):null;
   const mins=(PS.elapsed/60).toFixed(1);
   const rate=PS.elapsed>0?((PS.totalFillers/(PS.elapsed/60)).toFixed(1)):"0";
+  const micAvailable=PS.micGranted&&PS.totalFillers>=0;
 
-  const topFillers=Object.entries(PS.fillerCounts)
+  const topFillers=Object.entries(PS.fillerCounts||{})
     .sort((a,b)=>b[1]-a[1]).slice(0,5)
-    .map(([w,c])=>c+"× "+w).join(", ")||"none detected";
+    .map(([w,c])=>c+"× \""+w+"\"").join(", ")||"none detected";
 
-  const systemPrompt=
-    "You are a direct, experienced Toastmasters coach giving post-speech feedback. "+
-    "Be concise (under 200 words), specific, and honest. No padding or generic praise. "+
-    "Give one thing they did well and two concrete improvements. "+
-    "Use plain paragraphs — no bullet lists, no headers.";
+  let durAssessment="";
+  if(dur){
+    if(PS.elapsed<dur.min*60)durAssessment="UNDER TARGET (came in at "+mins+" min, needed "+dur.min+"+)";
+    else if(PS.elapsed>dur.max*60)durAssessment="OVER TARGET (ran "+mins+" min, max is "+dur.max+")";
+    else durAssessment="ON TARGET ("+mins+" min — within the "+dur.min+"–"+dur.max+" min window)";
+  }
 
-  const userMsg=
-    (proj?"Project: "+proj.t+"\nProject purpose: "+proj.p+"\nTarget duration: "+proj.dur+"\n":"Project: Freestyle practice\n")+
-    "Actual duration: "+mins+" minutes\n"+
-    (dur?("Duration assessment: "+(PS.elapsed<dur.min*60?"Short — came in under target"
-      :PS.elapsed>dur.max*60?"Long — went over target"
-      :"On target — within the window")+"\n"):"") +
-    "Total filler words: "+PS.totalFillers+"\n"+
-    "Filler rate: "+rate+" per minute\n"+
-    "Top fillers: "+topFillers+"\n"+
-    "\nGive focused coaching on what to improve for the next practice run.";
+  const fillerGrade=parseFloat(rate)>3?"HIGH ("+rate+"/min — work on pausing instead of filling)"
+    :parseFloat(rate)>1.5?"MODERATE ("+rate+"/min — improving but worth watching)"
+    :"LOW ("+rate+"/min — good control)";
+
+  const sys=`You are a direct, experienced Toastmasters speech coach giving post-practice feedback.
+Rules:
+- Give SPECIFIC, ACTIONABLE feedback — no filler compliments
+- Structure your response with EXACTLY these three labelled sections, each on its own line:
+  ✅ WHAT WORKED: [1-2 sentences about what went well]
+  🎯 TOP PRIORITY: [the single most important thing to fix — be very specific]  
+  💡 NEXT PRACTICE TIP: [one concrete drill or technique to try next time]
+- Under 150 words total
+- If filler detection was unavailable, only comment on timing — don't invent filler data`;
+
+  const msg=(proj?"Project: "+proj.t+"\nPurpose: "+proj.p+"\n":"Freestyle practice\n")+
+    "Duration: "+mins+" minutes"+(dur?" — "+durAssessment:"")+"\n"+
+    (micAvailable
+      ? "Filler words: "+PS.totalFillers+" total — "+fillerGrade+"\nTop fillers: "+topFillers
+      : "NOTE: Microphone was not available during this session. Do NOT comment on fillers or filler rate — only comment on timing."
+    );
 
   try{
-    const response=await callCoach(systemPrompt,userMsg,{maxTokens:400});
+    const response=await callCoach(sys,msg,{maxTokens:300});
     PS.aiAnalysis=response;
   }catch(err){
     PS.aiAnalysis="⚠ "+err.message;
@@ -8814,11 +8804,26 @@ function _psUpdateAnalysisSection(){
   if(!el)return;
   if(PS.aiLoading){
     el.innerHTML='<div class="ps-analysis-loading"><span class="coach-dots"><span>.</span><span>.</span><span>.</span></span></div>';
-  }else if(PS.aiAnalysis){
-    el.innerHTML='<div class="ps-analysis-text">'+
-      PS.aiAnalysis.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/\n\n/g,"</p><p>").replace(/\n/g,"<br>")+
-      '</div>';
+    return;
   }
+  if(!PS.aiAnalysis)return;
+  const text=PS.aiAnalysis.replace(/&/g,"&amp;").replace(/</g,"&lt;");
+  const lines=text.split("\n").filter(l=>l.trim());
+  let html="";
+  lines.forEach(line=>{
+    if(line.includes("WHAT WORKED:")||line.startsWith("\u2705")){
+      html+='<div class="ps-analysis-section ps-section-green"><span>\u2705</span><span>'+line.replace(/.*WHAT WORKED:\s*/i,"").replace(/^\u2705\s*/,"")+'</span></div>';
+    }else if(line.includes("TOP PRIORITY:")||line.startsWith("\uD83C\uDFAF")){
+      html+='<div class="ps-analysis-section ps-section-amber"><span>\uD83C\uDFAF</span><span>'+line.replace(/.*TOP PRIORITY:\s*/i,"").replace(/^\uD83C\uDFAF\s*/,"")+'</span></div>';
+    }else if(line.includes("NEXT PRACTICE TIP:")||line.startsWith("\uD83D\uDCA1")){
+      html+='<div class="ps-analysis-section ps-section-blue"><span>\uD83D\uDCA1</span><span>'+line.replace(/.*NEXT PRACTICE TIP:\s*/i,"").replace(/^\uD83D\uDCA1\s*/,"")+'</span></div>';
+    }else if(line.startsWith("\u26A0")){
+      html+='<div class="ps-analysis-text" style="color:var(--text-3);font-size:12px">'+line+'</div>';
+    }else if(line.trim()){
+      html+='<div class="ps-analysis-text">'+line+'</div>';
+    }
+  });
+  el.innerHTML=html||'<div class="ps-analysis-text">'+text+'</div>';
 }
 
 function renderPracticeStudioDone(app){
