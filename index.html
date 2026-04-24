@@ -1025,6 +1025,80 @@ a{color:inherit;text-decoration:none}
 @keyframes pfAiPulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.6;transform:scale(1.2)}}
 .pf-ai-error{font-size:12.5px;color:#E85D5D;padding:6px 0 12px;line-height:1.5;letter-spacing:-0.003em}
 
+/* ═══ Standalone AI Tool Views (5A+ style) ═══ */
+.ai-tool-view{display:flex;flex-direction:column;gap:16px;padding-bottom:32px}
+.ai-tool-hero{text-align:center;padding:8px 0 4px}
+.ai-tool-hero-icon{font-size:44px;margin-bottom:6px;line-height:1}
+.ai-tool-hero-title{font-size:24px;font-weight:800;color:var(--text);letter-spacing:-0.015em}
+.ai-tool-desc{font-size:14px;color:var(--text-3);line-height:1.55;letter-spacing:-0.003em;text-align:center;padding:0 8px}
+.ai-tool-why{background:rgba(160,123,199,0.07);border:1px solid rgba(160,123,199,0.22);border-radius:14px;padding:16px}
+.ai-tool-why-title{font-size:14.5px;font-weight:700;color:var(--text);margin-bottom:6px;letter-spacing:-0.005em}
+.ai-tool-why-text{font-size:13px;color:var(--text-2);line-height:1.65;letter-spacing:-0.003em}
+.ai-tool-form{display:flex;flex-direction:column;gap:10px;background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:18px}
+.ai-tool-label{font-size:10.5px;font-weight:700;letter-spacing:0.13em;text-transform:uppercase;color:var(--text-3);margin-top:2px}
+.ai-tool-input{background:rgba(0,0,0,0.25);border:1px solid var(--border);border-radius:11px;padding:12px 14px;color:var(--text);font-size:14.5px;font-family:inherit;letter-spacing:-0.003em;transition:border-color .15s}
+.ai-tool-input:focus{outline:none;border-color:rgba(160,123,199,0.6)}
+.ai-tool-input::placeholder{color:var(--text-3)}
+.ai-tool-radio-row{display:flex;gap:8px}
+.ai-tool-radio-btn{flex:1;padding:12px 8px;display:flex;align-items:center;justify-content:center;gap:8px;background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:11px;color:var(--text-2);font-size:13.5px;font-weight:600;cursor:pointer;font-family:inherit;transition:background .15s,border-color .15s,color .15s}
+.ai-tool-radio-btn.active{background:rgba(160,123,199,0.14);border-color:rgba(160,123,199,0.6);color:#A07BC7}
+.ai-tool-radio-dot{width:14px;height:14px;border-radius:50%;border:2px solid var(--border);flex-shrink:0;transition:border-color .15s,background .15s,box-shadow .15s}
+.ai-tool-radio-dot.active{border-color:#A07BC7;background:#A07BC7;box-shadow:0 0 0 3px rgba(160,123,199,0.22)}
+.ai-tool-chip-row{display:flex;gap:7px;flex-wrap:wrap}
+.ai-tool-chip{padding:9px 14px;background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:10px;color:var(--text-2);font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;transition:background .15s,border-color .15s,color .15s}
+.ai-tool-chip.active{background:rgba(232,93,58,0.14);border-color:rgba(232,93,58,0.55);color:#E85D3A}
+.ai-tool-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.ai-tool-seg-btn{padding:14px 10px;display:flex;flex-direction:column;align-items:center;gap:4px;background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:11px;cursor:pointer;font-family:inherit;color:var(--text-2);transition:background .15s,border-color .15s,color .15s}
+.ai-tool-seg-btn.active{background:rgba(232,93,58,0.13);border-color:rgba(232,93,58,0.55);color:#E85D3A}
+.ai-tool-seg-icon{font-size:22px;line-height:1}
+.ai-tool-seg-label{font-size:12.5px;font-weight:600;letter-spacing:-0.003em;text-align:center}
+.ai-tool-generate{padding:14px 20px;background:linear-gradient(135deg,#A07BC7,#6DB6B4);color:#0A0B0F;border:none;border-radius:12px;font-weight:800;font-size:15px;cursor:pointer;font-family:inherit;letter-spacing:-0.003em;transition:filter .15s,transform .12s;margin-top:4px}
+.ai-tool-generate:hover{filter:brightness(1.08)}
+.ai-tool-generate:active{transform:scale(0.98)}
+.ai-tool-loading{display:flex;justify-content:center;padding:24px}
+.ai-tool-results{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px}
+.ai-tool-results-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.ai-tool-results-label{font-size:10.5px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-3)}
+.ai-tool-regen{padding:6px 12px;background:transparent;border:1px solid rgba(160,123,199,0.45);border-radius:8px;color:#A07BC7;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;transition:background .15s}
+.ai-tool-regen:hover{background:rgba(160,123,199,0.1)}
+.ai-tool-result-item{display:flex;align-items:flex-start;gap:10px;padding:10px 12px;background:rgba(255,255,255,0.03);border-radius:10px;margin-bottom:6px}
+.ai-tool-result-item:last-child{margin-bottom:0}
+.ai-tool-result-n{font-size:12px;font-weight:800;color:var(--accent);flex-shrink:0;width:18px;padding-top:1px}
+.ai-tool-result-text{font-size:13.5px;color:var(--text-2);line-height:1.5;letter-spacing:-0.003em}
+.ai-tool-result-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:18px}
+.ai-tool-result-label{font-size:10.5px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#E85D3A;margin-bottom:10px}
+.ai-tool-result-body{font-size:14.5px;color:var(--text-2);line-height:1.7;letter-spacing:-0.003em}
+
+/* Project picker (Eval Assistant) */
+.ai-tool-project-list{display:flex;flex-direction:column;gap:7px;margin-top:4px}
+.ai-tool-level-hdr{font-size:10px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--text-3);padding:8px 0 2px}
+.ai-tool-project-btn{display:flex;align-items:center;gap:12px;padding:13px 16px;background:var(--surface);border:1px solid var(--border);border-radius:13px;cursor:pointer;font-family:inherit;text-align:left;transition:background .15s,border-color .15s,transform .12s}
+.ai-tool-project-btn:hover{background:rgba(255,255,255,0.04);border-color:rgba(235,87,87,0.4)}
+.ai-tool-project-btn:active{transform:scale(0.99)}
+.ai-tool-project-info{flex:1;min-width:0}
+.ai-tool-project-name{font-size:14.5px;font-weight:700;color:var(--text);letter-spacing:-0.005em;margin-bottom:2px}
+.ai-tool-project-dur{font-size:12px;color:var(--text-3);letter-spacing:-0.003em}
+.ai-tool-project-arrow{color:var(--text-3);font-size:16px;flex-shrink:0;transition:color .15s,transform .15s}
+.ai-tool-project-btn:hover .ai-tool-project-arrow{color:#EB5757;transform:translateX(3px)}
+.ai-tool-project-hdr{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px}
+.ai-tool-project-hdr-kicker{font-size:10px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--text-3);margin-bottom:4px}
+.ai-tool-project-hdr-title{font-size:18px;font-weight:800;color:var(--text);letter-spacing:-0.008em;margin-bottom:3px}
+.ai-tool-project-hdr-dur{font-size:12.5px;color:var(--text-3);line-height:1.5;letter-spacing:-0.003em}
+
+/* Eval guide structured sections */
+.ai-tool-eval-guide{display:flex;flex-direction:column;gap:10px}
+.ai-tool-eval-section{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px 16px}
+.ai-tool-eval-section.amber{border-color:rgba(232,178,80,0.35);background:rgba(232,178,80,0.05)}
+.ai-tool-eval-section.red{border-color:rgba(232,93,93,0.35);background:rgba(232,93,93,0.05)}
+.ai-tool-eval-section.green{border-color:rgba(94,185,117,0.35);background:rgba(94,185,117,0.05)}
+.ai-tool-eval-section-hdr{display:flex;align-items:center;gap:8px;font-size:12.5px;font-weight:700;color:var(--text);margin-bottom:6px;letter-spacing:-0.003em}
+.ai-tool-eval-section.amber .ai-tool-eval-section-hdr{color:#E8B250}
+.ai-tool-eval-section.red .ai-tool-eval-section-hdr{color:#E85D5D}
+.ai-tool-eval-section.green .ai-tool-eval-section-hdr{color:#5EB975}
+.ai-tool-eval-section-body{font-size:13.5px;color:var(--text-2);line-height:1.6;letter-spacing:-0.003em}
+.ai-tool-eval-p{font-size:13.5px;color:var(--text-2);line-height:1.65;letter-spacing:-0.003em}
+.ai-tool-error{background:rgba(232,93,93,0.1);border:1px solid rgba(232,93,93,0.3);border-radius:10px;padding:12px;color:#E85D5D;font-size:13px}
+
 .role-ai-tool{background:linear-gradient(135deg,rgba(160,123,199,0.07),rgba(109,182,180,0.04));border:1px solid rgba(160,123,199,0.28);border-radius:16px;padding:18px;margin-top:16px}
 .role-ai-tool-hdr{display:flex;align-items:center;gap:8px;font-size:15px;font-weight:700;color:var(--text);letter-spacing:-0.006em;margin-bottom:6px}
 .role-ai-badge{font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;background:rgba(160,123,199,0.2);color:#A07BC7;padding:3px 8px;border-radius:6px}
@@ -2531,7 +2605,7 @@ let S={
   mode:"",
   // Ala carte comfort level — only relevant when mode==="alacarte". Captured
   // during welcome flow to personalize project suggestions. "new" / "some" /
-  // "experienced". Kept loose; v0.44 may add follow-ups.
+  // "experienced". Kept loose; v0.45 may add follow-ups.
   alacarteComfort:"",
   // AI Coach config. Disabled by default. User configures in Settings.
   // mode: "direct" (user's own API key, stored locally — direct browser call)
@@ -2647,6 +2721,12 @@ function resolveInitialView(){
 }
 
 // Hex -> rgba utility for per-path colored backgrounds/borders
+// HTML escape — used anywhere user input or AI output gets injected into innerHTML
+function escHtml(s){
+  if(s==null)return"";
+  return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+}
+
 function hexToRgba(hex,a){
   const h=hex.replace("#","");
   const r=parseInt(h.substr(0,2),16);
@@ -2764,6 +2844,7 @@ function render(){
   else if(V.view==="pathfinder-building"){renderPathfinderBuilding(app);}
   else if(V.view==="pathfinder-program"){renderPathfinderProgram(app);}
   else if(V.view==="settings"){renderSettings(app);}
+  else if(V.view==="ai-tool"){renderAITool(app);}
   else if(V.view==="ai-settings"){renderAISettings(app);}
   else if(V.view==="ai-coach"){renderPracticeStudio(app);}
   else if(V.view==="eval-helper"){renderEvalHelper(app);}
@@ -2915,7 +2996,7 @@ function renderHub(app){
   }
   h+='</div>';
 
-  h+='<div class="app-footer">Toastmasters Companion · v0.44 · Your progress saves on this device</div>';
+  h+='<div class="app-footer">Toastmasters Companion · v0.45 · Your progress saves on this device</div>';
   h+='</div>';
   app.innerHTML=h;
 
@@ -3217,7 +3298,7 @@ function renderPathPicker(app){
   h+='<button class="quiz-prompt-btn" data-action="open-quiz">🧭 &nbsp; Not sure which one? Take the fun quiz</button>';
   h+='</div>';
 
-  h+='<div class="app-footer">Toastmasters Companion · v0.44 · Built with ❤️ for Toastmasters</div>';
+  h+='<div class="app-footer">Toastmasters Companion · v0.45 · Built with ❤️ for Toastmasters</div>';
   h+='</div>';
   app.innerHTML=h;
 
@@ -3515,7 +3596,7 @@ function renderPathBrowser(app){
   // Keeping it in the tree lets us toggle visibility without re-rendering.
   h+='<div class="path-complete-banner'+(pct>=100?'':' hidden')+'"><strong>🎉 Path complete!</strong><div style="font-size:13px;color:var(--text-muted);line-height:1.5">Next step: DTM. Keep going.</div></div>';
 
-  h+='<div class="app-footer">Toastmasters Companion · v0.44 · Your progress saves locally on this device</div>';
+  h+='<div class="app-footer">Toastmasters Companion · v0.45 · Your progress saves locally on this device</div>';
   h+='</div>';
   app.innerHTML=h;
 
@@ -4185,31 +4266,13 @@ function renderRoleDetail(app,roleId){
 
   }else if(role.id==="ttm"){
     h+='<div class="role-tools-note" style="border-style:solid;border-color:rgba(91,157,217,0.45);background:rgba(91,157,217,0.1)">';
-    h+='<div style="margin-bottom:10px">🎯 <strong>Table Topics Generator</strong></div>';
-    h+='<button class="modal-cta" style="width:auto;padding:10px 22px;font-size:14px;background:#5B9DD9;color:#fff" data-action="open-topics">Open Table Topics Generator</button>';
+    h+='<div style="margin-bottom:10px">🎯 <strong>Table Topics Generator</strong> — 96 built-in prompts across 8 themes.</div>';
+    h+='<button class="modal-cta" style="width:auto;padding:10px 22px;font-size:14px;background:#5B9DD9;color:#fff" data-action="open-topics">Open Table Topics Generator →</button>';
     h+='</div>';
     if(aiOn){
-      h+='<div class="role-ai-tool">';
-      h+='<div class="role-ai-tool-hdr"><span class="role-ai-badge">✨ AI</span><span>AI Topics Generator</span></div>';
-      h+='<div class="role-ai-why-box">';
-      h+='<div class="role-ai-why-title">Why Table Topics matters</div>';
-      h+='<div class="role-ai-why-text">Table Topics trains you to think on your feet — a skill that transfers directly to job interviews, meetings, networking, and everyday conversations. The best impromptu speakers aren\'t born with it — they practice. Great questions make great practice. That\'s what this tool is for: generating questions that push speakers beyond "what\'s your favorite food" into genuinely thought-provoking territory.</div>';
-      h+='</div>';
-      h+='<div class="role-ai-form">';
-      h+='<div class="role-ai-label">MEETING THEME</div>';
-      h+='<input class="role-ai-input" id="tt-theme" placeholder="e.g. Travel, Childhood memories, Technology, Food…" />';
-      h+='<div class="role-ai-label">DIFFICULTY</div>';
-      h+='<div class="role-ai-radio-row">';
-      ['Easy','Medium','Challenging'].forEach(d=>{
-        const active=d==='Medium';
-        h+='<button class="role-ai-radio-btn'+(active?' active':'')+'" data-tt-diff="'+d+'">';
-        h+='<span class="role-ai-radio-dot'+(active?' active':'')+'"></span>'+d;
-        h+='</button>';
-      });
-      h+='</div>';
-      h+='<button class="role-ai-generate" data-action="tt-generate">🎲 Generate 10 Topics</button>';
-      h+='</div>';
-      h+='<div class="role-ai-output" id="tt-output" style="display:none"></div>';
+      h+='<div class="role-tools-note" style="border-style:solid;border-color:rgba(160,123,199,0.45);background:rgba(160,123,199,0.07)">';
+      h+='<div style="margin-bottom:10px">✨ <strong>AI Topics Generator</strong> — generate themed questions on demand.</div>';
+      h+='<button class="modal-cta" style="width:auto;padding:10px 22px;font-size:14px;background:#A07BC7;color:#fff" data-action="open-ai-tool" data-tool-id="topics-gen">Open AI Topics Generator →</button>';
       h+='</div>';
     }
 
@@ -4221,29 +4284,9 @@ function renderRoleDetail(app,roleId){
 
   }else if(role.id==="tmd"){
     if(aiOn){
-      h+='<div class="role-ai-tool" id="role-ai-tmd">';
-      h+='<div class="role-ai-tool-hdr"><span class="role-ai-badge">✨ AI</span><span>TMD Script Generator</span></div>';
-      h+='<div class="role-ai-desc">Generate ready-to-use script ideas for any segment of your meeting.</div>';
-      h+='<div class="role-ai-form">';
-      h+='<input class="role-ai-input" id="tmd-theme" placeholder="Meeting theme (e.g. Courage, New Beginnings…)" />';
-      h+='<div class="role-ai-label">What do you need?</div>';
-      h+='<div class="role-ai-grid">';
-      [['Opening','Meeting Opening','🎬'],['Speaker Intro','Speaker Intro','🎤'],
-       ['Transitions','Transitions','🔄'],['TT Session','TT Session Intro','💬'],
-       ['Eval Session','Eval Session Intro','📝'],['Closing','Meeting Closing','🏁']
-      ].forEach(([id,label,icon])=>{
-        h+='<button class="role-ai-segment'+(id==='Opening'?' active':'')+'" data-tmd-seg="'+id+'">'+icon+'<br>'+label+'</button>';
-      });
-      h+='</div>';
-      h+='<div class="role-ai-label">Vibe</div>';
-      h+='<div class="role-ai-row">';
-      ['Energetic','Warm','Professional','Humorous'].forEach((v,i)=>{
-        h+='<button class="role-ai-chip'+(i===0?' active':'')+'" data-tmd-vibe="'+v+'">'+v+'</button>';
-      });
-      h+='</div>';
-      h+='<button class="role-ai-generate" data-action="tmd-generate">✨ Generate Script Ideas</button>';
-      h+='</div>';
-      h+='<div class="role-ai-output" id="tmd-output" style="display:none"></div>';
+      h+='<div class="role-tools-note" style="border-style:solid;border-color:rgba(232,93,58,0.45);background:rgba(232,93,58,0.07)">';
+      h+='<div style="margin-bottom:10px">🎩 <strong>TMD Script Generator</strong> — generate ready-to-deliver script segments.</div>';
+      h+='<button class="modal-cta" style="width:auto;padding:10px 22px;font-size:14px;background:#E85D3A;color:#fff" data-action="open-ai-tool" data-tool-id="tmd-script">Open TMD Script Generator →</button>';
       h+='</div>';
     }else{
       h+='<div class="role-tools-note">Enable AI in ✨ AI Settings to unlock the TMD Script Generator.</div>';
@@ -4251,36 +4294,9 @@ function renderRoleDetail(app,roleId){
 
   }else if(role.id==="ie"){
     if(aiOn){
-      // Build project list for evaluator picker
-      const allProjects=[];
-      for(let lv=1;lv<=5;lv++){
-        const g=gP(S.path||"DL",lv);
-        const pids=[...g.r,...g.e].filter(pid=>PD[pid]&&PD[pid].dur&&PD[pid].dur.includes("min"));
-        if(pids.length)allProjects.push({level:lv,pids});
-      }
-      // Fallback: L1 universals
-      if(!allProjects.length){
-        allProjects.push({level:1,pids:["ice-breaker","writing-speech","intro-vvbl","eval-feedback"]});
-      }
-      h+='<div class="role-ai-tool" id="role-ai-eval">';
-      h+='<div class="role-ai-tool-hdr"><span class="role-ai-badge">✨ AI</span><span>Evaluation Assistant</span></div>';
-      h+='<div class="role-ai-desc">Select the project you\'re evaluating to get specific guidance on what to look for.</div>';
-      h+='<div class="role-ai-form">';
-      h+='<div class="role-ai-select-wrap">';
-      h+='<select class="role-ai-select" id="eval-pid"><option value="">— Choose a project —</option>';
-      allProjects.forEach(({level,pids})=>{
-        h+='<optgroup label="Level '+level+'">';
-        pids.forEach(pid=>{
-          const p=PD[pid];
-          if(p)h+='<option value="'+pid+'">'+p.t+' ('+p.dur+')</option>';
-        });
-        h+='</optgroup>';
-      });
-      h+='</select>';
-      h+='</div>';
-      h+='<button class="role-ai-generate" data-action="eval-generate">📝 Get Evaluation Guidance</button>';
-      h+='</div>';
-      h+='<div class="role-ai-output" id="eval-output" style="display:none"></div>';
+      h+='<div class="role-tools-note" style="border-style:solid;border-color:rgba(235,87,87,0.45);background:rgba(235,87,87,0.07)">';
+      h+='<div style="margin-bottom:10px">📝 <strong>Evaluation Assistant</strong> — get project-specific guidance on what to listen for.</div>';
+      h+='<button class="modal-cta" style="width:auto;padding:10px 22px;font-size:14px;background:#EB5757;color:#fff" data-action="open-ai-tool" data-tool-id="eval-assistant">Open Evaluation Assistant →</button>';
       h+='</div>';
     }else{
       h+='<div class="role-tools-note">Enable AI in ✨ AI Settings to unlock the Evaluation Assistant.</div>';
@@ -4322,102 +4338,16 @@ function renderRoleDetail(app,roleId){
   const wb=app.querySelector('[data-action="open-wod"]');
   if(wb)wb.addEventListener("click",()=>{V.view="wod";wodBuildQueue();render();});
 
-  // ── AI tool chip selection ──
-  function wireChips(selector){
-    app.querySelectorAll(selector).forEach(btn=>{
-      btn.addEventListener("click",()=>{
-        app.querySelectorAll(selector).forEach(b=>{
-          b.classList.remove("active");
-          // update radio dot if present
-          const dot=b.querySelector(".role-ai-radio-dot");
-          if(dot)dot.classList.remove("active");
-        });
-        btn.classList.add("active");
-        const dot=btn.querySelector(".role-ai-radio-dot");
-        if(dot)dot.classList.add("active");
-      });
+  // ── Open standalone AI tool view from role page ──
+  app.querySelectorAll('[data-action="open-ai-tool"]').forEach(btn=>{
+    btn.addEventListener("click",()=>{
+      V._aiToolId=btn.dataset.toolId;
+      V._aiToolReturnRole=role.id; // remember to return to this role page
+      V.view="ai-tool";
+      render();
     });
-  }
-  wireChips("[data-tt-diff]");
-  wireChips("[data-tmd-vibe]");
-  wireChips("[data-tmd-seg]");
-  wireChips("[data-wod-diff]");
-  wireChips("[data-role-ai-radio-btn]");
-
-  // ── AI Topics Generator ──
-  const ttGenBtn=app.querySelector('[data-action="tt-generate"]');
-  if(ttGenBtn)ttGenBtn.addEventListener("click",async()=>{
-    const theme=(app.querySelector("#tt-theme")||{}).value||"";
-    const diff=(app.querySelector("[data-tt-diff].active")||{}).dataset?.ttDiff||"Medium";
-    const out=app.querySelector("#tt-output");
-    out.style.display="block";
-    out.innerHTML='<div class="role-ai-loading"><span class="coach-dots"><span>.</span><span>.</span><span>.</span></span></div>';
-    try{
-      const sys="You are a Toastmasters Topicsmaster. Generate exactly 10 Table Topics questions. Return them as a numbered list 1-10, one per line. No preamble, no extra text. Each question should be a complete, thought-provoking prompt.";
-      const msg="Theme: "+(theme||"open")+" | Difficulty: "+diff+"\nDifficulty guide: Easy=personal/relatable, Medium=opinion/reflection, Challenging=abstract/philosophical.\nGenerate 10 questions.";
-      const text=await callCoach(sys,msg,{maxTokens:600,forceBase:true});
-      const lines=text.split("\n").filter(l=>l.trim()&&/^\d+\./.test(l.trim()));
-      out.innerHTML='<div class="role-ai-results">'+
-        lines.map((l,i)=>'<div class="role-ai-result-item"><span class="role-ai-result-n">'+(i+1)+'</span><span>'+
-          l.replace(/^\d+\.\s*/,"").replace(/&/g,"&amp;").replace(/</g,"&lt;")+'</span></div>').join("")+
-        '</div>';
-    }catch(e){out.innerHTML='<div class="role-ai-error">⚠ '+e.message+'</div>';}
   });
 
-  // ── AI Word of the Day ──
-  // WOD is now renderWODTool — no inline handler needed
-
-  // ── TMD Script Generator ──
-  const tmdGenBtn=app.querySelector('[data-action="tmd-generate"]');
-  if(tmdGenBtn)tmdGenBtn.addEventListener("click",async()=>{
-    const theme=(app.querySelector("#tmd-theme")||{}).value||"";
-    const seg=(app.querySelector("[data-tmd-seg].active")||{}).dataset?.tmdSeg||"Opening";
-    const vibe=(app.querySelector("[data-tmd-vibe].active")||{}).dataset?.tmdVibe||"Energetic";
-    const out=app.querySelector("#tmd-output");
-    out.style.display="block";
-    out.innerHTML='<div class="role-ai-loading"><span class="coach-dots"><span>.</span><span>.</span><span>.</span></span></div>';
-    try{
-      const sys="You are an experienced Toastmaster of the Day writing meeting scripts. Write naturally and engagingly. Return only the script text — no labels, no commentary, no markdown. Speak directly as the TMD would at the lectern.";
-      const segMap={
-        "Opening":"an energetic meeting opening that welcomes everyone and introduces the meeting theme",
-        "Speaker Intro":"a warm speaker introduction (use [SPEAKER NAME] and [SPEECH TITLE] as placeholders)",
-        "Transitions":"3 short transition lines between segments (use numbered lines: 1. 2. 3.)",
-        "TT Session":"an introduction to the Table Topics session that explains the format to guests",
-        "Eval Session":"an introduction to the evaluation segment that explains its purpose and value",
-        "Closing":"a warm meeting closing that thanks everyone and wraps up"
-      };
-      const msg="Meeting theme: "+(theme||"open theme")+" | Vibe: "+vibe+"\nWrite "+segMap[seg]+". Keep it 60-120 words.";
-      const text=await callCoach(sys,msg,{maxTokens:400,forceBase:true});
-      out.innerHTML='<div class="role-ai-script">'+
-        '<div class="role-ai-script-label">'+seg+' · '+vibe+'</div>'+
-        '<div class="role-ai-script-text">'+text.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/\n/g,"<br>")+'</div>'+
-        '</div>';
-    }catch(e){out.innerHTML='<div class="role-ai-error">⚠ '+e.message+'</div>';}
-  });
-
-  // ── Evaluation Assistant ──
-  const evalGenBtn=app.querySelector('[data-action="eval-generate"]');
-  if(evalGenBtn)evalGenBtn.addEventListener("click",async()=>{
-    const pid=(app.querySelector("#eval-pid")||{}).value||"";
-    const proj=pid?PD[pid]:null;
-    if(!proj){alert("Please choose a project first.");return;}
-    const out=app.querySelector("#eval-output");
-    out.style.display="block";
-    out.innerHTML='<div class="role-ai-loading"><span class="coach-dots"><span>.</span><span>.</span><span>.</span></span></div>';
-    try{
-      const sys="You are a senior Toastmasters evaluator coach. Write a practical evaluation guide for a specific project. Be direct and specific. No padding. Format: two short paragraphs — what to focus on during the speech, then how to structure the CRC feedback (Commend / Recommend / Commend). Under 200 words total.";
-      const tips=TIPS&&TIPS[pid];
-      const msg="Project: "+proj.t+" ("+proj.dur+")\nPurpose: "+proj.p+"\nOverview: "+proj.o+
-        (tips?"\nCoaching notes: "+tips.how:"");
-      const text=await callCoach(sys,msg,{maxTokens:400,forceBase:true});
-      out.innerHTML='<div class="role-ai-eval-guide">'+
-        '<div class="role-ai-eval-project">Evaluating: '+proj.t+'</div>'+
-        '<div class="role-ai-eval-text">'+
-          text.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/\n\n/g,"</p><p>").replace(/\n/g,"<br>")+
-        '</div>'+
-        '</div>';
-    }catch(e){out.innerHTML='<div class="role-ai-error">⚠ '+e.message+'</div>';}
-  });
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -5021,7 +4951,7 @@ function renderPracticeHub(app){
   h+=toolRow({tool:"speech-draft",color:"#6DB6B4",icon:"📝",name:"Speech Draft Builder",desc:(S.aiConfig&&S.aiConfig.enabled)?"AI builds your speech outline and opening lines":"Structure your next speech from outline to close"});
 
   h+='</div>';
-  h+='<div class="app-footer">Toastmasters Companion · v0.44 · Practice tools work offline</div>';
+  h+='<div class="app-footer">Toastmasters Companion · v0.45 · Practice tools work offline</div>';
   h+='</div>';
   app.innerHTML=h;
 
@@ -7482,6 +7412,326 @@ function renderSpeechDraft(app){
   });
 }
 
+// ═══════════════════════════════════════════════════════════════════════════
+// STANDALONE AI TOOL VIEWS — each AI generator gets its own full screen,
+// not a panel stuffed inside the role page. Matches 5A+ design pattern.
+// ═══════════════════════════════════════════════════════════════════════════
+// Dispatched via V._aiToolId: "topics-gen" | "tmd-script" | "eval-assistant"
+// Returns to V._aiToolReturnRole's role page on back.
+
+function renderAITool(app){
+  const toolId=V._aiToolId;
+  if(toolId==="topics-gen")return renderAITopicsGen(app);
+  if(toolId==="tmd-script")return renderAITMDScript(app);
+  if(toolId==="eval-assistant")return renderAIEvalAssistant(app);
+  // Unknown tool — bounce back
+  V.view="roles";render();
+}
+
+function _aiToolBack(app){
+  const btn=app.querySelector('[data-action="ai-tool-back"]');
+  if(btn)btn.addEventListener("click",()=>{
+    const roleId=V._aiToolReturnRole;
+    V._aiToolId=null;V._aiToolReturnRole=null;
+    if(roleId){V.viewingRole=roleId;V.view="role";}
+    else{V.view="roles";}
+    render();
+  });
+}
+
+// ── AI Topics Generator ─────────────────────────────────────────────────────
+function renderAITopicsGen(app){
+  if(!V._tgTheme)V._tgTheme="";
+  if(!V._tgDiff)V._tgDiff="Medium";
+  if(!V._tgResults)V._tgResults=null;
+  if(!V._tgLoading)V._tgLoading=false;
+
+  let h='<div class="fade-up ai-tool-view">';
+  h+='<div class="top-bar">';
+  h+='<button class="top-bar-btn" data-action="ai-tool-back">← Topicsmaster</button>';
+  h+='</div>';
+
+  h+='<div class="ai-tool-hero">';
+  h+='<div class="ai-tool-hero-icon">🤖</div>';
+  h+='<div class="ai-tool-hero-title">AI Topics Generator</div>';
+  h+='</div>';
+
+  h+='<div class="ai-tool-why">';
+  h+='<div class="ai-tool-why-title">Why Table Topics matters</div>';
+  h+='<div class="ai-tool-why-text">Table Topics trains you to think on your feet — a skill that transfers directly to job interviews, meetings, networking, and everyday conversations. Great questions make great practice — this tool generates questions that push speakers beyond "what\'s your favorite food" into genuinely thought-provoking territory.</div>';
+  h+='</div>';
+
+  h+='<div class="ai-tool-form">';
+  h+='<div class="ai-tool-label">MEETING THEME</div>';
+  h+='<input class="ai-tool-input" id="tg-theme" placeholder="e.g. Travel, Childhood memories, Technology, Food…" value="'+escHtml(V._tgTheme)+'"/>';
+  h+='<div class="ai-tool-label">DIFFICULTY</div>';
+  h+='<div class="ai-tool-radio-row">';
+  ['Easy','Medium','Challenging'].forEach(d=>{
+    const active=d===V._tgDiff;
+    h+='<button class="ai-tool-radio-btn'+(active?' active':'')+'" data-tg-diff="'+d+'">';
+    h+='<span class="ai-tool-radio-dot'+(active?' active':'')+'"></span>'+d;
+    h+='</button>';
+  });
+  h+='</div>';
+  h+='<button class="ai-tool-generate" data-action="tg-generate">🎲 Generate 10 Topics</button>';
+  h+='</div>';
+
+  if(V._tgLoading){
+    h+='<div class="ai-tool-loading"><span class="coach-dots"><span>.</span><span>.</span><span>.</span></span></div>';
+  }else if(V._tgResults&&V._tgResults.length){
+    h+='<div class="ai-tool-results">';
+    h+='<div class="ai-tool-results-hdr"><div class="ai-tool-results-label">10 QUESTIONS · '+V._tgDiff.toUpperCase()+'</div>';
+    h+='<button class="ai-tool-regen" data-action="tg-regen">🔄 Again</button></div>';
+    V._tgResults.forEach((q,i)=>{
+      h+='<div class="ai-tool-result-item"><span class="ai-tool-result-n">'+(i+1)+'</span><span class="ai-tool-result-text">'+escHtml(q)+'</span></div>';
+    });
+    h+='</div>';
+  }
+
+  h+='</div>';
+  app.innerHTML=h;
+
+  _aiToolBack(app);
+
+  app.querySelectorAll("[data-tg-diff]").forEach(btn=>{
+    btn.addEventListener("click",()=>{
+      V._tgDiff=btn.dataset.tgDiff;
+      render();
+    });
+  });
+
+  const themeInput=app.querySelector("#tg-theme");
+  if(themeInput)themeInput.addEventListener("input",()=>{V._tgTheme=themeInput.value;});
+
+  const regenBtn=app.querySelector('[data-action="tg-regen"]');
+  if(regenBtn)regenBtn.addEventListener("click",()=>{V._tgResults=null;render();});
+
+  const genBtn=app.querySelector('[data-action="tg-generate"]');
+  if(genBtn)genBtn.addEventListener("click",async()=>{
+    const theme=themeInput?themeInput.value.trim():V._tgTheme;
+    V._tgLoading=true;V._tgResults=null;render();
+    try{
+      const sys="You are an experienced Toastmasters Topicsmaster. Generate exactly 10 Table Topics questions. Return as a numbered list 1-10, one per line. No preamble, no extra text, no explanations. Each question is a complete thought-provoking prompt.";
+      const msg="Theme: "+(theme||"open")+" | Difficulty: "+V._tgDiff+"\nEasy=personal/relatable, Medium=opinion/reflection, Challenging=abstract/philosophical.";
+      const text=await callCoach(sys,msg,{maxTokens:600,forceBase:true});
+      const lines=text.split("\n").map(l=>l.trim()).filter(l=>l&&/^\d+[.)]/.test(l))
+        .map(l=>l.replace(/^\d+[.)]\s*/,"")).filter(Boolean);
+      V._tgResults=lines.slice(0,10);
+    }catch(e){V._tgResults=["⚠ "+e.message];}
+    V._tgLoading=false;render();
+  });
+}
+
+// ── TMD Script Generator ────────────────────────────────────────────────────
+function renderAITMDScript(app){
+  if(!V._tmdTheme)V._tmdTheme="";
+  if(!V._tmdSeg)V._tmdSeg="Opening";
+  if(!V._tmdVibe)V._tmdVibe="Energetic";
+  if(!V._tmdResult)V._tmdResult=null;
+  if(!V._tmdLoading)V._tmdLoading=false;
+
+  let h='<div class="fade-up ai-tool-view">';
+  h+='<div class="top-bar">';
+  h+='<button class="top-bar-btn" data-action="ai-tool-back">← Toastmaster</button>';
+  h+='</div>';
+
+  h+='<div class="ai-tool-hero">';
+  h+='<div class="ai-tool-hero-icon">🎩</div>';
+  h+='<div class="ai-tool-hero-title">TMD Script Generator</div>';
+  h+='</div>';
+
+  h+='<div class="ai-tool-form">';
+  h+='<div class="ai-tool-label">MEETING THEME</div>';
+  h+='<input class="ai-tool-input" id="tmd-theme" placeholder="e.g. Courage, New Beginnings, Innovation…" value="'+escHtml(V._tmdTheme)+'"/>';
+
+  h+='<div class="ai-tool-label">WHAT DO YOU NEED?</div>';
+  h+='<div class="ai-tool-grid">';
+  [['Opening','Meeting Opening','🎬'],['Speaker Intro','Speaker Intro','🎤'],
+   ['Transitions','Transitions','🔄'],['TT Session','TT Session Intro','💬'],
+   ['Eval Session','Eval Session Intro','📝'],['Closing','Meeting Closing','🏁']
+  ].forEach(([id,label,icon])=>{
+    const active=id===V._tmdSeg;
+    h+='<button class="ai-tool-seg-btn'+(active?' active':'')+'" data-tmd-seg="'+id+'">';
+    h+='<div class="ai-tool-seg-icon">'+icon+'</div>';
+    h+='<div class="ai-tool-seg-label">'+label+'</div>';
+    h+='</button>';
+  });
+  h+='</div>';
+
+  h+='<div class="ai-tool-label">VIBE</div>';
+  h+='<div class="ai-tool-chip-row">';
+  ['Energetic','Warm','Professional','Humorous'].forEach(v=>{
+    const active=v===V._tmdVibe;
+    h+='<button class="ai-tool-chip'+(active?' active':'')+'" data-tmd-vibe="'+v+'">'+v+'</button>';
+  });
+  h+='</div>';
+
+  h+='<button class="ai-tool-generate" data-action="tmd-generate">✨ Generate Script</button>';
+  h+='</div>';
+
+  if(V._tmdLoading){
+    h+='<div class="ai-tool-loading"><span class="coach-dots"><span>.</span><span>.</span><span>.</span></span></div>';
+  }else if(V._tmdResult){
+    h+='<div class="ai-tool-result-card">';
+    h+='<div class="ai-tool-result-label">'+V._tmdSeg.toUpperCase()+' · '+V._tmdVibe.toUpperCase()+'</div>';
+    h+='<div class="ai-tool-result-body">'+V._tmdResult.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/\n/g,"<br>")+'</div>';
+    h+='<button class="ai-tool-regen" data-action="tmd-regen" style="margin-top:14px">🔄 Regenerate</button>';
+    h+='</div>';
+  }
+
+  h+='</div>';
+  app.innerHTML=h;
+
+  _aiToolBack(app);
+
+  const themeInput=app.querySelector("#tmd-theme");
+  if(themeInput)themeInput.addEventListener("input",()=>{V._tmdTheme=themeInput.value;});
+
+  app.querySelectorAll("[data-tmd-seg]").forEach(btn=>{
+    btn.addEventListener("click",()=>{V._tmdSeg=btn.dataset.tmdSeg;render();});
+  });
+  app.querySelectorAll("[data-tmd-vibe]").forEach(btn=>{
+    btn.addEventListener("click",()=>{V._tmdVibe=btn.dataset.tmdVibe;render();});
+  });
+
+  const regenBtn=app.querySelector('[data-action="tmd-regen"]');
+  if(regenBtn)regenBtn.addEventListener("click",()=>{V._tmdResult=null;render();});
+
+  const genBtn=app.querySelector('[data-action="tmd-generate"]');
+  if(genBtn)genBtn.addEventListener("click",async()=>{
+    const theme=themeInput?themeInput.value.trim():V._tmdTheme;
+    V._tmdLoading=true;V._tmdResult=null;render();
+    try{
+      const sys="You are an experienced Toastmaster of the Day writing meeting scripts. Write naturally and engagingly — the speaker will deliver this live at the lectern. Return ONLY the script text with no labels, no markdown, no commentary.";
+      const segMap={
+        "Opening":"an energetic meeting opening that welcomes everyone and ties in the theme",
+        "Speaker Intro":"a warm speaker introduction using [SPEAKER NAME] and [SPEECH TITLE] as placeholders",
+        "Transitions":"3 short transition lines numbered 1. 2. 3.",
+        "TT Session":"an introduction to the Table Topics session explaining the format to guests",
+        "Eval Session":"an introduction to the evaluation segment explaining its purpose",
+        "Closing":"a warm meeting closing thanking everyone"
+      };
+      const msg="Meeting theme: "+(theme||"open theme")+" | Vibe: "+V._tmdVibe+"\nWrite "+segMap[V._tmdSeg]+". Keep it 60-120 words.";
+      V._tmdResult=await callCoach(sys,msg,{maxTokens:400,forceBase:true});
+    }catch(e){V._tmdResult="⚠ "+e.message;}
+    V._tmdLoading=false;render();
+  });
+}
+
+// ── Evaluation Assistant ────────────────────────────────────────────────────
+function renderAIEvalAssistant(app){
+  if(V._eaPid===undefined)V._eaPid="";
+  if(!V._eaResult)V._eaResult=null;
+  if(!V._eaLoading)V._eaLoading=false;
+
+  const pathCode=S.path||"DL";
+  const levelGroups=[];
+  for(let lv=1;lv<=5;lv++){
+    const g=gP(pathCode,lv);
+    const pids=[...g.r,...g.e].filter(pid=>PD[pid]&&PD[pid].dur&&PD[pid].dur.includes("min"));
+    if(pids.length)levelGroups.push({level:lv,pids});
+  }
+  if(!levelGroups.length)levelGroups.push({level:1,pids:["ice-breaker","writing-speech","intro-vvbl","eval-feedback"]});
+
+  const selProj=V._eaPid?PD[V._eaPid]:null;
+
+  let h='<div class="fade-up ai-tool-view">';
+  h+='<div class="top-bar">';
+  h+='<button class="top-bar-btn" data-action="ai-tool-back">← Evaluator</button>';
+  if(selProj)h+='<button class="top-bar-btn" data-action="ea-change" style="color:var(--text-3)">Change project</button>';
+  h+='</div>';
+
+  h+='<div class="ai-tool-hero">';
+  h+='<div class="ai-tool-hero-icon">📝</div>';
+  h+='<div class="ai-tool-hero-title">Evaluation Assistant</div>';
+  h+='</div>';
+
+  if(!selProj){
+    h+='<div class="ai-tool-desc">Select the project you\'re evaluating to get specific guidance on what to listen for.</div>';
+    h+='<div class="ai-tool-project-list">';
+    levelGroups.forEach(({level,pids})=>{
+      h+='<div class="ai-tool-level-hdr">Level '+level+'</div>';
+      pids.forEach(pid=>{
+        const p=PD[pid];if(!p)return;
+        h+='<button class="ai-tool-project-btn" data-ea-pid="'+pid+'">';
+        h+='<div class="ai-tool-project-info"><div class="ai-tool-project-name">'+p.t+'</div><div class="ai-tool-project-dur">'+p.dur+'</div></div>';
+        h+='<div class="ai-tool-project-arrow">→</div>';
+        h+='</button>';
+      });
+    });
+    h+='</div>';
+  }else{
+    // Show guidance for the chosen project
+    h+='<div class="ai-tool-project-hdr">';
+    h+='<div class="ai-tool-project-hdr-kicker">EVALUATING</div>';
+    h+='<div class="ai-tool-project-hdr-title">'+selProj.t+'</div>';
+    h+='<div class="ai-tool-project-hdr-dur">'+selProj.dur+' · '+selProj.p+'</div>';
+    h+='</div>';
+
+    if(V._eaLoading){
+      h+='<div class="ai-tool-loading"><span class="coach-dots"><span>.</span><span>.</span><span>.</span></span></div>';
+    }else if(V._eaResult){
+      h+='<div class="ai-tool-eval-guide">'+V._eaResult+'</div>';
+      h+='<button class="ai-tool-regen" data-action="ea-regen">🔄 Regenerate</button>';
+    }else{
+      h+='<button class="ai-tool-generate" data-action="ea-generate">📝 Get Evaluation Guidance</button>';
+    }
+  }
+
+  h+='</div>';
+  app.innerHTML=h;
+
+  _aiToolBack(app);
+
+  const changeBtn=app.querySelector('[data-action="ea-change"]');
+  if(changeBtn)changeBtn.addEventListener("click",()=>{V._eaPid="";V._eaResult=null;render();});
+
+  app.querySelectorAll("[data-ea-pid]").forEach(btn=>{
+    btn.addEventListener("click",()=>{
+      V._eaPid=btn.dataset.eaPid;V._eaResult=null;render();
+    });
+  });
+
+  const regenBtn=app.querySelector('[data-action="ea-regen"]');
+  if(regenBtn)regenBtn.addEventListener("click",()=>{V._eaResult=null;render();});
+
+  const genBtn=app.querySelector('[data-action="ea-generate"]');
+  if(genBtn)genBtn.addEventListener("click",async()=>{
+    const proj=PD[V._eaPid];if(!proj)return;
+    V._eaLoading=true;render();
+    try{
+      const tips=TIPS&&TIPS[V._eaPid];
+      const sys=`You are a senior Toastmasters evaluator coach. Write a practical evaluation guide for this specific project. Structure your response with EXACTLY these labelled sections, each on its own line:
+
+🎯 WHAT TO WATCH FOR: [2-3 sentences on the specific behaviors and techniques tied to this project's objectives]
+⚠️ WHAT NOT TO DO: [2-3 sentences on common evaluator mistakes for this project — e.g. vague feedback, off-topic praise]
+✅ CRC STRUCTURE: [2-3 sentences on how to frame Commend-Recommend-Commend for this specific project]
+
+Be specific and direct. Under 220 words total. No preamble.`;
+      const msg="Project: "+proj.t+" ("+proj.dur+")\nPurpose: "+proj.p+"\nOverview: "+(proj.o||"")+
+        (tips&&tips.how?"\nCoaching focus: "+tips.how.replace(/<[^>]+>/g,""):"");
+      const text=await callCoach(sys,msg,{maxTokens:500});
+      // Parse into structured sections with coloured cards
+      const lines=text.split("\n").filter(l=>l.trim());
+      let html="";
+      lines.forEach(line=>{
+        const esc=line.replace(/&/g,"&amp;").replace(/</g,"&lt;");
+        if(/WHAT TO WATCH FOR/i.test(line)||line.startsWith("🎯")){
+          html+='<div class="ai-tool-eval-section amber"><div class="ai-tool-eval-section-hdr"><span>🎯</span><span>What to watch for</span></div><div class="ai-tool-eval-section-body">'+esc.replace(/.*WHAT TO WATCH FOR:?\s*/i,"").replace(/^🎯\s*/,"")+'</div></div>';
+        }else if(/WHAT NOT TO DO/i.test(line)||line.startsWith("⚠")){
+          html+='<div class="ai-tool-eval-section red"><div class="ai-tool-eval-section-hdr"><span>⚠️</span><span>What not to do</span></div><div class="ai-tool-eval-section-body">'+esc.replace(/.*WHAT NOT TO DO:?\s*/i,"").replace(/^⚠️?\s*/,"")+'</div></div>';
+        }else if(/CRC STRUCTURE/i.test(line)||line.startsWith("✅")){
+          html+='<div class="ai-tool-eval-section green"><div class="ai-tool-eval-section-hdr"><span>✅</span><span>CRC structure</span></div><div class="ai-tool-eval-section-body">'+esc.replace(/.*CRC STRUCTURE:?\s*/i,"").replace(/^✅\s*/,"")+'</div></div>';
+        }else if(esc.trim()){
+          html+='<p class="ai-tool-eval-p">'+esc+'</p>';
+        }
+      });
+      V._eaResult=html||'<div class="ai-tool-eval-p">'+text+'</div>';
+    }catch(e){V._eaResult='<div class="ai-tool-error">⚠ '+e.message+'</div>';}
+    V._eaLoading=false;render();
+  });
+}
+
 function renderAISettings(app){
   const cfg=S.aiConfig||{};
   let h='<div class="fade-up">';
@@ -8625,7 +8875,7 @@ function renderPracticeStudio(app){
     });
   });
   const startBtn=app.querySelector('[data-action="ps-start"]');
-  if(startBtn)startBtn.addEventListener("click",psStart);
+  if(startBtn)startBtn.addEventListener("click",()=>psStart(false));
   const startTimerOnly=app.querySelector('[data-action="ps-start-timer-only"]');
   if(startTimerOnly)startTimerOnly.addEventListener("click",()=>psStart(true));
 }
