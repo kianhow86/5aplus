@@ -1088,6 +1088,31 @@ a{color:inherit;text-decoration:none}
 
 
 /* ═══ Evaluation Assistant — offline layout ═══ */
+
+/* ═══ ea-card system (shared by Eval Helper + Eval Assistant) ═══ */
+.ea-card{border-radius:14px;padding:16px;border:1px solid var(--border);margin-bottom:10px;display:flex;flex-direction:column;gap:8px}
+.ea-card-hdr{font-size:12.5px;font-weight:800;letter-spacing:-0.003em;color:var(--text)}
+.ea-card-body{font-size:13.5px;color:var(--text-2);line-height:1.6;letter-spacing:-0.003em}
+.ea-card-body strong{color:var(--text);font-weight:700}
+.ea-card-kicker{font-size:10.5px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-3)}
+.ea-card-title{font-size:18px;font-weight:800;color:var(--text);letter-spacing:-0.008em}
+.ea-card-meta{font-size:12px;color:var(--text-3);letter-spacing:-0.003em}
+.ea-card-row{font-size:13.5px;color:var(--text-2);line-height:1.6;letter-spacing:-0.003em}
+.ea-card-row strong{color:var(--text);font-weight:700}
+.ea-card-info{background:var(--surface);border-color:var(--border)}
+.ea-card-amber{background:rgba(232,178,80,0.07);border-color:rgba(232,178,80,0.3)}
+.ea-card-amber .ea-card-hdr{color:#E8B250}
+.ea-card-red{background:rgba(232,93,93,0.07);border-color:rgba(232,93,93,0.3)}
+.ea-card-red .ea-card-hdr{color:#E85D5D}
+.ea-card-teal{background:rgba(109,182,180,0.07);border-color:rgba(109,182,180,0.3)}
+.ea-card-teal .ea-card-hdr{color:#6DB6B4}
+.ea-card-blue{background:rgba(91,157,217,0.07);border-color:rgba(91,157,217,0.3)}
+.ea-card-blue .ea-card-hdr{color:#5B9DD9}
+.ea-card-purple{background:rgba(160,123,199,0.07);border-color:rgba(160,123,199,0.3)}
+.ea-card-purple .ea-card-hdr{color:#A07BC7}
+.ea-card-green{background:rgba(94,185,117,0.07);border-color:rgba(94,185,117,0.3)}
+.ea-card-green .ea-card-hdr{color:#5EB975}
+
 .ea-project-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:18px}
 .ea-project-name{font-size:18px;font-weight:800;color:var(--text);letter-spacing:-0.008em;margin-bottom:3px}
 .ea-project-meta{font-size:12px;color:var(--text-3);letter-spacing:-0.003em;margin-bottom:12px}
@@ -1105,6 +1130,8 @@ a{color:inherit;text-decoration:none}
 .ea-section-blue .ea-section-hdr{color:#6DB6B4}
 .ea-section-red{background:rgba(232,93,93,0.07);border-color:rgba(232,93,93,0.28)}
 .ea-section-red .ea-section-hdr{color:#E85D5D}
+.ea-section-teal{background:rgba(109,182,180,0.07);border-color:rgba(109,182,180,0.28)}
+.ea-section-teal .ea-section-hdr{color:#6DB6B4}
 .ea-tip-block{font-size:13px;color:var(--text-2);line-height:1.6;letter-spacing:-0.003em;padding:9px 0;border-top:1px solid rgba(255,255,255,0.06)}
 .ea-tip-block:first-of-type{border-top:none;padding-top:2px}
 .ea-tip-block strong{color:var(--text);font-weight:700}
@@ -2214,6 +2241,398 @@ const TIPS={
 "ethical":{tip:"<strong>ETHICS IS NOT A LECTURE — IT'S A CONVERSATION.</strong> Your job is to create space for hard questions, not deliver answers.",avoid:"Don't moralize. Don't pick a framework you haven't wrestled with yourself. Don't shut down dissenting voices on the panel.",how:"Pick a framework (utilitarianism, deontology, virtue ethics, care ethics). Apply it to 3–4 specific scenarios your audience faces. Diverse panelists, 20–40 min panel + Q&A. <strong>The goal is discomfort → reflection → action.</strong>"},
 };
 
+
+// ═══════════════════════════════════════════════════════════════════════════
+// EVAL_TIPS — evaluator-specific guidance per project.
+// Unlike TIPS (which coaches the SPEAKER), these are written for the
+// person giving the evaluation — what to observe, what to flag, what matters.
+// Structure: { watch, flag, focus }
+//   watch  — what to actively look for during the speech
+//   flag   — red flag: if the speaker did/missed this, address it directly
+//   focus  — the single most important evaluation criterion for this project
+// ═══════════════════════════════════════════════════════════════════════════
+const EVAL_TIPS = {
+
+"ice-breaker":{
+  watch:"Did the speaker reveal something genuine — a value, a turning point, or a defining personal story? The objective is self-introduction, not speech technique.",
+  flag:"If the speech felt like a CV recital or a list of facts with no personal revelation, name it. Generic intros miss the entire point of this project.",
+  focus:"Did you feel you genuinely know this person better by the end? That's the test."
+},
+
+"writing-purpose":{
+  watch:"Is there a single clear purpose behind the speech? Can you state it in one sentence after listening? Look for a specific audience outcome, not just a topic.",
+  flag:"If the speech wandered between multiple points without a unifying purpose, flag it. The project is specifically about writing with intent — not just speaking well.",
+  focus:"Did the structure serve the stated purpose, or did the speaker lose the thread midway?"
+},
+
+"intro-vocal-body":{
+  watch:"Did the speaker use voice AND body together intentionally? Look for: deliberate gestures that match words, eye contact held (not scanned), purposeful movement or stillness.",
+  flag:"If the speaker was well-prepared on content but their body was disconnected — hands frozen, feet planted, eyes on notes — that's the core miss for this project.",
+  focus:"Were the vocal and physical choices intentional, or did they seem accidental?"
+},
+
+"eval-feedback":{
+  watch:"This project has two parts — did the speaker visibly apply the feedback from Speech 1 in Speech 2? Listen for the speaker explicitly acknowledging what they changed.",
+  flag:"If Speech 2 ignored the feedback from Speech 1 — same structure, same issues, no acknowledgement — this is the central failure. Address it directly: the loop wasn't closed.",
+  focus:"The project objective is the feedback loop, not the speeches themselves. Did the speaker demonstrate they listened and adjusted?"
+},
+
+"eff-body-lang":{
+  watch:"Evaluate body language specifically — not content. Watch: zone usage (low/mid/high gestures), foot movement (purposeful vs. nervous pacing), facial expression matching tone.",
+  flag:"If the speaker had strong content but static or disconnected body language, the project objective was missed. Don't praise their story — evaluate their movement.",
+  focus:"Did the body language add meaning, or was it just neutral? Body language should amplify the message, not just avoid distraction."
+},
+
+"vocal-var":{
+  watch:"Listen for range across all four dials — pitch, pace, volume, pause. Great vocal variety means you heard deliberate shifts, not just natural conversation.",
+  flag:"If the speaker spoke at a consistent pace and pitch throughout — even pleasantly — flag it. The project is specifically about stretching vocal range.",
+  focus:"Were there moments that clearly used pause for impact or volume for emphasis? Can you name two specific moments where vocal choice elevated the message?"
+},
+
+"know-humor":{
+  watch:"Did the speaker understand and demonstrate their own comedic style — not just tell jokes? Look for: timing, audience read, style consistency (self-deprecating, observational, absurdist, etc.).",
+  flag:"If the speech was a string of unrelated jokes or the humor felt forced/uncomfortable, the project objective was missed. Understanding your humor means knowing what works FOR YOU.",
+  focus:"Could you identify the speaker's distinct comedic voice? Would you recognize it in their next speech?"
+},
+
+"improv-humor":{
+  watch:"Did the speaker respond to the room — audience reactions, unexpected moments, or their own slip-ups — with humor? Look for genuine spontaneity, not planted callbacks.",
+  flag:"If the speech felt entirely scripted with no room for audience energy, the improvisational element was missed. This project is about responsiveness.",
+  focus:"Was there at least one moment of genuine in-the-moment humor that landed?"
+},
+
+"engage-humor":{
+  watch:"Did the humor serve audience engagement, or was it humor for its own sake? Look for: audience laughter at appropriate moments, energy shifts after humor, recovery if a joke didn't land.",
+  flag:"If the speaker went for laughs but the audience was passive or uncomfortable, that's a gap to address — humor is a tool for engagement, not a performance.",
+  focus:"Did the audience seem more engaged after the humorous moments than before?"
+},
+
+"humor-finale":{
+  watch:"This is the comedy capstone — assess overall comedic command: timing, material quality, audience connection, recovery from silence.",
+  flag:"If the speech relied on shock or forced energy rather than genuine comedic craft, name what specifically could be refined. Capstone work deserves specific feedback.",
+  focus:"Does this feel like a confident comedic voice? Would you want to see this speaker do five more minutes?"
+},
+
+"story":{
+  watch:"Is there a clear story arc? Look for: vivid scene-setting, a character with stakes, a conflict or turning point, and a payoff that earns the emotion. Does the story serve the speech or is it just decoration?",
+  flag:"If the story had no real conflict — just a series of pleasant events — or if the lesson felt tacked on, flag it. Stories need stakes to work.",
+  focus:"Did the story create genuine emotional pull? Was there a moment you were genuinely curious what happened next?"
+},
+
+"connect-aud":{
+  watch:"Did the speaker create real connection — eye contact with individuals (not the room), callbacks to the audience's world, moments of shared experience?",
+  flag:"If the speech was well-crafted but self-referential — all about the speaker, nothing about the audience — the project objective was missed.",
+  focus:"At any point, did the audience visibly respond as if the speaker was speaking directly to them?"
+},
+
+"persuade-speak":{
+  watch:"Was there a clear ask? Did the speaker back their position with specific evidence or reasoning? Did they acknowledge opposing views? Look for structure: claim → evidence → call to action.",
+  flag:"If the speech expressed an opinion without argumentation — just enthusiasm — it wasn't persuasive, it was expressive. Flag the difference.",
+  focus:"After the speech, would the audience be more likely to believe or do something they weren't before?"
+},
+
+"inspire":{
+  watch:"Did the speech move from information to emotion? Look for: a personal stake (why does the speaker care?), language that goes beyond facts, a moment of genuine conviction.",
+  flag:"If the speech was informational and well-organized but flat — technically correct, emotionally absent — call it. Informing is not inspiring.",
+  focus:"Was there a single moment that gave you goosebumps or made you want to act? If not, where should that moment have been?"
+},
+
+"desc-lang":{
+  watch:"Was the language specific and sensory? Look for: concrete nouns over abstractions, active verbs, imagery that makes you see/hear/feel. Count how many descriptions made you picture something.",
+  flag:"Vague language like 'it was amazing' or 'very difficult' is the exact habit this project targets. If you heard lots of this, flag it with specific substitute examples.",
+  focus:"After the speech, could you picture a specific scene, person, or object? That's the test of descriptive success."
+},
+
+"visual-aids":{
+  watch:"Did the visuals enhance the speech or compete with it? Look for: speaker looking at audience (not slides), slides that support rather than replace content, transitions that feel planned.",
+  flag:"If the speaker read from their slides, faced away from the audience, or had slides that contained everything they said verbatim — name it. The visual is an aid, not a script.",
+  focus:"Remove the visuals mentally — does the speech still make sense? Good visual aid design means yes, and the visuals made it better."
+},
+
+"research-present":{
+  watch:"Is the research credible, specific, and integrated — not just dropped in? Look for: named sources, stats with context, research that changes what the audience believes.",
+  flag:"If claims were made without attribution, or if the speaker cited 'studies show' without specifics, flag it. Vague research defeats the purpose.",
+  focus:"Did the research make the argument stronger, or was it decorative?"
+},
+
+"manage-proj":{
+  watch:"Did the speaker demonstrate real project management thinking — scope, milestones, risk, stakeholders — or just describe what happened? Look for structured reflection.",
+  flag:"If the speech was a narrative ('and then we did X, and then Y happened') without analysis of what made the project succeed or fail, the project objective was missed.",
+  focus:"Did the speaker identify something they would do differently next time? That's the mark of genuine project management learning."
+},
+
+"plan-implement":{
+  watch:"Was there a concrete plan presented — not just intentions? Look for: specific steps, timeline, success criteria, identification of obstacles.",
+  flag:"If the plan was high-level and vague ('we'll communicate better'), it doesn't demonstrate planning competence. Plans need specificity to be real.",
+  focus:"Could someone in the audience actually execute this plan from what they heard?"
+},
+
+"lead-style":{
+  watch:"Did the speaker demonstrate self-awareness about their own leadership style — including its limitations? Look for: named style, evidence of how it shows up, honest reflection.",
+  flag:"If the speech was entirely positive self-assessment without acknowledging where the style creates challenges, it's incomplete. Real leadership insight includes blind spots.",
+  focus:"Did the speaker's reflection seem genuine, or polished? The best leadership speeches are uncomfortably honest."
+},
+
+"lead-team":{
+  watch:"Was leadership demonstrated through specific behaviours — not just described? Look for: how the speaker built trust, handled conflict, made decisions under pressure.",
+  flag:"If the speech described the team's achievement without showing what the speaker specifically did as a leader, flag it. Results aren't leadership — behaviour is.",
+  focus:"Did you see leadership in how the speaker described their actions, or just in the outcomes they reported?"
+},
+
+"lead-any":{
+  watch:"Did the speaker demonstrate leading without authority — influence rather than power? Look for: how they built buy-in, navigated resistance, created followership organically.",
+  flag:"If the speaker relied on formal authority ('I told them to...') rather than influence, the project's core lesson was missed.",
+  focus:"Would the people in this story have followed if the speaker had no official role? That's the test."
+},
+
+"lead-difficult":{
+  watch:"Did the speaker demonstrate navigating real difficulty — a resistant team, a failing project, an ethical dilemma — with specific leadership moves?",
+  flag:"If the difficulty was glossed over or the resolution was too clean, push for specifics. Difficult leadership is messy. If it wasn't, the situation may not have been genuinely challenging.",
+  focus:"What specifically did the speaker do that a less capable leader wouldn't have done?"
+},
+
+"motivate":{
+  watch:"Did the speaker demonstrate understanding that motivation is individual — not universal? Look for: specific team members, specific what-motivated-them insights, tailored approaches.",
+  flag:"If the speech used blanket motivation theory (everyone wants recognition, money, pizza) without individual specificity, flag it. The project is about understanding people, not models.",
+  focus:"Did you learn anything about motivating a specific person, or only about motivation in general?"
+},
+
+"dev-vision":{
+  watch:"Is there a genuine vision here — not just a goal? Look for: a compelling future state, why it matters beyond metrics, language that could inspire others to follow.",
+  flag:"If the vision was purely strategic (revenue targets, market share) without human meaning, it's a business plan, not a vision. Vision moves people.",
+  focus:"Could you imagine someone being inspired by this vision — wanting to be part of it?"
+},
+
+"manage-change":{
+  watch:"Did the speaker demonstrate understanding of why people resist change — and how they navigated it? Look for: empathy for the resistant party, specific actions taken, outcome.",
+  flag:"If the speech treated resistance as a problem to solve rather than a human reaction to understand, the change management insight is shallow.",
+  focus:"Did the speaker demonstrate they understood why the change was hard for others — not just why it was needed?"
+},
+
+"comms-change":{
+  watch:"Was the change communicated clearly and with a compelling rationale? Look for: what changed, why it matters, what's expected from the audience, what's in it for them.",
+  flag:"If the communication was clear but only addressed the 'what' — not the 'why' or 'what it means for you' — it's incomplete.",
+  focus:"After the speech, would the audience know what to do, think, or feel differently?"
+},
+
+"conflict-res":{
+  watch:"Did the speaker demonstrate genuine conflict resolution — understanding both sides, seeking shared ground — or just describe winning an argument?",
+  flag:"If one party in the conflict was positioned as entirely wrong and the speaker entirely right, the resolution wasn't balanced. Real conflict resolution requires genuine hearing of both sides.",
+  focus:"Did the speaker demonstrate empathy for the other party's position, even if they disagreed with it?"
+},
+
+"negotiate":{
+  watch:"Was there a clear negotiation structure — preparation, the ask, handling objections, outcome? Look for: what the speaker wanted vs. what they were willing to give, and how they read the other party.",
+  flag:"If the speaker 'won' without giving anything, or if the negotiation was just a persuasion speech, flag it. Negotiation involves mutual adjustment.",
+  focus:"Did the speaker demonstrate reading the other party and adjusting their approach in real-time?"
+},
+
+"reach-consens":{
+  watch:"Did the speaker facilitate genuine consensus — everyone's voice heard and genuinely considered — or just manage agreement? Look for: how dissent was handled, what changed based on input.",
+  flag:"If silence or absence of objection was treated as consensus, flag it. Real consensus requires active inclusion of divergent views.",
+  focus:"Did any participant's input actually change the outcome? If not, it may have been managed agreement, not consensus."
+},
+
+"emotional-intel":{
+  watch:"Did the speaker demonstrate reading and responding to emotions — in themselves and others — in a specific real situation? Look for: named emotions, behavioural choices made because of emotional awareness.",
+  flag:"If EI was described conceptually ('I practise empathy') without specific situational evidence, it's theory, not demonstration.",
+  focus:"Can you point to a specific moment where emotional awareness changed what the speaker did?"
+},
+
+"comm-style":{
+  watch:"Did the speaker demonstrate genuine self-awareness about how they communicate — including its impact on others? Look for: named style, specific evidence, and honest acknowledgement of where it creates friction.",
+  flag:"If the speech was entirely self-affirming ('I'm a direct communicator and that's my strength') without exploring the cost, the self-awareness is incomplete.",
+  focus:"Did the speaker demonstrate they understand how their style lands on others, not just how it feels from the inside?"
+},
+
+"cross-cultural":{
+  watch:"Did the speaker demonstrate specific cultural awareness — named cultural dimensions, real adjustments made, genuine humility about assumptions?",
+  flag:"If cultural awareness was reduced to surface customs ('they shake hands differently') rather than deeper communication or value differences, flag it.",
+  focus:"Did the speaker demonstrate genuine shift in their own understanding — not just tolerance of difference?"
+},
+
+"hpl":{
+  watch:"Was there a genuine high-performance learning moment here — specific skill, specific practice, specific improvement? Look for deliberate practice, not just effort.",
+  flag:"If the speech described working hard without describing what specifically improved and how, the HPL framework wasn't demonstrated.",
+  focus:"Could the audience replicate the learning approach described? That's the mark of genuine high-performance learning insight."
+},
+
+"focus-pos":{
+  watch:"Did the speaker demonstrate that focusing on the positive changed something real in their life — not just a cheerful attitude? Look for: specific evidence, specific behaviour change, honest acknowledgement of what was difficult.",
+  flag:"If the speech was generic optimism without the evidence of what tracking positivity revealed, the project objective (observe and reflect) was missed.",
+  focus:"Did the speaker demonstrate genuine insight from their positivity practice, or just advocate for positive thinking?"
+},
+
+"reflect":{
+  watch:"Was this a genuine reflective speech — did the speaker arrive at something they didn't know at the start? Look for: vulnerability, a turning point in their thinking, a lesson that cost something.",
+  flag:"If the reflection felt resolved before it started — a tidy lesson delivered without real wrestling — push for the messier truth.",
+  focus:"Did the speaker seem changed by what they reflected on? Genuine reflection reveals, not just recounts."
+},
+
+"manage-time":{
+  watch:"Did the speaker demonstrate specific time management systems and their real impact — not just time management philosophy? Look for: named tools, specific behaviours, measurable change.",
+  flag:"If the speech advised everyone to use calendars or prioritise better without demonstrating personal mastery, it's preaching, not demonstrating.",
+  focus:"Did the speaker show how their time management approach specifically changed their output or stress? Concrete evidence makes this real."
+},
+
+"manage-events":{
+  watch:"Did the speaker demonstrate the full event management cycle — planning, execution, problem-solving, reflection? Look for: what went wrong and how it was handled.",
+  flag:"If the event went perfectly with no complications, push for the behind-the-scenes friction. Smooth events always have hidden problems.",
+  focus:"Did the speaker demonstrate they could run another event better because of this experience?"
+},
+
+"team-build":{
+  watch:"Did the speaker demonstrate a specific approach to building team cohesion — not just describing a good team? Look for: deliberate actions taken, how trust was built, how conflict was handled.",
+  flag:"If the speech described the team's outcomes without showing how the speaker built the team, the leadership element is missing.",
+  focus:"What did the speaker do specifically that another person wouldn't have done, which made the team better?"
+},
+
+"speak-prof":{
+  watch:"Did the speaker demonstrate professional presentation standards — controlled pacing, no filler words, structured content, professional body language — consistently throughout?",
+  flag:"If there were significant filler words, loss of structure, or unprofessional moments, note them specifically. This project holds speakers to a higher standard by design.",
+  focus:"Would this speech be appropriate in a professional context with real stakes? That's the benchmark."
+},
+
+"qa-session":{
+  watch:"Did the speaker handle unexpected or challenging questions confidently — buying time gracefully, bridging to their message, admitting uncertainty without losing authority?",
+  flag:"If the speaker was thrown by a difficult question — long silence, defensive tone, rambling answer — that's worth addressing. Q&A is a skill this project specifically builds.",
+  focus:"Did the speaker seem in control of the Q&A, or did the questions control them?"
+},
+
+"pres-software":{
+  watch:"Did the software presentation serve the content — not the other way around? Look for: smooth transitions, speaker-driven pacing, software used to enhance (not replace) the message.",
+  flag:"If the presentation was impressive technically but the speaker seemed secondary to the slides, the balance was wrong. The speaker is always the presentation.",
+  focus:"Could you imagine the same speech without the software? If yes, the software wasn't doing meaningful work."
+},
+
+"podcast":{
+  watch:"Did the podcast format come through — conversational tone, listener-first framing, clear episode structure? Look for: engaging opening hook, natural pacing, clear value for a listener.",
+  flag:"If the content was strong but the delivery felt like a speech rather than a podcast, the format wasn't mastered. Podcast voice is distinct from stage voice.",
+  focus:"Would you subscribe to this podcast based on what you heard? That's the practical test."
+},
+
+"social-media":{
+  watch:"Did the speaker demonstrate understanding of social media as a communication platform — not just technology? Look for: audience targeting, platform-appropriate tone, clarity of message in brief format.",
+  flag:"If the speech described social media usage without showing strategic communication thinking, the project objective was shallow.",
+  focus:"Did the speaker demonstrate they could craft a message that would actually engage the intended audience on a specific platform?"
+},
+
+"social-speech":{
+  watch:"Did the speech fit the social occasion — tone, length, personal connection, audience awareness? Look for: warmth, specificity about the person or event, appropriate humour if used.",
+  flag:"If the speech was polished but generic — could have been about anyone at any occasion — the personal connection was missed.",
+  focus:"Did the speech feel written specifically for this person and this moment?"
+},
+
+"intro-research":{
+  watch:"Was the research meaningful — did it shift the speaker's understanding, or was it decorative? Look for: evidence of genuine discovery, integration of research into argument, proper attribution.",
+  flag:"If the research was cited but didn't change the speech's argument, it was window dressing. Research should make the speaker's case stronger.",
+  focus:"Did the speaker demonstrate that they understood the research well enough to explain it, not just quote it?"
+},
+
+"pr-strategies":{
+  watch:"Did the speaker demonstrate strategic thinking about public relations — understanding audience, message, channel, and outcome — not just communication tactics?",
+  flag:"If the PR plan was all tactics without audience insight or strategic rationale, it's execution without strategy.",
+  focus:"Would this PR approach actually move the needle with the intended audience? That's the test."
+},
+
+"networking":{
+  watch:"Did the speaker demonstrate a genuine networking approach — how they build real professional relationships, not just collect contacts? Look for: specific strategies, follow-through behaviours, long-term mindset.",
+  flag:"If networking was described as transactional ('meet people who can help you'), the relational depth of the project was missed.",
+  focus:"Did the speaker show how they create genuine value for others in their network, not just extract from it?"
+},
+
+"blog":{
+  watch:"Did the blog post (or its presentation) demonstrate strong written voice, a specific target reader, and a clear purpose? Look for: distinctive writing style, reader-first framing, a compelling hook.",
+  flag:"If the blog felt like an essay or report — formal, general, no distinctive voice — the medium wasn't mastered.",
+  focus:"Would you bookmark this blog? Would you come back for the next post? That's the audience engagement test."
+},
+
+"pos-coaching-ec":{
+  watch:"Did the speaker demonstrate the coaching mindset — asking rather than telling, empowering rather than directing, focusing on the other person's growth?",
+  flag:"If the coaching was really advice-giving or mentoring (sharing what the speaker knew), it wasn't coaching. Coaching draws out, not pours in.",
+  focus:"Did the person being coached seem more capable, not just more informed, by the end of the interaction described?"
+},
+
+"intro-mentor":{
+  watch:"Did the speaker demonstrate genuine mentorship — long-term relationship, mutual learning, the mentee's growth over time — not just a helpful interaction?",
+  flag:"If the relationship described was really a helpful conversation or advice session, it wasn't mentorship. Mentorship has continuity and investment.",
+  focus:"Did the mentee's story come through as much as the mentor's? The best mentorship speeches centre the mentee's growth."
+},
+
+"ethical":{
+  watch:"Did the speaker demonstrate genuine ethical reasoning — wrestling with competing values, not just advocating for the obviously right thing? Look for: acknowledged complexity, cost of the ethical choice.",
+  flag:"If the ethical dilemma had an obvious answer and the speaker chose it, the ethical reasoning wasn't demonstrated. Real dilemmas are genuinely hard.",
+  focus:"Was there a moment where the speaker acknowledged what they had to give up to make the ethical choice?"
+},
+
+"vol-org":{
+  watch:"Did the speaker demonstrate organisational leadership in a volunteer context — working through people with no authority, building commitment, managing without resources?",
+  flag:"If the speech described volunteer work without the leadership dimension (how they organised, motivated, or grew the effort), the project objective was missed.",
+  focus:"What specifically did the speaker do to make others want to volunteer more, not just do the work themselves?"
+},
+
+"present-prop":{
+  watch:"Was the proposal clearly structured, the business case compelling, the audience's objections anticipated and addressed? Look for: problem clarity, solution specificity, clear ask, ROI rationale.",
+  flag:"If the proposal was enthusiastic but didn't address risk or objections, it's advocacy, not a business proposal.",
+  focus:"Would a decision-maker in the room be convinced to greenlight this proposal? That's the practical test."
+},
+
+"online-meet":{
+  watch:"Did the speaker demonstrate the specific discipline of online meeting facilitation — managing participation, energy, and focus in a virtual environment?",
+  flag:"If the facilitation techniques described would work in any meeting (in-person or virtual) without modification, the online-specific dimension was missed.",
+  focus:"Did the speaker demonstrate they understand what makes online meetings uniquely challenging, and address those challenges specifically?"
+},
+
+"moderate":{
+  watch:"Did the moderator demonstrate genuine facilitation — drawing out all voices, managing dominant participants, keeping energy and focus, bringing it to a clear conclusion?",
+  flag:"If the panel was essentially the moderator interviewing one panellist at length, the facilitation dimension was missed.",
+  focus:"Did each panellist seem to contribute their best thinking? A great moderator makes everyone look better."
+},
+
+"manage-aud":{
+  watch:"Did the speaker demonstrate genuine command of a difficult situation — reading the disruption, choosing the right response, maintaining authority without escalation?",
+  flag:"If the disruption was handled by ignoring it or the response was disproportionate (too harsh or too accommodating), address the specific technique needed.",
+  focus:"Did the speaker seem more confident and in control after handling the disruption, or rattled? Recovery matters as much as the intervention."
+},
+
+"develop-comm":{
+  watch:"Did the speaker demonstrate genuine investment in developing another communicator — patient, specific feedback, long-term commitment to that person's growth?",
+  flag:"If the development was really just praise and encouragement without specific coaching interventions, the development aspect was shallow.",
+  focus:"Does the person being developed seem like they'll communicate differently because of the speaker's investment?"
+},
+
+"plan-build-team":{
+  watch:"Was there a genuine team-building strategy presented — not just team activities? Look for: understanding of team dynamics, deliberate culture-shaping, accountability structures.",
+  flag:"If the team-building was a list of social activities without strategic thinking about team performance, it's entertainment planning, not team development.",
+  focus:"Would this approach build a team that performs better under pressure?"
+},
+
+"active-listen":{
+  watch:"This project requires serving as Topicsmaster. Evaluate how the speaker facilitated Table Topics — did they reflect back what each speaker said, demonstrating genuine listening?",
+  flag:"If the speaker ran Table Topics without personalised reflections — just calling on people and moving on — the listening demonstration was missed entirely.",
+  focus:"After each Table Topic response, did the speaker's reflection show they actually heard the content, not just waited to call the next name?"
+},
+
+"success-collab":{
+  watch:"Did the speaker demonstrate that collaboration produced something neither person could have done alone? Look for: genuine give-and-take, moments of productive disagreement, shared ownership of the outcome.",
+  flag:"If the collaboration was really one person doing the work with another person's input, it wasn't true collaboration. Push for the moments of genuine mutual contribution.",
+  focus:"Did you hear both voices in the outcome? Could you tell where each collaborator's contribution changed the final product?"
+},
+
+"interview":{
+  watch:"Did the speaker demonstrate specific, confident interview technique — structured STAR-method answers, appropriate self-disclosure, handling tough questions professionally?",
+  flag:"If answers were generic ('I'm a hard worker', 'I'm very detail-oriented') without specific evidence, they wouldn't survive a real interview. Flag vague claims.",
+  focus:"Would a real interviewer offer this person the role based on what they demonstrated? That's the benchmark."
+},
+
+"dev-strategy":{
+  watch:"Was there a genuine strategic vision — a direction that others could follow — or just a list of priorities? Look for: clear long-term direction, rationale, trade-offs acknowledged.",
+  flag:"If the strategy was all operational (what we'll do next quarter) without directional vision (where we're going in three years), it's a plan, not a strategy.",
+  focus:"Could someone use this strategy to make a decision when the speaker isn't in the room?"
+}
+
+};
+
 const RESOURCES={
 "ice-breaker":[{t:"6 Secrets for Surviving Your First Ice Breaker",u:"https://www.toastmasters.org/magazine/magazine-issues/2023/aug/surviving-your-first-ice-breaker"},{t:"TM Ice Breaker Tips (YouTube)",u:"https://www.youtube.com/results?search_query=toastmasters+ice+breaker+speech+tips"}],
 "eval-feedback":[{t:"The Art of Evaluation — TM Magazine",u:"https://www.toastmasters.org/magazine/magazine-issues/2016/oct2016/evaluation"},{t:"The Art of Evaluation (YouTube)",u:"https://www.youtube.com/results?search_query=toastmasters+evaluation+techniques"}],
@@ -2807,7 +3226,7 @@ let S={
   mode:"",
   // Ala carte comfort level — only relevant when mode==="alacarte". Captured
   // during welcome flow to personalize project suggestions. "new" / "some" /
-  // "experienced". Kept loose; v0.61 may add follow-ups.
+  // "experienced". Kept loose; v0.62 may add follow-ups.
   alacarteComfort:"",
   // AI Coach config. Disabled by default. User configures in Settings.
   // mode: "direct" (user's own API key, stored locally — direct browser call)
@@ -3203,7 +3622,7 @@ function renderHub(app){
   }
   h+='</div>';
 
-  h+='<div class="app-footer">Toastmasters Companion · v0.61 · Your progress saves on this device</div>';
+  h+='<div class="app-footer">Toastmasters Companion · v0.62 · Your progress saves on this device</div>';
   h+='</div>';
   app.innerHTML=h;
 
@@ -3505,7 +3924,7 @@ function renderPathPicker(app){
   h+='<button class="quiz-prompt-btn" data-action="open-quiz">🧭 &nbsp; Not sure which one? Take the fun quiz</button>';
   h+='</div>';
 
-  h+='<div class="app-footer">Toastmasters Companion · v0.61 · Built with ❤️ for Toastmasters</div>';
+  h+='<div class="app-footer">Toastmasters Companion · v0.62 · Built with ❤️ for Toastmasters</div>';
   h+='</div>';
   app.innerHTML=h;
 
@@ -3797,7 +4216,7 @@ function renderPathBrowser(app){
   // Keeping it in the tree lets us toggle visibility without re-rendering.
   h+='<div class="path-complete-banner'+(pct>=100?'':' hidden')+'"><strong>🎉 Path complete!</strong><div style="font-size:13px;color:var(--text-muted);line-height:1.5">Next step: DTM. Keep going.</div></div>';
 
-  h+='<div class="app-footer">Toastmasters Companion · v0.61 · Your progress saves locally on this device</div>';
+  h+='<div class="app-footer">Toastmasters Companion · v0.62 · Your progress saves locally on this device</div>';
   h+='</div>';
   app.innerHTML=h;
 
@@ -5174,7 +5593,7 @@ function renderPracticeHub(app){
   h+=toolRow({tool:"speech-draft",color:"#6DB6B4",icon:"📝",name:"Speech Draft Builder",desc:(S.aiConfig&&S.aiConfig.enabled)?"AI builds your speech outline and opening lines":"Structure your next speech from outline to close"});
 
   h+='</div>';
-  h+='<div class="app-footer">Toastmasters Companion · v0.61 · Practice tools work offline</div>';
+  h+='<div class="app-footer">Toastmasters Companion · v0.62 · Practice tools work offline</div>';
   h+='</div>';
   app.innerHTML=h;
 
@@ -5459,11 +5878,38 @@ function _ttpRenderSetup(app){
     TTP.questionLoading=true;
     render();
     try{
-      const sys="You are a Toastmasters Topicsmaster. Generate ONE engaging Table Topics question. Return ONLY the question — no preamble, no numbering, no explanation.";
-      const msg="Meeting theme: "+(theme||"open — any topic")+" | Difficulty: Medium\nMake it thought-provoking, specific enough to spark a real answer, not generic.";
-      TTP.question=await callCoach(sys,msg,{maxTokens:100,forceBase:true});
-      TTP.question=TTP.question.trim().replace(/^["']|["']$/g,"");
-      TTP.questionSource="ai";
+      const sys="You are a Toastmasters Topicsmaster. Output EXACTLY one short Table Topics question. Format: one sentence, 10-25 words, ends with a question mark. No headers, no markdown, no numbering, no preamble, no multiple questions. Just one question.";
+      const msg="Theme: "+(theme||"open")+"\nDifficulty: Medium (opinion or reflection).\n\nReply with ONE single-sentence question only. Nothing else.";
+      let raw=await callCoach(sys,msg,{maxTokens:80,forceBase:true});
+      // Aggressive cleanup
+      raw=raw
+        .replace(/```/g,"")
+        .replace(/\*\*/g,"")
+        .replace(/__/g,"")
+        .replace(/---+/g," ")
+        .trim();
+      // Drop any header-style lines (start with #, "Discussion Questions:", etc.)
+      const cleanLines=raw.split("\n")
+        .map(l=>l.trim())
+        .filter(l=>l && !/^#/.test(l) && !/^(discussion\s*questions?|table\s*topics?|theme|difficulty|level|here are)/i.test(l));
+      const cleanText=cleanLines.join(" ");
+      // Find the FIRST complete question (sentence ending with ?)
+      const qMatch=cleanText.match(/[A-Z][^?!.]*\?/);
+      let q=qMatch?qMatch[0]:cleanText;
+      // Strip any leading numbering or bullets
+      q=q.trim()
+        .replace(/^[\d]+[.)]\s*/,"")
+        .replace(/^[\-•*]\s*/,"")
+        .replace(/^["']|["']$/g,"")
+        .trim();
+      // Sanity: must be reasonable length
+      if(q.length>=15 && q.length<=300 && q.includes("?")){
+        TTP.question=q;
+        TTP.questionSource="ai";
+      }else{
+        TTP.question=ttpOfflineQuestion(theme);
+        TTP.questionSource="bank";
+      }
     }catch(e){
       // Fallback to bank
       TTP.question=ttpOfflineQuestion(theme);
@@ -5537,6 +5983,7 @@ function _ttpRenderQuestion(app){
 
 // ── START RECORDING ─────────────────────────────────────────────────────────
 function ttpStart(){
+  _recordSfx(true);
   TTP.elapsed=0;
   TTP.transcript="";
   TTP.totalWords=0;
@@ -5613,6 +6060,7 @@ function _ttpUpdateActive(){
 }
 
 function ttpStop(){
+  _recordSfx(false);
   clearInterval(TTP._iv);TTP._iv=null;
   if(TTP.recognition){
     try{TTP.recognition.onend=null;TTP.recognition.stop();}catch(e){}
@@ -5956,6 +6404,34 @@ function _ttPlayBell(){
     g.gain.exponentialRampToValueAtTime(0.0001,ac.currentTime+0.8);
     o.connect(g);g.connect(ac.destination);
     o.start();o.stop(ac.currentTime+0.85);
+  }catch(e){}
+}
+
+// ── Record button feedback: short ascending blip + haptic on start, descending on stop ──
+function _recordSfx(starting){
+  // Haptic
+  try{if(navigator.vibrate)navigator.vibrate(starting?[15,30,15]:20);}catch{}
+  // Audio
+  try{
+    const Ctx=window.AudioContext||window.webkitAudioContext;
+    if(!Ctx)return;
+    const ac=new Ctx();
+    const o=ac.createOscillator();const g=ac.createGain();
+    o.type="sine";
+    if(starting){
+      // Quick double-blip ascending (recording on)
+      o.frequency.setValueAtTime(660,ac.currentTime);
+      o.frequency.linearRampToValueAtTime(990,ac.currentTime+0.18);
+    }else{
+      // Single descending blip (recording off)
+      o.frequency.setValueAtTime(740,ac.currentTime);
+      o.frequency.linearRampToValueAtTime(440,ac.currentTime+0.22);
+    }
+    g.gain.setValueAtTime(0.0001,ac.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.18,ac.currentTime+0.02);
+    g.gain.exponentialRampToValueAtTime(0.0001,ac.currentTime+0.28);
+    o.connect(g);g.connect(ac.destination);
+    o.start();o.stop(ac.currentTime+0.32);
   }catch(e){}
 }
 function _ttInlineReset(){
@@ -7801,6 +8277,8 @@ function renderEvalHelper(app){
   if(!levelGroups.length)levelGroups.push({level:1,pids:["ice-breaker","writing-speech","intro-vvbl","eval-feedback"]});
 
   const selProj=V._evalPid?PD[V._evalPid]:null;
+  let selLevel=0;
+  if(V._evalPid){for(const lg of levelGroups){if(lg.pids.includes(V._evalPid)){selLevel=lg.level;break;}}}
 
   let h='<div class="fade-up eh-view">';
   h+='<div class="top-bar">';
@@ -7825,26 +8303,64 @@ function renderEvalHelper(app){
     });
     h+='</div>';
   }else{
-    const tips=TIPS&&TIPS[V._evalPid];
-    h+='<div class="eh-focus-card">';
-    h+='<div class="eh-focus-kicker">EVALUATING</div>';
-    h+='<div class="eh-focus-title">'+selProj.t+'</div>';
-    h+='<div class="eh-focus-purpose">'+selProj.p+'</div>';
-    if(tips&&(tips.how||tips.tip)){
-      h+='<div class="eh-focus-divider"></div>';
-      h+='<div class="eh-focus-kicker" style="margin-top:10px">WHAT TO LISTEN FOR</div>';
-      const howText=(tips.how||tips.tip||"").replace(/<strong>/g,'<b>').replace(/<\/strong>/g,'</b>');
-      h+='<div class="eh-focus-how">'+howText+'</div>';
+    const etips=EVAL_TIPS&&EVAL_TIPS[V._evalPid];
+
+    // ── Project header card ──
+    h+='<div class="ea-card ea-card-info">';
+    h+='<div class="ea-card-kicker">EVALUATING</div>';
+    h+='<div class="ea-card-title">'+selProj.t+'</div>';
+    h+='<div class="ea-card-meta">'+selProj.dur+(selLevel?' · Level '+selLevel:'')+'</div>';
+    h+='<div class="ea-card-row"><strong>Purpose:</strong> '+selProj.p+'</div>';
+    h+='<div class="ea-card-row"><strong>Overview:</strong> '+(selProj.o||"")+'</div>';
+    h+='</div>';
+
+    // ── Evaluator-specific guidance ──
+    if(etips){
+      if(etips.watch){
+        h+='<div class="ea-card ea-card-amber">';
+        h+='<div class="ea-card-hdr">👀 What to watch for</div>';
+        h+='<div class="ea-card-body">'+escHtml(etips.watch)+'</div>';
+        h+='</div>';
+      }
+      if(etips.flag){
+        h+='<div class="ea-card ea-card-red">';
+        h+='<div class="ea-card-hdr">🚩 Red flag — address this if you see it</div>';
+        h+='<div class="ea-card-body">'+escHtml(etips.flag)+'</div>';
+        h+='</div>';
+      }
+      if(etips.focus){
+        h+='<div class="ea-card ea-card-teal">';
+        h+='<div class="ea-card-hdr">🎯 The single most important criterion</div>';
+        h+='<div class="ea-card-body">'+escHtml(etips.focus)+'</div>';
+        h+='</div>';
+      }
     }
-    h+='<div class="eh-crc-guide">';
+
+    // ── Level expectations ──
+    h+='<div class="ea-card ea-card-purple">';
+    h+='<div class="ea-card-hdr">📊 Level expectations</div>';
+    if(selLevel<=2){
+      h+='<div class="ea-card-body"><strong>Levels 1-2:</strong> 2 positive points + 2 points for improvement. Focus on encouragement and confidence-building.</div>';
+    }else{
+      h+='<div class="ea-card-body"><strong>Levels 3-5:</strong> 3 positive points + 2 points for improvement. Be specific — this speaker needs sharper feedback to grow.</div>';
+    }
+    h+='</div>';
+
+    // ── CRC structure (offline guide) ──
+    h+='<div class="ea-card ea-card-blue">';
+    h+='<div class="ea-card-hdr">📋 Your CRC evaluation script</div>';
     h+='<div class="eh-crc-item"><span class="eh-crc-badge green">C Commend</span><span>What specifically went well for <em>this</em> project objective?</span></div>';
     h+='<div class="eh-crc-item"><span class="eh-crc-badge amber">R Recommend</span><span>One improvement tied to the project — give a specific technique, not a general tip.</span></div>';
     h+='<div class="eh-crc-item"><span class="eh-crc-badge green">C Commend</span><span>Encouragement — why this effort matters for their Pathways journey.</span></div>';
-    h+='</div></div>';
+    h+='</div>';
+
+    // ── Notes input ──
     h+='<div class="eh-notes-wrap">';
-    h+='<div class="eh-picker-label">YOUR NOTES FROM THE SPEECH (optional)</div>';
+    h+='<div class="eh-picker-label">YOUR NOTES FROM THE SPEECH (optional — helps AI personalise the draft)</div>';
     h+='<textarea class="eh-notes" id="eh-notes" placeholder="Jot down moments, specific lines, or observations…" rows="4">'+escHtml(V._evalNotes)+'</textarea>';
     h+='</div>';
+
+    // ── AI button + output area ──
     if(aiOn){
       h+='<button class="eh-generate-btn" data-action="eh-generate">✨ Draft my CRC evaluation</button>';
       h+='<div class="eh-output" id="eh-output" style="display:none"></div>';
@@ -7869,32 +8385,73 @@ function renderEvalHelper(app){
     const notes=notesEl?notesEl.value.trim():V._evalNotes||"";
     const out=app.querySelector("#eh-output");
     out.style.display="block";
-    out.innerHTML='<div class="role-ai-loading"><span class="coach-dots"><span>.</span><span>.</span><span>.</span></span></div>';
+    out.innerHTML='<div class="role-ai-loading" style="padding:18px"><span class="coach-dots"><span>.</span><span>.</span><span>.</span></span></div>';
     try{
       const tips=TIPS&&TIPS[V._evalPid];
-      const sys=`You are a senior Toastmasters evaluator. Write a 2-minute spoken CRC evaluation.
-Format EXACTLY:
-✅ COMMEND: [2-3 sentences — specific praise tied to this project objective]
-🎯 RECOMMEND: [2-3 sentences — one improvement with a concrete technique]
-✅ COMMEND CLOSE: [2-3 sentences — encouragement about their Pathways journey]
-Total: under 180 words. Natural spoken language. Start directly — no preamble.`;
+      const sys=`You are a senior Toastmasters evaluator giving a spoken evaluation. Reply ONLY in this exact format with three sections, each starting at a new line. Do NOT use markdown bold. Begin your reply with "✅ COMMEND:" and nothing before.
+
+✅ COMMEND: <2-3 sentences of specific praise tied to this project's objective>
+
+🎯 RECOMMEND: <2-3 sentences with one concrete improvement and a specific technique to try>
+
+✅ COMMEND CLOSE: <2-3 sentences of encouragement about their Pathways journey>
+
+Total under 180 words. Natural spoken language. No preamble.`;
       const msg="Project: "+proj.t+" ("+proj.dur+")\nPurpose: "+proj.p+"\n"+
         (tips&&tips.how?"Key objective: "+tips.how.replace(/<[^>]+>/g,"")+"\n":"")+
         (notes?"Speaker observations: "+notes+"\n":"(No notes — write for typical delivery)\n");
       const text=await callCoach(sys,msg,{maxTokens:500});
-      const lines=text.split("\n").filter(l=>l.trim());
-      let draftHtml="";
-      lines.forEach(line=>{
-        const esc=line.replace(/&/g,"&amp;").replace(/</g,"&lt;");
-        if(line.startsWith("✅")||/COMMEND/i.test(line)){
-          draftHtml+='<div class="eh-draft-section green"><span class="eh-draft-icon">✅</span><span>'+esc.replace(/^✅\s*/,"").replace(/^.*COMMEND[^:]*:\s*/i,"")+('</span></div>');
-        }else if(line.startsWith("🎯")||/RECOMMEND/i.test(line)){
-          draftHtml+='<div class="eh-draft-section amber"><span class="eh-draft-icon">🎯</span><span>'+esc.replace(/^🎯\s*/,"").replace(/^.*RECOMMEND[^:]*:\s*/i,"")+('</span></div>');
-        }else if(esc.trim()){
-          draftHtml+='<p class="eh-draft-p">'+esc+'</p>';
+
+      // Robust parser — strip markdown, lenient label matching
+      const clean=text.replace(/\*\*/g,"").replace(/__/g,"").replace(/```/g,"");
+      const labelPatterns={
+        commend:/^(✅\s*)?COMMEND\s*[:\-—]\s*(?!CLOSE)/i,
+        recommend:/^(🎯\s*)?RECOMMEND\s*[:\-—]\s*/i,
+        close:/^(✅\s*)?(COMMEND\s*CLOSE|CLOSE)\s*[:\-—]\s*/i
+      };
+      const sections={commend:"",recommend:"",close:""};
+      const unmatched=[];
+      let cur=null;
+      clean.split("\n").forEach(line=>{
+        const t=line.trim();if(!t)return;
+        let matched=false;
+        // Check 'close' first since it contains 'COMMEND'
+        if(labelPatterns.close.test(t)){
+          cur="close";const c=t.replace(labelPatterns.close,"").trim();
+          if(c)sections.close+=c+" ";matched=true;
+        }else if(labelPatterns.commend.test(t)){
+          cur="commend";const c=t.replace(labelPatterns.commend,"").trim();
+          if(c)sections.commend+=c+" ";matched=true;
+        }else if(labelPatterns.recommend.test(t)){
+          cur="recommend";const c=t.replace(labelPatterns.recommend,"").trim();
+          if(c)sections.recommend+=c+" ";matched=true;
+        }
+        if(!matched){
+          if(cur)sections[cur]+=t+" ";
+          else unmatched.push(t);
         }
       });
-      out.innerHTML='<div class="eh-draft"><div class="eh-draft-label">CRC DRAFT — '+proj.t+'</div>'+draftHtml+'<div class="eh-draft-hint">Add specific names and moments before delivering. Speak from memory.</div></div>';
+
+      let draftHtml='<div class="eh-draft"><div class="eh-draft-label">CRC DRAFT — '+proj.t+'</div>';
+      let hasContent=false;
+      if(sections.commend.trim()){
+        hasContent=true;
+        draftHtml+='<div class="ea-card ea-card-green"><div class="ea-card-hdr">✅ Commend (open)</div><div class="ea-card-body">'+escHtml(sections.commend.trim())+'</div></div>';
+      }
+      if(sections.recommend.trim()){
+        hasContent=true;
+        draftHtml+='<div class="ea-card ea-card-amber"><div class="ea-card-hdr">🎯 Recommend</div><div class="ea-card-body">'+escHtml(sections.recommend.trim())+'</div></div>';
+      }
+      if(sections.close.trim()){
+        hasContent=true;
+        draftHtml+='<div class="ea-card ea-card-green"><div class="ea-card-hdr">✅ Commend (close)</div><div class="ea-card-body">'+escHtml(sections.close.trim())+'</div></div>';
+      }
+      if(!hasContent){
+        // Fallback — render raw response so user gets something
+        draftHtml+='<div class="ea-card ea-card-blue"><div class="ea-card-hdr">📝 CRC draft</div><div class="ea-card-body" style="white-space:pre-wrap">'+escHtml(clean.trim())+'</div></div>';
+      }
+      draftHtml+='<div class="eh-draft-hint">Add specific names and moments before delivering. Speak from memory.</div></div>';
+      out.innerHTML=draftHtml;
     }catch(e){out.innerHTML='<div class="role-ai-error">⚠ '+e.message+'</div>';}
   });
 }
@@ -8114,15 +8671,31 @@ Total under 450 words. Write directly to the speaker (second person). If structu
 
       const text=await callCoach(sys,msg,{maxTokens:800});
 
-      // Parse sections
+      // Parse sections — strip markdown bold/italic first so labels match
       const sections={};
       const sectionOrder=["PROJECT COACHING","RECOMMENDED STRUCTURE","OPENING HOOK","POINT 1","POINT 2","POINT 3","CLOSING"];
       let cur="";
       text.split("\n").forEach(line=>{
-        const t=line.trim();
-        const matched=sectionOrder.find(s=>t.toUpperCase().startsWith(s));
-        if(matched){cur=matched;sections[cur]=sections[cur]||"";}
-        else if(cur&&t){sections[cur]+=(sections[cur]?" ":"")+t;}
+        // Strip markdown formatting that Claude often adds
+        const t=line.trim()
+          .replace(/^\*+|\*+$/g,"")
+          .replace(/\*\*/g,"")
+          .replace(/__/g,"")
+          .replace(/^#+\s*/,"")
+          .replace(/^[-•]\s*/,"")
+          .trim();
+        if(!t)return;
+        const upper=t.toUpperCase();
+        const matched=sectionOrder.find(s=>upper.startsWith(s));
+        if(matched){
+          cur=matched;
+          sections[cur]=sections[cur]||"";
+          // Capture inline content after the label (e.g. "PROJECT COACHING: This is...")
+          const inline=t.replace(new RegExp("^"+matched+"\\s*:?\\s*","i"),"").trim();
+          if(inline)sections[cur]+=inline+" ";
+        }else if(cur){
+          sections[cur]+=t+" ";
+        }
       });
 
       // Color coding per section type
@@ -8143,17 +8716,26 @@ Total under 450 words. Write directly to the speaker (second person). If structu
       if(proj)html+='<div class="sd-result-project">'+proj.t+' · '+proj.dur+'</div>';
       if(keyMsg)html+='<div class="sd-result-keymsg">💬 Key message: '+escHtml(keyMsg)+'</div>';
 
+      let hasSections=false;
       sectionOrder.forEach(sec=>{
-        if(!sections[sec]&&!sections[sec+":\\n"])return;
         const content=(sections[sec]||"").trim();
         if(!content)return;
+        hasSections=true;
         const color=sectionColors[sec];
         const icon=sectionIcons[sec]||"";
         html+='<div class="sd-section-card sd-section-'+color+'">';
-        html+='<div class="sd-section-hdr">'+icon+' '+sec.replace(/_/g," ")+'</div>';
+        html+='<div class="sd-section-hdr">'+icon+' '+sec+'</div>';
         html+='<div class="sd-section-body">'+escHtml(content)+'</div>';
         html+='</div>';
       });
+
+      // Fallback — if parsing failed, show the raw response so user gets something
+      if(!hasSections){
+        html+='<div class="sd-section-card sd-section-blue">';
+        html+='<div class="sd-section-hdr">📝 Speech outline</div>';
+        html+='<div class="sd-section-body" style="white-space:pre-wrap">'+escHtml(text.replace(/\*\*/g,"").replace(/__/g,""))+'</div>';
+        html+='</div>';
+      }
 
       html+='<div class="sd-result-hint">This is your scaffold — fill each section with your own stories and specific examples. The structure does the heavy lifting.</div>';
       html+='</div>';
@@ -8437,7 +9019,7 @@ function renderAIEvalAssistant(app){
     });
     h+='</div>';
   }else{
-    const tips=TIPS&&TIPS[V._eaPid];
+    const etips=EVAL_TIPS&&EVAL_TIPS[V._eaPid];
     h+='<div class="ea-project-card">';
     h+='<div class="ea-project-name">'+selProj.t+'</div>';
     h+='<div class="ea-project-meta">'+selProj.dur+(selLevel?' · Level '+selLevel:'')+'</div>';
@@ -8446,13 +9028,23 @@ function renderAIEvalAssistant(app){
     if(selProj.inc)h+='<div class="ea-project-row"><strong>Includes:</strong> '+selProj.inc+'</div>';
     h+='</div>';
 
-    if(tips&&(tips.tip||tips.avoid||tips.how)){
-      h+='<div class="ea-section ea-section-purple">';
-      h+='<div class="ea-section-hdr">🎯 Project-specific focus</div>';
-      if(tips.tip)h+='<div class="ea-tip-block"><strong>Focus on:</strong> '+tips.tip+'</div>';
-      if(tips.avoid)h+='<div class="ea-tip-block"><strong>Watch for:</strong> '+tips.avoid+'</div>';
-      if(tips.how)h+='<div class="ea-tip-block"><strong>How it works:</strong> '+tips.how+'</div>';
+    if(etips){
+      h+='<div class="ea-section ea-section-amber">';
+      h+='<div class="ea-section-hdr">👀 What to watch for</div>';
+      h+='<div class="ea-section-body">'+escHtml(etips.watch||"")+'</div>';
       h+='</div>';
+      if(etips.flag){
+        h+='<div class="ea-section ea-section-red">';
+        h+='<div class="ea-section-hdr">🚩 Red flag — address this if you see it</div>';
+        h+='<div class="ea-section-body">'+escHtml(etips.flag)+'</div>';
+        h+='</div>';
+      }
+      if(etips.focus){
+        h+='<div class="ea-section ea-section-teal">';
+        h+='<div class="ea-section-hdr">🎯 Most important criterion</div>';
+        h+='<div class="ea-section-body">'+escHtml(etips.focus)+'</div>';
+        h+='</div>';
+      }
     }
 
     h+='<div class="ea-section ea-section-amber">';
@@ -9706,6 +10298,7 @@ function renderPracticeStudio(app){
 }
 
 function psStart(timerOnly){
+  _recordSfx(true);
   PS.elapsed=0;
   PS.fillerCounts={};
   PS.totalFillers=0;
@@ -9809,9 +10402,10 @@ function psUpdateActiveDisplay(){
   }
 }
 
-// renderPracticeStudioActive removed in v0.61 — active panel now lives inside renderPracticeStudio
+// renderPracticeStudioActive removed in v0.62 — active panel now lives inside renderPracticeStudio
 
 function psStop(){
+  _recordSfx(false);
   // Stop clock
   clearInterval(PS._iv);PS._iv=null;
   // Stop speech recognition
