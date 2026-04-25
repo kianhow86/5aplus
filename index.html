@@ -29,11 +29,27 @@
   --border:rgba(255,255,255,0.07);
   --border-strong:rgba(255,255,255,0.13);
 
-  /* Text tiers — iOS labelColor set */
-  --text:rgba(255,255,255,0.96);
-  --text-2:rgba(235,235,245,0.68);
-  --text-3:rgba(235,235,245,0.42);
-  --text-4:rgba(235,235,245,0.26);
+  /* Text tiers — significantly wider contrast gaps for mobile legibility */
+  --text:rgba(255,255,255,0.96);       /* headings, primary labels */
+  --text-2:rgba(235,235,245,0.60);     /* body copy, descriptions */
+  --text-3:rgba(235,235,245,0.36);     /* hints, secondary labels */
+  --text-4:rgba(235,235,245,0.20);     /* disabled, decorative */
+
+  /* ── Type scale — 7 steps, use these not raw px values ── */
+  /* xs: micro labels, badges, kickers */
+  --fs-xs:10px;  --fw-xs:600;
+  /* sm: hints, footnotes, secondary desc */
+  --fs-sm:12px;  --fw-sm:400;
+  /* md: body copy, list items, form hints */
+  --fs-md:14px;  --fw-md:400;
+  /* lg: primary body, card text */
+  --fs-lg:15px;  --fw-lg:400;
+  /* xl: section headers, card titles */
+  --fs-xl:17px;  --fw-xl:700;
+  /* 2xl: screen subtitles */
+  --fs-2xl:20px; --fw-2xl:700;
+  /* 3xl: screen titles */
+  --fs-3xl:28px; --fw-3xl:800;
 
   /* Single refined accent (desaturated sophisticated teal) */
   --accent:#6DB6B4;
@@ -86,10 +102,10 @@ a{color:inherit;text-decoration:none}
 .container{position:relative;z-index:1;max-width:680px;margin:0 auto;padding:calc(env(safe-area-inset-top,0px) + 28px) 20px calc(env(safe-area-inset-bottom,0px) + 60px)}
 
 /* ═══ Typography — system-first, tighter, quieter ═══ */
-.kicker{font-size:11px;font-weight:600;color:var(--text-3);letter-spacing:0.14em;text-transform:uppercase;margin-bottom:12px}
-.title{font-size:34px;font-weight:700;letter-spacing:-0.024em;line-height:1.09;margin-bottom:10px;color:var(--text)}
-.title .accent{color:var(--accent);font-weight:700;font-style:normal;background:none;-webkit-text-fill-color:currentColor;filter:none}
-.subtitle{font-size:15px;color:var(--text-2);line-height:1.5;margin-bottom:28px;font-weight:400;letter-spacing:-0.005em;max-width:560px}
+.kicker{font-size:var(--fs-xs);font-weight:700;color:var(--text-3);letter-spacing:0.12em;text-transform:uppercase;margin-bottom:8px}
+.title{font-size:var(--fs-3xl);font-weight:800;letter-spacing:-0.022em;line-height:1.1;margin-bottom:6px;color:var(--text)}
+.title .accent{color:var(--accent);font-weight:800;font-style:normal;background:none;-webkit-text-fill-color:currentColor;filter:none}
+.subtitle{font-size:var(--fs-sm);color:var(--text-3);line-height:1.5;margin-bottom:24px;font-weight:400;letter-spacing:-0.003em;max-width:560px}
 
 /* Top bar */
 .top-bar{display:flex;justify-content:space-between;align-items:center;margin-bottom:22px;gap:8px}
@@ -139,13 +155,14 @@ a{color:inherit;text-decoration:none}
 .smart-panel-ring svg{transform:rotate(-90deg)}
 .smart-panel-ring-pct{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:10.5px;font-weight:700;color:var(--text);font-variant-numeric:tabular-nums;letter-spacing:-0.01em}
 .smart-panel-rows{display:flex;flex-direction:column;gap:8px;overflow:hidden;max-height:1000px;opacity:1;transition:max-height .4s cubic-bezier(.22,.61,.36,1),opacity .25s ease}
-.smart-row{display:flex;align-items:center;gap:12px;padding:12px 14px;background:rgba(0,0,0,0.18);border:1px solid rgba(255,255,255,0.04);border-radius:11px;cursor:pointer;transition:background .15s ease,border-color .15s ease,transform .12s ease;font-family:inherit;text-align:left;width:100%}
-.smart-row:hover{background:rgba(0,0,0,0.28);border-color:rgba(255,255,255,0.1)}
-.smart-row:active{transform:scale(0.98)}
+.smart-row{display:flex;align-items:center;gap:12px;padding:12px 14px;background:rgba(0,0,0,0.18);border:1px solid rgba(255,255,255,0.04);border-radius:11px;cursor:pointer;transition:background .15s ease,transform .2s cubic-bezier(.34,1.56,.64,1),box-shadow .2s ease;-webkit-tap-highlight-color:transparent;font-family:inherit;width:100%;text-align:left}
+.smart-row:hover,.smart-row:focus-visible{background:rgba(255,255,255,0.07);transform:scale(1.04);box-shadow:0 4px 20px rgba(0,0,0,0.25)}
+.smart-row:active{transform:scale(0.97);transition-duration:.08s}
 .smart-row-icon{flex-shrink:0;width:34px;height:34px;display:flex;align-items:center;justify-content:center;font-size:20px;line-height:1}
 .smart-row-text{flex:1;min-width:0}
-.smart-row-title{font-size:13.5px;font-weight:700;color:var(--text);letter-spacing:-0.008em;line-height:1.25;margin-bottom:2px}
-.smart-row-desc{font-size:12px;color:var(--text-2);letter-spacing:-0.002em;line-height:1.35}
+.smart-row-title{font-size:var(--fs-md);font-weight:700;color:var(--text);letter-spacing:-0.008em;line-height:1.25;margin-bottom:3px}
+.smart-row-desc{font-size:var(--fs-sm);color:var(--text-3);letter-spacing:-0.002em;line-height:1.35;display:none}
+.smart-panel:not(.collapsed) .smart-row-desc{display:block}
 .smart-row-arrow{color:var(--text-3);font-size:16px;flex-shrink:0}
 .smart-row:hover .smart-row-arrow{color:var(--text-2)}
 
@@ -164,18 +181,19 @@ a{color:inherit;text-decoration:none}
 
 /* ═══ Hub tiles — unified aurora cube style, same system as path cubes ═══ */
 .hub-tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:20px}
-.hub-tile{position:relative;aspect-ratio:1;border-radius:16px;cursor:pointer;border:1px solid;transition:transform .15s ease,filter .15s ease;font-family:inherit;overflow:hidden;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px)}
+.hub-tile-wrap{display:flex;flex-direction:column;align-items:center;gap:0}
+.hub-tile{position:relative;aspect-ratio:1;width:100%;border-radius:16px;cursor:pointer;border:1px solid;transition:transform .15s ease,filter .15s ease;font-family:inherit;overflow:hidden;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px)}
 .hub-tile::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:0;background:linear-gradient(135deg,transparent 0%,rgba(255,255,255,0.12) 50%,transparent 100%);transform:translateX(-100%);transition:transform .6s ease,opacity .3s ease;z-index:3}
 .hub-tile:hover{transform:translateY(-2px);filter:brightness(1.1)}
 .hub-tile:hover::after{opacity:1;transform:translateX(100%)}
 .hub-tile:active{transform:translateY(0) scale(0.98)}
 .hub-tile.placeholder{cursor:default;opacity:0.5}
 .hub-tile.placeholder:hover{transform:none;filter:none}
-.hub-tile-glyph{position:absolute;top:50%;left:50%;transform:translate(-50%,-58%);width:88px;height:88px;color:#fff;filter:drop-shadow(0 2px 8px rgba(0,0,0,0.3));z-index:2}
+.hub-tile-glyph{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:86px;height:86px;color:#fff;filter:drop-shadow(0 2px 8px rgba(0,0,0,0.3));z-index:2}
 .hub-tile-glyph svg{width:100%;height:100%}
 @media (max-width:520px){
   /* Mobile: icons 30% smaller, tiles taller to fill vertical space */
-  .hub-tile-glyph{width:62px;height:62px}
+  .hub-tile-glyph{width:62px;height:62px;top:50%}
   .hub-tile-name{font-size:10.5px;letter-spacing:-0.015em}
   .hub-tiles{gap:14px;margin-top:20px}
   .hub-tile{aspect-ratio:unset;height:120px}
@@ -184,7 +202,14 @@ a{color:inherit;text-decoration:none}
   /* Equal vertical spacing: smart panel → tiles row 1 → row 2 */
   .smart-panel,.hub-smart{margin-bottom:0}
 }
-.hub-tile-name{position:absolute;bottom:9px;left:11px;right:11px;font-size:11.5px;font-weight:700;color:#fff;letter-spacing:-0.018em;line-height:1.15;text-shadow:0 1px 6px rgba(0,0,0,0.55);z-index:2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+/* hub-tile-name moved to .hub-tile-label system */
+
+/* Hub tile label + subtitle */
+.hub-tile-label-top{display:none}
+.hub-tile-label-bot{display:none}
+.hub-tile-name{font-size:11px;font-weight:700;color:#fff;letter-spacing:-0.008em;line-height:1.25;text-align:center;margin-top:6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hub-tile-sub{display:none}
+
 .hub-tile-badge{position:absolute;top:8px;right:8px;font-size:8px;font-weight:700;letter-spacing:0.1em;padding:2px 6px;background:rgba(0,0,0,0.38);color:#fff;border-radius:4px;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,0.14);text-transform:uppercase;z-index:2}
 /* Progress ring on My Path tile — top-left corner */
 .hub-tile-ring{position:absolute;top:8px;left:8px;width:22px;height:22px;z-index:2}
@@ -415,7 +440,7 @@ a{color:inherit;text-decoration:none}
 .level-extra-text{font-size:13px;color:var(--text);line-height:1.5;letter-spacing:-0.003em}
 .level-extra-text strong{font-weight:700;color:var(--text)}
 .level-extra-note{font-size:11.5px;color:var(--text-3);line-height:1.45;margin-top:6px;font-style:italic;letter-spacing:-0.002em}
-.section-hdr{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--text-dim);margin:14px 0 6px}
+.section-hdr{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--text-4);margin:16px 0 6px}
 .section-hdr:first-child{margin-top:8px}
 
 /* Project rows (in level browser) */
@@ -558,7 +583,7 @@ a{color:inherit;text-decoration:none}
 @keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 
 /* Footer */
-.app-footer{text-align:center;color:var(--text-dim);font-size:11px;margin-top:32px;padding-top:20px;border-top:1px solid rgba(255,255,255,0.05)}
+.app-footer{text-align:center;color:var(--text-4);font-size:var(--fs-xs);margin-top:36px;padding-top:16px;border-top:1px solid rgba(255,255,255,0.04)}
 
 /* ═══ Bottom nav — solid, single hub button ═══ */
 .bottom-nav{position:fixed;bottom:0;left:0;right:0;z-index:50;background:#0A0B0F;border-top:1px solid var(--border);padding:10px 16px calc(env(safe-area-inset-bottom,0px) + 10px)}
@@ -952,6 +977,16 @@ a{color:inherit;text-decoration:none}
 .wipe-btn.tier3 .wipe-btn-title{color:#E85D5D}
 
 /* ═══ Settings screen ═══ */
+
+/* AI usage counter in settings */
+.usage-row{display:flex;gap:16px;margin:10px 0 6px}
+.usage-item{flex:1;display:flex;flex-direction:column;gap:5px}
+.usage-label{font-size:11px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:var(--text-3)}
+.usage-bar-wrap{height:6px;background:rgba(255,255,255,0.07);border-radius:3px;overflow:hidden}
+.usage-bar{height:100%;border-radius:3px;transition:width .4s ease}
+.usage-count{font-size:13px;font-weight:700;letter-spacing:-0.003em}
+.usage-hint{font-size:11.5px;color:var(--text-3);letter-spacing:-0.003em;margin-top:6px}
+
 .settings-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:18px 18px 16px;margin-bottom:12px}
 .settings-section-label{font-size:11px;font-weight:700;letter-spacing:0.11em;text-transform:uppercase;color:var(--text-3);margin-bottom:12px}
 .settings-row{display:flex;align-items:center;gap:14px}
@@ -983,6 +1018,9 @@ a{color:inherit;text-decoration:none}
 .settings-hint{font-size:11.5px;color:var(--text-3);margin-top:8px;line-height:1.5;letter-spacing:-0.003em}
 .settings-hint code{background:rgba(255,255,255,0.06);padding:1.5px 5px;border-radius:4px;font-size:11px;font-family:"SF Mono",Menlo,monospace}
 
+.settings-model-fixed{font-size:14px;font-weight:700;color:var(--text);letter-spacing:-0.005em;padding:4px 0}
+.settings-model-fixed-note{font-size:12px;font-weight:400;color:var(--text-3);margin-left:8px;letter-spacing:-0.003em}
+
 .settings-model-list{display:flex;flex-direction:column;gap:6px}
 .settings-model-option{display:flex;gap:10px;align-items:flex-start;padding:10px 12px;background:rgba(0,0,0,0.2);border:1px solid var(--border);border-radius:9px;cursor:pointer;transition:border-color .15s,background .15s}
 .settings-model-option:hover{border-color:var(--border-strong)}
@@ -1012,6 +1050,43 @@ a{color:inherit;text-decoration:none}
 .settings-advanced-body{margin-top:14px;padding-top:14px;border-top:1px solid rgba(255,255,255,0.05)}
 
 /* ═══ Welcome / onboarding screen ═══ */
+
+/* Welcome screen — primary option (practice first) */
+.welcome-option-primary{border-color:rgba(109,182,180,0.5)!important;background:rgba(109,182,180,0.07)!important}
+.welcome-option-primary .welcome-option-title{color:var(--text)}
+.welcome-option-primary .welcome-option-icon{font-size:32px}
+
+/* Hub — Pathways setup nudge for no-path users */
+
+/* ═══ Goal Picker ═══ */
+.goal-picker{margin-bottom:16px}
+.goal-picker-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.goal-picker-q{font-size:var(--fs-md);font-weight:700;color:var(--text);letter-spacing:-0.008em}
+.goal-picker-change{font-size:var(--fs-xs);color:var(--text-3);background:none;border:none;font-family:inherit;cursor:pointer;padding:4px 0;letter-spacing:-0.003em}
+.goal-picker-change:hover{color:var(--text-2)}
+
+.goal-options{display:flex;flex-direction:column;gap:8px;margin-top:10px}
+.goal-option{display:flex;align-items:center;gap:12px;padding:13px 16px;background:var(--surface);border:1px solid var(--border);border-radius:13px;cursor:pointer;font-family:inherit;transition:background .15s,border-color .15s;text-align:left}
+.goal-option:hover{background:var(--surface-2);border-color:var(--border-strong)}
+.goal-option:active{transform:scale(0.99)}
+.goal-option-icon{font-size:20px;flex-shrink:0;width:28px;text-align:center}
+.goal-option-label{font-size:var(--fs-md);font-weight:600;color:var(--text);letter-spacing:-0.006em;flex:1}
+
+/* Chosen goal — teal highlight */
+.goal-chosen{display:flex;align-items:center;gap:12px;padding:14px 16px;background:rgba(109,182,180,0.1);border:1px solid rgba(109,182,180,0.35);border-radius:13px;cursor:pointer;font-family:inherit;width:100%;transition:background .15s;text-align:left}
+.goal-chosen:hover{background:rgba(109,182,180,0.15)}
+.goal-chosen-icon{font-size:22px;flex-shrink:0}
+.goal-chosen-label{font-size:var(--fs-lg);font-weight:700;color:var(--text);letter-spacing:-0.008em;flex:1}
+.goal-chosen-arrow{color:var(--accent);font-size:16px;flex-shrink:0}
+
+.hub-pathways-nudge{display:flex;align-items:center;gap:12px;padding:13px 16px;background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:13px;cursor:pointer;transition:background .15s,border-color .15s;margin-bottom:16px;text-align:left;width:100%}
+.hub-pathways-nudge:hover{background:rgba(255,255,255,0.06);border-color:rgba(255,255,255,0.15)}
+.hub-pathways-nudge-icon{font-size:20px;flex-shrink:0}
+.hub-pathways-nudge-body{flex:1}
+.hub-pathways-nudge-title{font-size:13.5px;font-weight:700;color:var(--text);letter-spacing:-0.005em;margin-bottom:2px}
+.hub-pathways-nudge-desc{font-size:12px;color:var(--text-3);letter-spacing:-0.003em;line-height:1.4}
+.hub-pathways-nudge-arrow{color:var(--text-3);font-size:14px;flex-shrink:0}
+
 .welcome{max-width:540px;margin:0 auto}
 .welcome-hero{text-align:center;padding:20px 10px 30px}
 .welcome-kicker{font-size:12px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-3);margin-bottom:10px}
@@ -1124,8 +1199,8 @@ a{color:inherit;text-decoration:none}
 
 /* ═══ ea-card system (shared by Eval Helper + Eval Assistant) ═══ */
 .ea-card{border-radius:14px;padding:16px;border:1px solid var(--border);margin-bottom:10px;display:flex;flex-direction:column;gap:8px}
-.ea-card-hdr{font-size:12.5px;font-weight:800;letter-spacing:-0.003em;color:var(--text)}
-.ea-card-body{font-size:13.5px;color:var(--text-2);line-height:1.6;letter-spacing:-0.003em}
+.ea-card-hdr{font-size:var(--fs-xs);font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:var(--text-2)}
+.ea-card-body{font-size:var(--fs-sm);color:var(--text-3);line-height:1.6;letter-spacing:-0.003em}
 .ea-card-body strong{color:var(--text);font-weight:700}
 .ea-card-kicker{font-size:10.5px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-3)}
 .ea-card-title{font-size:18px;font-weight:800;color:var(--text);letter-spacing:-0.008em}
@@ -1367,6 +1442,42 @@ a{color:inherit;text-decoration:none}
 .sd-result-keymsg{font-size:12.5px;color:var(--text-3);font-style:italic;margin-bottom:12px;letter-spacing:-0.003em;line-height:1.45}
 
 .sd-form{display:flex;flex-direction:column;gap:0}
+
+/* ═══ Speech Draft Builder — offline scaffold ═══ */
+.sd-label-note{font-size:10px;font-weight:400;text-transform:none;letter-spacing:0;color:var(--text-3);margin-left:4px}
+.sd-suggestion{font-size:12px;color:#6DB6B4;margin-top:6px;letter-spacing:-0.003em}
+.sd-fw-badge{display:inline-block;background:rgba(109,182,180,0.18);color:#6DB6B4;font-size:10px;font-weight:700;padding:2px 7px;border-radius:6px;margin-left:6px;vertical-align:middle;letter-spacing:0.04em}
+
+/* Result card */
+.sd-result-fw-tag{display:inline-block;background:rgba(160,123,199,0.12);border:1px solid rgba(160,123,199,0.3);color:#A07BC7;font-size:11px;font-weight:700;padding:3px 10px;border-radius:8px;margin-bottom:10px;letter-spacing:0.04em}
+.sd-coaching-card{background:rgba(232,178,80,0.07);border:1px solid rgba(232,178,80,0.28);border-radius:12px;padding:14px;margin-bottom:12px}
+.sd-coaching-hdr{font-size:12px;font-weight:800;color:#E8B250;letter-spacing:-0.003em;margin-bottom:6px}
+.sd-coaching-body{font-size:13px;color:var(--text-2);line-height:1.55;letter-spacing:-0.003em}
+
+/* Section cards */
+.sd-section-card{background:var(--surface);border:1px solid var(--border);border-radius:13px;padding:14px 16px;margin-bottom:10px}
+.sd-section-hdr{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:8px;gap:8px}
+.sd-section-name{font-size:12px;font-weight:800;color:var(--text);letter-spacing:-0.003em;text-transform:uppercase}
+.sd-section-target{font-size:10.5px;color:var(--text-3);letter-spacing:0.02em;flex-shrink:0}
+.sd-section-prompt{font-size:var(--fs-sm);color:var(--text-3);line-height:1.55;letter-spacing:-0.003em;margin-bottom:8px}
+.sd-section-starter{font-size:var(--fs-sm);color:var(--text-3);line-height:1.5;letter-spacing:-0.003em;padding:8px 12px;background:rgba(255,255,255,0.03);border-radius:8px;border-left:2px solid rgba(109,182,180,0.35)}
+.sd-starter-label{font-weight:700;color:var(--text-3);font-style:normal}
+
+.sd-word-target{font-size:12px;color:var(--text-3);text-align:center;padding:8px 0;letter-spacing:-0.003em}
+
+/* AI enhance */
+.sd-ai-enhance-wrap{margin-top:16px;padding-top:16px;border-top:1px solid var(--border);display:flex;flex-direction:column;gap:10px}
+.sd-ai-enhance-label{font-size:13px;color:var(--text-3);letter-spacing:-0.003em}
+.sd-ai-enhance-btn{padding:11px 18px;background:linear-gradient(135deg,#A07BC7,#6DB6B4);color:#0A0B0F;border:none;border-radius:11px;font-weight:700;font-size:14px;cursor:pointer;font-family:inherit;transition:filter .15s;letter-spacing:-0.003em}
+.sd-ai-enhance-btn:hover{filter:brightness(1.08)}
+.sd-ai-enhance-done{font-size:13px;color:#5EB975;font-weight:600;letter-spacing:-0.003em}
+
+/* AI-written opening */
+.sd-ai-opening{background:rgba(160,123,199,0.08);border:1px solid rgba(160,123,199,0.3);border-radius:13px;padding:14px 16px;margin-bottom:12px}
+.sd-ai-opening-hdr{font-size:11px;font-weight:800;color:#A07BC7;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:8px}
+.sd-ai-opening-text{font-size:14px;color:var(--text);line-height:1.6;letter-spacing:-0.006em;font-style:italic}
+.sd-ai-opening-hint{font-size:11.5px;color:var(--text-3);margin-top:8px;letter-spacing:-0.003em}
+
 .sd-frameworks{display:flex;flex-direction:column;gap:7px}
 .sd-framework-btn{padding:12px 14px;background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:12px;text-align:left;cursor:pointer;font-family:inherit;transition:background .15s,border-color .15s}
 .sd-framework-btn.active{background:rgba(109,182,180,0.1);border-color:rgba(109,182,180,0.5)}
@@ -1791,6 +1902,24 @@ a{color:inherit;text-decoration:none}
 
 /* Done */
 .ttp-done-question{background:rgba(109,182,180,0.07);border:1px solid rgba(109,182,180,0.25);border-radius:12px;padding:12px 16px;font-size:14.5px;font-weight:600;color:var(--text);line-height:1.45;letter-spacing:-0.006em}
+
+
+/* ═══ AI Error Cards ═══ */
+.ai-error-card{display:flex;align-items:flex-start;gap:12px;padding:14px 16px;background:rgba(232,93,93,0.07);border:1px solid rgba(232,93,93,0.25);border-radius:13px;margin:8px 0}
+.ai-error-icon{font-size:20px;flex-shrink:0;margin-top:1px}
+.ai-error-body{display:flex;flex-direction:column;gap:5px;flex:1}
+.ai-error-title{font-size:13.5px;font-weight:700;color:var(--text);letter-spacing:-0.005em}
+.ai-error-msg{font-size:var(--fs-sm);color:var(--text-3);line-height:1.5;letter-spacing:-0.003em}
+.ai-error-actions{margin-top:6px}
+.ai-error-retry{padding:8px 16px;background:#A07BC7;color:#0A0B0F;border:none;border-radius:9px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;transition:filter .15s;letter-spacing:-0.003em}
+.ai-error-retry:hover{filter:brightness(1.1)}
+
+/* Limit reached — amber instead of red */
+.ai-error-card:has(.ai-error-title:first-child){} /* future hook */
+
+/* ═══ Offline Banner ═══ */
+.offline-banner{position:fixed;top:0;left:0;right:0;z-index:9999;background:#2A1A00;border-bottom:1px solid rgba(232,178,80,0.4);color:#E8B250;font-size:12.5px;font-weight:600;text-align:center;padding:8px 16px;letter-spacing:-0.003em;animation:slideDown .2s ease}
+@keyframes slideDown{from{transform:translateY(-100%)}to{transform:translateY(0)}}
 
 .topics-practice{display:flex;flex-direction:column;min-height:60vh}
 .topics-practice-header{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:20px;flex-wrap:wrap}
@@ -2839,19 +2968,6 @@ const PROJECT_PHASES={
   ]
 },
 
-"intro-mentor":{
-  leadWeeks:26,
-  summary:"Requires a 6-month mentoring commitment before your speech.",
-  phases:[
-    {label:"Choose a protégé and agree on your mentoring relationship",week:0,type:"start"},
-    {label:"Regular check-ins — record meeting dates and feedback given",week:2,type:"milestone"},
-    {label:"Mid-point reflection: how is the protégé progressing?",week:12,type:"milestone"},
-    {label:"Complete the mentoring commitment (6 months)",week:24,type:"milestone"},
-    {label:"Prepare 5–7 min speech on what mentoring taught you",week:25,type:"prep"},
-    {label:"Club speech: your experience as a mentor (5–7 min)",week:26,type:"speech"}
-  ]
-},
-
 "pos-coaching-ec":{
   leadWeeks:8,
   summary:"Requires a sustained coaching commitment with a real coachee.",
@@ -3529,7 +3645,7 @@ let S={
   mode:"",
   // Ala carte comfort level — only relevant when mode==="alacarte". Captured
   // during welcome flow to personalize project suggestions. "new" / "some" /
-  // "experienced". Kept loose; v0.66 may add follow-ups.
+  // "experienced". Kept loose; v0.92 may add follow-ups.
   alacarteComfort:"",
   // AI Coach config. Disabled by default. User configures in Settings.
   // mode: "direct" (user's own API key, stored locally — direct browser call)
@@ -3642,14 +3758,67 @@ function switchPath(newCode){
 
 // Determine which view to show at boot — always land on hub
 function resolveInitialView(){
-  // Fresh install OR incomplete onboarding → welcome flow.
-  // Onboarded users (path or ala carte) land on the hub.
-  if(!S.mode)V.view="welcome";
-  else V.view="hub";
+  // Always land on the hub. No welcome screen.
+  // If the user hasn't set a mode yet, default to alacarte so the hub
+  // shows practice-first suggestions. They can set up Pathways any time.
+  if(!S.mode){
+    S.mode="alacarte";
+    S.alacarteComfort="general";
+    save();
+  }
+  V.view="hub";
 }
 
 // Hex -> rgba utility for per-path colored backgrounds/borders
 // HTML escape — used anywhere user input or AI output gets injected into innerHTML
+
+// ── renderAIError: shared error card for all AI call failures ──────────────
+// Returns an HTML string. Shows a friendly message + contextual action.
+function renderAIError(err,onRetryAction){
+  const msg=(err&&(err.message||err))||"Something went wrong.";
+  const isLimit=msg.includes("limit reached");
+  const isOffline=!navigator.onLine||msg.includes("fetch")||msg.includes("network")||msg.includes("Failed to reach");
+  const isNoKey=msg.includes("API key missing")||msg.includes("Endpoint URL missing");
+  let icon="⚠️",title="AI unavailable",body="",actionHtml="";
+  if(isLimit){
+    icon="⏱";title="Daily limit reached";
+    body=msg.replace("Daily AI limit reached for this feature","You've used today's allowance for this feature")
+            .replace("Monthly AI limit reached","You've used this month's AI allowance");
+  }else if(isOffline){
+    icon="📶";title="No connection";
+    body="AI features need an internet connection. Offline tools — timers, role guides, practice bank — still work.";
+    if(onRetryAction)actionHtml='<button class="ai-error-retry" data-action="'+onRetryAction+'">Try again</button>';
+  }else if(isNoKey){
+    icon="🔑";title="AI not set up";
+    body="Tap below to configure AI features.";
+    actionHtml='<button class="ai-error-retry" data-action="open-ai-settings">Open AI Settings →</button>';
+  }else{
+    body=msg.length>120?msg.slice(0,120)+"…":msg;
+    if(onRetryAction)actionHtml='<button class="ai-error-retry" data-action="'+onRetryAction+'">Try again</button>';
+  }
+  return'<div class="ai-error-card">'+
+    '<div class="ai-error-icon">'+icon+'</div>'+
+    '<div class="ai-error-body">'+
+    '<div class="ai-error-title">'+title+'</div>'+
+    '<div class="ai-error-msg">'+escHtml(body)+'</div>'+
+    (actionHtml?'<div class="ai-error-actions">'+actionHtml+'</div>':"")+
+    '</div></div>';
+}
+
+// ── Offline banner ─────────────────────────────────────────────────────────
+function maybeShowOfflineBanner(){
+  const existing=document.getElementById("offline-banner");
+  if(!navigator.onLine){
+    if(!existing){
+      const b=document.createElement("div");
+      b.id="offline-banner";b.className="offline-banner";
+      b.textContent="📶 No connection — AI features paused. Timers and offline tools still work.";
+      document.body.prepend(b);
+    }
+  }else{if(existing)existing.remove();}
+}
+
+
 function escHtml(s){
   if(s==null)return"";
   return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
@@ -3762,6 +3931,25 @@ function render(){
   // Safety: if we leave the filler detector while it's active, stop it
   if(V.view!=="filler"&&FD.phase==="active")fdStop(false);
 
+  // ── V._ stale-state reset ──
+  // Clear tool-specific view state when navigating AWAY from that tool.
+  // This prevents stale results from a previous session appearing when
+  // you return to the same tool later.
+  const view=V.view;
+  if(view!=="eval-helper")  {V._evalPid=V._evalPid||"";} // keep pid if staying
+  if(view!=="speech-draft") {/* _sdResult intentionally kept for back-nav */}
+  if(view!=="ai-tool"){
+    // Clear AI tool state when leaving — but not _eaPid (user might return)
+    if(V._tgLoading)V._tgLoading=false;
+    if(V._tmdLoading)V._tmdLoading=false;
+  }
+  if(view!=="hub")V._todayGoal=null; // reset goal when leaving hub
+  if(view!=="tt-practice"&&view!=="topics-practice"){
+    V._ttCoachLoading=false;
+    V._ttCoachResult=null;
+  }
+  if(view!=="wod"&&V._wodLoading)V._wodLoading=false;
+
   if(V.view==="hub"){renderHub(app);}
   else if(V.view==="picker"){renderPathPicker(app);}
   else if(V.view==="quiz-intro"){renderQuizIntro(app);}
@@ -3787,14 +3975,15 @@ function render(){
   else if(V.view==="practice"){renderPracticeHub(app);}
   else if(V.view==="timer-select"){renderTimerSelect(app);}
   else if(V.view==="timer"){renderTimerFullScreen(app);}
-  else if(V.view==="topics-select"){renderTopicsSelect(app);}
-  else if(V.view==="topics-practice"){renderTopicsPractice(app);}
+  else if(V.view==="topics-select"){renderTopicsSelect(app);} // legacy — kept for offline TT bank
+  else if(V.view==="topics-practice"){renderTopicsPractice(app);} // legacy — kept for offline TT bank
   else if(V.view==="tt-practice"){renderTTPractice(app);}
   else if(V.view==="wod"){renderWODTool(app);}
   else if(V.view==="filler"){renderFillerDetector(app);}
   else if(V.view==="browser"){renderPathBrowser(app);}
   else{renderHub(app);} // unknown view -> hub
   try{window.scrollTo(0,0);}catch{}
+  maybeShowOfflineBanner();
   renderModal();
   renderBottomNav();
 }
@@ -3830,17 +4019,51 @@ function renderHub(app){
   h+='</div>';
   h+='</div>';
   h+='<h1 class="title">Communication toolkit for <span class="accent">excellence</span></h1>';
-  h+='<div class="subtitle">'+(p?'Continue where you left off or pick a tool.':'Pick a path to get started — or jump straight into a tool.')+'</div>';
+  h+='<div class="subtitle">'+(p?'Continue where you left off or pick a tool to practice.':'Your practice tools are ready. Set up Pathways tracking whenever you\'re ready.')+'</div>';
 
-  // ═══ SMART SUGGESTIONS — dashboard panel with 3-4 rows ═══
-  // `_hubFlashed` runtime flag: the whole panel gets a gentle border pulse on
-  // first hub visit per session. Not a collapse toggle — the panel stays open.
-  const suppressFlash=V._hubFlashed===true;
-  const sugs=getSmartSuggestions();
+  // ── Pathways setup nudge for no-path users (subtle, not blocking) ──
+  if(!p&&S.mode!=="path"){
+    h+='<div class="hub-pathways-nudge" data-action="hub-setup-pathways">';
+    h+='<div class="hub-pathways-nudge-icon">📍</div>';
+    h+='<div class="hub-pathways-nudge-body">';
+    h+='<div class="hub-pathways-nudge-title">Track your Pathways journey</div>';
+    h+='<div class="hub-pathways-nudge-desc">See your path, plan what\'s next, get role toolkits for every meeting.</div>';
+    h+='</div>';
+    h+='<div class="hub-pathways-nudge-arrow">→</div>';
+    h+='</div>';
+  }
 
-  // Header stats — current level + level progress + % overall
-  let headerStats="";
-  if(p){
+  // ═══ GOAL PICKER (no-path) / SMART SUGGESTIONS (path) ═══
+  if(!V._todayGoal){
+    const goals=[
+      {id:"ai-coach", icon:"🎙️", label:"Practice a speech",    sub:"Record with AI speech coaching",  action:"ai-coach"},
+      {id:"tt",       icon:"🎯", label:"Prep for Table Topics", sub:"Pick a theme, speak, get feedback", action:"topics"},
+      {id:"role",     icon:"🎭", label:"I have a meeting role", sub:"Toolkits for every club role",      action:"roles"},
+      {id:"draft",    icon:"📝", label:"Plan a speech",         sub:"8 proven structures, instant scaffold", action:"speech-draft"},
+      {id:"explore",  icon:"🎲", label:"Just explore",          sub:"See what the app can do",           action:"practice"},
+    ];
+    const open=V._goalPickerOpen===true;
+    h+='<div class="smart-panel'+(open?'':' collapsed')+'" id="goal-panel">';
+    h+='<div class="smart-panel-header" data-action="goal-panel-toggle">';
+    h+='<div class="smart-panel-title"><span class="smart-panel-icon">🎯</span><span>What would you like to do today?</span><span class="smart-panel-chev">▼</span></div>';
+    h+='</div>';
+    h+='<div class="smart-panel-rows">';
+    goals.forEach(g=>{
+      h+='<button class="smart-row" data-goal-id="'+g.id+'" data-sug-action="'+g.action+'">';
+      h+='<div class="smart-row-icon">'+g.icon+'</div>';
+      h+='<div class="smart-row-text"><div class="smart-row-title">'+g.label+'</div>';
+      if(g.sub)h+='<div class="smart-row-desc" style="display:block">'+g.sub+'</div>';
+      h+='</div>';
+      h+='<div class="smart-row-arrow">→</div>';
+      h+='</button>';
+    });
+    h+='</div>';
+    h+='</div>';
+  }else if(p){
+    // Smart Suggestions — kept for Pathways users (project-aware context)
+    const suppressFlash=V._hubFlashed===true;
+    const sugs=getSmartSuggestions();
+    let headerStats="";
     const currentLv=getCurrentLevel(S.path);
     const lvG=gP(S.path,currentLv);
     const lvDone=lvG.r.filter(pid=>S.done[pid]).length+Math.min(lvG.en,lvG.e.filter(pid=>S.done[pid]).length);
@@ -3854,35 +4077,34 @@ function renderHub(app){
     headerStats+='</svg>';
     headerStats+='<div class="smart-panel-ring-pct">'+pct+'%</div>';
     headerStats+='</div>';
-  }
-
-  h+='<div class="smart-panel'+(suppressFlash?' collapsed':' flashing')+'">';
-  h+='<div class="smart-panel-header" data-smart-toggle>';
-  h+='<div class="smart-panel-title"><span class="smart-panel-icon">💡</span><span>Smart Suggestions</span><span class="smart-panel-chev">▼</span></div>';
-  if(headerStats)h+='<div class="smart-panel-stats">'+headerStats+'</div>';
-  h+='</div>';
-  h+='<div class="smart-panel-rows">';
-  sugs.forEach(row=>{
-    const cls="smart-row"+(row.highlight?" highlight-row":"");
-    h+='<button class="'+cls+'" data-sug-action="'+row.action+'">';
-    h+='<div class="smart-row-icon">'+row.icon+'</div>';
-    h+='<div class="smart-row-text">';
-    h+='<div class="smart-row-title">'+row.title+'</div>';
-    h+='<div class="smart-row-desc">'+row.desc+'</div>';
+    h+='<div class="smart-panel'+(suppressFlash?' collapsed':' flashing')+'">';
+    h+='<div class="smart-panel-header" data-smart-toggle>';
+    h+='<div class="smart-panel-title"><span class="smart-panel-icon">💡</span><span>Smart Suggestions</span><span class="smart-panel-chev">▼</span></div>';
+    h+='<div class="smart-panel-stats">'+headerStats+'</div>';
     h+='</div>';
-    h+='<div class="smart-row-arrow">→</div>';
-    h+='</button>';
-  });
-  h+='</div>';
-  h+='</div>';
+    h+='<div class="smart-panel-rows">';
+    sugs.forEach(row=>{
+      const cls="smart-row"+(row.highlight?" highlight-row":"");
+      h+='<button class="'+cls+'" data-sug-action="'+row.action+'">';
+      h+='<div class="smart-row-icon">'+row.icon+'</div>';
+      h+='<div class="smart-row-text">';
+      h+='<div class="smart-row-title">'+row.title+'</div>';
+      h+='<div class="smart-row-desc">'+row.desc+'</div>';
+      h+='</div>';
+      h+='<div class="smart-row-arrow">→</div>';
+      h+='</button>';
+    });
+    h+='</div>';
+    h+='</div>';
+  }
 
   // Aurora tile helper — same system as path cubes, just smaller
   function tile(cfg){
     const cls="hub-tile"+(cfg.placeholder?" placeholder":"");
     const dataAttr=cfg.placeholder?"":' data-hub="'+cfg.hub+'"';
     const mesh=auroraMeshStyle(cfg.color,cfg.placeholder?0.55:1.0);
-    let s='<button class="'+cls+'"'+dataAttr+' style="'+mesh+'">';
-    // Top-left progress ring (My Path tile when user has an active path)
+    let s='<div class="hub-tile-wrap">';
+    s+='<button class="'+cls+'"'+dataAttr+' style="'+mesh+'">';
     if(cfg.ring){
       const dash=Math.round(cfg.ring.pct*0.69);
       s+='<div class="hub-tile-ring">';
@@ -3895,41 +4117,68 @@ function renderHub(app){
     }
     if(cfg.badge){s+='<div class="hub-tile-badge">'+cfg.badge+'</div>';}
     s+='<div class="hub-tile-glyph">'+HUB_GLYPHS[cfg.glyph]+'</div>';
-    s+='<div class="hub-tile-name">'+cfg.name+'</div>';
     s+='</button>';
+    s+='<div class="hub-tile-name">'+cfg.name+'</div>';
+    s+='</div>';
     return s;
   }
 
-  // ═══ HUB TILES — layout shifts based on S.mode ═══
+  // ═══ HUB TILES ═══
   h+='<div class="hub-tiles">';
   if(S.mode==="alacarte"){
-    // Ala carte: Practice + All Projects are primary. Club Roles + a soft
-    // "Considering a path?" tile fill the secondary row. Pathfinder is absent
-    // (no path → no plan to generate) but re-surfaces if they switch modes.
-    h+=tile({hub:"practice",glyph:"practice",color:"#5EB975",name:"Practice"});
-    h+=tile({hub:"all-projects",glyph:"path",color:"#D4A94C",name:"All Projects"});
-    h+=tile({hub:"roles",glyph:"roles",color:"#E85D3A",name:"Club Roles"});
-    h+=tile({hub:"path",glyph:"pathfinder",color:"#5B9DD9",name:"Try a Path"});
-    h+=tile({hub:"ai-coach",glyph:"coach",color:"#A07BC7",name:"AI Studio"});
-    h+=tile({glyph:"community",color:"#DB8A6A",name:"Community",badge:"Soon",placeholder:true});
+    h+=tile({hub:"ai-coach",  glyph:"coach",     color:"#A07BC7", name:"Speech Coach",  sub:"AI practice & feedback"});
+    h+=tile({hub:"practice",  glyph:"practice",  color:"#5EB975", name:"Practice Tools",sub:"Timer · Topics · Filler"});
+    h+=tile({hub:"roles",     glyph:"roles",     color:"#E85D3A", name:"Meeting Roles", sub:"Prep for your role"});
+    h+=tile({hub:"path",      glyph:"pathfinder",color:"#5B9DD9", name:"Pathways",      sub:"Track your progress"});
+    h+=tile({hub:"all-projects",glyph:"path",    color:"#D4A94C", name:"Library",       sub:"60+ Pathways projects"});
+    h+=tile({glyph:"community",color:"#DB8A6A",  name:"Community",sub:"Coming soon",badge:"Soon",placeholder:true});
   }else{
-    // Path mode: original 6-tile layout with Pick a Path primary.
-    h+=tile({hub:"path",glyph:"path",color:p?p.c:"#6DB6B4",
-             name:p?"My Paths":"Pick a Path",
+    h+=tile({hub:"ai-coach",  glyph:"coach",     color:"#A07BC7", name:"Speech Coach",  sub:"AI practice & feedback"});
+    h+=tile({hub:"path",      glyph:"path",      color:p?p.c:"#6DB6B4",
+             name:p?"My Pathways":"Pathways",    sub:p?Math.round(pct)+"% complete":"Track your path",
              ring:p?{pct:pct}:null});
-    h+=tile({hub:"roles",glyph:"roles",color:"#D4A94C",name:"Club Roles"});
-    h+=tile({hub:"practice",glyph:"practice",color:"#5EB975",name:"Practice"});
-    h+=tile({hub:"pathfinder",glyph:"pathfinder",color:"#5B9DD9",name:"Pathfinder"});
-    h+=tile({hub:"ai-coach",glyph:"coach",color:"#A07BC7",name:"AI Studio"});
-    h+=tile({glyph:"community",color:"#DB8A6A",name:"Community",badge:"Soon",placeholder:true});
+    h+=tile({hub:"practice",  glyph:"practice",  color:"#5EB975", name:"Practice Tools",sub:"Timer · Topics · Filler"});
+    h+=tile({hub:"pathfinder",glyph:"pathfinder",color:"#5B9DD9", name:"Path Planner",  sub:"Plan your journey"});
+    h+=tile({hub:"roles",     glyph:"roles",     color:"#D4A94C", name:"Meeting Roles", sub:"Prep for your role"});
+    h+=tile({glyph:"community",color:"#DB8A6A",  name:"Community",sub:"Coming soon",badge:"Soon",placeholder:true});
   }
   h+='</div>';
 
-  h+='<div class="app-footer">Toastmasters Companion · v0.66 · Your progress saves on this device</div>';
+  h+='<div class="app-footer">Made by Kian How · Not affiliated with Toastmasters International · v0.92</div>';
   h+='</div>';
   app.innerHTML=h;
 
   // ═══ Wire handlers ═══
+  // Goal picker toggle
+  const goalPanelHdr=app.querySelector('[data-action="goal-panel-toggle"]');
+  if(goalPanelHdr)goalPanelHdr.addEventListener("click",()=>{
+    V._goalPickerOpen=!V._goalPickerOpen;
+    const panel=document.getElementById("goal-panel");
+    if(panel)panel.classList.toggle("collapsed",!V._goalPickerOpen);
+  });
+
+  // Goal picker — save choice for session, navigate immediately
+  app.querySelectorAll("[data-goal-id]").forEach(btn=>{
+    btn.addEventListener("click",()=>{
+      V._todayGoal=btn.dataset.goalId;
+      const action=btn.dataset.sugAction;
+      if(action==="ai-coach"){V.view="ai-coach";}
+      else if(action==="topics"){V.view="tt-practice";TTP.phase="setup";}
+      else if(action==="roles"){V.view="roles";}
+      else if(action==="speech-draft"){V.view="speech-draft";}
+      else if(action==="practice"){V.view="practice";}
+      render();
+    });
+  });
+  const changeBtn=app.querySelector('[data-action="goal-change"]');
+  if(changeBtn)changeBtn.addEventListener("click",()=>{V._todayGoal=null;render();});
+
+  // Pathways setup nudge for no-path users
+  const pathwaysNudge=app.querySelector('[data-action="hub-setup-pathways"]');
+  if(pathwaysNudge)pathwaysNudge.addEventListener("click",()=>{
+    V.view="picker";render();
+  });
+
   const gear=app.querySelector('[data-action="open-settings"]');
   if(gear)gear.addEventListener("click",()=>{V.view="settings";render();});
   const aiBtn=app.querySelector('[data-action="open-ai-settings"]');
@@ -4000,7 +4249,7 @@ function renderHub(app){
       else if(action==="roles"){V.view="roles";}
       else if(action==="pathfinder"){V.view="pathfinder-intro";}
       else if(action==="timer"){V.view="timer-select";T.returnTo="practice";}
-      else if(action==="topics"){V.view="topics-select";}
+      else if(action==="topics"){V.view="tt-practice";TTP.phase="setup";}
       else if(action==="filler"){V.view="filler";FD.phase="idle";}
       else if(action==="wod"){V.view="wod";wodBuildQueue();}
       render();
@@ -4227,7 +4476,7 @@ function renderPathPicker(app){
   h+='<button class="quiz-prompt-btn" data-action="open-quiz">🧭 &nbsp; Not sure which one? Take the fun quiz</button>';
   h+='</div>';
 
-  h+='<div class="app-footer">Toastmasters Companion · v0.66 · Built with ❤️ for Toastmasters</div>';
+  h+='<div class="app-footer">Made by Kian How · Not affiliated with Toastmasters International · v0.92</div>';
   h+='</div>';
   app.innerHTML=h;
 
@@ -4372,6 +4621,90 @@ function closeModal(){
 // PATH BROWSER — levels + projects
 // ═══════════════════════════════════════════════════════════════════════════
 
+// ── renderLevelCard: builds one level accordion card ──────────────────────
+// Extracted from renderPathBrowser to keep that function scannable.
+// Returns an HTML string. Called once per level (1–5).
+function renderLevelCard(lv,pathCode,p){
+  const g=gP(pathCode,lv);
+  const reqDone=g.r.filter(pid=>S.done[pid]).length;
+  const eDone=Math.min(g.en,g.e.filter(pid=>S.done[pid]).length);
+  const levelDone=reqDone+eDone;
+  const levelTotal=g.r.length+g.en;
+  const complete=levelDone>=levelTotal&&levelTotal>0;
+  const submitted=!!S.levelSubmitted[levelSubmittedKey(pathCode,lv)];
+  const prevLvSub=lv===1||!!S.levelSubmitted[levelSubmittedKey(pathCode,lv-1)];
+  let stateCls="";
+  if(submitted)stateCls+=" complete";
+  if(prevLvSub&&!submitted)stateCls+=" is-active";
+  if(!prevLvSub&&!submitted)stateCls+=" is-future";
+
+  let h='<div class="level-card'+stateCls+'" data-level="'+lv+'">';
+  h+='<div class="level-header" data-level-toggle="'+lv+'">';
+  h+='<div class="level-header-left">';
+  h+='<div class="level-num-wrap"><div class="level-num">'+lv+'</div></div>';
+  h+='<div class="level-text">';
+  h+='<div class="level-name">Level '+lv+' · '+LN[lv]+'</div>';
+  const progSuffix=submitted?" ✓ marked complete":(complete?" · ready to mark complete":"");
+  h+='<div class="level-progress'+(submitted?' complete':'')+'">'+levelDone+' / '+levelTotal+progSuffix+'</div>';
+  h+='</div></div>';
+  h+='<div class="level-chev">▼</div>';
+  h+='</div>';
+
+  h+='<div class="level-body"><div class="level-body-inner">';
+  const locked=!prevLvSub&&!submitted;
+  if(g.r.length){
+    h+='<div class="section-hdr">Required</div>';
+    g.r.forEach(pid=>{h+=renderProjectRow(pid,true,locked);});
+  }
+  if(g.e.length>0&&g.en>0){
+    h+='<div class="electives-section" data-electives-level="'+lv+'">';
+    h+='<button class="electives-toggle" data-electives-toggle>';
+    h+='<span class="electives-toggle-label">Electives · pick '+g.en+'</span>';
+    h+='<span class="electives-count">'+g.e.length+' available <span class="chev">▾</span></span>';
+    h+='</button>';
+    h+='<div class="electives-body">';
+    g.e.forEach(pid=>{h+=renderProjectRow(pid,false,locked);});
+    h+='</div>';
+    h+='</div>';
+  }
+  if(lv===5){
+    h+='<div class="final-callout">';
+    h+='<div class="final-callout-label">🏆 Your Pathways capstone</div>';
+    h+='<div class="final-callout-text">'+p.fin+'</div>';
+    h+='</div>';
+  }
+  const extras=LEVEL_EXTRAS[lv];
+  if(extras){
+    h+='<div class="level-extras">';
+    h+='<button class="level-extras-toggle" data-level-extras-toggle>';
+    h+='<span class="level-extras-chev">▼</span>';
+    h+='<span>Level Info & Requirements</span>';
+    h+='</button>';
+    h+='<div class="level-extras-body">';
+    if(extras.roles){
+      h+='<div class="level-extra-card">';
+      h+='<div class="level-extra-kicker">📌 Required meeting roles</div>';
+      h+='<div class="level-extra-text">'+renderRoleMarkers(extras.roles)+'</div>';
+      h+='</div>';
+    }
+    if(extras.edu){
+      h+='<div class="level-extra-card edu">';
+      h+='<div class="level-extra-kicker edu-kicker">📚 Education Series presentations</div>';
+      h+='<div class="level-extra-text"><strong>'+extras.edu.title+'</strong> '+extras.edu.desc+'</div>';
+      if(extras.edu.note)h+='<div class="level-extra-note">'+extras.edu.note+'</div>';
+      h+='</div>';
+    }
+    h+='</div>';
+    h+='</div>';
+  }
+  h+='<div class="level-submit-wrap">';
+  h+=renderLevelSubmitHtml(lv,complete,submitted);
+  h+='</div>';
+  h+='</div></div>';
+  h+='</div>';
+  return h;
+}
+
 function renderPathBrowser(app){
   const p=PA[S.path];
   if(!p){S.path="";V.view="picker";render();return;}
@@ -4431,100 +4764,14 @@ function renderPathBrowser(app){
   const currentLv=getCurrentLevel(S.path);
 
   for(let lv=1;lv<=5;lv++){
-    const g=gP(S.path,lv);
-    const reqDone=g.r.filter(pid=>S.done[pid]).length;
-    const eDone=Math.min(g.en,g.e.filter(pid=>S.done[pid]).length);
-    const levelDone=reqDone+eDone;
-    const levelTotal=g.r.length+g.en;
-    const complete=levelDone>=levelTotal&&levelTotal>0;
-    const submitted=!!S.levelSubmitted[levelSubmittedKey(S.path,lv)];
-    // is-active = previous level submitted (unlocked) AND not yet submitted
-    // is-future = previous level NOT submitted yet (truly locked)
-    // Use levelSubmitted (VPE approval) not tick count — matches the locked logic below.
-    const prevLvSub=lv===1||!!S.levelSubmitted[levelSubmittedKey(S.path,lv-1)];
-    let stateCls="";
-    if(submitted)stateCls+=" complete";
-    if(prevLvSub&&!submitted)stateCls+=" is-active";
-    if(!prevLvSub&&!submitted)stateCls+=" is-future";
-
-    h+='<div class="level-card'+stateCls+'" data-level="'+lv+'">';
-    h+='<div class="level-header" data-level-toggle="'+lv+'">';
-    h+='<div class="level-header-left">';
-    h+='<div class="level-num-wrap"><div class="level-num">'+lv+'</div></div>';
-    h+='<div class="level-text">';
-    h+='<div class="level-name">Level '+lv+' · '+LN[lv]+'</div>';
-    const progSuffix=submitted?" ✓ marked complete":(complete?" · ready to mark complete":"");
-    h+='<div class="level-progress'+(submitted?' complete':'')+'">'+levelDone+' / '+levelTotal+progSuffix+'</div>';
-    h+='</div></div>';
-    h+='<div class="level-chev">▼</div>';
-    h+='</div>';
-
-    h+='<div class="level-body"><div class="level-body-inner">';
-    // Lock projects in levels where the previous level hasn't been officially
-    // submitted yet. Uses levelSubmitted (VPE approval) not tick count, so
-    // submitting L1 without ticking every box still unlocks L2.
-    const prevSubmitted=lv===1||!!S.levelSubmitted[levelSubmittedKey(S.path,lv-1)];
-    const locked=!prevSubmitted&&!submitted;
-    if(g.r.length){
-      h+='<div class="section-hdr">Required</div>';
-      g.r.forEach(pid=>{h+=renderProjectRow(pid,true,locked);});
-    }
-    if(g.e.length>0&&g.en>0){
-      h+='<div class="electives-section" data-electives-level="'+lv+'">';
-      h+='<button class="electives-toggle" data-electives-toggle>';
-      h+='<span class="electives-toggle-label">Electives · pick '+g.en+'</span>';
-      h+='<span class="electives-count">'+g.e.length+' available <span class="chev">▾</span></span>';
-      h+='</button>';
-      h+='<div class="electives-body">';
-      g.e.forEach(pid=>{h+=renderProjectRow(pid,false,locked);});
-      h+='</div>';
-      h+='</div>';
-    }
-    if(lv===5){
-      h+='<div class="final-callout">';
-      h+='<div class="final-callout-label">🏆 Your Pathways capstone</div>';
-      h+='<div class="final-callout-text">'+p.fin+'</div>';
-      h+='</div>';
-    }
-    // Level Info & Requirements accordion — meeting roles + Education Series
-    // required for this level. Closed by default; opens on tap.
-    const extras=LEVEL_EXTRAS[lv];
-    if(extras){
-      h+='<div class="level-extras">';
-      h+='<button class="level-extras-toggle" data-level-extras-toggle>';
-      h+='<span class="level-extras-chev">▼</span>';
-      h+='<span>Level Info & Requirements</span>';
-      h+='</button>';
-      h+='<div class="level-extras-body">';
-      if(extras.roles){
-        h+='<div class="level-extra-card">';
-        h+='<div class="level-extra-kicker">📌 Required meeting roles</div>';
-        h+='<div class="level-extra-text">'+renderRoleMarkers(extras.roles)+'</div>';
-        h+='</div>';
-      }
-      if(extras.edu){
-        h+='<div class="level-extra-card edu">';
-        h+='<div class="level-extra-kicker edu-kicker">📚 Education Series presentations</div>';
-        h+='<div class="level-extra-text"><strong>'+extras.edu.title+'</strong> '+extras.edu.desc+'</div>';
-        if(extras.edu.note)h+='<div class="level-extra-note">'+extras.edu.note+'</div>';
-        h+='</div>';
-      }
-      h+='</div>';
-      h+='</div>';
-    }
-    // Submit-wrap host — always present, contents swap based on state
-    h+='<div class="level-submit-wrap">';
-    h+=renderLevelSubmitHtml(lv,complete,submitted);
-    h+='</div>';
-    h+='</div></div>';
-    h+='</div>';
+    h+=renderLevelCard(lv,S.path,p);
   }
 
   // Path complete banner — always in the DOM, hidden until 100%.
   // Keeping it in the tree lets us toggle visibility without re-rendering.
   h+='<div class="path-complete-banner'+(pct>=100?'':' hidden')+'"><strong>🎉 Path complete!</strong><div style="font-size:13px;color:var(--text-muted);line-height:1.5">Next step: DTM. Keep going.</div></div>';
 
-  h+='<div class="app-footer">Toastmasters Companion · v0.66 · Your progress saves locally on this device</div>';
+  h+='<div class="app-footer">Made by Kian How · Not affiliated with Toastmasters International · v0.92</div>';
   h+='</div>';
   app.innerHTML=h;
 
@@ -5332,7 +5579,7 @@ function renderRoleDetail(app,roleId){
   const fb=app.querySelector('[data-action="open-filler"]');
   if(fb)fb.addEventListener("click",()=>{V.view="filler";FD.phase="idle";render();});
   const tob=app.querySelector('[data-action="open-topics"]');
-  if(tob)tob.addEventListener("click",()=>{V.view="topics-select";render();});
+  if(tob)tob.addEventListener("click",()=>{V.view="tt-practice";TTP.phase="setup";render();});
   const wb=app.querySelector('[data-action="open-wod"]');
   if(wb)wb.addEventListener("click",()=>{V.view="wod";wodBuildQueue();render();});
 
@@ -5444,30 +5691,31 @@ function getSmartSuggestions(){
     });
   }
 
-  // No path yet — help them pick one
+  // No path yet — show practice tools first, Pathways as a secondary suggestion
   if(!S.path){
     rows.push({
-      icon:"🧭",
-      title:"Find your best-fit path",
-      desc:"Take the quiz — find your best-fit path in minutes",
-      action:"quiz"
-    });
-    rows.push({
-      icon:"📍",
-      title:"Browse all 11 paths",
-      desc:"Each one has a different focus — see what lines up with your goals",
-      action:"picker"
-    });
-    rows.push({
       icon:"🎙️",
-      title:"Warm up with Practice tools",
-      desc:"Speech Timer, Table Topics, Filler Detector, Word of the Day",
-      action:"practice"
+      title:"AI Studio — practice a speech",
+      desc:"Record yourself speaking, get AI coaching on delivery and structure",
+      action:"ai-coach",
+      highlight:true
+    });
+    rows.push({
+      icon:"🎯",
+      title:"Table Topics Practice",
+      desc:"Get a random question, record your answer, receive AI evaluation",
+      action:"topics"
+    });
+    rows.push({
+      icon:"📝",
+      title:"Speech Draft Builder",
+      desc:"8 proven structures — get your scaffold in seconds, no AI needed",
+      action:"speech-draft"
     });
     rows.push({
       icon:"🎭",
-      title:"Learn the club roles",
-      desc:"9 meeting roles — playbook for each one, ready for your next meeting",
+      title:"Club role toolkits",
+      desc:"Playbook + AI tools for every meeting role — TMD, Evaluator, Grammarian and more",
       action:"roles"
     });
     return rows;
@@ -5957,7 +6205,7 @@ function renderPracticeHub(app){
   h+=toolRow({tool:"speech-draft",color:"#6DB6B4",icon:"📝",name:"Speech Draft Builder",desc:(S.aiConfig&&S.aiConfig.enabled)?"AI builds your speech outline and opening lines":"Structure your next speech from outline to close"});
 
   h+='</div>';
-  h+='<div class="app-footer">Toastmasters Companion · v0.66 · Practice tools work offline</div>';
+  h+='<div class="app-footer">Made by Kian How · Not affiliated with Toastmasters International · v0.92</div>';
   h+='</div>';
   app.innerHTML=h;
 
@@ -5978,7 +6226,7 @@ function renderPracticeHub(app){
   app.querySelectorAll('[data-tool="topics"]').forEach(el=>{
     el.addEventListener("click",()=>{
       V.view="tt-practice";
-      V._ttpPhase="setup";
+      TTP.phase="setup";
       render();
     });
   });
@@ -6244,7 +6492,7 @@ function _ttpRenderSetup(app){
     try{
       const sys="You are a Toastmasters Topicsmaster. Output EXACTLY one short Table Topics question. Format: one sentence, 10-25 words, ends with a question mark. No headers, no markdown, no numbering, no preamble, no multiple questions. Just one question.";
       const msg="Theme: "+(theme||"open")+"\nDifficulty: Medium (opinion or reflection).\n\nReply with ONE single-sentence question only. Nothing else.";
-      let raw=await callCoach(sys,msg,{maxTokens:80,forceBase:true});
+      let raw=await callCoach(sys,msg,{maxTokens:80,forceBase:true,featureId:'tt-question'});
       // Aggressive cleanup
       raw=raw
         .replace(/```/g,"")
@@ -6491,6 +6739,8 @@ function _ttpRenderDone(app){
 }
 
 function _ttpRenderAnalysis(text){
+  // If this is an error card from renderAIError(), pass it straight through
+  if(text&&text.startsWith('<div class="ai-error-card">'))return text;
   const esc=s=>s.replace(/&/g,"&amp;").replace(/</g,"&lt;");
   const sections={answered:"",structure:"",delivery:"",next:""};
   let cur="other";const other=[];
@@ -6533,9 +6783,9 @@ Under 200 words total. Be direct and honest — this is practice, not a competit
     '\n\nDuration: '+fmtMs(TTP.elapsed*1000)+' ('+TTP.totalWords+' words)';
 
   try{
-    const text=await callCoach(sys,msg,{maxTokens:400});
+    const text=await callCoach(sys,msg,{maxTokens:400,featureId:'tt-eval'});
     TTP.aiResult=text;
-  }catch(e){TTP.aiResult="⚠ "+e.message;}
+  }catch(e){TTP.aiResult=renderAIError(e,"ttp-retry-eval");}
   TTP.aiLoading=false;
   const el2=document.getElementById("ttp-analysis");
   if(el2)el2.innerHTML=_ttpRenderAnalysis(TTP.aiResult);
@@ -6579,16 +6829,16 @@ function renderTopicsSelect(app){
   });
   app.querySelectorAll("[data-theme]").forEach(btn=>{
     btn.addEventListener("click",()=>{
-      TT.theme=btn.dataset.theme;
-      ttBuildQueue(btn.dataset.theme);
-      V.view="topics-practice";
+      TTP.theme=btn.dataset.theme;
+      TTP.phase="setup";
+      V.view="tt-practice";
       render();
     });
   });
 }
 
 function renderTopicsPractice(app){
-  if(!TT.queue.length){V.view="topics-select";render();return;}
+  if(!TT.queue.length){V.view="tt-practice";TTP.phase="setup";render();return;}
   const themeObj=TT.theme==="all"||TT.theme==="ai"?null:TOPICS_THEMES.find(t=>t.id===TT.theme);
   const themeColor=themeObj?themeObj.color:"#A07BC7";
   const themeName=TT.theme==="ai"?"✨ AI Topics":themeObj?themeObj.name:"All themes";
@@ -6653,7 +6903,8 @@ function renderTopicsPractice(app){
   app.querySelector('[data-action="topics-back-select"]').addEventListener("click",()=>{
     _ttInlineStop();
     V._ttCoachResult=null;
-    V.view="topics-select";
+    V.view="tt-practice";
+    TTP.phase="setup";
     render();
   });
 
@@ -6705,9 +6956,9 @@ function renderTopicsPractice(app){
     try{
       const sys="You are a Table Topics coach. Given a specific prompt, give the speaker a concise approach guide (under 120 words). Cover: 1) a recommended angle or structure (e.g. start with a personal story, take a stance, use rule of 3), 2) one sentence on how to open strong, 3) one concrete tip to avoid going blank. Be direct and practical — no waffle.";
       const msg='Table Topics question: "'+currentPrompt+'"\nGive a quick coaching guide for how to approach this.';
-      const text=await callCoach(sys,msg,{maxTokens:250,forceBase:true});
+      const text=await callCoach(sys,msg,{maxTokens:250,forceBase:true,featureId:'tt-eval'});
       V._ttCoachResult=text;
-    }catch(e){V._ttCoachResult="⚠ "+e.message;}
+    }catch(e){V._ttCoachResult=renderAIError(e,null);}
     V._ttCoachLoading=false;
     if(section){
       section.innerHTML='<div class="tt-coach-hdr">✨ AI Table Topics Coach</div>'+
@@ -7039,7 +7290,7 @@ function renderWODTool(app){
       try{
         const sys='You are a Toastmasters Grammarian. Return ONLY valid JSON (no markdown, no fences): {"word":"...","pronunciation":"...","pos":"...","definition":"...","example":"..."}';
         const msg='Meeting theme: '+(theme||"open")+' | Level: '+diff+'\nPractical=common but often misused, Balanced=elevated vocabulary, Advanced=rare/sophisticated. Pick ONE relevant word.';
-        const raw=await callCoach(sys,msg,{maxTokens:200,forceBase:true});
+        const raw=await callCoach(sys,msg,{maxTokens:200,forceBase:true,featureId:'wod'});
         const cleaned=raw.trim().replace(/^```(?:json)?\s*/,"").replace(/\s*```\s*$/,"");
         const parsed=JSON.parse(cleaned);
         V._wodCard={word:parsed.word,pronunciation:parsed.pronunciation||"",pos:parsed.pos||"adj",definition:parsed.definition,example:parsed.example,source:"ai"};
@@ -8130,6 +8381,87 @@ function renderPathfinderBuilding(app){
   },1800);
 }
 
+// ── renderPfWeekCard: builds one week card for the Pathfinder program view ──
+// Extracted from renderPathfinderProgram to keep that function scannable.
+// Returns an HTML string.
+function renderPfWeekCard(w,refinedFocuses,refinedMilestones,checkInWeekSet,prog){
+  let h='<div class="pf-week">';
+  h+='<div class="pf-week-hdr">';
+  h+='<div class="pf-week-n">Week '+w.n+'</div>';
+  const focusText=refinedFocuses[w.n-1]||w.focus;
+  h+='<div class="pf-week-focus">'+focusText+'</div>';
+  h+='</div>';
+
+  if(w.projects.length>0){
+    h+='<div class="pf-week-section"><div class="pf-week-label">📋 Projects</div>';
+    w.projects.forEach(pr=>{
+      const proj=PD[pr.pid];
+      if(proj){
+        h+='<div class="pf-week-item"><a class="pf-item-link" data-pf-project="'+pr.pid+'">'+proj.t+'</a> <span class="pf-item-dim">· '+proj.dur+'</span></div>';
+        const phases=PROJECT_PHASES[pr.pid];
+        if(phases&&phases.leadWeeks>0){
+          const startWk=w.n-phases.leadWeeks;
+          const startTxt=startWk>0?'Week '+startWk:'now (before your Pathways start)';
+          h+='<div class="pf-early-start"><span class="pf-early-icon">⏱</span>';
+          h+='<span>Start <strong>'+phases.leadWeeks+' weeks early</strong> (from '+startTxt+'). '+phases.summary+'</span></div>';
+        }
+      }
+    });
+    h+='</div>';
+  }
+  if(w.roles.length>0){
+    h+='<div class="pf-week-section"><div class="pf-week-label">🎪 Role</div>';
+    const specialtyLabels={photographer:"Photographer / Social media capture",wordmaster:"Wordmaster (introduce a word of the day)"};
+    w.roles.forEach(rid=>{
+      const role=ROLES.find(r=>r.id===rid);
+      if(role){
+        const hosting=(rid==="tmd"||rid==="ge");
+        const locTag=hosting?'<span class="pf-loc-tag home">home club</span>':'<span class="pf-loc-tag any">any club</span>';
+        h+='<div class="pf-week-item"><a class="pf-item-link" data-pf-role="'+rid+'">'+role.full+'</a> '+locTag+'</div>';
+      }else if(specialtyLabels[rid]){
+        h+='<div class="pf-week-item pf-item-dim">'+specialtyLabels[rid]+' <span class="pf-loc-tag home">home club</span></div>';
+      }
+    });
+    h+='</div>';
+  }
+  if(w.practice.length>0){
+    h+='<div class="pf-week-section"><div class="pf-week-label">💪 Practice</div>';
+    w.practice.forEach(pr=>{
+      if(pr.tool==="tt-app"){h+='<div class="pf-week-item"><a class="pf-item-link" data-pf-tool="topics">'+pr.action+'</a></div>';}
+      else if(pr.tool==="filler"){h+='<div class="pf-week-item"><a class="pf-item-link" data-pf-tool="filler">'+pr.action+'</a></div>';}
+      else if(pr.tool==="timer"){h+='<div class="pf-week-item"><a class="pf-item-link" data-pf-tool="timer">'+pr.action+'</a></div>';}
+      else{h+='<div class="pf-week-item pf-item-dim">'+pr.action+'</div>';}
+    });
+    h+='</div>';
+  }
+  if(w.milestone){
+    const milestoneText=refinedMilestones[w.n-1]||w.milestone;
+    const isCheckWeek=checkInWeekSet.has(w.n);
+    if(isCheckWeek){
+      const existing=(prog.checkIns&&prog.checkIns[w.n])||null;
+      const filled=!!(existing&&(existing.went_well||existing.stuck||existing.change));
+      h+='<div class="pf-checkin'+(filled?' filled':'')+'" data-pf-checkin-week="'+w.n+'">';
+      h+='<div class="pf-checkin-hdr" data-pf-checkin-toggle="'+w.n+'">';
+      h+='<div class="pf-checkin-title">🏁 '+milestoneText+'</div>';
+      h+='<div class="pf-checkin-status">'+(filled?"✓ Logged":"Open check-in")+' <span class="pf-checkin-chev">▼</span></div>';
+      h+='</div>';
+      h+='<div class="pf-checkin-body">';
+      h+='<div class="pf-checkin-q"><label>What\'s working?</label>';
+      h+='<textarea data-pf-checkin-field="went_well" data-pf-checkin-week="'+w.n+'" placeholder="Wins, breakthroughs, habits that stuck…">'+(existing?existing.went_well||"":"")+'</textarea></div>';
+      h+='<div class="pf-checkin-q"><label>What got stuck?</label>';
+      h+='<textarea data-pf-checkin-field="stuck" data-pf-checkin-week="'+w.n+'" placeholder="Missed meetings, avoided roles, excuses…">'+(existing?existing.stuck||"":"")+'</textarea></div>';
+      h+='<div class="pf-checkin-q"><label>One thing to change for the next block?</label>';
+      h+='<textarea data-pf-checkin-field="change" data-pf-checkin-week="'+w.n+'" placeholder="Concrete adjustment for the next 4 weeks…">'+(existing?existing.change||"":"")+'</textarea></div>';
+      h+='<div class="pf-checkin-hint">Saves automatically. Come back to this check-in anytime.</div>';
+      h+='</div></div>';
+    }else{
+      h+='<div class="pf-milestone">🏁 '+milestoneText+'</div>';
+    }
+  }
+  h+='</div>';
+  return h;
+}
+
 function renderPathfinderProgram(app){
   const prog=S.program;
   if(!prog){V.view="pathfinder-intro";render();return;}
@@ -8173,119 +8505,21 @@ function renderPathfinderProgram(app){
   if(prog.phases){
     prog.phases.forEach(ph=>{phaseStartsAt[ph.from]={name:ph.name,from:ph.from,to:ph.to};});
   }
-  // Check-in weeks set for quick lookup
   const checkInWeekSet=new Set(prog.checkInWeeks||[4,8,12]);
   let lastPhase="";
   prog.weeks.forEach((w,idx)=>{
     if(w.phase!==lastPhase){
-      // Use plan.phases for range — falls back gracefully if legacy plan
       let rangeText="";
       if(phaseStartsAt[w.n]){
         const ph=phaseStartsAt[w.n];
         rangeText=ph.from+"–"+ph.to;
       }else{
-        // Legacy 12-week fallback
         rangeText=w.phase==="foundation"?"1–4":w.phase==="build"?"5–8":"9–12";
       }
       h+='<div class="pf-phase-marker">'+(phaseLabels[w.phase]||w.phase)+' · Weeks '+rangeText+'</div>';
       lastPhase=w.phase;
     }
-    h+='<div class="pf-week">';
-    h+='<div class="pf-week-hdr">';
-    h+='<div class="pf-week-n">Week '+w.n+'</div>';
-    const focusText=refinedFocuses[idx]||w.focus;
-    h+='<div class="pf-week-focus">'+focusText+'</div>';
-    h+='</div>';
-
-    if(w.projects.length>0){
-      h+='<div class="pf-week-section"><div class="pf-week-label">📋 Projects</div>';
-      w.projects.forEach(pr=>{
-        const proj=PD[pr.pid];
-        if(proj){
-          h+='<div class="pf-week-item"><a class="pf-item-link" data-pf-project="'+pr.pid+'">'+proj.t+'</a> <span class="pf-item-dim">· '+proj.dur+'</span></div>';
-          // Early-start callout for phased projects
-          const phases=PROJECT_PHASES[pr.pid];
-          if(phases&&phases.leadWeeks>0){
-            const startWk=w.n-phases.leadWeeks;
-            const startTxt=startWk>0?'Week '+startWk:'now (before your Pathways start)';
-            h+='<div class="pf-early-start">';
-            h+='<span class="pf-early-icon">⏱</span>';
-            h+='<span>Start <strong>'+phases.leadWeeks+' weeks early</strong> (from '+startTxt+'). '+phases.summary+'</span>';
-            h+='</div>';
-          }
-        }
-      });
-      h+='</div>';
-    }
-    if(w.roles.length>0){
-      h+='<div class="pf-week-section"><div class="pf-week-label">🎪 Role</div>';
-      w.roles.forEach(rid=>{
-        const role=ROLES.find(r=>r.id===rid);
-        // Specialty labels for roles we don't have detail pages for
-        const specialtyLabels={
-          photographer:"Photographer / Social media capture",
-          wordmaster:"Wordmaster (introduce a word of the day)"
-        };
-        if(role){
-          const hosting=(rid==="tmd"||rid==="ge");
-          const locTag=hosting?'<span class="pf-loc-tag home">home club</span>':'<span class="pf-loc-tag any">any club</span>';
-          h+='<div class="pf-week-item"><a class="pf-item-link" data-pf-role="'+rid+'">'+role.full+'</a> '+locTag+'</div>';
-        }else if(specialtyLabels[rid]){
-          h+='<div class="pf-week-item pf-item-dim">'+specialtyLabels[rid]+' <span class="pf-loc-tag home">home club</span></div>';
-        }
-      });
-      h+='</div>';
-    }
-    if(w.practice.length>0){
-      h+='<div class="pf-week-section"><div class="pf-week-label">💪 Practice</div>';
-      w.practice.forEach(pr=>{
-        // tt-app practice → tappable link that opens the TT generator
-        if(pr.tool==="tt-app"){
-          h+='<div class="pf-week-item"><a class="pf-item-link" data-pf-tool="topics">'+pr.action+'</a></div>';
-        }else if(pr.tool==="filler"){
-          h+='<div class="pf-week-item"><a class="pf-item-link" data-pf-tool="filler">'+pr.action+'</a></div>';
-        }else if(pr.tool==="timer"){
-          h+='<div class="pf-week-item"><a class="pf-item-link" data-pf-tool="timer">'+pr.action+'</a></div>';
-        }else{
-          h+='<div class="pf-week-item pf-item-dim">'+pr.action+'</div>';
-        }
-      });
-      h+='</div>';
-    }
-    if(w.milestone){
-      const milestoneText=refinedMilestones[idx]||w.milestone;
-      const isCheckWeek=checkInWeekSet.has(w.n);
-      if(isCheckWeek){
-        // Interactive check-in — expandable form with 3 short reflection fields.
-        // Answers persist to S.program.checkIns[week].
-        const existing=(prog.checkIns&&prog.checkIns[w.n])||null;
-        const filled=!!(existing&&(existing.went_well||existing.stuck||existing.change));
-        h+='<div class="pf-checkin'+(filled?' filled':'')+'" data-pf-checkin-week="'+w.n+'">';
-        h+='<div class="pf-checkin-hdr" data-pf-checkin-toggle="'+w.n+'">';
-        h+='<div class="pf-checkin-title">🏁 '+milestoneText+'</div>';
-        h+='<div class="pf-checkin-status">'+(filled?"✓ Logged":"Open check-in")+' <span class="pf-checkin-chev">▼</span></div>';
-        h+='</div>';
-        h+='<div class="pf-checkin-body">';
-        h+='<div class="pf-checkin-q">';
-        h+='<label>What\'s working?</label>';
-        h+='<textarea data-pf-checkin-field="went_well" data-pf-checkin-week="'+w.n+'" placeholder="Wins, breakthroughs, habits that stuck…">'+(existing?existing.went_well||"":"")+'</textarea>';
-        h+='</div>';
-        h+='<div class="pf-checkin-q">';
-        h+='<label>What got stuck?</label>';
-        h+='<textarea data-pf-checkin-field="stuck" data-pf-checkin-week="'+w.n+'" placeholder="Missed meetings, avoided roles, excuses…">'+(existing?existing.stuck||"":"")+'</textarea>';
-        h+='</div>';
-        h+='<div class="pf-checkin-q">';
-        h+='<label>One thing to change for the next block?</label>';
-        h+='<textarea data-pf-checkin-field="change" data-pf-checkin-week="'+w.n+'" placeholder="Concrete adjustment for the next 4 weeks…">'+(existing?existing.change||"":"")+'</textarea>';
-        h+='</div>';
-        h+='<div class="pf-checkin-hint">Saves automatically. Come back to this check-in anytime.</div>';
-        h+='</div>';
-        h+='</div>';
-      }else{
-        h+='<div class="pf-milestone">🏁 '+milestoneText+'</div>';
-      }
-    }
-    h+='</div>';
+    h+=renderPfWeekCard(w,refinedFocuses,refinedMilestones,checkInWeekSet,prog);
   });
   h+='</div>';
 
@@ -8342,7 +8576,7 @@ function renderPathfinderProgram(app){
     a.addEventListener("click",()=>{
       const tool=a.dataset.pfTool;
       V._practiceReturnTo="pathfinder";
-      if(tool==="topics"){V.view="topics-select";}
+      if(tool==="topics"){V.view="tt-practice";TTP.phase="setup";}
       else if(tool==="filler"){V.view="filler";FD&&(FD.phase="idle");}
       else if(tool==="timer"){V.view="timer";}
       render();
@@ -8396,32 +8630,17 @@ async function callCoach(systemPrompt,userMessage,opts){
   if(!cfg.enabled){
     throw new Error("AI features are disabled. Enable them in Settings.");
   }
-  const maxTokens=opts.maxTokens||2048;
+  // ═══ Model selection ═══
+  // Backend (pooled) mode: always Sonnet 4.6 — unless owner key is set,
+  // in which case respect the configured model choice.
+  // Direct (own API key) mode: use whatever the user picked.
+  let model="claude-sonnet-4-6";
 
-  // ═══ Auto-escalation ═══
-  // Default to the user's configured model (Sonnet 4.6 baseline).
-  // Escalate to Opus 4.7 when the input contains signals that need
-  // deeper reasoning: emotional complexity, ambiguity, or when the
-  // caller explicitly requests it.
-  // Callers can override with opts.model="..." or opts.forceBase=true.
-  let model=opts.model||(cfg.model||"claude-sonnet-4-6");
-
-  if(!opts.forceBase&&!opts.model){
-    const escalateSignals=[
-      // Emotional / stuck signals
-      /\b(stuck|struggling|frustrated|burnt.?out|lost.?motivation|don.t.know.?if|giving.?up|not.?working|pointless|plateau)\b/i,
-      // Reflective depth
-      /\b(what.?does.?this.?mean|why.?bother|should.?i.?(even|really)|big.?picture|long.?term.?goal|life|career.?change)\b/i,
-      // Complex decisions
-      /\b(not.?sure|confused|conflicted|torn.?between|help.?me.?decide|which.?path.?is.?better)\b/i
-    ];
-    const needs_depth=escalateSignals.some(re=>re.test(userMessage));
-    if(needs_depth){
-      // Only escalate if the user hasn't explicitly selected Haiku (cost mode)
-      if(model!=="claude-haiku-4-5-20251001"){
-        model="claude-opus-4-7";
-      }
-    }
+  if(cfg.mode==="direct"){
+    model=opts.model||(cfg.model||"claude-sonnet-4-6");
+  }else if(cfg.ownerKey&&cfg.model){
+    // Owner bypass — server will verify the key, use selected model
+    model=cfg.model;
   }
 
   if(cfg.mode==="direct"){
@@ -8460,9 +8679,29 @@ async function callCoach(systemPrompt,userMessage,opts){
   if(!cfg.endpoint){
     throw new Error("Endpoint URL missing. Add yours in Settings.");
   }
+
+  // ── Token: generate once, persist to localStorage, send with every call ──
+  let clientToken=localStorage.getItem("tmc-client-token")||"";
+  if(!clientToken){
+    // Generate a random 16-char token
+    const chars="abcdefghijklmnopqrstuvwxyz0123456789";
+    clientToken="tmc_";
+    for(let i=0;i<16;i++)clientToken+=chars[Math.floor(Math.random()*chars.length)];
+    localStorage.setItem("tmc-client-token",clientToken);
+  }
+
+  // Feature ID — caller can pass opts.featureId for per-feature rate limits
+  const featureId=opts.featureId||"default";
+
   const resp=await fetch(cfg.endpoint,{
     method:"POST",
-    headers:{"content-type":"application/json"},
+    headers:{
+      "content-type":"application/json",
+      "x-client-token":clientToken,
+      "x-feature-id":featureId,
+      // Owner key — only sent if configured, unlocks model choice server-side
+      ...(cfg.ownerKey?{"x-owner-key":cfg.ownerKey}:{})
+    },
     body:JSON.stringify({
       model:model,
       max_tokens:maxTokens,
@@ -8470,6 +8709,36 @@ async function callCoach(systemPrompt,userMessage,opts){
       messages:[{role:"user",content:userMessage}]
     })
   });
+
+  // ── Store token returned by server (in case server issued a new one) ──
+  const returnedToken=resp.headers.get("x-client-token");
+  if(returnedToken&&returnedToken!==clientToken){
+    localStorage.setItem("tmc-client-token",returnedToken);
+  }
+
+  // ── Store usage counters for display in settings ──
+  const usageDay=resp.headers.get("x-usage-day");
+  const usageMonth=resp.headers.get("x-usage-month");
+  const limitDay=resp.headers.get("x-limit-day");
+  const limitMonth=resp.headers.get("x-limit-month");
+  if(usageDay)localStorage.setItem("tmc-usage-day",usageDay);
+  if(usageMonth)localStorage.setItem("tmc-usage-month",usageMonth);
+  if(limitDay)localStorage.setItem("tmc-limit-day",limitDay);
+  if(limitMonth)localStorage.setItem("tmc-limit-month",limitMonth);
+
+  // ── Handle rate limit (429) gracefully ──
+  if(resp.status===429){
+    let limitData={};
+    try{limitData=await resp.json();}catch{}
+    if(limitData.error==="daily_limit_reached"){
+      throw new Error("Daily AI limit reached for this feature ("+limitData.used+"/"+limitData.limit+"). Resets at midnight — try again tomorrow.");
+    }
+    if(limitData.error==="monthly_limit_reached"){
+      throw new Error("Monthly AI limit reached ("+limitData.used+"/"+limitData.limit+"). Resets on the 1st of next month.");
+    }
+    throw new Error("Rate limit reached. Try again later.");
+  }
+
   if(!resp.ok){
     const errBody=await resp.text().catch(()=>"");
     throw new Error("Backend "+resp.status+(errBody?": "+errBody.slice(0,150):""));
@@ -8774,7 +9043,7 @@ Total under 180 words. Natural spoken language. No preamble.`;
       const msg="Project: "+proj.t+" ("+proj.dur+")\nPurpose: "+proj.p+"\n"+
         (tips&&tips.how?"Key objective: "+tips.how.replace(/<[^>]+>/g,"")+"\n":"")+
         (notes?"Speaker observations: "+notes+"\n":"(No notes — write for typical delivery)\n");
-      const text=await callCoach(sys,msg,{maxTokens:500});
+      const text=await callCoach(sys,msg,{maxTokens:500,featureId:'eh-draft'});
 
       // Robust parser — strip markdown, lenient label matching
       const clean=text.replace(/\*\*/g,"").replace(/__/g,"").replace(/```/g,"");
@@ -8826,7 +9095,7 @@ Total under 180 words. Natural spoken language. No preamble.`;
       }
       draftHtml+='<div class="eh-draft-hint">Add specific names and moments before delivering. Speak from memory.</div></div>';
       out.innerHTML=draftHtml;
-    }catch(e){out.innerHTML='<div class="role-ai-error">⚠ '+e.message+'</div>';}
+    }catch(e){out.innerHTML=renderAIError(e,"eh-generate");}
   });
 }
 
@@ -8839,20 +9108,204 @@ Total under 180 words. Natural spoken language. No preamble.`;
 // shows the chosen framework as a fill-in template.
 
 const SPEECH_FRAMEWORKS=[
-  {id:"psp",label:"Past → Present → Future",desc:"Reflective + personal. Great for Ice Breaker and story-based projects.",points:["Where I started (past)","Where I am now (present)","Where I'm heading (future / what I want the audience to take)"]},
-  {id:"psb",label:"Problem → Solution → Benefit",desc:"Persuasive + clear. Strong for proposals, change speeches, Level 3+.",points:["The problem (make it vivid and personal to the audience)","Your solution (specific, credible)","The benefit (what changes for them if they act)"]},
-  {id:"r3",label:"Rule of 3",desc:"Universal. Three parallel points, each with a story or example.",points:["Point one (open with a story or vivid example)","Point two (contrast or build on point one)","Point three (the most powerful — land it hard)"]},
-  {id:"mms",label:"Monroe's Motivated Sequence",desc:"Classic persuasion for speeches needing audience action.",points:["Attention (grab with a shocking fact or question)","Need (show the problem is urgent and affects them)","Satisfaction → Visualization → Action"]},
-  {id:"star",label:"Single Story Arc",desc:"One story, start to finish. Best for Storytelling and Ice Breaker.",points:["Setup (who, where, what was at stake)","Rising tension (what happened — the complication)","Resolution + lesson (what changed and why it matters)"]}
+  {
+    id:"psp",
+    label:"Past → Present → Future",
+    desc:"Reflective + personal. Great for Ice Breaker and story-based projects.",
+    best:["ice-breaker","story","reflect","hpl","comm-style","lead-style"],
+    sections:[
+      {id:"hook",    label:"Opening hook",      target:"20-40 words",
+       prompt:"Start with a specific moment — a scene, a line someone said, or the moment everything changed. Don't introduce yourself yet.",
+       starter:"Picture this: [scene]. I was [age/situation] and I had no idea that [what was about to happen]…"},
+      {id:"past",    label:"Where I started",   target:"80-120 words",
+       prompt:"Paint the before-picture. Who were you? What did you believe? What was your world like? Be specific — name a place, a habit, a fear.",
+       starter:"Growing up, I [belief/situation]. My [world/environment] taught me that [assumption that would later prove wrong]…"},
+      {id:"present", label:"Where I am now",    target:"80-120 words",
+       prompt:"What changed? Name the turning point — a decision, a failure, a person, a moment. Transition from past-you to present-you.",
+       starter:"That changed when [specific event]. I [what I did / what happened]. Looking back, I can see that [what it taught me]…"},
+      {id:"future",  label:"Where I'm heading", target:"60-90 words",
+       prompt:"What does this mean going forward? A commitment, a goal, or an invitation to the audience. Make it personal — not generic advice.",
+       starter:"Which is why I now [commitment or approach]. And if there's one thing I want to leave you with today, it's this: [key message]."},
+      {id:"close",   label:"Closing call-back", target:"20-30 words",
+       prompt:"Echo something from your opening — a word, an image, or the same scene. Full circle endings feel complete.",
+       starter:"Remember [call-back to opening image or line]. That's still with me. And now, so is [key message]."}
+    ]
+  },
+  {
+    id:"psb",
+    label:"Problem → Solution → Benefit",
+    desc:"Persuasive + clear. Strong for proposals, change speeches, Level 3+.",
+    best:["persuade-speak","inspire","comm-change","dev-vision","present-prop","plan-implement"],
+    sections:[
+      {id:"hook",     label:"Opening hook",     target:"20-40 words",
+       prompt:"Open with the problem made visceral — a statistic, a story, or a provocative question. Don't start with 'I want to talk about…'",
+       starter:"Every [timeframe], [consequence of problem]. Most people don't know this. I didn't either — until [moment]."},
+      {id:"problem",  label:"The problem",      target:"80-120 words",
+       prompt:"Make the problem real and personal to the audience. Why does it matter to THEM? Use a story or specific example, not just stats.",
+       starter:"Here's what's actually happening: [problem description]. You may have experienced this as [relatable symptom]. The root cause is [underlying issue]…"},
+      {id:"solution", label:"Your solution",    target:"100-130 words",
+       prompt:"Introduce your solution specifically — not vaguely. What is it? Why does it work? Address the obvious objection briefly.",
+       starter:"The solution isn't complicated, but it requires [key shift]. Specifically: [solution]. I've seen this work when [evidence or example]…"},
+      {id:"benefit",  label:"The benefit",      target:"60-90 words",
+       prompt:"Paint the after-picture. What changes when this is adopted? Make it concrete — numbers, sensory details, or a short story of the transformed future.",
+       starter:"When [solution] is in place, [specific benefit]. Instead of [current state], you get [desired state]. [Short story or example of this reality]."},
+      {id:"close",    label:"Call to action",   target:"30-50 words",
+       prompt:"One specific, doable thing you're asking the audience to do or think differently about. Not five things — one.",
+       starter:"So here's my ask: [one specific action]. You can start [timeframe]. Because [connection to key message]."}
+    ]
+  },
+  {
+    id:"r3",
+    label:"Rule of 3",
+    desc:"Universal structure. Three parallel points, each anchored in a story or example.",
+    best:["vocal-var","eff-body-lang","connect-aud","inspire","team-build","motivate"],
+    sections:[
+      {id:"hook",   label:"Opening hook",  target:"20-40 words",
+       prompt:"A question, a bold statement, or a one-line story that frames your three points. The audience should feel the payoff is worth waiting for.",
+       starter:"There are three things [most people/leaders/communicators] get wrong about [topic]. Three things I had to learn the hard way."},
+      {id:"setup",  label:"Setup — your frame", target:"40-60 words",
+       prompt:"Briefly tell the audience what they're getting. Three things, one idea. Give them a map.",
+       starter:"Today I want to share three [lessons/principles/stories] about [key message]. Each one changed how I [see/do/approach] something. Together, they add up to [big idea]."},
+      {id:"point1", label:"Point 1",       target:"80-120 words",
+       prompt:"Open with a story or vivid example — not a statement. The story proves the point, the point doesn't just describe it.",
+       starter:"[Point 1 title]. [Short scene or story — 2-3 sentences]. What I learned from that: [specific insight]. In other words: [crisp takeaway in one line]."},
+      {id:"point2", label:"Point 2",       target:"80-120 words",
+       prompt:"Contrast or build on Point 1. Use a different type of example — if P1 was personal, P2 could be about someone else or a wider pattern.",
+       starter:"[Point 2 title]. [Example that contrasts or builds on P1]. This taught me that [insight]. The difference between [P1 state] and [P2 state] is [key distinction]."},
+      {id:"point3", label:"Point 3 (the landing)", target:"80-120 words",
+       prompt:"Your most powerful point goes here. Build to it. This is the emotional or insight peak of the speech.",
+       starter:"[Point 3 title — make it the best one]. [Most powerful story or example]. Which brings me back to [key message]: [land it clearly]."},
+      {id:"close",  label:"Closing",       target:"30-50 words",
+       prompt:"Echo all three titles in one sentence, then land the key message. Crisp. Memorable.",
+       starter:"[P1 title]. [P2 title]. [P3 title]. Three points, one truth: [key message]. That's what I'm taking away — and I hope you do too."}
+    ]
+  },
+  {
+    id:"prep",
+    label:"PREP (Point → Reason → Example → Point)",
+    desc:"The fastest speech structure. Ideal for Table Topics, short speeches, Q&A.",
+    best:["active-listen","qa-session","moderate","intro-vocal-body","writing-purpose"],
+    sections:[
+      {id:"point1",   label:"Point — your stance", target:"20-30 words",
+       prompt:"State your position in one clear sentence. Don't hedge. Don't add caveats yet. Just say what you believe.",
+       starter:"My view is that [clear position on topic]. And I believe this because [one-line reason preview]."},
+      {id:"reason",   label:"Reason — why",        target:"50-70 words",
+       prompt:"Give the single strongest reason for your stance. One reason, explained well, beats three reasons stated vaguely.",
+       starter:"The reason is [core reason]. When you [action or situation], the result is [outcome]. This matters because [connection to the audience's reality]."},
+      {id:"example",  label:"Example — proof",     target:"60-90 words",
+       prompt:"A story, statistic, or experience that proves the reason. Make it specific — not 'research shows' but 'in a Stanford study of 1,200 adults'.",
+       starter:"For example: [specific story or example]. This shows that [connection back to reason]. I've seen this play out [personal or observed version]."},
+      {id:"point2",   label:"Point — restated",    target:"20-30 words",
+       prompt:"Restate your opening stance — same idea, slightly different words. The repetition gives it weight.",
+       starter:"So my position remains: [restate stance]. [One sentence on why this matters right now]."}
+    ]
+  },
+  {
+    id:"wsaw",
+    label:"What / So What / Now What",
+    desc:"Clear and reflective. Strong for project reports, lessons learned, HPL speeches.",
+    best:["eval-feedback","hpl","reflect","manage-proj","team-build","success-collab"],
+    sections:[
+      {id:"hook",    label:"Opening hook",    target:"20-40 words",
+       prompt:"A specific moment or surprising fact that earns the audience's attention before you explain what happened.",
+       starter:"[Specific scene or fact that surprises]. That's where this story starts. Let me tell you what I did — and what it taught me."},
+      {id:"what",    label:"What happened",   target:"80-120 words",
+       prompt:"Describe the event, project, or situation clearly. Facts first — who, what, when, where. Keep it factual here, save the reflection for the next section.",
+       starter:"Here's what happened: [clear description of situation or project]. The goal was [objective]. What actually occurred was [what happened — including what went wrong or unexpectedly]."},
+      {id:"sowhat",  label:"So what — why it matters", target:"80-120 words",
+       prompt:"What did this mean? What did you learn? What changed in you, the team, or the situation? This is the heart of the speech.",
+       starter:"Here's why this matters: [insight or shift]. I used to think [old belief]. Now I understand that [new understanding]. The impact was [concrete effect]."},
+      {id:"nowwhat", label:"Now what — going forward", target:"60-80 words",
+       prompt:"What will you (and/or the audience) do differently? A specific commitment or invitation to action.",
+       starter:"Going forward, I'm [specific commitment or change]. And if this resonates with you, I'd encourage you to [one actionable thing]. Because [connection to key message]."},
+      {id:"close",   label:"Close",           target:"20-30 words",
+       prompt:"Land the key message clearly. One sentence. No hedging.",
+       starter:"The bottom line: [key message]. [Optional: echo the opening image]."}
+    ]
+  },
+  {
+    id:"mms",
+    label:"Monroe's Motivated Sequence",
+    desc:"The gold standard for persuasion speeches requiring audience action.",
+    best:["persuade-speak","inspire","comm-change","vol-org","motivate","reach-consens"],
+    sections:[
+      {id:"attention",    label:"Attention",      target:"30-50 words",
+       prompt:"Shock, surprise, or provoke. An alarming fact, a vivid scene, or a rhetorical question that makes the audience sit up.",
+       starter:"[Shocking fact or vivid scene]. Most of us don't think about this — until [consequence]."},
+      {id:"need",         label:"Need",           target:"80-120 words",
+       prompt:"Establish the problem urgently. Use statistics, a story, and an appeal to the audience's self-interest. Why does this affect THEM?",
+       starter:"The reality is [scale of problem]. This affects [audience group] because [direct connection]. You may not have noticed — but [symptom they'd recognise]. We need to act because [urgency]."},
+      {id:"satisfaction", label:"Satisfaction",   target:"100-130 words",
+       prompt:"Present your solution specifically. How does it solve the need? What does it look like in practice?",
+       starter:"The solution is [specific solution]. Here's how it works: [step 1, step 2, step 3 or brief description]. We know this works because [evidence or example]."},
+      {id:"visualization",label:"Visualisation",  target:"80-100 words",
+       prompt:"Paint two futures — one where the audience acts, one where they don't. Make the contrast vivid and emotionally real.",
+       starter:"Imagine [positive future with solution]. Compare that to [negative future without it]. The difference comes down to [key decision or action]."},
+      {id:"action",       label:"Action",         target:"30-50 words",
+       prompt:"Tell the audience exactly what to do — one specific, immediate, doable action. Not five things. One.",
+       starter:"Here's what I'm asking you to do: [one specific action]. You can do this [timeframe]. Because [connection to key message]."}
+    ]
+  },
+  {
+    id:"bab",
+    label:"Before → After → Bridge",
+    desc:"Transformation story. Strong for personal growth, testimony, and coaching speeches.",
+    best:["ice-breaker","story","focus-pos","emotional-intel","hpl","pos-coaching-ec"],
+    sections:[
+      {id:"hook",   label:"Opening hook",   target:"20-40 words",
+       prompt:"Start in the middle of the transformation — a moment of change — then pull back to the beginning.",
+       starter:"The moment I realised [key insight], everything shifted. But to understand why, you need to know where I was before."},
+      {id:"before", label:"Before — the old world", target:"80-120 words",
+       prompt:"Paint the before-picture with honesty. What did you struggle with? What did you believe? What was holding you back? Don't make it too dark — make it relatable.",
+       starter:"Before [transformation], I was [honest description of before state]. I believed [limiting belief or assumption]. My [habit/approach/mindset] was [specific description]. Sound familiar?"},
+      {id:"after",  label:"After — the new world",  target:"80-120 words",
+       prompt:"Show what changed — but don't jump there instantly. Show the moment of change first, then describe the new state.",
+       starter:"The shift happened when [specific turning point]. After that, [what changed]. Now I [new approach/belief/habit]. The difference isn't just [surface change] — it's [deeper shift]."},
+      {id:"bridge", label:"Bridge — how to get there", target:"80-100 words",
+       prompt:"Share the bridge — what made the transformation possible? This is your key message delivered as practical insight for the audience.",
+       starter:"The bridge between [before] and [after] was [key insight, decision, or practice]. Here's what I'd tell anyone in [before state]: [specific advice or insight]."},
+      {id:"close",  label:"Closing",        target:"30-50 words",
+       prompt:"Echo the before/after contrast in one line, then land the key message.",
+       starter:"From [before state] to [after state] — that's the journey. And the bridge is always [key message]."}
+    ]
+  },
+  {
+    id:"bookend",
+    label:"Bookend (Open + Close with same story)",
+    desc:"Sophisticated and memorable. Three points framed by a single story told in two halves.",
+    best:["story","connect-aud","inspire","speak-prof","reflect","comm-style"],
+    sections:[
+      {id:"open_story", label:"Opening — first half of the story", target:"60-90 words",
+       prompt:"Start mid-story. Leave it unresolved — cut at the moment of tension. The audience needs to want to know what happens.",
+       starter:"[Scene-setting in 1-2 lines]. Then [complication or moment of tension]. I didn't know yet what I'd do. Let me tell you what I'd learned that led me there."},
+      {id:"point1",    label:"Point 1",      target:"80-100 words",
+       prompt:"Your first lesson or insight. Connect it back to the opening story if possible.",
+       starter:"[Point 1 insight]. I learned this [from experience or observation]. Specifically: [example or story]. Which is why when [callback to opening], I knew that [connection]."},
+      {id:"point2",    label:"Point 2",      target:"80-100 words",
+       prompt:"Build on Point 1. Different angle or deeper dimension of the same key message.",
+       starter:"[Point 2 insight]. This became clear when [example or story]. The difference between [P1] and [P2] is [key distinction]."},
+      {id:"point3",    label:"Point 3",      target:"80-100 words",
+       prompt:"Your strongest point. The one that ties the story together.",
+       starter:"[Point 3 insight — your most powerful]. [Story or example]. Which brought everything together."},
+      {id:"close_story",label:"Closing — second half of the story", target:"60-90 words",
+       prompt:"Return to the opening story and resolve it. The audience has been waiting. Make the resolution land the key message.",
+       starter:"So, back to [opening scene]. [What happened next]. And in that moment, I understood: [key message]. [One final sentence — the cleanest possible close]."}
+    ]
+  }
 ];
+
 
 function renderSpeechDraft(app){
   const aiOn=S.aiConfig&&S.aiConfig.enabled;
   if(!V._sdPid)V._sdPid="";
   if(!V._sdTopic)V._sdTopic="";
   if(!V._sdKeyMsg)V._sdKeyMsg="";
-  if(!V._sdFramework)V._sdFramework="";  // empty = let AI pick
+  if(!V._sdFramework)V._sdFramework="psp"; // default to first framework
   if(!V._sdResult)V._sdResult=null;
+
+  // Smart framework suggestion based on selected project
+  const proj=V._sdPid?PD[V._sdPid]:null;
+  const suggestedFw=proj?SPEECH_FRAMEWORKS.find(f=>f.best&&f.best.includes(V._sdPid)):null;
 
   // Project list
   const levelGroups=[];
@@ -8868,26 +9321,30 @@ function renderSpeechDraft(app){
   h+='<button class="top-bar-btn" data-action="sd-back">← Practice</button>';
   if(V._sdResult)h+='<button class="top-bar-btn" data-action="sd-reset">Start over</button>';
   h+='</div>';
-
   h+='<div class="kicker">Practice</div>';
   h+='<h1 class="title">📝 Speech <span class="accent">Draft Builder</span></h1>';
-  h+='<div class="subtitle">'+(aiOn?'Tell us your topic and key message — AI will suggest the right structure and write your opening lines.':'Plan your speech structure before you write.')+'</div>';
 
   if(V._sdResult){
     h+=V._sdResult;
     h+='</div>';
     app.innerHTML=h;
+    // Wire retry / AI enhance from error or result cards
     app.querySelector('[data-action="sd-back"]').addEventListener("click",()=>{V.view="practice";V._sdResult=null;render();});
-    app.querySelector('[data-action="sd-reset"]').addEventListener("click",()=>{V._sdResult=null;render();});
+    const resetBtn=app.querySelector('[data-action="sd-reset"]');
+    if(resetBtn)resetBtn.addEventListener("click",()=>{V._sdResult=null;render();});
+    const aiEnhBtn=app.querySelector('[data-action="sd-ai-enhance"]');
+    if(aiEnhBtn)aiEnhBtn.addEventListener("click",()=>sdAIEnhance(app));
+    const regenBtn=app.querySelector('[data-action="sd-generate"]');
+    if(regenBtn)regenBtn.addEventListener("click",()=>sdAIEnhance(app));
     return;
   }
 
-  // ── Input form ──
+  h+='<div class="subtitle">Pick a structure, add your topic — your scaffold appears instantly. AI can write the opening lines after.</div>';
   h+='<div class="sd-form">';
 
   // Project picker
   h+='<div class="sd-field">';
-  h+='<div class="sd-label">PROJECT (optional)</div>';
+  h+='<div class="sd-label">PROJECT <span class="sd-label-note">optional</span></div>';
   h+='<select class="eh-select" id="sd-pid">';
   h+='<option value="">Freestyle / no specific project</option>';
   levelGroups.forEach(({level,pids})=>{
@@ -8899,62 +9356,54 @@ function renderSpeechDraft(app){
     h+='</optgroup>';
   });
   h+='</select>';
+  if(suggestedFw&&suggestedFw.id!==V._sdFramework){
+    h+='<div class="sd-suggestion">💡 Suggested for this project: <strong>'+suggestedFw.label+'</strong></div>';
+  }
   h+='</div>';
 
   // Topic
   h+='<div class="sd-field">';
-  h+='<div class="sd-label">YOUR TOPIC OR ANGLE</div>';
+  h+='<div class="sd-label">TOPIC OR ANGLE</div>';
   h+='<input class="role-ai-input" id="sd-topic" placeholder="e.g. Why I started waking up at 5am, The day I got fired…" value="'+escHtml(V._sdTopic)+'"/>';
   h+='</div>';
 
-  // Key message — new
+  // Key message
   h+='<div class="sd-field">';
-  h+='<div class="sd-label">KEY MESSAGE <span style="font-weight:400;text-transform:none;letter-spacing:0;font-size:10px;color:var(--text-3)"> — the one thing you want the audience to walk away with</span></div>';
-  h+='<input class="role-ai-input" id="sd-keymsg" placeholder="e.g. Consistency beats talent. Small habits compound. Failure isn\'t the end…" value="'+escHtml(V._sdKeyMsg)+'"/>';
+  h+='<div class="sd-label">KEY MESSAGE <span class="sd-label-note">one thing the audience walks away with</span></div>';
+  h+='<input class="role-ai-input" id="sd-keymsg" placeholder="e.g. Consistency beats talent. Small habits compound…" value="'+escHtml(V._sdKeyMsg)+'"/>';
   h+='</div>';
 
-  if(aiOn){
-    // AI mode — let AI choose structure OR user can pick
-    h+='<div class="sd-field">';
-    h+='<div class="sd-label">STRUCTURE <span style="font-weight:400;text-transform:none;letter-spacing:0;font-size:10px;color:var(--text-3)"> — leave blank for AI to suggest</span></div>';
-    h+='<div class="sd-frameworks">';
-    // "Let AI decide" option
-    h+='<button class="sd-framework-btn'+(V._sdFramework===''?' active':'')+'" data-sd-fw="">';
-    h+='<div class="sd-fw-label">✨ AI decides</div>';
-    h+='<div class="sd-fw-desc">Best structure for your topic and project</div>';
+  // Framework picker — always shown, no AI-decides option
+  h+='<div class="sd-field">';
+  h+='<div class="sd-label">STRUCTURE</div>';
+  h+='<div class="sd-frameworks">';
+  SPEECH_FRAMEWORKS.forEach(f=>{
+    const isSuggested=suggestedFw&&suggestedFw.id===f.id;
+    h+='<button class="sd-framework-btn'+(V._sdFramework===f.id?' active':'')+'" data-sd-fw="'+f.id+'">';
+    h+='<div class="sd-fw-label">'+f.label+(isSuggested?' <span class="sd-fw-badge">Suggested</span>':'')+'</div>';
+    h+='<div class="sd-fw-desc">'+f.desc+'</div>';
     h+='</button>';
-    SPEECH_FRAMEWORKS.forEach(f=>{
-      h+='<button class="sd-framework-btn'+(V._sdFramework===f.id?' active':'')+'" data-sd-fw="'+f.id+'">';
-      h+='<div class="sd-fw-label">'+f.label+'</div>';
-      h+='<div class="sd-fw-desc">'+f.desc+'</div>';
-      h+='</button>';
-    });
-    h+='</div>';
-    h+='</div>';
-    h+='<button class="eh-generate-btn" data-action="sd-generate">✨ Build my speech</button>';
-  }else{
-    // Offline — user picks structure
-    h+='<div class="sd-field">';
-    h+='<div class="sd-label">STRUCTURE</div>';
-    h+='<div class="sd-frameworks">';
-    SPEECH_FRAMEWORKS.forEach(f=>{
-      h+='<button class="sd-framework-btn'+((!V._sdFramework||V._sdFramework===f.id)?V._sdFramework===f.id?' active':'':'')+'" data-sd-fw="'+f.id+'">';
-      h+='<div class="sd-fw-label">'+f.label+'</div>';
-      h+='<div class="sd-fw-desc">'+f.desc+'</div>';
-      h+='</button>';
-    });
-    h+='</div>';
-    h+='</div>';
-    h+='<button class="eh-generate-btn" data-action="sd-build-manual">📋 Build outline template</button>';
-  }
+  });
+  h+='</div>';
+  h+='</div>';
 
-  h+='</div>'; // /sd-form
+  h+='<button class="eh-generate-btn" data-action="sd-build-offline">📋 Build my scaffold</button>';
+
+  h+='</div>';
   h+='</div>';
   app.innerHTML=h;
 
   app.querySelector('[data-action="sd-back"]').addEventListener("click",()=>{V.view="practice";render();});
   const pidSel=app.querySelector("#sd-pid");
-  if(pidSel)pidSel.addEventListener("change",()=>{V._sdPid=pidSel.value;});
+  if(pidSel)pidSel.addEventListener("change",()=>{
+    V._sdPid=pidSel.value;
+    // Auto-suggest framework if project has one
+    if(V._sdPid){
+      const fw=SPEECH_FRAMEWORKS.find(f=>f.best&&f.best.includes(V._sdPid));
+      if(fw)V._sdFramework=fw.id;
+    }
+    render();
+  });
   const topicEl=app.querySelector("#sd-topic");
   if(topicEl)topicEl.addEventListener("input",()=>{V._sdTopic=topicEl.value;});
   const keyMsgEl=app.querySelector("#sd-keymsg");
@@ -8967,160 +9416,122 @@ function renderSpeechDraft(app){
     });
   });
 
-  // ── Offline template ──
-  const manualBtn=app.querySelector('[data-action="sd-build-manual"]');
-  if(manualBtn)manualBtn.addEventListener("click",()=>{
-    const proj=V._sdPid?PD[V._sdPid]:null;
-    const topic=(topicEl?topicEl.value.trim():V._sdTopic)||"My speech";
-    const fw=SPEECH_FRAMEWORKS.find(f=>f.id===V._sdFramework)||SPEECH_FRAMEWORKS[0];
-    let html='<div class="sd-result-card">';
-    html+='<div class="sd-result-title">'+escHtml(topic)+'</div>';
-    if(proj)html+='<div class="sd-result-project">'+proj.t+' · '+proj.dur+'</div>';
-    html+='<div class="sd-result-fw">'+fw.label+'</div>';
-    html+='<div class="sd-result-section"><div class="sd-result-sec-label">OPENING HOOK</div>';
-    html+='<div class="sd-result-blank">Start with a surprising question, bold statement, or vivid story moment.</div></div>';
-    fw.points.forEach((pt,i)=>{
-      html+='<div class="sd-result-section"><div class="sd-result-sec-label">POINT '+(i+1)+'</div>';
-      html+='<div class="sd-result-blank">'+pt+'</div></div>';
-    });
-    html+='<div class="sd-result-section"><div class="sd-result-sec-label">CLOSING</div>';
-    html+='<div class="sd-result-blank">Call back to your opening. Land the key message clearly.</div></div>';
-    html+='</div>';
-    V._sdResult=html;
-    render();
-  });
-
-  // ── AI draft ──
-  const genBtn=app.querySelector('[data-action="sd-generate"]');
-  if(genBtn)genBtn.addEventListener("click",async()=>{
-    const proj=V._sdPid?PD[V._sdPid]:null;
+  // Build offline scaffold
+  const offlineBtn=app.querySelector('[data-action="sd-build-offline"]');
+  if(offlineBtn)offlineBtn.addEventListener("click",()=>{
     const topic=(topicEl?topicEl.value.trim():V._sdTopic)||"";
     const keyMsg=(keyMsgEl?keyMsgEl.value.trim():V._sdKeyMsg)||"";
-    if(!topic&&!keyMsg){alert("Enter a topic or key message first.");return;}
-
-    V._sdResult='<div class="sd-result-card sd-loading"><div class="eh-draft-label">BUILDING YOUR SPEECH…</div><div style="display:flex;justify-content:center;padding:20px"><span class="coach-dots"><span>.</span><span>.</span><span>.</span></span></div></div>';
-    render();
-
-    try{
-      const chosenFw=V._sdFramework?SPEECH_FRAMEWORKS.find(f=>f.id===V._sdFramework):null;
-
-      // Detect if project is performance-focused (body language, vocal variety, delivery)
-      const isDeliveryProject=proj&&(
-        /body language|vocal variety|gestures|movement|stage|eye contact|delivery|presence|nonverbal/i.test((proj.t||"")+" "+(proj.p||"")+" "+(proj.o||""))
-      );
-
-      const sys=`You are an expert Toastmasters speech coach. You help speakers build speeches that meet specific project objectives.
-
-Your response should use EXACTLY these section headers (one per line, in caps):
-
-PROJECT COACHING:
-[2-3 sentences on how this speech can help them meet the project's specific objective. If it's a delivery/body language/vocal variety project, say so directly — the key goal is delivery, not just structure. Give specific advice on how the speech content can enable better delivery.]
-
-RECOMMENDED STRUCTURE:
-[Name the structure (e.g. "Past → Present → Future") and one sentence why it fits this topic + key message]
-
-OPENING HOOK:
-[Write 2-3 actual opening sentences the speaker can use or adapt]
-
-POINT 1:
-[Concrete starter content, 2-3 sentences]
-
-POINT 2:
-[Concrete starter content, 2-3 sentences]
-
-POINT 3:
-[Concrete starter content, 2-3 sentences]
-
-CLOSING:
-[2-3 closing sentences that land the key message]
-
-Total under 450 words. Write directly to the speaker (second person). If structure was pre-selected, use it. Otherwise pick the best fit.`;
-
-      const msg=(proj?"Project: "+proj.t+" ("+proj.dur+")\nObjective: "+proj.p+"\n"+(proj.o?"\nFull objective: "+proj.o+"\n":"")+"\n":"")+
-        "Topic: "+(topic||"(no topic specified)")+"\n"+
-        "Key message: "+(keyMsg||"(not specified — infer from topic)")+"\n"+
-        (chosenFw?"Chosen structure: "+chosenFw.label+" — "+chosenFw.points.join(" / ")+"\n":"Please choose the best structure.\n")+
-        (isDeliveryProject?"\nIMPORTANT: This is a delivery-focused project. The structure matters less than how the content enables the delivery objective.\n":"")+
-        "\nWrite the full speech outline as instructed.";
-
-      const text=await callCoach(sys,msg,{maxTokens:800});
-
-      // Parse sections — strip markdown bold/italic first so labels match
-      const sections={};
-      const sectionOrder=["PROJECT COACHING","RECOMMENDED STRUCTURE","OPENING HOOK","POINT 1","POINT 2","POINT 3","CLOSING"];
-      let cur="";
-      text.split("\n").forEach(line=>{
-        // Strip markdown formatting that Claude often adds
-        const t=line.trim()
-          .replace(/^\*+|\*+$/g,"")
-          .replace(/\*\*/g,"")
-          .replace(/__/g,"")
-          .replace(/^#+\s*/,"")
-          .replace(/^[-•]\s*/,"")
-          .trim();
-        if(!t)return;
-        const upper=t.toUpperCase();
-        const matched=sectionOrder.find(s=>upper.startsWith(s));
-        if(matched){
-          cur=matched;
-          sections[cur]=sections[cur]||"";
-          // Capture inline content after the label (e.g. "PROJECT COACHING: This is...")
-          const inline=t.replace(new RegExp("^"+matched+"\\s*:?\\s*","i"),"").trim();
-          if(inline)sections[cur]+=inline+" ";
-        }else if(cur){
-          sections[cur]+=t+" ";
-        }
-      });
-
-      // Color coding per section type
-      const sectionColors={
-        "PROJECT COACHING":"amber",
-        "RECOMMENDED STRUCTURE":"purple",
-        "OPENING HOOK":"blue",
-        "POINT 1":"","POINT 2":"","POINT 3":"",
-        "CLOSING":"green"
-      };
-      const sectionIcons={
-        "PROJECT COACHING":"🎯","RECOMMENDED STRUCTURE":"🏗️",
-        "OPENING HOOK":"🎣","POINT 1":"1️⃣","POINT 2":"2️⃣","POINT 3":"3️⃣","CLOSING":"🏁"
-      };
-
-      let html='<div class="sd-result-card">';
-      html+='<div class="sd-result-title">'+escHtml(topic||keyMsg||"My speech")+'</div>';
-      if(proj)html+='<div class="sd-result-project">'+proj.t+' · '+proj.dur+'</div>';
-      if(keyMsg)html+='<div class="sd-result-keymsg">💬 Key message: '+escHtml(keyMsg)+'</div>';
-
-      let hasSections=false;
-      sectionOrder.forEach(sec=>{
-        const content=(sections[sec]||"").trim();
-        if(!content)return;
-        hasSections=true;
-        const color=sectionColors[sec];
-        const icon=sectionIcons[sec]||"";
-        html+='<div class="sd-section-card sd-section-'+color+'">';
-        html+='<div class="sd-section-hdr">'+icon+' '+sec+'</div>';
-        html+='<div class="sd-section-body">'+escHtml(content)+'</div>';
-        html+='</div>';
-      });
-
-      // Fallback — if parsing failed, show the raw response so user gets something
-      if(!hasSections){
-        html+='<div class="sd-section-card sd-section-blue">';
-        html+='<div class="sd-section-hdr">📝 Speech outline</div>';
-        html+='<div class="sd-section-body" style="white-space:pre-wrap">'+escHtml(text.replace(/\*\*/g,"").replace(/__/g,""))+'</div>';
-        html+='</div>';
-      }
-
-      html+='<div class="sd-result-hint">This is your scaffold — fill each section with your own stories and specific examples. The structure does the heavy lifting.</div>';
-      html+='</div>';
-      V._sdResult=html;
-    }catch(e){
-      V._sdResult='<div class="role-ai-error" style="padding:16px">⚠ '+e.message+'</div>';
-    }
+    if(!topic&&!keyMsg){showToast("Add a topic first","✏️");return;}
+    V._sdTopic=topic;V._sdKeyMsg=keyMsg;
+    V._sdResult=sdBuildOfflineScaffold(topic,keyMsg,V._sdFramework,V._sdPid?PD[V._sdPid]:null,aiOn);
     render();
   });
 }
 
+// ── Build the offline scaffold HTML ─────────────────────────────────────────
+function sdBuildOfflineScaffold(topic,keyMsg,fwId,proj,aiOn){
+  const fw=SPEECH_FRAMEWORKS.find(f=>f.id===fwId)||SPEECH_FRAMEWORKS[0];
+  const tip=proj?TIPS[proj.t&&proj.t.toLowerCase()?Object.keys(TIPS).find(k=>PD[k]&&PD[k].t===proj.t):null]:null;
+
+  // Duration from project or default
+  const durLabel=proj?proj.dur:"5–7 min";
+  const wordTarget=proj?_sdWordTarget(proj.dur):{total:"500-700",per:"varies"};
+
+  let h='<div class="sd-result-card">';
+  h+='<div class="sd-result-title">'+escHtml(topic||"My speech")+'</div>';
+  if(proj)h+='<div class="sd-result-project">'+proj.t+' · '+durLabel+'</div>';
+  if(keyMsg)h+='<div class="sd-result-keymsg">💬 '+escHtml(keyMsg)+'</div>';
+  h+='<div class="sd-result-fw-tag">'+fw.label+'</div>';
+
+  // Project coaching from TIPS
+  const projectTip=proj?TIPS[Object.keys(TIPS).find(k=>PD[k]&&PD[k].t===proj.t)]:null;
+  if(proj&&TIPS[V._sdPid]){
+    const t=TIPS[V._sdPid];
+    h+='<div class="sd-coaching-card">';
+    h+='<div class="sd-coaching-hdr">🎯 Project coaching — '+proj.t+'</div>';
+    if(t.tip)h+='<div class="sd-coaching-body">'+t.tip+'</div>';
+    if(t.how)h+='<div class="sd-coaching-body" style="margin-top:6px">'+t.how+'</div>';
+    h+='</div>';
+  }
+
+  // Sections
+  fw.sections.forEach(sec=>{
+    h+='<div class="sd-section-card">';
+    h+='<div class="sd-section-hdr">';
+    h+='<div class="sd-section-name">'+sec.label+'</div>';
+    h+='<div class="sd-section-target">~'+sec.target+'</div>';
+    h+='</div>';
+    // Starter prompt — substitute topic/keymsg placeholders
+    const starter=sec.starter
+      .replace(/\[topic\]/gi,topic||"your topic")
+      .replace(/\[key message\]/gi,keyMsg||"your key message");
+    h+='<div class="sd-section-prompt">'+escHtml(sec.prompt)+'</div>';
+    h+='<div class="sd-section-starter"><span class="sd-starter-label">Starter line:</span> <em>'+escHtml(starter)+'</em></div>';
+    h+='</div>';
+  });
+
+  // Total word target
+  h+='<div class="sd-word-target">📊 Target: ~'+wordTarget+' words total for '+durLabel+'</div>';
+
+  h+='<div class="sd-result-hint">This is your scaffold — fill each section with your stories and examples. The structure does the heavy lifting.</div>';
+
+  // AI enhance button — optional
+  if(aiOn){
+    h+='<div class="sd-ai-enhance-wrap">';
+    h+='<div class="sd-ai-enhance-label">Want AI to write your opening lines?</div>';
+    h+='<button class="sd-ai-enhance-btn" data-action="sd-ai-enhance">✨ Write my opening with AI</button>';
+    h+='</div>';
+  }
+
+  h+='</div>';
+  return h;
+}
+
+// Word target by duration
+function _sdWordTarget(dur){
+  if(!dur)return "600-800";
+  if(dur.includes("10-12")||dur.includes("10–12"))return "1000-1200";
+  if(dur.includes("8-10")||dur.includes("8–10"))return "800-1000";
+  if(dur.includes("5-7")||dur.includes("5–7"))return "500-700";
+  if(dur.includes("3-5")||dur.includes("3–5"))return "300-500";
+  if(dur.includes("2-3")||dur.includes("2–3"))return "200-300";
+  return "500-700";
+}
+
+// AI enhance — writes opening lines on top of the offline scaffold
+async function sdAIEnhance(app){
+  const fw=SPEECH_FRAMEWORKS.find(f=>f.id===V._sdFramework)||SPEECH_FRAMEWORKS[0];
+  const proj=V._sdPid?PD[V._sdPid]:null;
+  const topic=V._sdTopic||"";
+  const keyMsg=V._sdKeyMsg||"";
+
+  // Replace the enhance button with a loading state
+  const wrap=app.querySelector('.sd-ai-enhance-wrap');
+  if(wrap)wrap.innerHTML='<div class="role-ai-loading" style="padding:12px"><span class="coach-dots"><span>.</span><span>.</span><span>.</span></span><span style="margin-left:10px;font-size:13px;color:var(--text-3)">Writing your opening…</span></div>';
+
+  try{
+    const sys="You are a speech coach writing an opening for a Toastmasters speech. Write ONLY the opening hook and first paragraph (40-70 words total). Use the given framework, topic, and key message. Write in first person. No preamble — just the speech text.";
+    const msg="Framework: "+fw.label+"\nTopic: "+(topic||"unspecified")+"\nKey message: "+(keyMsg||"unspecified")+
+      (proj?"\nProject: "+proj.t+" ("+proj.p+")\nOpening section guidance: "+fw.sections[0].prompt:"");
+    const text=await callCoach(sys,msg,{maxTokens:200,forceBase:true,featureId:"sd-draft"});
+
+    // Insert AI opening above the first section card
+    const firstSection=app.querySelector('.sd-section-card');
+    if(firstSection&&text){
+      const aiDiv=document.createElement("div");
+      aiDiv.className="sd-ai-opening";
+      aiDiv.innerHTML='<div class="sd-ai-opening-hdr">✨ AI-written opening</div>'+
+        '<div class="sd-ai-opening-text">'+escHtml(text.trim())+'</div>'+
+        '<div class="sd-ai-opening-hint">Edit this freely — it\'s a starting point, not the final version.</div>';
+      firstSection.parentNode.insertBefore(aiDiv,firstSection);
+    }
+    if(wrap)wrap.innerHTML='<div class="sd-ai-enhance-done">✅ Opening added above — scroll up to see it.</div>';
+  }catch(e){
+    if(wrap)wrap.innerHTML=renderAIError(e,"sd-ai-enhance");
+  }
+}
+
+  // ── Offline template ──
 // ═══════════════════════════════════════════════════════════════════════════
 // STANDALONE AI TOOL VIEWS — each AI generator gets its own full screen,
 // not a panel stuffed inside the role page. Matches 5A+ design pattern.
@@ -9133,8 +9544,6 @@ function renderAITool(app){
   if(toolId==="topics-gen")return renderAITopicsGen(app);
   if(toolId==="tmd-script")return renderAITMDScript(app);
   if(toolId==="eval-assistant"){
-    // Clear stale results whenever the tool is opened fresh
-    if(!V._eaLoading){V._eaResult=null;}
     return renderAIEvalAssistant(app);
   }
   V.view="roles";render();
@@ -9225,7 +9634,7 @@ function renderAITopicsGen(app){
     try{
       const sys="You are a Toastmasters Topicsmaster. Output exactly 10 Table Topics questions, numbered 1-10, one per line. Each line MUST end with a question mark. Do NOT include theme names, difficulty labels, hashtags, headers, intros, or commentary. Just the 10 questions — first character must be the digit 1.";
       const msg="Theme: "+(theme||"open")+" | Difficulty: "+V._tgDiff+"\n(Easy=personal, Medium=opinion, Challenging=abstract.)\n\nOutput now — start directly with '1.':";
-      const text=await callCoach(sys,msg,{maxTokens:700,forceBase:true});
+      const text=await callCoach(sys,msg,{maxTokens:700,forceBase:true,featureId:'tg-topics'});
       // Strict parse — must be a question (ends with ?) and not a category/header line
       const lines=text.split("\n")
         .map(l=>l.trim()
@@ -9245,7 +9654,7 @@ function renderAITopicsGen(app){
         });
       V._tgResults=lines.slice(0,10);
       if(!V._tgResults.length)V._tgResults=["⚠ No valid questions returned — try again or change the theme"];
-    }catch(e){V._tgResults=["⚠ "+e.message];}
+    }catch(e){V._tgResults=[renderAIError(e,"tg-generate")];}
     V._tgLoading=false;render();
   });
 }
@@ -9340,8 +9749,8 @@ function renderAITMDScript(app){
         "Closing":"a warm meeting closing thanking everyone"
       };
       const msg="Meeting theme: "+(theme||"open theme")+" | Vibe: "+V._tmdVibe+"\nWrite "+segMap[V._tmdSeg]+". Keep it 60-120 words.";
-      V._tmdResult=await callCoach(sys,msg,{maxTokens:400,forceBase:true});
-    }catch(e){V._tmdResult="⚠ "+e.message;}
+      V._tmdResult=await callCoach(sys,msg,{maxTokens:400,forceBase:true,featureId:'tmd-script'});
+    }catch(e){V._tmdResult=renderAIError(e,"tmd-generate");}
     V._tmdLoading=false;render();
   });
 }
@@ -9479,6 +9888,17 @@ function renderAIEvalAssistant(app){
 
 function renderAISettings(app){
   const cfg=S.aiConfig||{};
+
+  // ── Read usage from localStorage (written by callCoach on each response) ──
+  const usageDay=parseInt(localStorage.getItem("tmc-usage-day")||"0",10);
+  const usageMonth=parseInt(localStorage.getItem("tmc-usage-month")||"0",10);
+  const limitDay=parseInt(localStorage.getItem("tmc-limit-day")||"20",10);
+  const limitMonth=parseInt(localStorage.getItem("tmc-limit-month")||"150",10);
+  const dayPct=Math.min(100,Math.round(usageDay/limitDay*100));
+  const monthPct=Math.min(100,Math.round(usageMonth/limitMonth*100));
+  const dayColor=dayPct>=90?"#E85D5D":dayPct>=70?"#E8B250":"#5EB975";
+  const monthColor=monthPct>=90?"#E85D5D":monthPct>=70?"#E8B250":"#5EB975";
+
   let h='<div class="fade-up">';
   h+='<div class="top-bar">';
   h+='<button class="top-bar-btn" data-action="settings-back">← Back</button>';
@@ -9486,6 +9906,30 @@ function renderAISettings(app){
   h+='<div class="kicker">AI Settings</div>';
   h+='<h1 class="title">AI <span class="accent">features</span></h1>';
   h+='<div class="subtitle">AI features use Anthropic\'s Claude. Enabled by default. Disable if you prefer a fully offline experience.</div>';
+
+  // ── Usage counter — only shown if backend mode (not direct API key) ──
+  if(cfg.enabled&&cfg.mode!=="direct"){
+    h+='<div class="settings-card">';
+    h+='<div class="settings-section-label">AI Usage this period</div>';
+    h+='<div class="usage-row">';
+    h+='<div class="usage-item">';
+    h+='<div class="usage-label">Today</div>';
+    h+='<div class="usage-bar-wrap"><div class="usage-bar" style="width:'+dayPct+'%;background:'+dayColor+'"></div></div>';
+    h+='<div class="usage-count" style="color:'+dayColor+'">'+usageDay+' / '+limitDay+'</div>';
+    h+='</div>';
+    h+='<div class="usage-item">';
+    h+='<div class="usage-label">This month</div>';
+    h+='<div class="usage-bar-wrap"><div class="usage-bar" style="width:'+monthPct+'%;background:'+monthColor+'"></div></div>';
+    h+='<div class="usage-count" style="color:'+monthColor+'">'+usageMonth+' / '+limitMonth+'</div>';
+    h+='</div>';
+    h+='</div>';
+    if(usageDay===0&&usageMonth===0){
+      h+='<div class="usage-hint">Usage appears here after your first AI call.</div>';
+    }else{
+      h+='<div class="usage-hint">Daily limits reset at midnight UTC · Monthly limits reset on the 1st</div>';
+    }
+    h+='</div>';
+  }
 
   // Master toggle — always visible
   h+='<div class="settings-card">';
@@ -9499,27 +9943,35 @@ function renderAISettings(app){
   h+='</div>';
 
   if(cfg.enabled){
-    // Model picker — primary control, always visible when AI is on
-    h+='<div class="settings-card">';
-    h+='<div class="settings-section-label">Model</div>';
-    const models=[
-      {id:"claude-opus-4-7",name:"Claude Opus 4.7",desc:"Most capable, best for planning & nuance"},
-      {id:"claude-opus-4-6",name:"Claude Opus 4.6",desc:"Previous Opus, still strong"},
-      {id:"claude-sonnet-4-6",name:"Claude Sonnet 4.6",desc:"Balanced speed / capability"},
-      {id:"claude-haiku-4-5-20251001",name:"Claude Haiku 4.5",desc:"Fastest, cheapest — great for quick refinements"}
-    ];
-    h+='<div class="settings-model-list">';
-    models.forEach(m=>{
-      h+='<label class="settings-model-option'+(cfg.model===m.id?" active":"")+'">';
-      h+='<input type="radio" name="ai-model" value="'+m.id+'"'+(cfg.model===m.id?" checked":"")+'>';
-      h+='<div class="settings-model-body">';
-      h+='<div class="settings-model-name">'+m.name+'</div>';
-      h+='<div class="settings-model-desc">'+m.desc+'</div>';
+    // Model picker — only shown in direct (own API key) mode.
+    // In backend mode we lock to Sonnet 4.6 to control costs — users on
+    // a pooled key don't get to pick Opus and run up the bill.
+    if(cfg.mode==="direct"){
+      h+='<div class="settings-card">';
+      h+='<div class="settings-section-label">Model</div>';
+      const models=[
+        {id:"claude-sonnet-4-6",name:"Claude Sonnet 4.6",desc:"Recommended — fast, capable, cost-effective"},
+        {id:"claude-haiku-4-5-20251001",name:"Claude Haiku 4.5",desc:"Fastest and cheapest — great for quick tasks"}
+      ];
+      h+='<div class="settings-model-list">';
+      models.forEach(m=>{
+        h+='<label class="settings-model-option'+(cfg.model===m.id?" active":"")+'">';
+        h+='<input type="radio" name="ai-model" value="'+m.id+'"'+(cfg.model===m.id?" checked":"")+'>';
+        h+='<div class="settings-model-body">';
+        h+='<div class="settings-model-name">'+m.name+'</div>';
+        h+='<div class="settings-model-desc">'+m.desc+'</div>';
+        h+='</div>';
+        h+='</label>';
+      });
       h+='</div>';
-      h+='</label>';
-    });
-    h+='</div>';
-    h+='</div>';
+      h+='</div>';
+    }else{
+      // Backend mode — model is fixed, just show what's being used
+      h+='<div class="settings-card">';
+      h+='<div class="settings-section-label">Model</div>';
+      h+='<div class="settings-model-fixed">Claude Sonnet 4.6 <span class="settings-model-fixed-note">Fixed for shared use</span></div>';
+      h+='</div>';
+    }
 
     // Advanced — connection config, collapsed by default. Most users never
     // open this. Deployer (app owner) configures the backend endpoint here.
@@ -9560,6 +10012,34 @@ function renderAISettings(app){
       }
       h+='<button class="settings-test-btn" style="margin-top:14px" data-action="settings-test" id="settings-test-btn">Test connection</button>';
       h+='<div class="settings-test-result" id="settings-test-result"></div>';
+
+      // Owner mode — hidden unless you know it's there.
+      // Enter the OWNER_KEY from your Netlify env vars to unlock any model.
+      if(cfg.mode!=="direct"){
+        h+='<div class="settings-section-label" style="margin-top:20px">Owner access</div>';
+        h+='<input type="password" class="settings-input" data-ai-field="ownerKey" value="'+(cfg.ownerKey||"").replace(/"/g,"&quot;")+'" placeholder="Owner key (optional)" autocomplete="off">';
+        h+='<div class="settings-hint">Enter your owner key to unlock all models including Opus. Leave blank for standard access.</div>';
+        if(cfg.ownerKey){
+          h+='<div class="settings-section-label" style="margin-top:14px">Model</div>';
+          const ownerModels=[
+            {id:"claude-sonnet-4-6",name:"Claude Sonnet 4.6",desc:"Fast, capable, cost-effective"},
+            {id:"claude-opus-4-6",name:"Claude Opus 4.6",desc:"Previous Opus — strong reasoning"},
+            {id:"claude-opus-4-7",name:"Claude Opus 4.7",desc:"Most capable — your bill 😎"}
+          ];
+          h+='<div class="settings-model-list">';
+          ownerModels.forEach(m=>{
+            h+='<label class="settings-model-option'+(cfg.model===m.id?" active":"")+'">';
+            h+='<input type="radio" name="ai-model" value="'+m.id+'"'+(cfg.model===m.id?" checked":"")+'>';
+            h+='<div class="settings-model-body">';
+            h+='<div class="settings-model-name">'+m.name+'</div>';
+            h+='<div class="settings-model-desc">'+m.desc+'</div>';
+            h+='</div>';
+            h+='</label>';
+          });
+          h+='</div>';
+        }
+      }
+
       h+='</div>';
     }
     h+='</div>';
@@ -9695,7 +10175,7 @@ async function enhancePathfinderWithAI(){
     ciLines+
     "\n\nReturn the JSON as specified in the system prompt.";
 
-  const raw=await callCoach(systemPrompt,userMessage,{maxTokens:2048});
+  const raw=await callCoach(systemPrompt,userMessage,{maxTokens:2048,featureId:'default'});
 
   // Parse JSON — strip code fences if model includes them
   let cleaned=raw.trim();
@@ -9918,48 +10398,48 @@ function renderMyPaths(app){
 
 function renderWelcome(app){
   let h='<div class="fade-up welcome">';
+
   h+='<div class="welcome-hero">';
   h+='<div class="welcome-kicker">Welcome to</div>';
   h+='<div class="welcome-title">Toastmasters<br>Companion</div>';
-  h+='<div class="welcome-subtitle">A communication toolkit. No account, no cloud, no tracking. Your progress stays on this device.</div>';
+  h+='<div class="welcome-subtitle">AI-powered practice tools for every Toastmaster. No account, no cloud, no tracking.</div>';
   h+='</div>';
 
-  h+='<div class="welcome-q">How do you want to start?</div>';
-
+  h+='<div class="welcome-q">What brings you here?</div>';
   h+='<div class="welcome-options">';
 
-  // Branch A — already on a path
+  // Branch A — just want to practice (NEW: first and biggest)
+  h+='<button class="welcome-option welcome-option-primary" data-welcome-branch="alacarte">';
+  h+='<div class="welcome-option-icon">🎙️</div>';
+  h+='<div class="welcome-option-body">';
+  h+='<div class="welcome-option-title">I want to practice speaking</div>';
+  h+='<div class="welcome-option-desc">Jump straight in — AI Studio, Table Topics coaching, Speech Draft Builder, filler detection, timers. Everything works now, no setup needed.</div>';
+  h+='</div>';
+  h+='<div class="welcome-option-arrow">→</div>';
+  h+='</button>';
+
+  // Branch B — already on a path
   h+='<button class="welcome-option" data-welcome-branch="path-existing">';
   h+='<div class="welcome-option-icon">📍</div>';
   h+='<div class="welcome-option-body">';
-  h+='<div class="welcome-option-title">I\'m already on a path</div>';
-  h+='<div class="welcome-option-desc">Pick your path, tick off what you\'ve already completed, and we\'ll pick up from there.</div>';
+  h+='<div class="welcome-option-title">I\'m working through Pathways</div>';
+  h+='<div class="welcome-option-desc">Track your path, plan what\'s next, and get role toolkits for every club meeting.</div>';
   h+='</div>';
   h+='<div class="welcome-option-arrow">→</div>';
   h+='</button>';
 
-  // Branch B — need help picking
+  // Branch C — new to Pathways
   h+='<button class="welcome-option" data-welcome-branch="path-new">';
   h+='<div class="welcome-option-icon">🧭</div>';
   h+='<div class="welcome-option-body">';
-  h+='<div class="welcome-option-title">I\'m new / not sure which path</div>';
-  h+='<div class="welcome-option-desc">Answer 5 questions and we\'ll suggest the path that fits your goals and style best.</div>';
-  h+='</div>';
-  h+='<div class="welcome-option-arrow">→</div>';
-  h+='</button>';
-
-  // Branch C — ala carte
-  h+='<button class="welcome-option" data-welcome-branch="alacarte">';
-  h+='<div class="welcome-option-icon">🎲</div>';
-  h+='<div class="welcome-option-body">';
-  h+='<div class="welcome-option-title">I just want to use the tools</div>';
-  h+='<div class="welcome-option-desc">Skip paths entirely. Practice timers, Table Topics, filler detection, and browse every project freely. Take a path later if you change your mind.</div>';
+  h+='<div class="welcome-option-title">I\'m not sure which path to pick</div>';
+  h+='<div class="welcome-option-desc">Answer a few questions and we\'ll match you to the path that fits your goals.</div>';
   h+='</div>';
   h+='<div class="welcome-option-arrow">→</div>';
   h+='</button>';
 
   h+='</div>';
-  h+='<div class="welcome-footnote">You can always switch modes later from Settings.</div>';
+  h+='<div class="welcome-footnote">You can always set up Pathways tracking later from the hub.</div>';
   h+='</div>';
   app.innerHTML=h;
 
@@ -9969,8 +10449,6 @@ function renderWelcome(app){
       if(branch==="path-existing"){
         S.mode="path";save();
         V.view="picker";
-        // Flag so the picker-committed path enters the browser in setup mode,
-        // prompting them to tick off what's already done.
         V._welcomeFlag="existing-path";
         render();
       }else if(branch==="path-new"){
@@ -9979,9 +10457,11 @@ function renderWelcome(app){
         V._welcomeFlag="new-path";
         render();
       }else if(branch==="alacarte"){
-        // Sub-step: ask a quick comfort question before landing on the hub.
-        V._welcomeFlag="alacarte-comfort";
-        V.view="welcome-alacarte";
+        // Go straight to hub — no comfort question, no friction
+        S.mode="alacarte";
+        S.alacarteComfort="general";
+        save();
+        V.view="hub";
         render();
       }
     });
@@ -10776,7 +11256,7 @@ function psUpdateActiveDisplay(){
   }
 }
 
-// renderPracticeStudioActive removed in v0.66 — active panel now lives inside renderPracticeStudio
+// renderPracticeStudioActive removed in v0.92 — active panel now lives inside renderPracticeStudio
 
 function psStop(){
   _recordSfx(false);
@@ -10848,10 +11328,10 @@ Rules for content:
     "\nAnalyze the transcript above and give focused coaching.";
 
   try{
-    const response=await callCoach(sys,msg,{maxTokens:400});
+    const response=await callCoach(sys,msg,{maxTokens:400,featureId:'ps-eval'});
     PS.aiAnalysis=response;
   }catch(err){
-    PS.aiAnalysis="⚠ "+err.message;
+    PS.aiAnalysis=renderAIError(err,null);
   }
   PS.aiLoading=false;
   _psUpdateAnalysisSection();
@@ -10865,6 +11345,12 @@ function _psUpdateAnalysisSection(){
     return;
   }
   if(!PS.aiAnalysis)return;
+
+  // If the analysis is already a rendered error card (from renderAIError), inject directly
+  if(PS.aiAnalysis.startsWith('<div class="ai-error-card">')){
+    el.innerHTML=PS.aiAnalysis;
+    return;
+  }
 
   const raw=PS.aiAnalysis;
   const esc=s=>s.replace(/&/g,"&amp;").replace(/</g,"&lt;");
@@ -11016,6 +11502,26 @@ function renderPracticeStudioDone(app){
 load();
 resolveInitialView();
 render();
+
+// Re-render offline banner when connection changes
+window.addEventListener("online",  ()=>maybeShowOfflineBanner());
+window.addEventListener("offline", ()=>maybeShowOfflineBanner());
+
+// ── Global delegated handler for AI error cards ──
+// These buttons can appear in any view so they need a document-level listener.
+document.addEventListener("click",e=>{
+  const btn=e.target.closest("[data-action]");
+  if(!btn)return;
+  const action=btn.dataset.action;
+  if(action==="open-ai-settings"){
+    V.view="ai-settings";render();
+  }else if(action==="ttp-retry-eval"){
+    // Re-run TTP evaluation with the existing transcript
+    TTP.aiResult=null;
+    _ttpRenderDone(document.getElementById("app"));
+    ttpAnalyze();
+  }
+});
 </script>
 </body>
 </html>
