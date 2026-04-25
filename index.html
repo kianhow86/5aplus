@@ -1086,6 +1086,43 @@ a{color:inherit;text-decoration:none}
 .ai-tool-result-label{font-size:10.5px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#E85D3A;margin-bottom:10px}
 .ai-tool-result-body{font-size:14.5px;color:var(--text-2);line-height:1.7;letter-spacing:-0.003em}
 
+
+/* ═══ Evaluation Assistant — offline layout ═══ */
+.ea-project-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:18px}
+.ea-project-name{font-size:18px;font-weight:800;color:var(--text);letter-spacing:-0.008em;margin-bottom:3px}
+.ea-project-meta{font-size:12px;color:var(--text-3);letter-spacing:-0.003em;margin-bottom:12px}
+.ea-project-row{font-size:13.5px;color:var(--text-2);line-height:1.6;letter-spacing:-0.003em;margin-bottom:6px}
+.ea-project-row:last-child{margin-bottom:0}
+.ea-project-row strong{color:var(--text);font-weight:700}
+.ea-section{border-radius:14px;padding:16px;border:1px solid var(--border)}
+.ea-section-hdr{font-size:12.5px;font-weight:800;letter-spacing:-0.005em;margin-bottom:10px}
+.ea-section-body{font-size:13.5px;color:var(--text-2);line-height:1.6;letter-spacing:-0.003em}
+.ea-section-purple{background:rgba(160,123,199,0.08);border-color:rgba(160,123,199,0.3)}
+.ea-section-purple .ea-section-hdr{color:#A07BC7}
+.ea-section-amber{background:rgba(232,178,80,0.08);border-color:rgba(232,178,80,0.3)}
+.ea-section-amber .ea-section-hdr{color:#E8B250}
+.ea-section-blue{background:rgba(109,182,180,0.08);border-color:rgba(109,182,180,0.3)}
+.ea-section-blue .ea-section-hdr{color:#6DB6B4}
+.ea-section-red{background:rgba(232,93,93,0.07);border-color:rgba(232,93,93,0.28)}
+.ea-section-red .ea-section-hdr{color:#E85D5D}
+.ea-tip-block{font-size:13px;color:var(--text-2);line-height:1.6;letter-spacing:-0.003em;padding:9px 0;border-top:1px solid rgba(255,255,255,0.06)}
+.ea-tip-block:first-of-type{border-top:none;padding-top:2px}
+.ea-tip-block strong{color:var(--text);font-weight:700}
+.ea-bullet{font-size:13px;color:var(--text-2);line-height:1.6;margin-bottom:6px;letter-spacing:-0.003em}
+.ea-bullet:last-child{margin-bottom:0}
+.ea-bullet strong{color:var(--text);font-weight:700}
+.ea-script-step{display:flex;gap:12px;padding:12px 0;border-top:1px solid rgba(255,255,255,0.06)}
+.ea-script-step:first-of-type{border-top:none;padding-top:4px}
+.ea-step-num{flex-shrink:0;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px;color:#0A0B0F}
+.ea-step-green .ea-step-num{background:#5EB975}
+.ea-step-purple .ea-step-num{background:#A07BC7}
+.ea-step-amber .ea-step-num{background:#E8B250}
+.ea-step-content{flex:1;min-width:0}
+.ea-step-title{font-size:13.5px;font-weight:700;color:var(--text);margin-bottom:4px;letter-spacing:-0.005em}
+.ea-step-time{font-weight:500;color:var(--text-3);font-size:11.5px;letter-spacing:0.02em}
+.ea-step-text{font-size:13px;color:var(--text-2);line-height:1.6;letter-spacing:-0.003em}
+.ea-step-text em{color:var(--text);font-style:italic}
+
 /* Project picker (Eval Assistant) */
 .ai-tool-project-list{display:flex;flex-direction:column;gap:7px;margin-top:4px}
 .ai-tool-level-hdr{font-size:10px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--text-3);padding:8px 0 2px}
@@ -1101,6 +1138,41 @@ a{color:inherit;text-decoration:none}
 .ai-tool-project-hdr-kicker{font-size:10px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--text-3);margin-bottom:4px}
 .ai-tool-project-hdr-title{font-size:18px;font-weight:800;color:var(--text);letter-spacing:-0.008em;margin-bottom:3px}
 .ai-tool-project-hdr-dur{font-size:12.5px;color:var(--text-3);line-height:1.5;letter-spacing:-0.003em}
+
+/* ═══ Evaluation Assistant — offline only ═══ */
+.ea-project-context{background:var(--surface);border:1px solid var(--border);border-radius:13px;padding:14px 16px;display:flex;flex-direction:column;gap:8px}
+.ea-context-row{font-size:13.5px;color:var(--text-2);line-height:1.55;letter-spacing:-0.003em}
+.ea-context-row strong{color:var(--text);font-weight:700}
+.ea-tip-card{padding:14px 16px;border-radius:13px;border:1px solid}
+.ea-tip-focus{background:rgba(160,123,199,0.07);border-color:rgba(160,123,199,0.32)}
+.ea-tip-focus .ea-tip-hdr{color:#A07BC7}
+.ea-tip-avoid{background:rgba(232,93,93,0.06);border-color:rgba(232,93,93,0.28)}
+.ea-tip-avoid .ea-tip-hdr{color:#E85D5D}
+.ea-tip-hdr{font-size:12.5px;font-weight:700;letter-spacing:-0.003em;margin-bottom:6px}
+.ea-tip-body{font-size:13.5px;color:var(--text-2);line-height:1.6;letter-spacing:-0.003em}
+.ea-tip-body strong{color:var(--text)}
+.ea-script-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:18px;display:flex;flex-direction:column;gap:12px}
+.ea-script-hdr{font-size:14.5px;font-weight:800;color:var(--text);letter-spacing:-0.008em;margin-bottom:2px}
+.ea-step{padding:13px 14px;border-radius:11px;border-left:3px solid}
+.ea-step-praise{background:rgba(94,185,117,0.06);border-left-color:#5EB975}
+.ea-step-objective{background:rgba(232,178,80,0.06);border-left-color:#E8B250}
+.ea-step-improve{background:rgba(232,93,58,0.06);border-left-color:#E85D3A}
+.ea-step-close{background:rgba(109,182,180,0.06);border-left-color:#6DB6B4}
+.ea-step-meta{display:flex;align-items:center;gap:8px;margin-bottom:6px;flex-wrap:wrap}
+.ea-step-n{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:50%;background:rgba(255,255,255,0.07);color:var(--text);font-size:11.5px;font-weight:800}
+.ea-step-time{font-size:11px;color:var(--text-3);font-weight:600;letter-spacing:0.04em}
+.ea-step-label{font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-2)}
+.ea-step-praise .ea-step-label{color:#5EB975}
+.ea-step-objective .ea-step-label{color:#E8B250}
+.ea-step-improve .ea-step-label{color:#E85D3A}
+.ea-step-close .ea-step-label{color:#6DB6B4}
+.ea-step-body{font-size:13.5px;color:var(--text-2);line-height:1.6;letter-spacing:-0.003em}
+.ea-step-body em{color:var(--text);font-style:italic;font-weight:500}
+.ea-crc-reminder{background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:12px;padding:14px 16px;text-align:left}
+.ea-crc-hdr{font-size:11px;font-weight:700;letter-spacing:0.13em;text-transform:uppercase;color:var(--text-3);margin-bottom:8px}
+.ea-crc-line{font-size:13px;color:var(--text-2);margin-bottom:3px;letter-spacing:-0.003em}
+.ea-crc-line strong{color:var(--text);font-weight:700}
+.ea-crc-foot{font-size:11.5px;color:var(--text-3);margin-top:8px;line-height:1.5;letter-spacing:-0.003em}
 
 /* Eval guide structured sections */
 .ai-tool-eval-guide{display:flex;flex-direction:column;gap:10px}
@@ -2735,7 +2807,7 @@ let S={
   mode:"",
   // Ala carte comfort level — only relevant when mode==="alacarte". Captured
   // during welcome flow to personalize project suggestions. "new" / "some" /
-  // "experienced". Kept loose; v0.59 may add follow-ups.
+  // "experienced". Kept loose; v0.61 may add follow-ups.
   alacarteComfort:"",
   // AI Coach config. Disabled by default. User configures in Settings.
   // mode: "direct" (user's own API key, stored locally — direct browser call)
@@ -3131,7 +3203,7 @@ function renderHub(app){
   }
   h+='</div>';
 
-  h+='<div class="app-footer">Toastmasters Companion · v0.59 · Your progress saves on this device</div>';
+  h+='<div class="app-footer">Toastmasters Companion · v0.61 · Your progress saves on this device</div>';
   h+='</div>';
   app.innerHTML=h;
 
@@ -3433,7 +3505,7 @@ function renderPathPicker(app){
   h+='<button class="quiz-prompt-btn" data-action="open-quiz">🧭 &nbsp; Not sure which one? Take the fun quiz</button>';
   h+='</div>';
 
-  h+='<div class="app-footer">Toastmasters Companion · v0.59 · Built with ❤️ for Toastmasters</div>';
+  h+='<div class="app-footer">Toastmasters Companion · v0.61 · Built with ❤️ for Toastmasters</div>';
   h+='</div>';
   app.innerHTML=h;
 
@@ -3725,7 +3797,7 @@ function renderPathBrowser(app){
   // Keeping it in the tree lets us toggle visibility without re-rendering.
   h+='<div class="path-complete-banner'+(pct>=100?'':' hidden')+'"><strong>🎉 Path complete!</strong><div style="font-size:13px;color:var(--text-muted);line-height:1.5">Next step: DTM. Keep going.</div></div>';
 
-  h+='<div class="app-footer">Toastmasters Companion · v0.59 · Your progress saves locally on this device</div>';
+  h+='<div class="app-footer">Toastmasters Companion · v0.61 · Your progress saves locally on this device</div>';
   h+='</div>';
   app.innerHTML=h;
 
@@ -5102,7 +5174,7 @@ function renderPracticeHub(app){
   h+=toolRow({tool:"speech-draft",color:"#6DB6B4",icon:"📝",name:"Speech Draft Builder",desc:(S.aiConfig&&S.aiConfig.enabled)?"AI builds your speech outline and opening lines":"Structure your next speech from outline to close"});
 
   h+='</div>';
-  h+='<div class="app-footer">Toastmasters Companion · v0.59 · Practice tools work offline</div>';
+  h+='<div class="app-footer">Toastmasters Companion · v0.61 · Practice tools work offline</div>';
   h+='</div>';
   app.innerHTML=h;
 
@@ -8195,15 +8267,28 @@ function renderAITopicsGen(app){
     const theme=themeInput?themeInput.value.trim():V._tgTheme;
     V._tgLoading=true;V._tgResults=null;render();
     try{
-      const sys="You are an experienced Toastmasters Topicsmaster. Generate exactly 10 Table Topics questions. Number each question 1-10. One question per line. No preamble, no explanations, nothing after the last question.";
-      const msg="Theme: "+(theme||"open")+" | Difficulty: "+V._tgDiff+"\nEasy=personal/relatable, Medium=opinion/reflection, Challenging=abstract/philosophical.\n\nGenerate 10 questions now:";
+      const sys="You are a Toastmasters Topicsmaster. Output exactly 10 Table Topics questions, numbered 1-10, one per line. Each line MUST end with a question mark. Do NOT include theme names, difficulty labels, hashtags, headers, intros, or commentary. Just the 10 questions — first character must be the digit 1.";
+      const msg="Theme: "+(theme||"open")+" | Difficulty: "+V._tgDiff+"\n(Easy=personal, Medium=opinion, Challenging=abstract.)\n\nOutput now — start directly with '1.':";
       const text=await callCoach(sys,msg,{maxTokens:700,forceBase:true});
-      // Lenient parse — strip any numbering prefix, keep any non-empty line
+      // Strict parse — must be a question (ends with ?) and not a category/header line
       const lines=text.split("\n")
-        .map(l=>l.trim().replace(/^[\d]+[.)]\s*/,"").replace(/^\*+\s*/,"").trim())
-        .filter(l=>l.length>10&&!l.match(/^(theme|difficulty|question|here are)/i));
+        .map(l=>l.trim()
+          .replace(/^[\d]+[.)]\s*/,"")
+          .replace(/^[\*\-•]\s*/,"")
+          .replace(/\*+/g,"")
+          .trim()
+        )
+        .filter(l=>{
+          if(l.length<15)return false;
+          if(!l.endsWith("?"))return false;
+          // Reject category labels even if they happen to have a ?
+          if(/^#/.test(l))return false;
+          if(/^(theme|difficulty|topic|easy|medium|challenging|level|here are|questions?|prompts?|generated|opinion|reflection|personal|abstract|philosophical)\b/i.test(l))return false;
+          if(l.split(/\s+/).length<5)return false; // too short to be a real question
+          return true;
+        });
       V._tgResults=lines.slice(0,10);
-      if(!V._tgResults.length)V._tgResults=["⚠ No questions returned — try again"];
+      if(!V._tgResults.length)V._tgResults=["⚠ No valid questions returned — try again or change the theme"];
     }catch(e){V._tgResults=["⚠ "+e.message];}
     V._tgLoading=false;render();
   });
@@ -8306,11 +8391,12 @@ function renderAITMDScript(app){
 }
 
 // ── Evaluation Assistant ────────────────────────────────────────────────────
+// ── Evaluation Assistant — OFFLINE ONLY (ported from 5A+) ────────────────
+// No AI. Tied directly to the project's purpose, overview, and TIPS data.
+// Renders a 4-step CRC evaluation script + project-specific tips.
 function renderAIEvalAssistant(app){
-  // Always reset result when opening fresh (prevents stale state from another session)
+  // OFFLINE-ONLY guidance — ported from 5aplus pattern. No AI calls.
   if(V._eaPid===undefined)V._eaPid="";
-  if(V._eaResult===undefined)V._eaResult=null;
-  if(V._eaLoading===undefined)V._eaLoading=false;
 
   const pathCode=S.path||"DL";
   const levelGroups=[];
@@ -8322,6 +8408,8 @@ function renderAIEvalAssistant(app){
   if(!levelGroups.length)levelGroups.push({level:1,pids:["ice-breaker","writing-speech","intro-vvbl","eval-feedback"]});
 
   const selProj=V._eaPid?PD[V._eaPid]:null;
+  let selLevel=0;
+  if(V._eaPid){for(const lg of levelGroups){if(lg.pids.includes(V._eaPid)){selLevel=lg.level;break;}}}
 
   let h='<div class="fade-up ai-tool-view">';
   h+='<div class="top-bar">';
@@ -8335,7 +8423,7 @@ function renderAIEvalAssistant(app){
   h+='</div>';
 
   if(!selProj){
-    h+='<div class="ai-tool-desc">Select the project you\'re evaluating to get specific guidance on what to listen for.</div>';
+    h+='<div class="ai-tool-desc">Select the project you\'re evaluating to see project-specific guidance and your evaluation script.</div>';
     h+='<div class="ai-tool-project-list">';
     levelGroups.forEach(({level,pids})=>{
       h+='<div class="ai-tool-level-hdr">Level '+level+'</div>';
@@ -8349,76 +8437,77 @@ function renderAIEvalAssistant(app){
     });
     h+='</div>';
   }else{
-    // Show guidance for the chosen project
-    h+='<div class="ai-tool-project-hdr">';
-    h+='<div class="ai-tool-project-hdr-kicker">EVALUATING</div>';
-    h+='<div class="ai-tool-project-hdr-title">'+selProj.t+'</div>';
-    h+='<div class="ai-tool-project-hdr-dur">'+selProj.dur+' · '+selProj.p+'</div>';
+    const tips=TIPS&&TIPS[V._eaPid];
+    h+='<div class="ea-project-card">';
+    h+='<div class="ea-project-name">'+selProj.t+'</div>';
+    h+='<div class="ea-project-meta">'+selProj.dur+(selLevel?' · Level '+selLevel:'')+'</div>';
+    h+='<div class="ea-project-row"><strong>Purpose:</strong> '+selProj.p+'</div>';
+    h+='<div class="ea-project-row"><strong>Overview:</strong> '+(selProj.o||"")+'</div>';
+    if(selProj.inc)h+='<div class="ea-project-row"><strong>Includes:</strong> '+selProj.inc+'</div>';
     h+='</div>';
 
-    if(V._eaLoading){
-      h+='<div class="ai-tool-loading"><span class="coach-dots"><span>.</span><span>.</span><span>.</span></span></div>';
-    }else if(V._eaResult){
-      h+='<div class="ai-tool-eval-guide">'+V._eaResult+'</div>';
-      h+='<button class="ai-tool-regen" data-action="ea-regen">🔄 Regenerate</button>';
-    }else{
-      h+='<button class="ai-tool-generate" data-action="ea-generate">📝 Get Evaluation Guidance</button>';
+    if(tips&&(tips.tip||tips.avoid||tips.how)){
+      h+='<div class="ea-section ea-section-purple">';
+      h+='<div class="ea-section-hdr">🎯 Project-specific focus</div>';
+      if(tips.tip)h+='<div class="ea-tip-block"><strong>Focus on:</strong> '+tips.tip+'</div>';
+      if(tips.avoid)h+='<div class="ea-tip-block"><strong>Watch for:</strong> '+tips.avoid+'</div>';
+      if(tips.how)h+='<div class="ea-tip-block"><strong>How it works:</strong> '+tips.how+'</div>';
+      h+='</div>';
     }
+
+    h+='<div class="ea-section ea-section-amber">';
+    h+='<div class="ea-section-hdr">📊 Level expectations</div>';
+    if(selLevel<=2){
+      h+='<div class="ea-section-body"><strong>Levels 1 & 2:</strong> 2 positive points + 2 points for improvement. Focus on encouragement and confidence-building. Keep it warm.</div>';
+    }else{
+      h+='<div class="ea-section-body"><strong>Levels 3–5:</strong> 3 positive points + 2 points for improvement. Be direct and specific — this speaker needs sharper feedback to grow.</div>';
+    }
+    h+='</div>';
+
+    h+='<div class="ea-section ea-section-blue">';
+    h+='<div class="ea-section-hdr">📋 Your evaluation script (2-3 min)</div>';
+
+    h+='<div class="ea-script-step ea-step-green"><div class="ea-step-num">1</div><div class="ea-step-content">';
+    h+='<div class="ea-step-title">Praise <span class="ea-step-time">~30 sec</span></div>';
+    h+='<div class="ea-step-text">"What I really appreciated was…" — pick a <em>specific moment</em>, not a generality.</div>';
+    h+='</div></div>';
+
+    h+='<div class="ea-script-step ea-step-purple"><div class="ea-step-num">2</div><div class="ea-step-content">';
+    h+='<div class="ea-step-title">Objective check <span class="ea-step-time">~45 sec</span></div>';
+    h+='<div class="ea-step-text">"The objective of '+selProj.t+' is to '+(selProj.p||"").toLowerCase().replace(/\.$/,"")+'. In this speech, I observed that…" — directly address whether the objective was met.</div>';
+    h+='</div></div>';
+
+    h+='<div class="ea-script-step ea-step-amber"><div class="ea-step-num">3</div><div class="ea-step-content">';
+    h+='<div class="ea-step-title">Improvement <span class="ea-step-time">~45 sec</span></div>';
+    h+='<div class="ea-step-text">"One thing that could make it even stronger…" — offer a <em>concrete, actionable</em> suggestion. Not "speak louder" but "try pausing 2 seconds after your key question to let it land."</div>';
+    h+='</div></div>';
+
+    h+='<div class="ea-script-step ea-step-green"><div class="ea-step-num">4</div><div class="ea-step-content">';
+    h+='<div class="ea-step-title">Close <span class="ea-step-time">~15 sec</span></div>';
+    h+='<div class="ea-step-text">End with genuine encouragement about their growth. Hand back to TMD/GE.</div>';
+    h+='</div></div>';
+
+    h+='</div>';
+
+    h+='<div class="ea-section ea-section-red">';
+    h+='<div class="ea-section-hdr">⚠️ Evaluator pitfalls</div>';
+    h+='<div class="ea-section-body">';
+    h+='<div class="ea-bullet">• Don\'t evaluate just speech technique — evaluate whether the <strong>project objective</strong> was met</div>';
+    h+='<div class="ea-bullet">• Don\'t read your notes verbatim — cover the essentials, look at the speaker</div>';
+    h+='<div class="ea-bullet">• Don\'t comment on personal attributes — focus on skills and choices</div>';
+    h+='<div class="ea-bullet">• Don\'t give vague suggestions — every recommend should be concrete and tryable next time</div>';
+    h+='</div>';
+    h+='</div>';
   }
 
   h+='</div>';
   app.innerHTML=h;
 
   _aiToolBack(app);
-
   const changeBtn=app.querySelector('[data-action="ea-change"]');
-  if(changeBtn)changeBtn.addEventListener("click",()=>{V._eaPid="";V._eaResult=null;render();});
-
+  if(changeBtn)changeBtn.addEventListener("click",()=>{V._eaPid="";render();});
   app.querySelectorAll("[data-ea-pid]").forEach(btn=>{
-    btn.addEventListener("click",()=>{
-      V._eaPid=btn.dataset.eaPid;V._eaResult=null;render();
-    });
-  });
-
-  const regenBtn=app.querySelector('[data-action="ea-regen"]');
-  if(regenBtn)regenBtn.addEventListener("click",()=>{V._eaResult=null;render();});
-
-  const genBtn=app.querySelector('[data-action="ea-generate"]');
-  if(genBtn)genBtn.addEventListener("click",async()=>{
-    const proj=PD[V._eaPid];if(!proj)return;
-    V._eaLoading=true;render();
-    try{
-      const tips=TIPS&&TIPS[V._eaPid];
-      const sys=`You are a Toastmasters evaluator coach giving guidance to a SPEECH EVALUATOR (not the speaker). Your job is to help them evaluate someone else's speech.
-
-Write a pre-evaluation guide with EXACTLY these three sections on separate lines:
-
-🎯 WHAT TO WATCH FOR: [what the evaluator should observe during the speech — specific to this project's objectives]
-⚠️ WHAT NOT TO DO: [common evaluator mistakes for this project — e.g. ignoring the actual objective, giving vague praise]
-✅ CRC STRUCTURE: [how to frame Commend-Recommend-Commend for this specific project]
-
-This is a GUIDE FOR THE EVALUATOR, not a speech or outline. Under 200 words. Be specific and direct.`;
-      const msg="Project: "+proj.t+" ("+proj.dur+")\nPurpose: "+proj.p+"\nOverview: "+(proj.o||"")+
-        (tips&&tips.how?"\nCoaching focus: "+tips.how.replace(/<[^>]+>/g,""):"");
-      const text=await callCoach(sys,msg,{maxTokens:500});
-      // Parse into structured sections with coloured cards
-      const lines=text.split("\n").filter(l=>l.trim());
-      let html="";
-      lines.forEach(line=>{
-        const esc=line.replace(/&/g,"&amp;").replace(/</g,"&lt;");
-        if(/WHAT TO WATCH FOR/i.test(line)||line.startsWith("🎯")){
-          html+='<div class="ai-tool-eval-section amber"><div class="ai-tool-eval-section-hdr"><span>🎯</span><span>What to watch for</span></div><div class="ai-tool-eval-section-body">'+esc.replace(/.*WHAT TO WATCH FOR:?\s*/i,"").replace(/^🎯\s*/,"")+'</div></div>';
-        }else if(/WHAT NOT TO DO/i.test(line)||line.startsWith("⚠")){
-          html+='<div class="ai-tool-eval-section red"><div class="ai-tool-eval-section-hdr"><span>⚠️</span><span>What not to do</span></div><div class="ai-tool-eval-section-body">'+esc.replace(/.*WHAT NOT TO DO:?\s*/i,"").replace(/^⚠️?\s*/,"")+'</div></div>';
-        }else if(/CRC STRUCTURE/i.test(line)||line.startsWith("✅")){
-          html+='<div class="ai-tool-eval-section green"><div class="ai-tool-eval-section-hdr"><span>✅</span><span>CRC structure</span></div><div class="ai-tool-eval-section-body">'+esc.replace(/.*CRC STRUCTURE:?\s*/i,"").replace(/^✅\s*/,"")+'</div></div>';
-        }else if(esc.trim()){
-          html+='<p class="ai-tool-eval-p">'+esc+'</p>';
-        }
-      });
-      V._eaResult=html||'<div class="ai-tool-eval-p">'+text+'</div>';
-    }catch(e){V._eaResult='<div class="ai-tool-error">⚠ '+e.message+'</div>';}
-    V._eaLoading=false;render();
+    btn.addEventListener("click",()=>{V._eaPid=btn.dataset.eaPid;render();});
   });
 }
 
@@ -9720,7 +9809,7 @@ function psUpdateActiveDisplay(){
   }
 }
 
-// renderPracticeStudioActive removed in v0.59 — active panel now lives inside renderPracticeStudio
+// renderPracticeStudioActive removed in v0.61 — active panel now lives inside renderPracticeStudio
 
 function psStop(){
   // Stop clock
@@ -9770,18 +9859,19 @@ async function psAnalyzeWithAI(){
     else durAssessment="ON TARGET ("+mins+" min, within "+dur.min+"–"+dur.max+" min window)";
   }
 
-  const sys=`You are a direct, experienced Toastmasters coach giving post-practice feedback.
+  const sys=`You are a direct Toastmasters coach. Reply ONLY in this exact format with three sections, separated by blank lines, each starting at a new line. Do NOT use markdown bold or any decoration. Begin your reply with "✅ WHAT WORKED:" and nothing before.
 
-Rules:
-- Read the transcript and identify ACTUAL filler words IN CONTEXT — not just any "so" or "like" (those can be legitimate).
-- Real fillers are words used as verbal crutches: pauses, hesitation markers, repeated tics. "So I started a business" has "so" as a connector, not a filler. "So, um, so I think so we should..." has fillers.
-- Only flag fillers when they're clearly used as crutches (3+ uses, sentence-starts, mid-thought hesitations).
-- Structure your response with EXACTLY these three labelled sections, each on its own line:
-  ✅ WHAT WORKED: [1-2 sentences about what went well — pacing, structure, confidence, etc.]
-  🎯 TOP PRIORITY: [the single most important thing to fix — be specific. If genuine fillers exist, name them with counts.]
-  💡 NEXT PRACTICE TIP: [one concrete drill or technique to try next time]
-- Under 180 words total. No padding. Speak directly to the speaker.
-- If the transcript is too short or empty, say so honestly — don't invent feedback.`;
+✅ WHAT WORKED: <one or two sentences>
+
+🎯 TOP PRIORITY: <one or two sentences naming the single biggest fix>
+
+💡 NEXT PRACTICE TIP: <one concrete drill>
+
+Rules for content:
+- Read the transcript and identify ACTUAL filler words IN CONTEXT — not every "so" or "like" is a filler. "So I started a business" — "so" is a connector. "So um so I think so we should..." — those are fillers.
+- Only flag fillers used as crutches (3+ uses, sentence-starts, mid-thought hesitations).
+- Under 180 words total across all three sections.
+- If transcript is empty/too short, say so directly in TOP PRIORITY and skip the others.`;
 
   const msg=(proj?"Project: "+proj.t+"\nProject purpose: "+proj.p+"\n":"Freestyle practice\n")+
     "Duration: "+mins+" minutes"+(dur?" — "+durAssessment:"")+"\n"+
@@ -9810,62 +9900,63 @@ function _psUpdateAnalysisSection(){
 
   const raw=PS.aiAnalysis;
   const esc=s=>s.replace(/&/g,"&amp;").replace(/</g,"&lt;");
+  // Strip markdown noise from a line (bold, italic, headers)
+  const stripMd=s=>s.replace(/^\s*#+\s*/,"").replace(/\*\*/g,"").replace(/__/g,"").replace(/^[*_]+|[*_]+$/g,"").trim();
 
-  // Parse into named sections
-  const sections={worked:"",priority:"",tip:"",other:[]};
-  let cur="other";
+  const sections={worked:"",priority:"",tip:""};
+  const unmatched=[];
+  let cur=null;
   raw.split("\n").forEach(line=>{
-    const t=line.trim();
+    const raw_t=line.trim();
+    if(!raw_t)return;
+    const t=stripMd(raw_t);
     if(!t)return;
-    if(/WHAT WORKED/i.test(t)||t.startsWith("✅")){
+
+    // Header detection — matches: "✅ What Worked:", "**What Worked:**", "### What Worked", etc.
+    if(/^✅|WHAT\s*WORKED/i.test(t)){
       cur="worked";
-      const content=t.replace(/^✅\s*/,"").replace(/.*WHAT WORKED:\s*/i,"").trim();
-      if(content)sections.worked+=content+" ";
-    }else if(/TOP PRIORITY/i.test(t)||t.startsWith("🎯")){
+      const c=t.replace(/^✅\s*/,"").replace(/^WHAT\s*WORKED\s*:?\s*/i,"").trim();
+      if(c)sections.worked+=c+" ";
+    }else if(/^🎯|TOP\s*PRIORITY/i.test(t)){
       cur="priority";
-      const content=t.replace(/^🎯\s*/,"").replace(/.*TOP PRIORITY:\s*/i,"").trim();
-      if(content)sections.priority+=content+" ";
-    }else if(/NEXT PRACTICE TIP/i.test(t)||t.startsWith("💡")){
+      const c=t.replace(/^🎯\s*/,"").replace(/^TOP\s*PRIORITY\s*:?\s*/i,"").trim();
+      if(c)sections.priority+=c+" ";
+    }else if(/^💡|NEXT\s*(PRACTICE\s*)?TIP/i.test(t)){
       cur="tip";
-      const content=t.replace(/^💡\s*/,"").replace(/.*NEXT PRACTICE TIP:\s*/i,"").trim();
-      if(content)sections.tip+=content+" ";
-    }else if(t.startsWith("⚠")){
-      sections.other.push(t);cur="other";
-    }else{
-      if(cur==="worked")sections.worked+=t+" ";
-      else if(cur==="priority")sections.priority+=t+" ";
-      else if(cur==="tip")sections.tip+=t+" ";
-      else sections.other.push(t);
-    }
+      const c=t.replace(/^💡\s*/,"").replace(/^NEXT\s*(PRACTICE\s*)?TIP\s*:?\s*/i,"").trim();
+      if(c)sections.tip+=c+" ";
+    }else if(cur==="worked")sections.worked+=t+" ";
+    else if(cur==="priority")sections.priority+=t+" ";
+    else if(cur==="tip")sections.tip+=t+" ";
+    else unmatched.push(t);
   });
 
   let html="";
   if(sections.worked.trim()){
     html+='<div class="ps-analysis-section ps-section-green">';
     html+='<div class="ps-analysis-section-hdr">✅ What Worked</div>';
-    html+='<div class="ps-analysis-section-body">'+esc(sections.worked.trim())+'</div>';
-    html+='</div>';
+    html+='<div class="ps-analysis-section-body">'+esc(sections.worked.trim())+'</div></div>';
   }
   if(sections.priority.trim()){
     html+='<div class="ps-analysis-section ps-section-amber">';
     html+='<div class="ps-analysis-section-hdr">🎯 Top Priority</div>';
-    html+='<div class="ps-analysis-section-body">'+esc(sections.priority.trim())+'</div>';
-    html+='</div>';
+    html+='<div class="ps-analysis-section-body">'+esc(sections.priority.trim())+'</div></div>';
   }
   if(sections.tip.trim()){
     html+='<div class="ps-analysis-section ps-section-blue">';
     html+='<div class="ps-analysis-section-hdr">💡 Next Practice Tip</div>';
-    html+='<div class="ps-analysis-section-body">'+esc(sections.tip.trim())+'</div>';
-    html+='</div>';
+    html+='<div class="ps-analysis-section-body">'+esc(sections.tip.trim())+'</div></div>';
   }
-  if(sections.other.length&&!html){
-    // Fallback: unstructured response — show it cleanly
+
+  // Graceful fallback — if NOTHING matched, render the whole thing as one neutral card
+  if(!html&&(unmatched.length||raw.trim())){
+    const fallbackText=unmatched.length?unmatched.join(" "):raw;
     html='<div class="ps-analysis-section ps-section-blue">';
     html+='<div class="ps-analysis-section-hdr">💡 Coach Feedback</div>';
-    html+='<div class="ps-analysis-section-body">'+esc(sections.other.join(" "))+'</div>';
-    html+='</div>';
+    html+='<div class="ps-analysis-section-body">'+esc(fallbackText)+'</div></div>';
   }
-  el.innerHTML=html||'<div class="ps-analysis-text" style="color:var(--text-3);font-size:13px">'+esc(raw)+'</div>';
+
+  el.innerHTML=html||'<div class="ps-analysis-text">'+esc(raw)+'</div>';
 }
 
 function renderPracticeStudioDone(app){
