@@ -167,6 +167,11 @@ a{color:inherit;text-decoration:none}
 .hub-tile.placeholder:hover{transform:none;filter:none}
 .hub-tile-glyph{position:absolute;top:50%;left:50%;transform:translate(-50%,-58%);width:88px;height:88px;color:#fff;filter:drop-shadow(0 2px 8px rgba(0,0,0,0.3));z-index:2}
 .hub-tile-glyph svg{width:100%;height:100%}
+@media (max-width:520px){
+  /* Mobile: cube icons need ~30% reduction so labels breathe */
+  .hub-tile-glyph{width:62px;height:62px}
+  .hub-tile-name{font-size:11px}
+}
 .hub-tile-name{position:absolute;bottom:9px;left:11px;right:11px;font-size:12px;font-weight:700;color:#fff;letter-spacing:-0.012em;line-height:1.15;text-shadow:0 1px 6px rgba(0,0,0,0.55);z-index:2}
 .hub-tile-badge{position:absolute;top:8px;right:8px;font-size:8px;font-weight:700;letter-spacing:0.1em;padding:2px 6px;background:rgba(0,0,0,0.38);color:#fff;border-radius:4px;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,0.14);text-transform:uppercase;z-index:2}
 /* Progress ring on My Path tile — top-left corner */
@@ -1367,6 +1372,13 @@ a{color:inherit;text-decoration:none}
 .ps-mic-status.live{background:rgba(94,185,117,0.18);color:#5EB975}
 .ps-mic-status.restart{background:rgba(123,167,204,0.18);color:#7BA7CC}
 .ps-mic-status.blocked{background:rgba(232,93,93,0.18);color:#E85D5D}
+
+.ps-transcript-details{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px 16px}
+.ps-transcript-details summary{cursor:pointer;font-size:13px;font-weight:600;color:var(--text-2);letter-spacing:-0.003em;list-style:none}
+.ps-transcript-details summary::-webkit-details-marker{display:none}
+.ps-transcript-details[open] summary{margin-bottom:10px;padding-bottom:10px;border-bottom:1px solid rgba(255,255,255,0.06)}
+.ps-transcript-full{font-size:13px;color:var(--text-2);line-height:1.65;letter-spacing:-0.003em;max-height:280px;overflow-y:auto;white-space:pre-wrap;word-break:break-word}
+.ps-analysis-rendered{display:flex;flex-direction:column}
 
 .ps-transcript-wrap{background:rgba(0,0,0,0.2);border:1px solid var(--border);border-radius:12px;padding:12px 14px}
 .ps-transcript-label{font-size:10px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--text-3);margin-bottom:6px}
@@ -2625,7 +2637,7 @@ let S={
   mode:"",
   // Ala carte comfort level — only relevant when mode==="alacarte". Captured
   // during welcome flow to personalize project suggestions. "new" / "some" /
-  // "experienced". Kept loose; v0.49 may add follow-ups.
+  // "experienced". Kept loose; v0.50 may add follow-ups.
   alacarteComfort:"",
   // AI Coach config. Disabled by default. User configures in Settings.
   // mode: "direct" (user's own API key, stored locally — direct browser call)
@@ -2639,7 +2651,7 @@ let S={
     enabled:true,
     mode:"backend",
     apiKey:"",
-    endpoint:"/.netlify/functions/coach", // set to absolute URL in deployment
+    endpoint:"/.netlify/functions/ai", // set to absolute URL in deployment
     model:"claude-sonnet-4-6"
   },
   // One-time tour shown on first hub visit. Toggled in Settings → redo.
@@ -2670,13 +2682,17 @@ function load(){
     // Guarantee partsDone exists — older saved state from v<=0.19 won't have it
     if(!S.partsDone)S.partsDone={};
     if(!S.pathArchive)S.pathArchive={};
-    if(!S.aiConfig)S.aiConfig={enabled:true,mode:"backend",apiKey:"",endpoint:"/.netlify/functions/coach",model:"claude-sonnet-4-6"};
+    if(!S.aiConfig)S.aiConfig={enabled:true,mode:"backend",apiKey:"",endpoint:"/.netlify/functions/ai",model:"claude-sonnet-4-6"};
     if(S.tourSeen===undefined)S.tourSeen=false;
     // Bootstrap enrolledPaths for users who enrolled before this was tracked
     if(!S.enrolledPaths){
       S.enrolledPaths=[];
       if(S.path)S.enrolledPaths.push(S.path);
       Object.keys(S.pathArchive||{}).forEach(c=>{if(PA[c])S.enrolledPaths.push(c);});
+    }
+    // Migrate stale /coach endpoint to current /ai endpoint
+    if(S.aiConfig&&S.aiConfig.endpoint&&S.aiConfig.endpoint.indexOf("/coach")>=0){
+      S.aiConfig.endpoint=S.aiConfig.endpoint.replace("/coach","/ai");
     }
     // Migration: existing users with a path are path-mode by inference.
     // Only force welcome on true fresh installs.
@@ -3016,7 +3032,7 @@ function renderHub(app){
   }
   h+='</div>';
 
-  h+='<div class="app-footer">Toastmasters Companion · v0.49 · Your progress saves on this device</div>';
+  h+='<div class="app-footer">Toastmasters Companion · v0.50 · Your progress saves on this device</div>';
   h+='</div>';
   app.innerHTML=h;
 
@@ -3318,7 +3334,7 @@ function renderPathPicker(app){
   h+='<button class="quiz-prompt-btn" data-action="open-quiz">🧭 &nbsp; Not sure which one? Take the fun quiz</button>';
   h+='</div>';
 
-  h+='<div class="app-footer">Toastmasters Companion · v0.49 · Built with ❤️ for Toastmasters</div>';
+  h+='<div class="app-footer">Toastmasters Companion · v0.50 · Built with ❤️ for Toastmasters</div>';
   h+='</div>';
   app.innerHTML=h;
 
@@ -3616,7 +3632,7 @@ function renderPathBrowser(app){
   // Keeping it in the tree lets us toggle visibility without re-rendering.
   h+='<div class="path-complete-banner'+(pct>=100?'':' hidden')+'"><strong>🎉 Path complete!</strong><div style="font-size:13px;color:var(--text-muted);line-height:1.5">Next step: DTM. Keep going.</div></div>';
 
-  h+='<div class="app-footer">Toastmasters Companion · v0.49 · Your progress saves locally on this device</div>';
+  h+='<div class="app-footer">Toastmasters Companion · v0.50 · Your progress saves locally on this device</div>';
   h+='</div>';
   app.innerHTML=h;
 
@@ -4971,7 +4987,7 @@ function renderPracticeHub(app){
   h+=toolRow({tool:"speech-draft",color:"#6DB6B4",icon:"📝",name:"Speech Draft Builder",desc:(S.aiConfig&&S.aiConfig.enabled)?"AI builds your speech outline and opening lines":"Structure your next speech from outline to close"});
 
   h+='</div>';
-  h+='<div class="app-footer">Toastmasters Companion · v0.49 · Practice tools work offline</div>';
+  h+='<div class="app-footer">Toastmasters Companion · v0.50 · Practice tools work offline</div>';
   h+='</div>';
   app.innerHTML=h;
 
@@ -6970,6 +6986,8 @@ async function callCoach(systemPrompt,userMessage,opts){
   }
 
   // Backend mode — POST to user's proxy
+  // Match 5aplus endpoint shape exactly: /.netlify/functions/ai with native
+  // Anthropic-API body { model, max_tokens, system, messages: [{role, content}] }
   if(!cfg.endpoint){
     throw new Error("Endpoint URL missing. Add yours in Settings.");
   }
@@ -6977,19 +6995,20 @@ async function callCoach(systemPrompt,userMessage,opts){
     method:"POST",
     headers:{"content-type":"application/json"},
     body:JSON.stringify({
-      systemPrompt:systemPrompt,
-      userMessage:userMessage,
-      maxTokens:maxTokens,
-      model:model
+      model:model,
+      max_tokens:maxTokens,
+      system:systemPrompt,
+      messages:[{role:"user",content:userMessage}]
     })
   });
   if(!resp.ok){
-    throw new Error("Backend returned "+resp.status);
+    const errBody=await resp.text().catch(()=>"");
+    throw new Error("Backend "+resp.status+(errBody?": "+errBody.slice(0,150):""));
   }
   const data=await resp.json();
-  // Accept either {text: "..."} or Anthropic-shaped {content: [{text: "..."}]}
-  if(data.text)return data.text;
+  // Accept native Anthropic shape (5aplus style) or our older {text} wrapper
   if(data.content&&data.content[0]&&data.content[0].text)return data.content[0].text;
+  if(data.text)return data.text;
   throw new Error("Backend response missing text/content field");
 }
 
@@ -8919,15 +8938,15 @@ function renderPracticeStudio(app){
   h+='</div>';
 
   h+='<div class="ps-active-stats">';
-  h+='<div class="ps-stat-chip"><span class="ps-stat-n" id="ps-active-fillers">0</span><span class="ps-stat-lbl">Fillers</span></div>';
-  h+='<div class="ps-stat-chip"><span class="ps-stat-n" id="ps-active-rate">—</span><span class="ps-stat-lbl">Per min</span></div>';
+  h+='<div class="ps-stat-chip"><span class="ps-stat-n" id="ps-active-words">0</span><span class="ps-stat-lbl">Words</span></div>';
+  h+='<div class="ps-stat-chip"><span class="ps-stat-n" id="ps-active-wpm">—</span><span class="ps-stat-lbl">Words / min</span></div>';
   h+='</div>';
 
   h+='<div class="ps-transcript-wrap">';
   h+='<div class="ps-transcript-label">LIVE TRANSCRIPT</div>';
   h+='<div class="ps-transcript-live" id="ps-transcript-live">Listening…</div>';
   h+='<div class="ps-mic-denied-note" id="ps-mic-denied-note" style="display:none">⚠️ Mic access denied — only timing is tracked.</div>';
-  h+='<div class="ps-transcript-hint">Speech recognition may filter some fillers depending on browser. Speak naturally.</div>';
+  h+='<div class="ps-transcript-hint">Speak naturally. After you stop, AI will analyze the transcript and identify your real fillers in context.</div>';
   h+='</div>';
 
   h+='<div class="ps-mic-wrap">';
@@ -8966,11 +8985,10 @@ function renderPracticeStudio(app){
 }
 
 function psStart(timerOnly){
-  PS.phase="active";
+  // Reset state — but DON'T flip phase to active yet (wait for mic permission)
   PS.elapsed=0;
   PS.fillerCounts={};
   PS.totalFillers=0;
-  PS.startedAt=Date.now();
   PS.aiAnalysis=null;
   PS.aiLoading=false;
   PS.micGranted=false;
@@ -8978,129 +8996,143 @@ function psStart(timerOnly){
   PS.lastResultAt=null;
   PS.recognitionStarted=null;
 
-  // Reset shared filler-detector state (PS reads from FD)
+  // Reset shared filler-detector state
   FD.fillerCounts={};
   FD.totalWords=0;
   FD.transcript="";
   FD.interimText="";
-  FD.startedAt=PS.startedAt;
-  FD.phase="active";
   FD._shouldReconnect=true;
 
-  // ── Speech recognition (port from 5A+) ──
-  // Key differences from previous attempt:
-  //   * interimResults:false — recognition only fires on complete phrases
-  //   * No onstart/onerror/etc complexity — simple restart on onend
-  //   * Started SYNCHRONOUSLY in the gesture handler so iOS prompts properly
-  if(!timerOnly){
-    const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
-    if(SR){
-      try{
-        const rec=new SR();
-        rec.continuous=true;
-        rec.interimResults=false;
-        rec.lang="en-US";
-        rec.onresult=(e)=>{
-          PS.lastResultAt=Date.now();
-          PS.micGranted=true;
-          for(let i=e.resultIndex;i<e.results.length;i++){
-            const txt=(e.results[i][0].transcript||"").trim();
-            if(txt){
-              fdAnalyze(txt);
-              if(PS.phase==="active")psUpdateActiveDisplay();
-            }
+  // Show "Requesting mic access…" state on the start button to give feedback
+  const labelEl=document.querySelector(".ps-ready-panel .ps-mic-label");
+  if(labelEl&&!timerOnly)labelEl.textContent="Requesting mic access…";
+
+  // Helper that actually starts the session AFTER permission is sorted out
+  const _actuallyStart=()=>{
+    PS.phase="active";
+    PS.startedAt=Date.now();
+    FD.startedAt=PS.startedAt;
+    FD.phase="active";
+
+    // ── Start clock
+    PS._iv=setInterval(()=>{
+      PS.elapsed++;
+      psUpdateActiveDisplay();
+    },1000);
+
+    // ── In-place panel swap (no render() — preserves audio pipeline)
+    const wrap=document.querySelector(".ps-view");
+    if(wrap)wrap.setAttribute("data-ps-state","active");
+    psUpdateActiveDisplay();
+  };
+
+  // Timer-only mode (browser doesn't support SR or user explicitly wants timer)
+  if(timerOnly){
+    _actuallyStart();
+    return;
+  }
+
+  // ── Speech recognition: started SYNCHRONOUSLY in the gesture handler.
+  const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+  if(SR){
+    try{
+      const rec=new SR();
+      rec.continuous=true;
+      rec.interimResults=false;
+      rec.lang="en-US";
+      rec.onresult=(e)=>{
+        PS.lastResultAt=Date.now();
+        PS.micGranted=true;
+        for(let i=e.resultIndex;i<e.results.length;i++){
+          const txt=(e.results[i][0].transcript||"").trim();
+          if(txt){
+            fdAnalyze(txt);
+            if(PS.phase==="active")psUpdateActiveDisplay();
           }
-        };
-        rec.onerror=(ev)=>{
-          // Only act on permission denial — everything else just lets onend retry
-          if(ev.error==="not-allowed"||ev.error==="service-not-allowed"){
-            PS.micGranted=false;
-            FD._shouldReconnect=false;
+        }
+      };
+      rec.onerror=(ev)=>{
+        if(ev.error==="not-allowed"||ev.error==="service-not-allowed"){
+          PS.micGranted=false;
+          FD._shouldReconnect=false;
+          // If we haven't started yet, abort gracefully
+          if(PS.phase!=="active"){
+            const lbl=document.querySelector(".ps-ready-panel .ps-mic-label");
+            if(lbl)lbl.textContent="⚠ Mic access denied — tap to retry";
+          }else{
             const note=document.getElementById("ps-mic-denied-note");
             if(note)note.style.display="block";
           }
-        };
-        rec.onend=()=>{
-          // Auto-restart while session is active
-          if(PS.phase==="active"&&FD._shouldReconnect){
-            try{rec.start();}catch(e){}
-          }
-        };
-        rec.start();
-        FD.recognition=rec;
-        PS.micGranted=true; // optimistic — onerror flips it back if denied
-      }catch(e){
-        console.warn("SpeechRecognition unavailable:",e);
-      }
-    }
-
-    // ── MediaRecorder (port from 5A+) ──
-    // Crucial: holding an active mic stream via MediaRecorder keeps the
-    // browser's audio pipeline alive. Without this, SpeechRecognition often
-    // dies silently after a few seconds on iOS/Safari.
-    if(navigator.mediaDevices&&navigator.mediaDevices.getUserMedia){
-      navigator.mediaDevices.getUserMedia({audio:true}).then(stream=>{
-        PS.micStream=stream;
-        try{
-          const mr=new MediaRecorder(stream);
-          mr.ondataavailable=e=>{}; // we don't need the audio data, just an active stream
-          mr.start();
-          PS.mediaRecorder=mr;
-        }catch(e){console.warn("MediaRecorder failed:",e);}
-      }).catch(err=>{
-        console.warn("getUserMedia failed:",err);
-        PS.micGranted=false;
-        const note=document.getElementById("ps-mic-denied-note");
-        if(note)note.style.display="block";
-      });
+        }
+      };
+      rec.onend=()=>{
+        if(PS.phase==="active"&&FD._shouldReconnect){
+          try{rec.start();}catch(e){}
+        }
+      };
+      rec.start();
+      FD.recognition=rec;
+    }catch(e){
+      console.warn("SpeechRecognition.start() failed:",e);
     }
   }
 
-  // Start the clock
-  PS._iv=setInterval(()=>{
-    PS.elapsed++;
-    psUpdateActiveDisplay();
-  },1000);
-
-  // ── In-place DOM swap (do NOT call render() — that breaks the audio pipeline)
-  // Flip the wrapper's data attribute so CSS shows the active panel and hides
-  // the ready panel. SpeechRecognition keeps its mic stream intact this way.
-  const wrap=document.querySelector(".ps-view");
-  if(wrap)wrap.setAttribute("data-ps-state","active");
-  // Update the timer display once now (clock interval will keep it ticking)
-  psUpdateActiveDisplay();
+  // ── getUserMedia — gate the timer on actual mic permission. Match 5aplus.
+  // Without an active MediaRecorder holding the stream, SR often dies silently.
+  if(navigator.mediaDevices&&navigator.mediaDevices.getUserMedia){
+    navigator.mediaDevices.getUserMedia({audio:true}).then(stream=>{
+      PS.micStream=stream;
+      try{
+        const mr=new MediaRecorder(stream);
+        mr.ondataavailable=()=>{}; // we just need an active stream
+        mr.start();
+        PS.mediaRecorder=mr;
+      }catch(e){console.warn("MediaRecorder failed:",e);}
+      PS.micGranted=true;
+      // ✓ Permission cleared — NOW start the timer
+      _actuallyStart();
+    }).catch(err=>{
+      console.warn("getUserMedia failed:",err);
+      PS.micGranted=false;
+      // Stop SR — no point keeping it without mic
+      if(FD.recognition){
+        FD._shouldReconnect=false;
+        try{FD.recognition.stop();}catch(e){}
+        FD.recognition=null;
+      }
+      const lbl=document.querySelector(".ps-ready-panel .ps-mic-label");
+      if(lbl)lbl.textContent="⚠ Mic access denied — tap to retry";
+    });
+  }else{
+    // No getUserMedia available (very old browser) — just run timer
+    _actuallyStart();
+  }
 }
 
 function psUpdateActiveDisplay(){
   const display=document.getElementById("ps-active-display");
   if(display)display.textContent=fmtMs(PS.elapsed*1000);
 
-  const fillerEl=document.getElementById("ps-active-fillers");
-  const rateEl=document.getElementById("ps-active-rate");
-  if(fillerEl||rateEl){
-    const total=Object.values(FD.fillerCounts||{}).reduce((a,b)=>a+b,0);
-    PS.totalFillers=total;
-    if(fillerEl)fillerEl.textContent=total;
-    if(rateEl){
+  const wordsEl=document.getElementById("ps-active-words");
+  const wpmEl=document.getElementById("ps-active-wpm");
+  if(wordsEl||wpmEl){
+    const words=FD.totalWords||0;
+    if(wordsEl)wordsEl.textContent=words;
+    if(wpmEl){
       const mins=PS.elapsed/60;
-      rateEl.textContent=mins>0?(total/mins).toFixed(1):"—";
+      wpmEl.textContent=mins>0.1?Math.round(words/mins):"—";
     }
   }
 
-  // Live transcript — shows what the mic is actually transcribing
+  // Live transcript — show what mic is hearing (no filler highlighting;
+  // AI determines actual fillers in context after the session)
   const trEl=document.getElementById("ps-transcript-live");
   if(trEl){
     const shown=(FD.transcript+" "+FD.interimText).trim();
     if(shown){
-      let highlighted=shown.slice(-300);
-      [...FILLER_PHRASE,...FILLER_SINGLE].forEach(f=>{
-        const re=new RegExp("\\b("+f.replace(/\s+/g,"\\s+")+")(\\b|$)","gi");
-        highlighted=highlighted.replace(re,'<mark class="ps-filler-mark">$1</mark>');
-      });
-      trEl.innerHTML=highlighted;
+      trEl.textContent=shown.slice(-400);
       trEl.scrollTop=trEl.scrollHeight;
     }else if(PS.micGranted&&PS.elapsed>5&&!PS.lastResultAt){
-      // 5+ seconds in, mic was granted, but zero audio has come back
       trEl.innerHTML='<span style="color:#E85D5D">⚠ No audio detected. Check your browser mic permissions, or use a different browser (Chrome works best). On Mac, also check System Settings → Privacy → Microphone.</span>';
     }else{
       trEl.textContent="Listening…";
@@ -9119,7 +9151,7 @@ function psUpdateActiveDisplay(){
   }
 }
 
-// renderPracticeStudioActive removed in v0.49 — active panel now lives inside renderPracticeStudio
+// renderPracticeStudioActive removed in v0.50 — active panel now lives inside renderPracticeStudio
 
 function psStop(){
   // Stop clock
@@ -9158,43 +9190,38 @@ async function psAnalyzeWithAI(){
   const proj=PS.pid?PD[PS.pid]:null;
   const dur=proj?parseDuration(proj.dur):null;
   const mins=(PS.elapsed/60).toFixed(1);
-  const rate=PS.elapsed>0?((PS.totalFillers/(PS.elapsed/60)).toFixed(1)):"0";
-  const micAvailable=PS.micGranted&&PS.totalFillers>=0;
-
-  const topFillers=Object.entries(PS.fillerCounts||{})
-    .sort((a,b)=>b[1]-a[1]).slice(0,5)
-    .map(([w,c])=>c+"× \""+w+"\"").join(", ")||"none detected";
+  const transcript=(FD.transcript||"").trim();
+  const wordCount=FD.totalWords||0;
+  const wpm=PS.elapsed>0?Math.round(wordCount/(PS.elapsed/60)):0;
 
   let durAssessment="";
   if(dur){
-    if(PS.elapsed<dur.min*60)durAssessment="UNDER TARGET (came in at "+mins+" min, needed "+dur.min+"+)";
-    else if(PS.elapsed>dur.max*60)durAssessment="OVER TARGET (ran "+mins+" min, max is "+dur.max+")";
-    else durAssessment="ON TARGET ("+mins+" min — within the "+dur.min+"–"+dur.max+" min window)";
+    if(PS.elapsed<dur.min*60)durAssessment="UNDER TARGET (came in at "+mins+" min, target "+dur.min+"+ min)";
+    else if(PS.elapsed>dur.max*60)durAssessment="OVER TARGET (ran "+mins+" min, max "+dur.max+" min)";
+    else durAssessment="ON TARGET ("+mins+" min, within "+dur.min+"–"+dur.max+" min window)";
   }
 
-  const fillerGrade=parseFloat(rate)>3?"HIGH ("+rate+"/min — work on pausing instead of filling)"
-    :parseFloat(rate)>1.5?"MODERATE ("+rate+"/min — improving but worth watching)"
-    :"LOW ("+rate+"/min — good control)";
+  const sys=`You are a direct, experienced Toastmasters coach giving post-practice feedback.
 
-  const sys=`You are a direct, experienced Toastmasters speech coach giving post-practice feedback.
 Rules:
-- Give SPECIFIC, ACTIONABLE feedback — no filler compliments
+- Read the transcript and identify ACTUAL filler words IN CONTEXT — not just any "so" or "like" (those can be legitimate).
+- Real fillers are words used as verbal crutches: pauses, hesitation markers, repeated tics. "So I started a business" has "so" as a connector, not a filler. "So, um, so I think so we should..." has fillers.
+- Only flag fillers when they're clearly used as crutches (3+ uses, sentence-starts, mid-thought hesitations).
 - Structure your response with EXACTLY these three labelled sections, each on its own line:
-  ✅ WHAT WORKED: [1-2 sentences about what went well]
-  🎯 TOP PRIORITY: [the single most important thing to fix — be very specific]  
+  ✅ WHAT WORKED: [1-2 sentences about what went well — pacing, structure, confidence, etc.]
+  🎯 TOP PRIORITY: [the single most important thing to fix — be specific. If genuine fillers exist, name them with counts.]
   💡 NEXT PRACTICE TIP: [one concrete drill or technique to try next time]
-- Under 150 words total
-- If filler detection was unavailable, only comment on timing — don't invent filler data`;
+- Under 180 words total. No padding. Speak directly to the speaker.
+- If the transcript is too short or empty, say so honestly — don't invent feedback.`;
 
-  const msg=(proj?"Project: "+proj.t+"\nPurpose: "+proj.p+"\n":"Freestyle practice\n")+
+  const msg=(proj?"Project: "+proj.t+"\nProject purpose: "+proj.p+"\n":"Freestyle practice\n")+
     "Duration: "+mins+" minutes"+(dur?" — "+durAssessment:"")+"\n"+
-    (micAvailable
-      ? "Filler words: "+PS.totalFillers+" total — "+fillerGrade+"\nTop fillers: "+topFillers
-      : "NOTE: Microphone was not available during this session. Do NOT comment on fillers or filler rate — only comment on timing."
-    );
+    "Word count: "+wordCount+" ("+wpm+" wpm)\n"+
+    "\nFULL TRANSCRIPT:\n"+(transcript||"(no audio captured)")+"\n"+
+    "\nAnalyze the transcript above and give focused coaching.";
 
   try{
-    const response=await callCoach(sys,msg,{maxTokens:300});
+    const response=await callCoach(sys,msg,{maxTokens:400});
     PS.aiAnalysis=response;
   }catch(err){
     PS.aiAnalysis="⚠ "+err.message;
@@ -9234,8 +9261,10 @@ function renderPracticeStudioDone(app){
   const proj=PS.pid?PD[PS.pid]:null;
   const dur=proj?parseDuration(proj.dur):null;
   const mins=(PS.elapsed/60).toFixed(1);
-  const rate=PS.elapsed>0?((PS.totalFillers/(PS.elapsed/60)).toFixed(1)):"0";
+  const wordCount=FD.totalWords||0;
+  const wpm=PS.elapsed>0?Math.round(wordCount/(PS.elapsed/60)):0;
   const aiOn=S.aiConfig&&S.aiConfig.enabled;
+  const transcript=(FD.transcript||"").trim();
 
   // Performance assessment
   let durAssess="",durClass="";
@@ -9244,7 +9273,6 @@ function renderPracticeStudioDone(app){
     else if(PS.elapsed>dur.max*60){durAssess="Over target";durClass="amber";}
     else{durAssess="On target ✓";durClass="green";}
   }
-  const fillerClass=parseFloat(rate)>3?"red":parseFloat(rate)>1.5?"amber":"green";
 
   let h='<div class="fade-up ps-view">';
   h+='<div class="top-bar">';
@@ -9257,7 +9285,7 @@ function renderPracticeStudioDone(app){
   h+='<div class="ps-done-title">'+(proj?proj.t:"Freestyle")+'</div>';
   h+='</div>';
 
-  // Stats grid
+  // Stats grid — duration + word count (no live filler count any more)
   h+='<div class="ps-results-grid">';
   h+='<div class="ps-result-card">';
   h+='<div class="ps-result-n '+durClass+'">'+fmtMs(PS.elapsed*1000)+'</div>';
@@ -9265,25 +9293,13 @@ function renderPracticeStudioDone(app){
   if(durAssess)h+='<div class="ps-result-sub '+durClass+'">'+durAssess+'</div>';
   h+='</div>';
   h+='<div class="ps-result-card">';
-  h+='<div class="ps-result-n '+fillerClass+'">'+PS.totalFillers+'</div>';
-  h+='<div class="ps-result-lbl">Fillers</div>';
-  h+='<div class="ps-result-sub '+fillerClass+'">'+rate+' per min</div>';
+  h+='<div class="ps-result-n">'+wordCount+'</div>';
+  h+='<div class="ps-result-lbl">Words</div>';
+  if(wpm)h+='<div class="ps-result-sub">'+wpm+' wpm</div>';
   h+='</div>';
   h+='</div>';
 
-  // Top fillers breakdown
-  const topFillers=Object.entries(PS.fillerCounts).sort((a,b)=>b[1]-a[1]).slice(0,6);
-  if(topFillers.length>0){
-    h+='<div class="ps-filler-breakdown">';
-    h+='<div class="ps-filler-title">Most used fillers</div>';
-    h+='<div class="ps-filler-chips">';
-    topFillers.forEach(([w,c])=>{
-      h+='<div class="ps-filler-chip"><span class="ps-filler-word">'+w+'</span><span class="ps-filler-count">'+c+'</span></div>';
-    });
-    h+='</div></div>';
-  }
-
-  // AI Analysis section
+  // AI Analysis section — Claude reads transcript and judges fillers in context
   if(aiOn){
     h+='<div class="ps-analysis-card">';
     h+='<div class="ps-analysis-hdr">✨ Coach Feedback</div>';
@@ -9291,9 +9307,7 @@ function renderPracticeStudioDone(app){
     if(PS.aiLoading){
       h+='<div class="ps-analysis-loading"><span class="coach-dots"><span>.</span><span>.</span><span>.</span></span></div>';
     }else if(PS.aiAnalysis){
-      h+='<div class="ps-analysis-text"><p>'+
-        PS.aiAnalysis.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/\n\n/g,"</p><p>").replace(/\n/g,"<br>")+
-        '</p></div>';
+      h+='<div class="ps-analysis-rendered"></div>';
     }else{
       h+='<div class="ps-analysis-pending">Generating feedback…</div>';
     }
@@ -9301,8 +9315,19 @@ function renderPracticeStudioDone(app){
     h+='</div>';
   }
 
+  // Collapsible transcript
+  if(transcript){
+    h+='<details class="ps-transcript-details">';
+    h+='<summary>📄 Show full transcript ('+wordCount+' words)</summary>';
+    h+='<div class="ps-transcript-full">'+escHtml(transcript)+'</div>';
+    h+='</details>';
+  }
+
   h+='</div>';
   app.innerHTML=h;
+
+  // Render the structured AI analysis if it's already loaded
+  _psUpdateAnalysisSection();
 
   app.querySelector('[data-action="ps-again"]').addEventListener("click",()=>{
     PS.phase="ready";PS.aiAnalysis=null;
