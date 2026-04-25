@@ -1267,6 +1267,13 @@ a{color:inherit;text-decoration:none}
 .wod-ai-result-card{margin-top:2px;border-color:rgba(160,123,199,0.3);background:rgba(160,123,199,0.05)}
 
 .ps-view{display:flex;flex-direction:column;gap:14px;padding-bottom:24px}
+/* Panel toggle — both ready + active rendered, only one visible at a time.
+   Switching is via data-ps-state on the wrapper, NOT a re-render — this keeps
+   the speech recognition audio pipeline alive (re-rendering breaks it). */
+.ps-view[data-ps-state="ready"] .ps-active-panel{display:none}
+.ps-view[data-ps-state="active"] .ps-ready-panel{display:none}
+.ps-ready-panel,.ps-active-panel{display:flex;flex-direction:column;gap:14px}
+
 .ps-header{text-align:center;padding:8px 0 4px}
 .ps-header-icon{font-size:40px;margin-bottom:6px}
 .ps-header-title{font-size:22px;font-weight:800;letter-spacing:-0.015em;color:var(--text)}
@@ -1354,6 +1361,19 @@ a{color:inherit;text-decoration:none}
 .ps-section-green{background:rgba(94,185,117,0.1);border:1px solid rgba(94,185,117,0.25);color:var(--text-2)}
 .ps-section-amber{background:rgba(232,178,80,0.1);border:1px solid rgba(232,178,80,0.25);color:var(--text-2)}
 .ps-section-blue{background:rgba(109,182,180,0.1);border:1px solid rgba(109,182,180,0.25);color:var(--text-2)}
+.ps-active-state-row{display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap;margin-bottom:6px}
+.ps-mic-status{font-size:10.5px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;padding:3px 9px;border-radius:6px;transition:all .2s}
+.ps-mic-status.pending{background:rgba(232,178,80,0.15);color:#E8B250}
+.ps-mic-status.live{background:rgba(94,185,117,0.18);color:#5EB975}
+.ps-mic-status.restart{background:rgba(123,167,204,0.18);color:#7BA7CC}
+.ps-mic-status.blocked{background:rgba(232,93,93,0.18);color:#E85D5D}
+
+.ps-transcript-wrap{background:rgba(0,0,0,0.2);border:1px solid var(--border);border-radius:12px;padding:12px 14px}
+.ps-transcript-label{font-size:10px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--text-3);margin-bottom:6px}
+.ps-transcript-live{font-size:13px;color:var(--text-2);line-height:1.6;min-height:40px;max-height:80px;overflow-y:auto;letter-spacing:-0.003em;word-break:break-word}
+.ps-transcript-hint{font-size:10.5px;color:var(--text-3);margin-top:6px;letter-spacing:-0.003em;line-height:1.4;font-style:italic}
+.ps-filler-mark{background:rgba(232,93,93,0.2);color:#E85D5D;border-radius:3px;padding:0 2px;font-weight:700;font-style:normal}
+
 .ps-mic-denied-note{background:rgba(232,93,93,0.1);border:1px solid rgba(232,93,93,0.3);border-radius:10px;padding:10px 14px;font-size:12.5px;color:#E85D5D;line-height:1.5;margin-top:10px;letter-spacing:-0.003em}
 .ps-analysis-loading,.ps-analysis-pending{display:flex;align-items:center;justify-content:center;padding:12px;color:var(--text-3);font-size:13px;gap:8px}
 .mp-list{display:flex;flex-direction:column;gap:12px;margin-top:16px;margin-bottom:18px}
@@ -2605,7 +2625,7 @@ let S={
   mode:"",
   // Ala carte comfort level — only relevant when mode==="alacarte". Captured
   // during welcome flow to personalize project suggestions. "new" / "some" /
-  // "experienced". Kept loose; v0.45 may add follow-ups.
+  // "experienced". Kept loose; v0.49 may add follow-ups.
   alacarteComfort:"",
   // AI Coach config. Disabled by default. User configures in Settings.
   // mode: "direct" (user's own API key, stored locally — direct browser call)
@@ -2996,7 +3016,7 @@ function renderHub(app){
   }
   h+='</div>';
 
-  h+='<div class="app-footer">Toastmasters Companion · v0.45 · Your progress saves on this device</div>';
+  h+='<div class="app-footer">Toastmasters Companion · v0.49 · Your progress saves on this device</div>';
   h+='</div>';
   app.innerHTML=h;
 
@@ -3298,7 +3318,7 @@ function renderPathPicker(app){
   h+='<button class="quiz-prompt-btn" data-action="open-quiz">🧭 &nbsp; Not sure which one? Take the fun quiz</button>';
   h+='</div>';
 
-  h+='<div class="app-footer">Toastmasters Companion · v0.45 · Built with ❤️ for Toastmasters</div>';
+  h+='<div class="app-footer">Toastmasters Companion · v0.49 · Built with ❤️ for Toastmasters</div>';
   h+='</div>';
   app.innerHTML=h;
 
@@ -3596,7 +3616,7 @@ function renderPathBrowser(app){
   // Keeping it in the tree lets us toggle visibility without re-rendering.
   h+='<div class="path-complete-banner'+(pct>=100?'':' hidden')+'"><strong>🎉 Path complete!</strong><div style="font-size:13px;color:var(--text-muted);line-height:1.5">Next step: DTM. Keep going.</div></div>';
 
-  h+='<div class="app-footer">Toastmasters Companion · v0.45 · Your progress saves locally on this device</div>';
+  h+='<div class="app-footer">Toastmasters Companion · v0.49 · Your progress saves locally on this device</div>';
   h+='</div>';
   app.innerHTML=h;
 
@@ -4951,7 +4971,7 @@ function renderPracticeHub(app){
   h+=toolRow({tool:"speech-draft",color:"#6DB6B4",icon:"📝",name:"Speech Draft Builder",desc:(S.aiConfig&&S.aiConfig.enabled)?"AI builds your speech outline and opening lines":"Structure your next speech from outline to close"});
 
   h+='</div>';
-  h+='<div class="app-footer">Toastmasters Companion · v0.45 · Practice tools work offline</div>';
+  h+='<div class="app-footer">Toastmasters Companion · v0.49 · Practice tools work offline</div>';
   h+='</div>';
   app.innerHTML=h;
 
@@ -5549,9 +5569,10 @@ function renderWODTool(app){
 // ═══════════════════════════════════════════════════════════════════════════
 
 // Single-word fillers — whole-word match, case-insensitive
-const FILLER_SINGLE=["um","uh","er","ah","hmm","mm","like","so","basically","actually","literally","well","okay","right"];
+// Note: browsers silently drop "um/uh/ah" — only real words appear in transcripts
+const FILLER_SINGLE=["um","uh","ah","er","hmm","like","so","basically","actually","right","literally","honestly","obviously","well"];
 // Multi-word phrases — substring match
-const FILLER_PHRASE=["you know","sort of","kind of","i mean"];
+const FILLER_PHRASE=["you know","i mean","kind of","sort of","the thing is","at the end of the day","to be honest","moving forward"];
 // Union for highlighting & display
 const ALL_FILLERS=[...FILLER_SINGLE,...FILLER_PHRASE];
 
@@ -5625,40 +5646,60 @@ function fdStartRecognition(){
   if(!SR)return;
 
   const rec=new SR();
-  // continuous:false is actually MORE reliable than true on iOS/webkit —
-  // it pauses on silence, fires onend, and we just restart.
-  rec.continuous=false;
+  // continuous:true is more reliable for long captures on Chrome/Edge.
+  // iOS Safari may still timeout — we restart on onend just in case.
+  rec.continuous=true;
   rec.interimResults=true;
   rec.lang="en-US";
 
+  rec.onstart=()=>{
+    FD.isListening=true;
+    PS.recognitionStarted=Date.now();
+    // Update the live status pill
+    const pill=document.getElementById("ps-mic-status");
+    if(pill){pill.textContent="● MIC LIVE";pill.className="ps-mic-status live";}
+  };
+
   rec.onresult=(ev)=>{
     let interim="";
+    PS.lastResultAt=Date.now(); // any result (interim or final) means audio is reaching us
     for(let i=ev.resultIndex;i<ev.results.length;i++){
       const r=ev.results[i];
-      if(r.isFinal){fdAnalyze(r[0].transcript);}
-      else{interim+=r[0].transcript;}
+      if(r.isFinal){
+        fdAnalyze(r[0].transcript);
+        if(PS.phase==="active")psUpdateActiveDisplay();
+      }else{
+        interim+=r[0].transcript;
+      }
     }
     FD.interimText=interim;
     fdUpdateLiveDisplay();
+    if(PS.phase==="active")psUpdateActiveDisplay();
   };
 
   rec.onerror=(ev)=>{
     console.warn("SpeechRecognition error:",ev.error);
+    FD.isListening=false;
     if(ev.error==="not-allowed"||ev.error==="service-not-allowed"){
       FD._shouldReconnect=false;
       PS.micGranted=false;
       const note=document.getElementById("ps-mic-denied-note");
       if(note)note.style.display="block";
+      const pill=document.getElementById("ps-mic-status");
+      if(pill){pill.textContent="⚠ MIC BLOCKED";pill.className="ps-mic-status blocked";}
       fdStop(false);
+    }else{
+      // Other errors (no-speech, audio-capture, network) — restart via onend
+      const pill=document.getElementById("ps-mic-status");
+      if(pill){pill.textContent="↻ RESTARTING";pill.className="ps-mic-status restart";}
     }
-    // "no-speech", "audio-capture", "network" all just let onend restart us
   };
 
   rec.onend=()=>{
     FD.recognition=null;
-    // Auto-restart to keep listening until user taps Stop
+    FD.isListening=false;
     if(FD._shouldReconnect&&FD.phase==="active"){
-      setTimeout(fdStartRecognition,80);
+      setTimeout(fdStartRecognition,150);
     }
   };
 
@@ -5666,12 +5707,12 @@ function fdStartRecognition(){
   try{
     rec.start();
   }catch(e){
-    // InvalidStateError means another instance is already running —
-    // safely ignorable. Any other error: bail.
     if(e&&e.name==="InvalidStateError")return;
     console.error("recognition.start failed:",e);
     FD._shouldReconnect=false;
     FD.phase="idle";
+    const pill=document.getElementById("ps-mic-status");
+    if(pill){pill.textContent="⚠ START FAILED";pill.className="ps-mic-status blocked";}
     render();
   }
 }
@@ -8779,10 +8820,9 @@ function getPracticeProjects(){
 function renderPracticeStudio(app){
   const aiOn=S.aiConfig&&S.aiConfig.enabled;
 
-  if(PS.phase==="active"){renderPracticeStudioActive(app);return;}
+  // Done screen still uses a full re-render (recognition is already stopped by then)
   if(PS.phase==="done"){renderPracticeStudioDone(app);return;}
 
-  // ── READY screen ──
   const projects=getPracticeProjects();
   const current=PS.pid?projects.find(x=>x.pid===PS.pid)||projects[0]:projects[0];
   if(!PS.pid&&current)PS.pid=current.pid;
@@ -8790,18 +8830,24 @@ function renderPracticeStudio(app){
   const dur=current?parseDuration(current.dur):null;
   const hasRecognition=isSpeechRecognitionSupported();
 
-  let h='<div class="fade-up ps-view">';
+  // ── Pre-render BOTH ready + active panels in the same DOM. ──
+  // Toggle visibility with `data-ps-state`. This means psStart can flip the
+  // visible panel WITHOUT calling render(), which would replace innerHTML and
+  // break the audio pipeline that was just opened in the user gesture.
+  const stateAttr=PS.phase==="active"?"active":"ready";
+  let h='<div class="fade-up ps-view" data-ps-state="'+stateAttr+'">';
   h+='<div class="top-bar">';
   h+='<button class="top-bar-btn" data-action="ps-back">← Hub</button>';
   h+='</div>';
 
+  // ─── READY PANEL ───
+  h+='<div class="ps-ready-panel">';
   h+='<div class="ps-header">';
   h+='<div class="ps-header-icon">🎙️</div>';
   h+='<div class="ps-header-title">Practice Studio</div>';
   h+='<div class="ps-header-sub">Live timing, filler detection'+(aiOn?', and AI analysis when you\'re done':'')+'</div>';
   h+='</div>';
 
-  // Project picker
   h+='<div class="ps-project-card">';
   h+='<div class="ps-project-kicker">PRACTICING FOR</div>';
   h+='<div class="ps-project-row">';
@@ -8811,7 +8857,6 @@ function renderPracticeStudio(app){
   h+='</div>';
   h+='<button class="ps-project-change" data-action="ps-change-project">Change</button>';
   h+='</div>';
-  // Project dropdown (hidden by default)
   h+='<div class="ps-project-dropdown" id="ps-project-dropdown" style="display:none">';
   let lastLv=0;
   projects.forEach(p=>{
@@ -8827,10 +8872,9 @@ function renderPracticeStudio(app){
   h+='</div>';
   h+='</div>';
 
-  // Timer display
-  h+='<div class="ps-timer-card" id="ps-timer-card">';
+  h+='<div class="ps-timer-card">';
   h+='<div class="ps-timer-state">READY</div>';
-  h+='<div class="ps-timer-display" id="ps-timer-display">0:00</div>';
+  h+='<div class="ps-timer-display">0:00</div>';
   if(dur){
     h+='<div class="ps-timer-markers">';
     h+='<div class="ps-marker green">●  '+dur.min+':00</div>';
@@ -8840,13 +8884,8 @@ function renderPracticeStudio(app){
   h+='<div class="ps-timer-hint">Pick a project, then tap the mic</div>';
   h+='</div>';
 
-  // Mic button
   h+='<div class="ps-mic-wrap">';
-  if(!hasRecognition){
-    h+='<div class="ps-mic-btn" data-action="ps-start-timer-only">';
-  }else{
-    h+='<div class="ps-mic-btn" data-action="ps-start">';
-  }
+  h+='<div class="ps-mic-btn" data-action="ps-start"'+(!hasRecognition?' data-timer-only="1"':'')+'>';
   h+='<div class="ps-mic-ring"><div class="ps-mic-icon">🎙️</div></div>';
   h+='</div>';
   h+='<div class="ps-mic-label">Tap to start</div>';
@@ -8855,14 +8894,60 @@ function renderPracticeStudio(app){
   if(!hasRecognition){
     h+='<div class="ps-no-mic-note">Filler detection not supported in this browser. Timer will still run.</div>';
   }
+  h+='</div>'; // /ps-ready-panel
+
+  // ─── ACTIVE PANEL ─── (always present, hidden until phase === active)
+  const proj=PS.pid?PD[PS.pid]:null;
+  const activeDur=proj?parseDuration(proj.dur):null;
+  h+='<div class="ps-active-panel">';
+  h+='<div class="ps-active-header">';
+  h+='<div class="ps-active-title">'+(proj?proj.t:"Freestyle")+'</div>';
+  if(activeDur)h+='<div class="ps-active-target">Target: '+proj.dur+'</div>';
+  h+='</div>';
+
+  h+='<div class="ps-active-card" id="ps-active-card">';
+  h+='<div class="ps-active-state-row">';
+  h+='<span class="ps-active-state">● RECORDING</span>';
+  h+='</div>';
+  h+='<div class="ps-active-display" id="ps-active-display">0:00</div>';
+  if(activeDur){
+    h+='<div class="ps-active-markers">';
+    h+='<span class="ps-marker green">Green '+activeDur.min+':00</span>';
+    h+='<span class="ps-marker red">Red '+activeDur.max+':00</span>';
+    h+='</div>';
+  }
+  h+='</div>';
+
+  h+='<div class="ps-active-stats">';
+  h+='<div class="ps-stat-chip"><span class="ps-stat-n" id="ps-active-fillers">0</span><span class="ps-stat-lbl">Fillers</span></div>';
+  h+='<div class="ps-stat-chip"><span class="ps-stat-n" id="ps-active-rate">—</span><span class="ps-stat-lbl">Per min</span></div>';
+  h+='</div>';
+
+  h+='<div class="ps-transcript-wrap">';
+  h+='<div class="ps-transcript-label">LIVE TRANSCRIPT</div>';
+  h+='<div class="ps-transcript-live" id="ps-transcript-live">Listening…</div>';
+  h+='<div class="ps-mic-denied-note" id="ps-mic-denied-note" style="display:none">⚠️ Mic access denied — only timing is tracked.</div>';
+  h+='<div class="ps-transcript-hint">Speech recognition may filter some fillers depending on browser. Speak naturally.</div>';
+  h+='</div>';
+
+  h+='<div class="ps-mic-wrap">';
+  h+='<div class="ps-mic-btn active" data-action="ps-stop">';
+  h+='<div class="ps-mic-ring active"><div class="ps-mic-icon">■</div></div>';
+  h+='</div>';
+  h+='<div class="ps-mic-label">Tap to stop</div>';
+  h+='</div>';
+  h+='</div>'; // /ps-active-panel
 
   h+='</div>';
   app.innerHTML=h;
 
+  // ─── Wire handlers (works for both panels — they share the same root) ───
   app.querySelector('[data-action="ps-back"]').addEventListener("click",()=>{
+    if(PS.phase==="active")psStop();
     V.view="hub";render();
   });
-  app.querySelector('[data-action="ps-change-project"]').addEventListener("click",()=>{
+  const changeBtn=app.querySelector('[data-action="ps-change-project"]');
+  if(changeBtn)changeBtn.addEventListener("click",()=>{
     const dd=document.getElementById("ps-project-dropdown");
     if(dd)dd.style.display=dd.style.display==="none"?"block":"none";
   });
@@ -8875,9 +8960,9 @@ function renderPracticeStudio(app){
     });
   });
   const startBtn=app.querySelector('[data-action="ps-start"]');
-  if(startBtn)startBtn.addEventListener("click",()=>psStart(false));
-  const startTimerOnly=app.querySelector('[data-action="ps-start-timer-only"]');
-  if(startTimerOnly)startTimerOnly.addEventListener("click",()=>psStart(true));
+  if(startBtn)startBtn.addEventListener("click",()=>psStart(startBtn.dataset.timerOnly==="1"));
+  const stopBtn=app.querySelector('[data-action="ps-stop"]');
+  if(stopBtn)stopBtn.addEventListener("click",psStop);
 }
 
 function psStart(timerOnly){
@@ -8890,41 +8975,139 @@ function psStart(timerOnly){
   PS.aiLoading=false;
   PS.micGranted=false;
   PS.timerOnly=!!timerOnly;
+  PS.lastResultAt=null;
+  PS.recognitionStarted=null;
 
-  // ── Start speech recognition FIRST, synchronously, while still in the
-  // user-gesture context (required for iOS Safari permission dialog).
-  // Any async work after this point would break the permission prompt.
-  if(!timerOnly&&isSpeechRecognitionSupported()){
-    PS.micGranted=true;
-    FD.phase="active";
-    FD.fillerCounts={};
-    FD.totalWords=0;
-    FD.transcript="";
-    FD.interimText="";
-    FD.startedAt=PS.startedAt;
-    FD._shouldReconnect=true;
-    fdStartRecognition(); // must be synchronous in gesture context
+  // Reset shared filler-detector state (PS reads from FD)
+  FD.fillerCounts={};
+  FD.totalWords=0;
+  FD.transcript="";
+  FD.interimText="";
+  FD.startedAt=PS.startedAt;
+  FD.phase="active";
+  FD._shouldReconnect=true;
+
+  // ── Speech recognition (port from 5A+) ──
+  // Key differences from previous attempt:
+  //   * interimResults:false — recognition only fires on complete phrases
+  //   * No onstart/onerror/etc complexity — simple restart on onend
+  //   * Started SYNCHRONOUSLY in the gesture handler so iOS prompts properly
+  if(!timerOnly){
+    const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+    if(SR){
+      try{
+        const rec=new SR();
+        rec.continuous=true;
+        rec.interimResults=false;
+        rec.lang="en-US";
+        rec.onresult=(e)=>{
+          PS.lastResultAt=Date.now();
+          PS.micGranted=true;
+          for(let i=e.resultIndex;i<e.results.length;i++){
+            const txt=(e.results[i][0].transcript||"").trim();
+            if(txt){
+              fdAnalyze(txt);
+              if(PS.phase==="active")psUpdateActiveDisplay();
+            }
+          }
+        };
+        rec.onerror=(ev)=>{
+          // Only act on permission denial — everything else just lets onend retry
+          if(ev.error==="not-allowed"||ev.error==="service-not-allowed"){
+            PS.micGranted=false;
+            FD._shouldReconnect=false;
+            const note=document.getElementById("ps-mic-denied-note");
+            if(note)note.style.display="block";
+          }
+        };
+        rec.onend=()=>{
+          // Auto-restart while session is active
+          if(PS.phase==="active"&&FD._shouldReconnect){
+            try{rec.start();}catch(e){}
+          }
+        };
+        rec.start();
+        FD.recognition=rec;
+        PS.micGranted=true; // optimistic — onerror flips it back if denied
+      }catch(e){
+        console.warn("SpeechRecognition unavailable:",e);
+      }
+    }
+
+    // ── MediaRecorder (port from 5A+) ──
+    // Crucial: holding an active mic stream via MediaRecorder keeps the
+    // browser's audio pipeline alive. Without this, SpeechRecognition often
+    // dies silently after a few seconds on iOS/Safari.
+    if(navigator.mediaDevices&&navigator.mediaDevices.getUserMedia){
+      navigator.mediaDevices.getUserMedia({audio:true}).then(stream=>{
+        PS.micStream=stream;
+        try{
+          const mr=new MediaRecorder(stream);
+          mr.ondataavailable=e=>{}; // we don't need the audio data, just an active stream
+          mr.start();
+          PS.mediaRecorder=mr;
+        }catch(e){console.warn("MediaRecorder failed:",e);}
+      }).catch(err=>{
+        console.warn("getUserMedia failed:",err);
+        PS.micGranted=false;
+        const note=document.getElementById("ps-mic-denied-note");
+        if(note)note.style.display="block";
+      });
+    }
   }
 
-  // ── Start clock
+  // Start the clock
   PS._iv=setInterval(()=>{
     PS.elapsed++;
     psUpdateActiveDisplay();
   },1000);
 
-  render();
+  // ── In-place DOM swap (do NOT call render() — that breaks the audio pipeline)
+  // Flip the wrapper's data attribute so CSS shows the active panel and hides
+  // the ready panel. SpeechRecognition keeps its mic stream intact this way.
+  const wrap=document.querySelector(".ps-view");
+  if(wrap)wrap.setAttribute("data-ps-state","active");
+  // Update the timer display once now (clock interval will keep it ticking)
+  psUpdateActiveDisplay();
 }
 
 function psUpdateActiveDisplay(){
   const display=document.getElementById("ps-active-display");
   if(display)display.textContent=fmtMs(PS.elapsed*1000);
+
   const fillerEl=document.getElementById("ps-active-fillers");
-  if(fillerEl){
+  const rateEl=document.getElementById("ps-active-rate");
+  if(fillerEl||rateEl){
     const total=Object.values(FD.fillerCounts||{}).reduce((a,b)=>a+b,0);
     PS.totalFillers=total;
-    fillerEl.textContent=total;
+    if(fillerEl)fillerEl.textContent=total;
+    if(rateEl){
+      const mins=PS.elapsed/60;
+      rateEl.textContent=mins>0?(total/mins).toFixed(1):"—";
+    }
   }
-  // Phase coloring
+
+  // Live transcript — shows what the mic is actually transcribing
+  const trEl=document.getElementById("ps-transcript-live");
+  if(trEl){
+    const shown=(FD.transcript+" "+FD.interimText).trim();
+    if(shown){
+      let highlighted=shown.slice(-300);
+      [...FILLER_PHRASE,...FILLER_SINGLE].forEach(f=>{
+        const re=new RegExp("\\b("+f.replace(/\s+/g,"\\s+")+")(\\b|$)","gi");
+        highlighted=highlighted.replace(re,'<mark class="ps-filler-mark">$1</mark>');
+      });
+      trEl.innerHTML=highlighted;
+      trEl.scrollTop=trEl.scrollHeight;
+    }else if(PS.micGranted&&PS.elapsed>5&&!PS.lastResultAt){
+      // 5+ seconds in, mic was granted, but zero audio has come back
+      trEl.innerHTML='<span style="color:#E85D5D">⚠ No audio detected. Check your browser mic permissions, or use a different browser (Chrome works best). On Mac, also check System Settings → Privacy → Microphone.</span>';
+    }else{
+      trEl.textContent="Listening…";
+    }
+  }
+
+  // Phase colour on card
   const card=document.getElementById("ps-active-card");
   const proj=PS.pid?PD[PS.pid]:null;
   if(card&&proj){
@@ -8936,57 +9119,28 @@ function psUpdateActiveDisplay(){
   }
 }
 
-function renderPracticeStudioActive(app){
-  const proj=PS.pid?PD[PS.pid]:null;
-  const dur=proj?parseDuration(proj.dur):null;
-  const elapsed=fmtMs(PS.elapsed*1000);
-
-  let h='<div class="fade-up ps-view">';
-  h+='<div class="ps-active-header">';
-  h+='<div class="ps-active-title">'+(proj?proj.t:"Freestyle")+'</div>';
-  if(dur)h+='<div class="ps-active-target">Target: '+proj.dur+'</div>';
-  h+='</div>';
-
-  h+='<div class="ps-active-card" id="ps-active-card">';
-  h+='<div class="ps-active-state">● RECORDING</div>';
-  h+='<div class="ps-active-display" id="ps-active-display">'+elapsed+'</div>';
-  if(dur){
-    h+='<div class="ps-active-markers">';
-    h+='<span class="ps-marker green">Green '+dur.min+':00</span>';
-    h+='<span class="ps-marker red">Red '+dur.max+':00</span>';
-    h+='</div>';
-  }
-  h+='</div>';
-
-  h+='<div class="ps-active-stats">';
-  const total=Object.values(FD.fillerCounts||{}).reduce((a,b)=>a+b,0);
-  h+='<div class="ps-stat-chip"><span class="ps-stat-n" id="ps-active-fillers">'+total+'</span><span class="ps-stat-lbl">Fillers</span></div>';
-  const mins=PS.elapsed/60;
-  const rate=mins>0?(total/mins).toFixed(1):"—";
-  h+='<div class="ps-stat-chip"><span class="ps-stat-n">'+rate+'</span><span class="ps-stat-lbl">Per min</span></div>';
-  h+='</div>';
-  h+='<div class="ps-mic-denied-note" id="ps-mic-denied-note" style="display:none">⚠️ Mic access denied — only timing will be tracked. Allow mic access in your browser settings and try again.</div>';
-
-  // Stop mic button
-  h+='<div class="ps-mic-wrap">';
-  h+='<div class="ps-mic-btn active" data-action="ps-stop">';
-  h+='<div class="ps-mic-ring active"><div class="ps-mic-icon">■</div></div>';
-  h+='</div>';
-  h+='<div class="ps-mic-label">Tap to stop</div>';
-  h+='</div>';
-
-  h+='</div>';
-  app.innerHTML=h;
-
-  psUpdateActiveDisplay();
-  app.querySelector('[data-action="ps-stop"]').addEventListener("click",psStop);
-}
+// renderPracticeStudioActive removed in v0.49 — active panel now lives inside renderPracticeStudio
 
 function psStop(){
   // Stop clock
   clearInterval(PS._iv);PS._iv=null;
-  // Stop filler detection
-  fdStop(false);
+  // Stop speech recognition
+  FD._shouldReconnect=false;
+  if(FD.recognition){
+    try{FD.recognition.onend=null;}catch(e){}
+    try{FD.recognition.stop();}catch(e){}
+    FD.recognition=null;
+  }
+  FD.phase="idle";
+  // Stop MediaRecorder + release mic stream
+  if(PS.mediaRecorder&&PS.mediaRecorder.state!=="inactive"){
+    try{PS.mediaRecorder.stop();}catch(e){}
+  }
+  if(PS.micStream){
+    PS.micStream.getTracks().forEach(t=>{try{t.stop();}catch(e){}});
+    PS.micStream=null;
+  }
+  PS.mediaRecorder=null;
   PS.phase="done";
   PS.totalFillers=Object.values(FD.fillerCounts||{}).reduce((a,b)=>a+b,0);
   PS.fillerCounts={...FD.fillerCounts};
