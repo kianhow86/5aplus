@@ -1978,6 +1978,17 @@ a{color:inherit;text-decoration:none}
 .topics-btn-timer:hover{background:var(--surface-3);color:var(--text)}
 
 /* ═══ Word of the Day ═══ */
+
+/* WOD dots + nav */
+.wod-dots{display:flex;justify-content:center;gap:7px;margin:12px 0 8px}
+.wod-dot{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,0.15);cursor:pointer;transition:background .2s,transform .2s}
+.wod-dot.active{background:#6DB6B4;transform:scale(1.25)}
+.wod-nav{display:flex;align-items:center;justify-content:space-between;margin-top:12px;gap:10px}
+.wod-nav-btn{padding:9px 18px;background:var(--surface);border:1px solid var(--border);border-radius:10px;color:var(--text-2);font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;transition:background .15s}
+.wod-nav-btn:hover:not(:disabled){background:var(--surface-2);color:var(--text)}
+.wod-nav-btn:disabled{opacity:0.3;cursor:default}
+.wod-nav-count{font-size:12px;color:var(--text-3);letter-spacing:-0.003em}
+
 .wod-card{background:var(--surface);border:1px solid var(--border);border-radius:22px;padding:36px 26px 32px;margin-bottom:18px;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);text-align:center}
 .wod-theme-form{display:flex;flex-direction:column;gap:10px;margin-bottom:16px}
 .wod-theme-label{font-size:10.5px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-3)}
@@ -3657,7 +3668,7 @@ let S={
   mode:"",
   // Ala carte comfort level — only relevant when mode==="alacarte". Captured
   // during welcome flow to personalize project suggestions. "new" / "some" /
-  // "experienced". Kept loose; v0.94 may add follow-ups.
+  // "experienced". Kept loose; v0.95 may add follow-ups.
   alacarteComfort:"",
   // AI Coach config. Disabled by default. User configures in Settings.
   // mode: "direct" (user's own API key, stored locally — direct browser call)
@@ -4156,7 +4167,7 @@ function renderHub(app){
   }
   h+='</div>';
 
-  h+='<div class="app-footer">Made by Kian How · Not affiliated with Toastmasters International · v0.94</div>';
+  h+='<div class="app-footer">Made by Kian How · Not affiliated with Toastmasters International · v0.95</div>';
   h+='</div>';
   app.innerHTML=h;
 
@@ -4488,7 +4499,7 @@ function renderPathPicker(app){
   h+='<button class="quiz-prompt-btn" data-action="open-quiz">🧭 &nbsp; Not sure which one? Take the fun quiz</button>';
   h+='</div>';
 
-  h+='<div class="app-footer">Made by Kian How · Not affiliated with Toastmasters International · v0.94</div>';
+  h+='<div class="app-footer">Made by Kian How · Not affiliated with Toastmasters International · v0.95</div>';
   h+='</div>';
   app.innerHTML=h;
 
@@ -4783,7 +4794,7 @@ function renderPathBrowser(app){
   // Keeping it in the tree lets us toggle visibility without re-rendering.
   h+='<div class="path-complete-banner'+(pct>=100?'':' hidden')+'"><strong>🎉 Path complete!</strong><div style="font-size:13px;color:var(--text-muted);line-height:1.5">Next step: DTM. Keep going.</div></div>';
 
-  h+='<div class="app-footer">Made by Kian How · Not affiliated with Toastmasters International · v0.94</div>';
+  h+='<div class="app-footer">Made by Kian How · Not affiliated with Toastmasters International · v0.95</div>';
   h+='</div>';
   app.innerHTML=h;
 
@@ -6217,7 +6228,7 @@ function renderPracticeHub(app){
   h+=toolRow({tool:"speech-draft",color:"#6DB6B4",icon:"📝",name:"Speech Draft Builder",desc:(S.aiConfig&&S.aiConfig.enabled)?"AI builds your speech outline and opening lines":"Structure your next speech from outline to close"});
 
   h+='</div>';
-  h+='<div class="app-footer">Made by Kian How · Not affiliated with Toastmasters International · v0.94</div>';
+  h+='<div class="app-footer">Made by Kian How · Not affiliated with Toastmasters International · v0.95</div>';
   h+='</div>';
   app.innerHTML=h;
 
@@ -7219,14 +7230,15 @@ function wodSearchByTheme(theme,difficulty){
 }
 
 function renderWODTool(app){
-  // WOD is now the Grammarian tool — theme search first, AI-powered when available
   const aiOn=S.aiConfig&&S.aiConfig.enabled;
   if(V._wodTheme===undefined)V._wodTheme="";
   if(!V._wodDiff)V._wodDiff="Balanced";
-  if(V._wodCard===undefined)V._wodCard=null;   // {word,pos,definition,example,source}
+  if(!V._wodCards)V._wodCards=[];   // array of 5 word cards
+  if(V._wodIdx===undefined)V._wodIdx=0;
   if(!V._wodLoading)V._wodLoading=false;
 
   const posLabelMap={"adj":"Adjective","verb":"Verb","noun":"Noun","adv":"Adverb"};
+  const current=V._wodCards.length>0?V._wodCards[V._wodIdx]:null;
 
   let h='<div class="fade-up">';
   h+='<div class="top-bar">';
@@ -7234,12 +7246,12 @@ function renderWODTool(app){
   h+='</div>';
   h+='<div class="kicker">Word of the Day</div>';
   h+='<h1 class="title">Expand your <span class="accent">vocabulary</span></h1>';
-  h+='<div class="subtitle">For Grammarians prepping a WOD, or anyone adding polish to everyday speech. Search by your meeting theme or pick a difficulty.</div>';
+  h+='<div class="subtitle">For Grammarians prepping a WOD, or anyone adding polish to their speech.</div>';
 
-  // Theme search
+  // Theme + difficulty controls
   h+='<div class="wod-theme-form">';
   h+='<div class="wod-theme-label">MEETING THEME (optional)</div>';
-  h+='<input class="role-ai-input" id="wod-theme-input" placeholder="e.g. Leadership, Courage, Change, Technology…" value="'+escHtml(V._wodTheme)+'"/>';
+  h+='<input class="role-ai-input" id="wod-theme-input" placeholder="e.g. Leadership, Courage, Change…" value="'+escHtml(V._wodTheme)+'"/>';
   h+='<div class="wod-diff-row">';
   [['Practical','Everyday'],['Balanced','Elevated'],['Advanced','Sophisticated']].forEach(([d,sub])=>{
     const active=d===V._wodDiff;
@@ -7248,15 +7260,23 @@ function renderWODTool(app){
     h+='</button>';
   });
   h+='</div>';
-  h+='<button class="wod-find-btn" data-action="wod-find">📖 '+(V._wodCard?"Find another word":"Find a word")+'</button>';
+  h+='<button class="wod-find-btn" data-action="wod-find">📖 '+(V._wodCards.length?"Again — 5 new words":"Find 5 words")+'</button>';
   h+='</div>';
 
-  // Word card
+  // Loading
   if(V._wodLoading){
-    h+='<div class="wod-card"><div class="wod-definition" style="text-align:center"><span class="coach-dots"><span>.</span><span>.</span><span>.</span></span></div></div>';
-  }else if(V._wodCard){
-    const w=V._wodCard;
+    h+='<div class="wod-card"><div class="wod-definition" style="text-align:center"><span class="coach-dots"><span>.</span><span>.</span><span>.</span></span><div style="font-size:12px;color:var(--text-3);margin-top:8px">Finding 5 words…</div></div></div>';
+  }else if(current){
+    const w=current;
     const posLabel=posLabelMap[w.pos]||w.pos||"";
+
+    // Dots indicator
+    h+='<div class="wod-dots">';
+    V._wodCards.forEach((_,i)=>{
+      h+='<div class="wod-dot'+(i===V._wodIdx?' active':'')+'" data-wod-dot="'+i+'"></div>';
+    });
+    h+='</div>';
+
     h+='<div class="wod-card">';
     h+='<div class="wod-meta-row">';
     if(posLabel)h+='<div class="wod-pos-pill adj">'+posLabel+'</div>';
@@ -7268,15 +7288,21 @@ function renderWODTool(app){
     h+='<div class="wod-definition">'+w.definition+'</div>';
     h+='<div class="wod-example">'+w.example+'</div>';
     h+='</div>';
+
+    // Prev / Next navigation
+    h+='<div class="wod-nav">';
+    h+='<button class="wod-nav-btn" data-action="wod-prev"'+(V._wodIdx===0?' disabled':'')+'>← Prev</button>';
+    h+='<span class="wod-nav-count">'+(V._wodIdx+1)+' of '+V._wodCards.length+'</span>';
+    h+='<button class="wod-nav-btn" data-action="wod-next"'+(V._wodIdx===V._wodCards.length-1?' disabled':'')+'>Next →</button>';
+    h+='</div>';
   }
 
   h+='</div>';
   app.innerHTML=h;
 
-  const backBtn=app.querySelector('[data-action="wod-back"]');
-  if(backBtn)backBtn.addEventListener("click",()=>{
-    V._wodCard=null;V._wodTheme="";
-    // Go back to the role that launched this, or roles list
+  // Back
+  app.querySelector('[data-action="wod-back"]').addEventListener("click",()=>{
+    V._wodCards=[];V._wodIdx=0;V._wodTheme="";
     if(V.viewingRole){V.view="role";}else{V.view="roles";}
     render();
   });
@@ -7292,29 +7318,52 @@ function renderWODTool(app){
     });
   });
 
+  // Dot navigation
+  app.querySelectorAll("[data-wod-dot]").forEach(dot=>{
+    dot.addEventListener("click",()=>{V._wodIdx=parseInt(dot.dataset.wodDot);render();});
+  });
+
+  const prevBtn=app.querySelector('[data-action="wod-prev"]');
+  if(prevBtn)prevBtn.addEventListener("click",()=>{if(V._wodIdx>0){V._wodIdx--;render();}});
+  const nextBtn=app.querySelector('[data-action="wod-next"]');
+  if(nextBtn)nextBtn.addEventListener("click",()=>{if(V._wodIdx<V._wodCards.length-1){V._wodIdx++;render();}});
+
+  // Generate 5 words
   app.querySelector('[data-action="wod-find"]').addEventListener("click",async()=>{
     const theme=(themeInput?themeInput.value.trim():V._wodTheme||"");
     const diff=V._wodDiff||"Balanced";
-    V._wodLoading=true;V._wodCard=null;
+    V._wodLoading=true;V._wodCards=[];V._wodIdx=0;
     render();
 
+    const cards=[];
     if(aiOn){
       try{
-        const sys='You are a Toastmasters Grammarian. Return ONLY valid JSON (no markdown, no fences): {"word":"...","pronunciation":"...","pos":"...","definition":"...","example":"..."}';
-        const msg='Meeting theme: '+(theme||"open")+' | Level: '+diff+'\nPractical=common but often misused, Balanced=elevated vocabulary, Advanced=rare/sophisticated. Pick ONE relevant word.';
-        const raw=await callCoach(sys,msg,{maxTokens:200,forceBase:true,featureId:'wod'});
+        const sys='You are a Toastmasters Grammarian. Return ONLY a valid JSON array of exactly 5 word objects. No markdown, no fences, no extra text. Format: [{"word":"...","pronunciation":"...","pos":"adj|verb|noun|adv","definition":"...","example":"..."},...]';
+        const msg='Meeting theme: '+(theme||"open")+' | Level: '+diff+'\nPractical=common but often misused, Balanced=elevated vocabulary, Advanced=rare/sophisticated.\nReturn 5 distinct words. All 5 must be different parts of speech or meanings. No duplicates.';
+        const raw=await callCoach(sys,msg,{maxTokens:800,forceBase:true,featureId:'wod'});
         const cleaned=raw.trim().replace(/^```(?:json)?\s*/,"").replace(/\s*```\s*$/,"");
         const parsed=JSON.parse(cleaned);
-        V._wodCard={word:parsed.word,pronunciation:parsed.pronunciation||"",pos:parsed.pos||"adj",definition:parsed.definition,example:parsed.example,source:"ai"};
-      }catch(e){
-        // AI failed — fall back to word bank
-        const offline=wodSearchByTheme(theme,diff);
-        V._wodCard={word:offline.w,pronunciation:"",pos:offline.p,definition:offline.d,example:offline.e,source:"bank"};
-      }
-    }else{
-      const offline=wodSearchByTheme(theme,diff);
-      V._wodCard={word:offline.w,pronunciation:"",pos:offline.p,definition:offline.d,example:offline.e,source:"bank"};
+        if(Array.isArray(parsed)){
+          parsed.slice(0,5).forEach(p=>{
+            cards.push({word:p.word,pronunciation:p.pronunciation||"",pos:p.pos||"adj",definition:p.definition,example:p.example,source:"ai"});
+          });
+        }
+      }catch(e){/* fall through to bank */}
     }
+
+    // Fill remaining slots from bank (or all 5 if AI failed)
+    while(cards.length<5){
+      const offline=wodSearchByTheme(theme,diff);
+      // Avoid duplicates
+      if(!cards.find(c=>c.word===offline.w)){
+        cards.push({word:offline.w,pronunciation:"",pos:offline.p,definition:offline.d,example:offline.e,source:"bank"});
+      }else{
+        cards.push({word:offline.w,pronunciation:"",pos:offline.p,definition:offline.d,example:offline.e,source:"bank"});
+      }
+    }
+
+    V._wodCards=cards.slice(0,5);
+    V._wodIdx=0;
     V._wodLoading=false;
     render();
   });
@@ -11316,7 +11365,7 @@ function psUpdateActiveDisplay(){
   }
 }
 
-// renderPracticeStudioActive removed in v0.94 — active panel now lives inside renderPracticeStudio
+// renderPracticeStudioActive removed in v0.95 — active panel now lives inside renderPracticeStudio
 
 function psStop(){
   _recordSfx(false);
