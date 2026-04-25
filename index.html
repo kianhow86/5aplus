@@ -189,6 +189,10 @@ a{color:inherit;text-decoration:none}
 .hub-tile:active{transform:translateY(0) scale(0.98)}
 .hub-tile.placeholder{cursor:default;opacity:0.5}
 .hub-tile.placeholder:hover{transform:none;filter:none}
+
+/* Speech Coach tile — avatar styled to match SVG glyphs */
+.hub-tile-glyph-img img{width:100%;height:100%;object-fit:contain;display:block;filter:invert(1) drop-shadow(0 2px 8px rgba(0,0,0,0.3))}
+
 .hub-tile-glyph{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:86px;height:86px;color:#fff;filter:drop-shadow(0 2px 8px rgba(0,0,0,0.3));z-index:2}
 .hub-tile-glyph svg{width:100%;height:100%}
 @media (max-width:520px){
@@ -4119,17 +4123,7 @@ function renderHub(app){
   h+='<h1 class="title">Your AI-powered <span class="accent">Toastmasters toolkit</span></h1>';
   h+='<div class="subtitle">by Kian How</div>';
 
-  // ── Pathways setup nudge for no-path users (subtle, not blocking) ──
-  if(!p&&S.mode!=="path"){
-    h+='<div class="hub-pathways-nudge" data-action="hub-setup-pathways">';
-    h+='<div class="hub-pathways-nudge-icon">📍</div>';
-    h+='<div class="hub-pathways-nudge-body">';
-    h+='<div class="hub-pathways-nudge-title">Track your Pathways journey</div>';
-    h+='<div class="hub-pathways-nudge-desc">See your path, plan what\'s next, get role toolkits for every meeting.</div>';
-    h+='</div>';
-    h+='<div class="hub-pathways-nudge-arrow">→</div>';
-    h+='</div>';
-  }
+
 
   // ═══ GOAL PICKER (no-path) / SMART SUGGESTIONS (path) ═══
   if(!V._todayGoal){
@@ -4214,7 +4208,11 @@ function renderHub(app){
       s+='</div>';
     }
     if(cfg.badge){s+='<div class="hub-tile-badge">'+cfg.badge+'</div>';}
-    s+='<div class="hub-tile-glyph">'+HUB_GLYPHS[cfg.glyph]+'</div>';
+    if(cfg.img){
+      s+='<div class="hub-tile-glyph hub-tile-glyph-img"><img src="'+cfg.img+'" alt="'+cfg.name+'"/></div>';
+    } else {
+      s+='<div class="hub-tile-glyph">'+HUB_GLYPHS[cfg.glyph]+'</div>';
+    }
     s+='</button>';
     s+='<div class="hub-tile-name">'+cfg.name+'</div>';
     s+='</div>';
