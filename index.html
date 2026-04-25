@@ -1617,6 +1617,11 @@ a{color:inherit;text-decoration:none}
 .pd-role-callout-btn:hover{filter:brightness(1.08)}
 
 
+/* TTP panel toggle — same pattern as AI Studio */
+.ttp-view[data-ttp-state="question"] .ttp-a-panel{display:none}
+.ttp-view[data-ttp-state="active"] .ttp-q-panel{display:none}
+.ttp-q-panel,.ttp-a-panel{display:flex;flex-direction:column;gap:14px}
+
 /* ═══ Table Topics Practice ═══ */
 .ttp-view{display:flex;flex-direction:column;gap:14px;padding-bottom:32px}
 .ttp-hero{text-align:center;padding:8px 0 4px}
@@ -2730,7 +2735,7 @@ let S={
   mode:"",
   // Ala carte comfort level — only relevant when mode==="alacarte". Captured
   // during welcome flow to personalize project suggestions. "new" / "some" /
-  // "experienced". Kept loose; v0.57 may add follow-ups.
+  // "experienced". Kept loose; v0.59 may add follow-ups.
   alacarteComfort:"",
   // AI Coach config. Disabled by default. User configures in Settings.
   // mode: "direct" (user's own API key, stored locally — direct browser call)
@@ -3126,7 +3131,7 @@ function renderHub(app){
   }
   h+='</div>';
 
-  h+='<div class="app-footer">Toastmasters Companion · v0.57 · Your progress saves on this device</div>';
+  h+='<div class="app-footer">Toastmasters Companion · v0.59 · Your progress saves on this device</div>';
   h+='</div>';
   app.innerHTML=h;
 
@@ -3428,7 +3433,7 @@ function renderPathPicker(app){
   h+='<button class="quiz-prompt-btn" data-action="open-quiz">🧭 &nbsp; Not sure which one? Take the fun quiz</button>';
   h+='</div>';
 
-  h+='<div class="app-footer">Toastmasters Companion · v0.57 · Built with ❤️ for Toastmasters</div>';
+  h+='<div class="app-footer">Toastmasters Companion · v0.59 · Built with ❤️ for Toastmasters</div>';
   h+='</div>';
   app.innerHTML=h;
 
@@ -3720,7 +3725,7 @@ function renderPathBrowser(app){
   // Keeping it in the tree lets us toggle visibility without re-rendering.
   h+='<div class="path-complete-banner'+(pct>=100?'':' hidden')+'"><strong>🎉 Path complete!</strong><div style="font-size:13px;color:var(--text-muted);line-height:1.5">Next step: DTM. Keep going.</div></div>';
 
-  h+='<div class="app-footer">Toastmasters Companion · v0.57 · Your progress saves locally on this device</div>';
+  h+='<div class="app-footer">Toastmasters Companion · v0.59 · Your progress saves locally on this device</div>';
   h+='</div>';
   app.innerHTML=h;
 
@@ -5097,7 +5102,7 @@ function renderPracticeHub(app){
   h+=toolRow({tool:"speech-draft",color:"#6DB6B4",icon:"📝",name:"Speech Draft Builder",desc:(S.aiConfig&&S.aiConfig.enabled)?"AI builds your speech outline and opening lines":"Structure your next speech from outline to close"});
 
   h+='</div>';
-  h+='<div class="app-footer">Toastmasters Companion · v0.57 · Practice tools work offline</div>';
+  h+='<div class="app-footer">Toastmasters Companion · v0.59 · Practice tools work offline</div>';
   h+='</div>';
   app.innerHTML=h;
 
@@ -5398,31 +5403,55 @@ function _ttpRenderSetup(app){
   });
 }
 
-// ── QUESTION (read + prepare) ──────────────────────────────────────────────
+// ── QUESTION (read + prepare) — pre-renders active panel too so ttpStart
+// can swap without a render() call that would break the audio pipeline ──
 function _ttpRenderQuestion(app){
-  let h='<div class="fade-up ttp-view">';
+  let h='<div class="fade-up ttp-view" data-ttp-state="question">';
   h+='<div class="top-bar">';
   h+='<button class="top-bar-btn" data-action="ttp-restart">← New question</button>';
   h+='</div>';
 
+  // ── QUESTION PANEL (shown initially) ──
+  h+='<div class="ttp-q-panel">';
   h+='<div class="ttp-question-kicker">'+(TTP.questionSource==="ai"?"✨ AI-generated":"From the offline bank")+'</div>';
   h+='<div class="ttp-question-card">';
   h+='<div class="ttp-question-label">YOUR QUESTION</div>';
   h+='<div class="ttp-question-text">'+escHtml(TTP.question)+'</div>';
   h+='</div>';
-
   h+='<div class="ttp-question-tips">';
   h+='<div class="ttp-tip"><span>⏱</span><span>Target: <strong>1–2 minutes</strong></span></div>';
-  h+='<div class="ttp-tip"><span>🗣</span><span>Open with a clear stance or story — don\'t summarise the question back</span></div>';
-  h+='<div class="ttp-tip"><span>🔔</span><span>Timer will chime at 1:00, 1:30, 2:00</span></div>';
+  h+='<div class="ttp-tip"><span>🗣</span><span>Open with a clear stance or story</span></div>';
+  h+='<div class="ttp-tip"><span>🔔</span><span>Bell at 1:00, 1:30, 2:00</span></div>';
   h+='</div>';
-
   h+='<div class="ttp-start-wrap">';
-  h+='<div class="ps-mic-btn" data-action="ttp-start">';
-  h+='<div class="ps-mic-ring"><div class="ps-mic-icon">🎙️</div></div>';
+  h+='<div class="ps-mic-btn" data-action="ttp-start"><div class="ps-mic-ring"><div class="ps-mic-icon">🎙️</div></div></div>';
+  h+='<div class="ps-mic-label">Tap to start recording</div>';
   h+='</div>';
-  h+='<div class="ps-mic-label" id="ttp-start-label">Tap to start recording</div>';
+  h+='</div>'; // /ttp-q-panel
+
+  // ── ACTIVE PANEL (hidden until ttpStart swaps state) ──
+  h+='<div class="ttp-a-panel">';
+  h+='<div class="ttp-active-question">'+escHtml(TTP.question)+'</div>';
+  h+='<div class="ttp-active-card" id="ttp-active-card">';
+  h+='<div class="ps-active-state">● RECORDING</div>';
+  h+='<div class="ps-active-display" id="ttp-active-display">0:00</div>';
+  h+='<div class="ttp-active-markers">';
+  h+='<span class="ps-marker green">🟢 1:00</span>';
+  h+='<span class="ps-marker" style="color:#E8B250">🟡 1:30</span>';
+  h+='<span class="ps-marker red">🔴 2:00</span>';
   h+='</div>';
+  h+='</div>';
+  h+='<div class="ps-active-stats"><div class="ps-stat-chip"><span class="ps-stat-n" id="ttp-active-words">0</span><span class="ps-stat-lbl">Words</span></div></div>';
+  h+='<div class="ps-transcript-wrap">';
+  h+='<div class="ps-transcript-label">LIVE TRANSCRIPT</div>';
+  h+='<div class="ps-transcript-live" id="ttp-active-transcript">Listening…</div>';
+  h+='<div class="ps-transcript-hint">Speak naturally. AI evaluates when you stop.</div>';
+  h+='</div>';
+  h+='<div class="ps-mic-wrap">';
+  h+='<div class="ps-mic-btn active" data-action="ttp-stop"><div class="ps-mic-ring active"><div class="ps-mic-icon">■</div></div></div>';
+  h+='<div class="ps-mic-label">Tap to stop</div>';
+  h+='</div>';
+  h+='</div>'; // /ttp-a-panel
 
   h+='</div>';
   app.innerHTML=h;
@@ -5430,8 +5459,8 @@ function _ttpRenderQuestion(app){
   app.querySelector('[data-action="ttp-restart"]').addEventListener("click",()=>{
     TTP.phase="setup";TTP.question="";TTP.aiResult=null;render();
   });
-
   app.querySelector('[data-action="ttp-start"]').addEventListener("click",()=>ttpStart());
+  app.querySelector('[data-action="ttp-stop"]').addEventListener("click",()=>ttpStop());
 }
 
 // ── START RECORDING ─────────────────────────────────────────────────────────
@@ -5445,18 +5474,7 @@ function ttpStart(){
   TTP.aiResult=null;
   TTP.aiLoading=false;
 
-  const labelEl=document.getElementById("ttp-start-label");
-  if(labelEl)labelEl.textContent="Requesting mic access…";
-
-  const _go=()=>{
-    TTP.phase="active";
-    TTP._iv=setInterval(()=>{TTP.elapsed++;_ttpUpdateActive();},1000);
-    const wrap=document.querySelector(".ttp-view");
-    if(wrap)wrap.setAttribute("data-ttp-phase","active");
-    else render();
-  };
-
-  // Speech recognition
+  // ── 1. SR starts synchronously in gesture context ──
   const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
   if(SR){
     try{
@@ -5466,40 +5484,33 @@ function ttpStart(){
         TTP.lastResultAt=Date.now();TTP.micGranted=true;
         for(let i=e.resultIndex;i<e.results.length;i++){
           const txt=(e.results[i][0].transcript||"").trim();
-          if(txt){
-            TTP.transcript+=(TTP.transcript?" ":"")+txt;
-            TTP.totalWords+=txt.split(/\s+/).filter(Boolean).length;
-            _ttpUpdateActive();
-          }
+          if(txt){TTP.transcript+=(TTP.transcript?" ":"")+txt;TTP.totalWords+=txt.split(/\s+/).filter(Boolean).length;_ttpUpdateActive();}
         }
       };
-      rec.onerror=(ev)=>{
-        if(ev.error==="not-allowed"||ev.error==="service-not-allowed"){TTP.micGranted=false;}
-      };
-      rec.onend=()=>{
-        if(TTP.phase==="active"&&TTP.recognition)try{rec.start();}catch(e){}
-      };
+      rec.onerror=(ev)=>{if(ev.error==="not-allowed"||ev.error==="service-not-allowed")TTP.micGranted=false;};
+      rec.onend=()=>{if(TTP.phase==="active"&&TTP.recognition){try{rec.start();}catch(e){}}};
       rec.start();
       TTP.recognition=rec;
-    }catch(e){console.warn("SR failed:",e);}
+      TTP.micGranted=true;
+    }catch(e){console.warn("TTP SR failed:",e);}
   }
 
-  // getUserMedia + MediaRecorder to keep audio pipeline alive
+  // ── 2. getUserMedia async — keeps audio pipeline alive via MediaRecorder ──
   if(navigator.mediaDevices&&navigator.mediaDevices.getUserMedia){
     navigator.mediaDevices.getUserMedia({audio:true}).then(stream=>{
       TTP.micStream=stream;
-      try{
-        const mr=new MediaRecorder(stream);
-        mr.ondataavailable=()=>{};
-        mr.start();TTP.mediaRecorder=mr;
-      }catch(e){}
-      TTP.micGranted=true;
-      _go();
-    }).catch(()=>{
-      TTP.micGranted=false;
-      _go(); // run timer-only if mic denied
-    });
-  }else{_go();}
+      try{const mr=new MediaRecorder(stream);mr.ondataavailable=()=>{};mr.start();TTP.mediaRecorder=mr;}catch(e){}
+    }).catch(()=>{});
+  }
+
+  // ── 3. Start immediately — no gating ──
+  TTP.phase="active";
+  TTP._iv=setInterval(()=>{TTP.elapsed++;_ttpUpdateActive();},1000);
+
+  // In-place swap — flip data-ttp-state, no render()
+  const wrap=document.querySelector(".ttp-view");
+  if(wrap)wrap.setAttribute("data-ttp-state","active");
+  _ttpUpdateActive();
 }
 
 function _ttpUpdateActive(){
@@ -5527,47 +5538,6 @@ function _ttpUpdateActive(){
   // Words
   const wEl=document.getElementById("ttp-active-words");
   if(wEl)wEl.textContent=TTP.totalWords;
-}
-
-// ── ACTIVE ──────────────────────────────────────────────────────────────────
-function _ttpRenderActive(app){
-  const dur=fmtMs(TTP.elapsed*1000);
-  let h='<div class="fade-up ttp-view">';
-
-  // Question stays visible while recording
-  h+='<div class="ttp-active-question">'+escHtml(TTP.question)+'</div>';
-
-  h+='<div class="ttp-active-card" id="ttp-active-card">';
-  h+='<div class="ps-active-state">● RECORDING</div>';
-  h+='<div class="ps-active-display" id="ttp-active-display">'+dur+'</div>';
-  h+='<div class="ttp-active-markers">';
-  h+='<span class="ps-marker green">🟢 1:00</span>';
-  h+='<span class="ps-marker amber" style="color:#E8B250">🟡 1:30</span>';
-  h+='<span class="ps-marker red">🔴 2:00</span>';
-  h+='</div>';
-  h+='</div>';
-
-  h+='<div class="ps-active-stats">';
-  h+='<div class="ps-stat-chip"><span class="ps-stat-n" id="ttp-active-words">'+TTP.totalWords+'</span><span class="ps-stat-lbl">Words</span></div>';
-  h+='</div>';
-
-  h+='<div class="ps-transcript-wrap">';
-  h+='<div class="ps-transcript-label">LIVE TRANSCRIPT</div>';
-  h+='<div class="ps-transcript-live" id="ttp-active-transcript">'+(TTP.transcript||"Listening…")+'</div>';
-  h+='<div class="ps-transcript-hint">Speak naturally. AI will evaluate your answer when you stop.</div>';
-  h+='</div>';
-
-  h+='<div class="ps-mic-wrap">';
-  h+='<div class="ps-mic-btn active" data-action="ttp-stop">';
-  h+='<div class="ps-mic-ring active"><div class="ps-mic-icon">■</div></div>';
-  h+='</div>';
-  h+='<div class="ps-mic-label">Tap to stop</div>';
-  h+='</div>';
-
-  h+='</div>';
-  app.innerHTML=h;
-  _ttpUpdateActive();
-  app.querySelector('[data-action="ttp-stop"]').addEventListener("click",ttpStop);
 }
 
 function ttpStop(){
@@ -8134,8 +8104,11 @@ function renderAITool(app){
   const toolId=V._aiToolId;
   if(toolId==="topics-gen")return renderAITopicsGen(app);
   if(toolId==="tmd-script")return renderAITMDScript(app);
-  if(toolId==="eval-assistant")return renderAIEvalAssistant(app);
-  // Unknown tool — bounce back
+  if(toolId==="eval-assistant"){
+    // Clear stale results whenever the tool is opened fresh
+    if(!V._eaLoading){V._eaResult=null;}
+    return renderAIEvalAssistant(app);
+  }
   V.view="roles";render();
 }
 
@@ -8222,12 +8195,15 @@ function renderAITopicsGen(app){
     const theme=themeInput?themeInput.value.trim():V._tgTheme;
     V._tgLoading=true;V._tgResults=null;render();
     try{
-      const sys="You are an experienced Toastmasters Topicsmaster. Generate exactly 10 Table Topics questions. Return as a numbered list 1-10, one per line. No preamble, no extra text, no explanations. Each question is a complete thought-provoking prompt.";
-      const msg="Theme: "+(theme||"open")+" | Difficulty: "+V._tgDiff+"\nEasy=personal/relatable, Medium=opinion/reflection, Challenging=abstract/philosophical.";
-      const text=await callCoach(sys,msg,{maxTokens:600,forceBase:true});
-      const lines=text.split("\n").map(l=>l.trim()).filter(l=>l&&/^\d+[.)]/.test(l))
-        .map(l=>l.replace(/^\d+[.)]\s*/,"")).filter(Boolean);
+      const sys="You are an experienced Toastmasters Topicsmaster. Generate exactly 10 Table Topics questions. Number each question 1-10. One question per line. No preamble, no explanations, nothing after the last question.";
+      const msg="Theme: "+(theme||"open")+" | Difficulty: "+V._tgDiff+"\nEasy=personal/relatable, Medium=opinion/reflection, Challenging=abstract/philosophical.\n\nGenerate 10 questions now:";
+      const text=await callCoach(sys,msg,{maxTokens:700,forceBase:true});
+      // Lenient parse — strip any numbering prefix, keep any non-empty line
+      const lines=text.split("\n")
+        .map(l=>l.trim().replace(/^[\d]+[.)]\s*/,"").replace(/^\*+\s*/,"").trim())
+        .filter(l=>l.length>10&&!l.match(/^(theme|difficulty|question|here are)/i));
       V._tgResults=lines.slice(0,10);
+      if(!V._tgResults.length)V._tgResults=["⚠ No questions returned — try again"];
     }catch(e){V._tgResults=["⚠ "+e.message];}
     V._tgLoading=false;render();
   });
@@ -8331,9 +8307,10 @@ function renderAITMDScript(app){
 
 // ── Evaluation Assistant ────────────────────────────────────────────────────
 function renderAIEvalAssistant(app){
+  // Always reset result when opening fresh (prevents stale state from another session)
   if(V._eaPid===undefined)V._eaPid="";
-  if(!V._eaResult)V._eaResult=null;
-  if(!V._eaLoading)V._eaLoading=false;
+  if(V._eaResult===undefined)V._eaResult=null;
+  if(V._eaLoading===undefined)V._eaLoading=false;
 
   const pathCode=S.path||"DL";
   const levelGroups=[];
@@ -8412,13 +8389,15 @@ function renderAIEvalAssistant(app){
     V._eaLoading=true;render();
     try{
       const tips=TIPS&&TIPS[V._eaPid];
-      const sys=`You are a senior Toastmasters evaluator coach. Write a practical evaluation guide for this specific project. Structure your response with EXACTLY these labelled sections, each on its own line:
+      const sys=`You are a Toastmasters evaluator coach giving guidance to a SPEECH EVALUATOR (not the speaker). Your job is to help them evaluate someone else's speech.
 
-🎯 WHAT TO WATCH FOR: [2-3 sentences on the specific behaviors and techniques tied to this project's objectives]
-⚠️ WHAT NOT TO DO: [2-3 sentences on common evaluator mistakes for this project — e.g. vague feedback, off-topic praise]
-✅ CRC STRUCTURE: [2-3 sentences on how to frame Commend-Recommend-Commend for this specific project]
+Write a pre-evaluation guide with EXACTLY these three sections on separate lines:
 
-Be specific and direct. Under 220 words total. No preamble.`;
+🎯 WHAT TO WATCH FOR: [what the evaluator should observe during the speech — specific to this project's objectives]
+⚠️ WHAT NOT TO DO: [common evaluator mistakes for this project — e.g. ignoring the actual objective, giving vague praise]
+✅ CRC STRUCTURE: [how to frame Commend-Recommend-Commend for this specific project]
+
+This is a GUIDE FOR THE EVALUATOR, not a speech or outline. Under 200 words. Be specific and direct.`;
       const msg="Project: "+proj.t+" ("+proj.dur+")\nPurpose: "+proj.p+"\nOverview: "+(proj.o||"")+
         (tips&&tips.how?"\nCoaching focus: "+tips.how.replace(/<[^>]+>/g,""):"");
       const text=await callCoach(sys,msg,{maxTokens:500});
@@ -9638,7 +9617,6 @@ function renderPracticeStudio(app){
 }
 
 function psStart(timerOnly){
-  // Reset state — but DON'T flip phase to active yet (wait for mic permission)
   PS.elapsed=0;
   PS.fillerCounts={};
   PS.totalFillers=0;
@@ -9647,119 +9625,57 @@ function psStart(timerOnly){
   PS.micGranted=false;
   PS.timerOnly=!!timerOnly;
   PS.lastResultAt=null;
-  PS.recognitionStarted=null;
 
-  // Reset shared filler-detector state
-  FD.fillerCounts={};
-  FD.totalWords=0;
-  FD.transcript="";
-  FD.interimText="";
-  FD._shouldReconnect=true;
+  FD.fillerCounts={};FD.totalWords=0;FD.transcript="";FD.interimText="";FD._shouldReconnect=true;
 
-  // Show "Requesting mic access…" state on the start button to give feedback
-  const labelEl=document.querySelector(".ps-ready-panel .ps-mic-label");
-  if(labelEl&&!timerOnly)labelEl.textContent="Requesting mic access…";
-
-  // Helper that actually starts the session AFTER permission is sorted out
-  const _actuallyStart=()=>{
-    PS.phase="active";
-    PS.startedAt=Date.now();
-    FD.startedAt=PS.startedAt;
-    FD.phase="active";
-
-    // ── Start clock
-    PS._iv=setInterval(()=>{
-      PS.elapsed++;
-      psUpdateActiveDisplay();
-    },1000);
-
-    // ── In-place panel swap (no render() — preserves audio pipeline)
-    const wrap=document.querySelector(".ps-view");
-    if(wrap)wrap.setAttribute("data-ps-state","active");
-    psUpdateActiveDisplay();
-  };
-
-  // Timer-only mode (browser doesn't support SR or user explicitly wants timer)
-  if(timerOnly){
-    _actuallyStart();
-    return;
-  }
-
-  // ── Speech recognition: started SYNCHRONOUSLY in the gesture handler.
-  const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
-  if(SR){
-    try{
-      const rec=new SR();
-      rec.continuous=true;
-      rec.interimResults=false;
-      rec.lang="en-US";
-      rec.onresult=(e)=>{
-        PS.lastResultAt=Date.now();
-        PS.micGranted=true;
-        for(let i=e.resultIndex;i<e.results.length;i++){
-          const txt=(e.results[i][0].transcript||"").trim();
-          if(txt){
-            fdAnalyze(txt);
-            if(PS.phase==="active")psUpdateActiveDisplay();
+  // ── 1. Start SR synchronously, in the gesture context ──
+  if(!timerOnly){
+    const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+    if(SR){
+      try{
+        const rec=new SR();
+        rec.continuous=true;rec.interimResults=false;rec.lang="en-US";
+        rec.onresult=(e)=>{
+          PS.lastResultAt=Date.now();PS.micGranted=true;
+          for(let i=e.resultIndex;i<e.results.length;i++){
+            const txt=(e.results[i][0].transcript||"").trim();
+            if(txt){fdAnalyze(txt);if(PS.phase==="active")psUpdateActiveDisplay();}
           }
-        }
-      };
-      rec.onerror=(ev)=>{
-        if(ev.error==="not-allowed"||ev.error==="service-not-allowed"){
-          PS.micGranted=false;
-          FD._shouldReconnect=false;
-          // If we haven't started yet, abort gracefully
-          if(PS.phase!=="active"){
-            const lbl=document.querySelector(".ps-ready-panel .ps-mic-label");
-            if(lbl)lbl.textContent="⚠ Mic access denied — tap to retry";
-          }else{
+        };
+        rec.onerror=(ev)=>{
+          if(ev.error==="not-allowed"||ev.error==="service-not-allowed"){
+            PS.micGranted=false;FD._shouldReconnect=false;
             const note=document.getElementById("ps-mic-denied-note");
             if(note)note.style.display="block";
           }
-        }
-      };
-      rec.onend=()=>{
-        if(PS.phase==="active"&&FD._shouldReconnect){
-          try{rec.start();}catch(e){}
-        }
-      };
-      rec.start();
-      FD.recognition=rec;
-    }catch(e){
-      console.warn("SpeechRecognition.start() failed:",e);
+        };
+        rec.onend=()=>{if(PS.phase==="active"&&FD._shouldReconnect){try{rec.start();}catch(e){}}};
+        rec.start();
+        FD.recognition=rec;
+        PS.micGranted=true;
+      }catch(e){console.warn("SR failed:",e);}
+    }
+
+    // ── 2. getUserMedia async — just to keep the audio pipeline alive via MediaRecorder
+    // Matches 5A+ pattern exactly. Do NOT gate the session start on this.
+    if(navigator.mediaDevices&&navigator.mediaDevices.getUserMedia){
+      navigator.mediaDevices.getUserMedia({audio:true}).then(stream=>{
+        PS.micStream=stream;
+        try{const mr=new MediaRecorder(stream);mr.ondataavailable=()=>{};mr.start();PS.mediaRecorder=mr;}catch(e){}
+      }).catch(()=>{});
     }
   }
 
-  // ── getUserMedia — gate the timer on actual mic permission. Match 5aplus.
-  // Without an active MediaRecorder holding the stream, SR often dies silently.
-  if(navigator.mediaDevices&&navigator.mediaDevices.getUserMedia){
-    navigator.mediaDevices.getUserMedia({audio:true}).then(stream=>{
-      PS.micStream=stream;
-      try{
-        const mr=new MediaRecorder(stream);
-        mr.ondataavailable=()=>{}; // we just need an active stream
-        mr.start();
-        PS.mediaRecorder=mr;
-      }catch(e){console.warn("MediaRecorder failed:",e);}
-      PS.micGranted=true;
-      // ✓ Permission cleared — NOW start the timer
-      _actuallyStart();
-    }).catch(err=>{
-      console.warn("getUserMedia failed:",err);
-      PS.micGranted=false;
-      // Stop SR — no point keeping it without mic
-      if(FD.recognition){
-        FD._shouldReconnect=false;
-        try{FD.recognition.stop();}catch(e){}
-        FD.recognition=null;
-      }
-      const lbl=document.querySelector(".ps-ready-panel .ps-mic-label");
-      if(lbl)lbl.textContent="⚠ Mic access denied — tap to retry";
-    });
-  }else{
-    // No getUserMedia available (very old browser) — just run timer
-    _actuallyStart();
-  }
+  // ── 3. Start immediately — no gating on getUserMedia ──
+  PS.phase="active";
+  PS.startedAt=Date.now();
+  FD.startedAt=PS.startedAt;FD.phase="active";
+  PS._iv=setInterval(()=>{PS.elapsed++;psUpdateActiveDisplay();},1000);
+
+  // In-place panel swap — no render(), preserves audio pipeline
+  const wrap=document.querySelector(".ps-view");
+  if(wrap)wrap.setAttribute("data-ps-state","active");
+  psUpdateActiveDisplay();
 }
 
 function psUpdateActiveDisplay(){
@@ -9804,7 +9720,7 @@ function psUpdateActiveDisplay(){
   }
 }
 
-// renderPracticeStudioActive removed in v0.57 — active panel now lives inside renderPracticeStudio
+// renderPracticeStudioActive removed in v0.59 — active panel now lives inside renderPracticeStudio
 
 function psStop(){
   // Stop clock
