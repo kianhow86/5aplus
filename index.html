@@ -49,7 +49,7 @@
   /* 2xl: screen subtitles */
   --fs-2xl:20px; --fw-2xl:700;
   /* 3xl: screen titles */
-  --fs-3xl:28px; --fw-3xl:800;
+  --fs-3xl:35px; --fw-3xl:800;
 
   /* Single refined accent (desaturated sophisticated teal) */
   --accent:#6DB6B4;
@@ -3692,7 +3692,7 @@ let S={
   mode:"",
   // Ala carte comfort level — only relevant when mode==="alacarte". Captured
   // during welcome flow to personalize project suggestions. "new" / "some" /
-  // "experienced". Kept loose; v1.01 may add follow-ups.
+  // "experienced". Kept loose; v1.02 may add follow-ups.
   alacarteComfort:"",
   // AI Coach config. Disabled by default. User configures in Settings.
   // mode: "direct" (user's own API key, stored locally — direct browser call)
@@ -4198,7 +4198,7 @@ function renderHub(app){
   }
   h+='</div>';
 
-  h+='<div class="app-footer">Made by Kian How · Not affiliated with Toastmasters International · v1.01</div>';
+  h+='<div class="app-footer">Made by Kian How · Not affiliated with Toastmasters International · v1.02</div>';
   h+='</div>';
   app.innerHTML=h;
 
@@ -4530,7 +4530,7 @@ function renderPathPicker(app){
   h+='<button class="quiz-prompt-btn" data-action="open-quiz">🧭 &nbsp; Not sure which one? Take the fun quiz</button>';
   h+='</div>';
 
-  h+='<div class="app-footer">Made by Kian How · Not affiliated with Toastmasters International · v1.01</div>';
+  h+='<div class="app-footer">Made by Kian How · Not affiliated with Toastmasters International · v1.02</div>';
   h+='</div>';
   app.innerHTML=h;
 
@@ -4894,7 +4894,7 @@ function renderPathBrowser(app){
   // Keeping it in the tree lets us toggle visibility without re-rendering.
   h+='<div class="path-complete-banner'+(pct>=100?'':' hidden')+'"><strong>🎉 Path complete!</strong><div style="font-size:13px;color:var(--text-muted);line-height:1.5">Next step: DTM. Keep going.</div></div>';
 
-  h+='<div class="app-footer">Made by Kian How · Not affiliated with Toastmasters International · v1.01</div>';
+  h+='<div class="app-footer">Made by Kian How · Not affiliated with Toastmasters International · v1.02</div>';
   h+='</div>';
   app.innerHTML=h;
 
@@ -6328,7 +6328,7 @@ function renderPracticeHub(app){
   h+=toolRow({tool:"speech-draft",color:"#6DB6B4",icon:"📝",name:"Speech Draft Builder",desc:(S.aiConfig&&S.aiConfig.enabled)?"AI builds your speech outline and opening lines":"Structure your next speech from outline to close"});
 
   h+='</div>';
-  h+='<div class="app-footer">Made by Kian How · Not affiliated with Toastmasters International · v1.01</div>';
+  h+='<div class="app-footer">Made by Kian How · Not affiliated with Toastmasters International · v1.02</div>';
   h+='</div>';
   app.innerHTML=h;
 
@@ -11562,7 +11562,7 @@ function psUpdateActiveDisplay(){
   }
 }
 
-// renderPracticeStudioActive removed in v1.01 — active panel now lives inside renderPracticeStudio
+// renderPracticeStudioActive removed in v1.02 — active panel now lives inside renderPracticeStudio
 
 function psStop(){
   _recordSfx(false);
