@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
 <meta name="theme-color" content="#0A0B0F">
 <title>Toastmasters Companion</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -157,7 +157,7 @@ a{color:inherit;text-decoration:none}
 .smart-panel.flashing{animation:smartPanelFlash 1.3s cubic-bezier(.22,.61,.36,1) both}
 
 /* ═══ Hub tiles — unified aurora cube style, same system as path cubes ═══ */
-.hub-tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:18px}
+.hub-tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:20px}
 .hub-tile{position:relative;aspect-ratio:1;border-radius:16px;cursor:pointer;border:1px solid;transition:transform .15s ease,filter .15s ease;font-family:inherit;overflow:hidden;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px)}
 .hub-tile::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:0;background:linear-gradient(135deg,transparent 0%,rgba(255,255,255,0.12) 50%,transparent 100%);transform:translateX(-100%);transition:transform .6s ease,opacity .3s ease;z-index:3}
 .hub-tile:hover{transform:translateY(-2px);filter:brightness(1.1)}
@@ -168,11 +168,17 @@ a{color:inherit;text-decoration:none}
 .hub-tile-glyph{position:absolute;top:50%;left:50%;transform:translate(-50%,-58%);width:88px;height:88px;color:#fff;filter:drop-shadow(0 2px 8px rgba(0,0,0,0.3));z-index:2}
 .hub-tile-glyph svg{width:100%;height:100%}
 @media (max-width:520px){
-  /* Mobile: cube icons need ~30% reduction so labels breathe */
+  /* Mobile: icons 30% smaller, tiles taller to fill vertical space */
   .hub-tile-glyph{width:62px;height:62px}
-  .hub-tile-name{font-size:11px}
+  .hub-tile-name{font-size:10.5px;letter-spacing:-0.015em}
+  .hub-tiles{gap:14px;margin-top:20px}
+  .hub-tile{aspect-ratio:unset;height:120px}
+  .hub-tile-glyph{top:44%;transform:translate(-50%,-50%)}
+  .hub-tile-name{bottom:10px}
+  /* Equal vertical spacing: smart panel → tiles row 1 → row 2 */
+  .smart-panel,.hub-smart{margin-bottom:0}
 }
-.hub-tile-name{position:absolute;bottom:9px;left:11px;right:11px;font-size:12px;font-weight:700;color:#fff;letter-spacing:-0.012em;line-height:1.15;text-shadow:0 1px 6px rgba(0,0,0,0.55);z-index:2}
+.hub-tile-name{position:absolute;bottom:9px;left:11px;right:11px;font-size:11.5px;font-weight:700;color:#fff;letter-spacing:-0.018em;line-height:1.15;text-shadow:0 1px 6px rgba(0,0,0,0.55);z-index:2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .hub-tile-badge{position:absolute;top:8px;right:8px;font-size:8px;font-weight:700;letter-spacing:0.1em;padding:2px 6px;background:rgba(0,0,0,0.38);color:#fff;border-radius:4px;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,0.14);text-transform:uppercase;z-index:2}
 /* Progress ring on My Path tile — top-left corner */
 .hub-tile-ring{position:absolute;top:8px;left:8px;width:22px;height:22px;z-index:2}
@@ -1204,6 +1210,24 @@ a{color:inherit;text-decoration:none}
 .eh-draft-hint{font-size:11.5px;color:var(--text-3);margin-top:10px;padding-top:10px;border-top:1px solid rgba(255,255,255,0.06);line-height:1.5;letter-spacing:-0.003em}
 .eh-ai-off-note{font-size:13px;color:var(--text-3);padding:12px 16px;background:var(--surface);border-radius:11px;line-height:1.5;letter-spacing:-0.003em}
 /* ═══ Speech Draft Builder ═══ */
+
+/* Speech Draft Builder — structured output section cards */
+.sd-section-card{border-radius:12px;padding:12px 14px;margin-bottom:9px;border:1px solid var(--border)}
+.sd-section-card:last-of-type{margin-bottom:0}
+.sd-section-hdr{font-size:11px;font-weight:700;letter-spacing:0.09em;text-transform:uppercase;margin-bottom:6px}
+.sd-section-body{font-size:13.5px;color:var(--text-2);line-height:1.6;letter-spacing:-0.003em}
+.sd-section-amber{background:rgba(232,178,80,0.08);border-color:rgba(232,178,80,0.3)}
+.sd-section-amber .sd-section-hdr{color:#E8B250}
+.sd-section-purple{background:rgba(160,123,199,0.08);border-color:rgba(160,123,199,0.3)}
+.sd-section-purple .sd-section-hdr{color:#A07BC7}
+.sd-section-blue{background:rgba(109,182,180,0.08);border-color:rgba(109,182,180,0.3)}
+.sd-section-blue .sd-section-hdr{color:#6DB6B4}
+.sd-section-green{background:rgba(94,185,117,0.08);border-color:rgba(94,185,117,0.3)}
+.sd-section-green .sd-section-hdr{color:#5EB975}
+.sd-section-{background:rgba(255,255,255,0.03);border-color:rgba(255,255,255,0.08)}
+.sd-section- .sd-section-hdr{color:var(--text-3)}
+.sd-result-keymsg{font-size:12.5px;color:var(--text-3);font-style:italic;margin-bottom:12px;letter-spacing:-0.003em;line-height:1.45}
+
 .sd-form{display:flex;flex-direction:column;gap:0}
 .sd-frameworks{display:flex;flex-direction:column;gap:7px}
 .sd-framework-btn{padding:12px 14px;background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:12px;text-align:left;cursor:pointer;font-family:inherit;transition:background .15s,border-color .15s}
@@ -1361,11 +1385,16 @@ a{color:inherit;text-decoration:none}
 .ps-analysis-text{font-size:13.5px;color:var(--text-2);line-height:1.6;letter-spacing:-0.003em}
 .ps-analysis-text p{margin:0 0 10px}
 .ps-analysis-text p:last-child{margin:0}
-.ps-analysis-section{display:flex;align-items:flex-start;gap:10px;padding:10px 12px;border-radius:10px;margin-bottom:7px;font-size:13.5px;line-height:1.55;letter-spacing:-0.003em}
-.ps-analysis-section span:first-child{flex-shrink:0;font-size:16px;margin-top:1px}
-.ps-section-green{background:rgba(94,185,117,0.1);border:1px solid rgba(94,185,117,0.25);color:var(--text-2)}
-.ps-section-amber{background:rgba(232,178,80,0.1);border:1px solid rgba(232,178,80,0.25);color:var(--text-2)}
-.ps-section-blue{background:rgba(109,182,180,0.1);border:1px solid rgba(109,182,180,0.25);color:var(--text-2)}
+.ps-analysis-section{display:flex;flex-direction:column;gap:6px;padding:12px 14px;border-radius:12px;margin-bottom:9px;font-size:13.5px;line-height:1.55;letter-spacing:-0.003em}
+.ps-analysis-section:last-child{margin-bottom:0}
+.ps-analysis-section-hdr{display:flex;align-items:center;gap:7px;font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase}
+.ps-analysis-section-body{font-size:13.5px;line-height:1.6;color:var(--text-2);letter-spacing:-0.003em}
+.ps-section-green{background:rgba(94,185,117,0.1);border:1px solid rgba(94,185,117,0.3)}
+.ps-section-green .ps-analysis-section-hdr{color:#5EB975}
+.ps-section-amber{background:rgba(232,178,80,0.1);border:1px solid rgba(232,178,80,0.3)}
+.ps-section-amber .ps-analysis-section-hdr{color:#E8B250}
+.ps-section-blue{background:rgba(109,182,180,0.1);border:1px solid rgba(109,182,180,0.3)}
+.ps-section-blue .ps-analysis-section-hdr{color:#6DB6B4}
 .ps-active-state-row{display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap;margin-bottom:6px}
 .ps-mic-status{font-size:10.5px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;padding:3px 9px;border-radius:6px;transition:all .2s}
 .ps-mic-status.pending{background:rgba(232,178,80,0.15);color:#E8B250}
@@ -2637,7 +2666,7 @@ let S={
   mode:"",
   // Ala carte comfort level — only relevant when mode==="alacarte". Captured
   // during welcome flow to personalize project suggestions. "new" / "some" /
-  // "experienced". Kept loose; v0.50 may add follow-ups.
+  // "experienced". Kept loose; v0.52 may add follow-ups.
   alacarteComfort:"",
   // AI Coach config. Disabled by default. User configures in Settings.
   // mode: "direct" (user's own API key, stored locally — direct browser call)
@@ -3032,7 +3061,7 @@ function renderHub(app){
   }
   h+='</div>';
 
-  h+='<div class="app-footer">Toastmasters Companion · v0.50 · Your progress saves on this device</div>';
+  h+='<div class="app-footer">Toastmasters Companion · v0.52 · Your progress saves on this device</div>';
   h+='</div>';
   app.innerHTML=h;
 
@@ -3334,7 +3363,7 @@ function renderPathPicker(app){
   h+='<button class="quiz-prompt-btn" data-action="open-quiz">🧭 &nbsp; Not sure which one? Take the fun quiz</button>';
   h+='</div>';
 
-  h+='<div class="app-footer">Toastmasters Companion · v0.50 · Built with ❤️ for Toastmasters</div>';
+  h+='<div class="app-footer">Toastmasters Companion · v0.52 · Built with ❤️ for Toastmasters</div>';
   h+='</div>';
   app.innerHTML=h;
 
@@ -3632,7 +3661,7 @@ function renderPathBrowser(app){
   // Keeping it in the tree lets us toggle visibility without re-rendering.
   h+='<div class="path-complete-banner'+(pct>=100?'':' hidden')+'"><strong>🎉 Path complete!</strong><div style="font-size:13px;color:var(--text-muted);line-height:1.5">Next step: DTM. Keep going.</div></div>';
 
-  h+='<div class="app-footer">Toastmasters Companion · v0.50 · Your progress saves locally on this device</div>';
+  h+='<div class="app-footer">Toastmasters Companion · v0.52 · Your progress saves locally on this device</div>';
   h+='</div>';
   app.innerHTML=h;
 
@@ -4987,7 +5016,7 @@ function renderPracticeHub(app){
   h+=toolRow({tool:"speech-draft",color:"#6DB6B4",icon:"📝",name:"Speech Draft Builder",desc:(S.aiConfig&&S.aiConfig.enabled)?"AI builds your speech outline and opening lines":"Structure your next speech from outline to close"});
 
   h+='</div>';
-  h+='<div class="app-footer">Toastmasters Companion · v0.50 · Practice tools work offline</div>';
+  h+='<div class="app-footer">Toastmasters Companion · v0.52 · Practice tools work offline</div>';
   h+='</div>';
   app.innerHTML=h;
 
@@ -7300,10 +7329,9 @@ function renderSpeechDraft(app){
   const aiOn=S.aiConfig&&S.aiConfig.enabled;
   if(!V._sdPid)V._sdPid="";
   if(!V._sdTopic)V._sdTopic="";
-  if(!V._sdFramework)V._sdFramework="psp";
+  if(!V._sdKeyMsg)V._sdKeyMsg="";
+  if(!V._sdFramework)V._sdFramework="";  // empty = let AI pick
   if(!V._sdResult)V._sdResult=null;
-
-  const fw=SPEECH_FRAMEWORKS.find(f=>f.id===V._sdFramework)||SPEECH_FRAMEWORKS[0];
 
   // Project list
   const levelGroups=[];
@@ -7322,10 +7350,9 @@ function renderSpeechDraft(app){
 
   h+='<div class="kicker">Practice</div>';
   h+='<h1 class="title">📝 Speech <span class="accent">Draft Builder</span></h1>';
-  h+='<div class="subtitle">Turn a topic into a structured speech '+(aiOn?'with AI-written opening lines and point starters.':'using a proven framework.')+' Takes 2 minutes.</div>';
+  h+='<div class="subtitle">'+(aiOn?'Tell us your topic and key message — AI will suggest the right structure and write your opening lines.':'Plan your speech structure before you write.')+'</div>';
 
   if(V._sdResult){
-    // ── Results view ──
     h+=V._sdResult;
     h+='</div>';
     app.innerHTML=h;
@@ -7353,39 +7380,54 @@ function renderSpeechDraft(app){
   h+='</select>';
   h+='</div>';
 
-  // Topic input
+  // Topic
   h+='<div class="sd-field">';
   h+='<div class="sd-label">YOUR TOPIC OR ANGLE</div>';
-  h+='<input class="role-ai-input" id="sd-topic" placeholder="e.g. Why I started waking up at 5am, The day I got fired, Negotiating my first salary…" value="'+escHtml(V._sdTopic)+'"/>';
+  h+='<input class="role-ai-input" id="sd-topic" placeholder="e.g. Why I started waking up at 5am, The day I got fired…" value="'+escHtml(V._sdTopic)+'"/>';
   h+='</div>';
 
-  // Framework selector
+  // Key message — new
   h+='<div class="sd-field">';
-  h+='<div class="sd-label">SPEECH STRUCTURE</div>';
-  h+='<div class="sd-frameworks">';
-  SPEECH_FRAMEWORKS.forEach(f=>{
-    h+='<button class="sd-framework-btn'+(f.id===V._sdFramework?' active':'')+'" data-sd-fw="'+f.id+'">';
-    h+='<div class="sd-fw-label">'+f.label+'</div>';
-    h+='<div class="sd-fw-desc">'+f.desc+'</div>';
-    h+='</button>';
-  });
-  h+='</div>';
-  h+='</div>';
-
-  // Preview of chosen framework
-  h+='<div class="sd-preview">';
-  h+='<div class="sd-preview-label">STRUCTURE PREVIEW</div>';
-  fw.points.forEach((pt,i)=>{
-    h+='<div class="sd-preview-pt"><span class="sd-preview-n">'+(i+1)+'</span><span>'+pt+'</span></div>';
-  });
+  h+='<div class="sd-label">KEY MESSAGE <span style="font-weight:400;text-transform:none;letter-spacing:0;font-size:10px;color:var(--text-3)"> — the one thing you want the audience to walk away with</span></div>';
+  h+='<input class="role-ai-input" id="sd-keymsg" placeholder="e.g. Consistency beats talent. Small habits compound. Failure isn\'t the end…" value="'+escHtml(V._sdKeyMsg)+'"/>';
   h+='</div>';
 
   if(aiOn){
-    h+='<button class="eh-generate-btn" data-action="sd-generate">✨ Build my speech outline</button>';
+    // AI mode — let AI choose structure OR user can pick
+    h+='<div class="sd-field">';
+    h+='<div class="sd-label">STRUCTURE <span style="font-weight:400;text-transform:none;letter-spacing:0;font-size:10px;color:var(--text-3)"> — leave blank for AI to suggest</span></div>';
+    h+='<div class="sd-frameworks">';
+    // "Let AI decide" option
+    h+='<button class="sd-framework-btn'+(V._sdFramework===''?' active':'')+'" data-sd-fw="">';
+    h+='<div class="sd-fw-label">✨ AI decides</div>';
+    h+='<div class="sd-fw-desc">Best structure for your topic and project</div>';
+    h+='</button>';
+    SPEECH_FRAMEWORKS.forEach(f=>{
+      h+='<button class="sd-framework-btn'+(V._sdFramework===f.id?' active':'')+'" data-sd-fw="'+f.id+'">';
+      h+='<div class="sd-fw-label">'+f.label+'</div>';
+      h+='<div class="sd-fw-desc">'+f.desc+'</div>';
+      h+='</button>';
+    });
+    h+='</div>';
+    h+='</div>';
+    h+='<button class="eh-generate-btn" data-action="sd-generate">✨ Build my speech</button>';
   }else{
+    // Offline — user picks structure
+    h+='<div class="sd-field">';
+    h+='<div class="sd-label">STRUCTURE</div>';
+    h+='<div class="sd-frameworks">';
+    SPEECH_FRAMEWORKS.forEach(f=>{
+      h+='<button class="sd-framework-btn'+((!V._sdFramework||V._sdFramework===f.id)?V._sdFramework===f.id?' active':'':'')+'" data-sd-fw="'+f.id+'">';
+      h+='<div class="sd-fw-label">'+f.label+'</div>';
+      h+='<div class="sd-fw-desc">'+f.desc+'</div>';
+      h+='</button>';
+    });
+    h+='</div>';
+    h+='</div>';
     h+='<button class="eh-generate-btn" data-action="sd-build-manual">📋 Build outline template</button>';
   }
-  h+='</div>';
+
+  h+='</div>'; // /sd-form
   h+='</div>';
   app.innerHTML=h;
 
@@ -7394,75 +7436,136 @@ function renderSpeechDraft(app){
   if(pidSel)pidSel.addEventListener("change",()=>{V._sdPid=pidSel.value;});
   const topicEl=app.querySelector("#sd-topic");
   if(topicEl)topicEl.addEventListener("input",()=>{V._sdTopic=topicEl.value;});
+  const keyMsgEl=app.querySelector("#sd-keymsg");
+  if(keyMsgEl)keyMsgEl.addEventListener("input",()=>{V._sdKeyMsg=keyMsgEl.value;});
   app.querySelectorAll("[data-sd-fw]").forEach(btn=>{
     btn.addEventListener("click",()=>{
       V._sdFramework=btn.dataset.sdFw;
-      render();
+      app.querySelectorAll("[data-sd-fw]").forEach(b=>b.classList.remove("active"));
+      btn.classList.add("active");
     });
   });
 
-  // Manual (offline) template
+  // ── Offline template ──
   const manualBtn=app.querySelector('[data-action="sd-build-manual"]');
   if(manualBtn)manualBtn.addEventListener("click",()=>{
     const proj=V._sdPid?PD[V._sdPid]:null;
-    const topic=topicEl?topicEl.value.trim():"";
+    const topic=(topicEl?topicEl.value.trim():V._sdTopic)||"My speech";
+    const fw=SPEECH_FRAMEWORKS.find(f=>f.id===V._sdFramework)||SPEECH_FRAMEWORKS[0];
     let html='<div class="sd-result-card">';
-    html+='<div class="sd-result-title">'+(topic||"My speech")+'</div>';
+    html+='<div class="sd-result-title">'+escHtml(topic)+'</div>';
     if(proj)html+='<div class="sd-result-project">'+proj.t+' · '+proj.dur+'</div>';
     html+='<div class="sd-result-fw">'+fw.label+'</div>';
     html+='<div class="sd-result-section"><div class="sd-result-sec-label">OPENING HOOK</div>';
-    html+='<div class="sd-result-blank">Start with a surprising question, bold statement, or vivid story moment that pulls the audience in immediately.</div></div>';
+    html+='<div class="sd-result-blank">Start with a surprising question, bold statement, or vivid story moment.</div></div>';
     fw.points.forEach((pt,i)=>{
-      html+='<div class="sd-result-section">';
-      html+='<div class="sd-result-sec-label">POINT '+(i+1)+'</div>';
-      html+='<div class="sd-result-blank">'+pt+'</div>';
-      html+='</div>';
+      html+='<div class="sd-result-section"><div class="sd-result-sec-label">POINT '+(i+1)+'</div>';
+      html+='<div class="sd-result-blank">'+pt+'</div></div>';
     });
     html+='<div class="sd-result-section"><div class="sd-result-sec-label">CLOSING</div>';
-    html+='<div class="sd-result-blank">Call back to your opening hook. End on one clear takeaway or invitation to act.</div></div>';
+    html+='<div class="sd-result-blank">Call back to your opening. Land the key message clearly.</div></div>';
     html+='</div>';
     V._sdResult=html;
     render();
   });
 
-  // AI draft
+  // ── AI draft ──
   const genBtn=app.querySelector('[data-action="sd-generate"]');
   if(genBtn)genBtn.addEventListener("click",async()=>{
     const proj=V._sdPid?PD[V._sdPid]:null;
-    const topic=(topicEl?topicEl.value.trim():"");
-    if(!topic){alert("Enter a topic or angle first.");return;}
-    // Show loading immediately
-    V._sdResult='<div class="sd-result-card sd-loading"><div class="eh-draft-label">BUILDING YOUR OUTLINE…</div><div style="display:flex;justify-content:center;padding:20px"><span class="coach-dots"><span>.</span><span>.</span><span>.</span></span></div></div>';
+    const topic=(topicEl?topicEl.value.trim():V._sdTopic)||"";
+    const keyMsg=(keyMsgEl?keyMsgEl.value.trim():V._sdKeyMsg)||"";
+    if(!topic&&!keyMsg){alert("Enter a topic or key message first.");return;}
+
+    V._sdResult='<div class="sd-result-card sd-loading"><div class="eh-draft-label">BUILDING YOUR SPEECH…</div><div style="display:flex;justify-content:center;padding:20px"><span class="coach-dots"><span>.</span><span>.</span><span>.</span></span></div></div>';
     render();
+
     try{
-      const sys="You are a Toastmasters speech coach writing a full speech outline. Be specific and practical. Write in second person, direct address to the speaker. Format your response as a structured outline with these sections: OPENING HOOK, POINT 1, POINT 2, POINT 3, CLOSING. For each section give 2-3 sentences of concrete starter content the speaker can build on. Total under 350 words. No markdown headers — use the section labels exactly as given.";
-      const msg="Topic: "+topic+"\n"+
-        "Framework: "+fw.label+"\n"+
-        "Framework points: "+fw.points.join(" / ")+"\n"+
-        (proj?"Speech project: "+proj.t+" — "+proj.p+"\nTarget duration: "+proj.dur+"\n":"")+
-        "Write a full outline with starter lines for each section.";
-      const text=await callCoach(sys,msg,{maxTokens:700});
+      const chosenFw=V._sdFramework?SPEECH_FRAMEWORKS.find(f=>f.id===V._sdFramework):null;
+
+      // Detect if project is performance-focused (body language, vocal variety, delivery)
+      const isDeliveryProject=proj&&(
+        /body language|vocal variety|gestures|movement|stage|eye contact|delivery|presence|nonverbal/i.test((proj.t||"")+" "+(proj.p||"")+" "+(proj.o||""))
+      );
+
+      const sys=`You are an expert Toastmasters speech coach. You help speakers build speeches that meet specific project objectives.
+
+Your response should use EXACTLY these section headers (one per line, in caps):
+
+PROJECT COACHING:
+[2-3 sentences on how this speech can help them meet the project's specific objective. If it's a delivery/body language/vocal variety project, say so directly — the key goal is delivery, not just structure. Give specific advice on how the speech content can enable better delivery.]
+
+RECOMMENDED STRUCTURE:
+[Name the structure (e.g. "Past → Present → Future") and one sentence why it fits this topic + key message]
+
+OPENING HOOK:
+[Write 2-3 actual opening sentences the speaker can use or adapt]
+
+POINT 1:
+[Concrete starter content, 2-3 sentences]
+
+POINT 2:
+[Concrete starter content, 2-3 sentences]
+
+POINT 3:
+[Concrete starter content, 2-3 sentences]
+
+CLOSING:
+[2-3 closing sentences that land the key message]
+
+Total under 450 words. Write directly to the speaker (second person). If structure was pre-selected, use it. Otherwise pick the best fit.`;
+
+      const msg=(proj?"Project: "+proj.t+" ("+proj.dur+")\nObjective: "+proj.p+"\n"+(proj.o?"\nFull objective: "+proj.o+"\n":"")+"\n":"")+
+        "Topic: "+(topic||"(no topic specified)")+"\n"+
+        "Key message: "+(keyMsg||"(not specified — infer from topic)")+"\n"+
+        (chosenFw?"Chosen structure: "+chosenFw.label+" — "+chosenFw.points.join(" / ")+"\n":"Please choose the best structure.\n")+
+        (isDeliveryProject?"\nIMPORTANT: This is a delivery-focused project. The structure matters less than how the content enables the delivery objective.\n":"")+
+        "\nWrite the full speech outline as instructed.";
+
+      const text=await callCoach(sys,msg,{maxTokens:800});
+
       // Parse sections
-      const sectionOrder=["OPENING HOOK","POINT 1","POINT 2","POINT 3","CLOSING"];
       const sections={};
-      let current="";
+      const sectionOrder=["PROJECT COACHING","RECOMMENDED STRUCTURE","OPENING HOOK","POINT 1","POINT 2","POINT 3","CLOSING"];
+      let cur="";
       text.split("\n").forEach(line=>{
-        const trimmed=line.trim();
-        const matchedSection=sectionOrder.find(s=>trimmed.toUpperCase().startsWith(s));
-        if(matchedSection){current=matchedSection;sections[current]="";}
-        else if(current&&trimmed){sections[current]+=(sections[current]?" ":"")+trimmed;}
+        const t=line.trim();
+        const matched=sectionOrder.find(s=>t.toUpperCase().startsWith(s));
+        if(matched){cur=matched;sections[cur]=sections[cur]||"";}
+        else if(cur&&t){sections[cur]+=(sections[cur]?" ":"")+t;}
       });
+
+      // Color coding per section type
+      const sectionColors={
+        "PROJECT COACHING":"amber",
+        "RECOMMENDED STRUCTURE":"purple",
+        "OPENING HOOK":"blue",
+        "POINT 1":"","POINT 2":"","POINT 3":"",
+        "CLOSING":"green"
+      };
+      const sectionIcons={
+        "PROJECT COACHING":"🎯","RECOMMENDED STRUCTURE":"🏗️",
+        "OPENING HOOK":"🎣","POINT 1":"1️⃣","POINT 2":"2️⃣","POINT 3":"3️⃣","CLOSING":"🏁"
+      };
+
       let html='<div class="sd-result-card">';
-      html+='<div class="sd-result-title">'+topic+'</div>';
+      html+='<div class="sd-result-title">'+escHtml(topic||keyMsg||"My speech")+'</div>';
       if(proj)html+='<div class="sd-result-project">'+proj.t+' · '+proj.dur+'</div>';
-      html+='<div class="sd-result-fw">'+fw.label+'</div>';
+      if(keyMsg)html+='<div class="sd-result-keymsg">💬 Key message: '+escHtml(keyMsg)+'</div>';
+
       sectionOrder.forEach(sec=>{
-        html+='<div class="sd-result-section">';
-        html+='<div class="sd-result-sec-label">'+sec+'</div>';
-        html+='<div class="sd-result-text">'+(sections[sec]||"").replace(/&/g,"&amp;").replace(/</g,"&lt;")+'</div>';
+        if(!sections[sec]&&!sections[sec+":\\n"])return;
+        const content=(sections[sec]||"").trim();
+        if(!content)return;
+        const color=sectionColors[sec];
+        const icon=sectionIcons[sec]||"";
+        html+='<div class="sd-section-card sd-section-'+color+'">';
+        html+='<div class="sd-section-hdr">'+icon+' '+sec.replace(/_/g," ")+'</div>';
+        html+='<div class="sd-section-body">'+escHtml(content)+'</div>';
         html+='</div>';
       });
-      html+='<div class="sd-result-hint">Use this outline as your scaffold. Replace the starter lines with your own words and stories — the structure does the work.</div>';
+
+      html+='<div class="sd-result-hint">This is your scaffold — fill each section with your own stories and specific examples. The structure does the heavy lifting.</div>';
       html+='</div>';
       V._sdResult=html;
     }catch(e){
@@ -8195,12 +8298,14 @@ function renderMyPaths(app){
       const p=PA[code];
       const name=p?p.n:code;
       if(!confirm("Remove "+name+"?\n\nThis deletes all your progress, notes, and photos for this path. Cannot be undone."))return;
+      // Remove from enrolledPaths regardless of which path is active
+      if(S.enrolledPaths)S.enrolledPaths=S.enrolledPaths.filter(c=>c!==code);
       // If deleting the active path, clear live state + pick another if possible
       if(S.path===code){
         S.done={};S.partsDone={};S.notes={};S.photos={};S.levelSubmitted={};
         S.path="";
-        // Promote the next archived path to active if one exists
-        const nextCode=Object.keys(S.pathArchive||{}).find(c=>pathHasActivity(S.pathArchive[c]));
+        // Promote the next enrolled path to active if one exists
+        const nextCode=(S.enrolledPaths||[]).find(c=>c!==code&&PA[c]&&S.pathArchive&&S.pathArchive[c]);
         if(nextCode)switchPath(nextCode);
       }else{
         // Just drop it from the archive
@@ -9151,7 +9256,7 @@ function psUpdateActiveDisplay(){
   }
 }
 
-// renderPracticeStudioActive removed in v0.50 — active panel now lives inside renderPracticeStudio
+// renderPracticeStudioActive removed in v0.52 — active panel now lives inside renderPracticeStudio
 
 function psStop(){
   // Stop clock
@@ -9238,23 +9343,65 @@ function _psUpdateAnalysisSection(){
     return;
   }
   if(!PS.aiAnalysis)return;
-  const text=PS.aiAnalysis.replace(/&/g,"&amp;").replace(/</g,"&lt;");
-  const lines=text.split("\n").filter(l=>l.trim());
-  let html="";
-  lines.forEach(line=>{
-    if(line.includes("WHAT WORKED:")||line.startsWith("\u2705")){
-      html+='<div class="ps-analysis-section ps-section-green"><span>\u2705</span><span>'+line.replace(/.*WHAT WORKED:\s*/i,"").replace(/^\u2705\s*/,"")+'</span></div>';
-    }else if(line.includes("TOP PRIORITY:")||line.startsWith("\uD83C\uDFAF")){
-      html+='<div class="ps-analysis-section ps-section-amber"><span>\uD83C\uDFAF</span><span>'+line.replace(/.*TOP PRIORITY:\s*/i,"").replace(/^\uD83C\uDFAF\s*/,"")+'</span></div>';
-    }else if(line.includes("NEXT PRACTICE TIP:")||line.startsWith("\uD83D\uDCA1")){
-      html+='<div class="ps-analysis-section ps-section-blue"><span>\uD83D\uDCA1</span><span>'+line.replace(/.*NEXT PRACTICE TIP:\s*/i,"").replace(/^\uD83D\uDCA1\s*/,"")+'</span></div>';
-    }else if(line.startsWith("\u26A0")){
-      html+='<div class="ps-analysis-text" style="color:var(--text-3);font-size:12px">'+line+'</div>';
-    }else if(line.trim()){
-      html+='<div class="ps-analysis-text">'+line+'</div>';
+
+  const raw=PS.aiAnalysis;
+  const esc=s=>s.replace(/&/g,"&amp;").replace(/</g,"&lt;");
+
+  // Parse into named sections
+  const sections={worked:"",priority:"",tip:"",other:[]};
+  let cur="other";
+  raw.split("\n").forEach(line=>{
+    const t=line.trim();
+    if(!t)return;
+    if(/WHAT WORKED/i.test(t)||t.startsWith("✅")){
+      cur="worked";
+      const content=t.replace(/^✅\s*/,"").replace(/.*WHAT WORKED:\s*/i,"").trim();
+      if(content)sections.worked+=content+" ";
+    }else if(/TOP PRIORITY/i.test(t)||t.startsWith("🎯")){
+      cur="priority";
+      const content=t.replace(/^🎯\s*/,"").replace(/.*TOP PRIORITY:\s*/i,"").trim();
+      if(content)sections.priority+=content+" ";
+    }else if(/NEXT PRACTICE TIP/i.test(t)||t.startsWith("💡")){
+      cur="tip";
+      const content=t.replace(/^💡\s*/,"").replace(/.*NEXT PRACTICE TIP:\s*/i,"").trim();
+      if(content)sections.tip+=content+" ";
+    }else if(t.startsWith("⚠")){
+      sections.other.push(t);cur="other";
+    }else{
+      if(cur==="worked")sections.worked+=t+" ";
+      else if(cur==="priority")sections.priority+=t+" ";
+      else if(cur==="tip")sections.tip+=t+" ";
+      else sections.other.push(t);
     }
   });
-  el.innerHTML=html||'<div class="ps-analysis-text">'+text+'</div>';
+
+  let html="";
+  if(sections.worked.trim()){
+    html+='<div class="ps-analysis-section ps-section-green">';
+    html+='<div class="ps-analysis-section-hdr">✅ What Worked</div>';
+    html+='<div class="ps-analysis-section-body">'+esc(sections.worked.trim())+'</div>';
+    html+='</div>';
+  }
+  if(sections.priority.trim()){
+    html+='<div class="ps-analysis-section ps-section-amber">';
+    html+='<div class="ps-analysis-section-hdr">🎯 Top Priority</div>';
+    html+='<div class="ps-analysis-section-body">'+esc(sections.priority.trim())+'</div>';
+    html+='</div>';
+  }
+  if(sections.tip.trim()){
+    html+='<div class="ps-analysis-section ps-section-blue">';
+    html+='<div class="ps-analysis-section-hdr">💡 Next Practice Tip</div>';
+    html+='<div class="ps-analysis-section-body">'+esc(sections.tip.trim())+'</div>';
+    html+='</div>';
+  }
+  if(sections.other.length&&!html){
+    // Fallback: unstructured response — show it cleanly
+    html='<div class="ps-analysis-section ps-section-blue">';
+    html+='<div class="ps-analysis-section-hdr">💡 Coach Feedback</div>';
+    html+='<div class="ps-analysis-section-body">'+esc(sections.other.join(" "))+'</div>';
+    html+='</div>';
+  }
+  el.innerHTML=html||'<div class="ps-analysis-text" style="color:var(--text-3);font-size:13px">'+esc(raw)+'</div>';
 }
 
 function renderPracticeStudioDone(app){
