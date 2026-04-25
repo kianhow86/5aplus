@@ -1099,6 +1099,23 @@ a{color:inherit;text-decoration:none}
 .hub-pathways-nudge-desc{font-size:12px;color:var(--text-3);letter-spacing:-0.003em;line-height:1.4}
 .hub-pathways-nudge-arrow{color:var(--text-3);font-size:14px;flex-shrink:0}
 
+
+/* ═══ New Path Prompt ═══ */
+.new-path-hero{text-align:center;padding:32px 0 24px;display:flex;flex-direction:column;align-items:center;gap:10px}
+.new-path-badge{font-size:52px}
+.new-path-title{font-size:var(--fs-2xl);font-weight:800;color:var(--text);letter-spacing:-0.015em;line-height:1.15}
+.new-path-sub{font-size:var(--fs-md);color:var(--text-3);letter-spacing:-0.003em;line-height:1.5;max-width:320px}
+.new-path-options{display:flex;flex-direction:column;gap:10px;margin-bottom:32px}
+.new-path-opt{display:flex;align-items:flex-start;gap:14px;padding:16px;background:var(--surface);border:1px solid var(--border);border-radius:14px;cursor:pointer;font-family:inherit;transition:background .15s,transform .18s cubic-bezier(.34,1.56,.64,1);text-align:left;width:100%}
+.new-path-opt:hover{background:var(--surface-2);transform:scale(1.02)}
+.new-path-opt:active{transform:scale(0.98);transition-duration:.08s}
+.new-path-opt-primary{border-color:var(--accent-border);background:var(--accent-soft)}
+.new-path-opt-primary:hover{background:rgba(109,182,180,0.14)}
+.new-path-opt-icon{font-size:24px;flex-shrink:0;margin-top:2px}
+.new-path-opt-body{flex:1;display:flex;flex-direction:column;gap:3px}
+.new-path-opt-title{font-size:var(--fs-md);font-weight:700;color:var(--text);letter-spacing:-0.006em}
+.new-path-opt-desc{font-size:var(--fs-sm);color:var(--text-3);line-height:1.5;letter-spacing:-0.003em}
+
 .welcome{max-width:540px;margin:0 auto}
 .welcome-hero{text-align:center;padding:20px 10px 30px}
 .welcome-kicker{font-size:12px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-3);margin-bottom:10px}
@@ -1478,6 +1495,13 @@ a{color:inherit;text-decoration:none}
 .sd-word-target{font-size:12px;color:var(--text-3);text-align:center;padding:8px 0;letter-spacing:-0.003em}
 
 /* AI enhance */
+
+/* Speech Draft follow-up grid */
+.sd-followup-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:6px}
+.sd-followup-btn{padding:10px 12px;background:var(--surface);border:1px solid var(--border);border-radius:11px;color:var(--text-2);font-size:12.5px;font-weight:600;cursor:pointer;font-family:inherit;transition:background .15s,transform .18s cubic-bezier(.34,1.56,.64,1);text-align:left;letter-spacing:-0.003em;line-height:1.35}
+.sd-followup-btn:hover{background:var(--surface-2);color:var(--text);transform:scale(1.03)}
+.sd-followup-btn:active{transform:scale(0.97);transition-duration:.08s}
+
 .sd-ai-enhance-wrap{margin-top:16px;padding-top:16px;border-top:1px solid var(--border);display:flex;flex-direction:column;gap:10px}
 .sd-ai-enhance-label{font-size:13px;color:var(--text-3);letter-spacing:-0.003em}
 .sd-ai-enhance-btn{padding:11px 18px;background:linear-gradient(135deg,#A07BC7,#6DB6B4);color:#0A0B0F;border:none;border-radius:11px;font-weight:700;font-size:14px;cursor:pointer;font-family:inherit;transition:filter .15s;letter-spacing:-0.003em}
@@ -3668,7 +3692,7 @@ let S={
   mode:"",
   // Ala carte comfort level — only relevant when mode==="alacarte". Captured
   // during welcome flow to personalize project suggestions. "new" / "some" /
-  // "experienced". Kept loose; v0.95 may add follow-ups.
+  // "experienced". Kept loose; v1.01 may add follow-ups.
   alacarteComfort:"",
   // AI Coach config. Disabled by default. User configures in Settings.
   // mode: "direct" (user's own API key, stored locally — direct browser call)
@@ -4001,6 +4025,7 @@ function render(){
   else if(V.view==="topics-select"){renderTopicsSelect(app);} // legacy — kept for offline TT bank
   else if(V.view==="topics-practice"){renderTopicsPractice(app);} // legacy — kept for offline TT bank
   else if(V.view==="tt-practice"){renderTTPractice(app);}
+  else if(V.view==="new-path-prompt"){renderNewPathPrompt(app);}
   else if(V.view==="wod"){renderWODTool(app);}
   else if(V.view==="filler"){renderFillerDetector(app);}
   else if(V.view==="browser"){renderPathBrowser(app);}
@@ -4041,8 +4066,8 @@ function renderHub(app){
   h+='<button class="hub-gear" data-action="open-settings" aria-label="Settings">⚙</button>';
   h+='</div>';
   h+='</div>';
-  h+='<h1 class="title">Communication toolkit for <span class="accent">excellence</span></h1>';
-  h+='<div class="subtitle">'+(p?'Continue where you left off or pick a tool to practice.':'Your practice tools are ready. Set up Pathways tracking whenever you\'re ready.')+'</div>';
+  h+='<h1 class="title">Your AI-powered <span class="accent">Toastmasters toolkit</span></h1>';
+  h+='<div class="subtitle">by Kian How</div>';
 
   // ── Pathways setup nudge for no-path users (subtle, not blocking) ──
   if(!p&&S.mode!=="path"){
@@ -4147,27 +4172,33 @@ function renderHub(app){
   }
 
   // ═══ HUB TILES ═══
+  // Row 1: practice-first tools (same for everyone)
+  // Row 2: Pathways tools (path mode) or softer Pathways entry (alacarte)
   h+='<div class="hub-tiles">';
   if(S.mode==="alacarte"){
-    h+=tile({hub:"ai-coach",  glyph:"coach",     color:"#A07BC7", name:"Speech Coach",  sub:"AI practice & feedback"});
-    h+=tile({hub:"practice",  glyph:"practice",  color:"#5EB975", name:"Practice Tools",sub:"Timer · Topics · Filler"});
-    h+=tile({hub:"roles",     glyph:"roles",     color:"#E85D3A", name:"Meeting Roles", sub:"Prep for your role"});
-    h+=tile({hub:"path",      glyph:"pathfinder",color:"#5B9DD9", name:"Pathways",      sub:"Track your progress"});
-    h+=tile({hub:"all-projects",glyph:"path",    color:"#D4A94C", name:"Library",       sub:"60+ Pathways projects"});
-    h+=tile({glyph:"community",color:"#DB8A6A",  name:"Community",sub:"Coming soon",badge:"Soon",placeholder:true});
+    // Row 1 — practice tools
+    h+=tile({hub:"ai-coach",    glyph:"coach",     color:"#A07BC7", name:"Speech Coach",  sub:"AI practice & feedback"});
+    h+=tile({hub:"practice",    glyph:"practice",  color:"#5EB975", name:"Practice Tools",sub:"Timer · Topics · Filler"});
+    h+=tile({hub:"roles",       glyph:"roles",     color:"#E85D3A", name:"Meeting Roles", sub:"Prep for your role"});
+    // Row 2 — Pathways (softer entry)
+    h+=tile({hub:"path",        glyph:"pathfinder",color:"#5B9DD9", name:"Pathways",      sub:"Track your progress"});
+    h+=tile({hub:"all-projects",glyph:"path",      color:"#D4A94C", name:"Library",       sub:"60+ Pathways projects"});
+    h+=tile({glyph:"community", color:"#DB8A6A",   name:"Community",sub:"Coming soon",badge:"Soon",placeholder:true});
   }else{
-    h+=tile({hub:"ai-coach",  glyph:"coach",     color:"#A07BC7", name:"Speech Coach",  sub:"AI practice & feedback"});
-    h+=tile({hub:"path",      glyph:"path",      color:p?p.c:"#6DB6B4",
-             name:p?"My Pathways":"Pathways",    sub:p?Math.round(pct)+"% complete":"Track your path",
+    // Row 1 — practice tools
+    h+=tile({hub:"ai-coach",    glyph:"coach",     color:"#A07BC7", name:"Speech Coach",  sub:"AI practice & feedback"});
+    h+=tile({hub:"practice",    glyph:"practice",  color:"#5EB975", name:"Practice Tools",sub:"Timer · Topics · Filler"});
+    h+=tile({hub:"roles",       glyph:"roles",     color:"#D4A94C", name:"Meeting Roles", sub:"Prep for your role"});
+    // Row 2 — Pathways tools
+    h+=tile({hub:"path",        glyph:"path",      color:p?p.c:"#6DB6B4",
+             name:p?"My Pathways":"Pathways",      sub:p?Math.round(pct)+"% complete":"Track your path",
              ring:p?{pct:pct}:null});
-    h+=tile({hub:"practice",  glyph:"practice",  color:"#5EB975", name:"Practice Tools",sub:"Timer · Topics · Filler"});
-    h+=tile({hub:"pathfinder",glyph:"pathfinder",color:"#5B9DD9", name:"Path Planner",  sub:"Plan your journey"});
-    h+=tile({hub:"roles",     glyph:"roles",     color:"#D4A94C", name:"Meeting Roles", sub:"Prep for your role"});
-    h+=tile({glyph:"community",color:"#DB8A6A",  name:"Community",sub:"Coming soon",badge:"Soon",placeholder:true});
+    h+=tile({hub:"pathfinder",  glyph:"pathfinder",color:"#5B9DD9", name:"Path Planner",  sub:"Plan your journey"});
+    h+=tile({glyph:"community", color:"#DB8A6A",   name:"Community",sub:"Coming soon",badge:"Soon",placeholder:true});
   }
   h+='</div>';
 
-  h+='<div class="app-footer">Made by Kian How · Not affiliated with Toastmasters International · v0.95</div>';
+  h+='<div class="app-footer">Made by Kian How · Not affiliated with Toastmasters International · v1.01</div>';
   h+='</div>';
   app.innerHTML=h;
 
@@ -4499,7 +4530,7 @@ function renderPathPicker(app){
   h+='<button class="quiz-prompt-btn" data-action="open-quiz">🧭 &nbsp; Not sure which one? Take the fun quiz</button>';
   h+='</div>';
 
-  h+='<div class="app-footer">Made by Kian How · Not affiliated with Toastmasters International · v0.95</div>';
+  h+='<div class="app-footer">Made by Kian How · Not affiliated with Toastmasters International · v1.01</div>';
   h+='</div>';
   app.innerHTML=h;
 
@@ -4618,9 +4649,14 @@ function renderModal(){
     const code=e.currentTarget.dataset.code;
     if(!S.enrolledPaths)S.enrolledPaths=[];
     if(!S.enrolledPaths.includes(code))S.enrolledPaths.push(code);
-    switchPath(code);
+    // Force switch even if same path (user may be re-enrolling after delete)
+    if(S.path!==code)switchPath(code);
+    else{S.path=code;save();}
+    S.mode="path";
+    save();
     V.pathDetailShown=null;
-    V.view="browser";
+    V._newPathCode=code;
+    V.view="new-path-prompt";
     render();
   });
   const startedBtn=root.querySelector('[data-action="choose-path-started"]');
@@ -4630,6 +4666,70 @@ function renderModal(){
     V.pathDetailShown=null;
     V._pathSetupMode=true; // path browser will show setup banner
     V._welcomeFlag=null;   // consumed — welcome is done
+    V.view="browser";
+    render();
+  });
+}
+
+// ── New path prompt — shown once after choosing a path ─────────────────────
+function renderNewPathPrompt(app){
+  const code=V._newPathCode||S.path;
+  const p=code?PA[code]:null;
+  const pathName=p?p.n:"your path";
+
+  let h='<div class="fade-up">';
+  h+='<div class="new-path-hero">';
+  h+='<div class="new-path-badge">🎉</div>';
+  h+='<div class="new-path-title">You\'re on <span style="color:var(--accent)">'+pathName+'</span></div>';
+  h+='<div class="new-path-sub">Would you like help planning your journey before you dive in?</div>';
+  h+='</div>';
+
+  h+='<div class="new-path-options">';
+
+  h+='<button class="new-path-opt new-path-opt-primary" data-action="new-path-plan">';
+  h+='<div class="new-path-opt-icon">🗺️</div>';
+  h+='<div class="new-path-opt-body">';
+  h+='<div class="new-path-opt-title">Yes — build my plan</div>';
+  h+='<div class="new-path-opt-desc">Answer a few questions and get a personalised week-by-week roadmap.</div>';
+  h+='</div>';
+  h+='</button>';
+
+  h+='<button class="new-path-opt" data-action="new-path-browse">';
+  h+='<div class="new-path-opt-icon">📋</div>';
+  h+='<div class="new-path-opt-body">';
+  h+='<div class="new-path-opt-title">Just show me the projects</div>';
+  h+='<div class="new-path-opt-desc">Browse all levels and start ticking off what you\'ve done.</div>';
+  h+='</div>';
+  h+='</button>';
+
+  h+='<button class="new-path-opt" data-action="new-path-started">';
+  h+='<div class="new-path-opt-icon">✅</div>';
+  h+='<div class="new-path-opt-body">';
+  h+='<div class="new-path-opt-title">I\'ve already started this path</div>';
+  h+='<div class="new-path-opt-desc">Mark off your completed projects and pick up from where you are.</div>';
+  h+='</div>';
+  h+='</button>';
+  h+='</div>';
+
+  h+='</div>';
+  app.innerHTML=h;
+
+  app.querySelector('[data-action="new-path-plan"]').addEventListener("click",()=>{
+    V._newPathCode=null;
+    S.mode="path"; save();
+    V.view="pathfinder-intro";
+    render();
+  });
+  app.querySelector('[data-action="new-path-browse"]').addEventListener("click",()=>{
+    V._newPathCode=null;
+    S.mode="path"; save();
+    V.view="browser";
+    render();
+  });
+  app.querySelector('[data-action="new-path-started"]').addEventListener("click",()=>{
+    V._newPathCode=null;
+    S.mode="path"; save();
+    V._pathSetupMode=true;
     V.view="browser";
     render();
   });
@@ -4794,7 +4894,7 @@ function renderPathBrowser(app){
   // Keeping it in the tree lets us toggle visibility without re-rendering.
   h+='<div class="path-complete-banner'+(pct>=100?'':' hidden')+'"><strong>🎉 Path complete!</strong><div style="font-size:13px;color:var(--text-muted);line-height:1.5">Next step: DTM. Keep going.</div></div>';
 
-  h+='<div class="app-footer">Made by Kian How · Not affiliated with Toastmasters International · v0.95</div>';
+  h+='<div class="app-footer">Made by Kian How · Not affiliated with Toastmasters International · v1.01</div>';
   h+='</div>';
   app.innerHTML=h;
 
@@ -6228,7 +6328,7 @@ function renderPracticeHub(app){
   h+=toolRow({tool:"speech-draft",color:"#6DB6B4",icon:"📝",name:"Speech Draft Builder",desc:(S.aiConfig&&S.aiConfig.enabled)?"AI builds your speech outline and opening lines":"Structure your next speech from outline to close"});
 
   h+='</div>';
-  h+='<div class="app-footer">Made by Kian How · Not affiliated with Toastmasters International · v0.95</div>';
+  h+='<div class="app-footer">Made by Kian How · Not affiliated with Toastmasters International · v1.01</div>';
   h+='</div>';
   app.innerHTML=h;
 
@@ -9394,10 +9494,10 @@ function renderSpeechDraft(app){
     app.querySelector('[data-action="sd-back"]').addEventListener("click",()=>{V.view="practice";V._sdResult=null;render();});
     const resetBtn=app.querySelector('[data-action="sd-reset"]');
     if(resetBtn)resetBtn.addEventListener("click",()=>{V._sdResult=null;render();});
-    const aiEnhBtn=app.querySelector('[data-action="sd-ai-enhance"]');
-    if(aiEnhBtn)aiEnhBtn.addEventListener("click",()=>sdAIEnhance(app));
-    const regenBtn=app.querySelector('[data-action="sd-generate"]');
-    if(regenBtn)regenBtn.addEventListener("click",()=>sdAIEnhance(app));
+    // Wire all follow-up AI buttons
+    app.querySelectorAll('[data-action="sd-ai-enhance"]').forEach(b=>{
+      b.addEventListener("click",()=>sdAIEnhance(app));
+    });
     return;
   }
 
@@ -9459,7 +9559,7 @@ function renderSpeechDraft(app){
   const pidSel=app.querySelector("#sd-pid");
   if(pidSel)pidSel.addEventListener("change",()=>{
     V._sdPid=pidSel.value;
-    // Auto-suggest framework if project has one
+    // Auto-select best framework for this project — not just a hint
     if(V._sdPid){
       const fw=SPEECH_FRAMEWORKS.find(f=>f.best&&f.best.includes(V._sdPid));
       if(fw)V._sdFramework=fw.id;
@@ -9537,11 +9637,16 @@ function sdBuildOfflineScaffold(topic,keyMsg,fwId,proj,aiOn){
 
   h+='<div class="sd-result-hint">This is your scaffold — fill each section with your stories and examples. The structure does the heavy lifting.</div>';
 
-  // AI enhance button — optional
+  // ── AI section — coaching + opening + follow-ups ──
   if(aiOn){
-    h+='<div class="sd-ai-enhance-wrap">';
-    h+='<div class="sd-ai-enhance-label">Want AI to write your opening lines?</div>';
-    h+='<button class="sd-ai-enhance-btn" data-action="sd-ai-enhance">✨ Write my opening with AI</button>';
+    h+='<div class="sd-ai-enhance-wrap" id="sd-ai-wrap">';
+    h+='<div class="sd-ai-enhance-label">✨ Want AI to go deeper on this speech?</div>';
+    h+='<div class="sd-followup-grid">';
+    h+='<button class="sd-followup-btn" data-action="sd-ai-enhance" data-sd-ask="full">📝 Write my opening</button>';
+    h+='<button class="sd-followup-btn" data-action="sd-ai-enhance" data-sd-ask="stories">💡 Story ideas for this topic</button>';
+    h+='<button class="sd-followup-btn" data-action="sd-ai-enhance" data-sd-ask="close">🏁 Help me nail the close</button>';
+    if(proj)h+='<button class="sd-followup-btn" data-action="sd-ai-enhance" data-sd-ask="project">🎯 Project-specific tips</button>';
+    h+='</div>';
     h+='</div>';
   }
 
@@ -9566,28 +9671,83 @@ async function sdAIEnhance(app){
   const proj=V._sdPid?PD[V._sdPid]:null;
   const topic=V._sdTopic||"";
   const keyMsg=V._sdKeyMsg||"";
+  const tips=proj&&TIPS[V._sdPid]?TIPS[V._sdPid]:null;
 
-  // Replace the enhance button with a loading state
-  const wrap=app.querySelector('.sd-ai-enhance-wrap');
-  if(wrap)wrap.innerHTML='<div class="role-ai-loading" style="padding:12px"><span class="coach-dots"><span>.</span><span>.</span><span>.</span></span><span style="margin-left:10px;font-size:13px;color:var(--text-3)">Writing your opening…</span></div>';
+  // Which follow-up was tapped?
+  const btn=app.querySelector('[data-action="sd-ai-enhance"]:focus')||
+            app.querySelector('[data-action="sd-ai-enhance"][data-sd-ask]');
+  const ask=btn?btn.dataset.sdAsk:"full";
+
+  const wrap=app.querySelector('#sd-ai-wrap');
+  if(wrap)wrap.innerHTML='<div class="role-ai-loading" style="padding:14px"><span class="coach-dots"><span>.</span><span>.</span><span>.</span></span><span style="margin-left:10px;font-size:13px;color:var(--text-3)">'+
+    (ask==="full"?"Writing your opening…":ask==="stories"?"Finding story angles…":ask==="close"?"Crafting your close…":"Pulling project tips…")+'</span></div>';
+
+  const context="Framework: "+fw.label+"\nTopic: "+(topic||"unspecified")+"\nKey message: "+(keyMsg||"unspecified")+
+    (proj?"\nProject: "+proj.t+" ("+proj.p+")\nDuration: "+proj.dur:"");
+
+  const prompts={
+    full:{
+      sys:"You are a speech coach. Write the opening hook and first paragraph for a Toastmasters speech (50-80 words). First person, punchy, starts mid-scene or with a bold statement. No preamble — just the speech text.",
+      msg:context+"\nOpening guidance: "+fw.sections[0].prompt,
+      hdr:"✨ Your opening",
+      hint:"Edit freely — this is a starting point."
+    },
+    stories:{
+      sys:"You are a speech coach. Give 3 brief story angles the speaker could use for this topic and key message. Each angle in 2 sentences max. Number them 1-3. No preamble.",
+      msg:context,
+      hdr:"💡 Story angles",
+      hint:"Pick the one that feels most personal — the best stories are true."
+    },
+    close:{
+      sys:"You are a speech coach. Write a closing paragraph (40-60 words) that lands the key message and calls back to the opening theme. First person, emotionally resonant. No preamble — just the speech text.",
+      msg:context+"\nClosing guidance: "+fw.sections[fw.sections.length-1].prompt,
+      hdr:"🏁 Your closing",
+      hint:"The best closes mirror something from the opening."
+    },
+    project:{
+      sys:"You are a senior Toastmasters coach. Give 4 specific, actionable tips for delivering this exact project well. Each tip in 1-2 sentences. Number them 1-4. Be direct and specific — not generic advice.",
+      msg:context+(tips?"\nProject coaching notes: "+(tips.tip||"")+" "+(tips.how||"")+"":""),
+      hdr:"🎯 "+( proj?proj.t:"Project")+" tips",
+      hint:"These are specific to this project's evaluation criteria."
+    }
+  };
+
+  const p=prompts[ask]||prompts.full;
 
   try{
-    const sys="You are a speech coach writing an opening for a Toastmasters speech. Write ONLY the opening hook and first paragraph (40-70 words total). Use the given framework, topic, and key message. Write in first person. No preamble — just the speech text.";
-    const msg="Framework: "+fw.label+"\nTopic: "+(topic||"unspecified")+"\nKey message: "+(keyMsg||"unspecified")+
-      (proj?"\nProject: "+proj.t+" ("+proj.p+")\nOpening section guidance: "+fw.sections[0].prompt:"");
-    const text=await callCoach(sys,msg,{maxTokens:200,forceBase:true,featureId:"sd-draft"});
+    const text=await callCoach(p.sys,p.msg,{maxTokens:350,forceBase:true,featureId:"sd-draft"});
 
-    // Insert AI opening above the first section card
-    const firstSection=app.querySelector('.sd-section-card');
-    if(firstSection&&text){
-      const aiDiv=document.createElement("div");
-      aiDiv.className="sd-ai-opening";
-      aiDiv.innerHTML='<div class="sd-ai-opening-hdr">✨ AI-written opening</div>'+
-        '<div class="sd-ai-opening-text">'+escHtml(text.trim())+'</div>'+
-        '<div class="sd-ai-opening-hint">Edit this freely — it\'s a starting point, not the final version.</div>';
-      firstSection.parentNode.insertBefore(aiDiv,firstSection);
+    // Insert result card just above the AI wrap
+    const resultId="sd-ai-result-"+ask;
+    let existing=document.getElementById(resultId);
+    if(!existing){
+      existing=document.createElement("div");
+      existing.id=resultId;
+      wrap.parentNode.insertBefore(existing,wrap);
     }
-    if(wrap)wrap.innerHTML='<div class="sd-ai-enhance-done">✅ Opening added above — scroll up to see it.</div>';
+    existing.innerHTML=
+      '<div class="sd-ai-opening">'+
+      '<div class="sd-ai-opening-hdr">'+p.hdr+'</div>'+
+      '<div class="sd-ai-opening-text">'+escHtml(text.trim())+'</div>'+
+      '<div class="sd-ai-opening-hint">'+p.hint+'</div>'+
+      '</div>';
+
+    // Restore follow-up buttons
+    if(wrap){
+      const aiOn=S.aiConfig&&S.aiConfig.enabled;
+      const hasProj=!!proj;
+      wrap.innerHTML=
+        '<div class="sd-ai-enhance-label">✨ Ask for more</div>'+
+        '<div class="sd-followup-grid">'+
+        '<button class="sd-followup-btn" data-action="sd-ai-enhance" data-sd-ask="full">📝 Write my opening</button>'+
+        '<button class="sd-followup-btn" data-action="sd-ai-enhance" data-sd-ask="stories">💡 Story ideas</button>'+
+        '<button class="sd-followup-btn" data-action="sd-ai-enhance" data-sd-ask="close">🏁 Help with close</button>'+
+        (hasProj?'<button class="sd-followup-btn" data-action="sd-ai-enhance" data-sd-ask="project">🎯 Project tips</button>':'')+
+        '</div>';
+      wrap.querySelectorAll('[data-action="sd-ai-enhance"]').forEach(b=>{
+        b.addEventListener("click",()=>sdAIEnhance(app));
+      });
+    }
   }catch(e){
     if(wrap)wrap.innerHTML=renderAIError(e,"sd-ai-enhance");
   }
@@ -9768,15 +9928,16 @@ function renderAITMDScript(app){
   h+='<button class="ai-tool-generate" data-action="tmd-generate">✨ Generate Script</button>';
   h+='</div>';
 
-  if(V._tmdLoading){
-    h+='<div class="ai-tool-loading"><span class="coach-dots"><span>.</span><span>.</span><span>.</span></span></div>';
-  }else if(V._tmdResult){
+  // Result zone — populated in-place by the generate handler (no render() = no scroll jump)
+  h+='<div id="tmd-result-zone">';
+  if(V._tmdResult){
     h+='<div class="ai-tool-result-card">';
     h+='<div class="ai-tool-result-label">'+V._tmdSeg.toUpperCase()+' · '+V._tmdVibe.toUpperCase()+'</div>';
-    h+='<div class="ai-tool-result-body">'+V._tmdResult.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/\n/g,"<br>")+'</div>';
+    h+='<div class="ai-tool-result-body">'+escHtml(V._tmdResult)+'</div>';
     h+='<button class="ai-tool-regen" data-action="tmd-regen" style="margin-top:14px">🔄 Regenerate</button>';
     h+='</div>';
   }
+  h+='</div>';
 
   h+='</div>';
   app.innerHTML=h;
@@ -9799,7 +9960,11 @@ function renderAITMDScript(app){
   const genBtn=app.querySelector('[data-action="tmd-generate"]');
   if(genBtn)genBtn.addEventListener("click",async()=>{
     const theme=themeInput?themeInput.value.trim():V._tmdTheme;
-    V._tmdLoading=true;V._tmdResult=null;render();
+    V._tmdLoading=true;V._tmdResult=null;
+    // In-place update — don't call render() which resets scroll position
+    const resultZone=app.querySelector('#tmd-result-zone');
+    if(resultZone)resultZone.innerHTML='<div class="role-ai-loading" style="padding:18px"><span class="coach-dots"><span>.</span><span>.</span><span>.</span></span></div>';
+    genBtn.disabled=true;
     try{
       const sys="You are an experienced Toastmaster of the Day writing meeting scripts. Write naturally and engagingly — the speaker will deliver this live at the lectern. Return ONLY the script text with no labels, no markdown, no commentary.";
       const segMap={
@@ -9812,8 +9977,25 @@ function renderAITMDScript(app){
       };
       const msg="Meeting theme: "+(theme||"open theme")+" | Vibe: "+V._tmdVibe+"\nWrite "+segMap[V._tmdSeg]+". Keep it 60-120 words.";
       V._tmdResult=await callCoach(sys,msg,{maxTokens:400,forceBase:true,featureId:'tmd-script'});
-    }catch(e){V._tmdResult=renderAIError(e,"tmd-generate");}
-    V._tmdLoading=false;render();
+      if(resultZone)resultZone.innerHTML=
+        '<div class="ai-tool-result-card">'+
+        '<div class="ai-tool-result-body">'+escHtml(V._tmdResult)+'</div>'+
+        '</div>'+
+        '<button class="ai-tool-regen" data-action="tmd-regen">🔄 Regenerate</button>';
+      if(resultZone){
+        const regenBtn2=resultZone.querySelector('[data-action="tmd-regen"]');
+        if(regenBtn2)regenBtn2.addEventListener("click",()=>{
+          V._tmdResult=null;
+          if(resultZone)resultZone.innerHTML="";
+          genBtn.disabled=false;
+        });
+      }
+    }catch(e){
+      V._tmdResult=null;
+      if(resultZone)resultZone.innerHTML=renderAIError(e,"tmd-generate");
+    }
+    V._tmdLoading=false;
+    genBtn.disabled=false;
   });
 }
 
@@ -10469,18 +10651,33 @@ function renderMyPaths(app){
       const p=PA[code];
       const name=p?p.n:code;
       if(!confirm("Remove "+name+"?\n\nThis deletes all your progress, notes, and photos for this path. Cannot be undone."))return;
-      // Remove from enrolledPaths regardless of which path is active
+
+      // Remove from enrolledPaths
       if(S.enrolledPaths)S.enrolledPaths=S.enrolledPaths.filter(c=>c!==code);
-      // If deleting the active path, clear live state + pick another if possible
+
+      // Clean up archive for this path regardless
+      if(S.pathArchive&&S.pathArchive[code])delete S.pathArchive[code];
+
       if(S.path===code){
+        // Clear active path live state
         S.done={};S.partsDone={};S.notes={};S.photos={};S.levelSubmitted={};
         S.path="";
-        // Promote the next enrolled path to active if one exists
-        const nextCode=(S.enrolledPaths||[]).find(c=>c!==code&&PA[c]&&S.pathArchive&&S.pathArchive[c]);
-        if(nextCode)switchPath(nextCode);
-      }else{
-        // Just drop it from the archive
-        if(S.pathArchive)delete S.pathArchive[code];
+        // Promote another enrolled path if one exists (don't re-add deleted one)
+        const nextCode=(S.enrolledPaths||[]).find(c=>c&&PA[c]);
+        if(nextCode){
+          // Restore from archive without re-enrolling
+          const arch=S.pathArchive&&S.pathArchive[nextCode];
+          if(arch){
+            S.path=nextCode;
+            S.done=arch.done||{};
+            S.partsDone=arch.partsDone||{};
+            S.notes=arch.notes||{};
+            S.photos=arch.photos||{};
+            S.levelSubmitted=arch.levelSubmitted||{};
+          }else{
+            S.path=nextCode;
+          }
+        }
       }
       save();
       render();
@@ -11365,7 +11562,7 @@ function psUpdateActiveDisplay(){
   }
 }
 
-// renderPracticeStudioActive removed in v0.95 — active panel now lives inside renderPracticeStudio
+// renderPracticeStudioActive removed in v1.01 — active panel now lives inside renderPracticeStudio
 
 function psStop(){
   _recordSfx(false);
