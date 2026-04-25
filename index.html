@@ -448,6 +448,28 @@ a{color:inherit;text-decoration:none}
 .pd-duration{font-size:14px;color:var(--text-dim)}
 .pd-badge{display:inline-block;padding:4px 10px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:6px;font-size:10px;font-weight:800;letter-spacing:.1em;color:var(--text-muted);text-transform:uppercase}
 .pd-badge.req{background:rgba(91,192,190,0.12);border-color:rgba(91,192,190,0.3);color:var(--cyan)}
+
+/* ═══ Project Roadmap ═══ */
+.pd-roadmap{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:18px;margin:16px 0}
+.pd-roadmap-hdr{margin-bottom:8px}
+.pd-roadmap-title{font-size:14px;font-weight:800;color:var(--text);letter-spacing:-0.005em;margin-bottom:4px}
+.pd-roadmap-lead{font-size:13px;color:var(--text-2);letter-spacing:-0.003em}
+.pd-roadmap-lead strong{color:var(--text)}
+.pd-roadmap-summary{font-size:12.5px;color:var(--text-3);letter-spacing:-0.003em;margin-bottom:14px;padding-bottom:14px;border-bottom:1px solid var(--border)}
+.pd-roadmap-phases{display:flex;flex-direction:column}
+.pd-roadmap-phase{display:flex;gap:12px;align-items:stretch}
+.pd-roadmap-spine{display:flex;flex-direction:column;align-items:center;flex-shrink:0;width:28px}
+.pd-roadmap-dot{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0;z-index:1}
+.pd-roadmap-dot-green{background:rgba(94,185,117,0.15);border:1.5px solid rgba(94,185,117,0.5)}
+.pd-roadmap-dot-teal{background:rgba(109,182,180,0.15);border:1.5px solid rgba(109,182,180,0.5)}
+.pd-roadmap-dot-amber{background:rgba(232,178,80,0.15);border:1.5px solid rgba(232,178,80,0.5)}
+.pd-roadmap-dot-purple{background:rgba(160,123,199,0.15);border:1.5px solid rgba(160,123,199,0.5)}
+.pd-roadmap-dot-blue{background:rgba(91,157,217,0.15);border:1.5px solid rgba(91,157,217,0.5)}
+.pd-roadmap-line{width:2px;background:var(--border);flex:1;margin:3px 0}
+.pd-roadmap-content{padding:4px 0 14px;flex:1}
+.pd-roadmap-week{font-size:10px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-3);margin-bottom:2px}
+.pd-roadmap-label{font-size:13.5px;color:var(--text);font-weight:500;letter-spacing:-0.003em;line-height:1.4}
+
 .pd-summary-block{margin-bottom:24px}
 .pd-summary-row{font-size:14px;line-height:1.55;color:var(--text-muted);margin-bottom:12px}
 .pd-summary-row:last-child{margin-bottom:0}
@@ -717,6 +739,11 @@ a{color:inherit;text-decoration:none}
 
 /* "Mark Level Complete" CTA */
 .level-submit-wrap{margin-top:16px;padding-top:16px;border-top:1px solid var(--border)}
+
+/* Submit button pulse when all projects ticked */
+@keyframes submitPulse{0%,100%{box-shadow:0 0 0 0 rgba(109,182,180,0.5)}50%{box-shadow:0 0 0 8px rgba(109,182,180,0)}}
+.level-submit-btn.pulse-ready{animation:submitPulse 0.8s ease-in-out 3}
+
 .level-submit-btn{width:100%;padding:14px 20px;background:var(--accent);color:#0A0B0F;border-radius:12px;font-weight:700;font-size:14px;cursor:pointer;font-family:inherit;border:none;transition:filter .15s ease,transform .15s ease;letter-spacing:-0.005em}
 .level-submit-btn:hover{filter:brightness(1.08)}
 .level-submit-btn:active{transform:scale(0.98)}
@@ -814,6 +841,12 @@ a{color:inherit;text-decoration:none}
 /* Program output view */
 .pf-summary{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 22px}
 .pf-summary-pill{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:7px 14px;font-size:12.5px;font-weight:600;color:var(--text-2);letter-spacing:-0.003em}
+
+
+/* Pathfinder early-start callout */
+.pf-early-start{display:flex;align-items:flex-start;gap:8px;margin-top:6px;padding:9px 12px;background:rgba(109,182,180,0.07);border:1px solid rgba(109,182,180,0.25);border-radius:10px;font-size:12.5px;color:var(--text-2);line-height:1.5;letter-spacing:-0.003em}
+.pf-early-start strong{color:var(--text);font-weight:700}
+.pf-early-icon{flex-shrink:0;font-size:13px;margin-top:1px}
 
 .pf-weeks{display:flex;flex-direction:column;gap:10px;margin-bottom:18px}
 .pf-phase-marker{font-size:10.5px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--pc,var(--accent));padding:18px 4px 4px;border-top:1px solid rgba(255,255,255,0.06);margin-top:8px}
@@ -2153,8 +2186,8 @@ const PD={
 "manage-proj":{t:"Manage Projects Successfully",dur:"2–3 min report + 5–7 min speech",p:"Practice developing a plan, building a team, and fulfilling the plan together.",o:"Team of 3–4. Create the plan, present it, execute, then speak on the experience.",inc:"Team project + plan report + reflection speech",parts:[{t:"Part A — Plan report (2–3 min)",desc:"Form team, create project plan, present the plan to your club."},{t:"Part B — Experience speech (5–7 min)",desc:"After completing the project, speak on the experience — what you learned, not what you did."}]},
 "lead-team":{t:"Leading Your Team",dur:"5–7 min",p:"Lead a small team to the completion of a project.",o:"Build a team of 2–4 people, lead them to complete a project of your design.",inc:"Led team project + 5–7 min speech"},
 "motivate":{t:"Motivate Others",dur:"5–7 min",p:"Practice motivating team members through a project.",o:"Team of 3–4 for a club-benefit project. 360° evaluation optional.",inc:"Team project + 5–7 min speech"},
-"lead-difficult":{t:"Leading in Difficult Situations",dur:"5–7 min speech + 12–15 min impromptu",p:"Practice adjusting to unexpected changes to a finalized plan.",o:"Present plan. Club members raise disruptions. You respond with impromptu solutions.",inc:"Plan + impromptu problem-solving",parts:[{t:"Part A — Present the plan (5–7 min)",desc:"Design a real/hypothetical plan with as many details as possible. Present to club."},{t:"Part B — Impromptu responses (10–15 min)",desc:"Club members get the Plan Disruption Ideas resource, suggest disruptions. You respond impromptu."}]},
-"manage-aud":{t:"Managing a Difficult Audience",dur:"5–7 min speech + role-play",p:"Practice skills to address audience challenges when you present.",o:"Send Role Play Assignments resource to Toastmaster + VPE beforehand. Respond to disruptions during your speech.",inc:"Speech + live disruption management"},
+"lead-difficult":{t:"Leading in Difficult Situations",dur:"5–7 min speech + 5–10 min impromptu",p:"Practice adjusting to unexpected changes to a finalized plan.",o:"Present plan. Club members raise disruptions. You respond with impromptu solutions.",inc:"Plan + impromptu problem-solving",parts:[{t:"Part A — Present the plan (5–7 min)",desc:"Design a real/hypothetical plan with as many details as possible. Present to club."},{t:"Part B — Impromptu responses (5–10 min)",desc:"Club members get the Plan Disruption Ideas resource, suggest disruptions. You respond impromptu."}]},
+"manage-aud":{t:"Managing a Difficult Audience",dur:"12–15 min total",p:"Practice skills to address audience challenges when you present.",o:"Send Role Play Assignments resource to Toastmaster + VPE beforehand. Deliver a 5–7 min speech while club members role-play disruptions. You respond in real time — evaluated on composure, not content.",inc:"5–7 min speech + live role-play disruptions"},
 "pr-strategies":{t:"Public Relations Strategies",dur:"5–7 min",p:"Practice using public relations strategies for any group or situation.",o:"Create a real or hypothetical PR plan. Speak on how you will or might apply it.",inc:"PR plan + 5–7 min speech"},
 "comm-change":{t:"Communicating Change",dur:"5–7 min",p:"Develop strategies for communicating change to various stakeholders.",o:"Analyze a real/hypothetical change. Present the communication strategy.",inc:"Change comm plan + 5–7 min speech"},
 "podcast":{t:"Create a Podcast",dur:"60 min podcast + 2–3 min speech",p:"Create a podcast — from planning to recording to distribution.",o:"Record a 60-min podcast. Then speak to the club about the process.",inc:"60-min podcast + 2–3 min speech",parts:[{t:"Part A — Record the podcast (60 min)",desc:"Plan, record, and edit a 60-minute podcast episode."},{t:"Part B — Speech about the process (2–3 min)",desc:"Share what you learned about the podcasting process."}]},
@@ -2632,6 +2665,276 @@ const EVAL_TIPS = {
 }
 
 };
+
+
+// ═══════════════════════════════════════════════════════════════════════════
+// PROJECT_PHASES — lead time and milestone data for multi-stage projects.
+// Projects here require meaningful prep work BEFORE the first club speech.
+// Each phase: { label, week, type: "start"|"prep"|"milestone"|"speech" }
+// week = weeks from project start (week 0 = first week of project).
+// leadWeeks = minimum weeks to reserve before first speech.
+// ═══════════════════════════════════════════════════════════════════════════
+const PROJECT_PHASES={
+
+"podcast":{
+  leadWeeks:4,
+  summary:"Record a 60-min podcast first, then present at club.",
+  phases:[
+    {label:"Choose topic, format, and co-host (if any)",week:0,type:"start"},
+    {label:"Record 60-min podcast episode",week:1,type:"milestone"},
+    {label:"Edit, clean up audio, publish online",week:3,type:"milestone"},
+    {label:"Club speech: 2–3 min intro + play best 10-min segment",week:4,type:"speech"}
+  ]
+},
+
+"hpl":{
+  leadWeeks:16,
+  summary:"Multi-month leadership project with two speeches.",
+  phases:[
+    {label:"Choose your HPL project and scope",week:0,type:"start"},
+    {label:"Form guidance committee (3+ members)",week:1,type:"milestone"},
+    {label:"Speech 1: Present your project plan (5–7 min)",week:2,type:"speech"},
+    {label:"Run the project — guidance committee meets 5+ times",week:4,type:"milestone"},
+    {label:"Complete the project with your team",week:12,type:"milestone"},
+    {label:"360° feedback from team and committee",week:14,type:"milestone"},
+    {label:"Speech 2: Share results and reflection (5–7 min)",week:16,type:"speech"}
+  ]
+},
+
+"blog":{
+  leadWeeks:6,
+  summary:"Maintain a blog for 30+ days before your club speech.",
+  phases:[
+    {label:"Set up blog platform and publish first post",week:0,type:"start"},
+    {label:"Publish posts regularly over 30+ days",week:1,type:"milestone"},
+    {label:"Prepare 5–7 min speech on your blog journey",week:5,type:"prep"},
+    {label:"Club speech: share your experience and blog lessons",week:6,type:"speech"}
+  ]
+},
+
+"dev-vision":{
+  leadWeeks:4,
+  summary:"Two speeches — one to launch the vision, one to reflect.",
+  phases:[
+    {label:"Define and document your vision",week:0,type:"start"},
+    {label:"Speech 1: Present your vision (5–7 min)",week:1,type:"speech"},
+    {label:"Share vision and begin implementation",week:2,type:"milestone"},
+    {label:"Gather feedback and observe impact",week:3,type:"milestone"},
+    {label:"Speech 2: Reflect on vision and progress (5–7 min)",week:4,type:"speech"}
+  ]
+},
+
+"eval-feedback":{
+  leadWeeks:3,
+  summary:"Two speeches at two meetings, plus serve as evaluator.",
+  phases:[
+    {label:"Prepare Speech 1 — any topic",week:0,type:"start"},
+    {label:"Speech 1 at club (5–7 min) — receive evaluation",week:1,type:"speech"},
+    {label:"Apply evaluator's feedback to Speech 2",week:2,type:"prep"},
+    {label:"Speech 2 at club — demonstrate the improvement (5–7 min)",week:3,type:"speech"},
+    {label:"Serve as Individual Evaluator at a club meeting",week:4,type:"milestone"}
+  ]
+},
+
+"social-speech":{
+  leadWeeks:3,
+  summary:"Two different social speeches at two separate meetings.",
+  phases:[
+    {label:"Choose two social speech types (toast, tribute, eulogy, acceptance…)",week:0,type:"start"},
+    {label:"Write and rehearse both speeches",week:1,type:"prep"},
+    {label:"Speech 1: First social speech at club (3–4 min)",week:2,type:"speech"},
+    {label:"Speech 2: Second social speech at a different meeting (3–4 min)",week:3,type:"speech"}
+  ]
+},
+
+"manage-proj":{
+  leadWeeks:6,
+  summary:"Complete a real project, then report and reflect.",
+  phases:[
+    {label:"Choose and scope a real project",week:0,type:"start"},
+    {label:"Build your plan and assemble the team",week:1,type:"milestone"},
+    {label:"Execute the project",week:2,type:"milestone"},
+    {label:"2–3 min progress report at club (optional mid-point)",week:3,type:"speech"},
+    {label:"Complete the project",week:5,type:"milestone"},
+    {label:"5–7 min speech: share what you learned",week:6,type:"speech"}
+  ]
+},
+
+"team-build":{
+  leadWeeks:5,
+  summary:"Lead a team project, then report and give a full speech.",
+  phases:[
+    {label:"Assemble your team (2+ members) and define the goal",week:0,type:"start"},
+    {label:"Run the team project",week:1,type:"milestone"},
+    {label:"2–3 min progress report at club",week:3,type:"speech"},
+    {label:"Complete the project",week:4,type:"milestone"},
+    {label:"5–7 min speech: team building lessons",week:5,type:"speech"}
+  ]
+},
+
+"hpl-sr":{
+  leadWeeks:16,
+  summary:"Strategic Relationships HPL equivalent — multi-month project.",
+  phases:[
+    {label:"Define project scope and select guidance committee",week:0,type:"start"},
+    {label:"Speech 1: Project plan (5–7 min)",week:2,type:"speech"},
+    {label:"Implement project with team",week:4,type:"milestone"},
+    {label:"Guidance committee check-ins (5+ meetings)",week:6,type:"milestone"},
+    {label:"360° evaluation from team and peers",week:14,type:"milestone"},
+    {label:"Speech 2: Results and review (8–10 min)",week:16,type:"speech"}
+  ]
+},
+
+"online-meet":{
+  leadWeeks:2,
+  summary:"Plan and run a real 20-25 min online meeting.",
+  phases:[
+    {label:"Plan agenda and invite participants",week:0,type:"start"},
+    {label:"Conduct the 20–25 min online meeting",week:1,type:"milestone"},
+    {label:"Reflect on facilitation and prepare your club speech",week:2,type:"prep"},
+    {label:"Club debrief or next scheduled meeting",week:2,type:"speech"}
+  ]
+},
+
+"moderate":{
+  leadWeeks:3,
+  summary:"Organise and run a real panel discussion.",
+  phases:[
+    {label:"Choose topic and recruit 2–3 panellists",week:0,type:"start"},
+    {label:"Prepare panel questions and running sheet",week:1,type:"prep"},
+    {label:"Host the 20–40 min panel discussion",week:2,type:"speech"},
+    {label:"Post-panel debrief and club feedback",week:3,type:"milestone"}
+  ]
+},
+
+"ethical":{
+  leadWeeks:2,
+  summary:"Organise and moderate a panel discussion on an ethical topic.",
+  phases:[
+    {label:"Choose ethical topic + recruit panellists",week:0,type:"start"},
+    {label:"Prepare questions and panel format",week:1,type:"prep"},
+    {label:"Host the 20–40 min ethical panel + Q&A",week:2,type:"speech"}
+  ]
+},
+
+"reach-consens":{
+  leadWeeks:1,
+  summary:"Facilitated group exercise followed by a brief close.",
+  phases:[
+    {label:"Prepare the consensus scenario and participant materials",week:0,type:"start"},
+    {label:"Run the 20-min group consensus exercise",week:1,type:"milestone"},
+    {label:"2–3 min closing remarks and debrief",week:1,type:"speech"}
+  ]
+},
+
+"lead-any":{
+  leadWeeks:26,
+  summary:"Requires 6+ months of real leadership — start the role first, speech comes at the end.",
+  phases:[
+    {label:"Begin leadership role (TM officer, volunteer org, or workplace team)",week:0,type:"start"},
+    {label:"Lead actively — document key decisions, challenges, and growth moments",week:4,type:"milestone"},
+    {label:"Complete a 360° evaluation from peers, team, or your organisation",week:22,type:"milestone"},
+    {label:"Reflect and prepare your 8–10 min speech on the leadership experience",week:24,type:"prep"},
+    {label:"Speech at club: share what you learned leading in any situation (8–10 min)",week:26,type:"speech"}
+  ]
+},
+
+"intro-mentor":{
+  leadWeeks:26,
+  summary:"Requires a 6-month mentoring commitment before your speech.",
+  phases:[
+    {label:"Choose a protégé and agree on your mentoring relationship",week:0,type:"start"},
+    {label:"Regular check-ins — record meeting dates and feedback given",week:2,type:"milestone"},
+    {label:"Mid-point reflection: how is the protégé progressing?",week:12,type:"milestone"},
+    {label:"Complete the mentoring commitment (6 months)",week:24,type:"milestone"},
+    {label:"Prepare 5–7 min speech on what mentoring taught you",week:25,type:"prep"},
+    {label:"Club speech: your experience as a mentor (5–7 min)",week:26,type:"speech"}
+  ]
+},
+
+"pos-coaching-ec":{
+  leadWeeks:8,
+  summary:"Requires a sustained coaching commitment with a real coachee.",
+  phases:[
+    {label:"Identify someone to coach and agree on a goal",week:0,type:"start"},
+    {label:"Coaching sessions — use positive coaching techniques throughout",week:1,type:"milestone"},
+    {label:"Observe measurable progress in your coachee",week:6,type:"milestone"},
+    {label:"Reflect and prepare your 5–7 min speech on the coaching journey",week:7,type:"prep"},
+    {label:"Club speech: your experience as a positive coach (5–7 min)",week:8,type:"speech"}
+  ]
+},
+
+"vol-org":{
+  leadWeeks:12,
+  summary:"Requires an active leadership role in a volunteer organisation before your speech.",
+  phases:[
+    {label:"Take on a leadership role in a volunteer or TM organisation",week:0,type:"start"},
+    {label:"Lead — manage volunteers, coordinate activities, overcome friction",week:2,type:"milestone"},
+    {label:"Document key leadership moments and lessons along the way",week:8,type:"milestone"},
+    {label:"Prepare 5–7 min speech on leading without authority",week:11,type:"prep"},
+    {label:"Club speech: your volunteer leadership experience (5–7 min)",week:12,type:"speech"}
+  ]
+},
+
+"manage-events":{
+  leadWeeks:5,
+  summary:"Plan and run a real event, then speak about it.",
+  phases:[
+    {label:"Choose your event (club social, themed meeting, workshop, joint meeting)",week:0,type:"start"},
+    {label:"Plan: venue, date, agenda, roles, promotion, budget",week:1,type:"milestone"},
+    {label:"Delegate tasks and confirm logistics",week:3,type:"milestone"},
+    {label:"Run the event",week:4,type:"milestone"},
+    {label:"Club speech: the planning process, what went wrong, what you'd do differently (5–7 min)",week:5,type:"speech"}
+  ]
+},
+
+"success-collab":{
+  leadWeeks:5,
+  summary:"Collaborate on a real project with at least one other person, then speak about it.",
+  phases:[
+    {label:"Choose a project and confirm your collaborator(s)",week:0,type:"start"},
+    {label:"Establish team norms: how you'll communicate, decide, handle disagreements",week:1,type:"milestone"},
+    {label:"Work through the project together — note the friction, not just the wins",week:2,type:"milestone"},
+    {label:"Complete the project",week:4,type:"milestone"},
+    {label:"Club speech: what the collaboration revealed about how you work with others (5–7 min)",week:5,type:"speech"}
+  ]
+},
+
+"reflect":{
+  leadWeeks:0,
+  summary:"Level 5 capstone — reflects on your entire Pathways journey. Deliver last.",
+  phases:[
+    {label:"Complete all other Level 5 projects first",week:0,type:"start"},
+    {label:"Review your journal, speeches, evaluations, and feedback across all levels",week:0,type:"milestone"},
+    {label:"Identify your biggest growth moment and one thing you'd do differently",week:0,type:"prep"},
+    {label:"Club speech: your full Pathways journey, delivered as your final act (10–12 min)",week:1,type:"speech"}
+  ]
+},
+
+"networking":{
+  leadWeeks:2,
+  summary:"Attend a real networking event, then speak about it.",
+  phases:[
+    {label:"Identify and register for a networking event (industry, community, or TM)",week:0,type:"start"},
+    {label:"Attend the event — practise starting conversations, following up",week:1,type:"milestone"},
+    {label:"Prepare 5–7 min speech on what you learned about networking",week:2,type:"prep"},
+    {label:"Club speech: your networking strategy and experience (5–7 min)",week:2,type:"speech"}
+  ]
+},
+
+"focus-pos":{
+  leadWeeks:3,
+  summary:"Track your moods and attitudes daily for 2+ weeks before your report or speech.",
+  phases:[
+    {label:"Begin daily mood and attitude log — note positives, negatives, and three gratitudes",week:0,type:"start"},
+    {label:"Continue logging for at least 2 weeks — look for patterns",week:1,type:"milestone"},
+    {label:"Reflect: what changed in your behaviour or the behaviour of those around you?",week:2,type:"milestone"},
+    {label:"Club: 2–3 min report OR 5–7 min speech on your experience and insights",week:3,type:"speech"}
+  ]
+}
+
+};
+
 
 const RESOURCES={
 "ice-breaker":[{t:"6 Secrets for Surviving Your First Ice Breaker",u:"https://www.toastmasters.org/magazine/magazine-issues/2023/aug/surviving-your-first-ice-breaker"},{t:"TM Ice Breaker Tips (YouTube)",u:"https://www.youtube.com/results?search_query=toastmasters+ice+breaker+speech+tips"}],
@@ -3226,7 +3529,7 @@ let S={
   mode:"",
   // Ala carte comfort level — only relevant when mode==="alacarte". Captured
   // during welcome flow to personalize project suggestions. "new" / "some" /
-  // "experienced". Kept loose; v0.62 may add follow-ups.
+  // "experienced". Kept loose; v0.66 may add follow-ups.
   alacarteComfort:"",
   // AI Coach config. Disabled by default. User configures in Settings.
   // mode: "direct" (user's own API key, stored locally — direct browser call)
@@ -3622,7 +3925,7 @@ function renderHub(app){
   }
   h+='</div>';
 
-  h+='<div class="app-footer">Toastmasters Companion · v0.62 · Your progress saves on this device</div>';
+  h+='<div class="app-footer">Toastmasters Companion · v0.66 · Your progress saves on this device</div>';
   h+='</div>';
   app.innerHTML=h;
 
@@ -3924,7 +4227,7 @@ function renderPathPicker(app){
   h+='<button class="quiz-prompt-btn" data-action="open-quiz">🧭 &nbsp; Not sure which one? Take the fun quiz</button>';
   h+='</div>';
 
-  h+='<div class="app-footer">Toastmasters Companion · v0.62 · Built with ❤️ for Toastmasters</div>';
+  h+='<div class="app-footer">Toastmasters Companion · v0.66 · Built with ❤️ for Toastmasters</div>';
   h+='</div>';
   app.innerHTML=h;
 
@@ -4135,11 +4438,14 @@ function renderPathBrowser(app){
     const levelTotal=g.r.length+g.en;
     const complete=levelDone>=levelTotal&&levelTotal>0;
     const submitted=!!S.levelSubmitted[levelSubmittedKey(S.path,lv)];
-    // Focus state: current level gets subtle highlight, future levels dim
+    // is-active = previous level submitted (unlocked) AND not yet submitted
+    // is-future = previous level NOT submitted yet (truly locked)
+    // Use levelSubmitted (VPE approval) not tick count — matches the locked logic below.
+    const prevLvSub=lv===1||!!S.levelSubmitted[levelSubmittedKey(S.path,lv-1)];
     let stateCls="";
     if(submitted)stateCls+=" complete";
-    if(lv===currentLv&&!submitted)stateCls+=" is-active";
-    if(lv>currentLv&&!submitted)stateCls+=" is-future";
+    if(prevLvSub&&!submitted)stateCls+=" is-active";
+    if(!prevLvSub&&!submitted)stateCls+=" is-future";
 
     h+='<div class="level-card'+stateCls+'" data-level="'+lv+'">';
     h+='<div class="level-header" data-level-toggle="'+lv+'">';
@@ -4154,9 +4460,11 @@ function renderPathBrowser(app){
     h+='</div>';
 
     h+='<div class="level-body"><div class="level-body-inner">';
-    // Lock projects in levels strictly AFTER the current active level (unless
-    // already submitted — once a level is submitted we leave it open to undo)
-    const locked=(lv>currentLv&&!submitted);
+    // Lock projects in levels where the previous level hasn't been officially
+    // submitted yet. Uses levelSubmitted (VPE approval) not tick count, so
+    // submitting L1 without ticking every box still unlocks L2.
+    const prevSubmitted=lv===1||!!S.levelSubmitted[levelSubmittedKey(S.path,lv-1)];
+    const locked=!prevSubmitted&&!submitted;
     if(g.r.length){
       h+='<div class="section-hdr">Required</div>';
       g.r.forEach(pid=>{h+=renderProjectRow(pid,true,locked);});
@@ -4216,7 +4524,7 @@ function renderPathBrowser(app){
   // Keeping it in the tree lets us toggle visibility without re-rendering.
   h+='<div class="path-complete-banner'+(pct>=100?'':' hidden')+'"><strong>🎉 Path complete!</strong><div style="font-size:13px;color:var(--text-muted);line-height:1.5">Next step: DTM. Keep going.</div></div>';
 
-  h+='<div class="app-footer">Toastmasters Companion · v0.62 · Your progress saves locally on this device</div>';
+  h+='<div class="app-footer">Toastmasters Companion · v0.66 · Your progress saves locally on this device</div>';
   h+='</div>';
   app.innerHTML=h;
 
@@ -4285,18 +4593,21 @@ function renderPathBrowser(app){
       save();
       const newLevel=S.path?getCurrentLevel(S.path):0;
       const levelAdvanced=wasNotDone&&newLevel>oldLevel;
-      // If level advanced, defer the title morph until after celebration modal
+      // If level advanced, defer the title morph until after the user clicks
+      // "Mark Level Complete" — don't fire the big celebration here.
+      // Instead show a quiet toast so the user knows they're ready.
       updateCompletionUI(pid,{skipMorph:levelAdvanced});
-      // Individual project ticks no longer show a celebration (too noisy).
-      // But if this tick completed the last project in a level, celebrate the
-      // LEVEL achievement and choreograph the scroll+morph reveal afterward.
       if(levelAdvanced){
-        showCelebrateModal({
-          kind:"level",
-          levelNum:oldLevel, // the level that was just completed
-          pathCode:S.path,
-          onClose:()=>scrollTopThenMorph(newLevel)
-        });
+        showToast("All done — tap Mark Level "+oldLevel+" Complete when your VPE approves","✅");
+        // Pulse-highlight the submit button so it's obvious — no scroll (scroll
+        // causes ghost clicks on mobile when finger is still down post-swipe).
+        setTimeout(()=>{
+          const btn=document.querySelector('[data-action="submit-level"][data-level="'+oldLevel+'"]');
+          if(btn){
+            btn.classList.add("pulse-ready");
+            setTimeout(()=>btn.classList.remove("pulse-ready"),2400);
+          }
+        },400);
       }
     });
   });
@@ -4314,6 +4625,8 @@ function renderPathBrowser(app){
     const submitBtn=e.target.closest('[data-action="submit-level"]');
     const undoBtn=e.target.closest('[data-action="undo-level"]');
     if(submitBtn){
+      if(submitBtn._submitting)return; // guard against double-fire
+      submitBtn._submitting=true;
       const lv=parseInt(submitBtn.dataset.level,10);
       if(!lv||!S.path)return;
       // Auto-tick every project in this level. Marking a level complete
@@ -4343,6 +4656,18 @@ function renderPathBrowser(app){
         pathCode:S.path,
         onClose:()=>{
           scrollTopThenMorph(newLevel);
+          // Auto-accordion: collapse completed level, expand the next one
+          setTimeout(()=>{
+            const doneCard=document.querySelector('.level-card[data-level="'+lv+'"]');
+            if(doneCard)doneCard.classList.remove("expanded");
+            const nextCard=document.querySelector('.level-card[data-level="'+(lv+1)+'"]');
+            if(nextCard){
+              // Close all others first (accordion rule), then open next
+              document.querySelectorAll(".level-card.expanded").forEach(c=>{c.classList.remove("expanded");});
+              nextCard.classList.add("expanded");
+              nextCard.scrollIntoView({behavior:"smooth",block:"start"});
+            }
+          },350);
           // If path complete, chain the path celebration after the morph starts
           if(allSubmitted){
             setTimeout(()=>{
@@ -4479,6 +4804,37 @@ function renderProjectDetail(app,pid){
     h+='<div class="pd-role-callout-title">You\'ll serve as Topicsmaster</div>';
     h+='<div class="pd-role-callout-text">This project requires you to run the Table Topics session. Use the Topicsmaster toolkit to generate questions and prepare your intro.</div>';
     h+='<button class="pd-role-callout-btn" data-action="go-ttm-toolkit">Open Topicsmaster Toolkit →</button>';
+    h+='</div>';
+    h+='</div>';
+  }
+
+  // ═══ Project Roadmap (for multi-phase projects with lead time) ═══
+  const phases=PROJECT_PHASES[pid];
+  if(phases){
+    const iconMap={start:"🚀",prep:"📝",milestone:"⚙️",speech:"🎤"};
+    const colourMap={start:"teal",prep:"purple",milestone:"amber",speech:"green"};
+    h+='<div class="pd-roadmap">';
+    h+='<div class="pd-roadmap-hdr">';
+    h+='<div class="pd-roadmap-title">📅 Project Roadmap</div>';
+    h+='<div class="pd-roadmap-lead">Start this project <strong>'+phases.leadWeeks+' weeks</strong> before your target speech date</div>';
+    h+='</div>';
+    h+='<div class="pd-roadmap-summary">'+phases.summary+'</div>';
+    h+='<div class="pd-roadmap-phases">';
+    phases.phases.forEach((ph,i)=>{
+      const col=colourMap[ph.type]||"blue";
+      const icon=iconMap[ph.type]||"•";
+      const isLast=i===phases.phases.length-1;
+      h+='<div class="pd-roadmap-phase">';
+      h+='<div class="pd-roadmap-spine">';
+      h+='<div class="pd-roadmap-dot pd-roadmap-dot-'+col+'">'+icon+'</div>';
+      if(!isLast)h+='<div class="pd-roadmap-line"></div>';
+      h+='</div>';
+      h+='<div class="pd-roadmap-content">';
+      h+='<div class="pd-roadmap-week">Week '+ph.week+'</div>';
+      h+='<div class="pd-roadmap-label">'+ph.label+'</div>';
+      h+='</div>';
+      h+='</div>';
+    });
     h+='</div>';
     h+='</div>';
   }
@@ -5093,7 +5449,7 @@ function getSmartSuggestions(){
     rows.push({
       icon:"🧭",
       title:"Find your best-fit path",
-      desc:"Take the 6-question quiz — get matched in under 2 minutes",
+      desc:"Take the quiz — find your best-fit path in minutes",
       action:"quiz"
     });
     rows.push({
@@ -5241,9 +5597,10 @@ function updateCompletionUI(changedPid,opts){
     const card=document.querySelector('.level-card[data-level="'+lv+'"]');
     if(card){
       card.classList.toggle("complete",submitted);
-      // Active/future styling for focus
-      card.classList.toggle("is-active",lv===currentLv&&!submitted);
-      card.classList.toggle("is-future",lv>currentLv&&!submitted);
+      // Use levelSubmitted (not tick count) — matches initial render logic
+      const prevLvSub=lv===1||!!S.levelSubmitted[levelSubmittedKey(S.path,lv-1)];
+      card.classList.toggle("is-active",prevLvSub&&!submitted);
+      card.classList.toggle("is-future",!prevLvSub&&!submitted);
       const progEl=card.querySelector(".level-progress");
       if(progEl){
         progEl.classList.toggle("complete",submitted);
@@ -5255,6 +5612,13 @@ function updateCompletionUI(changedPid,opts){
       if(submitHost){
         submitHost.innerHTML=renderLevelSubmitHtml(lv,complete,submitted);
       }
+      // Refresh locked state on project checkboxes. Uses levelSubmitted (not
+      // tick count) so submitting L1 immediately unlocks L2 checkboxes.
+      const prevSubmitted=lv===1||!!S.levelSubmitted[levelSubmittedKey(S.path,lv-1)];
+      const shouldBeLocked=!prevSubmitted&&!submitted;
+      card.querySelectorAll('.project-check').forEach(chk=>{
+        if(!chk.classList.contains('done'))chk.classList.toggle('locked',shouldBeLocked);
+      });
     }
   }
 
@@ -5593,7 +5957,7 @@ function renderPracticeHub(app){
   h+=toolRow({tool:"speech-draft",color:"#6DB6B4",icon:"📝",name:"Speech Draft Builder",desc:(S.aiConfig&&S.aiConfig.enabled)?"AI builds your speech outline and opening lines":"Structure your next speech from outline to close"});
 
   h+='</div>';
-  h+='<div class="app-footer">Toastmasters Companion · v0.62 · Practice tools work offline</div>';
+  h+='<div class="app-footer">Toastmasters Companion · v0.66 · Practice tools work offline</div>';
   h+='</div>';
   app.innerHTML=h;
 
@@ -7839,6 +8203,16 @@ function renderPathfinderProgram(app){
         const proj=PD[pr.pid];
         if(proj){
           h+='<div class="pf-week-item"><a class="pf-item-link" data-pf-project="'+pr.pid+'">'+proj.t+'</a> <span class="pf-item-dim">· '+proj.dur+'</span></div>';
+          // Early-start callout for phased projects
+          const phases=PROJECT_PHASES[pr.pid];
+          if(phases&&phases.leadWeeks>0){
+            const startWk=w.n-phases.leadWeeks;
+            const startTxt=startWk>0?'Week '+startWk:'now (before your Pathways start)';
+            h+='<div class="pf-early-start">';
+            h+='<span class="pf-early-icon">⏱</span>';
+            h+='<span>Start <strong>'+phases.leadWeeks+' weeks early</strong> (from '+startTxt+'). '+phases.summary+'</span>';
+            h+='</div>';
+          }
         }
       });
       h+='</div>';
@@ -10402,7 +10776,7 @@ function psUpdateActiveDisplay(){
   }
 }
 
-// renderPracticeStudioActive removed in v0.62 — active panel now lives inside renderPracticeStudio
+// renderPracticeStudioActive removed in v0.66 — active panel now lives inside renderPracticeStudio
 
 function psStop(){
   _recordSfx(false);
