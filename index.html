@@ -12297,7 +12297,7 @@ function _wireCoachTakeActions(app,c){
     aiBtn.disabled=true;
     try{
       const sys="You are Kian How, a Toastmasters coach and district-level contest finalist in both International Speech and Table Topics. Write a fresh 3-4 sentence coaching perspective on competing in a "+c.name+" contest. Your style: direct, concept-first, uses analogies (cooking, music), no fluff, never vague. Don't repeat what you've said before — find a new angle: preparation, mindset, structure, judging reality, or what most contestants get wrong. Write in first person as if speaking to someone about to compete. Under 80 words.";
-      const res=await callCoach({sys,user:"Give me a fresh coaching take on the "+c.name+" contest.",feature:"default"});
+      const res=await callCoach(sys,"Give me a fresh coaching take on the "+c.name+" contest.",{featureId:"default"});
       V._coachTakeAI=res;
       const el=document.getElementById("coach-take-text");
       if(el)el.textContent=res;
