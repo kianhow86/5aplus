@@ -1321,6 +1321,35 @@ a{color:inherit;text-decoration:none}
 
 
 
+
+
+/* ═══ Eval Contest Practice ═══ */
+.contest-eval-intro{margin-bottom:14px}
+.contest-eval-intro-title{font-size:var(--fs-md);font-weight:700;color:var(--text);letter-spacing:-0.008em;margin-bottom:4px}
+.contest-eval-intro-sub{font-size:var(--fs-sm);color:var(--text-3);line-height:1.55;letter-spacing:-0.003em}
+.contest-eval-speech-pick{display:block;width:100%;text-align:left;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px;margin-bottom:10px;cursor:pointer;font-family:inherit;transition:background .15s,border-color .15s}
+.contest-eval-speech-pick:hover{background:rgba(255,255,255,0.04);border-color:var(--accent-border)}
+.contest-eval-speech-pick-actions{display:flex;justify-content:space-between;align-items:center;margin-top:8px;padding-top:8px;border-top:1px solid var(--border)}
+.contest-eval-watch-link{font-size:var(--fs-xs);font-weight:700;color:#ff6b6b;text-decoration:none;letter-spacing:-0.003em}
+.contest-eval-pick-arrow{font-size:var(--fs-xs);font-weight:700;color:var(--accent);letter-spacing:0.04em}
+
+.contest-eval-context{background:rgba(109,182,180,0.06);border:1px solid rgba(109,182,180,0.2);border-radius:12px;padding:13px 15px;margin-bottom:14px}
+.contest-eval-context-label{font-size:10px;font-weight:700;color:var(--accent);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:4px}
+.contest-eval-context-title{font-size:var(--fs-md);font-weight:700;color:var(--text);letter-spacing:-0.008em;margin-bottom:2px}
+.contest-eval-context-meta{font-size:var(--fs-xs);color:var(--text-3);letter-spacing:-0.003em;margin-bottom:8px}
+.contest-eval-context-actions{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.contest-eval-change-btn{background:transparent;border:1px solid var(--border);border-radius:14px;padding:5px 12px;font-family:inherit;font-size:var(--fs-xs);color:var(--text-3);cursor:pointer;transition:all .15s}
+.contest-eval-change-btn:hover{color:var(--text);border-color:var(--text-3)}
+
+/* ═══ TT Contest Practice Question ═══ */
+.contest-tt-question-card{background:var(--surface);border:1px solid var(--border);border-left:3px solid #5EB975;border-radius:12px;padding:16px;margin-bottom:12px}
+.contest-tt-question-label{font-size:10px;font-weight:700;color:var(--text-3);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:8px}
+.contest-tt-question-text{font-size:var(--fs-lg);font-weight:700;color:var(--text);letter-spacing:-0.01em;line-height:1.4;margin-bottom:12px}
+.contest-tt-shuffle{background:transparent;border:1px solid var(--border);border-radius:20px;padding:6px 14px;font-family:inherit;font-size:var(--fs-xs);font-weight:600;color:var(--text-3);cursor:pointer;transition:all .15s}
+.contest-tt-shuffle:hover{color:var(--text);border-color:var(--text-3)}
+.contest-tt-prep{font-size:var(--fs-xs);color:var(--text-3);letter-spacing:-0.003em;margin-bottom:14px;text-align:center}
+.contest-tt-prep strong{color:var(--text-2)}
+
 /* ═══ Contest TT Topics ═══ */
 .contest-tt-topics{display:flex;flex-direction:column;gap:8px;margin-bottom:8px}
 .contest-tt-topic{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:12px 14px;font-size:var(--fs-sm);color:var(--text-2);line-height:1.5;letter-spacing:-0.003em;font-style:italic}
@@ -4047,7 +4076,7 @@ let S={
   mode:"",
   // Ala carte comfort level — only relevant when mode==="alacarte". Captured
   // during welcome flow to personalize project suggestions. "new" / "some" /
-  // "experienced". Kept loose; v1.25 may add follow-ups.
+  // "experienced". Kept loose; v1.30 may add follow-ups.
   alacarteComfort:"",
   // AI Coach config. Disabled by default. User configures in Settings.
   // mode: "direct" (user's own API key, stored locally — direct browser call)
@@ -4553,7 +4582,7 @@ function renderHub(app){
   }
   h+='</div>';
 
-  h+='<div class="app-footer">Made by Kian How · Not affiliated with Toastmasters International · v1.25</div>';
+  h+='<div class="app-footer">Made by Kian How · Not affiliated with Toastmasters International · v1.30</div>';
   h+='</div>';
   app.innerHTML=h;
 
@@ -4886,7 +4915,7 @@ function renderPathPicker(app){
   h+='<button class="quiz-prompt-btn" data-action="open-quiz">🧭 &nbsp; Not sure which one? Take the fun quiz</button>';
   h+='</div>';
 
-  h+='<div class="app-footer">Made by Kian How · Not affiliated with Toastmasters International · v1.25</div>';
+  h+='<div class="app-footer">Made by Kian How · Not affiliated with Toastmasters International · v1.30</div>';
   h+='</div>';
   app.innerHTML=h;
 
@@ -5250,7 +5279,7 @@ function renderPathBrowser(app){
   // Keeping it in the tree lets us toggle visibility without re-rendering.
   h+='<div class="path-complete-banner'+(pct>=100?'':' hidden')+'"><strong>🎉 Path complete!</strong><div style="font-size:13px;color:var(--text-muted);line-height:1.5">Next step: DTM. Keep going.</div></div>';
 
-  h+='<div class="app-footer">Made by Kian How · Not affiliated with Toastmasters International · v1.25</div>';
+  h+='<div class="app-footer">Made by Kian How · Not affiliated with Toastmasters International · v1.30</div>';
   h+='</div>';
   app.innerHTML=h;
 
@@ -6892,7 +6921,7 @@ function renderPracticeHub(app){
   h+=toolRow({tool:"speech-draft",color:"#6DB6B4",icon:"📝",name:"Speech Draft Builder",desc:(S.aiConfig&&S.aiConfig.enabled)?"AI builds your speech outline and opening lines":"Structure your next speech from outline to close"});
 
   h+='</div>';
-  h+='<div class="app-footer">Made by Kian How · Not affiliated with Toastmasters International · v1.25</div>';
+  h+='<div class="app-footer">Made by Kian How · Not affiliated with Toastmasters International · v1.30</div>';
   h+='</div>';
   app.innerHTML=h;
 
@@ -7359,20 +7388,41 @@ function _ttpRenderQuestion(app){
 }
 
 // ── START RECORDING ─────────────────────────────────────────────────────────
-function ttpStart(){
-  _recordSfx(true);
+async function ttpStart(){
   TTP.elapsed=0;
   TTP.transcript="";
   TTP.totalWords=0;
-  TTP.startedAt=Date.now();
   TTP.micGranted=false;
   TTP.lastResultAt=null;
   TTP.aiResult=null;
   TTP.aiLoading=false;
 
-  // ── 1. SR starts synchronously in gesture context ──
+  // Show panel immediately so user sees "WAITING FOR MIC…"
+  TTP.phase="active";
+  const wrap=document.querySelector(".ttp-view");
+  if(wrap)wrap.setAttribute("data-ttp-state","active");
+  const ttpStateEl=document.getElementById("ttp-active-state");
+  if(ttpStateEl)ttpStateEl.textContent="WAITING FOR MIC…";
+
+  // ── Step 1: request mic permission first ──
+  let stream=null;
+  if(navigator.mediaDevices&&navigator.mediaDevices.getUserMedia){
+    try{
+      stream=await navigator.mediaDevices.getUserMedia({audio:true});
+      TTP.micStream=stream;
+      try{const mr=new MediaRecorder(stream);mr.ondataavailable=()=>{};mr.start();TTP.mediaRecorder=mr;}catch(e){}
+    }catch(e){
+      if(ttpStateEl)ttpStateEl.textContent="● RECORDING (no mic)";
+    }
+  }
+
+  // ── Step 2: permission resolved — start SR and timer ──
+  _recordSfx(true);
+  TTP.startedAt=Date.now();
+  if(ttpStateEl)ttpStateEl.textContent="● RECORDING";
+
   const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
-  if(SR){
+  if(SR&&stream){
     try{
       const rec=new SR();
       rec.continuous=true;rec.interimResults=false;rec.lang="en-US";
@@ -7391,21 +7441,7 @@ function ttpStart(){
     }catch(e){console.warn("TTP SR failed:",e);}
   }
 
-  // ── 2. getUserMedia async — keeps audio pipeline alive via MediaRecorder ──
-  if(navigator.mediaDevices&&navigator.mediaDevices.getUserMedia){
-    navigator.mediaDevices.getUserMedia({audio:true}).then(stream=>{
-      TTP.micStream=stream;
-      try{const mr=new MediaRecorder(stream);mr.ondataavailable=()=>{};mr.start();TTP.mediaRecorder=mr;}catch(e){}
-    }).catch(()=>{});
-  }
-
-  // ── 3. Start immediately — no gating ──
-  TTP.phase="active";
   TTP._iv=setInterval(()=>{TTP.elapsed++;_ttpUpdateActive();},1000);
-
-  // In-place swap — flip data-ttp-state, no render()
-  const wrap=document.querySelector(".ttp-view");
-  if(wrap)wrap.setAttribute("data-ttp-state","active");
   _ttpUpdateActive();
 }
 
@@ -8140,12 +8176,10 @@ async function fdStart(){
     return;
   }
 
-  // Pre-flight: explicitly request mic permission via getUserMedia. On many
-  // browsers this is more reliable than letting SpeechRecognition prompt —
-  // and we immediately release the stream since recognition opens its own.
+  // Get mic permission first — keep the stream for fdStartRecognition to avoid double prompt
+  let _fdStream=null;
   try{
-    const stream=await navigator.mediaDevices.getUserMedia({audio:true});
-    stream.getTracks().forEach(t=>t.stop());
+    _fdStream=await navigator.mediaDevices.getUserMedia({audio:true});
   }catch(e){
     console.warn("mic permission denied",e);
     alert("Microphone access was denied. Enable mic permission in your browser settings and try again.");
@@ -8161,10 +8195,10 @@ async function fdStart(){
   FD.elapsedMs=0;
   FD._shouldReconnect=true;
   FD.phase="active";
+  FD._permStream=_fdStream; // pass to fdStartRecognition
   render();
 
-  // Start recognition after the listening UI is painted. This also gives
-  // iOS Safari a tick to settle after the permission dialog.
+  // Start recognition — permission already granted via getUserMedia above
   setTimeout(fdStartRecognition,120);
   if(FD._uiInterval)clearInterval(FD._uiInterval);
   FD._uiInterval=setInterval(fdUpdateLiveDisplay,250);
@@ -9701,10 +9735,23 @@ function _evalPracticeMic(btn,pid){
   };
   btn.addEventListener("click",async()=>{
     if(!recording){
+      // getUserMedia first — single permission prompt
+      const d=document.getElementById("ep-timer-display");
+      const s=document.getElementById("ep-timer-state");
+      if(s)s.textContent="WAITING…";
+      let stream=null;
+      try{stream=await navigator.mediaDevices.getUserMedia({audio:true});}catch(e){
+        alert("Microphone access needed.");return;
+      }
       _recordSfx(true);
       recording=true;seconds=0;transcript="";
       btn.textContent="⏹";btn.style.background="rgba(232,93,93,0.18)";
+      if(s)s.textContent="RECORDING";
       timerInt=setInterval(()=>{seconds++;update();},1000);
+      // Start MediaRecorder with stream
+      btn._stream=stream;
+      try{const mr=new MediaRecorder(stream);mr.ondataavailable=()=>{};mr.start();btn._mr=mr;}catch(e){}
+      // Start SR after getUserMedia — reuses permission
       const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
       if(SR){
         recognition=new SR();recognition.continuous=true;recognition.interimResults=false;recognition.lang="en-US";
@@ -9712,7 +9759,6 @@ function _evalPracticeMic(btn,pid){
         recognition.onend=()=>{if(recording)try{recognition.start();}catch(e){}};
         try{recognition.start();}catch(e){}
       }
-      try{const stream=await navigator.mediaDevices.getUserMedia({audio:true});const mr=new MediaRecorder(stream);mr.ondataavailable=()=>{};mr.start();btn._stream=stream;btn._mr=mr;}catch(e){}
     }else{
       _recordSfx(false);clearInterval(timerInt);recording=false;
       btn.textContent="🎙";btn.style.background="";
@@ -12377,79 +12423,157 @@ function renderContestDetail(app){
     });
     h+='</div>';
 
-    // TT Contest: topics bank
-    if(c.id==="tabletopics"){
-      const randTopics=TT_CONTEST_TOPICS.slice().sort(()=>Math.random()-0.5).slice(0,6);
-      h+='<div class="contest-section-hdr">🎯 Contest-level practice questions</div>';
-      h+='<div class="contest-tt-topics">';
-      randTopics.forEach(q=>{
-        h+='<div class="contest-tt-topic">'+q+'</div>';
-      });
-      h+='<button class="contest-tt-refresh" data-action="contest-tt-refresh">↻ New questions</button>';
-      h+='</div>';
-    }
-
-    // Eval Contest: speech links to watch
-    if(c.id==="evaluation"){
-      h+='<div class="contest-section-hdr">📺 Speeches to evaluate — watch, then practice</div>';
-      h+='<div class="contest-eval-note">Pick a speech below, watch it fully, prepare your evaluation (5 mins), then go to Practice tab and record your CRC. AI will coach the quality of your evaluation.</div>';
-      h+='<div class="contest-eval-speeches">';
-      EVAL_CONTEST_SPEECHES.forEach(s=>{
-        h+='<a class="contest-eval-speech" href="'+s.url+'" target="_blank" rel="noopener">';
-        h+='<div class="contest-eval-speech-top">';
-        h+='<div class="contest-eval-speech-title">'+s.title+'</div>';
-        h+='<div class="contest-eval-speech-meta">'+s.speaker+' · '+s.duration+' · '+s.level+'</div>';
-        h+='</div>';
-        h+='<div class="contest-eval-speech-note">'+s.note+'</div>';
-        h+='<div class="contest-eval-speech-arrow">Watch ↗</div>';
-        h+='</a>';
-      });
-      h+='</div>';
-    }
-
   }else{
     // Practice tab — recording + AI
     const CD=V._contestData||{};
-    if(!CD.phase||CD.phase==="ready"){
-      // Coach greeting
-      h+='<div class="ps-coach-greeting" style="margin-bottom:16px">';
-      h+='<div class="ps-coach-avatar"><img src="'+COACH_AVATAR+'" alt="Coach"/></div>';
-      h+='<div class="ps-coach-bubble">';
-      h+='<div class="ps-coach-name">Your AI Coach</div>';
-      h+='<div class="ps-coach-text">Ready when you are.</div>';
-      h+='<div class="ps-coach-note">I\'ll evaluate your practice against the actual contest ballot — not Pathways objectives. Record your speech, then I\'ll give you feedback.</div>';
-      h+='</div>';
-      h+='</div>';
 
-      // Timer card
-      h+='<div class="ps-timer-card" id="contest-timer-card">';
-      h+='<div class="ps-timer-state" id="contest-timer-state">READY</div>';
-      h+='<div class="ps-timer-display" id="contest-timer-display">0:00</div>';
-      h+='<div class="ps-timer-markers">';
-      h+='<div class="ps-marker green">● '+c.time.min+':00</div>';
-      h+='<div class="ps-marker red">● '+c.time.max+':00</div>';
-      h+='</div>';
-      h+='<div class="ps-timer-hint">Tap the mic to start recording</div>';
-      h+='</div>';
-
-      h+='<div class="ps-mic-wrap">';
-      h+='<div class="ps-mic-btn" id="contest-mic-btn" data-action="contest-mic"><div class="ps-mic-ring"><div class="ps-mic-icon">🎙️</div></div></div>';
-      h+='<div class="ps-mic-label">Tap to start</div>';
-      h+='</div>';
-
-      if(!aiOn){
-        h+='<div class="ttp-ai-off-note">Connect AI in ✨ AI Settings for contest-specific feedback after your speech.</div>';
+    // TT Contest: show a question to answer
+    if(c.id==="tabletopics"){
+      if(!V._contestTTQ){
+        V._contestTTQ=TT_CONTEST_TOPICS[Math.floor(Math.random()*TT_CONTEST_TOPICS.length)];
       }
-    }else if(CD.phase==="done"){
-      if(CD.loading){
-        h+='<div class="role-ai-loading" style="padding:32px;text-align:center"><span class="coach-dots"><span>.</span><span>.</span><span>.</span></span><div style="margin-top:12px;font-size:13px;color:var(--text-3)">Reviewing against the contest ballot…</div></div>';
-      }else if(CD.result){
-        h+='<div class="contest-result fade-up">'+renderCoachCards(CD.result)+'</div>';
-        h+='<div style="display:flex;gap:10px;margin-top:16px">';
-        h+='<button class="ttp-random-btn" style="flex:1" data-action="contest-again">🎙 Practice again</button>';
+      if(!CD.phase||CD.phase==="ready"){
+        h+='<div class="contest-tt-question-card">';
+        h+='<div class="contest-tt-question-label">YOUR QUESTION</div>';
+        h+='<div class="contest-tt-question-text" id="contest-tt-q">'+escHtml(V._contestTTQ)+'</div>';
+        h+='<button class="contest-tt-shuffle" data-action="contest-tt-shuffle">🎲 Different question</button>';
         h+='</div>';
-      }else if(CD.error){
-        h+=renderAIError(CD.error,()=>{V._contestData={...V._contestData,error:null,loading:true};render();_contestRunEval();});
+        h+='<div class="contest-tt-prep">You have <strong>0 seconds prep</strong> — contest rules. Read the question, tap mic, answer.</div>';
+        h+='<div class="ps-timer-card" id="contest-timer-card">';
+        h+='<div class="ps-timer-state" id="contest-timer-state">READY</div>';
+        h+='<div class="ps-timer-display" id="contest-timer-display">0:00</div>';
+        h+='<div class="ps-timer-markers">';
+        h+='<div class="ps-marker green">● 1:00</div>';
+        h+='<div class="ps-marker red">● 2:00</div>';
+        h+='</div>';
+        h+='<div class="ps-timer-hint">Tap mic · answer the question · tap stop</div>';
+        h+='</div>';
+        h+='<div class="ps-mic-wrap">';
+        h+='<div class="ps-mic-btn" id="contest-mic-btn" data-action="contest-mic"><div class="ps-mic-ring"><div class="ps-mic-icon">🎙️</div></div></div>';
+        h+='<div class="ps-mic-label">Tap to start</div>';
+        h+='</div>';
+        if(!aiOn)h+='<div class="ttp-ai-off-note">Connect AI in ✨ AI Settings for contest-level coaching.</div>';
+      }else if(CD.phase==="done"){
+        // Show question above results
+        h+='<div class="contest-tt-question-card" style="margin-bottom:14px">';
+        h+='<div class="contest-tt-question-label">YOU ANSWERED</div>';
+        h+='<div class="contest-tt-question-text">'+escHtml(V._contestTTQ)+'</div>';
+        h+='</div>';
+        if(CD.loading){
+          h+='<div class="role-ai-loading" style="padding:32px;text-align:center"><span class="coach-dots"><span>.</span><span>.</span><span>.</span></span><div style="margin-top:12px;font-size:13px;color:var(--text-3)">Evaluating against the contest ballot…</div></div>';
+        }else if(CD.result){
+          h+='<div class="contest-result fade-up">'+renderCoachCards(CD.result)+'</div>';
+          h+='<button class="ttp-random-btn" style="width:100%;margin-top:16px" data-action="contest-again">🎙 Try another question</button>';
+        }else if(CD.error){
+          h+=renderAIError(CD.error,()=>{V._contestData={...V._contestData,error:null,loading:true};render();_contestRunEval(c,CD.transcript);});
+        }
+      }
+    }else if(c.id==="evaluation"){
+      // Eval Contest — pick speech first, watch it, then record evaluation
+      const evalSpeech=V._contestEvalSpeech;
+
+      if(!evalSpeech){
+        // Speech picker
+        h+='<div class="contest-eval-intro">';
+        h+='<div class="contest-eval-intro-title">Pick a speech to evaluate</div>';
+        h+='<div class="contest-eval-intro-sub">Watch the full speech, prepare your evaluation (5 mins is contest standard), then come back and record your CRC. I\'ll coach the quality of your evaluation against this specific speech.</div>';
+        h+='</div>';
+        h+='<div class="contest-eval-speeches">';
+        EVAL_CONTEST_SPEECHES.forEach((s,i)=>{
+          h+='<button class="contest-eval-speech-pick" data-eval-speech="'+i+'">';
+          h+='<div class="contest-eval-speech-top">';
+          h+='<div class="contest-eval-speech-title">'+s.title+'</div>';
+          h+='<div class="contest-eval-speech-meta">'+s.speaker+' · '+s.duration+' · '+s.level+'</div>';
+          h+='</div>';
+          h+='<div class="contest-eval-speech-note">'+s.note+'</div>';
+          h+='<div class="contest-eval-speech-pick-actions">';
+          h+='<a href="'+s.url+'" target="_blank" rel="noopener" class="contest-eval-watch-link">▶ Watch on YouTube</a>';
+          h+='<span class="contest-eval-pick-arrow">Use this speech →</span>';
+          h+='</div>';
+          h+='</button>';
+        });
+        h+='</div>';
+      }else{
+        // Recording UI — speech context shown above
+        if(!CD.phase||CD.phase==="ready"){
+          h+='<div class="contest-eval-context">';
+          h+='<div class="contest-eval-context-label">EVALUATING</div>';
+          h+='<div class="contest-eval-context-title">'+evalSpeech.title+'</div>';
+          h+='<div class="contest-eval-context-meta">'+evalSpeech.speaker+' · '+evalSpeech.duration+'</div>';
+          h+='<div class="contest-eval-context-actions">';
+          h+='<a href="'+evalSpeech.url+'" target="_blank" rel="noopener" class="contest-eval-watch-link">▶ Rewatch</a>';
+          h+='<button class="contest-eval-change-btn" data-action="contest-eval-change">Change speech</button>';
+          h+='</div>';
+          h+='</div>';
+
+          h+='<div class="ps-coach-bar" style="margin-bottom:12px">';
+          h+='<div class="ps-coach-avatar-sm"><img src="'+COACH_AVATAR+'" alt="Coach"/></div>';
+          h+='<div class="ps-coach-bar-body">';
+          h+='<div class="ps-coach-bar-greet">Ready when you are.</div>';
+          h+='<div style="font-size:12px;color:var(--text-3);margin-top:2px">I\'ll coach the quality of your evaluation — not the speech itself.</div>';
+          h+='</div></div>';
+
+          h+='<div class="ps-timer-card" id="contest-timer-card">';
+          h+='<div class="ps-timer-state" id="contest-timer-state">READY</div>';
+          h+='<div class="ps-timer-display" id="contest-timer-display">0:00</div>';
+          h+='<div class="ps-timer-markers">';
+          h+='<div class="ps-marker green">● 2:00</div>';
+          h+='<div class="ps-marker red">● 3:00</div>';
+          h+='</div>';
+          h+='<div class="ps-timer-hint">Tap mic · deliver your CRC · tap stop</div>';
+          h+='</div>';
+          h+='<div class="ps-mic-wrap">';
+          h+='<div class="ps-mic-btn" id="contest-mic-btn" data-action="contest-mic"><div class="ps-mic-ring"><div class="ps-mic-icon">🎙️</div></div></div>';
+          h+='<div class="ps-mic-label">Tap to start</div>';
+          h+='</div>';
+          if(!aiOn)h+='<div class="ttp-ai-off-note">Connect AI in ✨ AI Settings for evaluation coaching.</div>';
+        }else if(CD.phase==="done"){
+          h+='<div class="contest-eval-context" style="margin-bottom:14px">';
+          h+='<div class="contest-eval-context-label">EVALUATED</div>';
+          h+='<div class="contest-eval-context-title">'+evalSpeech.title+'</div>';
+          h+='</div>';
+          if(CD.loading){
+            h+='<div class="role-ai-loading" style="padding:32px;text-align:center"><span class="coach-dots"><span>.</span><span>.</span><span>.</span></span><div style="margin-top:12px;font-size:13px;color:var(--text-3)">Coaching your evaluation…</div></div>';
+          }else if(CD.result){
+            h+='<div class="contest-result fade-up">'+renderCoachCards(CD.result)+'</div>';
+            h+='<button class="ttp-random-btn" style="width:100%;margin-top:16px" data-action="contest-again">🎙 Try another speech</button>';
+          }else if(CD.error){
+            h+=renderAIError(CD.error,()=>{V._contestData={...V._contestData,error:null,loading:true};render();_contestRunEval(c,CD.transcript);});
+          }
+        }
+      }
+    }else{
+      // International — generic recording, no question/speech
+      if(!CD.phase||CD.phase==="ready"){
+        h+='<div class="ps-coach-bar" style="margin-bottom:12px">';
+        h+='<div class="ps-coach-avatar-sm"><img src="'+COACH_AVATAR+'" alt="Coach"/></div>';
+        h+='<div class="ps-coach-bar-body">';
+        h+='<div class="ps-coach-bar-greet">Ready when you are.</div>';
+        h+='<div style="font-size:12px;color:var(--text-3);margin-top:2px">I\'ll evaluate against the actual contest ballot — not Pathways objectives.</div>';
+        h+='</div></div>';
+        h+='<div class="ps-timer-card" id="contest-timer-card">';
+        h+='<div class="ps-timer-state" id="contest-timer-state">READY</div>';
+        h+='<div class="ps-timer-display" id="contest-timer-display">0:00</div>';
+        h+='<div class="ps-timer-markers">';
+        h+='<div class="ps-marker green">● '+c.time.min+':00</div>';
+        h+='<div class="ps-marker red">● '+c.time.max+':00</div>';
+        h+='</div>';
+        h+='<div class="ps-timer-hint">Tap the mic to start recording</div>';
+        h+='</div>';
+        h+='<div class="ps-mic-wrap">';
+        h+='<div class="ps-mic-btn" id="contest-mic-btn" data-action="contest-mic"><div class="ps-mic-ring"><div class="ps-mic-icon">🎙️</div></div></div>';
+        h+='<div class="ps-mic-label">Tap to start</div>';
+        h+='</div>';
+        if(!aiOn)h+='<div class="ttp-ai-off-note">Connect AI in ✨ AI Settings for contest-specific feedback.</div>';
+      }else if(CD.phase==="done"){
+        if(CD.loading){
+          h+='<div class="role-ai-loading" style="padding:32px;text-align:center"><span class="coach-dots"><span>.</span><span>.</span><span>.</span></span><div style="margin-top:12px;font-size:13px;color:var(--text-3)">Reviewing against the contest ballot…</div></div>';
+        }else if(CD.result){
+          h+='<div class="contest-result fade-up">'+renderCoachCards(CD.result)+'</div>';
+          h+='<button class="ttp-random-btn" style="width:100%;margin-top:16px" data-action="contest-again">🎙 Practice again</button>';
+        }else if(CD.error){
+          h+=renderAIError(CD.error,()=>{V._contestData={...V._contestData,error:null,loading:true};render();_contestRunEval(c,CD.transcript);});
+        }
       }
     }
   }
@@ -12460,14 +12584,24 @@ function renderContestDetail(app){
   // Back
   app.querySelector('[data-action="contest-back"]').addEventListener("click",()=>{V.view="contests";V._contestData={};render();});
 
-  // TT topics refresh — in-place, no render
-  const ttRefresh=app.querySelector('[data-action="contest-tt-refresh"]');
-  if(ttRefresh)ttRefresh.addEventListener("click",()=>{
-    const container=app.querySelector(".contest-tt-topics");
-    if(!container)return;
-    const newTopics=TT_CONTEST_TOPICS.slice().sort(()=>Math.random()-0.5).slice(0,6);
-    const items=container.querySelectorAll(".contest-tt-topic");
-    newTopics.forEach((q,i)=>{if(items[i])items[i].textContent=q;});
+  // Eval contest — pick speech
+  app.querySelectorAll("[data-eval-speech]").forEach(btn=>{
+    btn.addEventListener("click",e=>{
+      // Don't fire if user clicked the YouTube link inside the card
+      if(e.target.closest("a"))return;
+      const idx=parseInt(btn.dataset.evalSpeech);
+      V._contestEvalSpeech=EVAL_CONTEST_SPEECHES[idx];
+      V._contestData={};
+      render();
+    });
+  });
+
+  // Eval contest — change speech
+  const evalChangeBtn=app.querySelector('[data-action="contest-eval-change"]');
+  if(evalChangeBtn)evalChangeBtn.addEventListener("click",()=>{
+    V._contestEvalSpeech=null;
+    V._contestData={};
+    render();
   });
 
   // Coach's Take interactions — in-place, no scroll jump
@@ -12546,14 +12680,33 @@ function renderContestDetail(app){
   const micBtn=app.querySelector('[data-action="contest-mic"]');
   if(micBtn)_contestWireMic(micBtn,c);
 
-  // Again
+  // TT contest shuffle
+  const ttShuffle=app.querySelector('[data-action="contest-tt-shuffle"]');
+  if(ttShuffle)ttShuffle.addEventListener("click",()=>{
+    const remaining=TT_CONTEST_TOPICS.filter(q=>q!==V._contestTTQ);
+    V._contestTTQ=remaining[Math.floor(Math.random()*remaining.length)];
+    const el=document.getElementById("contest-tt-q");
+    if(el)el.textContent=V._contestTTQ;
+  });
+
+  // Again — reset data and question for TT
   const againBtn=app.querySelector('[data-action="contest-again"]');
-  if(againBtn)againBtn.addEventListener("click",()=>{V._contestData={};render();});
+  if(againBtn)againBtn.addEventListener("click",()=>{
+    V._contestData={};
+    if(c.id==="tabletopics"){
+      const remaining=TT_CONTEST_TOPICS.filter(q=>q!==V._contestTTQ);
+      V._contestTTQ=remaining[Math.floor(Math.random()*remaining.length)];
+    }
+    if(c.id==="evaluation"){
+      V._contestEvalSpeech=null; // back to picker
+    }
+    render();
+  });
 }
 
 // Contest mic + recording pipeline — mirrors TT Practice pattern
 function _contestWireMic(btn,c){
-  let recording=false,recognition=null,timerInt=null,seconds=0,transcript="";
+  let recording=false,timerInt=null,seconds=0;
   let audioChunks=[],mediaRecorder=null,audioBlobType="audio/webm";
 
   const updateDisplay=()=>{
@@ -12566,24 +12719,42 @@ function _contestWireMic(btn,c){
 
   btn.addEventListener("click",async()=>{
     if(!recording){
-      _recordSfx(true);
-      recording=true;seconds=0;transcript="";audioChunks=[];
-      btn.innerHTML='<div class="ps-mic-ring active"><div class="ps-mic-icon">■</div></div>';
-      timerInt=setInterval(()=>{seconds++;updateDisplay();},1000);
+      const micIcon=btn.querySelector(".ps-mic-icon");
+      const stateEl=document.getElementById("contest-timer-state");
 
-      // Speech recognition (live fallback)
-      const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
-      if(SR){
-        recognition=new SR();recognition.continuous=true;recognition.interimResults=false;recognition.lang="en-US";
-        recognition.onresult=e=>{for(let i=e.resultIndex;i<e.results.length;i++){if(e.results[i].isFinal)transcript+=e.results[i][0].transcript+" ";}};
-        recognition.onend=()=>{if(recording)try{recognition.start();}catch(e){}};
-        try{recognition.start();}catch(e){}
+      // Step 1 — single getUserMedia call (no SpeechRecognition — avoids double permission prompt)
+      if(micIcon)micIcon.textContent="…";
+      if(stateEl)stateEl.textContent="WAITING…";
+      let stream=null;
+      try{
+        stream=await navigator.mediaDevices.getUserMedia({audio:true});
+      }catch(e){
+        if(micIcon)micIcon.textContent="🎙️";
+        if(stateEl)stateEl.textContent="READY";
+        alert("Microphone access needed. Please allow mic permissions and try again.");
+        return;
       }
 
-      // MediaRecorder — captures blob for Whisper
+      // Step 2 — permission granted, countdown
+      for(let i=3;i>=1;i--){
+        if(micIcon)micIcon.textContent=i;
+        if(stateEl)stateEl.textContent="GET READY…";
+        btn.style.background=i===3?"rgba(232,178,80,0.15)":i===2?"rgba(232,178,80,0.25)":"rgba(232,93,93,0.2)";
+        await new Promise(r=>setTimeout(r,1000));
+      }
+
+      // Step 3 — start recording
+      _recordSfx(true);
+      recording=true;seconds=0;audioChunks=[];
+      btn.style.background="";
+      if(btn.querySelector(".ps-mic-ring"))btn.querySelector(".ps-mic-ring").classList.add("active");
+      if(micIcon)micIcon.textContent="■";
+      if(stateEl)stateEl.textContent="RECORDING";
+      timerInt=setInterval(()=>{seconds++;updateDisplay();},1000);
+
+      // Start MediaRecorder with the stream we already have
+      btn._stream=stream;
       try{
-        const stream=await navigator.mediaDevices.getUserMedia({audio:true});
-        btn._stream=stream;
         const mimeType=MediaRecorder.isTypeSupported("audio/webm")?"audio/webm":"audio/mp4";
         audioBlobType=mimeType;
         const mr=new MediaRecorder(stream,{mimeType});
@@ -12596,15 +12767,13 @@ function _contestWireMic(btn,c){
       _recordSfx(false);clearInterval(timerInt);recording=false;
       btn.innerHTML='<div class="ps-mic-ring"><div class="ps-mic-icon">🎙️</div></div>';
 
-      if(recognition){try{recognition.onend=null;recognition.stop();}catch(e){}recognition=null;}
-
       const finishRecording=async(blob)=>{
         if(btn._stream)btn._stream.getTracks().forEach(t=>t.stop());
-        let finalTranscript=transcript.trim();
-        V._contestData={phase:"done",transcript:finalTranscript,loading:true,result:null,error:null};
+        V._contestData={phase:"done",transcript:"",loading:true,result:null,error:null};
         render();
 
-        // Try Whisper
+        // Whisper transcription
+        let finalTranscript="";
         if(blob&&blob.size>5000){
           try{
             const cfg=S.aiConfig||{};
@@ -12618,12 +12787,12 @@ function _contestWireMic(btn,c){
               const data=await res.json();
               if(data.transcript&&data.transcript.length>10)finalTranscript=data.transcript;
             }
-          }catch(e){console.warn("Whisper fallback:",e.message);}
+          }catch(e){console.warn("Whisper error:",e.message);}
         }
 
         V._contestData.transcript=finalTranscript;
         if(finalTranscript)_contestRunEval(c,finalTranscript);
-        else{V._contestData={phase:"done",loading:false,error:new Error("No speech detected.")};render();}
+        else{V._contestData={phase:"done",loading:false,error:new Error("No speech detected. Try again.")};render();}
       };
 
       if(mediaRecorder&&mediaRecorder.state!=="inactive"){
@@ -12642,8 +12811,17 @@ async function _contestRunEval(c,transcript){
   if(!c||!transcript){return;}
   const ballotLines=c.criteria.map(cr=>cr.label+' '+cr.pct+'%: '+cr.desc).join('\n');
   const sys="You are an experienced Toastmasters contest coach and judge. You have competed at district level — reaching district finals in both International Speech and Table Topics — and have judged contests across multiple levels. You know what the official ballots actually score, and something most coaches never say: contest winning has two layers.\n\nLayer 1 (you can engineer this): Does the speech land with the audience? Universal theme, one emotional anchor, a takeaway that travels beyond the room.\nLayer 2 (largely outside your control): Judge preference. Panel composition, personal taste, regional resonance. Even well-intentioned judges carry bias. Optimise for Layer 1, release Layer 2.\n\nThe benchmark: Dananjaya Hettiarachchi, 2014 World Champion. He competed 10 years before winning. The flower opened and closed — circular structure, thesis made physical. First line: 'You and I are not very different from this flower.' A universal theme — a teacher seeing something in a broken student — that crossed every cultural border. Years of refinement until nothing non-essential remained.\n\nACTUAL BALLOT — "+c.name+" ("+c.time.min+"–"+c.time.max+" minutes):\n"+ballotLines+"\n\nYour philosophy: simplicity beats grandeur. One specific honest observation beats three vague ones. Concept first, then concrete action. Like a music teacher pointing at the one moment that unlocks everything.\n\nReply in EXACTLY these sections. No markdown bold. Begin with '🎯 BALLOT BREAKDOWN:':\n\n🎯 BALLOT BREAKDOWN: One honest verdict per criterion. Name actual moments — not categories.\n\n✅ WHAT WOULD LAND WITH THE ROOM: The one thing that would resonate — moment, image, or line that travels. Specific.\n\n⚠️ WHAT TO FIX: The single most significant thing holding this back. Concept first, then what to do. One thing only.\n\n💡 ONE ACTION: Specific enough to work on today.\n\nUnder 220 words. Honest — this is a contest.";
+  const istt=c.id==="tabletopics";
+  const isEval=c.id==="evaluation";
+  const ttq=istt&&V._contestTTQ?V._contestTTQ:"";
+  const evalSp=isEval&&V._contestEvalSpeech?V._contestEvalSpeech:null;
+  const userMsg="Contest: "+c.name
+    +(ttq?"\nQuestion asked: "+ttq:"")
+    +(evalSp?"\nSpeech being evaluated: \""+evalSp.title+"\" by "+evalSp.speaker+" ("+evalSp.duration+", "+evalSp.level+")\nNote on this speech: "+evalSp.note:"")
+    +"\n\n"+(isEval?"Evaluation transcript:\n":"Speech transcript:\n")+transcript;
+  const champPrinciples=istt?"\n\nChampionship standard for TT answers:\n- Commit to a clear stance in the first sentence — no throat-clearing\n- One anchor idea the answer returns to (like a motif)\n- A close that echoes the opening — the audience feels completion\n- The answer travels — it would work in any room, any culture\n- Under 2 minutes, every sentence earning its place":(isEval?"\n\nYou are coaching the EVALUATOR — not commenting on the speech they evaluated. The evaluator just watched the speech listed above and delivered a 2-3 minute CRC evaluation. Score them on:\n1. Did they identify SPECIFIC moments from the speech, or give generic feedback?\n2. Did they evaluate against what THIS speech was actually trying to do?\n3. Was their recommendation actionable and concept-first?\n4. Did their delivery feel like coaching — sensitive, encouraging — or clinical?":"");
   try{
-    const res=await callCoach(sys,"Contest: "+c.name+"\n\nSpeech transcript:\n"+transcript,{featureId:"ps-eval"});
+    const res=await callCoach(sys+champPrinciples,userMsg,{featureId:"ps-eval"});
     V._contestData={...cData,loading:false,result:res};
     render();
   }catch(e){
@@ -13013,63 +13191,76 @@ function psStart(timerOnly){
 
   FD.fillerCounts={};FD.totalWords=0;FD.transcript="";FD.interimText="";FD._shouldReconnect=true;
 
-  // ── 1. Start SR synchronously, in the gesture context ──
-  if(!timerOnly){
-    const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
-    if(SR){
-      try{
-        const rec=new SR();
-        rec.continuous=true;rec.interimResults=false;rec.lang="en-US";
-        rec.onresult=(e)=>{
-          PS.lastResultAt=Date.now();PS.micGranted=true;
-          for(let i=e.resultIndex;i<e.results.length;i++){
-            const txt=(e.results[i][0].transcript||"").trim();
-            if(txt){fdAnalyze(txt);if(PS.phase==="active")psUpdateActiveDisplay();}
-          }
-        };
-        rec.onerror=(ev)=>{
-          if(ev.error==="not-allowed"||ev.error==="service-not-allowed"){
-            PS.micGranted=false;FD._shouldReconnect=false;
-            const note=document.getElementById("ps-mic-denied-note");
-            if(note)note.style.display="block";
-          }
-        };
-        rec.onend=()=>{if(PS.phase==="active"&&FD._shouldReconnect){try{rec.start();}catch(e){}}};
-        rec.start();
-        FD.recognition=rec;
-        PS.micGranted=true;
-      }catch(e){console.warn("SR failed:",e);}
-    }
+  // ── Switch panel immediately on tap — show "waiting for mic" ──
+  PS.phase="active";
+  FD.phase="active";
+  const wrap=document.querySelector(".ps-view");
+  if(wrap)wrap.setAttribute("data-ps-state","active");
+  const stateElImm=document.getElementById("ps-active-state");
+  if(stateElImm)stateElImm.textContent="WAITING FOR MIC…";
 
-    // ── 2. getUserMedia — capture real audio blob for Whisper transcription
-    if(navigator.mediaDevices&&navigator.mediaDevices.getUserMedia){
-      navigator.mediaDevices.getUserMedia({audio:true}).then(stream=>{
+  // ── 1. getUserMedia first — single permission prompt ──
+  if(!timerOnly){
+    const stateEl=document.getElementById("ps-active-state");
+
+    const startWithStream=(stream)=>{
+      if(stream){
         PS.micStream=stream;
         PS.audioChunks=[];
         try{
           const mr=new MediaRecorder(stream,{mimeType:MediaRecorder.isTypeSupported("audio/webm")?'audio/webm':'audio/mp4'});
           mr.ondataavailable=e=>{if(e.data&&e.data.size>0)PS.audioChunks.push(e.data);};
-          mr.start(1000); // collect chunks every second
+          mr.start(1000);
           PS.mediaRecorder=mr;
           PS.audioBlobType=mr.mimeType;
         }catch(e){
-          // Fallback — no blob collection but keepalive still works
           try{const mr=new MediaRecorder(stream);mr.ondataavailable=()=>{};mr.start();PS.mediaRecorder=mr;}catch(e2){}
         }
-      }).catch(()=>{});
+        // ── 2. Start SR after getUserMedia — reuses granted permission, no second prompt ──
+        const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+        if(SR){
+          try{
+            const rec=new SR();
+            rec.continuous=true;rec.interimResults=false;rec.lang="en-US";
+            rec.onresult=(e)=>{
+              PS.lastResultAt=Date.now();PS.micGranted=true;
+              for(let i=e.resultIndex;i<e.results.length;i++){
+                const txt=(e.results[i][0].transcript||"").trim();
+                if(txt){fdAnalyze(txt);if(PS.phase==="active")psUpdateActiveDisplay();}
+              }
+            };
+            rec.onerror=(ev)=>{
+              if(ev.error==="not-allowed"||ev.error==="service-not-allowed"){
+                PS.micGranted=false;FD._shouldReconnect=false;
+                const note=document.getElementById("ps-mic-denied-note");
+                if(note)note.style.display="block";
+              }
+            };
+            rec.onend=()=>{if(PS.phase==="active"&&FD._shouldReconnect){try{rec.start();}catch(e){}}};
+            rec.start();
+            FD.recognition=rec;
+            PS.micGranted=true;
+          }catch(e){console.warn("SR failed:",e);}
+        }
+      }else{
+        PS.timerOnly=true;
+      }
+      // ── 3. Start timer ──
+      PS.startedAt=Date.now();
+      FD.startedAt=PS.startedAt;
+      if(stateEl)stateEl.textContent=stream?"● RECORDING":"● RECORDING (no mic)";
+      PS._iv=setInterval(()=>{PS.elapsed++;psUpdateActiveDisplay();},1000);
+      psUpdateActiveDisplay();
+    };
+
+    if(navigator.mediaDevices&&navigator.mediaDevices.getUserMedia){
+      navigator.mediaDevices.getUserMedia({audio:true})
+        .then(stream=>startWithStream(stream))
+        .catch(()=>startWithStream(null));
+    }else{
+      startWithStream(null);
     }
   }
-
-  // ── 3. Start immediately — no gating on getUserMedia ──
-  PS.phase="active";
-  PS.startedAt=Date.now();
-  FD.startedAt=PS.startedAt;FD.phase="active";
-  PS._iv=setInterval(()=>{PS.elapsed++;psUpdateActiveDisplay();},1000);
-
-  // In-place panel swap — no render(), preserves audio pipeline
-  const wrap=document.querySelector(".ps-view");
-  if(wrap)wrap.setAttribute("data-ps-state","active");
-  psUpdateActiveDisplay();
 }
 
 function psUpdateActiveDisplay(){
@@ -13098,7 +13289,7 @@ function psUpdateActiveDisplay(){
   }
 }
 
-// renderPracticeStudioActive removed in v1.25 — active panel now lives inside renderPracticeStudio
+// renderPracticeStudioActive removed in v1.30 — active panel now lives inside renderPracticeStudio
 
 function psStop(){
   _recordSfx(false);
