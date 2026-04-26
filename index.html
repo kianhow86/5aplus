@@ -1192,6 +1192,20 @@ a{color:inherit;text-decoration:none}
 .ps-project-search::placeholder{color:var(--text-3)}
 
 
+
+/* ═══ Coach's Take Card ═══ */
+.coach-take-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;margin-bottom:16px;overflow:hidden}
+.coach-take-hdr{display:flex;align-items:center;justify-content:space-between;width:100%;padding:12px 14px;background:transparent;border:none;font-family:inherit;cursor:pointer;transition:background .15s}
+.coach-take-hdr:hover{background:rgba(255,255,255,0.03)}
+.coach-take-title{font-size:var(--fs-sm);font-weight:700;color:var(--text-2);letter-spacing:-0.003em}
+.coach-take-body{padding:0 14px 14px;border-top:1px solid var(--border)}
+.coach-take-text{font-size:var(--fs-sm);color:var(--text-2);line-height:1.6;letter-spacing:-0.003em;font-style:italic;padding-top:12px;padding-bottom:12px}
+.coach-take-actions{display:flex;gap:8px}
+.coach-take-btn{padding:7px 14px;border-radius:20px;border:1px solid var(--border);background:var(--surface-2);font-family:inherit;font-size:var(--fs-xs);font-weight:600;color:var(--text-2);cursor:pointer;transition:background .15s,color .15s}
+.coach-take-btn:hover{background:rgba(255,255,255,0.06);color:var(--text)}
+.coach-take-btn.ai{border-color:var(--accent-border);color:var(--accent)}
+.coach-take-btn.ai:hover{background:rgba(109,182,180,0.1)}
+
 /* ═══ Contest Hub — Honest Take + Case Study ═══ */
 .contest-honest-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px;margin-bottom:14px}
 .contest-honest-header{display:flex;align-items:center;gap:10px;margin-bottom:12px}
@@ -1264,6 +1278,94 @@ a{color:inherit;text-decoration:none}
 
 .contest-result{display:flex;flex-direction:column;gap:12px}
 .contest-result-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px;font-size:var(--fs-sm);color:var(--text-2);line-height:1.6;letter-spacing:-0.003em}
+
+
+/* ═══ VPE Tools Section (Roles Grid) ═══ */
+.vpe-tool-section{margin-top:24px;padding-top:20px;border-top:1px solid var(--border)}
+.vpe-tool-kicker{font-size:var(--fs-xs);font-weight:700;color:var(--text-3);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:10px}
+.vpe-tool-card{display:flex;align-items:center;gap:14px;width:100%;background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px;cursor:pointer;font-family:inherit;text-align:left;transition:background .15s}
+.vpe-tool-card:hover{background:rgba(255,255,255,0.04)}
+.vpe-tool-icon{font-size:28px;flex-shrink:0}
+.vpe-tool-name{font-size:var(--fs-md);font-weight:700;color:var(--text);letter-spacing:-0.008em;margin-bottom:3px}
+.vpe-tool-desc{font-size:var(--fs-xs);color:var(--text-3);line-height:1.4;letter-spacing:-0.003em}
+
+/* ═══ VPE Checker Screen ═══ */
+.vpe-checker-hero{text-align:center;padding:20px 0 16px}
+.vpe-checker-icon{font-size:40px;margin-bottom:8px}
+.vpe-checker-title{font-size:var(--fs-xl);font-weight:800;color:var(--text);letter-spacing:-0.012em;margin-bottom:6px}
+.vpe-checker-sub{font-size:var(--fs-sm);color:var(--text-3);line-height:1.55;letter-spacing:-0.003em}
+.vpe-group-label{font-size:var(--fs-xs);font-weight:700;color:var(--text-3);letter-spacing:0.08em;text-transform:uppercase;margin:0 0 8px}
+.vpe-project-row{display:flex;align-items:center;justify-content:space-between;width:100%;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:13px 16px;margin-bottom:8px;cursor:pointer;font-family:inherit;text-align:left;transition:background .15s}
+.vpe-project-row:hover{background:rgba(255,255,255,0.04)}
+.vpe-project-row.high{border-left:3px solid rgba(232,93,93,0.6)}
+.vpe-project-row.medium{border-left:3px solid rgba(232,178,80,0.6)}
+.vpe-project-row-name{font-size:var(--fs-sm);font-weight:600;color:var(--text);letter-spacing:-0.003em}
+.vpe-project-row-tag{font-size:var(--fs-xs);color:var(--text-3);letter-spacing:-0.003em}
+.vpe-back-project{background:transparent;border:none;font-family:inherit;font-size:var(--fs-sm);color:var(--text-3);cursor:pointer;padding:0;margin-bottom:16px;letter-spacing:-0.003em}
+.vpe-detail-header{margin-bottom:12px}
+.vpe-detail-name{font-size:var(--fs-xl);font-weight:800;color:var(--text);letter-spacing:-0.012em;margin-bottom:6px}
+.vpe-summary-box{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:13px 15px;font-size:var(--fs-sm);color:var(--text-2);line-height:1.55;letter-spacing:-0.003em;margin-bottom:16px}
+.vpe-checklist{display:flex;flex-direction:column;gap:10px;margin-bottom:16px}
+.vpe-check-item{display:flex;gap:12px;align-items:flex-start;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:13px;transition:opacity .2s}
+.vpe-check-item.done{opacity:0.5}
+.vpe-check-box{flex-shrink:0;width:28px;height:28px;border:1px solid var(--border);border-radius:8px;background:transparent;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;font-family:inherit;transition:background .15s,border-color .15s}
+.vpe-check-box.checked{background:rgba(94,185,117,0.15);border-color:rgba(94,185,117,0.5)}
+.vpe-check-action{font-size:var(--fs-sm);font-weight:700;color:var(--text);letter-spacing:-0.003em;margin-bottom:4px}
+.vpe-check-detail{font-size:var(--fs-xs);color:var(--text-3);line-height:1.5;letter-spacing:-0.003em}
+.vpe-speaker-note{background:rgba(109,182,180,0.06);border:1px solid rgba(109,182,180,0.2);border-radius:12px;padding:13px 15px;margin-bottom:12px}
+.vpe-speaker-note-label{font-size:var(--fs-xs);font-weight:700;color:var(--accent);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:6px}
+.vpe-speaker-note-text{font-size:var(--fs-sm);color:var(--text-2);line-height:1.55;letter-spacing:-0.003em;font-style:italic}
+
+
+
+
+
+
+/* ═══ Contest TT Topics ═══ */
+.contest-tt-topics{display:flex;flex-direction:column;gap:8px;margin-bottom:8px}
+.contest-tt-topic{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:12px 14px;font-size:var(--fs-sm);color:var(--text-2);line-height:1.5;letter-spacing:-0.003em;font-style:italic}
+.contest-tt-refresh{align-self:flex-start;background:transparent;border:1px solid var(--border);border-radius:20px;padding:7px 14px;font-family:inherit;font-size:var(--fs-xs);font-weight:600;color:var(--text-3);cursor:pointer;transition:all .15s;margin-top:2px}
+.contest-tt-refresh:hover{color:var(--text);border-color:var(--text-3)}
+
+/* ═══ Contest Eval Speeches ═══ */
+.contest-eval-note{font-size:var(--fs-sm);color:var(--text-3);line-height:1.55;letter-spacing:-0.003em;margin-bottom:12px;font-style:italic}
+.contest-eval-speeches{display:flex;flex-direction:column;gap:10px;margin-bottom:16px}
+.contest-eval-speech{display:block;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px;text-decoration:none;transition:background .15s}
+.contest-eval-speech:hover{background:rgba(255,255,255,0.04)}
+.contest-eval-speech-top{margin-bottom:6px}
+.contest-eval-speech-title{font-size:var(--fs-sm);font-weight:700;color:var(--text);letter-spacing:-0.003em;margin-bottom:2px}
+.contest-eval-speech-meta{font-size:var(--fs-xs);color:var(--text-3);letter-spacing:-0.003em}
+.contest-eval-speech-note{font-size:var(--fs-xs);color:var(--text-3);line-height:1.5;letter-spacing:-0.003em;margin-bottom:8px;font-style:italic}
+.contest-eval-speech-arrow{font-size:var(--fs-xs);font-weight:700;color:var(--accent);letter-spacing:0.04em}
+
+/* Silence alert */
+.ps-silence-alert{background:rgba(232,178,80,0.1);border:1px solid rgba(232,178,80,0.3);border-radius:10px;padding:12px 14px;font-size:var(--fs-sm);color:#E8B250;line-height:1.5;letter-spacing:-0.003em;text-align:center}
+
+/* ═══ Compact Coach Bar ═══ */
+.ps-coach-bar{display:flex;align-items:center;gap:10px;background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:12px 14px;margin-bottom:8px}
+.ps-coach-avatar-sm{width:36px;height:36px;border-radius:50%;background:#fff;overflow:hidden;flex-shrink:0;border:1.5px solid rgba(255,255,255,0.12)}
+.ps-coach-avatar-sm img{width:100%;height:100%;object-fit:cover}
+.ps-coach-bar-body{flex:1;min-width:0}
+.ps-coach-bar-greet{font-size:var(--fs-sm);font-weight:700;color:var(--text);letter-spacing:-0.008em;margin-bottom:4px}
+.ps-coach-note-bar{font-size:var(--fs-xs);color:var(--text-3);line-height:1.5;letter-spacing:-0.003em;font-style:italic;margin-bottom:12px;padding:0 2px}
+
+/* ═══ Transcript Fallback ═══ */
+.ps-transcript-fallback{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:14px;margin-bottom:12px}
+.ps-transcript-fallback-label{font-size:var(--fs-sm);font-weight:600;color:var(--text-2);margin-bottom:8px;letter-spacing:-0.003em}
+.ps-transcript-fallback-input{width:100%;box-sizing:border-box;background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:10px;padding:10px 12px;font-family:inherit;font-size:var(--fs-sm);color:var(--text);resize:none;outline:none;margin-bottom:10px;transition:border-color .15s;line-height:1.5}
+.ps-transcript-fallback-input:focus{border-color:var(--accent)}
+.ps-transcript-fallback-btn{width:100%;padding:11px;border-radius:10px;background:linear-gradient(135deg,rgba(160,123,199,0.8),rgba(109,182,180,0.8));border:none;font-family:inherit;font-size:var(--fs-sm);font-weight:700;color:#fff;cursor:pointer;letter-spacing:-0.003em}
+
+/* ═══ AI Studio Mode Tabs ═══ */
+.ps-mode-tabs{display:flex;gap:6px;margin-bottom:10px}
+.ps-mode-tab{flex:1;padding:8px;border-radius:10px;border:1px solid var(--border);background:var(--surface);font-family:inherit;font-size:var(--fs-xs);font-weight:700;color:var(--text-3);cursor:pointer;transition:all .15s}
+.ps-mode-tab.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+
+/* ═══ Eval Practice Section ═══ */
+.eh-practice-section{margin-top:20px;padding-top:20px;border-top:1px solid var(--border)}
+.eh-practice-hdr{font-size:var(--fs-md);font-weight:700;color:var(--text);letter-spacing:-0.008em;margin-bottom:4px}
+.eh-practice-sub{font-size:var(--fs-sm);color:var(--text-3);line-height:1.5;letter-spacing:-0.003em;margin-bottom:4px}
+.ep-result{display:flex;flex-direction:column;gap:10px;margin-top:14px}
 
 /* ═══ TT Question Guide ═══ */
 
@@ -3263,6 +3365,123 @@ const RESOURCES={
 };
 const EVAL_URL="https://www.toastmasters.org/resources/resource-library?c=%7B01B94FC3-FC65-4308-8CB2-6193718ED156%7D";
 
+// Projects that require VPE pre-arranged setup before the meeting
+const VPE_SETUP={
+  "manage-aud":{
+    urgency:"high",
+    summary:"This project cannot happen without pre-arranged disruptors. Without them, the speech objective literally cannot be met.",
+    vpeActions:[
+      {icon:"👥",action:"Recruit 4–5 willing members to act as disruptors",detail:"They must agree beforehand and keep it secret from the rest of the audience."},
+      {icon:"📋",action:"Brief each disruptor individually before the meeting",detail:"Assign specific disruption types — e.g. asking irrelevant questions, side conversations, walking out, using phones. Stagger the timing so they don't all hit at once."},
+      {icon:"⏱",action:"Set a signal for when disruptions should start and stop",detail:"Typically after the speaker has settled in — around the 1-minute mark."},
+      {icon:"📝",action:"Send the speaker the Role Play Assignments resource from TI",detail:"The speaker needs this in advance to prepare their response strategies."},
+      {icon:"📣",action:"Brief the General Evaluator",detail:"They need to know disruptions are planned so they can evaluate the speaker's responses, not the disruptions themselves."}
+    ],
+    speakerNote:"Your VPE needs to arrange 4–5 disruptors before your meeting. Share this with them now — without it, your project can't be evaluated fairly."
+  },
+  "moderate":{
+    urgency:"high",
+    summary:"A panel discussion requires panelists to be recruited, briefed, and prepared. This needs weeks of lead time.",
+    vpeActions:[
+      {icon:"👥",action:"Help the speaker recruit 3–4 panelists",detail:"Ideally people with relevant knowledge of the topic. Can be TM members or external guests."},
+      {icon:"📋",action:"Ensure panelists receive the topic brief at least 1 week before",detail:"They need time to prepare their perspectives. Unprepped panelists make the moderator's job much harder."},
+      {icon:"⏱",action:"Schedule a 20–40 min slot in the meeting agenda",detail:"This is longer than a regular speech slot. Coordinate with the TM of the Day."},
+      {icon:"🎙",action:"Confirm AV setup if needed",detail:"Panel discussions sometimes need extra microphones or a different room layout."}
+    ],
+    speakerNote:"You need 3–4 panelists recruited and briefed before your meeting. Loop in your VPE early — this needs at least 2 weeks of lead time."
+  },
+  "interview":{
+    urgency:"high",
+    summary:"The interview project requires a prepared mock interviewer. The speaker cannot do this alone.",
+    vpeActions:[
+      {icon:"👥",action:"Help the speaker find a willing mock interviewer",detail:"Should be someone comfortable asking questions on the spot. Can be any TM member."},
+      {icon:"📋",action:"Ensure the interviewer prepares relevant questions in advance",detail:"The speaker should brief the interviewer on the context (job interview, expert interview, etc.) so questions feel realistic."},
+      {icon:"🎙",action:"Brief the evaluator on the project objective",detail:"This is a role-play, not a regular speech. The evaluator should assess interview presence and communication, not speech structure."}
+    ],
+    speakerNote:"You need a mock interviewer who has prepared questions beforehand. Ask your VPE to help arrange this — it cannot be improvised on the day."
+  },
+  "hpl":{
+    urgency:"high",
+    summary:"HPL is a multi-month leadership project. The VPE's role is to help form the guidance committee before any work begins.",
+    vpeActions:[
+      {icon:"👥",action:"Help the speaker form a guidance committee of 3+ people",detail:"These should be TM members or community leaders who will meet with the speaker regularly throughout the project."},
+      {icon:"📋",action:"Clarify the project scope with the speaker early",detail:"HPL projects need to benefit a real team or organisation. The VPE helps ensure the scope is appropriate."},
+      {icon:"⏱",action:"Schedule both the planning speech (L4) and review speech (L5)",detail:"Two separate meeting slots are needed, months apart."},
+      {icon:"📝",action:"Track guidance committee meetings",detail:"The project requires documented meetings with the committee. Confirm the speaker is keeping records."}
+    ],
+    speakerNote:"This project needs a guidance committee formed before you start. Talk to your VPE early — HPL is a months-long commitment, not a one-meeting project."
+  },
+  "pos-coaching-ec":{
+    urgency:"high",
+    summary:"This project requires a coachee arranged in advance. The VPE pairs the speaker with someone to coach.",
+    vpeActions:[
+      {icon:"👥",action:"Pair the speaker with a suitable coachee",detail:"Can be a TM member working on a project, or a non-TM individual with VPE approval."},
+      {icon:"📋",action:"Confirm the coaching project scope",detail:"The speaker will coach the coachee through a project outside of club meetings — clarify the timeline (minimum 4 sessions recommended)."},
+      {icon:"⏱",action:"Schedule the speech slot after coaching is complete",detail:"The speech is about the coaching experience, so it can only be given after the project is done."}
+    ],
+    speakerNote:"Your VPE needs to pair you with a coachee before you start. This project spans multiple weeks — plan ahead."
+  },
+  "qa-session":{
+    urgency:"medium",
+    summary:"The Q&A Session project requires the audience to be ready to ask substantive questions — they should know this is expected.",
+    vpeActions:[
+      {icon:"📣",action:"Brief the audience before the meeting that Q&A participation is expected",detail:"Mention it in pre-meeting announcements or the agenda so members come prepared with questions."},
+      {icon:"📋",action:"Coordinate with the TM of the Day",detail:"Make sure there is sufficient time for a proper Q&A session after the speech."},
+      {icon:"👥",action:"Optionally seed 2–3 members with prepared questions",detail:"Good for ensuring the Q&A doesn't start slowly — a planted question gets things moving."}
+    ],
+    speakerNote:"Ask your VPE to prime the audience beforehand — a Q&A session with an unprepared audience is very difficult to evaluate fairly."
+  },
+  "online-meet":{
+    urgency:"medium",
+    summary:"Online meeting projects require the platform to be set up and tested before the meeting.",
+    vpeActions:[
+      {icon:"💻",action:"Confirm the online platform being used",detail:"The speaker will conduct a 20–25 min online meeting. Ensure the platform is approved and accessible to evaluators."},
+      {icon:"🔧",action:"Schedule a tech check before the meeting",detail:"Audio, video, and screen sharing must all work. A tech failure mid-project is a serious issue."},
+      {icon:"👥",action:"Confirm the evaluator will attend the online meeting",detail:"The evaluator must be present in the online meeting itself, not just watching a recording."}
+    ],
+    speakerNote:"Your project involves running an online meeting. Loop in your VPE to confirm the platform and arrange a tech check beforehand."
+  },
+  "lead-any":{
+    urgency:"medium",
+    summary:"Lead in Any Situation requires 360° evaluations arranged before the speech — not after.",
+    vpeActions:[
+      {icon:"📋",action:"Help the speaker identify 3–5 peers for 360° evaluation",detail:"These should be people who have observed the speaker in a leadership context. The forms need to be sent before the speech."},
+      {icon:"⏱",action:"Allow 2+ weeks for 360° forms to be completed and returned",detail:"This is not something that can be done the week before. Build it into the timeline."},
+      {icon:"📝",action:"The speech reflects on the 360° findings",detail:"The evaluator should know this — the speech is about insight from the process, not just a leadership story."}
+    ],
+    speakerNote:"You need 360° evaluations from peers arranged weeks before your speech. Talk to your VPE now to get the process started."
+  },
+  "pres-software":{
+    urgency:"medium",
+    summary:"Using Presentation Software requires AV equipment to be confirmed and tested before the meeting.",
+    vpeActions:[
+      {icon:"🖥",action:"Confirm the projector/screen is available and working",detail:"Test it before the meeting day — don't assume it works."},
+      {icon:"🔌",action:"Check compatibility with the speaker's device",detail:"Mac vs PC adapter issues are common. Confirm cables, HDMI, VGA as needed."},
+      {icon:"⏱",action:"Allow the speaker time to test before the meeting starts",detail:"They need at least 10 minutes to set up and verify their slides display correctly."}
+    ],
+    speakerNote:"Your speech requires working AV. Ask your VPE to confirm the setup is ready before your meeting day."
+  },
+  "social-speech":{
+    urgency:"medium",
+    summary:"Deliver Social Speeches requires two separate speeches in the same club meeting — this needs a double slot on the agenda.",
+    vpeActions:[
+      {icon:"📋",action:"Schedule a double speech slot in the same meeting",detail:"Two 3–4 min speeches back to back. This takes more agenda time than a standard speech slot — coordinate with the TM of the Day."},
+      {icon:"📣",action:"Ensure the context is set for each speech",detail:"Social speeches need a setup (toast, welcome, eulogy etc.). Brief the TM of the Day so they can introduce each speech correctly."}
+    ],
+    speakerNote:"You need two speech slots in the same meeting. Ask your VPE to arrange a double slot in the agenda."
+  },
+  "active-listen":{
+    urgency:"medium",
+    summary:"Active Listening requires the speaker to serve as Topicsmaster and then comment on each Table Topics speaker — this is a specific role assignment.",
+    vpeActions:[
+      {icon:"📋",action:"Assign the speaker as Topicsmaster for the meeting",detail:"This is the core of the project — they must listen to all TT speakers and comment on each one."},
+      {icon:"📣",action:"Brief the General Evaluator",detail:"The evaluator needs to assess the speaker's listening and comments, not just their role performance."}
+    ],
+    speakerNote:"Your VPE needs to assign you as Topicsmaster for this project — it can't be completed in a different role."
+  }
+};
+
+
 // ═══ TIMER PRESETS — standard Toastmasters timings ═══
 // Each: green = min time on target (start giving positive signal)
 //       yellow = wrap-up signal
@@ -3826,7 +4045,7 @@ let S={
   mode:"",
   // Ala carte comfort level — only relevant when mode==="alacarte". Captured
   // during welcome flow to personalize project suggestions. "new" / "some" /
-  // "experienced". Kept loose; v1.13 may add follow-ups.
+  // "experienced". Kept loose; v1.24 may add follow-ups.
   alacarteComfort:"",
   // AI Coach config. Disabled by default. User configures in Settings.
   // mode: "direct" (user's own API key, stored locally — direct browser call)
@@ -4158,6 +4377,7 @@ function render(){
   else if(V.view==="project"&&V.viewingProject){renderProjectDetail(app,V.viewingProject);}
   else if(V.view==="role"&&V.viewingRole){renderRoleDetail(app,V.viewingRole);}
   else if(V.view==="roles"){renderRolesGrid(app);}
+  else if(V.view==="vpe-checker"){renderVPEChecker(app);}
   else if(V.view==="practice"){renderPracticeHub(app);}
   else if(V.view==="timer-select"){renderTimerSelect(app);}
   else if(V.view==="timer"){renderTimerFullScreen(app);}
@@ -4214,7 +4434,7 @@ function renderHub(app){
   if(!V._todayGoal){
     const goals=[
       {id:"ai-coach", icon:"🎙️", label:"Practice a speech",    sub:"Record with AI speech coaching",  action:"ai-coach"},
-      {id:"tt",       icon:"🎯", label:"Prep for Table Topics", sub:"Pick a theme, speak, get feedback", action:"topics"},
+      {id:"tt",       icon:"🎯", label:"Practice Table Topics", sub:"Pick a theme, speak, get feedback", action:"topics"},
       {id:"role",     icon:"🎭", label:"I have a meeting role", sub:"Toolkits for every club role",      action:"roles"},
       {id:"draft",    icon:"📝", label:"Plan a speech",         sub:"8 proven structures, instant scaffold", action:"speech-draft"},
       {id:"explore",  icon:"🎲", label:"Just explore",          sub:"See what the app can do",           action:"practice"},
@@ -4331,7 +4551,7 @@ function renderHub(app){
   }
   h+='</div>';
 
-  h+='<div class="app-footer">Made by Kian How · Not affiliated with Toastmasters International · v1.13</div>';
+  h+='<div class="app-footer">Made by Kian How · Not affiliated with Toastmasters International · v1.24</div>';
   h+='</div>';
   app.innerHTML=h;
 
@@ -4664,7 +4884,7 @@ function renderPathPicker(app){
   h+='<button class="quiz-prompt-btn" data-action="open-quiz">🧭 &nbsp; Not sure which one? Take the fun quiz</button>';
   h+='</div>';
 
-  h+='<div class="app-footer">Made by Kian How · Not affiliated with Toastmasters International · v1.13</div>';
+  h+='<div class="app-footer">Made by Kian How · Not affiliated with Toastmasters International · v1.24</div>';
   h+='</div>';
   app.innerHTML=h;
 
@@ -5028,7 +5248,7 @@ function renderPathBrowser(app){
   // Keeping it in the tree lets us toggle visibility without re-rendering.
   h+='<div class="path-complete-banner'+(pct>=100?'':' hidden')+'"><strong>🎉 Path complete!</strong><div style="font-size:13px;color:var(--text-muted);line-height:1.5">Next step: DTM. Keep going.</div></div>';
 
-  h+='<div class="app-footer">Made by Kian How · Not affiliated with Toastmasters International · v1.13</div>';
+  h+='<div class="app-footer">Made by Kian How · Not affiliated with Toastmasters International · v1.24</div>';
   h+='</div>';
   app.innerHTML=h;
 
@@ -5419,6 +5639,39 @@ function renderProjectDetail(app,pid){
   h+='</div></div>';
   h+='</div>';
 
+  // VPE SETUP CARD — only for projects that need pre-arranged logistics
+  const vpeSetup=VPE_SETUP[pid];
+  if(vpeSetup){
+    h+='<div class="pd-section vpe-setup" data-section="vpe-setup">';
+    h+='<div class="pd-section-hdr" data-section-toggle="vpe-setup">';
+    h+='<div class="pd-section-label">';
+    h+='<span>'+(vpeSetup.urgency==="high"?"⚠️":"📋")+'</span>';
+    h+='VPE Setup Required';
+    h+='<span class="vpe-urgency-badge '+(vpeSetup.urgency==="high"?"vpe-high":"vpe-medium")+'">'+(vpeSetup.urgency==="high"?"Must arrange before meeting":"Coordinate beforehand")+'</span>';
+    h+='</div>';
+    h+='<div class="pd-section-chev">▼</div>';
+    h+='</div>';
+    h+='<div class="pd-section-body"><div class="pd-section-body-inner">';
+    h+='<div class="vpe-summary">'+vpeSetup.summary+'</div>';
+    h+='<div class="vpe-actions">';
+    vpeSetup.vpeActions.forEach(a=>{
+      h+='<div class="vpe-action-item">';
+      h+='<div class="vpe-action-icon">'+a.icon+'</div>';
+      h+='<div class="vpe-action-body">';
+      h+='<div class="vpe-action-title">'+a.action+'</div>';
+      h+='<div class="vpe-action-detail">'+a.detail+'</div>';
+      h+='</div>';
+      h+='</div>';
+    });
+    h+='</div>';
+    // Copy-to-share button
+    h+='<div class="vpe-share-wrap">';
+    h+='<button class="vpe-share-btn" data-action="vpe-copy" data-pid="'+pid+'">📤 Copy briefing for VPE</button>';
+    h+='</div>';
+    h+='</div></div>';
+    h+='</div>';
+  }
+
   // HELPFUL LINKS & RESOURCES
   h+='<div class="pd-section resources" data-section="resources">';
   h+='<div class="pd-section-hdr" data-section-toggle="resources">';
@@ -5461,6 +5714,40 @@ function renderProjectDetail(app,pid){
     else{V.view="browser";}
     render();
   });
+
+  // VPE copy briefing button
+  const vpeCopyBtn=app.querySelector('[data-action="vpe-copy"]');
+  if(vpeCopyBtn){
+    vpeCopyBtn.addEventListener("click",()=>{
+      const setup=VPE_SETUP[pid];
+      if(!setup)return;
+      const lines=[];
+      lines.push("📋 VPE Setup Required: "+proj.t);
+      lines.push("━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+      lines.push(setup.summary);
+      lines.push("");
+      lines.push("What the VPE needs to arrange:");
+      setup.vpeActions.forEach((a,i)=>{
+        lines.push((i+1)+". "+a.action);
+        lines.push("   "+a.detail);
+      });
+      lines.push("");
+      lines.push("Speaker note: "+setup.speakerNote);
+      const text=lines.join("\n");
+      if(navigator.clipboard){
+        navigator.clipboard.writeText(text).then(()=>showToast("Copied! Send to your VPE","📋"));
+      }else{
+        // Fallback
+        const ta=document.createElement("textarea");
+        ta.value=text;
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand("copy");
+        document.body.removeChild(ta);
+        showToast("Copied! Send to your VPE","📋");
+      }
+    });
+  }
 
   // Active Listening → TTM toolkit shortcut
   const ttmBtn=app.querySelector('[data-action="go-ttm-toolkit"]');
@@ -5695,11 +5982,135 @@ function renderBottomNav(){
 // ROLES GRID + ROLE DETAIL
 // ═══════════════════════════════════════════════════════════════════════════
 
+function renderVPEChecker(app){
+  const sel=V._vpeProject;
+  const setup=sel?VPE_SETUP[sel]:null;
+  const proj=sel?PD[sel]:null;
+
+  // All projects with VPE setup requirements, sorted by urgency
+  const high=Object.keys(VPE_SETUP).filter(k=>VPE_SETUP[k].urgency==="high");
+  const medium=Object.keys(VPE_SETUP).filter(k=>VPE_SETUP[k].urgency==="medium");
+
+  let h='<div class="fade-up">';
+  h+='<div class="top-bar"><button class="top-bar-btn" data-action="vpe-checker-back">← Meeting Roles</button></div>';
+
+  h+='<div class="vpe-checker-hero">';
+  h+='<div class="vpe-checker-icon">🎓</div>';
+  h+='<div class="vpe-checker-title">VPE Project Setup</div>';
+  h+='<div class="vpe-checker-sub">Select a member\'s upcoming project to see exactly what you need to arrange before the meeting.</div>';
+  h+='</div>';
+
+  if(!sel){
+    // Project picker
+    h+='<div class="vpe-group-label">⚠️ Must arrange before meeting</div>';
+    high.forEach(pid=>{
+      const p=PD[pid];if(!p)return;
+      h+='<button class="vpe-project-row high" data-vpe-pid="'+pid+'">';
+      h+='<div class="vpe-project-row-name">'+p.t+'</div>';
+      h+='<div class="vpe-project-row-tag">High urgency</div>';
+      h+='</button>';
+    });
+
+    h+='<div class="vpe-group-label" style="margin-top:16px">📋 Coordinate beforehand</div>';
+    medium.forEach(pid=>{
+      const p=PD[pid];if(!p)return;
+      h+='<button class="vpe-project-row medium" data-vpe-pid="'+pid+'">';
+      h+='<div class="vpe-project-row-name">'+p.t+'</div>';
+      h+='<div class="vpe-project-row-tag">Plan ahead</div>';
+      h+='</button>';
+    });
+
+  }else{
+    // Project detail checklist
+    h+='<button class="vpe-back-project" data-action="vpe-picker-back">← All projects</button>';
+
+    h+='<div class="vpe-detail-header">';
+    h+='<div class="vpe-detail-name">'+(proj?proj.t:sel)+'</div>';
+    h+='<div class="vpe-urgency-badge '+(setup.urgency==="high"?"vpe-high":"vpe-medium")+'">';
+    h+=(setup.urgency==="high"?"⚠️ Must arrange before meeting":"📋 Coordinate beforehand");
+    h+='</div>';
+    h+='</div>';
+
+    h+='<div class="vpe-summary-box">'+setup.summary+'</div>';
+
+    h+='<div class="vpe-checklist">';
+    setup.vpeActions.forEach((a,i)=>{
+      h+='<div class="vpe-check-item">';
+      h+='<button class="vpe-check-box" data-check="'+i+'">□</button>';
+      h+='<div class="vpe-check-body">';
+      h+='<div class="vpe-check-action">'+a.icon+' '+a.action+'</div>';
+      h+='<div class="vpe-check-detail">'+a.detail+'</div>';
+      h+='</div>';
+      h+='</div>';
+    });
+    h+='</div>';
+
+    // Speaker note
+    h+='<div class="vpe-speaker-note">';
+    h+='<div class="vpe-speaker-note-label">💬 What the speaker should know</div>';
+    h+='<div class="vpe-speaker-note-text">'+setup.speakerNote+'</div>';
+    h+='</div>';
+
+    // Copy for speaker
+    h+='<button class="vpe-share-btn" style="width:100%;margin-top:4px" data-action="vpe-copy-checker" data-pid="'+sel+'">📤 Copy briefing to share with speaker</button>';
+  }
+
+  h+='</div>';
+  app.innerHTML=h;
+
+  app.querySelector('[data-action="vpe-checker-back"]').addEventListener("click",()=>{V.view="roles";V._vpeProject=null;render();});
+
+  const pickerBack=app.querySelector('[data-action="vpe-picker-back"]');
+  if(pickerBack)pickerBack.addEventListener("click",()=>{V._vpeProject=null;render();});
+
+  app.querySelectorAll("[data-vpe-pid]").forEach(btn=>{
+    btn.addEventListener("click",()=>{V._vpeProject=btn.dataset.vpePid;render();});
+  });
+
+  // Tap checkboxes in-place
+  app.querySelectorAll("[data-check]").forEach(btn=>{
+    btn.addEventListener("click",()=>{
+      const checked=btn.textContent==="✅";
+      btn.textContent=checked?"□":"✅";
+      btn.classList.toggle("checked",!checked);
+      btn.closest(".vpe-check-item").classList.toggle("done",!checked);
+    });
+  });
+
+  // Copy briefing
+  const copyBtn=app.querySelector('[data-action="vpe-copy-checker"]');
+  if(copyBtn){
+    copyBtn.addEventListener("click",()=>{
+      const pid=copyBtn.dataset.pid;
+      const setup=VPE_SETUP[pid];
+      const p=PD[pid];
+      if(!setup)return;
+      const lines=[];
+      lines.push("📋 VPE Setup Brief: "+(p?p.t:pid));
+      lines.push("─────────────────────────────");
+      lines.push(setup.speakerNote);
+      lines.push("");
+      lines.push("What your VPE is arranging:");
+      setup.vpeActions.forEach((a,i)=>{lines.push((i+1)+". "+a.action);});
+      const text=lines.join("\n");
+      if(navigator.clipboard){
+        navigator.clipboard.writeText(text).then(()=>showToast("Copied!","📋"));
+      }else{
+        const ta=document.createElement("textarea");ta.value=text;
+        document.body.appendChild(ta);ta.select();
+        document.execCommand("copy");document.body.removeChild(ta);
+        showToast("Copied!","📋");
+      }
+    });
+  }
+}
+
+
 function renderRolesGrid(app){
   let h='<div class="fade-up">';
-  h+='<div class="kicker">Club Roles</div>';
-  h+='<h1 class="title">Nine roles, <span class="accent">one meeting</span></h1>';
-  h+='<div class="subtitle">Tap any role for the no-nonsense version and the official SOP. Taking on roles is how you earn level credit and become a better Toastmaster faster.</div>';
+  h+='<div class="kicker">Meeting Roles & Officer Tools</div>';
+  h+='<h1 class="title">Role toolkits <span class="accent">& VPE tools</span></h1>';
+  h+='<div class="subtitle">Tap any role for the practical guide and official SOP. Officer tools at the bottom.</div>';
   h+='<div class="list-rows">';
   ROLES.forEach(r=>{
     h+='<button class="list-row" data-role-id="'+r.id+'">';
@@ -5712,6 +6123,20 @@ function renderRolesGrid(app){
     h+='</button>';
   });
   h+='</div>';
+
+  // ── VPE Officer Tools ──
+  h+='<div class="vpe-tool-section">';
+  h+='<div class="vpe-tool-kicker">OFFICER TOOLS</div>';
+  h+='<button class="vpe-tool-card" data-action="open-vpe-checker">';
+  h+='<div class="vpe-tool-icon">🎓</div>';
+  h+='<div class="vpe-tool-body">';
+  h+='<div class="vpe-tool-name">VPE Project Setup Checker</div>';
+  h+='<div class="vpe-tool-desc">Know what to arrange before a member\'s speech. Some projects can\'t happen without VPE prep.</div>';
+  h+='</div>';
+  h+='<div class="list-row-arrow">›</div>';
+  h+='</button>';
+  h+='</div>';
+
   h+='<div class="app-footer">Practical playbook + official SOP for each role</div>';
   h+='</div>';
   app.innerHTML=h;
@@ -5723,6 +6148,9 @@ function renderRolesGrid(app){
       render();
     });
   });
+
+  const vpeBtn=app.querySelector('[data-action="open-vpe-checker"]');
+  if(vpeBtn)vpeBtn.addEventListener("click",()=>{V.view="vpe-checker";V._vpeProject=null;render();});
 }
 
 function renderRoleDetail(app,roleId){
@@ -6433,9 +6861,9 @@ function updateTimerDisplay(){
 // ───── Render: Practice hub ─────
 function renderPracticeHub(app){
   let h='<div class="fade-up">';
-  h+='<div class="kicker">AI Studio</div>';
-  h+='<h1 class="title">Sharpen your <span class="accent">communication</span></h1>';
-  h+='<div class="subtitle">Standalone tools for rehearsal, meeting day, or just playing around.</div>';
+  h+='<div class="kicker">Practice Tools</div>';
+  h+='<h1 class="title">Practice <span class="accent">your craft</span></h1>';
+  h+='<div class="subtitle">Tools for rehearsal, meeting day, or working on your skills.</div>';
 
   h+='<div class="list-rows">';
 
@@ -6462,7 +6890,7 @@ function renderPracticeHub(app){
   h+=toolRow({tool:"speech-draft",color:"#6DB6B4",icon:"📝",name:"Speech Draft Builder",desc:(S.aiConfig&&S.aiConfig.enabled)?"AI builds your speech outline and opening lines":"Structure your next speech from outline to close"});
 
   h+='</div>';
-  h+='<div class="app-footer">Made by Kian How · Not affiliated with Toastmasters International · v1.13</div>';
+  h+='<div class="app-footer">Made by Kian How · Not affiliated with Toastmasters International · v1.24</div>';
   h+='</div>';
   app.innerHTML=h;
 
@@ -9283,6 +9711,66 @@ function renderSettings(app){
 // to look for per-project (based on the project's actual objectives) and
 // generating a structured CRC draft when AI is enabled.
 
+function _evalPracticeMic(btn,pid){
+  let recording=false,recognition=null,timerInt=null,seconds=0,transcript="";
+  const update=()=>{
+    const d=document.getElementById("ep-timer-display");
+    const s=document.getElementById("ep-timer-state");
+    const m=Math.floor(seconds/60),sc=seconds%60;
+    if(d)d.textContent=m+":"+(sc<10?"0":"")+sc;
+    if(s)s.textContent=recording?"RECORDING":"READY";
+  };
+  btn.addEventListener("click",async()=>{
+    if(!recording){
+      _recordSfx(true);
+      recording=true;seconds=0;transcript="";
+      btn.textContent="⏹";btn.style.background="rgba(232,93,93,0.18)";
+      timerInt=setInterval(()=>{seconds++;update();},1000);
+      const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+      if(SR){
+        recognition=new SR();recognition.continuous=true;recognition.interimResults=false;recognition.lang="en-US";
+        recognition.onresult=e=>{for(let i=e.resultIndex;i<e.results.length;i++){if(e.results[i].isFinal)transcript+=e.results[i][0].transcript+" ";}};
+        recognition.onend=()=>{if(recording)try{recognition.start();}catch(e){}};
+        try{recognition.start();}catch(e){}
+      }
+      try{const stream=await navigator.mediaDevices.getUserMedia({audio:true});const mr=new MediaRecorder(stream);mr.ondataavailable=()=>{};mr.start();btn._stream=stream;btn._mr=mr;}catch(e){}
+    }else{
+      _recordSfx(false);clearInterval(timerInt);recording=false;
+      btn.textContent="🎙";btn.style.background="";
+      if(recognition){try{recognition.onend=null;recognition.stop();}catch(e){}recognition=null;}
+      if(btn._mr)try{btn._mr.stop();}catch(e){}
+      if(btn._stream)btn._stream.getTracks().forEach(t=>t.stop());
+      const final=transcript.trim();
+      V._evalPractice={phase:"done",transcript:final,loading:!!final,result:null,error:null};
+      render();
+      if(final)_evalPracticeAnalyze(pid,final);
+      else{V._evalPractice={phase:"done",loading:false,error:new Error("No speech detected.")};render();}
+    }
+  });
+}
+
+async function _evalPracticeAnalyze(pid,transcript){
+  const proj=PD[pid];
+  const etips=EVAL_TIPS&&EVAL_TIPS[pid];
+  const tips=TIPS&&TIPS[pid];
+  if(!proj)return;
+
+  const projContext="Project: "+proj.t+"\nPurpose: "+proj.p+
+    (etips&&etips.watch?"\nWhat to watch for: "+etips.watch.replace(/<[^>]+>/g,""):"") +
+    (etips&&etips.focus?"\nMost important criterion: "+etips.focus.replace(/<[^>]+>/g,""):"");
+
+  const sys="You are a Toastmasters evaluation coach. Your job is to coach the EVALUATOR — not comment on the speech they evaluated. You're listening to their evaluation and giving feedback on how well they evaluated.\n\nCore principle: a great evaluation is specific, objective-focused, and gives the speaker one thing they can actually act on. Most evaluators use the same template for every speech without addressing the project objective — that's what you're watching for.\n\nProject being evaluated:\n"+projContext+"\n\nCoach their evaluation against these four qualities:\n1. Specific (named actual moments, not general observations)\n2. Objective-focused (addressed what THIS project was trying to achieve)\n3. Recommendation quality (actionable? concept-first? or vague?)\n4. Technique (sensitive, encouraging, motivating — or clinical and cold?)\n\nReply in EXACTLY these sections. No markdown bold. Begin with '✅ WHAT LANDED:':\n\n✅ WHAT LANDED: The strongest part of their evaluation — what actually helped the speaker. Name the specific moment.\n\n🎯 SHARPEN THIS: The one thing that would make this evaluation more useful. Concept first — why it matters — then what to try.\n\n💡 FOR NEXT TIME: One habit to build as an evaluator. Something transferable beyond this speech.\n\nUnder 180 words. Coach the evaluator, not the speech.";
+
+  try{
+    const res=await callCoach({sys,user:"Evaluation transcript:\n"+transcript,feature:"eh-draft"});
+    V._evalPractice={phase:"done",loading:false,result:res};
+    render();
+  }catch(e){
+    V._evalPractice={phase:"done",loading:false,error:e};
+    render();
+  }
+}
+
 function renderEvalHelper(app){
   const aiOn=S.aiConfig&&S.aiConfig.enabled;
   if(V._evalPid===undefined||V._evalPid===null)V._evalPid="";
@@ -9388,6 +9876,7 @@ function renderEvalHelper(app){
     }else{
       h+='<div class="eh-ai-off-note">Enable AI in ✨ AI Settings to generate a full CRC draft.</div>';
     }
+
   }
   h+='</div>';
   app.innerHTML=h;
@@ -11557,6 +12046,7 @@ const COACH_STARTERS=[
 
 let PS={
   pid:null,           // project being practiced (null = any/freestyle)
+  mode:"speaker",     // "speaker" | "evaluator"
   phase:"ready",      // "ready" | "active" | "done"
   elapsed:0,          // seconds elapsed
   _iv:null,           // clock interval
@@ -11627,7 +12117,12 @@ const CONTEST_DATA={
       "Borrowed wisdom. 'As Einstein once said...' The audience came to hear you, not your quote collection.",
       "A close that doesn't close. The last line is the one they carry home. Write it first, then build toward it."
     ],
-    coachNote:"A contest speech is not a Pathways speech turned up to 11. It's a different animal. Study Dananjaya's 'I See Something In You' — not to copy it, but to understand what it proves. One idea, refined over years, collapsed into a single object anyone in any room can carry home. Build for the audience first. If the room responds, you've done your job. The judges are human — they'll bring their own preferences no matter what. You can't control that. What you can control is whether your speech has something universal enough to survive a panel you didn't choose."
+    coachTakes:[
+      "A contest speech is not a Pathways speech turned up to 11. It's a different animal. One idea, refined over years, collapsed into something anyone in any room can carry home. Build for the audience first. If the room responds, you've done your job. What you can't control is the judges — they're human, they have preferences. What you can control is whether your speech has something universal enough to survive a panel you didn't choose.",
+      "Most people prepare a contest speech the same way they prepare a Pathways speech. That's why most people don't place. A contest speech needs one thing the audience can repeat to someone else on the drive home. Not three takeaways. One. If you can't say your speech in a single sentence, it's not ready.",
+      "The refinement is the preparation. Dananjaya competed for 10 years before winning worlds. The speech that wins has usually existed in some form for a long time — you just keep cutting until only the essential remains. Ask yourself: what's the one thing I want them to feel when I finish? Everything else either earns that moment or wastes it.",
+      "Think about what travels. A speech built around a local reference, a cultural in-joke, a name only half the room recognises — it might win the room but lose the judges. The best contest speeches work in any room, any culture, any panel. That's not playing it safe. That's playing it smart."
+    ]
   },
   tabletopics:{
     id:"tabletopics",
@@ -11647,7 +12142,12 @@ const CONTEST_DATA={
       "Ending mid-thought because the bell rang. Structure your answer to close strong at 1:45, not trail off at 2:00.",
       "Safe answers. Everyone agrees failure is a teacher. Take a stance. Disagree with the premise. Be interesting."
     ],
-    coachNote:"TT contests are won by the person who commits first and hardest. Open with your answer — not your thought process. You have 90 seconds of real time. Spend the first 10 on a stance, not a setup."
+    coachTakes:[
+      "TT contests are won by the person who commits first and hardest. Open with your answer — not your thought process. You have 90 seconds. Spend the first 10 on a stance, not a setup.",
+      "The question is not the hard part. The hard part is not stalling while you figure out what to say. Everyone in the room is doing that internally — the winner is the one who doesn't show it. Commit to an angle in the first breath, even if it's not your best one. A confident wrong answer beats a hesitant right one.",
+      "Think of it like a jazz riff. You don't wait for the perfect note — you start, and the structure carries you. Pick one word from the question and anchor your answer to it. That anchor is your opening and your close. Circle back to it and you'll sound twice as prepared as you are.",
+      "Most TT answers are really just stories looking for a point. Flip it. Lead with the point, then use the story to prove it. 'Here's what I believe. Here's why.' That's your structure. 90 seconds, one belief, one proof. Done."
+    ]
   },
   evaluation:{
     id:"evaluation",
@@ -11668,52 +12168,90 @@ const CONTEST_DATA={
       "Ignoring the project objective. This is the most common mistake. What was the speech trying to achieve? Did they achieve it?",
       "Going over time. You have 3 minutes. Landing a clean close at 2:45 is better than running out at 3:05."
     ],
-    coachNote:"Here's what most people don't know: contest evaluators are never told the test speaker's project objectives. You get 5 minutes to prepare, then 2–3 minutes to speak — with no idea what the speech was officially trying to achieve. So your job is to evaluate what you actually observed, not what you assumed the objectives were. This is what separates contest evaluators from regular evaluators. Analytical Quality is 40 points — judges are asking: did this evaluator catch specific moments, or give me something I could paste over any speech? One specific observation about one real moment beats three general comments every time."
+    coachTakes:[
+      "Here's what most people miss: you're never told the test speaker's project objectives. You evaluate what you actually observed — not what you assumed they were trying to do. That's what separates contest evaluators from regular ones. Analytical Quality is 40 points. Judges ask one thing: did this evaluator actually watch this speech, or could I paste their feedback over any speech ever given?",
+      "Five minutes to prepare, three minutes to speak. That's the evaluation contest. In that five minutes, most people try to remember everything. The ones who place decide one thing: what is the single most important observation I can make about this speech? Everything else supports that one thing. One sharp observation beats five scattered ones.",
+      "The Evaluation Contest is actually a communication contest disguised as an evaluation contest. You're being judged on how clearly and usefully you communicate your observations — not just whether your observations are correct. Recommendations are 30% of the ballot. Be specific. 'Work on your vocal variety' is not a recommendation. 'Try dropping your volume on the key line — the contrast will make it land harder' is a recommendation.",
+      "Most evaluators commend, recommend, commend. Judges have seen that template a thousand times. The ones who place sound like they're talking to the speaker, not performing an evaluation at them. Sensitivity is 15% of the ballot — and it shows in whether your feedback sounds like help or like homework."
+    ]
   },
-  humorous:{
-    id:"humorous",
-    name:"Humorous Speech",
-    emoji:"😄",
-    color:"#A07BC7",
-    time:{min:5,max:7},
-    tagline:"Comedy is a craft. Funny is not enough.",
-    criteria:[
-      {label:"Content",pct:40,desc:"A coherent message underneath the laughs. The funniest contest speeches say something true. Judges ask: was there a point, or just jokes?"},
-      {label:"Delivery",pct:40,desc:"Timing, pause before the punchline, physical commitment to the bit. Selling the joke with your body, not explaining it with your mouth."},
-      {label:"Language",pct:20,desc:"The word choice that makes it funnier. 'Slightly moist' is funnier than 'a little wet.' The specific beats the general every time."}
-    ],
-    killsIt:[
-      "Explaining the joke. If you have to say 'get it?', you've already lost them.",
-      "Funny stories without a thread. A series of laughs is a comedy set. A humorous speech needs a spine.",
-      "Performing instead of being. The best humorous speakers look like they're just talking to you. The laughs look accidental.",
-      "Punching down. Judges notice. The audience remembers. Self-deprecation beats everything else."
-    ],
-    coachNote:"The best humorous speeches make you laugh and then feel something. The laugh is the delivery vehicle. Identify the truth at the centre of your speech — the funny should prove it, not replace it. If your speech could work without the laughs, you have a humorous speech. If it couldn't work without them, you have a stand-up set."
-  },
-  talltales:{
-    id:"talltales",
-    name:"Tall Tales",
-    emoji:"🌀",
-    color:"#5B9DD9",
-    time:{min:3,max:5},
-    tagline:"Fiction with a straight face. The most underestimated contest.",
-    criteria:[
-      {label:"Effectiveness",pct:40,desc:"Did the story work as a tall tale — escalating, absurd, internally consistent? Judges reward commitment to the premise."},
-      {label:"Delivery",pct:40,desc:"Deadpan sells tall tales. The more outrageous the claim, the more seriously you deliver it. Over-acting kills it."},
-      {label:"Originality",pct:20,desc:"A fresh premise beats a recycled one. Judges remember the story they haven't heard a version of before."}
-    ],
-    killsIt:[
-      "Winking at the audience. If you smirk when you say something absurd, you break the spell. Deliver it like sworn testimony.",
-      "Escalating too fast. A good tall tale builds — each detail a little more impossible than the last. Don't peak in the first minute.",
-      "Borrowed premises. 'The fish that got away' has been done. Start with a situation nobody has tall-taled before.",
-      "Forgetting to close the loop. The best tall tales end by returning to the opening claim with a straight face. Circular structure works."
-    ],
-    coachNote:"Tall Tales rewards commitment above everything else. Pick one absurd premise — the more specific the better — and defend it with complete sincerity for 4 minutes. The audience will follow you anywhere if you never break character. The moment you acknowledge it's ridiculous, the magic dies."
-  }
-};
+};;
 window.CONTEST_DATA=CONTEST_DATA;
 
-// ═══ RENDER: CONTESTS HUB ═══
+// ─── TT Contest topics — real past contest / contest-calibre questions ───────
+const TT_CONTEST_TOPICS=[
+  "If you could change one decision you made in the last five years, what would it be?",
+  "What is the one thing people consistently get wrong about success?",
+  "When did you realise you were wrong about something you believed for years?",
+  "What would you do differently if you knew nobody was watching?",
+  "What is the most important thing you have never said out loud?",
+  "If failure was impossible, what would you attempt?",
+  "What does courage look like in ordinary life?",
+  "What is the difference between being busy and being productive?",
+  "When is silence the strongest response?",
+  "What has a stranger taught you that someone close to you never could?",
+  "What would you tell your younger self — and would your younger self listen?",
+  "What is one thing you stopped believing in, and why?",
+  "What does it mean to truly help someone?",
+  "When did doing the right thing cost you something?",
+  "What is the most useful thing you have ever learned outside of school?",
+  "What is something you do well that you rarely get credit for?",
+  "What is the difference between confidence and arrogance?",
+  "When did someone believe in you before you believed in yourself?",
+  "What has changed your mind about a person you had already judged?",
+  "What do you wish you had more patience for?",
+  "What is the hardest conversation you have ever had to start?",
+  "When is the right time to walk away?",
+  "What is one habit you are glad you built — and one you wish you had broken sooner?",
+  "What does leadership look like when nobody is watching?",
+  "If your actions this week reflected your values, what story would they tell?"
+];
+
+// ─── Eval contest — curated real speech links ────────────────────────────────
+const EVAL_CONTEST_SPEECHES=[
+  {
+    title:"The Ice Breaker — Sample Club Speech",
+    speaker:"Toastmasters International",
+    duration:"5–7 min",
+    level:"Level 1",
+    url:"https://www.youtube.com/results?search_query=toastmasters+ice+breaker+speech+example",
+    note:"Watch for: personal story structure, authenticity, opening hook, close that echoes the opening."
+  },
+  {
+    title:"2014 World Championship — 'I See Something In You'",
+    speaker:"Dananjaya Hettiarachchi",
+    duration:"7 min",
+    level:"World Championship",
+    url:"https://www.youtube.com/watch?v=bbz2boNSeL0",
+    note:"Advanced eval: assess content (50%), language (20%), delivery (30%). What is the core message? Does everything earn the close?"
+  },
+  {
+    title:"Toastmasters Evaluation Contest — Sample Test Speaker",
+    speaker:"District Sample",
+    duration:"5–7 min",
+    level:"Contest Prep",
+    url:"https://www.youtube.com/results?search_query=toastmasters+evaluation+contest+test+speaker",
+    note:"Remember: you won't know the project objectives. Evaluate what you actually observe — not what you assume they were trying to do."
+  },
+  {
+    title:"CC Manual Speech — Level 2 Example",
+    speaker:"Club Member Demo",
+    duration:"5–7 min",
+    level:"Level 2–3",
+    url:"https://www.youtube.com/results?search_query=toastmasters+pathways+level+2+speech+example",
+    note:"Practise identifying one specific strength and one actionable recommendation. Avoid generic feedback."
+  },
+  {
+    title:"2018 World Championship — 'SBreaking Barriers'",
+    speaker:"Sherrie Su",
+    duration:"7 min",
+    level:"World Championship",
+    url:"https://www.youtube.com/results?search_query=Sherrie+Su+toastmasters+2018+world+champion",
+    note:"Advanced: first native Chinese finalist at worlds. Assess how cultural authenticity serves universal themes."
+  }
+];
+
+
 function renderContests(app){
   let h='<div class="fade-up">';
   h+='<div class="top-bar">';
@@ -11741,6 +12279,35 @@ function renderContests(app){
   h+='</div>';
   app.innerHTML=h;
 
+}
+
+function _wireCoachTakeActions(app,c){
+  const nextBtn=app.querySelector('[data-action="coach-take-next"]');
+  if(nextBtn)nextBtn.addEventListener("click",()=>{
+    V._coachTakeIdx=((V._coachTakeIdx||0)+1);
+    V._coachTakeAI=null;
+    const takes=c.coachTakes||[];
+    const txt=takes[V._coachTakeIdx%takes.length]||"";
+    const el=document.getElementById("coach-take-text");
+    if(el)el.textContent=txt;
+  });
+  const aiBtn=app.querySelector('[data-action="coach-take-ai"]');
+  if(aiBtn)aiBtn.addEventListener("click",async()=>{
+    aiBtn.textContent="…";
+    aiBtn.disabled=true;
+    try{
+      const sys="You are Kian How, a Toastmasters coach and district-level contest finalist in both International Speech and Table Topics. Write a fresh 3-4 sentence coaching perspective on competing in a "+c.name+" contest. Your style: direct, concept-first, uses analogies (cooking, music), no fluff, never vague. Don't repeat what you've said before — find a new angle: preparation, mindset, structure, judging reality, or what most contestants get wrong. Write in first person as if speaking to someone about to compete. Under 80 words.";
+      const res=await callCoach({sys,user:"Give me a fresh coaching take on the "+c.name+" contest.",feature:"default"});
+      V._coachTakeAI=res;
+      const el=document.getElementById("coach-take-text");
+      if(el)el.textContent=res;
+      aiBtn.textContent="✨ Fresh take";
+      aiBtn.disabled=false;
+    }catch(e){
+      aiBtn.textContent="✨ Fresh take";
+      aiBtn.disabled=false;
+    }
+  });
 }
 
 // ═══ RENDER: CONTEST DETAIL ═══
@@ -11774,12 +12341,36 @@ function renderContestDetail(app){
 
   if(state==="guide"){
     // Coach note
-    h+='<div class="contest-coach-note">';
-    h+='<div class="contest-coach-avatar"><img src="'+COACH_AVATAR+'" alt="Coach"/></div>';
-    h+='<div class="contest-coach-bubble">';
-    h+='<div class="contest-coach-label">Coach\'s take</div>';
-    h+='<div class="contest-coach-text">'+c.coachNote+'</div>';
+    // Coach's Take — collapsible, rotatable
+    const takeOpen=V._coachTakeOpen===true;
+    const takeIdx=V._coachTakeIdx||0;
+    const takes=c.coachTakes||[];
+    const currentTake=takes[takeIdx%takes.length]||"";
+    h+='<div class="coach-take-card" id="coach-take-card">';
+    h+='<button class="coach-take-hdr" data-action="coach-take-toggle">';
+    h+='<div style="display:flex;align-items:center;gap:10px">';
+    h+='<div class="contest-coach-avatar" style="width:32px;height:32px;flex-shrink:0"><img src="'+COACH_AVATAR+'" alt="Coach"/></div>';
+    h+='<span class="coach-take-title">Coach\'s take</span>';
     h+='</div>';
+    h+='<span class="coach-take-chev" style="font-size:10px;color:var(--text-3);transition:transform .2s;transform:'+(takeOpen?'rotate(180deg)':'rotate(0deg)')+'">▼</span>';
+    h+='</button>';
+    if(takeOpen){
+      h+='<div class="coach-take-body">';
+      h+='<div class="coach-take-text" id="coach-take-text">';
+      if(V._coachTakeAI){
+        h+=V._coachTakeAI;
+      }else{
+        h+=currentTake;
+      }
+      h+='</div>';
+      h+='<div class="coach-take-actions">';
+      h+='<button class="coach-take-btn" data-action="coach-take-next">↻ Next take</button>';
+      if(S.aiConfig&&S.aiConfig.enabled){
+        h+='<button class="coach-take-btn ai" data-action="coach-take-ai">'+(V._coachTakeAILoading?'…':'✨ Fresh take')+'</button>';
+      }
+      h+='</div>';
+      h+='</div>';
+    }
     h+='</div>';
 
     // Judging criteria — expandable in-place
@@ -11807,6 +12398,36 @@ function renderContestDetail(app){
     });
     h+='</div>';
 
+    // TT Contest: topics bank
+    if(c.id==="tabletopics"){
+      const randTopics=TT_CONTEST_TOPICS.slice().sort(()=>Math.random()-0.5).slice(0,6);
+      h+='<div class="contest-section-hdr">🎯 Contest-level practice questions</div>';
+      h+='<div class="contest-tt-topics">';
+      randTopics.forEach(q=>{
+        h+='<div class="contest-tt-topic">'+q+'</div>';
+      });
+      h+='<button class="contest-tt-refresh" data-action="contest-tt-refresh">↻ New questions</button>';
+      h+='</div>';
+    }
+
+    // Eval Contest: speech links to watch
+    if(c.id==="evaluation"){
+      h+='<div class="contest-section-hdr">📺 Speeches to evaluate — watch, then practice</div>';
+      h+='<div class="contest-eval-note">Pick a speech below, watch it fully, prepare your evaluation (5 mins), then go to Practice tab and record your CRC. AI will coach the quality of your evaluation.</div>';
+      h+='<div class="contest-eval-speeches">';
+      EVAL_CONTEST_SPEECHES.forEach(s=>{
+        h+='<a class="contest-eval-speech" href="'+s.url+'" target="_blank" rel="noopener">';
+        h+='<div class="contest-eval-speech-top">';
+        h+='<div class="contest-eval-speech-title">'+s.title+'</div>';
+        h+='<div class="contest-eval-speech-meta">'+s.speaker+' · '+s.duration+' · '+s.level+'</div>';
+        h+='</div>';
+        h+='<div class="contest-eval-speech-note">'+s.note+'</div>';
+        h+='<div class="contest-eval-speech-arrow">Watch ↗</div>';
+        h+='</a>';
+      });
+      h+='</div>';
+    }
+
   }else{
     // Practice tab — recording + AI
     const CD=V._contestData||{};
@@ -11833,7 +12454,8 @@ function renderContestDetail(app){
       h+='</div>';
 
       h+='<div class="ps-mic-wrap">';
-      h+='<button class="ps-mic-btn" id="contest-mic-btn" data-action="contest-mic">🎙</button>';
+      h+='<div class="ps-mic-btn" id="contest-mic-btn" data-action="contest-mic"><div class="ps-mic-ring"><div class="ps-mic-icon">🎙️</div></div></div>';
+      h+='<div class="ps-mic-label">Tap to start</div>';
       h+='</div>';
 
       if(!aiOn){
@@ -11860,6 +12482,48 @@ function renderContestDetail(app){
 
   // Back
   app.querySelector('[data-action="contest-back"]').addEventListener("click",()=>{V.view="contests";V._contestData={};render();});
+
+  // TT topics refresh — in-place, no render
+  const ttRefresh=app.querySelector('[data-action="contest-tt-refresh"]');
+  if(ttRefresh)ttRefresh.addEventListener("click",()=>{
+    const container=app.querySelector(".contest-tt-topics");
+    if(!container)return;
+    const newTopics=TT_CONTEST_TOPICS.slice().sort(()=>Math.random()-0.5).slice(0,6);
+    const items=container.querySelectorAll(".contest-tt-topic");
+    newTopics.forEach((q,i)=>{if(items[i])items[i].textContent=q;});
+  });
+
+  // Coach's Take interactions — in-place, no scroll jump
+  const takeHdr=app.querySelector('[data-action="coach-take-toggle"]');
+  if(takeHdr)takeHdr.addEventListener("click",()=>{
+    V._coachTakeOpen=!V._coachTakeOpen;
+    const card=document.getElementById("coach-take-card");
+    if(!card)return;
+    const chev=card.querySelector(".coach-take-chev");
+    const body=card.querySelector(".coach-take-body");
+    if(V._coachTakeOpen){
+      if(chev)chev.style.transform="rotate(180deg)";
+      if(!body){
+        const bd=document.createElement("div");
+        bd.className="coach-take-body";
+        const takes=c.coachTakes||[];
+        const idx=V._coachTakeIdx||0;
+        const txt=V._coachTakeAI||takes[idx%takes.length]||"";
+        const aiOn=S.aiConfig&&S.aiConfig.enabled;
+        bd.innerHTML='<div class="coach-take-text" id="coach-take-text">'+txt+'</div>'
+          +'<div class="coach-take-actions">'
+          +'<button class="coach-take-btn" data-action="coach-take-next">↻ Next take</button>'
+          +(aiOn?'<button class="coach-take-btn ai" data-action="coach-take-ai">✨ Fresh take</button>':'')
+          +'</div>';
+        card.appendChild(bd);
+        _wireCoachTakeActions(app,c);
+      }
+    }else{
+      if(chev)chev.style.transform="rotate(0deg)";
+      if(body)body.remove();
+    }
+  });
+  _wireCoachTakeActions(app,c);
 
   // Tabs — scroll to top intentionally on tab switch
   app.querySelectorAll("[data-contest-tab]").forEach(btn=>{
@@ -11929,8 +12593,9 @@ function _contestWireMic(btn,c){
       recording=true;
       seconds=0;
       transcript="";
-      btn.textContent="⏹";
-      btn.style.background="rgba(232,93,93,0.18)";
+      btn.textContent="";
+      btn.innerHTML='<div class="ps-mic-ring active"><div class="ps-mic-icon">■</div></div>';
+      btn.style.background="";
       timerInt=setInterval(()=>{seconds++;updateDisplay();},1000);
 
       // Speech recognition
@@ -11964,7 +12629,7 @@ function _contestWireMic(btn,c){
       _recordSfx(false);
       clearInterval(timerInt);
       recording=false;
-      btn.textContent="🎙";
+      btn.innerHTML='<div class="ps-mic-ring"><div class="ps-mic-icon">🎙️</div></div>';
       btn.style.background="";
 
       if(recognition){
@@ -12026,6 +12691,58 @@ function _psCoachNote(pid){
   return "Take a breath. When you're ready — tap mic.";
 }
 
+function _psRebuildDropdownList(app,mode,projects){
+  const dd=document.getElementById("ps-project-dropdown");
+  if(!dd)return;
+  // Remove old list items (keep search + mode tabs)
+  dd.querySelectorAll("[data-ps-pid],[data-level-hdr]").forEach(el=>el.remove());
+  // Rebuild
+  const frag=document.createDocumentFragment();
+  let lastLv=0;
+  projects.forEach(p=>{
+    if(p.level!==lastLv){
+      const hdr=document.createElement("div");
+      hdr.className="ps-project-level-hdr";
+      hdr.dataset.levelHdr="";
+      hdr.textContent="Level "+p.level;
+      frag.appendChild(hdr);
+      lastLv=p.level;
+    }
+    const btn=document.createElement("button");
+    btn.className="ps-project-option";
+    btn.dataset.psPid=p.pid;
+    btn.innerHTML=(mode==="evaluator"?"🪞 Eval: ":"")+p.title+' <span class="ps-project-opt-dur">'+p.dur+'</span>';
+    frag.appendChild(btn);
+  });
+  if(mode==="speaker"){
+    const btn=document.createElement("button");
+    btn.className="ps-project-option";
+    btn.dataset.psPid="freestyle";
+    btn.textContent="🎲 Freestyle — no project";
+    frag.appendChild(btn);
+  }
+  dd.appendChild(frag);
+  // Re-wire new buttons
+  dd.querySelectorAll("[data-ps-pid]").forEach(btn=>{
+    btn.addEventListener("click",()=>{
+      const pid=btn.dataset.psPid==="freestyle"?null:btn.dataset.psPid;
+      PS.pid=pid;
+      dd.querySelectorAll("[data-ps-pid]").forEach(b=>b.classList.remove("selected"));
+      btn.classList.add("selected");
+      const projBtn=app.querySelector(".ps-coach-project-btn");
+      const p=pid?projects.find(x=>x.pid===pid):null;
+      if(projBtn)projBtn.firstChild.textContent=p?p.title:(mode==="evaluator"?"Pick project":"Freestyle");
+      const noteEl=app.querySelector(".ps-coach-note");
+      if(noteEl){
+        noteEl.textContent=mode==="evaluator"
+          ?(p?"Evaluating "+p.title+". Record your CRC — I'll coach the quality of your evaluation, not the speech.":"Select the project you're evaluating.")
+          :(p?_psCoachNote(p.pid):"Just speak — I'll give you feedback on what I hear.");
+      }
+      dd.style.display="none";
+    });
+  });
+}
+
 function renderPracticeStudio(app){
   const aiOn=S.aiConfig&&S.aiConfig.enabled;
 
@@ -12036,7 +12753,7 @@ function renderPracticeStudio(app){
   const current=PS.pid?projects.find(x=>x.pid===PS.pid)||projects[0]:projects[0];
   if(!PS.pid&&current)PS.pid=current.pid;
 
-  const dur=current?parseDuration(current.dur):null;
+  const dur=PS.mode==="evaluator"?{min:2,max:3}:(current?parseDuration(current.dur):null);
   const hasRecognition=isSpeechRecognitionSupported();
 
   // ── Pre-render BOTH ready + active panels in the same DOM. ──
@@ -12051,7 +12768,7 @@ function renderPracticeStudio(app){
   // ─── READY PANEL ───
   h+='<div class="ps-ready-panel">';
 
-  // Coach greeting — personal, time-aware, project-aware
+  // Coach greeting — compact: avatar + greeting + project pill on one line
   const hour=new Date().getHours();
   const greetOptions=hour<12
     ?["Morning. Let's make this count.","Ready when you are.","Morning — let's get to work."]
@@ -12059,57 +12776,79 @@ function renderPracticeStudio(app){
     ?["Let's see what you've got.","Ready when you are.","Take your time. I'm here."]
     :["Evening session — good on you.","Let's make this one count.","Ready when you are."];
   const greet=greetOptions[Math.floor(Math.random()*greetOptions.length)];
-  const coachNote=current?_psCoachNote(current.pid):"Just speak — I'll give you feedback on what I hear.";
+  const coachNote=PS.mode==="evaluator"
+    ?(current?"Evaluating "+current.title+". Record your CRC — I'll coach the quality of your evaluation, not the speech.":"Select the project you're evaluating.")
+    :(current?_psCoachNote(current.pid):"Just speak — I'll give you feedback on what I hear.");
 
-  h+='<div class="ps-coach-greeting">';
-  // Avatar — placeholder emoji until user uploads photo
-  h+='<div class="ps-coach-avatar" id="ps-coach-avatar"><img src="'+COACH_AVATAR+'" alt="Coach Kian" /></div>';
-  h+='<div class="ps-coach-bubble">';
-  h+='<div class="ps-coach-name">Your AI Coach</div>';
-  h+='<div class="ps-coach-text">'+greet+'</div>';
-  // Project inline inside bubble
+  // Compact coach bar — single row, no big bubble
+  h+='<div class="ps-coach-bar">';
+  h+='<div class="ps-coach-avatar-sm"><img src="'+COACH_AVATAR+'" alt="Coach"/></div>';
+  h+='<div class="ps-coach-bar-body">';
+  h+='<div class="ps-coach-bar-greet">'+greet+'</div>';
   h+='<div class="ps-coach-project-row">';
-  h+='<span class="ps-coach-project-label">Working on:</span>';
+  h+='<span class="ps-coach-project-label">'+(PS.mode==="evaluator"?"Evaluating:":"Working on:")+'</span>';
   h+='<button class="ps-coach-project-btn" data-action="ps-change-project">';
-  h+=(current?current.title:'Freestyle')+' <span class="ps-coach-project-chev">▾</span>';
+  h+=(current?current.title:(PS.mode==="evaluator"?"Pick project":"Freestyle"))+' <span class="ps-coach-project-chev">▾</span>';
   h+='</button>';
   h+='</div>';
-  h+='<div class="ps-coach-note">'+coachNote+'</div>';
-  // Project dropdown — lives inside bubble
+  h+='</div>';
+  h+='</div>';
+
+  // Project dropdown — attached to bar, not inside bubble
   h+='<div class="ps-project-dropdown" id="ps-project-dropdown" style="display:none">';
-  h+='<input class="ps-project-search" id="ps-project-search" placeholder="🔍 Search projects…" autocomplete="off"/>';
-  let lastLv2=0;
-  projects.forEach(p=>{
-    if(p.level!==lastLv2){
-      h+='<div class="ps-project-level-hdr" data-level-hdr>Level '+p.level+'</div>';
-      lastLv2=p.level;
-    }
-    h+='<button class="ps-project-option'+(p.pid===PS.pid?' selected':'')+'" data-ps-pid="'+p.pid+'">';
-    h+=p.title+(p.elective?' <span class="ps-project-elective">elective</span>':'')+' <span class="ps-project-opt-dur">'+p.dur+'</span>';
-    h+='</button>';
-  });
-  h+='<button class="ps-project-option" data-ps-pid="freestyle">🎲 Freestyle — no project</button>';
+  h+='<div class="ps-mode-tabs">';
+  h+='<button class="ps-mode-tab'+(PS.mode==="speaker"?" active":"")+'" data-ps-mode="speaker">🎤 Speaker</button>';
+  h+='<button class="ps-mode-tab'+(PS.mode==="evaluator"?" active":"")+'" data-ps-mode="evaluator">🪞 Evaluator</button>';
   h+='</div>';
-  h+='</div>'; // /ps-coach-bubble
-  h+='</div>'; // /ps-coach-greeting
-
-  h+='<div class="ps-timer-card">';
-  h+='<div class="ps-timer-state">READY</div>';
-  h+='<div class="ps-timer-display">0:00</div>';
-  if(dur){
-    h+='<div class="ps-timer-markers">';
-    h+='<div class="ps-marker green">●  '+dur.min+':00</div>';
-    h+='<div class="ps-marker red">●  '+dur.max+':00</div>';
-    h+='</div>';
+  h+='<input class="ps-project-search" id="ps-project-search" placeholder="🔍 Search…" autocomplete="off"/>';
+  if(PS.mode==="speaker"){
+    let lastLv2=0;
+    projects.forEach(p=>{
+      if(p.level!==lastLv2){
+        h+='<div class="ps-project-level-hdr" data-level-hdr>Level '+p.level+'</div>';
+        lastLv2=p.level;
+      }
+      h+='<button class="ps-project-option'+(p.pid===PS.pid&&PS.mode==="speaker"?' selected':'')+'" data-ps-pid="'+p.pid+'" data-ps-mode-sel="speaker">';
+      h+=p.title+(p.elective?' <span class="ps-project-elective">elective</span>':'')+' <span class="ps-project-opt-dur">'+p.dur+'</span>';
+      h+='</button>';
+    });
+    h+='<button class="ps-project-option'+(PS.mode==="speaker"&&!PS.pid?' selected':'')+'" data-ps-pid="freestyle" data-ps-mode-sel="speaker">🎲 Freestyle — no project</button>';
+  }else{
+    let lastLv3=0;
+    projects.forEach(p=>{
+      if(p.level!==lastLv3){
+        h+='<div class="ps-project-level-hdr" data-level-hdr>Level '+p.level+'</div>';
+        lastLv3=p.level;
+      }
+      h+='<button class="ps-project-option'+(p.pid===PS.pid&&PS.mode==="evaluator"?' selected':'')+'" data-ps-pid="'+p.pid+'" data-ps-mode-sel="evaluator">';
+      h+='🪞 Eval: '+p.title+' <span class="ps-project-opt-dur">'+p.dur+'</span>';
+      h+='</button>';
+    });
   }
-  h+='<div class="ps-timer-hint">Tap the mic when you\'re ready</div>';
   h+='</div>';
 
+  // Coach note — subtle, below dropdown
+  h+='<div class="ps-coach-note-bar">'+coachNote+'</div>';
+
+  // MIC FIRST — prominent, above timer
   h+='<div class="ps-mic-wrap">';
   h+='<div class="ps-mic-btn" data-action="ps-start"'+(!hasRecognition?' data-timer-only="1"':'')+'>';
   h+='<div class="ps-mic-ring"><div class="ps-mic-icon">🎙️</div></div>';
   h+='</div>';
   h+='<div class="ps-mic-label">Tap to start</div>';
+  h+='</div>';
+
+  // Timer below mic
+  h+='<div class="ps-timer-card">';
+  h+='<div class="ps-timer-state">READY</div>';
+  h+='<div class="ps-timer-display">0:00</div>';
+  h+='<div class="ps-timer-markers">';
+  if(dur){
+    h+='<div class="ps-marker green">●  '+dur.min+':00</div>';
+    h+='<div class="ps-marker red">●  '+dur.max+':00</div>';
+  }
+  h+='</div>';
+  h+='<div class="ps-timer-hint">'+(PS.mode==="evaluator"?"Tap mic · deliver your CRC · tap stop":"Tap to start · tap again to stop")+'</div>';
   h+='</div>';
 
   if(!hasRecognition){
@@ -12119,7 +12858,7 @@ function renderPracticeStudio(app){
 
   // ─── ACTIVE PANEL ─── (always present, hidden until phase === active)
   const proj=PS.pid?PD[PS.pid]:null;
-  const activeDur=proj?parseDuration(proj.dur):null;
+  const activeDur=PS.mode==="evaluator"?{min:2,max:3}:(proj?parseDuration(proj.dur):null);
   h+='<div class="ps-active-panel">';
   h+='<div class="ps-active-header">';
   h+='<div class="ps-active-title">'+(proj?proj.t:"Freestyle")+'</div>';
@@ -12139,17 +12878,12 @@ function renderPracticeStudio(app){
   }
   h+='</div>';
 
-  h+='<div class="ps-active-stats">';
-  h+='<div class="ps-stat-chip"><span class="ps-stat-n" id="ps-active-words">0</span><span class="ps-stat-lbl">Words</span></div>';
-  h+='<div class="ps-stat-chip"><span class="ps-stat-n" id="ps-active-wpm">—</span><span class="ps-stat-lbl">Words / min</span></div>';
+  // Silence alert — shown only when no audio detected for 10s
+  h+='<div class="ps-silence-alert" id="ps-silence-alert" style="display:none">';
+  h+='⚠️ No audio detected for 10 seconds. Still recording — tap stop when done.';
   h+='</div>';
 
-  h+='<div class="ps-transcript-wrap">';
-  h+='<div class="ps-transcript-label">LIVE TRANSCRIPT</div>';
-  h+='<div class="ps-transcript-live" id="ps-transcript-live">Listening…</div>';
   h+='<div class="ps-mic-denied-note" id="ps-mic-denied-note" style="display:none">⚠️ Mic access denied — only timing is tracked.</div>';
-  h+='<div class="ps-transcript-hint">Speak naturally. After you stop, AI will analyze the transcript and identify your real fillers in context.</div>';
-  h+='</div>';
 
   h+='<div class="ps-mic-wrap">';
   h+='<div class="ps-mic-btn active" data-action="ps-stop">';
@@ -12172,6 +12906,43 @@ function renderPracticeStudio(app){
       if(open){const s=document.getElementById("ps-project-search");if(s)s.focus();}
     }
   });
+
+  // Mode tabs — swap dropdown content in-place, no render
+  app.querySelectorAll("[data-ps-mode]").forEach(btn=>{
+    btn.addEventListener("click",()=>{
+      const newMode=btn.dataset.psMode;
+      if(PS.mode===newMode)return;
+      PS.mode=newMode;
+      PS.pid=null;
+      // Update tab active states
+      app.querySelectorAll("[data-ps-mode]").forEach(b=>b.classList.toggle("active",b.dataset.psMode===newMode));
+      // Update coach label
+      const lbl=app.querySelector(".ps-coach-project-label");
+      if(lbl)lbl.textContent=newMode==="evaluator"?"Evaluating:":"Working on:";
+      const projBtn=app.querySelector(".ps-coach-project-btn");
+      if(projBtn)projBtn.firstChild.textContent=newMode==="evaluator"?"Pick project":"Freestyle";
+      // Update timer markers for the mode
+      const markersEl=app.querySelector(".ps-timer-markers");
+      if(markersEl){
+        if(newMode==="evaluator"){
+          markersEl.innerHTML='<div class="ps-marker green">●  2:00</div><div class="ps-marker red">●  3:00</div>';
+        }else{
+          // Restore project markers if one is selected
+          const p=PS.pid?projects.find(x=>x.pid===PS.pid):null;
+          const dur=p?parseDuration(p.dur):null;
+          markersEl.innerHTML=dur
+            ?'<div class="ps-marker green">●  '+dur.min+':00</div><div class="ps-marker red">●  '+dur.max+':00</div>'
+            :"";
+        }
+      }
+      // Update coach note
+      const noteEl=app.querySelector(".ps-coach-note-bar");
+      if(noteEl)noteEl.textContent=newMode==="evaluator"?"Select the project you're evaluating.":"Just speak — I'll give you feedback on what I hear.";
+      // Rebuild dropdown list only
+      _psRebuildDropdownList(app,newMode,projects);
+    });
+  });
+
   const psSearch=document.getElementById("ps-project-search");
   if(psSearch)psSearch.addEventListener("input",()=>{
     const q=psSearch.value.toLowerCase();
@@ -12182,6 +12953,48 @@ function renderPracticeStudio(app){
     app.querySelectorAll("[data-level-hdr]").forEach(hdr=>{
       const next=hdr.nextElementSibling;
       hdr.style.display=(next&&next.style.display!=="none")?"":"none";
+    });
+  });
+
+  app.querySelectorAll("[data-ps-pid]").forEach(btn=>{
+    btn.addEventListener("click",()=>{
+      const pid=btn.dataset.psPid==="freestyle"?null:btn.dataset.psPid;
+      PS.pid=pid;
+      // Update selected state in-place
+      app.querySelectorAll("[data-ps-pid]").forEach(b=>b.classList.remove("selected"));
+      btn.classList.add("selected");
+      // Update coach bar project button label
+      const projBtn=app.querySelector(".ps-coach-project-btn");
+      const p=pid?projects.find(x=>x.pid===pid):null;
+      if(projBtn)projBtn.firstChild.textContent=p?p.title:(PS.mode==="evaluator"?"Pick project":"Freestyle");
+      // Update coach note
+      const noteEl=app.querySelector(".ps-coach-note");
+      if(noteEl){
+        if(PS.mode==="evaluator"){
+          noteEl.textContent=p?"Evaluating "+p.title+". Record your CRC — I'll coach the quality of your evaluation, not the speech.":"Select the project you're evaluating.";
+        }else{
+          noteEl.textContent=p?_psCoachNote(p.pid):"Just speak — I'll give you feedback on what I hear.";
+        }
+      }
+      // Update timer markers
+      const markersEl=app.querySelector(".ps-timer-markers");
+      if(markersEl){
+        if(PS.mode==="evaluator"){
+          markersEl.innerHTML='<div class="ps-marker green">●  2:00</div><div class="ps-marker red">●  3:00</div>';
+          markersEl.style.display="";
+        }else{
+          const dur=p?parseDuration(p.dur):null;
+          if(dur){
+            markersEl.innerHTML='<div class="ps-marker green">●  '+dur.min+':00</div><div class="ps-marker red">●  '+dur.max+':00</div>';
+            markersEl.style.display="";
+          }else{
+            markersEl.innerHTML="";
+          }
+        }
+      }
+      // Close dropdown
+      const dd=document.getElementById("ps-project-dropdown");
+      if(dd)dd.style.display="none";
     });
   });
   app.querySelectorAll("[data-ps-pid]").forEach(btn=>{
@@ -12239,12 +13052,21 @@ function psStart(timerOnly){
       }catch(e){console.warn("SR failed:",e);}
     }
 
-    // ── 2. getUserMedia async — just to keep the audio pipeline alive via MediaRecorder
-    // Matches 5A+ pattern exactly. Do NOT gate the session start on this.
+    // ── 2. getUserMedia — capture real audio blob for Whisper transcription
     if(navigator.mediaDevices&&navigator.mediaDevices.getUserMedia){
       navigator.mediaDevices.getUserMedia({audio:true}).then(stream=>{
         PS.micStream=stream;
-        try{const mr=new MediaRecorder(stream);mr.ondataavailable=()=>{};mr.start();PS.mediaRecorder=mr;}catch(e){}
+        PS.audioChunks=[];
+        try{
+          const mr=new MediaRecorder(stream,{mimeType:MediaRecorder.isTypeSupported("audio/webm")?'audio/webm':'audio/mp4'});
+          mr.ondataavailable=e=>{if(e.data&&e.data.size>0)PS.audioChunks.push(e.data);};
+          mr.start(1000); // collect chunks every second
+          PS.mediaRecorder=mr;
+          PS.audioBlobType=mr.mimeType;
+        }catch(e){
+          // Fallback — no blob collection but keepalive still works
+          try{const mr=new MediaRecorder(stream);mr.ondataavailable=()=>{};mr.start();PS.mediaRecorder=mr;}catch(e2){}
+        }
       }).catch(()=>{});
     }
   }
@@ -12262,33 +13084,17 @@ function psStart(timerOnly){
 }
 
 function psUpdateActiveDisplay(){
+  // Timer
   const display=document.getElementById("ps-active-display");
   if(display)display.textContent=fmtMs(PS.elapsed*1000);
 
-  const wordsEl=document.getElementById("ps-active-words");
-  const wpmEl=document.getElementById("ps-active-wpm");
-  if(wordsEl||wpmEl){
-    const words=FD.totalWords||0;
-    if(wordsEl)wordsEl.textContent=words;
-    if(wpmEl){
-      const mins=PS.elapsed/60;
-      wpmEl.textContent=mins>0.1?Math.round(words/mins):"—";
-    }
-  }
-
-  // Live transcript — show what mic is hearing (no filler highlighting;
-  // AI determines actual fillers in context after the session)
-  const trEl=document.getElementById("ps-transcript-live");
-  if(trEl){
-    const shown=(FD.transcript+" "+FD.interimText).trim();
-    if(shown){
-      trEl.textContent=shown.slice(-400);
-      trEl.scrollTop=trEl.scrollHeight;
-    }else if(PS.micGranted&&PS.elapsed>5&&!PS.lastResultAt){
-      trEl.innerHTML='<span style="color:#E85D5D">⚠ No audio detected. Check your browser mic permissions, or use a different browser (Chrome works best). On Mac, also check System Settings → Privacy → Microphone.</span>';
-    }else{
-      trEl.textContent="Listening…";
-    }
+  // Silence alert — show if no audio detected for 10+ seconds
+  const silenceEl=document.getElementById("ps-silence-alert");
+  if(silenceEl){
+    const lastResult=PS.lastResultAt||PS.startedAt||Date.now();
+    const silentFor=(Date.now()-lastResult)/1000;
+    const show=PS.elapsed>10&&silentFor>10&&!PS.timerOnly;
+    silenceEl.style.display=show?"block":"none";
   }
 
   // Phase colour on card
@@ -12303,13 +13109,11 @@ function psUpdateActiveDisplay(){
   }
 }
 
-// renderPracticeStudioActive removed in v1.13 — active panel now lives inside renderPracticeStudio
+// renderPracticeStudioActive removed in v1.24 — active panel now lives inside renderPracticeStudio
 
 function psStop(){
   _recordSfx(false);
-  // Stop clock
   clearInterval(PS._iv);PS._iv=null;
-  // Stop speech recognition
   FD._shouldReconnect=false;
   if(FD.recognition){
     try{FD.recognition.onend=null;}catch(e){}
@@ -12317,8 +13121,17 @@ function psStop(){
     FD.recognition=null;
   }
   FD.phase="idle";
-  // Stop MediaRecorder + release mic stream
+
+  // Collect audio blob before stopping MediaRecorder
+  const chunks=PS.audioChunks||[];
+  const blobType=PS.audioBlobType||"audio/webm";
+
   if(PS.mediaRecorder&&PS.mediaRecorder.state!=="inactive"){
+    PS.mediaRecorder.onstop=()=>{
+      if(chunks.length>0){
+        PS.audioBlob=new Blob(chunks,{type:blobType});
+      }
+    };
     try{PS.mediaRecorder.stop();}catch(e){}
   }
   if(PS.micStream){
@@ -12330,7 +13143,6 @@ function psStop(){
   PS.totalFillers=Object.values(FD.fillerCounts||{}).reduce((a,b)=>a+b,0);
   PS.fillerCounts={...FD.fillerCounts};
   render();
-  // Auto-trigger AI analysis
   if(S.aiConfig&&S.aiConfig.enabled&&PS.elapsed>10){
     psAnalyzeWithAI();
   }
@@ -12340,13 +13152,63 @@ async function psAnalyzeWithAI(){
   PS.aiLoading=true;
   _psUpdateAnalysisSection();
 
-  const proj=PS.pid?PD[PS.pid]:null;
+  // ── Step 1: Get transcript — Whisper if blob available, fallback to Web Speech ──
+  let transcript=(FD.transcript||"").trim();
+
+  if(PS.audioBlob&&PS.audioBlob.size>5000){
+    try{
+      const cfg=S.aiConfig||{};
+      const endpoint=(cfg.endpoint||"/.netlify/functions/ai").replace(/\/ai$/,"/transcribe");
+      const token=localStorage.getItem("tmc-client-token")||"";
+      const headers={"Content-Type":PS.audioBlobType||"audio/webm"};
+      if(token)headers["x-client-token"]=token;
+      if(cfg.ownerKey)headers["x-owner-key"]=cfg.ownerKey;
+
+      const res=await fetch(endpoint,{method:"POST",headers,body:PS.audioBlob});
+      if(res.ok){
+        const data=await res.json();
+        if(data.transcript&&data.transcript.length>10){
+          transcript=data.transcript;
+          FD.transcript=transcript;
+          FD.totalWords=transcript.split(/\s+/).filter(Boolean).length;
+        }
+        // Save returned token
+        const retToken=res.headers.get("x-client-token");
+        if(retToken)localStorage.setItem("tmc-client-token",retToken);
+      }
+    }catch(e){
+      console.warn("Whisper transcription failed, using Web Speech fallback:",e.message);
+    }
+  }
+
   const dur=proj?parseDuration(proj.dur):null;
   const mins=(PS.elapsed/60).toFixed(1);
-  const transcript=(FD.transcript||"").trim();
   const wordCount=FD.totalWords||0;
   const wpm=PS.elapsed>0?Math.round(wordCount/(PS.elapsed/60)):0;
 
+  // ── Evaluator mode — coach the evaluation, not the speech ──
+  if(PS.mode==="evaluator"&&proj){
+    const etips=EVAL_TIPS&&EVAL_TIPS[PS.pid];
+    const projContext="Project: "+proj.t
+      +"\nPurpose: "+proj.p
+      +(proj.o?"\nObjective: "+proj.o:"")
+      +(etips&&etips.watch?"\nWhat to watch for: "+etips.watch.replace(/<[^>]+>/g,""):"")
+      +(etips&&etips.flag?"\nRed flag (if the speaker missed the objective): "+etips.flag.replace(/<[^>]+>/g,""):"")
+      +(etips&&etips.focus?"\nMost important criterion: "+etips.focus.replace(/<[^>]+>/g,""):"");
+    const sys="You are a Toastmasters evaluation coach. Coach the EVALUATOR — not the speech they evaluated. Listen to how well they evaluated and give feedback on the quality of their evaluation.\n\nContext: A TM evaluation is 2–3 minutes. Structure is CRC — Commend (specific strength tied to the project objective), Recommend (one actionable improvement, concept first), Commend Close (genuine encouragement). Most evaluators template-paste the same structure without addressing what THIS project was trying to achieve.\n\nProject being evaluated:\n"+projContext+"\n\nCoach against these four qualities:\n1. Objective-focused — did they evaluate against THIS project's specific purpose and objective? This is the most important. If the speaker missed the objective (see Red flag above), did the evaluator catch it?\n2. Specific — did they name actual moments, not general observations?\n3. Recommendation quality — one clear actionable thing, concept first? Or a vague generic tip that could apply to any speech?\n4. Technique — sensitive, encouraging, motivating — or clinical and cold?\n\nReply in EXACTLY these sections. No markdown. Begin with '✅ WHAT LANDED:':\n\n✅ WHAT LANDED: The strongest part of their evaluation — what actually helped the speaker. Name the specific moment.\n\n🎯 SHARPEN THIS: The one thing that would make this evaluation more useful. If they missed the project objective entirely, say so directly. Concept first — why it matters — then what to try.\n\n💡 FOR NEXT TIME: One transferable habit to build as an evaluator.\n\nUnder 180 words. Coach the evaluator, not the speech.";
+    const msg="Evaluation transcript ("+mins+" min):\n"+(transcript||"(no audio captured)");
+    try{
+      const response=await callCoach(sys,msg,{maxTokens:400,featureId:'ps-eval'});
+      PS.aiAnalysis=response;
+    }catch(err){
+      PS.aiAnalysis=renderAIError(err,null);
+    }
+    PS.aiLoading=false;
+    _psUpdateAnalysisSection();
+    return;
+  }
+
+  // ── Speaker mode (original) ──
   let durAssessment="";
   if(dur){
     if(PS.elapsed<dur.min*60)durAssessment="UNDER TARGET (came in at "+mins+" min, target "+dur.min+"+ min)";
@@ -12371,6 +13233,7 @@ Filler word rules: only flag fillers used as crutches — 3+ times, sentence-sta
   const msg=(proj?"Project: "+proj.t+"\nProject purpose: "+proj.p+"\n":"Freestyle practice\n")+
     "Duration: "+mins+" minutes"+(dur?" — "+durAssessment:"")+"\n"+
     "Word count: "+wordCount+" ("+wpm+" wpm)\n"+
+    (PS._extraNotes?"\nSpeaker notes: "+PS._extraNotes+"\n":"")+
     "\nFULL TRANSCRIPT:\n"+(transcript||"(no audio captured)")+"\n"+
     "\nAnalyze the transcript above and give focused coaching.";
 
@@ -12480,7 +13343,6 @@ function renderPracticeStudioDone(app){
   let h='<div class="fade-up ps-view">';
   h+='<div class="top-bar">';
   h+='<button class="top-bar-btn" data-action="ps-again">← Practice again</button>';
-  h+='<button class="top-bar-btn" data-action="ps-hub">Hub</button>';
   h+='</div>';
 
   h+='<div class="ps-done-header">';
@@ -12488,7 +13350,7 @@ function renderPracticeStudioDone(app){
   h+='<div class="ps-done-title">'+(proj?proj.t:"Freestyle")+'</div>';
   h+='</div>';
 
-  // Stats grid — duration + word count (no live filler count any more)
+  // Stats grid
   h+='<div class="ps-results-grid">';
   h+='<div class="ps-result-card">';
   h+='<div class="ps-result-n '+durClass+'">'+fmtMs(PS.elapsed*1000)+'</div>';
@@ -12502,7 +13364,17 @@ function renderPracticeStudioDone(app){
   h+='</div>';
   h+='</div>';
 
-  // AI Analysis section — Claude reads transcript and judges fillers in context
+  // Transcript fallback — if thin transcript, prompt user to add context
+  const isShort=wordCount<30;
+  if(aiOn&&isShort&&!PS._extraNotes){
+    h+='<div class="ps-transcript-fallback">';
+    h+='<div class="ps-transcript-fallback-label">📝 Transcript was short — add what you said</div>';
+    h+='<textarea class="ps-transcript-fallback-input" id="ps-extra-notes" placeholder="E.g. key points, specific moments, what you were working on…" rows="3"></textarea>';
+    h+='<button class="ps-transcript-fallback-btn" data-action="ps-run-with-notes">✨ Analyse with my notes</button>';
+    h+='</div>';
+  }
+
+  // AI Analysis
   if(aiOn){
     h+='<div class="ps-analysis-card">';
     h+='<div class="ps-analysis-hdr">✨ Coach Feedback</div>';
@@ -12511,7 +13383,7 @@ function renderPracticeStudioDone(app){
       h+='<div class="ps-analysis-loading"><span class="coach-dots"><span>.</span><span>.</span><span>.</span></span></div>';
     }else if(PS.aiAnalysis){
       h+='<div class="ps-analysis-rendered"></div>';
-    }else{
+    }else if(!isShort){
       h+='<div class="ps-analysis-pending">Generating feedback…</div>';
     }
     h+='</div>';
@@ -12529,16 +13401,22 @@ function renderPracticeStudioDone(app){
   h+='</div>';
   app.innerHTML=h;
 
-  // Render the structured AI analysis if it's already loaded
   _psUpdateAnalysisSection();
 
   app.querySelector('[data-action="ps-again"]').addEventListener("click",()=>{
-    PS.phase="ready";PS.aiAnalysis=null;
+    PS.phase="ready";PS.aiAnalysis=null;PS._extraNotes=null;
     render();
   });
-  app.querySelector('[data-action="ps-hub"]').addEventListener("click",()=>{
-    PS.phase="ready";
-    V.view="hub";render();
+
+  const runBtn=app.querySelector('[data-action="ps-run-with-notes"]');
+  if(runBtn)runBtn.addEventListener("click",()=>{
+    const ta=document.getElementById("ps-extra-notes");
+    PS._extraNotes=ta?ta.value.trim():"";
+    const fb=app.querySelector(".ps-transcript-fallback");
+    if(fb)fb.remove();
+    const analysisEl=document.getElementById("ps-analysis");
+    if(analysisEl)analysisEl.innerHTML='<div class="ps-analysis-loading"><span class="coach-dots"><span>.</span><span>.</span><span>.</span></span></div>';
+    psAnalyzeWithAI();
   });
 }
 
