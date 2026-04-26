@@ -1911,6 +1911,8 @@ a{color:inherit;text-decoration:none}
 .ps-analysis-section-body{font-size:13.5px;line-height:1.6;color:var(--text-2);letter-spacing:-0.003em}
 .ps-section-green{background:rgba(94,185,117,0.1);border:1px solid rgba(94,185,117,0.3)}
 .ps-section-green .ps-analysis-section-hdr{color:#5EB975}
+.ps-section-red{background:rgba(232,93,93,0.1);border:1px solid rgba(232,93,93,0.3)}
+.ps-section-red .ps-analysis-section-hdr{color:#E85D5D}
 .ps-section-amber{background:rgba(232,178,80,0.1);border:1px solid rgba(232,178,80,0.3)}
 .ps-section-amber .ps-analysis-section-hdr{color:#E8B250}
 .ps-section-blue{background:rgba(109,182,180,0.1);border:1px solid rgba(109,182,180,0.3)}
@@ -4045,7 +4047,7 @@ let S={
   mode:"",
   // Ala carte comfort level — only relevant when mode==="alacarte". Captured
   // during welcome flow to personalize project suggestions. "new" / "some" /
-  // "experienced". Kept loose; v1.24 may add follow-ups.
+  // "experienced". Kept loose; v1.25 may add follow-ups.
   alacarteComfort:"",
   // AI Coach config. Disabled by default. User configures in Settings.
   // mode: "direct" (user's own API key, stored locally — direct browser call)
@@ -4551,7 +4553,7 @@ function renderHub(app){
   }
   h+='</div>';
 
-  h+='<div class="app-footer">Made by Kian How · Not affiliated with Toastmasters International · v1.24</div>';
+  h+='<div class="app-footer">Made by Kian How · Not affiliated with Toastmasters International · v1.25</div>';
   h+='</div>';
   app.innerHTML=h;
 
@@ -4884,7 +4886,7 @@ function renderPathPicker(app){
   h+='<button class="quiz-prompt-btn" data-action="open-quiz">🧭 &nbsp; Not sure which one? Take the fun quiz</button>';
   h+='</div>';
 
-  h+='<div class="app-footer">Made by Kian How · Not affiliated with Toastmasters International · v1.24</div>';
+  h+='<div class="app-footer">Made by Kian How · Not affiliated with Toastmasters International · v1.25</div>';
   h+='</div>';
   app.innerHTML=h;
 
@@ -5248,7 +5250,7 @@ function renderPathBrowser(app){
   // Keeping it in the tree lets us toggle visibility without re-rendering.
   h+='<div class="path-complete-banner'+(pct>=100?'':' hidden')+'"><strong>🎉 Path complete!</strong><div style="font-size:13px;color:var(--text-muted);line-height:1.5">Next step: DTM. Keep going.</div></div>';
 
-  h+='<div class="app-footer">Made by Kian How · Not affiliated with Toastmasters International · v1.24</div>';
+  h+='<div class="app-footer">Made by Kian How · Not affiliated with Toastmasters International · v1.25</div>';
   h+='</div>';
   app.innerHTML=h;
 
@@ -6890,7 +6892,7 @@ function renderPracticeHub(app){
   h+=toolRow({tool:"speech-draft",color:"#6DB6B4",icon:"📝",name:"Speech Draft Builder",desc:(S.aiConfig&&S.aiConfig.enabled)?"AI builds your speech outline and opening lines":"Structure your next speech from outline to close"});
 
   h+='</div>';
-  h+='<div class="app-footer">Made by Kian How · Not affiliated with Toastmasters International · v1.24</div>';
+  h+='<div class="app-footer">Made by Kian How · Not affiliated with Toastmasters International · v1.25</div>';
   h+='</div>';
   app.innerHTML=h;
 
@@ -7502,30 +7504,7 @@ function _ttpRenderDone(app){
 }
 
 function _ttpRenderAnalysis(text){
-  // If this is an error card from renderAIError(), pass it straight through
-  if(text&&text.startsWith('<div class="ai-error-card">'))return text;
-  const esc=s=>s.replace(/&/g,"&amp;").replace(/</g,"&lt;");
-  const sections={answered:"",structure:"",delivery:"",next:""};
-  let cur="other";const other=[];
-  text.split("\n").forEach(line=>{
-    const t=line.trim();if(!t)return;
-    if(/ANSWERED/i.test(t)||t.startsWith("✅")){cur="answered";const c=t.replace(/.*ANSWERED[^:]*:\s*/i,"").replace(/^✅\s*/,"");if(c)sections.answered+=c+" ";}
-    else if(/STRUCTURE/i.test(t)||t.startsWith("🏗")){cur="structure";const c=t.replace(/.*STRUCTURE[^:]*:\s*/i,"").replace(/^🏗\s*/,"");if(c)sections.structure+=c+" ";}
-    else if(/DELIVERY/i.test(t)||t.startsWith("🎯")){cur="delivery";const c=t.replace(/.*DELIVERY[^:]*:\s*/i,"").replace(/^🎯\s*/,"");if(c)sections.delivery+=c+" ";}
-    else if(/NEXT TIME/i.test(t)||t.startsWith("💡")){cur="next";const c=t.replace(/.*NEXT TIME[^:]*:\s*/i,"").replace(/^💡\s*/,"");if(c)sections.next+=c+" ";}
-    else if(cur==="answered")sections.answered+=t+" ";
-    else if(cur==="structure")sections.structure+=t+" ";
-    else if(cur==="delivery")sections.delivery+=t+" ";
-    else if(cur==="next")sections.next+=t+" ";
-    else other.push(t);
-  });
-  let html="";
-  if(sections.answered.trim())html+='<div class="ps-analysis-section ps-section-green"><div class="ps-analysis-section-hdr">✅ Answered the question</div><div class="ps-analysis-section-body">'+esc(sections.answered.trim())+'</div></div>';
-  if(sections.structure.trim())html+='<div class="ps-analysis-section ps-section-blue"><div class="ps-analysis-section-hdr">🏗 Structure</div><div class="ps-analysis-section-body">'+esc(sections.structure.trim())+'</div></div>';
-  if(sections.delivery.trim())html+='<div class="ps-analysis-section ps-section-amber"><div class="ps-analysis-section-hdr">🎯 Delivery</div><div class="ps-analysis-section-body">'+esc(sections.delivery.trim())+'</div></div>';
-  if(sections.next.trim())html+='<div class="ps-analysis-section ps-section-blue"><div class="ps-analysis-section-hdr">💡 Next time</div><div class="ps-analysis-section-body">'+esc(sections.next.trim())+'</div></div>';
-  if(!html&&other.length)html='<div class="ps-analysis-text">'+esc(other.join(" "))+'</div>';
-  return html||'<div class="ps-analysis-text">'+esc(text)+'</div>';
+  return renderCoachCards(text);
 }
 
 async function ttpAnalyze(){
@@ -12465,9 +12444,7 @@ function renderContestDetail(app){
       if(CD.loading){
         h+='<div class="role-ai-loading" style="padding:32px;text-align:center"><span class="coach-dots"><span>.</span><span>.</span><span>.</span></span><div style="margin-top:12px;font-size:13px;color:var(--text-3)">Reviewing against the contest ballot…</div></div>';
       }else if(CD.result){
-        h+='<div class="contest-result fade-up">';
-        h+=CD.result;
-        h+='</div>';
+        h+='<div class="contest-result fade-up">'+renderCoachCards(CD.result)+'</div>';
         h+='<div style="display:flex;gap:10px;margin-top:16px">';
         h+='<button class="ttp-random-btn" style="flex:1" data-action="contest-again">🎙 Practice again</button>';
         h+='</div>';
@@ -12577,6 +12554,7 @@ function renderContestDetail(app){
 // Contest mic + recording pipeline — mirrors TT Practice pattern
 function _contestWireMic(btn,c){
   let recording=false,recognition=null,timerInt=null,seconds=0,transcript="";
+  let audioChunks=[],mediaRecorder=null,audioBlobType="audio/webm";
 
   const updateDisplay=()=>{
     const el=document.getElementById("contest-timer-display");
@@ -12588,65 +12566,76 @@ function _contestWireMic(btn,c){
 
   btn.addEventListener("click",async()=>{
     if(!recording){
-      // Start
       _recordSfx(true);
-      recording=true;
-      seconds=0;
-      transcript="";
-      btn.textContent="";
+      recording=true;seconds=0;transcript="";audioChunks=[];
       btn.innerHTML='<div class="ps-mic-ring active"><div class="ps-mic-icon">■</div></div>';
-      btn.style.background="";
       timerInt=setInterval(()=>{seconds++;updateDisplay();},1000);
 
-      // Speech recognition
+      // Speech recognition (live fallback)
       const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
       if(SR){
-        recognition=new SR();
-        recognition.continuous=true;
-        recognition.interimResults=false;
-        recognition.lang="en-US";
-        recognition.onresult=e=>{
-          for(let i=e.resultIndex;i<e.results.length;i++){
-            if(e.results[i].isFinal)transcript+=e.results[i][0].transcript+" ";
-          }
-        };
+        recognition=new SR();recognition.continuous=true;recognition.interimResults=false;recognition.lang="en-US";
+        recognition.onresult=e=>{for(let i=e.resultIndex;i<e.results.length;i++){if(e.results[i].isFinal)transcript+=e.results[i][0].transcript+" ";}};
         recognition.onend=()=>{if(recording)try{recognition.start();}catch(e){}};
         try{recognition.start();}catch(e){}
       }
 
-      // Mic keepalive
+      // MediaRecorder — captures blob for Whisper
       try{
         const stream=await navigator.mediaDevices.getUserMedia({audio:true});
-        const mr=new MediaRecorder(stream);
-        mr.ondataavailable=()=>{};
-        mr.start();
         btn._stream=stream;
-        btn._mr=mr;
+        const mimeType=MediaRecorder.isTypeSupported("audio/webm")?"audio/webm":"audio/mp4";
+        audioBlobType=mimeType;
+        const mr=new MediaRecorder(stream,{mimeType});
+        mr.ondataavailable=e=>{if(e.data&&e.data.size>0)audioChunks.push(e.data);};
+        mr.start(1000);
+        mediaRecorder=mr;
       }catch(e){}
 
     }else{
-      // Stop
-      _recordSfx(false);
-      clearInterval(timerInt);
-      recording=false;
+      _recordSfx(false);clearInterval(timerInt);recording=false;
       btn.innerHTML='<div class="ps-mic-ring"><div class="ps-mic-icon">🎙️</div></div>';
-      btn.style.background="";
 
-      if(recognition){
-        try{recognition.onend=null;recognition.stop();}catch(e){}
-        recognition=null;
+      if(recognition){try{recognition.onend=null;recognition.stop();}catch(e){}recognition=null;}
+
+      const finishRecording=async(blob)=>{
+        if(btn._stream)btn._stream.getTracks().forEach(t=>t.stop());
+        let finalTranscript=transcript.trim();
+        V._contestData={phase:"done",transcript:finalTranscript,loading:true,result:null,error:null};
+        render();
+
+        // Try Whisper
+        if(blob&&blob.size>5000){
+          try{
+            const cfg=S.aiConfig||{};
+            const endpoint=(cfg.endpoint||"/.netlify/functions/ai").replace(/\/ai$/,"/transcribe");
+            const token=localStorage.getItem("tmc-client-token")||"";
+            const headers={"Content-Type":audioBlobType};
+            if(token)headers["x-client-token"]=token;
+            if(cfg.ownerKey)headers["x-owner-key"]=cfg.ownerKey;
+            const res=await fetch(endpoint,{method:"POST",headers,body:blob});
+            if(res.ok){
+              const data=await res.json();
+              if(data.transcript&&data.transcript.length>10)finalTranscript=data.transcript;
+            }
+          }catch(e){console.warn("Whisper fallback:",e.message);}
+        }
+
+        V._contestData.transcript=finalTranscript;
+        if(finalTranscript)_contestRunEval(c,finalTranscript);
+        else{V._contestData={phase:"done",loading:false,error:new Error("No speech detected.")};render();}
+      };
+
+      if(mediaRecorder&&mediaRecorder.state!=="inactive"){
+        mediaRecorder.onstop=()=>finishRecording(audioChunks.length?new Blob(audioChunks,{type:audioBlobType}):null);
+        try{mediaRecorder.stop();}catch(e){finishRecording(null);}
+      }else{
+        finishRecording(null);
       }
-      if(btn._mr){try{btn._mr.stop();}catch(e){}}
-      if(btn._stream){btn._stream.getTracks().forEach(t=>t.stop());}
-
-      const final=transcript.trim();
-      V._contestData={phase:"done",transcript:final,loading:!!final,result:null,error:null};
-      render();
-      if(final)_contestRunEval(c,final);
-      else{V._contestData={phase:"done",loading:false,error:new Error("No speech detected. Try again in a quieter environment.")};render();}
     }
   });
 }
+
 
 async function _contestRunEval(c,transcript){
   const cData=V._contestData;
@@ -13109,7 +13098,7 @@ function psUpdateActiveDisplay(){
   }
 }
 
-// renderPracticeStudioActive removed in v1.24 — active panel now lives inside renderPracticeStudio
+// renderPracticeStudioActive removed in v1.25 — active panel now lives inside renderPracticeStudio
 
 function psStop(){
   _recordSfx(false);
@@ -13247,6 +13236,75 @@ Filler word rules: only flag fillers used as crutches — 3+ times, sentence-sta
   _psUpdateAnalysisSection();
 }
 
+// ── Universal coach feedback renderer — parses any section-based AI response into colour cards ──
+function renderCoachCards(raw){
+  if(!raw)return"";
+  if(raw.startsWith('<div class="ai-error-card">'))return raw;
+
+  const esc=s=>s.replace(/&/g,"&amp;").replace(/</g,"&lt;");
+  const stripMd=s=>s.replace(/^\s*#+\s*/,"").replace(/\*\*/g,"").replace(/__/g,"").replace(/^[*_]+|[*_]+$/g,"").trim();
+
+  // Section definitions — emoji + keyword patterns → colour
+  const SECTIONS=[
+    {key:"green",  emojis:/^✅/,    keywords:/WHAT\s*(WORKED|LANDED(\s*WITH\s*THE\s*ROOM)?|LANDED|PLACED\s*YOU)/i, label:"✅ What Worked"},
+    {key:"amber",  emojis:/^🎯/,    keywords:/TOP\s*PRIORITY|BALLOT\s*(BREAKDOWN|SCORE)|SHARPEN\s*THIS|WHAT\s*(TO\s*(CUT|FIX)|COST\s*YOU)/i, label:"🎯 Key Feedback"},
+    {key:"red",    emojis:/^⚠️/,    keywords:/WHAT\s*TO\s*(FIX|CUT|IMPROVE)|COST\s*YOU/i, label:"⚠️ Fix This"},
+    {key:"blue",   emojis:/^💡/,    keywords:/NEXT\s*(PRACTICE\s*)?TIP|ONE\s*ACTION|BEFORE\s*NEXT\s*ROUND|FOR\s*NEXT\s*TIME/i, label:"💡 Next Step"},
+  ];
+
+  const buckets={green:"",amber:"",red:"",blue:""};
+  const labels={green:"✅ What Worked",amber:"🎯 Key Feedback",red:"⚠️ Fix This",blue:"💡 Next Step"};
+  const unmatched=[];
+  let cur=null;
+
+  raw.split("\n").forEach(line=>{
+    const raw_t=line.trim();
+    if(!raw_t)return;
+    const t=stripMd(raw_t);
+    if(!t)return;
+
+    let matched=false;
+    for(const sec of SECTIONS){
+      if(sec.emojis.test(t)||sec.keywords.test(t)){
+        cur=sec.key;
+        // Override label with actual header text if present
+        labels[sec.key]=t.replace(/^[✅🎯⚠️💡]\s*/,"").replace(/:\s*$/,"").trim()||sec.label;
+        // Capture inline content after the header
+        const afterColon=t.replace(/^[✅🎯⚠️💡]\s*/,"").replace(/^[^:]+:\s*/,"").trim();
+        if(afterColon)buckets[cur]+=afterColon+" ";
+        matched=true;
+        break;
+      }
+    }
+    if(!matched){
+      if(cur)buckets[cur]+=t+" ";
+      else unmatched.push(t);
+    }
+  });
+
+  const colours={green:"ps-section-green",amber:"ps-section-amber",red:"ps-section-red",blue:"ps-section-blue"};
+  let html="";
+  ["green","amber","red","blue"].forEach(key=>{
+    const text=buckets[key].trim();
+    if(text){
+      html+='<div class="ps-analysis-section '+colours[key]+'">';
+      html+='<div class="ps-analysis-section-hdr">'+esc(labels[key])+'</div>';
+      html+='<div class="ps-analysis-section-body">'+esc(text)+'</div>';
+      html+='</div>';
+    }
+  });
+
+  // Fallback — nothing parsed
+  if(!html){
+    const fallback=unmatched.length?unmatched.join(" "):raw;
+    html='<div class="ps-analysis-section ps-section-blue">';
+    html+='<div class="ps-analysis-section-hdr">💡 Coach Feedback</div>';
+    html+='<div class="ps-analysis-section-body">'+esc(fallback.trim())+'</div>';
+    html+='</div>';
+  }
+  return html;
+}
+
 function _psUpdateAnalysisSection(){
   const el=document.getElementById("ps-analysis");
   if(!el)return;
@@ -13262,65 +13320,8 @@ function _psUpdateAnalysisSection(){
     return;
   }
 
-  const raw=PS.aiAnalysis;
-  const esc=s=>s.replace(/&/g,"&amp;").replace(/</g,"&lt;");
-  // Strip markdown noise from a line (bold, italic, headers)
-  const stripMd=s=>s.replace(/^\s*#+\s*/,"").replace(/\*\*/g,"").replace(/__/g,"").replace(/^[*_]+|[*_]+$/g,"").trim();
-
-  const sections={worked:"",priority:"",tip:""};
-  const unmatched=[];
-  let cur=null;
-  raw.split("\n").forEach(line=>{
-    const raw_t=line.trim();
-    if(!raw_t)return;
-    const t=stripMd(raw_t);
-    if(!t)return;
-
-    // Header detection — matches: "✅ What Worked:", "**What Worked:**", "### What Worked", etc.
-    if(/^✅|WHAT\s*WORKED/i.test(t)){
-      cur="worked";
-      const c=t.replace(/^✅\s*/,"").replace(/^WHAT\s*WORKED\s*:?\s*/i,"").trim();
-      if(c)sections.worked+=c+" ";
-    }else if(/^🎯|TOP\s*PRIORITY/i.test(t)){
-      cur="priority";
-      const c=t.replace(/^🎯\s*/,"").replace(/^TOP\s*PRIORITY\s*:?\s*/i,"").trim();
-      if(c)sections.priority+=c+" ";
-    }else if(/^💡|NEXT\s*(PRACTICE\s*)?TIP/i.test(t)){
-      cur="tip";
-      const c=t.replace(/^💡\s*/,"").replace(/^NEXT\s*(PRACTICE\s*)?TIP\s*:?\s*/i,"").trim();
-      if(c)sections.tip+=c+" ";
-    }else if(cur==="worked")sections.worked+=t+" ";
-    else if(cur==="priority")sections.priority+=t+" ";
-    else if(cur==="tip")sections.tip+=t+" ";
-    else unmatched.push(t);
-  });
-
-  let html="";
-  if(sections.worked.trim()){
-    html+='<div class="ps-analysis-section ps-section-green">';
-    html+='<div class="ps-analysis-section-hdr">✅ What Worked</div>';
-    html+='<div class="ps-analysis-section-body">'+esc(sections.worked.trim())+'</div></div>';
-  }
-  if(sections.priority.trim()){
-    html+='<div class="ps-analysis-section ps-section-amber">';
-    html+='<div class="ps-analysis-section-hdr">🎯 Top Priority</div>';
-    html+='<div class="ps-analysis-section-body">'+esc(sections.priority.trim())+'</div></div>';
-  }
-  if(sections.tip.trim()){
-    html+='<div class="ps-analysis-section ps-section-blue">';
-    html+='<div class="ps-analysis-section-hdr">💡 Next Practice Tip</div>';
-    html+='<div class="ps-analysis-section-body">'+esc(sections.tip.trim())+'</div></div>';
-  }
-
-  // Graceful fallback — if NOTHING matched, render the whole thing as one neutral card
-  if(!html&&(unmatched.length||raw.trim())){
-    const fallbackText=unmatched.length?unmatched.join(" "):raw;
-    html='<div class="ps-analysis-section ps-section-blue">';
-    html+='<div class="ps-analysis-section-hdr">💡 Coach Feedback</div>';
-    html+='<div class="ps-analysis-section-body">'+esc(fallbackText)+'</div></div>';
-  }
-
-  el.innerHTML=html||'<div class="ps-analysis-text">'+esc(raw)+'</div>';
+  const html=renderCoachCards(PS.aiAnalysis);
+  el.innerHTML=html;
 }
 
 function renderPracticeStudioDone(app){
