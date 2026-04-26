@@ -1185,6 +1185,81 @@ a{color:inherit;text-decoration:none}
 
 /* ═══ Standalone AI Tool Views (5A+ style) ═══ */
 
+
+/* ═══ PROJECT SEARCH BAR ═══ */
+.ps-project-search{width:100%;box-sizing:border-box;background:rgba(255,255,255,0.05);border:1px solid var(--border);border-radius:10px;padding:9px 13px;font-family:inherit;font-size:var(--fs-sm);color:var(--text);outline:none;margin-bottom:8px;transition:border-color .15s}
+.ps-project-search:focus{border-color:var(--accent)}
+.ps-project-search::placeholder{color:var(--text-3)}
+
+
+/* ═══ Contest Hub — Honest Take + Case Study ═══ */
+.contest-honest-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px;margin-bottom:14px}
+.contest-honest-header{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.contest-honest-title{font-size:var(--fs-md);font-weight:700;color:var(--text);letter-spacing:-0.008em}
+.contest-honest-body{display:flex;flex-direction:column;gap:12px}
+.contest-honest-tier{padding-left:12px;border-left:2px solid var(--border)}
+.contest-honest-tier-label{font-size:var(--fs-xs);font-weight:700;letter-spacing:0.05em;text-transform:uppercase;margin-bottom:4px}
+.contest-honest-tier-desc{font-size:var(--fs-sm);color:var(--text-3);line-height:1.55;letter-spacing:-0.003em}
+.contest-honest-takeaway{font-size:var(--fs-sm);font-weight:700;color:var(--text-2);letter-spacing:-0.003em;font-style:italic;padding-top:4px;border-top:1px solid var(--border);margin-top:4px}
+
+.contest-casestudy{background:rgba(201,150,58,0.06);border:1px solid rgba(201,150,58,0.2);border-radius:14px;padding:16px;margin-bottom:14px}
+.contest-casestudy-label{font-size:var(--fs-xs);font-weight:700;color:rgba(201,150,58,0.8);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:6px}
+.contest-casestudy-title{font-size:var(--fs-lg);font-weight:800;color:var(--text);letter-spacing:-0.01em;margin-bottom:2px}
+.contest-casestudy-who{font-size:var(--fs-xs);color:var(--text-3);letter-spacing:-0.003em;margin-bottom:12px}
+.contest-casestudy-lessons{display:flex;flex-direction:column;gap:10px}
+.contest-casestudy-lesson{display:flex;gap:10px;font-size:var(--fs-sm);color:var(--text-2);line-height:1.55;letter-spacing:-0.003em}
+.contest-casestudy-icon{flex-shrink:0;font-size:15px}
+
+/* ═══ CONTESTS HUB ═══ */
+.contests-hero{text-align:center;padding:24px 0 20px}
+.contests-hero-icon{font-size:44px;margin-bottom:8px}
+.contests-hero-title{font-size:var(--fs-2xl);font-weight:800;color:var(--text);letter-spacing:-0.02em;margin-bottom:6px}
+.contests-hero-sub{font-size:var(--fs-sm);color:var(--text-3);line-height:1.6;letter-spacing:-0.003em;max-width:300px;margin:0 auto}
+
+.contest-card{display:flex;align-items:center;justify-content:space-between;width:100%;background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--cc);border-radius:14px;padding:16px;margin-bottom:10px;cursor:pointer;font-family:inherit;text-align:left;transition:background .15s,transform .12s}
+.contest-card:hover{background:rgba(255,255,255,0.04);transform:translateX(2px)}
+.contest-card:active{transform:scale(0.98)}
+.contest-card-left{display:flex;align-items:center;gap:14px}
+.contest-card-emoji{font-size:28px;flex-shrink:0}
+.contest-card-name{font-size:var(--fs-md);font-weight:700;color:var(--text);letter-spacing:-0.008em;margin-bottom:3px}
+.contest-card-tagline{font-size:var(--fs-xs);color:var(--text-3);line-height:1.4;letter-spacing:-0.003em}
+.contest-card-time{font-size:var(--fs-xs);font-weight:700;color:var(--cc);letter-spacing:0.04em;flex-shrink:0}
+
+/* ═══ CONTEST DETAIL ═══ */
+.contest-detail-hero{display:flex;align-items:center;gap:14px;padding:18px 0 4px}
+.contest-detail-emoji{font-size:40px;flex-shrink:0}
+.contest-detail-name{font-size:var(--fs-xl);font-weight:800;color:var(--text);letter-spacing:-0.012em}
+.contest-detail-time{font-size:var(--fs-sm);color:var(--text-3);margin-top:3px}
+
+.contest-tabs{display:flex;gap:8px;margin:16px 0}
+.contest-tab{flex:1;padding:10px;background:var(--surface);border:1px solid var(--border);border-radius:10px;font-family:inherit;font-size:var(--fs-sm);font-weight:600;color:var(--text-3);cursor:pointer;transition:all .15s}
+.contest-tab.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+
+.contest-coach-note{display:flex;align-items:flex-start;gap:12px;margin-bottom:20px}
+.contest-coach-avatar{width:44px;height:44px;border-radius:50%;background:#fff;overflow:hidden;flex-shrink:0;border:2px solid rgba(255,255,255,0.12)}
+.contest-coach-avatar img{width:100%;height:100%;object-fit:cover}
+.contest-coach-bubble{flex:1;background:var(--surface);border:1px solid var(--border);border-radius:0 14px 14px 14px;padding:12px 14px}
+.contest-coach-label{font-size:var(--fs-xs);font-weight:700;color:var(--accent);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:5px}
+.contest-coach-text{font-size:var(--fs-sm);color:var(--text-2);line-height:1.6;letter-spacing:-0.003em;font-style:italic}
+
+.contest-section-hdr{font-size:var(--fs-xs);font-weight:700;color:var(--text-3);letter-spacing:0.1em;text-transform:uppercase;margin:20px 0 10px}
+
+.contest-criteria{display:flex;flex-direction:column;gap:12px;margin-bottom:8px}
+.contest-criterion{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px}
+.contest-criterion-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+.contest-criterion-label{font-size:var(--fs-md);font-weight:700;color:var(--text);letter-spacing:-0.008em}
+.contest-criterion-pct{font-size:var(--fs-lg);font-weight:800;letter-spacing:-0.01em}
+.contest-criterion-bar{height:4px;background:rgba(255,255,255,0.06);border-radius:2px;margin-bottom:10px;overflow:hidden}
+.contest-criterion-fill{height:100%;border-radius:2px;transition:width .4s ease}
+.contest-criterion-desc{font-size:var(--fs-sm);color:var(--text-3);line-height:1.55;letter-spacing:-0.003em}
+
+.contest-kills{display:flex;flex-direction:column;gap:10px;margin-bottom:24px}
+.contest-kill-item{display:flex;gap:10px;font-size:var(--fs-sm);color:var(--text-2);line-height:1.55;letter-spacing:-0.003em;background:rgba(232,93,93,0.05);border:1px solid rgba(232,93,93,0.15);border-radius:10px;padding:12px}
+.contest-kill-icon{flex-shrink:0;font-size:15px}
+
+.contest-result{display:flex;flex-direction:column;gap:12px}
+.contest-result-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px;font-size:var(--fs-sm);color:var(--text-2);line-height:1.6;letter-spacing:-0.003em}
+
 /* ═══ TT Question Guide ═══ */
 
 /* TT answer guide extras */
@@ -3746,7 +3821,7 @@ let S={
   mode:"",
   // Ala carte comfort level — only relevant when mode==="alacarte". Captured
   // during welcome flow to personalize project suggestions. "new" / "some" /
-  // "experienced". Kept loose; v1.08 may add follow-ups.
+  // "experienced". Kept loose; v1.11 may add follow-ups.
   alacarteComfort:"",
   // AI Coach config. Disabled by default. User configures in Settings.
   // mode: "direct" (user's own API key, stored locally — direct browser call)
@@ -3979,7 +4054,10 @@ const HUB_GLYPHS={
   coach:'<svg viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="21" fill="rgba(255,255,255,0.07)"/><path d="M8 14c0-2 2-4 4-4h24c2 0 4 2 4 4v16c0 2-2 4-4 4h-13l-7 6v-6h-4c-2 0-4-2-4-4z" fill="#fff" opacity="0.95"/><path d="M24 16 L25.4 20.6 L30 22 L25.4 23.4 L24 28 L22.6 23.4 L18 22 L22.6 20.6z" fill="rgba(0,0,0,0.35)"/><circle cx="39" cy="8" r="1.6" fill="#fff" opacity="0.75"/><circle cx="42" cy="12" r="1" fill="#fff" opacity="0.55"/></svg>',
 
   // Community — people arranged around a circle
-  community:'<svg viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="21" fill="rgba(255,255,255,0.07)"/><circle cx="24" cy="10" r="3.5" fill="#fff"/><path d="M18 18c0-2 3-3 6-3s6 1 6 3v4H18z" fill="#fff"/><circle cx="10" cy="24" r="3.5" fill="#fff" opacity="0.9"/><path d="M4 32c0-2 3-3 6-3s6 1 6 3v3H4z" fill="#fff" opacity="0.9"/><circle cx="38" cy="24" r="3.5" fill="#fff" opacity="0.9"/><path d="M32 32c0-2 3-3 6-3s6 1 6 3v3H32z" fill="#fff" opacity="0.9"/><circle cx="24" cy="40" r="3.5" fill="#fff"/><circle cx="24" cy="24" r="8" fill="none" stroke="#fff" stroke-width="1" opacity="0.35" stroke-dasharray="2 2.5"/></svg>'
+  community:'<svg viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="21" fill="rgba(255,255,255,0.07)"/><circle cx="24" cy="10" r="3.5" fill="#fff"/><path d="M18 18c0-2 3-3 6-3s6 1 6 3v4H18z" fill="#fff"/><circle cx="10" cy="24" r="3.5" fill="#fff" opacity="0.9"/><path d="M4 32c0-2 3-3 6-3s6 1 6 3v3H4z" fill="#fff" opacity="0.9"/><circle cx="38" cy="24" r="3.5" fill="#fff" opacity="0.9"/><path d="M32 32c0-2 3-3 6-3s6 1 6 3v3H32z" fill="#fff" opacity="0.9"/><circle cx="24" cy="40" r="3.5" fill="#fff"/><circle cx="24" cy="24" r="8" fill="none" stroke="#fff" stroke-width="1" opacity="0.35" stroke-dasharray="2 2.5"/></svg>',
+
+  // Contests — trophy cup with star
+  contest:'<svg viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="21" fill="rgba(255,255,255,0.07)"/><path d="M16 8h16v14c0 5-3.5 9-8 9s-8-4-8-9z" fill="#fff" opacity="0.95"/><path d="M10 9h6v8c0 2-1.5 4-3 4s-3-2-3-4z" fill="#fff" opacity="0.7"/><path d="M32 9h6v8c0 2-1.5 4-3 4s-3-2-3-4z" fill="#fff" opacity="0.7"/><rect x="21" y="31" width="6" height="5" fill="#fff" opacity="0.9"/><rect x="15" y="36" width="18" height="3.5" rx="1.5" fill="#fff" opacity="0.95"/><path d="M24 13 L25 16.5 L28.5 16.5 L25.8 18.5 L26.8 22 L24 20 L21.2 22 L22.2 18.5 L19.5 16.5 L23 16.5z" fill="rgba(0,0,0,0.25)"/></svg>'
 };
 
 // ═══ Path glyphs — richer illustrated SVGs, filled with white on aurora background ═══
@@ -4064,6 +4142,8 @@ function render(){
   else if(V.view==="ai-tool"){renderAITool(app);}
   else if(V.view==="ai-settings"){renderAISettings(app);}
   else if(V.view==="ai-coach"){renderPracticeStudio(app);}
+  else if(V.view==="contests"){renderContests(app);}
+  else if(V.view==="contest-detail"){renderContestDetail(app);}
   else if(V.view==="eval-helper"){renderEvalHelper(app);}
   else if(V.view==="speech-draft"){renderSpeechDraft(app);}
   else if(V.view==="my-paths"){renderMyPaths(app);}
@@ -4231,7 +4311,7 @@ function renderHub(app){
     // Row 2 — Pathways (softer entry)
     h+=tile({hub:"path",        glyph:"pathfinder",color:"#5B9DD9", name:"Pathways",      sub:"Track your progress"});
     h+=tile({hub:"all-projects",glyph:"path",      color:"#D4A94C", name:"Library",       sub:"60+ Pathways projects"});
-    h+=tile({glyph:"community", color:"#DB8A6A",   name:"Community",sub:"Coming soon",badge:"Soon",placeholder:true});
+    h+=tile({hub:"contests",    glyph:"contest",   color:"#C9963A", name:"Contests",      sub:"Compete & win"});
   }else{
     // Row 1 — practice tools
     h+=tile({hub:"ai-coach",    glyph:"coach",     color:"#A07BC7", name:"Speech Coach",  sub:"AI practice & feedback"});
@@ -4242,11 +4322,11 @@ function renderHub(app){
              name:p?"My Pathways":"Pathways",      sub:p?Math.round(pct)+"% complete":"Track your path",
              ring:p?{pct:pct}:null});
     h+=tile({hub:"pathfinder",  glyph:"pathfinder",color:"#5B9DD9", name:"Path Planner",  sub:"Plan your journey"});
-    h+=tile({glyph:"community", color:"#DB8A6A",   name:"Community",sub:"Coming soon",badge:"Soon",placeholder:true});
+    h+=tile({hub:"contests",    glyph:"contest",   color:"#C9963A", name:"Contests",      sub:"Compete & win"});
   }
   h+='</div>';
 
-  h+='<div class="app-footer">Made by Kian How · Not affiliated with Toastmasters International · v1.08</div>';
+  h+='<div class="app-footer">Made by Kian How · Not affiliated with Toastmasters International · v1.11</div>';
   h+='</div>';
   app.innerHTML=h;
 
@@ -4302,6 +4382,7 @@ function renderHub(app){
       else if(target==="all-projects"){V.view="all-projects";}
       else if(target==="ai-coach"){V.view="ai-coach";}
       else if(target==="quiz"){V.view="quiz-intro";}
+      else if(target==="contests"){V.view="contests";}
       render();
     });
   });
@@ -4578,7 +4659,7 @@ function renderPathPicker(app){
   h+='<button class="quiz-prompt-btn" data-action="open-quiz">🧭 &nbsp; Not sure which one? Take the fun quiz</button>';
   h+='</div>';
 
-  h+='<div class="app-footer">Made by Kian How · Not affiliated with Toastmasters International · v1.08</div>';
+  h+='<div class="app-footer">Made by Kian How · Not affiliated with Toastmasters International · v1.11</div>';
   h+='</div>';
   app.innerHTML=h;
 
@@ -4942,7 +5023,7 @@ function renderPathBrowser(app){
   // Keeping it in the tree lets us toggle visibility without re-rendering.
   h+='<div class="path-complete-banner'+(pct>=100?'':' hidden')+'"><strong>🎉 Path complete!</strong><div style="font-size:13px;color:var(--text-muted);line-height:1.5">Next step: DTM. Keep going.</div></div>';
 
-  h+='<div class="app-footer">Made by Kian How · Not affiliated with Toastmasters International · v1.08</div>';
+  h+='<div class="app-footer">Made by Kian How · Not affiliated with Toastmasters International · v1.11</div>';
   h+='</div>';
   app.innerHTML=h;
 
@@ -6376,7 +6457,7 @@ function renderPracticeHub(app){
   h+=toolRow({tool:"speech-draft",color:"#6DB6B4",icon:"📝",name:"Speech Draft Builder",desc:(S.aiConfig&&S.aiConfig.enabled)?"AI builds your speech outline and opening lines":"Structure your next speech from outline to close"});
 
   h+='</div>';
-  h+='<div class="app-footer">Made by Kian How · Not affiliated with Toastmasters International · v1.08</div>';
+  h+='<div class="app-footer">Made by Kian How · Not affiliated with Toastmasters International · v1.11</div>';
   h+='</div>';
   app.innerHTML=h;
 
@@ -6694,8 +6775,8 @@ function _ttpRenderSetup(app){
   h+='<div class="tg-guide-refs">';
   h+='<div class="tg-guide-refs-label">📺 See it in action</div>';
   const refs=[
-    {label:"World Champion of Public Speaking 2001 — Darren LaCroix",url:"https://www.youtube.com/watch?v=hV_LIzHAaFk"},
-    {label:"Table Topics Champion at TM World 2018",url:"https://www.youtube.com/watch?v=DzOjGMZ4DQY"},
+    {label:"Search: Toastmasters Table Topics champion speeches",url:"https://www.youtube.com/results?search_query=toastmasters+table+topics+champion+speech"},
+    {label:"Search: World Champion of Public Speaking examples",url:"https://www.youtube.com/results?search_query=toastmasters+world+champion+public+speaking"},
     {label:"Toastmasters — What is Table Topics?",url:"https://www.toastmasters.org/membership/table-topics"}
   ];
   refs.forEach(r=>{
@@ -10206,11 +10287,20 @@ function renderAIEvalAssistant(app){
   // OFFLINE-ONLY guidance — ported from 5aplus pattern. No AI calls.
   if(V._eaPid===undefined)V._eaPid="";
 
-  const pathCode=S.path||"DL";
+  // Build project list across ALL paths so evaluators aren't locked to their enrolled path
+  const seen=new Set();
   const levelGroups=[];
+  const pathCodes=Object.keys(PA);
   for(let lv=1;lv<=5;lv++){
-    const g=gP(pathCode,lv);
-    const pids=[...g.r,...g.e].filter(pid=>PD[pid]&&PD[pid].dur&&PD[pid].dur.includes("min"));
+    const pids=[];
+    pathCodes.forEach(pc=>{
+      const g=gP(pc,lv);
+      [...g.r,...g.e].forEach(pid=>{
+        if(seen.has(pid))return;
+        const p=PD[pid];
+        if(p&&p.dur&&p.dur.includes("min")){seen.add(pid);pids.push(pid);}
+      });
+    });
     if(pids.length)levelGroups.push({level:lv,pids});
   }
   if(!levelGroups.length)levelGroups.push({level:1,pids:["ice-breaker","writing-speech","intro-vvbl","eval-feedback"]});
@@ -10232,7 +10322,8 @@ function renderAIEvalAssistant(app){
 
   if(!selProj){
     h+='<div class="ai-tool-desc">Select the project you\'re evaluating to see project-specific guidance and your evaluation script.</div>';
-    h+='<div class="ai-tool-project-list">';
+    h+='<input class="ps-project-search" id="ea-project-search" placeholder="🔍 Search projects…" autocomplete="off" style="margin-bottom:8px"/>';
+    h+='<div class="ai-tool-project-list" id="ea-project-list">';
     levelGroups.forEach(({level,pids})=>{
       h+='<div class="ai-tool-level-hdr">Level '+level+'</div>';
       pids.forEach(pid=>{
@@ -10326,6 +10417,17 @@ function renderAIEvalAssistant(app){
   if(changeBtn)changeBtn.addEventListener("click",()=>{V._eaPid="";render();});
   app.querySelectorAll("[data-ea-pid]").forEach(btn=>{
     btn.addEventListener("click",()=>{V._eaPid=btn.dataset.eaPid;render();});
+  });
+  const eaSearch=document.getElementById("ea-project-search");
+  if(eaSearch)eaSearch.addEventListener("input",()=>{
+    const q=eaSearch.value.toLowerCase();
+    app.querySelectorAll("[data-ea-pid]").forEach(btn=>{
+      btn.style.display=btn.textContent.toLowerCase().includes(q)?"":"none";
+    });
+    app.querySelectorAll(".ai-tool-level-hdr").forEach(hdr=>{
+      const next=hdr.nextElementSibling;
+      hdr.style.display=(next&&next.style.display!=="none")?"":"none";
+    });
   });
 }
 
@@ -11477,38 +11579,410 @@ function parseDuration(durStr){
 // Build project options from the user's active path (or show all L1 projects
 // as fallback for ala carte mode). Returns [{pid, title, dur, level}]
 function getPracticeProjects(){
+  // Collect all speech projects across every path and level
+  // so users aren't locked to their enrolled path
+  const seen=new Set();
   const out=[];
-  const pathCode=S.path;
-  if(pathCode){
-    for(let lv=1;lv<=5;lv++){
-      const g=gP(pathCode,lv);
-      // Include required projects that have a speech duration
-      g.r.forEach(pid=>{
+  const pathCodes=Object.keys(PA);
+  for(let lv=1;lv<=5;lv++){
+    pathCodes.forEach(pc=>{
+      const g=gP(pc,lv);
+      [...g.r,...g.e].forEach(pid=>{
+        if(seen.has(pid))return;
         const p=PD[pid];
         if(p&&p.dur&&p.dur.includes("min")){
+          seen.add(pid);
           out.push({pid,title:p.t,dur:p.dur,level:lv});
         }
       });
-      // All electives at this level — not capped
-      g.e.forEach(pid=>{
-        const p=PD[pid];
-        if(p&&p.dur&&p.dur.includes("min")){
-          out.push({pid,title:p.t,dur:p.dur,level:lv,elective:true});
-        }
-      });
-    }
+    });
   }
-  // Always include L1 universals as fallback
-  ["ice-breaker","writing-speech","intro-vvbl","eval-feedback"].forEach(pid=>{
-    if(!out.find(x=>x.pid===pid)){
-      const p=PD[pid];
-      if(p&&p.dur)out.push({pid,title:p.t,dur:p.dur,level:1});
+  // Fallback for any PD projects not in any path
+  Object.entries(PD).forEach(([pid,p])=>{
+    if(!seen.has(pid)&&p.dur&&p.dur.includes("min")){
+      out.push({pid,title:p.t,dur:p.dur,level:1});
     }
   });
   return out;
 }
 
-// Pre-speech coach nudge — project-specific, short, concept-first
+// ═══ CONTEST DATA ═══
+const CONTEST_DATA={
+  international:{
+    id:"international",
+    name:"International Speech",
+    emoji:"🎤",
+    color:"#C9963A",
+    time:{min:5,max:7},
+    tagline:"The flagship contest. Where careers are made.",
+    criteria:[
+      {label:"Content",pct:40,desc:"A clear, memorable message. Not just a story — a point that lands. Judges ask: what did this speech say that mattered?"},
+      {label:"Delivery",pct:40,desc:"Voice, gesture, movement, eye contact — in service of the message. Not performance for its own sake."},
+      {label:"Language",pct:20,desc:"Word choice, rhetorical devices, originality of expression. The difference between 'I was scared' and 'my hands forgot how to work.'"}
+    ],
+    killsIt:[
+      "A great opening line followed by 30 seconds of throat-clearing. You already had them — don't lose it.",
+      "Three messages instead of one. Judges remember one thing. Make it the same thing you want them to remember.",
+      "Borrowed wisdom. 'As Einstein once said...' The audience came to hear you, not your quote collection.",
+      "A close that doesn't close. The last line is the one they carry home. Write it first, then build toward it."
+    ],
+    coachNote:"A contest speech is not a Pathways speech turned up to 11. It's a different animal. Study Dananjaya's 'I See Something In You' — not to copy it, but to understand what it proves. One idea, refined over years, collapsed into a single object anyone in any room can carry home. Build for the audience first. If the room responds, you've done your job. The judges are human — they'll bring their own preferences no matter what. You can't control that. What you can control is whether your speech has something universal enough to survive a panel you didn't choose."
+  },
+  tabletopics:{
+    id:"tabletopics",
+    name:"Table Topics",
+    emoji:"⚡",
+    color:"#5EB975",
+    time:{min:1,max:2},
+    tagline:"One question. 90 seconds. No second chances.",
+    criteria:[
+      {label:"Content",pct:40,desc:"Did you actually answer the question — or dance around it? Judges notice the difference in the first 15 seconds."},
+      {label:"Delivery",pct:40,desc:"Confidence under pressure. Composure at the start. Eye contact. No 'uhhh I think...' openings."},
+      {label:"Language",pct:20,desc:"A memorable phrase or image. Something that makes judges write it down. One sharp line beats five decent ones."}
+    ],
+    killsIt:[
+      "The 'well, that's a great question' opener. You've burned 4 seconds and signalled you're stalling.",
+      "Restating the question as your opening. 'So the question is about courage...' Just answer it.",
+      "Ending mid-thought because the bell rang. Structure your answer to close strong at 1:45, not trail off at 2:00.",
+      "Safe answers. Everyone agrees failure is a teacher. Take a stance. Disagree with the premise. Be interesting."
+    ],
+    coachNote:"TT contests are won by the person who commits first and hardest. Open with your answer — not your thought process. You have 90 seconds of real time. Spend the first 10 on a stance, not a setup."
+  },
+  evaluation:{
+    id:"evaluation",
+    name:"Evaluation",
+    emoji:"📋",
+    color:"#6DB6B4",
+    time:{min:2,max:3},
+    tagline:"The hardest contest. Most people don't know what judges are actually scoring.",
+    criteria:[
+      {label:"Effectiveness",pct:40,desc:"Did your evaluation help the speaker? Not just sound helpful — actually useful. Judges assess whether your recommendation was specific and actionable."},
+      {label:"Delivery",pct:40,desc:"You're speaking under pressure with almost no prep time. Composure, confidence, and a natural spoken style matter."},
+      {label:"Correct Evaluation",pct:20,desc:"Did you evaluate the speech that was actually given — not a generic one? Judges check if you addressed the speaker's real objectives."}
+    ],
+    killsIt:[
+      "Praising everything. 'You were amazing, your eye contact was great, your pauses were perfect...' Judges know you're padding.",
+      "Generic feedback. 'Work on your vocal variety' could apply to any speech ever given. Name the moment.",
+      "Ignoring the project objective. This is the most common mistake. What was the speech trying to achieve? Did they achieve it?",
+      "Going over time. You have 3 minutes. Landing a clean close at 2:45 is better than running out at 3:05."
+    ],
+    coachNote:"Evaluation contests are won by the evaluator who sounds like they actually watched that speech — not a speech. One specific moment, one honest assessment of the objective, one actionable recommendation. The rest is filler."
+  },
+  humorous:{
+    id:"humorous",
+    name:"Humorous Speech",
+    emoji:"😄",
+    color:"#A07BC7",
+    time:{min:5,max:7},
+    tagline:"Comedy is a craft. Funny is not enough.",
+    criteria:[
+      {label:"Content",pct:40,desc:"A coherent message underneath the laughs. The funniest contest speeches say something true. Judges ask: was there a point, or just jokes?"},
+      {label:"Delivery",pct:40,desc:"Timing, pause before the punchline, physical commitment to the bit. Selling the joke with your body, not explaining it with your mouth."},
+      {label:"Language",pct:20,desc:"The word choice that makes it funnier. 'Slightly moist' is funnier than 'a little wet.' The specific beats the general every time."}
+    ],
+    killsIt:[
+      "Explaining the joke. If you have to say 'get it?', you've already lost them.",
+      "Funny stories without a thread. A series of laughs is a comedy set. A humorous speech needs a spine.",
+      "Performing instead of being. The best humorous speakers look like they're just talking to you. The laughs look accidental.",
+      "Punching down. Judges notice. The audience remembers. Self-deprecation beats everything else."
+    ],
+    coachNote:"The best humorous speeches make you laugh and then feel something. The laugh is the delivery vehicle. Identify the truth at the centre of your speech — the funny should prove it, not replace it. If your speech could work without the laughs, you have a humorous speech. If it couldn't work without them, you have a stand-up set."
+  },
+  talltales:{
+    id:"talltales",
+    name:"Tall Tales",
+    emoji:"🌀",
+    color:"#5B9DD9",
+    time:{min:3,max:5},
+    tagline:"Fiction with a straight face. The most underestimated contest.",
+    criteria:[
+      {label:"Effectiveness",pct:40,desc:"Did the story work as a tall tale — escalating, absurd, internally consistent? Judges reward commitment to the premise."},
+      {label:"Delivery",pct:40,desc:"Deadpan sells tall tales. The more outrageous the claim, the more seriously you deliver it. Over-acting kills it."},
+      {label:"Originality",pct:20,desc:"A fresh premise beats a recycled one. Judges remember the story they haven't heard a version of before."}
+    ],
+    killsIt:[
+      "Winking at the audience. If you smirk when you say something absurd, you break the spell. Deliver it like sworn testimony.",
+      "Escalating too fast. A good tall tale builds — each detail a little more impossible than the last. Don't peak in the first minute.",
+      "Borrowed premises. 'The fish that got away' has been done. Start with a situation nobody has tall-taled before.",
+      "Forgetting to close the loop. The best tall tales end by returning to the opening claim with a straight face. Circular structure works."
+    ],
+    coachNote:"Tall Tales rewards commitment above everything else. Pick one absurd premise — the more specific the better — and defend it with complete sincerity for 4 minutes. The audience will follow you anywhere if you never break character. The moment you acknowledge it's ridiculous, the magic dies."
+  }
+};
+
+// ═══ RENDER: CONTESTS HUB ═══
+function renderContests(app){
+  let h='<div class="fade-up">';
+  h+='<div class="top-bar">';
+  h+='<button class="top-bar-btn" data-action="contests-back">← Home</button>';
+  h+='</div>';
+
+  h+='<div class="contests-hero">';
+  h+='<div class="contests-hero-icon">🏆</div>';
+  h+='<div class="contests-hero-title">TM Contests</div>';
+  h+='</div>';
+
+  h+='<div class="contest-section-hdr" style="margin-top:8px">Pick your contest</div>';
+  Object.values(CONTEST_DATA).forEach(c=>{
+    h+='<button class="contest-card" data-contest="'+c.id+'" style="--cc:'+c.color+'">';
+    h+='<div class="contest-card-left">';
+    h+='<div class="contest-card-emoji">'+c.emoji+'</div>';
+    h+='<div class="contest-card-info">';
+    h+='<div class="contest-card-name">'+c.name+'</div>';
+    h+='<div class="contest-card-tagline">'+c.tagline+'</div>';
+    h+='</div>';
+    h+='</div>';
+    h+='<div class="contest-card-time">'+c.time.min+'–'+c.time.max+'m</div>';
+    h+='</button>';
+  });
+
+  h+='</div>';
+  app.innerHTML=h;
+
+  app.querySelector('[data-action="contests-back"]').addEventListener("click",()=>{V.view="hub";render();});
+  app.querySelectorAll("[data-contest]").forEach(btn=>{
+    btn.addEventListener("click",()=>{V._contestId=btn.dataset.contest;V._contestState="guide";V.view="contest-detail";render();});
+  });
+}
+
+// ═══ RENDER: CONTEST DETAIL ═══
+function renderContestDetail(app){
+  const c=CONTEST_DATA[V._contestId];
+  if(!c){V.view="contests";render();return;}
+  const aiOn=isAIEnabled();
+  const state=V._contestState||"guide";
+
+  let h='<div class="fade-up">';
+  h+='<div class="top-bar">';
+  h+='<button class="top-bar-btn" data-action="contest-back">← Contests</button>';
+  h+='</div>';
+
+  // Header
+  h+='<div class="contest-detail-hero" style="--cc:'+c.color+'">';
+  h+='<div class="contest-detail-emoji">'+c.emoji+'</div>';
+  h+='<div>';
+  h+='<div class="contest-detail-name">'+c.name+' Contest</div>';
+  h+='<div class="contest-detail-time">⏱ '+c.time.min+'–'+c.time.max+' minutes</div>';
+  h+='</div>';
+  h+='</div>';
+
+  // Tab switcher
+  h+='<div class="contest-tabs">';
+  ['guide','practice'].forEach(tab=>{
+    const labels={guide:'📖 Guide',practice:'🎙 Practice'};
+    h+='<button class="contest-tab'+(state===tab?' active':'')+'" data-contest-tab="'+tab+'">'+labels[tab]+'</button>';
+  });
+  h+='</div>';
+
+  if(state==="guide"){
+    // Coach note
+    h+='<div class="contest-coach-note">';
+    h+='<div class="contest-coach-avatar"><img src="'+COACH_AVATAR+'" alt="Coach"/></div>';
+    h+='<div class="contest-coach-bubble">';
+    h+='<div class="contest-coach-label">Coach\'s take</div>';
+    h+='<div class="contest-coach-text">'+c.coachNote+'</div>';
+    h+='</div>';
+    h+='</div>';
+
+    // Judging criteria
+    h+='<div class="contest-section-hdr">What judges actually score</div>';
+    h+='<div class="contest-criteria">';
+    c.criteria.forEach(cr=>{
+      h+='<div class="contest-criterion">';
+      h+='<div class="contest-criterion-top">';
+      h+='<div class="contest-criterion-label">'+cr.label+'</div>';
+      h+='<div class="contest-criterion-pct" style="color:'+c.color+'">'+cr.pct+'%</div>';
+      h+='</div>';
+      h+='<div class="contest-criterion-bar"><div class="contest-criterion-fill" style="width:'+cr.pct+'%;background:'+c.color+'"></div></div>';
+      h+='<div class="contest-criterion-desc">'+cr.desc+'</div>';
+      h+='</div>';
+    });
+    h+='</div>';
+
+    // What kills it
+    h+='<div class="contest-section-hdr">What kills a contest speech</div>';
+    h+='<div class="contest-kills">';
+    c.killsIt.forEach(k=>{
+      h+='<div class="contest-kill-item"><span class="contest-kill-icon">⚠️</span><span>'+k+'</span></div>';
+    });
+    h+='</div>';
+
+  }else{
+    // Practice tab — recording + AI
+    const CD=V._contestData||{};
+    if(!CD.phase||CD.phase==="ready"){
+      // Coach greeting
+      h+='<div class="ps-coach-greeting" style="margin-bottom:16px">';
+      h+='<div class="ps-coach-avatar"><img src="'+COACH_AVATAR+'" alt="Coach"/></div>';
+      h+='<div class="ps-coach-bubble">';
+      h+='<div class="ps-coach-name">Your AI Coach</div>';
+      h+='<div class="ps-coach-text">Ready when you are.</div>';
+      h+='<div class="ps-coach-note">I\'ll evaluate your practice against the actual contest ballot — not Pathways objectives. Record your speech, then I\'ll give you feedback.</div>';
+      h+='</div>';
+      h+='</div>';
+
+      // Timer card
+      h+='<div class="ps-timer-card" id="contest-timer-card">';
+      h+='<div class="ps-timer-state" id="contest-timer-state">READY</div>';
+      h+='<div class="ps-timer-display" id="contest-timer-display">0:00</div>';
+      h+='<div class="ps-timer-markers">';
+      h+='<div class="ps-marker green">● '+c.time.min+':00</div>';
+      h+='<div class="ps-marker red">● '+c.time.max+':00</div>';
+      h+='</div>';
+      h+='<div class="ps-timer-hint">Tap the mic to start recording</div>';
+      h+='</div>';
+
+      h+='<div class="ps-mic-wrap">';
+      h+='<button class="ps-mic-btn" id="contest-mic-btn" data-action="contest-mic">🎙</button>';
+      h+='</div>';
+
+      if(!aiOn){
+        h+='<div class="ttp-ai-off-note">Connect AI in ✨ AI Settings for contest-specific feedback after your speech.</div>';
+      }
+    }else if(CD.phase==="done"){
+      if(CD.loading){
+        h+='<div class="role-ai-loading" style="padding:32px;text-align:center"><span class="coach-dots"><span>.</span><span>.</span><span>.</span></span><div style="margin-top:12px;font-size:13px;color:var(--text-3)">Reviewing against the contest ballot…</div></div>';
+      }else if(CD.result){
+        h+='<div class="contest-result fade-up">';
+        h+=CD.result;
+        h+='</div>';
+        h+='<div style="display:flex;gap:10px;margin-top:16px">';
+        h+='<button class="ttp-random-btn" style="flex:1" data-action="contest-again">🎙 Practice again</button>';
+        h+='</div>';
+      }else if(CD.error){
+        h+=renderAIError(CD.error,()=>{V._contestData={...V._contestData,error:null,loading:true};render();_contestRunEval();});
+      }
+    }
+  }
+
+  h+='</div>';
+  app.innerHTML=h;
+
+  // Back
+  app.querySelector('[data-action="contest-back"]').addEventListener("click",()=>{V.view="contests";V._contestData={};render();});
+
+  // Tabs
+  app.querySelectorAll("[data-contest-tab]").forEach(btn=>{
+    btn.addEventListener("click",()=>{V._contestState=btn.dataset.contestTab;render();});
+  });
+
+  // Mic
+  const micBtn=app.querySelector('[data-action="contest-mic"]');
+  if(micBtn)_contestWireMic(micBtn,c);
+
+  // Again
+  const againBtn=app.querySelector('[data-action="contest-again"]');
+  if(againBtn)againBtn.addEventListener("click",()=>{V._contestData={};render();});
+}
+
+// Contest mic + recording pipeline — mirrors TT Practice pattern
+function _contestWireMic(btn,c){
+  let recording=false,recognition=null,timerInt=null,seconds=0,transcript="";
+
+  const updateDisplay=()=>{
+    const el=document.getElementById("contest-timer-display");
+    const stEl=document.getElementById("contest-timer-state");
+    const m=Math.floor(seconds/60),s=seconds%60;
+    if(el)el.textContent=m+":"+(s<10?"0":"")+s;
+    if(stEl)stEl.textContent=recording?"RECORDING":"READY";
+  };
+
+  btn.addEventListener("click",async()=>{
+    if(!recording){
+      // Start
+      _recordSfx(true);
+      recording=true;
+      seconds=0;
+      transcript="";
+      btn.textContent="⏹";
+      btn.style.background="rgba(232,93,93,0.18)";
+      timerInt=setInterval(()=>{seconds++;updateDisplay();},1000);
+
+      // Speech recognition
+      const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+      if(SR){
+        recognition=new SR();
+        recognition.continuous=true;
+        recognition.interimResults=false;
+        recognition.lang="en-US";
+        recognition.onresult=e=>{
+          for(let i=e.resultIndex;i<e.results.length;i++){
+            if(e.results[i].isFinal)transcript+=e.results[i][0].transcript+" ";
+          }
+        };
+        recognition.onend=()=>{if(recording)try{recognition.start();}catch(e){}};
+        try{recognition.start();}catch(e){}
+      }
+
+      // Mic keepalive
+      try{
+        const stream=await navigator.mediaDevices.getUserMedia({audio:true});
+        const mr=new MediaRecorder(stream);
+        mr.ondataavailable=()=>{};
+        mr.start();
+        btn._stream=stream;
+        btn._mr=mr;
+      }catch(e){}
+
+    }else{
+      // Stop
+      _recordSfx(false);
+      clearInterval(timerInt);
+      recording=false;
+      btn.textContent="🎙";
+      btn.style.background="";
+
+      if(recognition){
+        try{recognition.onend=null;recognition.stop();}catch(e){}
+        recognition=null;
+      }
+      if(btn._mr){try{btn._mr.stop();}catch(e){}}
+      if(btn._stream){btn._stream.getTracks().forEach(t=>t.stop());}
+
+      const final=transcript.trim();
+      V._contestData={phase:"done",transcript:final,loading:!!final,result:null,error:null};
+      render();
+      if(final)_contestRunEval(c,final);
+      else{V._contestData={phase:"done",loading:false,error:new Error("No speech detected. Try again in a quieter environment.")};render();}
+    }
+  });
+}
+
+async function _contestRunEval(c,transcript){
+  const cData=V._contestData;
+  if(!c||!transcript){return;}
+  const sys=`You are an experienced Toastmasters contest coach and judge evaluating a practice speech. You have competed at district level and judged many contests. You understand something most coaches don't say out loud: a contest speech has two jobs. First, it has to land with the audience — universal theme, one clear emotional anchor, a takeaway that travels beyond the room. Second, it faces judges who, however impartial they try to be, bring their own taste and preference. You can only control the first part. Your job is to coach for that.
+
+The standard to benchmark against: think of Dananjaya Hettiarachchi's 2014 World Championship speech "I See Something In You." A story refined over years until everything non-essential was gone. One physical object (the rose) that carried the entire message. A theme — a teacher believing in a student — that crossed every cultural border. That's the target. Not perfection, but that kind of intentionality.
+
+Your philosophy: simplicity over grandeur. One specific honest observation beats three vague ones. Coach the concept, not just the technique — concepts survive when techniques change.
+
+Contest: ${c.name} (${c.time.min}–${c.time.max} minutes)
+Judging weights: ${c.criteria.map(cr=>cr.label+' '+cr.pct+'%').join(', ')}
+
+Reply in EXACTLY these sections. No markdown bold. Begin with "🎯 BALLOT SCORE:":
+
+🎯 BALLOT SCORE: One honest verdict on each criterion — not a number, a judgment. Did this speech earn its score?
+
+✅ WHAT WOULD LAND: The one thing in this speech that would resonate with an audience — the moment, the image, the line. Name it specifically.
+
+⚠️ WHAT TO CUT OR FIX: The single thing most likely to cost them a placement. Concept first — why it matters — then what to do. One thing only.
+
+💡 BEFORE NEXT ROUND: One concrete action before the next practice. Specific enough to do today.
+
+Under 200 words. Honest — this is a contest.`;
+
+  try{
+    const res=await callCoach({sys,user:`Contest: ${c.name}\n\nSpeech transcript:\n${transcript}`,feature:"ps-eval"});
+    V._contestData={...cData,loading:false,result:res};
+    render();
+  }catch(e){
+    V._contestData={...cData,loading:false,error:e};
+    render();
+  }
+}
+
+
 function _psCoachNote(pid){
   const notes={
     "ice-breaker":"Your only job today is to be yourself. Don't perform — reveal.",
@@ -11588,11 +12062,12 @@ function renderPracticeStudio(app){
   h+='<div class="ps-coach-note">'+coachNote+'</div>';
   // Project dropdown — lives inside bubble
   h+='<div class="ps-project-dropdown" id="ps-project-dropdown" style="display:none">';
-  let lastLv=0;
+  h+='<input class="ps-project-search" id="ps-project-search" placeholder="🔍 Search projects…" autocomplete="off"/>';
+  let lastLv2=0;
   projects.forEach(p=>{
-    if(p.level!==lastLv){
-      h+='<div class="ps-project-level-hdr">Level '+p.level+'</div>';
-      lastLv=p.level;
+    if(p.level!==lastLv2){
+      h+='<div class="ps-project-level-hdr" data-level-hdr>Level '+p.level+'</div>';
+      lastLv2=p.level;
     }
     h+='<button class="ps-project-option'+(p.pid===PS.pid?' selected':'')+'" data-ps-pid="'+p.pid+'">';
     h+=p.title+(p.elective?' <span class="ps-project-elective">elective</span>':'')+' <span class="ps-project-opt-dur">'+p.dur+'</span>';
@@ -11680,7 +12155,23 @@ function renderPracticeStudio(app){
   const changeBtn=app.querySelector('[data-action="ps-change-project"]');
   if(changeBtn)changeBtn.addEventListener("click",()=>{
     const dd=document.getElementById("ps-project-dropdown");
-    if(dd)dd.style.display=dd.style.display==="none"?"block":"none";
+    if(dd){
+      const open=dd.style.display==="none";
+      dd.style.display=open?"block":"none";
+      if(open){const s=document.getElementById("ps-project-search");if(s)s.focus();}
+    }
+  });
+  const psSearch=document.getElementById("ps-project-search");
+  if(psSearch)psSearch.addEventListener("input",()=>{
+    const q=psSearch.value.toLowerCase();
+    app.querySelectorAll("[data-ps-pid]").forEach(btn=>{
+      const match=btn.textContent.toLowerCase().includes(q);
+      btn.style.display=match?"":"none";
+    });
+    app.querySelectorAll("[data-level-hdr]").forEach(hdr=>{
+      const next=hdr.nextElementSibling;
+      hdr.style.display=(next&&next.style.display!=="none")?"":"none";
+    });
   });
   app.querySelectorAll("[data-ps-pid]").forEach(btn=>{
     btn.addEventListener("click",()=>{
@@ -11801,7 +12292,7 @@ function psUpdateActiveDisplay(){
   }
 }
 
-// renderPracticeStudioActive removed in v1.08 — active panel now lives inside renderPracticeStudio
+// renderPracticeStudioActive removed in v1.11 — active panel now lives inside renderPracticeStudio
 
 function psStop(){
   _recordSfx(false);
