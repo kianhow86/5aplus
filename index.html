@@ -1245,7 +1245,12 @@ a{color:inherit;text-decoration:none}
 .contest-section-hdr{font-size:var(--fs-xs);font-weight:700;color:var(--text-3);letter-spacing:0.1em;text-transform:uppercase;margin:20px 0 10px}
 
 .contest-criteria{display:flex;flex-direction:column;gap:12px;margin-bottom:8px}
-.contest-criterion{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px}
+/* Expandable criteria - replaced */
+
+/* Expandable criteria */
+.contest-criterion{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px;cursor:pointer;transition:background .15s}
+.contest-criterion:hover{background:rgba(255,255,255,0.04)}
+.contest-criterion-body{font-size:var(--fs-sm);color:var(--text-2);line-height:1.6;letter-spacing:-0.003em;margin-top:10px;padding-top:10px;border-top:1px solid var(--border)}
 .contest-criterion-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
 .contest-criterion-label{font-size:var(--fs-md);font-weight:700;color:var(--text);letter-spacing:-0.008em}
 .contest-criterion-pct{font-size:var(--fs-lg);font-weight:800;letter-spacing:-0.01em}
@@ -3821,7 +3826,7 @@ let S={
   mode:"",
   // Ala carte comfort level — only relevant when mode==="alacarte". Captured
   // during welcome flow to personalize project suggestions. "new" / "some" /
-  // "experienced". Kept loose; v1.11 may add follow-ups.
+  // "experienced". Kept loose; v1.13 may add follow-ups.
   alacarteComfort:"",
   // AI Coach config. Disabled by default. User configures in Settings.
   // mode: "direct" (user's own API key, stored locally — direct browser call)
@@ -4326,7 +4331,7 @@ function renderHub(app){
   }
   h+='</div>';
 
-  h+='<div class="app-footer">Made by Kian How · Not affiliated with Toastmasters International · v1.11</div>';
+  h+='<div class="app-footer">Made by Kian How · Not affiliated with Toastmasters International · v1.13</div>';
   h+='</div>';
   app.innerHTML=h;
 
@@ -4659,7 +4664,7 @@ function renderPathPicker(app){
   h+='<button class="quiz-prompt-btn" data-action="open-quiz">🧭 &nbsp; Not sure which one? Take the fun quiz</button>';
   h+='</div>';
 
-  h+='<div class="app-footer">Made by Kian How · Not affiliated with Toastmasters International · v1.11</div>';
+  h+='<div class="app-footer">Made by Kian How · Not affiliated with Toastmasters International · v1.13</div>';
   h+='</div>';
   app.innerHTML=h;
 
@@ -5023,7 +5028,7 @@ function renderPathBrowser(app){
   // Keeping it in the tree lets us toggle visibility without re-rendering.
   h+='<div class="path-complete-banner'+(pct>=100?'':' hidden')+'"><strong>🎉 Path complete!</strong><div style="font-size:13px;color:var(--text-muted);line-height:1.5">Next step: DTM. Keep going.</div></div>';
 
-  h+='<div class="app-footer">Made by Kian How · Not affiliated with Toastmasters International · v1.11</div>';
+  h+='<div class="app-footer">Made by Kian How · Not affiliated with Toastmasters International · v1.13</div>';
   h+='</div>';
   app.innerHTML=h;
 
@@ -6457,7 +6462,7 @@ function renderPracticeHub(app){
   h+=toolRow({tool:"speech-draft",color:"#6DB6B4",icon:"📝",name:"Speech Draft Builder",desc:(S.aiConfig&&S.aiConfig.enabled)?"AI builds your speech outline and opening lines":"Structure your next speech from outline to close"});
 
   h+='</div>';
-  h+='<div class="app-footer">Made by Kian How · Not affiliated with Toastmasters International · v1.11</div>';
+  h+='<div class="app-footer">Made by Kian How · Not affiliated with Toastmasters International · v1.13</div>';
   h+='</div>';
   app.innerHTML=h;
 
@@ -11132,8 +11137,7 @@ function renderWelcomeAlacarte(app){
 function renderAllProjects(app){
   let h='<div class="fade-up">';
   h+='<div class="top-bar">';
-  h+='<button class="top-bar-btn" data-action="ap-back">← Hub</button>';
-  h+='</div>';
+    h+='</div>';
   h+='<div class="kicker">All projects</div>';
   h+='<h1 class="title">Every <span class="accent">project</span></h1>';
   h+='<div class="subtitle">Required projects are path-specific. Electives are shared across paths — any path user can pick them as elective slots.</div>';
@@ -11238,9 +11242,6 @@ function renderAllProjects(app){
   h+='</div>';
   app.innerHTML=h;
 
-  app.querySelector('[data-action="ap-back"]').addEventListener("click",()=>{
-    V.view="hub";render();
-  });
   // Expand/collapse toggles
   app.querySelectorAll("[data-ap-toggle]").forEach(btn=>{
     btn.addEventListener("click",()=>{
@@ -11616,9 +11617,9 @@ const CONTEST_DATA={
     time:{min:5,max:7},
     tagline:"The flagship contest. Where careers are made.",
     criteria:[
-      {label:"Content",pct:40,desc:"A clear, memorable message. Not just a story — a point that lands. Judges ask: what did this speech say that mattered?"},
-      {label:"Delivery",pct:40,desc:"Voice, gesture, movement, eye contact — in service of the message. Not performance for its own sake."},
-      {label:"Language",pct:20,desc:"Word choice, rhetorical devices, originality of expression. The difference between 'I was scared' and 'my hands forgot how to work.'"}
+      {label:"Content",pct:50,desc:"The biggest category — 50 points. Judges score Speech Development (structure, opening/body/close), Speech Value (original ideas that contribute something to the audience's thinking), and Effectiveness (did you achieve your purpose and hold their interest?). Speech Value alone is 25 points. This is where most people lose."},
+      {label:"Delivery",pct:30,desc:"Physical presence, voice flexibility and volume, and manner — your directness, assurance, enthusiasm. Judges ask: does the delivery serve the message, or is it performing for its own sake?"},
+      {label:"Language",pct:20,desc:"Appropriateness (word choice fits the purpose and audience) and correctness (grammar, pronunciation). The smallest category — but a memorable line that travels out of the room can tip a close contest."}
     ],
     killsIt:[
       "A great opening line followed by 30 seconds of throat-clearing. You already had them — don't lose it.",
@@ -11636,9 +11637,9 @@ const CONTEST_DATA={
     time:{min:1,max:2},
     tagline:"One question. 90 seconds. No second chances.",
     criteria:[
-      {label:"Content",pct:40,desc:"Did you actually answer the question — or dance around it? Judges notice the difference in the first 15 seconds."},
-      {label:"Delivery",pct:40,desc:"Confidence under pressure. Composure at the start. Eye contact. No 'uhhh I think...' openings."},
-      {label:"Language",pct:20,desc:"A memorable phrase or image. Something that makes judges write it down. One sharp line beats five decent ones."}
+      {label:"Content",pct:50,desc:"Same ballot as International Speech — 50 points. Speech Development (did you structure a 90-second response with an opening, point, and close?), Speech Value (did you say something worth saying?), Effectiveness (did you actually answer the question and hold interest?). Most TT contestants lose here by not committing to a clear point."},
+      {label:"Delivery",pct:30,desc:"Physical presence, voice, and manner — under pressure, with no prep time. Composure at the start is everything. Judges notice the first 5 seconds before you say anything."},
+      {label:"Language",pct:20,desc:"One sharp phrase that makes judges write something down. In 90 seconds you get one shot at a memorable line. Make it count."}
     ],
     killsIt:[
       "The 'well, that's a great question' opener. You've burned 4 seconds and signalled you're stalling.",
@@ -11656,9 +11657,10 @@ const CONTEST_DATA={
     time:{min:2,max:3},
     tagline:"The hardest contest. Most people don't know what judges are actually scoring.",
     criteria:[
-      {label:"Effectiveness",pct:40,desc:"Did your evaluation help the speaker? Not just sound helpful — actually useful. Judges assess whether your recommendation was specific and actionable."},
-      {label:"Delivery",pct:40,desc:"You're speaking under pressure with almost no prep time. Composure, confidence, and a natural spoken style matter."},
-      {label:"Correct Evaluation",pct:20,desc:"Did you evaluate the speech that was actually given — not a generic one? Judges check if you addressed the speaker's real objectives."}
+      {label:"Analytical Quality",pct:40,desc:"The biggest category. Were your comments clear, logical, and specific? Did you identify actual strengths AND weaknesses — not just strengths? Judges ask: did this evaluator actually watch the speech, or give a generic evaluation that could apply to anyone?"},
+      {label:"Recommendations",pct:30,desc:"Practical, helpful, positive, specific. Not 'work on your vocal variety' — name the moment, explain why it matters, say exactly what to try. One strong recommendation scores higher than three vague ones."},
+      {label:"Technique",pct:15,desc:"Sensitivity and motivation. Are you speaking to the speaker's benefit or showing off your evaluating skills? The best evaluators make the speaker feel seen, not diagnosed."},
+      {label:"Summation",pct:15,desc:"A concise, encouraging close that briefly pulls together your comments. Not a repeat — a landing. Most evaluators end by trailing off. This is points left on the table."}
     ],
     killsIt:[
       "Praising everything. 'You were amazing, your eye contact was great, your pauses were perfect...' Judges know you're padding.",
@@ -11666,7 +11668,7 @@ const CONTEST_DATA={
       "Ignoring the project objective. This is the most common mistake. What was the speech trying to achieve? Did they achieve it?",
       "Going over time. You have 3 minutes. Landing a clean close at 2:45 is better than running out at 3:05."
     ],
-    coachNote:"Evaluation contests are won by the evaluator who sounds like they actually watched that speech — not a speech. One specific moment, one honest assessment of the objective, one actionable recommendation. The rest is filler."
+    coachNote:"Here's what most people don't know: contest evaluators are never told the test speaker's project objectives. You get 5 minutes to prepare, then 2–3 minutes to speak — with no idea what the speech was officially trying to achieve. So your job is to evaluate what you actually observed, not what you assumed the objectives were. This is what separates contest evaluators from regular evaluators. Analytical Quality is 40 points — judges are asking: did this evaluator catch specific moments, or give me something I could paste over any speech? One specific observation about one real moment beats three general comments every time."
   },
   humorous:{
     id:"humorous",
@@ -11709,13 +11711,13 @@ const CONTEST_DATA={
     coachNote:"Tall Tales rewards commitment above everything else. Pick one absurd premise — the more specific the better — and defend it with complete sincerity for 4 minutes. The audience will follow you anywhere if you never break character. The moment you acknowledge it's ridiculous, the magic dies."
   }
 };
+window.CONTEST_DATA=CONTEST_DATA;
 
 // ═══ RENDER: CONTESTS HUB ═══
 function renderContests(app){
   let h='<div class="fade-up">';
   h+='<div class="top-bar">';
-  h+='<button class="top-bar-btn" data-action="contests-back">← Home</button>';
-  h+='</div>';
+    h+='</div>';
 
   h+='<div class="contests-hero">';
   h+='<div class="contests-hero-icon">🏆</div>';
@@ -11739,17 +11741,13 @@ function renderContests(app){
   h+='</div>';
   app.innerHTML=h;
 
-  app.querySelector('[data-action="contests-back"]').addEventListener("click",()=>{V.view="hub";render();});
-  app.querySelectorAll("[data-contest]").forEach(btn=>{
-    btn.addEventListener("click",()=>{V._contestId=btn.dataset.contest;V._contestState="guide";V.view="contest-detail";render();});
-  });
 }
 
 // ═══ RENDER: CONTEST DETAIL ═══
 function renderContestDetail(app){
   const c=CONTEST_DATA[V._contestId];
   if(!c){V.view="contests";render();return;}
-  const aiOn=isAIEnabled();
+  const aiOn=S.aiConfig&&S.aiConfig.enabled;
   const state=V._contestState||"guide";
 
   let h='<div class="fade-up">';
@@ -11784,17 +11782,19 @@ function renderContestDetail(app){
     h+='</div>';
     h+='</div>';
 
-    // Judging criteria
+    // Judging criteria — expandable in-place
     h+='<div class="contest-section-hdr">What judges actually score</div>';
     h+='<div class="contest-criteria">';
-    c.criteria.forEach(cr=>{
-      h+='<div class="contest-criterion">';
+    c.criteria.forEach((cr,i)=>{
+      h+='<div class="contest-criterion" data-criterion="'+i+'">';
       h+='<div class="contest-criterion-top">';
       h+='<div class="contest-criterion-label">'+cr.label+'</div>';
+      h+='<div style="display:flex;align-items:center;gap:8px">';
       h+='<div class="contest-criterion-pct" style="color:'+c.color+'">'+cr.pct+'%</div>';
+      h+='<div class="contest-criterion-chev" style="font-size:10px;color:var(--text-3)">▼</div>';
+      h+='</div>';
       h+='</div>';
       h+='<div class="contest-criterion-bar"><div class="contest-criterion-fill" style="width:'+cr.pct+'%;background:'+c.color+'"></div></div>';
-      h+='<div class="contest-criterion-desc">'+cr.desc+'</div>';
       h+='</div>';
     });
     h+='</div>';
@@ -11861,9 +11861,44 @@ function renderContestDetail(app){
   // Back
   app.querySelector('[data-action="contest-back"]').addEventListener("click",()=>{V.view="contests";V._contestData={};render();});
 
-  // Tabs
+  // Tabs — scroll to top intentionally on tab switch
   app.querySelectorAll("[data-contest-tab]").forEach(btn=>{
-    btn.addEventListener("click",()=>{V._contestState=btn.dataset.contestTab;render();});
+    btn.addEventListener("click",()=>{
+      V._contestState=btn.dataset.contestTab;
+      V._contestCriteriaOpen=null;
+      window.scrollTo(0,0);
+      render();
+    });
+  });
+
+  // Expandable criteria — toggle in-place, no full render
+  app.querySelectorAll("[data-criterion]").forEach(el=>{
+    el.addEventListener("click",()=>{
+      const i=parseInt(el.dataset.criterion);
+      const c=CONTEST_DATA[V._contestId];
+      if(!c)return;
+      const cr=c.criteria[i];
+      const isOpen=el.classList.contains("open");
+      // Close all
+      app.querySelectorAll("[data-criterion]").forEach(e=>{
+        e.classList.remove("open");
+        const chev=e.querySelector(".contest-criterion-chev");
+        if(chev)chev.style.transform="rotate(0deg)";
+        const body=e.querySelector(".contest-criterion-body");
+        if(body)body.remove();
+      });
+      // Open this one if it was closed
+      if(!isOpen){
+        el.classList.add("open");
+        const chev=el.querySelector(".contest-criterion-chev");
+        if(chev)chev.style.transform="rotate(180deg)";
+        const body=document.createElement("div");
+        body.className="contest-criterion-body";
+        body.textContent=cr.desc;
+        el.appendChild(body);
+      }
+      V._contestCriteriaOpen=isOpen?null:i;
+    });
   });
 
   // Mic
@@ -11951,29 +11986,10 @@ function _contestWireMic(btn,c){
 async function _contestRunEval(c,transcript){
   const cData=V._contestData;
   if(!c||!transcript){return;}
-  const sys=`You are an experienced Toastmasters contest coach and judge evaluating a practice speech. You have competed at district level and judged many contests. You understand something most coaches don't say out loud: a contest speech has two jobs. First, it has to land with the audience — universal theme, one clear emotional anchor, a takeaway that travels beyond the room. Second, it faces judges who, however impartial they try to be, bring their own taste and preference. You can only control the first part. Your job is to coach for that.
-
-The standard to benchmark against: think of Dananjaya Hettiarachchi's 2014 World Championship speech "I See Something In You." A story refined over years until everything non-essential was gone. One physical object (the rose) that carried the entire message. A theme — a teacher believing in a student — that crossed every cultural border. That's the target. Not perfection, but that kind of intentionality.
-
-Your philosophy: simplicity over grandeur. One specific honest observation beats three vague ones. Coach the concept, not just the technique — concepts survive when techniques change.
-
-Contest: ${c.name} (${c.time.min}–${c.time.max} minutes)
-Judging weights: ${c.criteria.map(cr=>cr.label+' '+cr.pct+'%').join(', ')}
-
-Reply in EXACTLY these sections. No markdown bold. Begin with "🎯 BALLOT SCORE:":
-
-🎯 BALLOT SCORE: One honest verdict on each criterion — not a number, a judgment. Did this speech earn its score?
-
-✅ WHAT WOULD LAND: The one thing in this speech that would resonate with an audience — the moment, the image, the line. Name it specifically.
-
-⚠️ WHAT TO CUT OR FIX: The single thing most likely to cost them a placement. Concept first — why it matters — then what to do. One thing only.
-
-💡 BEFORE NEXT ROUND: One concrete action before the next practice. Specific enough to do today.
-
-Under 200 words. Honest — this is a contest.`;
-
+  const ballotLines=c.criteria.map(cr=>cr.label+' '+cr.pct+'%: '+cr.desc).join('\n');
+  const sys="You are an experienced Toastmasters contest coach and judge. You have competed at district level — reaching district finals in both International Speech and Table Topics — and have judged contests across multiple levels. You know what the official ballots actually score, and something most coaches never say: contest winning has two layers.\n\nLayer 1 (you can engineer this): Does the speech land with the audience? Universal theme, one emotional anchor, a takeaway that travels beyond the room.\nLayer 2 (largely outside your control): Judge preference. Panel composition, personal taste, regional resonance. Even well-intentioned judges carry bias. Optimise for Layer 1, release Layer 2.\n\nThe benchmark: Dananjaya Hettiarachchi, 2014 World Champion. He competed 10 years before winning. The flower opened and closed — circular structure, thesis made physical. First line: 'You and I are not very different from this flower.' A universal theme — a teacher seeing something in a broken student — that crossed every cultural border. Years of refinement until nothing non-essential remained.\n\nACTUAL BALLOT — "+c.name+" ("+c.time.min+"–"+c.time.max+" minutes):\n"+ballotLines+"\n\nYour philosophy: simplicity beats grandeur. One specific honest observation beats three vague ones. Concept first, then concrete action. Like a music teacher pointing at the one moment that unlocks everything.\n\nReply in EXACTLY these sections. No markdown bold. Begin with '🎯 BALLOT BREAKDOWN:':\n\n🎯 BALLOT BREAKDOWN: One honest verdict per criterion. Name actual moments — not categories.\n\n✅ WHAT WOULD LAND WITH THE ROOM: The one thing that would resonate — moment, image, or line that travels. Specific.\n\n⚠️ WHAT TO FIX: The single most significant thing holding this back. Concept first, then what to do. One thing only.\n\n💡 ONE ACTION: Specific enough to work on today.\n\nUnder 220 words. Honest — this is a contest.";
   try{
-    const res=await callCoach({sys,user:`Contest: ${c.name}\n\nSpeech transcript:\n${transcript}`,feature:"ps-eval"});
+    const res=await callCoach({sys,user:"Contest: "+c.name+"\n\nSpeech transcript:\n"+transcript,feature:"ps-eval"});
     V._contestData={...cData,loading:false,result:res};
     render();
   }catch(e){
@@ -12030,8 +12046,7 @@ function renderPracticeStudio(app){
   const stateAttr=PS.phase==="active"?"active":"ready";
   let h='<div class="fade-up ps-view" data-ps-state="'+stateAttr+'">';
   h+='<div class="top-bar">';
-  h+='<button class="top-bar-btn" data-action="ps-back">← Hub</button>';
-  h+='</div>';
+    h+='</div>';
 
   // ─── READY PANEL ───
   h+='<div class="ps-ready-panel">';
@@ -12148,10 +12163,6 @@ function renderPracticeStudio(app){
   app.innerHTML=h;
 
   // ─── Wire handlers (works for both panels — they share the same root) ───
-  app.querySelector('[data-action="ps-back"]').addEventListener("click",()=>{
-    if(PS.phase==="active")psStop();
-    V.view="hub";render();
-  });
   const changeBtn=app.querySelector('[data-action="ps-change-project"]');
   if(changeBtn)changeBtn.addEventListener("click",()=>{
     const dd=document.getElementById("ps-project-dropdown");
@@ -12292,7 +12303,7 @@ function psUpdateActiveDisplay(){
   }
 }
 
-// renderPracticeStudioActive removed in v1.11 — active panel now lives inside renderPracticeStudio
+// renderPracticeStudioActive removed in v1.13 — active panel now lives inside renderPracticeStudio
 
 function psStop(){
   _recordSfx(false);
@@ -12547,6 +12558,17 @@ window.addEventListener("offline", ()=>maybeShowOfflineBanner());
 // These buttons can appear in any view so they need a document-level listener.
 document.addEventListener("click",e=>{
   const btn=e.target.closest("[data-action]");
+  const contestCard=e.target.closest("[data-contest]");
+
+  // Contest card navigation
+  if(contestCard&&!btn){
+    const id=contestCard.dataset.contest;
+    if(id&&window.CONTEST_DATA&&window.CONTEST_DATA[id]){
+      V._contestId=id;V._contestState="guide";V._contestData={};V.view="contest-detail";render();
+    }
+    return;
+  }
+
   if(!btn)return;
   const action=btn.dataset.action;
   if(action==="open-ai-settings"){
