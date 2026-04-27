@@ -7485,7 +7485,16 @@ async function ttpStart(){
     try{
       stream=await navigator.mediaDevices.getUserMedia({audio:true});
       TTP.micStream=stream;
-      try{const mr=new MediaRecorder(stream);mr.ondataavailable=()=>{};mr.start();TTP.mediaRecorder=mr;}catch(e){}
+      TTP.audioChunks=[];
+      TTP.audioBlobType="audio/webm";
+      try{
+        const mimeType=MediaRecorder.isTypeSupported("audio/webm")?"audio/webm":"audio/mp4";
+        const mr=new MediaRecorder(stream,{mimeType});
+        mr.ondataavailable=e=>{if(e.data&&e.data.size>0)TTP.audioChunks.push(e.data);};
+        mr.start(1000);TTP.mediaRecorder=mr;TTP.audioBlobType=mr.mimeType;
+      }catch(e){
+        try{const mr=new MediaRecorder(stream);mr.ondataavailable=e=>{if(e.data&&e.data.size>0)TTP.audioChunks.push(e.data);};mr.start(1000);TTP.mediaRecorder=mr;}catch(e2){}
+      }
     }catch(e){
       if(ttpStateEl)ttpStateEl.textContent="● RECORDING (no mic)";
     }
@@ -7554,12 +7563,52 @@ function ttpStop(){
     try{TTP.recognition.onend=null;TTP.recognition.stop();}catch(e){}
     TTP.recognition=null;
   }
-  if(TTP.mediaRecorder&&TTP.mediaRecorder.state!=="inactive"){try{TTP.mediaRecorder.stop();}catch(e){};}
-  if(TTP.micStream){TTP.micStream.getTracks().forEach(t=>{try{t.stop();}catch(e){}});TTP.micStream=null;}
-  TTP.mediaRecorder=null;
-  TTP.phase="done";
-  render();
-  if(S.aiConfig&&S.aiConfig.enabled&&TTP.elapsed>5){ttpAnalyze();}
+
+  const finishStop=()=>{
+    if(TTP.micStream){TTP.micStream.getTracks().forEach(t=>{try{t.stop();}catch(e){}});TTP.micStream=null;}
+    TTP.mediaRecorder=null;
+    TTP.phase="done";
+    render();
+    if(S.aiConfig&&S.aiConfig.enabled&&TTP.elapsed>5){
+      ttpTranscribeAndAnalyze();
+    }
+  };
+
+  if(TTP.mediaRecorder&&TTP.mediaRecorder.state!=="inactive"){
+    TTP.mediaRecorder.onstop=finishStop;
+    try{TTP.mediaRecorder.stop();}catch(e){finishStop();}
+  }else{
+    finishStop();
+  }
+}
+
+async function ttpTranscribeAndAnalyze(){
+  const blob=(TTP.audioChunks&&TTP.audioChunks.length>0)?new Blob(TTP.audioChunks,{type:TTP.audioBlobType||"audio/webm"}):null;
+
+  if(blob&&blob.size>5000&&(!TTP.transcript||TTP.transcript.length<20)){
+    // Web Speech gave us nothing or little — try Whisper
+    TTP.aiLoading=true;
+    const el=document.getElementById("ttp-analysis");
+    if(el)el.innerHTML='<div class="ps-analysis-loading"><span class="coach-dots"><span>.</span><span>.</span><span>.</span></span></div>';
+    const cfg=S.aiConfig||{};
+    const endpoint=(cfg.endpoint||"/.netlify/functions/ai").replace(/\/ai$/,"/transcribe");
+    const token=localStorage.getItem("tmc-client-token")||"";
+    const headers={"Content-Type":TTP.audioBlobType||"audio/webm"};
+    if(token)headers["x-client-token"]=token;
+    if(cfg.ownerKey)headers["x-owner-key"]=cfg.ownerKey;
+    try{
+      const res=await fetch(endpoint,{method:"POST",headers,body:blob});
+      if(res.ok){
+        const data=await res.json();
+        if(data.transcript&&data.transcript.length>5){
+          TTP.transcript=data.transcript;
+          TTP.totalWords=data.transcript.split(/\s+/).filter(Boolean).length;
+        }
+      }
+    }catch(e){console.warn("Whisper fallback failed:",e);}
+  }
+
+  ttpAnalyze();
 }
 
 // ── DONE + EVALUATION ───────────────────────────────────────────────────────
@@ -9937,7 +9986,7 @@ function renderSettings(app){
 // generating a structured CRC draft when AI is enabled.
 
 function _evalPracticeMic(btn,pid){
-  let recording=false,recognition=null,timerInt=null,seconds=0,transcript="";
+  let recording=false,timerInt=null,seconds=0,audioChunks=[],stream=null,mediaRecorder=null,blobType="audio/webm";
   const update=()=>{
     const d=document.getElementById("ep-timer-display");
     const s=document.getElementById("ep-timer-state");
@@ -9947,41 +9996,61 @@ function _evalPracticeMic(btn,pid){
   };
   btn.addEventListener("click",async()=>{
     if(!recording){
-      // getUserMedia first — single permission prompt
-      const d=document.getElementById("ep-timer-display");
       const s=document.getElementById("ep-timer-state");
       if(s)s.textContent="WAITING…";
-      let stream=null;
       try{stream=await navigator.mediaDevices.getUserMedia({audio:true});}catch(e){
         alert("Microphone access needed.");return;
       }
       _recordSfx(true);
-      recording=true;seconds=0;transcript="";
+      recording=true;seconds=0;audioChunks=[];
       btn.textContent="⏹";btn.style.background="rgba(232,93,93,0.18)";
       if(s)s.textContent="RECORDING";
       timerInt=setInterval(()=>{seconds++;update();},1000);
-      // Start MediaRecorder with stream
-      btn._stream=stream;
-      try{const mr=new MediaRecorder(stream);mr.ondataavailable=()=>{};mr.start();btn._mr=mr;}catch(e){}
-      // Start SR after getUserMedia — reuses permission
-      const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
-      if(SR){
-        recognition=new SR();recognition.continuous=true;recognition.interimResults=false;recognition.lang="en-US";
-        recognition.onresult=e=>{for(let i=e.resultIndex;i<e.results.length;i++){if(e.results[i].isFinal)transcript+=e.results[i][0].transcript+" ";}};
-        recognition.onend=()=>{if(recording)try{recognition.start();}catch(e){}};
-        try{recognition.start();}catch(e){}
+      try{
+        const mimeType=MediaRecorder.isTypeSupported("audio/webm")?"audio/webm":"audio/mp4";
+        mediaRecorder=new MediaRecorder(stream,{mimeType});
+        blobType=mediaRecorder.mimeType;
+      }catch(e){
+        try{mediaRecorder=new MediaRecorder(stream);}catch(e2){console.warn("MediaRecorder failed",e2);}
+      }
+      if(mediaRecorder){
+        mediaRecorder.ondataavailable=e=>{if(e.data&&e.data.size>0)audioChunks.push(e.data);};
+        mediaRecorder.start(1000);
       }
     }else{
       _recordSfx(false);clearInterval(timerInt);recording=false;
       btn.textContent="🎙";btn.style.background="";
-      if(recognition){try{recognition.onend=null;recognition.stop();}catch(e){}recognition=null;}
-      if(btn._mr)try{btn._mr.stop();}catch(e){}
-      if(btn._stream)btn._stream.getTracks().forEach(t=>t.stop());
-      const final=transcript.trim();
-      V._evalPractice={phase:"done",transcript:final,loading:!!final,result:null,error:null};
-      render();
-      if(final)_evalPracticeAnalyze(pid,final);
-      else{V._evalPractice={phase:"done",loading:false,error:new Error("No speech detected.")};render();}
+      if(mediaRecorder&&mediaRecorder.state!=="inactive"){
+        mediaRecorder.onstop=()=>{
+          if(stream)stream.getTracks().forEach(t=>t.stop());
+          const blob=audioChunks.length>0?new Blob(audioChunks,{type:blobType}):null;
+          if(!blob||blob.size<5000){
+            V._evalPractice={phase:"done",loading:false,error:new Error("No speech detected. Try again.")};render();return;
+          }
+          V._evalPractice={phase:"done",transcript:"",loading:true,result:null,error:null};render();
+          const cfg=S.aiConfig||{};
+          const endpoint=(cfg.endpoint||"/.netlify/functions/ai").replace(/\/ai$/,"/transcribe");
+          const token=localStorage.getItem("tmc-client-token")||"";
+          const headers={"Content-Type":blobType};
+          if(token)headers["x-client-token"]=token;
+          if(cfg.ownerKey)headers["x-owner-key"]=cfg.ownerKey;
+          fetch(endpoint,{method:"POST",headers,body:blob})
+            .then(r=>r.ok?r.json():Promise.reject(r.status))
+            .then(data=>{
+              const t=(data.transcript||"").trim();
+              if(t.length>5){_evalPracticeAnalyze(pid,t);}
+              else{V._evalPractice={phase:"done",loading:false,error:new Error("No speech detected. Try again.")};render();}
+            })
+            .catch(e=>{V._evalPractice={phase:"done",loading:false,error:new Error("Transcription failed. Check your connection.")};render();});
+        };
+        try{mediaRecorder.stop();}catch(e){
+          if(stream)stream.getTracks().forEach(t=>t.stop());
+          V._evalPractice={phase:"done",loading:false,error:new Error("Recording error. Try again.")};render();
+        }
+      }else{
+        if(stream)stream.getTracks().forEach(t=>t.stop());
+        V._evalPractice={phase:"done",loading:false,error:new Error("No speech detected. Try again.")};render();
+      }
     }
   });
 }
