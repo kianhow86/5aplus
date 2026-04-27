@@ -4678,6 +4678,8 @@ function renderHub(app){
     }
     if(cfg.img){
       s+='<div class="hub-tile-glyph hub-tile-glyph-img"><img src="'+cfg.img+'" alt="'+cfg.name+'"/></div>';
+    } else if(cfg.customGlyph){
+      s+='<div class="hub-tile-glyph" style="font-size:42px;line-height:1;display:flex;align-items:center;justify-content:center">'+cfg.customGlyph+'</div>';
     } else {
       s+='<div class="hub-tile-glyph">'+HUB_GLYPHS[cfg.glyph]+'</div>';
     }
@@ -4700,7 +4702,7 @@ function renderHub(app){
     h+=tile({hub:"roles",       glyph:"roles",     color:"#C8A44A", name:"Meeting Roles", sub:"Lead and contribute with impact",            tag:"LEADERSHIP"});
     // Row 2 — Pathways (softer entry)
     h+=tile({hub:"path",        glyph:"path",       color:"#80B56D", name:"My Pathways",   sub:"Personalized roadmap for your growth",      tag:"GROWTH"});
-    h+=tile({hub:"all-projects",glyph:"pathfinder", color:"#5B9DD9", name:"Path Planner",  sub:"Plan your progress. Stay on track.",         tag:"STRUCTURE"});
+    h+=tile({hub:"all-projects",glyph:"pathfinder", color:"#5B9DD9", name:"All Projects",  sub:"Browse every Pathways project",             tag:"EXPLORE"});
     h+=tile({hub:"contests",    glyph:"contest",   color:"#C9963A", name:"Contests",      sub:"Challenge yourself. Celebrate wins.",        tag:"ACHIEVEMENT"});
   }else{
     // Row 1 — practice tools
@@ -4708,7 +4710,7 @@ function renderHub(app){
     h+=tile({hub:"practice",    glyph:"practice",  color:"#7EB46D", name:"Practice Tools",sub:"Build skills with guided exercises",         tag:"PRACTICE"});
     h+=tile({hub:"roles",       glyph:"roles",     color:"#C8A44A", name:"Meeting Roles", sub:"Lead and contribute with impact",            tag:"LEADERSHIP"});
     // Row 2 — Pathways tools
-    h+=tile({hub:"path",        glyph:"path",      color:p?p.c:"#80B56D",
+    h+=tile({hub:"path",        glyph:"path",      color:"#80B56D",
              name:p?"My Pathways":"My Pathways",   sub:p?Math.round(pct)+"% complete · keep going":"Personalized roadmap for your growth",
              tag:"GROWTH",                          ring:p?{pct:pct}:null});
     h+=tile({hub:"pathfinder",  glyph:"pathfinder",color:"#3B82F6", name:"Path Planner",  sub:"Plan your progress. Stay on track.",         tag:"STRUCTURE"});
@@ -7356,8 +7358,9 @@ function _ttpRenderSetup(app){
     TTP.questionLoading=true;
     render();
     try{
+      const seed=Math.random().toString(36).slice(2,8);
       const sys="You are a Toastmasters Topicsmaster. A great Table Topics question is like a musical motif — simple, immediate, impossible to ignore. The speaker should grasp it in one second and spend all 2 minutes on their answer, not unpacking the question. Short, punchy, one clear idea. One sentence, under 15 words, ends with a question mark. No context, no setup, no sub-clauses. Just the question.";
-      const msg="Theme: "+(theme||"open")+"\nDifficulty: Medium (opinion or reflection).\n\nReply with ONE single-sentence question only. Nothing else.";
+      const msg="[Seed: "+seed+"]\nTheme: "+(theme||"open")+"\nDifficulty: Medium (opinion or reflection).\n\nReply with ONE single-sentence question only. Nothing else.";
       let raw=await callCoach(sys,msg,{maxTokens:80,forceBase:true,featureId:'tt-question'});
       // Aggressive cleanup
       raw=raw
@@ -7620,14 +7623,14 @@ async function ttpAnalyze(){
   const el=document.getElementById("ttp-analysis");
   if(el)el.innerHTML='<div class="ps-analysis-loading"><span class="coach-dots"><span>.</span><span>.</span><span>.</span></span></div>';
 
-  const sys=`You are a Toastmasters coach evaluating a Table Topics speech. Your philosophy: one honest, specific observation beats three vague ones. Adults improve when feedback is clear enough to act on — not when it's softened into meaninglessness.
+  const sys=`You are a Toastmasters coach evaluating a Table Topics speech. Your philosophy: the question is a door, not a destination. The best Table Topics speeches don't answer directly — they find a story, a moral reflection, or an emotional truth that orbits the topic. Penalising a speaker for "not answering the question" misses the point entirely. Your job is to coach them toward being compelling, not compliant.
 
-Think of it like a cooking lesson: don't say "the dish needs more flavour" — say "add salt at the end, not the beginning."
+One honest, specific observation beats three vague ones. Adults improve when feedback is clear enough to act on.
 
 Reply in EXACTLY these four sections:
 
-✅ ANSWERED: Did they actually address the question, or dance around it? Quote a specific moment that shows it.
-🏗 STRUCTURE: Did they open with a clear stance? Was there a point and a close, or just a stream of thoughts?
+🧵 THREAD: Did they find a compelling angle — a story, reflection, or idea worth following? Or did they just give a literal answer? Quote a specific moment that shows either.
+🏗 STRUCTURE: Did they open with something that pulled you in? Was there a clear arc or just a stream of thoughts?
 🎯 DELIVERY: One specific delivery observation — time, pace, a filler pattern, or a moment of real confidence.
 💡 ONE THING: The single most useful thing they can work on next time. Concept first, then what to do. Not a list — one thing.
 
@@ -7808,7 +7811,7 @@ function renderTopicsPractice(app){
         '<div class="role-ai-loading"><span class="coach-dots"><span>.</span><span>.</span><span>.</span></span></div>';
     }
     try{
-      const sys="You are a Toastmasters coach giving pre-speech advice on a Table Topics question. Be a thinking partner, not a script writer. Under 100 words. Give them: 1) one angle or concept to anchor their answer — think of it like choosing the key ingredient before you start cooking, 2) one strong opening move, 3) one thing to avoid. No waffle, no lists of options — just one clear direction they can use right now.";
+      const sys="You are a Table Topics coach with a strong point of view: the question is a door, not a destination. The best Table Topics speeches don't answer the question directly — they use it as a launchpad for a story, a moral reflection, or an emotional truth that orbits the topic. Evaluators who penalise speakers for 'not answering the question' are missing the point. Your job is to help the speaker find the thread — not the answer. Under 100 words. Give them: 1) one angle, story hook, or emotional thread to anchor their response, 2) one strong opening move that doesn't start with 'I think' or 'That's a great question', 3) one reminder that they don't have to answer literally — they just have to be compelling. No hedging, no options — one clear direction.";
       const msg='Table Topics question: "'+currentPrompt+'"\nGive a quick coaching guide for how to approach this.';
       const text=await callCoach(sys,msg,{maxTokens:250,forceBase:true,featureId:'tt-eval'});
       V._ttCoachResult=text;
