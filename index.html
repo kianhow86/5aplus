@@ -1434,6 +1434,8 @@ a{color:inherit;text-decoration:none}
 /* ═══ Contest Eval Speeches ═══ */
 .contest-eval-note{font-size:var(--fs-sm);color:var(--text-3);line-height:1.55;letter-spacing:-0.003em;margin-bottom:12px;font-style:italic}
 .contest-eval-speeches{display:flex;flex-direction:column;gap:10px;margin-bottom:16px}
+.contest-mode-tab{flex:1;padding:9px;background:var(--surface);border:1px solid var(--border);border-radius:10px;font-size:13px;font-weight:600;color:var(--text-secondary);cursor:pointer;transition:all .15s;font-family:inherit}
+.contest-mode-tab.active{background:var(--surface2);border-color:var(--accent);color:var(--text)}
 .contest-eval-speech{display:block;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px;text-decoration:none;transition:background .15s}
 .contest-eval-speech:hover{background:rgba(255,255,255,0.04)}
 .contest-eval-speech-top{margin-bottom:6px}
@@ -4240,7 +4242,10 @@ let S={
   // Per-path archive — stores other paths' progress while they're not active.
   // Keys: path codes, values: {done, partsDone, notes, photos, levelSubmitted}.
   // On path switch, active state swaps in/out of this archive.
-  pathArchive:{}
+  pathArchive:{},
+  // Practice session history — keyed by project pid or contest speech title
+  // Each entry: [{date, elapsed, wpm, fillers, summary}]
+  sessions:{}
 };
 let V={
   view:"browser",         // "picker" | "browser" | "project" | "roles" | "role" | "practice" | "timer" | "filler" | "hub" | "quiz-intro" | "quiz-q" | "quiz-result" | "pathfinder-intro" | "pathfinder-q" | "pathfinder-building" | "pathfinder-program"
@@ -5866,7 +5871,12 @@ function renderProjectDetail(app,pid){
   h+='</div></div>';
   h+='</div>';
 
+  // Practice this speech CTA
+  h+=renderSessionHistory(pid,'#A07BC7');
+  h+='<button class="modal-cta" data-action="practice-this-speech" style="background:linear-gradient(135deg,#A07BC7,#6DB6B4);margin:12px 0;font-size:15px">🎙 Practice this speech →</button>';
+
   h+='<div class="app-footer">Progress saved on this device · Tap ← to return</div>';
+
   h+='</div>';
   app.innerHTML=h;
 
@@ -6012,6 +6022,15 @@ function renderProjectDetail(app,pid){
     });
   });
   // Notes — save on input, no rerender
+  const practiceBtn=app.querySelector('[data-action="practice-this-speech"]');
+  if(practiceBtn)practiceBtn.addEventListener('click',()=>{
+    PS.pid=pid;
+    V.viewingRole=null;
+    V._psReturnToProject=pid;
+    V.view='ai-coach';
+    render();
+  });
+
   const noteTa=app.querySelector('[data-notes-pid]');
   if(noteTa){
     noteTa.addEventListener("input",e=>{
@@ -12920,6 +12939,8 @@ function renderContestDetail(app){
           h+='<div class="role-ai-loading" style="padding:32px;text-align:center"><span class="coach-dots"><span>.</span><span>.</span><span>.</span></span><div style="margin-top:12px;font-size:13px;color:var(--text-3)">Evaluating against the contest ballot…</div></div>';
         }else if(CD.result){
           h+='<div class="contest-result fade-up">'+renderCoachCards(CD.result)+'</div>';
+          const contestKey=V._contestSpeechTitle||(c.id+'-'+c.name);
+          h+=renderSessionHistory(contestKey,c.color);
           h+='<button class="ttp-random-btn" style="width:100%;margin-top:16px" data-action="contest-again">🎙 Try another question</button>';
         }else if(CD.error){
           h+=renderAIError(CD.error,()=>{V._contestData={...V._contestData,error:null,loading:true};render();_contestRunEval(c,CD.transcript);});
@@ -13066,10 +13087,23 @@ function renderContestDetail(app){
           h+='<div class="ps-input-label">Speech title & key message</div>';
           h+='<div class="ps-input-hint">Optional but powerful — K will coach whether your speech actually delivered on what you set out to say.</div>';
           h+='<input class="ps-input-field" id="contest-speech-title" placeholder="Title e.g. The Last Goodbye" style="margin-bottom:8px" value="'+escHtml(V._contestSpeechTitle||"")+'"/>';
-          h+='<textarea class="ps-input-field" id="contest-key-msg" placeholder="Key message e.g. The things we leave unsaid cost us more than the things we say wrong." rows="2">'+escHtml(V._contestKeyMsg||"")+'</textarea>';
+          h+='<textarea class="ps-input-field" id="contest-key-msg" placeholder="Key message e.g. The things we leave unsaid cost us more than the things we say wrong." rows="2">'+escHtml(V._contestKeyMsg||'')+'</textarea>';
           h+='</div>';
+
+          // ── Record / Paste Script toggle ──
+          const scriptMode=V._contestScriptMode||'record';
+          h+='<div style="display:flex;gap:6px;margin-bottom:12px">';
+          h+='<button class="contest-mode-tab'+(scriptMode==='record'?' active':'')+'" data-action="contest-mode-record">🎙 Record</button>';
+          h+='<button class="contest-mode-tab'+(scriptMode==='paste'?' active':'')+'" data-action="contest-mode-paste">📋 Paste script</button>';
+          h+='</div>';
+          if(scriptMode==='paste'){
+            h+='<div style="margin-bottom:12px">';
+            h+='<textarea class="ps-input-field" id="contest-script-input" placeholder="Paste your speech script here..." rows="8" style="font-size:13px;line-height:1.6">'+escHtml(V._contestScript||'')+'</textarea>';
+            h+='<button class="modal-cta" id="contest-script-submit" style="margin-top:8px;background:linear-gradient(135deg,'+c.color+','+c.color+'99)">Analyse script →</button>';
+            h+='</div>';
+          }
         }
-        h+='<div class="ps-timer-card" id="contest-timer-card">';
+        h+='<div class="ps-timer-card" id="contest-timer-card"'+(V._contestScriptMode==='paste'?' style="display:none"':'')+'>'; 
         h+='<div class="ps-timer-state" id="contest-timer-state">READY</div>';
         h+='<div class="ps-timer-display" id="contest-timer-display">0:00</div>';
         h+='<div class="ps-timer-markers">';
@@ -13242,6 +13276,26 @@ function renderContestDetail(app){
   const micBtn=app.querySelector('[data-action="contest-mic"]');
   if(micBtn)_contestWireMic(micBtn,c);
 
+  // Record/Paste mode toggle
+  const recBtn=app.querySelector('[data-action="contest-mode-record"]');
+  const pasteBtn=app.querySelector('[data-action="contest-mode-paste"]');
+  if(recBtn)recBtn.addEventListener('click',()=>{V._contestScriptMode='record';render();});
+  if(pasteBtn)pasteBtn.addEventListener('click',()=>{V._contestScriptMode='paste';render();});
+
+  // Script input — save as typed
+  const scriptInput=app.querySelector('#contest-script-input');
+  if(scriptInput)scriptInput.addEventListener('input',()=>{V._contestScript=scriptInput.value;});
+
+  // Script submit — analyse pasted script
+  const scriptSubmit=app.querySelector('#contest-script-submit');
+  if(scriptSubmit)scriptSubmit.addEventListener('click',()=>{
+    const script=scriptInput?scriptInput.value.trim():'';
+    if(!script){alert('Please paste your script first.');return;}
+    V._contestData={phase:'done',transcript:script,loading:true,result:null,error:null};
+    render();
+    _contestRunEval(c,script);
+  });
+
   // International speech title + key message
   const titleInput=app.querySelector('#contest-speech-title');
   if(titleInput)titleInput.addEventListener('input',()=>{V._contestSpeechTitle=titleInput.value;});
@@ -13399,9 +13453,21 @@ async function _contestRunEval(c,transcript){
     :(isEval
       ?"\n\nYou are coaching the EVALUATOR — not commenting on the speech they evaluated. The evaluator just watched the speech listed above and delivered a 2-3 minute CRC evaluation. Score them on:\n1. Did they identify SPECIFIC moments from the speech, or give generic feedback?\n2. Did they evaluate against what THIS speech was actually trying to do?\n3. Was their recommendation actionable and concept-first?\n4. Did the evaluation itself stand out? At contest level, every evaluator commends, recommends, commends. The winners say something only THEY could have said about that specific speech.\n5. Did their delivery feel like coaching — sensitive, encouraging — or clinical?"
       :"");
+  // Inject session history into userMsg
+  const contestSessionKey=speechTitle||(c.id+'-'+c.name);
+  const historyCtx=buildHistoryContext(contestSessionKey);
+  const userMsgWithHistory=userMsg+(historyCtx?'\n'+historyCtx:'');
+
   try{
-    const res=await callCoach(sys+champPrinciples,userMsg,{featureId:"ps-eval"});
+    const res=await callCoach(sys+champPrinciples,userMsgWithHistory,{featureId:"ps-eval"});
     V._contestData={...cData,loading:false,result:res};
+    // Save session
+    const elapsed=cData.elapsed||0;
+    const words=(transcript||'').split(/\s+/).filter(Boolean).length;
+    const wpm=elapsed>0?Math.round(words/(elapsed/60)):0;
+    const summaryMatch=res.replace(/<[^>]+>/g,'').match(/[^.!?]+[.!?]/);
+    const summary=summaryMatch?summaryMatch[0].trim().slice(0,80):'';
+    saveSession(contestSessionKey,elapsed,wpm,0,summary);
     render();
   }catch(e){
     V._contestData={...cData,loading:false,error:e};
@@ -13643,6 +13709,7 @@ function renderPracticeStudio(app){
   let h='<div class="fade-up ps-view" data-ps-state="'+stateAttr+'">';
   h+='<div class="top-bar">';
   if(V.viewingRole){h+='<button class="top-bar-btn" data-action="ps-back">'+roleBackLabel(V.viewingRole)+'</button>';}
+  else if(V._psReturnToProject){h+='<button class="top-bar-btn" data-action="ps-back">← Back to project</button>';}
   h+='</div>';
 
   // ─── READY PANEL ───
@@ -13771,13 +13838,23 @@ function renderPracticeStudio(app){
 
   // MIC — hide for irrelevant/context-broken projects
   if(tags.limit!=="all"&&tags.limit!=="context"){
-    h+='<div class="ps-mic-wrap">';
-    h+='<div class="ps-mic-btn" data-action="ps-start"'+(!hasRecognition?' data-timer-only="1"':'')+'>';
-    h+='<div class="ps-mic-ring"><div class="ps-mic-icon">🎙️</div></div>';
+    const psScriptMode=V._psScriptMode||'record';
+    h+='<div style="display:flex;gap:6px;margin-bottom:4px">';
+    h+='<button class="contest-mode-tab'+(psScriptMode==='record'?' active':'')+'" data-action="ps-mode-record">🎙 Record</button>';
+    h+='<button class="contest-mode-tab'+(psScriptMode==='paste'?' active':'')+'" data-action="ps-mode-paste">📋 Paste script</button>';
     h+='</div>';
-    h+='<div class="ps-mic-label">Tap to start</div>';
-    h+='</div>';
-
+    if(psScriptMode==='paste'){
+      h+='<textarea class="ps-input-field" id="ps-script-input" placeholder="Paste your speech script here..." rows="8" style="font-size:13px;line-height:1.6">'+escHtml(V._psScript||'')+'</textarea>';
+      h+='<button class="modal-cta" id="ps-script-submit" style="margin-top:8px;background:linear-gradient(135deg,#A07BC7,#6DB6B4)">Analyse script →</button>';
+    }else{
+      h+='<div class="ps-mic-wrap">';
+      h+='<div class="ps-mic-btn" data-action="ps-start"'+(!hasRecognition?' data-timer-only="1"':'')+'>'; 
+      h+='<div class="ps-mic-ring"><div class="ps-mic-icon">🎙️</div></div>';
+      h+='</div>';
+      h+='<div class="ps-mic-label">Tap to start</div>';
+      h+='</div>';
+    }
+    if(psScriptMode!=='paste'){
     h+='<div class="ps-timer-card">';
     h+='<div class="ps-timer-state">READY</div>';
     h+='<div class="ps-timer-display">0:00</div>';
@@ -13793,7 +13870,8 @@ function renderPracticeStudio(app){
     if(!hasRecognition){
       h+='<div class="ps-no-mic-note">Filler detection not supported in this browser. Timer will still run.</div>';
     }
-  }
+    } // end if not paste
+  } // end if paste/record
   h+='</div>'; // /ps-ready-panel
 
   // ─── ACTIVE PANEL ─── (always present, hidden until phase === active)
@@ -13838,7 +13916,41 @@ function renderPracticeStudio(app){
 
   // ─── Wire handlers (works for both panels — they share the same root) ───
   const psBackBtn=app.querySelector('[data-action="ps-back"]');
-  if(psBackBtn)psBackBtn.addEventListener("click",()=>{V.view="role";render();});
+  if(psBackBtn)psBackBtn.addEventListener("click",()=>{
+    if(V._psReturnToProject){
+      V.viewingProject=V._psReturnToProject;
+      V._psReturnToProject=null;
+      V.view="project";
+      render();
+      return;
+    }
+    V.view="role";render();
+  });
+
+  // Record/Paste mode toggle
+  const psModeRec=app.querySelector('[data-action="ps-mode-record"]');
+  const psModePaste=app.querySelector('[data-action="ps-mode-paste"]');
+  if(psModeRec)psModeRec.addEventListener('click',()=>{V._psScriptMode='record';render();});
+  if(psModePaste)psModePaste.addEventListener('click',()=>{V._psScriptMode='paste';render();});
+
+  // Script input
+  const psScriptInput=app.querySelector('#ps-script-input');
+  if(psScriptInput)psScriptInput.addEventListener('input',()=>{V._psScript=psScriptInput.value;});
+
+  // Script submit — analyse pasted script directly
+  const psScriptSubmit=app.querySelector('#ps-script-submit');
+  if(psScriptSubmit)psScriptSubmit.addEventListener('click',async()=>{
+    const script=psScriptInput?psScriptInput.value.trim():'';
+    if(!script){alert('Please paste your script first.');return;}
+    PS.phase='done';
+    PS.elapsed=0;
+    PS.aiAnalysis=null;
+    PS.aiLoading=true;
+    FD.transcript=script;
+    FD.totalWords=script.split(/\s+/).filter(Boolean).length;
+    render();
+    await psAnalyzeWithAI();
+  });
   const changeBtn=app.querySelector('[data-action="ps-change-project"]');
   if(changeBtn)changeBtn.addEventListener("click",()=>{
     const dd=document.getElementById("ps-project-dropdown");
@@ -13943,14 +14055,6 @@ function renderPracticeStudio(app){
       // Close dropdown
       const dd=document.getElementById("ps-project-dropdown");
       if(dd)dd.style.display="none";
-    });
-  });
-  app.querySelectorAll("[data-ps-pid]").forEach(btn=>{
-    btn.addEventListener("click",()=>{
-      PS.pid=btn.dataset.psPid==="freestyle"?null:btn.dataset.psPid;
-      const dd=document.getElementById("ps-project-dropdown");
-      if(dd)dd.style.display="none";
-      render();
     });
   });
   const startBtn=app.querySelector('[data-action="ps-start"]');
@@ -14109,6 +14213,52 @@ function psStop(){
   }
 }
 
+// ── Session history helpers ──────────────────────────────────────────────────
+function saveSession(key, elapsed, wpm, fillers, summary){
+  if(!key)return;
+  if(!S.sessions)S.sessions={};
+  if(!S.sessions[key])S.sessions[key]=[];
+  // Keep last 10 sessions per key
+  S.sessions[key].unshift({
+    date:new Date().toLocaleDateString('en-US',{month:'short',day:'numeric'}),
+    elapsed:Math.round(elapsed),
+    wpm:wpm||0,
+    fillers:fillers||0,
+    summary:summary||''
+  });
+  S.sessions[key]=S.sessions[key].slice(0,10);
+  save();
+}
+
+function buildHistoryContext(key){
+  if(!key||!S.sessions||!S.sessions[key]||!S.sessions[key].length)return '';
+  const sessions=S.sessions[key];
+  const lines=sessions.map((s,i)=>{
+    const ago=i===0?'Last session':i===1?'2 sessions ago':s.date;
+    return ago+': '+fmtMs(s.elapsed*1000)+(s.wpm?' · '+s.wpm+' wpm':'')+(s.fillers?' · '+s.fillers+' fillers':'')+(s.summary?' — '+s.summary:'');
+  });
+  return '\n\nPAST SESSIONS FOR THIS SPEECH ('+sessions.length+' total):\n'+lines.join('\n')+'\nUse this history to track improvement. Call out patterns explicitly — what\'s getting better, what keeps recurring.';
+}
+
+function renderSessionHistory(key,color){
+  if(!key||!S.sessions||!S.sessions[key]||!S.sessions[key].length)return '';
+  const sessions=S.sessions[key];
+  let h='<div style="margin-top:16px;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px">';
+  h+='<div style="font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-secondary);margin-bottom:10px">Practice history</div>';
+  sessions.forEach((s,i)=>{
+    const isFirst=i===0;
+    h+='<div style="display:flex;align-items:center;gap:10px;padding:'+(isFirst?'0 0 8px':'8px 0')+';'+(i<sessions.length-1?'border-bottom:1px solid var(--border)':'')+'\">';
+    h+='<div style="font-size:11px;color:var(--text-secondary);width:70px;flex-shrink:0">'+s.date+'</div>';
+    h+='<div style="font-size:12px;font-weight:700;color:'+(color||'var(--accent)');
+    h+=';font-family:monospace">'+fmtMs(s.elapsed*1000)+'</div>';
+    if(s.wpm)h+='<div style="font-size:11px;color:var(--text-secondary)">'+s.wpm+' wpm</div>';
+    if(s.summary)h+='<div style="font-size:11px;color:var(--text-secondary);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+s.summary+'</div>';
+    h+='</div>';
+  });
+  h+='</div>';
+  return h;
+}
+
 async function psAnalyzeWithAI(){
   PS.aiLoading=true;
   _psUpdateAnalysisSection();
@@ -14216,11 +14366,15 @@ Filler word rules: only flag fillers used as crutches — 3+ times, sentence-sta
     "Word count: "+wordCount+" ("+wpm+" wpm)\n"+
     (PS._extraNotes?"\nSpeaker notes: "+PS._extraNotes+"\n":"")+
     "\nFULL TRANSCRIPT:\n"+(transcript||"(no audio captured)")+"\n"+
+    buildHistoryContext(PS.pid)+
     "\nAnalyze the transcript above and give focused coaching.";
 
   try{
     const response=await callCoach(sys,msg,{maxTokens:400,featureId:'ps-eval'});
     PS.aiAnalysis=response;
+    const summaryMatch=response.replace(/<[^>]+>/g,'').match(/[^.!?]+[.!?]/);
+    const summary=summaryMatch?summaryMatch[0].trim().slice(0,80):'';
+    saveSession(PS.pid,PS.elapsed,wpm,PS.totalFillers||0,summary);
   }catch(err){
     PS.aiAnalysis=renderAIError(err,null);
   }
