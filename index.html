@@ -7672,13 +7672,13 @@ async function ttpAnalyze(){
   const el=document.getElementById("ttp-analysis");
   if(el)el.innerHTML='<div class="ps-analysis-loading"><span class="coach-dots"><span>.</span><span>.</span><span>.</span></span></div>';
 
-  const sys=`You are a Toastmasters coach evaluating a Table Topics speech. Your philosophy: the question is a door, not a destination. The best Table Topics speeches don't answer directly — they find a story, a moral reflection, or an emotional truth that orbits the topic. Penalising a speaker for "not answering the question" misses the point entirely. Your job is to coach them toward being compelling, not compliant.
+  const sys=`You are K, a Toastmasters coach. Your philosophy: the question is a door, not a destination. The best Table Topics speeches don't answer directly — they find a story, a moral reflection, or an emotional truth that orbits the topic. But even that requires a governing adjective. A TT answer that wanders through three ideas is still unfocused, even if it never answered the question.
 
 One honest, specific observation beats three vague ones. Adults improve when feedback is clear enough to act on.
 
 Reply in EXACTLY these four sections:
 
-🧵 THREAD: Did they find a compelling angle — a story, reflection, or idea worth following? Or did they just give a literal answer? Quote a specific moment that shows either.
+🎯 THE THREAD: Did they find a single governing idea — one emotional truth the answer orbited? Or did it try to be multiple things? Name what you heard. If it was unfocused, say so — that's always the priority.
 🏗 STRUCTURE: Did they open with something that pulled you in? Was there a clear arc or just a stream of thoughts?
 🎯 DELIVERY: One specific delivery observation — time, pace, a filler pattern, or a moment of real confidence.
 💡 ONE THING: The single most useful thing they can work on next time. Concept first, then what to do. Not a list — one thing.
@@ -12468,9 +12468,9 @@ const CONTEST_DATA={
     time:{min:5,max:7},
     tagline:"The flagship contest. Where careers are made.",
     criteria:[
-      {label:"Content",pct:50,desc:"The biggest category — 50 points. Judges score Speech Development (structure, opening/body/close), Speech Value (original ideas that contribute something to the audience's thinking), and Effectiveness (did you achieve your purpose and hold their interest?). Speech Value alone is 25 points. This is where most people lose."},
-      {label:"Delivery",pct:30,desc:"Physical presence, voice flexibility and volume, and manner — your directness, assurance, enthusiasm. Judges ask: does the delivery serve the message, or is it performing for its own sake?"},
-      {label:"Language",pct:20,desc:"Appropriateness (word choice fits the purpose and audience) and correctness (grammar, pronunciation). The smallest category — but a memorable line that travels out of the room can tip a close contest."}
+      {label:"Content",pct:50,desc:"The biggest category — 50 points. Judges score Speech Development (structure, opening/body/close), Speech Value (original ideas that contribute something to the audience's thinking), and Effectiveness (did you achieve your purpose and hold their interest?). Speech Value alone is 25 points. This is where most people lose.",plain:"A story — preferably yours, with you as the central character. Think of it like a movie: Schindler's List is a film about redemption. Rocky is a film about resilience. Your speech needs one theme that clear — something the audience can repeat in a single sentence after they leave. Structure matters: open somewhere specific, build through real moments, land somewhere that earns the opening. And the theme must resonate beyond your own experience — that's what makes a personal story universal.",links:[{label:"▶ Story shapes (Vonnegut)",url:"https://www.youtube.com/watch?v=oP3c1h8v2ZQ"},{label:"▶ 3-act structure in 2 min",url:"https://www.youtube.com/watch?v=w1CiMv7_QuQ"},{label:"📖 Universal themes",url:"https://reedsy.com/blog/guide/theme/common-themes-in-literature/"},{label:"📋 Official ballot",url:"https://content.toastmasters.org/image/upload/1172-international-speech-contest-ballot-ff.pdf"}]},
+      {label:"Delivery",pct:30,desc:"Physical presence, voice flexibility and volume, and manner — your directness, assurance, enthusiasm. Judges ask: does the delivery serve the message, or is it performing for its own sake?",plain:"Do you look like you belong at the front of the room? Not polished — believable. Stillness at the right moment scores higher than constant movement. A voice that drops when the story gets serious scores higher than one that stays flat throughout. The question is whether your body is serving the story or distracting from it."},
+      {label:"Language",pct:20,desc:"Appropriateness (word choice fits the purpose and audience) and correctness (grammar, pronunciation). The smallest category — but a memorable line that travels out of the room can tip a close contest.",plain:"One line someone would repeat to a friend the next day. Not clever — specific and true. Most speeches don't have one. If yours does, it tips a close contest. Speak the way real people speak — formal language in a personal story breaks the spell."}
     ],
     killsIt:[
       "A great opening line followed by 30 seconds of throat-clearing. You already had them — don't lose it.",
@@ -12481,21 +12481,38 @@ const CONTEST_DATA={
     champAnalysis:[
       {
         title:"Dananjaya — \"I See Something\" (2014)",
-        content:"One object. One refrain. One idea. The rose isn't a prop — it's the entire thesis made physical. 'Do you know what makes you special?' pulls every person in the room inside the speech in the first 30 seconds. Teacher believing in a broken student — no cultural border stops that from landing. The refrain 'I see something in you, but I don't know what it is' appears three times and closes the speech. Everything in between earns that close.",
-        subjective:"A speaker from Sri Lanka winning a global title was itself unusual. The speech was warm, human, never tried to be more than it was. The room responded before the judges could disagree. Some might have wanted more intellectual weight. He still won — because it was the one speech in the room nobody had a reason to vote against.",
-        steal:"Pick one physical object you can hold or gesture to and make it the anchor of your speech. Introduce it early. Return to it at the close. The audience carries the object home — your message comes with it."
+        url:"https://www.youtube.com/watch?v=bbz2boNSeL0",
+        content:"One object. One line. One idea. The rose isn't decoration — it's the whole message made touchable. He asks 'do you know what makes you special?' within the first 30 seconds. Everyone in the room feels spoken to. A teacher who believes in a struggling student — that story lands anywhere in the world. The line 'I see something in you, but I don't know what it is' comes back three times and ends the speech. Every story in between is just earning that final moment.",
+        subjective:"A Sri Lankan speaker winning a global title was unexpected. The speech never tried to be flashy. It was warm and human and the room responded to that before anyone had time to think. You could argue it lacked intellectual depth. But nobody voted against it — and in a contest, that's how you win.",
+        steal:"Find a physical object that holds your message. Introduce it early. Bring it back at the close. The audience takes the object home in their head — your idea travels with it."
       },
       {
         title:"Mark Brown — \"A Second Chance\" (1995)",
-        content:"Reframes a cliché ('you never get a second chance to make a first impression') as the problem, not the wisdom. The Beast of Intolerance, Indifference, Ignorance repeats five times — a refrain that hammers the message. Two examples: fictional (Beauty and the Beast) then real (Pat Harper homeless). The fictional anchors the concept; the real makes it sting. He closes by making the audience both victim and perpetrator.",
-        subjective:"Clear moral structure, instantly likeable delivery, earnest without being preachy. The risk: some judges might find it simple. He won because the content was undeniably solid and he gave no judge a reason to vote against him.",
-        steal:"Use a refrain. Pick a 4-6 word phrase that captures your core message and repeat it at least three times — at the start, in the middle, and at the close. It shouldn't feel repetitive. It should feel inevitable."
+        url:"https://www.youtube.com/watch?v=vn8sjKcSVpo",
+        content:"He opens by challenging a cliché — 'you never get a second chance to make a first impression' — and calls it the problem, not wisdom. Then he names his villain: The Beast of Intolerance, Indifference, Ignorance. That phrase comes back five times. Two stories follow: one fictional (Beauty and the Beast), one real (a homeless woman named Pat Harper). The fictional version teaches you what to think. The real version makes it hurt. He closes by pointing the finger at everyone in the room — including himself.",
+        subjective:"Simple structure, likeable delivery, clear moral. Some might call it straightforward. That's exactly why it works — there's nothing for judges to push back against. He gave no one a reason to vote against him.",
+        steal:"Repeat your core phrase. Pick four to six words that say what your speech is really about. Use them at least three times — at the start, in the middle, and at the end. Done right, it doesn't feel repeated. It feels like something clicking into place."
       },
       {
         title:"Ryan Avery — \"Trust is a Must\" (2012)",
-        content:"Three acts of broken and rebuilt trust — Mom, web client, Chelsea. Each raises the stakes. Bunny slippers link his mother's scenes to his own future vision — a recurring object that connects past and future without stating it. The altar opens and closes. He never says the lesson. The lesson is lived through the stories.",
-        subjective:"Youngest champion ever at 25. Funny, charming, complete commitment to the characters. Some might have called it lightweight. He won because the structure was airtight and he delivered it with the kind of energy that makes a room root for you.",
-        steal:"Open at the moment of highest stakes — the altar, the emergency room, the decision point. Then flash back to explain how you got there. The audience is already hooked before you've explained anything."
+        url:"https://www.youtube.com/watch?v=Ms0Gq941iHk",
+        content:"Three stories, each one about trust breaking and being rebuilt — his mother, a difficult client, his wife Chelsea. Each story raises the stakes. Bunny slippers appear in the first scene and come back near the end, quietly connecting past to future. The speech opens and closes at the same moment: the wedding altar. He never states the lesson. The stories do the work.",
+        subjective:"Youngest champion ever at 25. Funny, committed to every character, impossible not to like. You could call it lightweight. But the structure was precise and the energy in the room was completely on his side. That combination is very hard to beat.",
+        steal:"Start at the highest-stakes moment — the altar, the breaking point, the decision. Then go back and explain how you got there. The audience is already invested before you've explained anything."
+      },
+      {
+        title:"Pres Vasilev — \"Changed By A Tire\" (2013)",
+        url:"https://www.youtube.com/watch?v=ulgUVTqBpQg",
+        content:"A flat tire in Chicago. Wrong slope. Jack collapses. Car slides toward traffic. A crowd forms at a bus stop watching him fail. He keeps trying to fix it alone because asking for help feels weak. Then a gas station attendant named Jesse shows up and helps him. The line 'reach out' appears first as a voice he ignores, then as the lesson he finally learns. English is Pres's second language — and that authenticity makes the message land harder than polish ever could. Close: 'that night I stopped to change a tire. Instead the tire changed me.'",
+        subjective:"Pause-driven from start to finish. Long silences that hold the audience instead of filling the space. The speech has a real paradox at its centre — going out to change something and being changed instead. It won because the vulnerability felt earned, not performed.",
+        steal:"Let the lesson come late. Set up a concrete problem at the start. Make the audience watch you fail or struggle with it. Only bring in the real meaning near the end. The longer you hold off, the more it lands."
+      },
+      {
+        title:"Mohammed Qahtani — \"The Power of Words\" (2015)",
+        url:"https://www.youtube.com/watch?v=auacIVTVZdo",
+        content:"Opens by walking on stage and smoking a cigarette, then citing fake statistics about smoking. The audience believes him. Then he reveals he made it all up — and five of his friends started smoking because of those made-up numbers. Three examples follow, each one higher stakes: a four-year-old son drawing on walls (threatening made it worse, speaking to his pride stopped it), scientists losing the climate argument because their language is inaccessible, and his friend Nassar who idolised his father and called to share good grades — his father said 'I'll have to call you back, I'm busy.' That one sentence broke Nassar. He ended up in hospital from an overdose. 'A single word could have saved this life.' Close: 'words have power, words are power, words could be your power.' Mohammed has a stutter and a quieter register than most contest speakers.",
+        subjective:"He won precisely because he didn't try to out-perform the other finalists. The stutter became proof. The quieter voice made you lean in. The message was undeniable and the opening was unlike anything else on that stage. Content won the room, not technique.",
+        steal:"Don't open with your credentials or a warm-up. Open with something that makes the audience question what they think they know. Give them a reason to distrust their assumptions in the first sixty seconds — then show them why that matters."
       }
     ],
     coachTakes:[
@@ -12513,9 +12530,9 @@ const CONTEST_DATA={
     time:{min:1,max:2},
     tagline:"One question. 90 seconds. No second chances.",
     criteria:[
-      {label:"Content",pct:50,desc:"Same ballot as International Speech — 50 points. Speech Development (did you structure a 90-second response with an opening, point, and close?), Speech Value (did you say something worth saying?), Effectiveness (did you actually answer the question and hold interest?). Most TT contestants lose here by not committing to a clear point."},
-      {label:"Delivery",pct:30,desc:"Physical presence, voice, and manner — under pressure, with no prep time. Composure at the start is everything. Judges notice the first 5 seconds before you say anything."},
-      {label:"Language",pct:20,desc:"One sharp phrase that makes judges write something down. In 90 seconds you get one shot at a memorable line. Make it count."}
+      {label:"Content",pct:50,desc:"Same ballot as International Speech — 50 points. Speech Development (did you structure a 90-second response with an opening, point, and close?), Speech Value (did you say something worth saying?), Effectiveness (did you actually answer the question and hold interest?). Most TT contestants lose here by not committing to a clear point.",plain:"The question is a door — what matters is where you go once you walk through it. Find one idea, commit to it fully. Open with something specific, make one clear point through a real moment or opinion, close somewhere that echoes where you started. Most people lose here by trying to answer the question rather than saying something real. (Note: the official ballot does ask if the speech related to the question — this is a philosophical stance on how to interpret that criterion, not a disagreement with the ballot itself.)",links:[{label:"▶ Story shapes (Vonnegut)",url:"https://www.youtube.com/watch?v=oP3c1h8v2ZQ"},{label:"📋 Official ballot",url:"https://content.toastmasters.org/image/upload/1180-table-topics-contest-judges-guide-and-ballot.pdf"}]},
+      {label:"Delivery",pct:30,desc:"Physical presence, voice, and manner — under pressure, with no prep time. Composure at the start is everything. Judges notice the first 5 seconds before you say anything.",plain:"The first five seconds decide this category. Plant your feet, look at the room, then begin. Don't rush to fill the silence — own it. The speakers who look like they had 10 minutes to prepare almost always win here. That composure is a skill you can practise deliberately.",links:[{label:"📋 Official ballot",url:"https://content.toastmasters.org/image/upload/1180-table-topics-contest-judges-guide-and-ballot.pdf"}]},
+      {label:"Language",pct:20,desc:"One sharp phrase that makes judges write something down. In 90 seconds you get one shot at a memorable line. Make it count.",plain:"One line. That's all you need — something a judge is still thinking about three speeches later. Prepare a few sharp, true lines in advance and have them ready to drop into any answer when the moment fits.",links:[{label:"📋 Official ballot",url:"https://content.toastmasters.org/image/upload/1180-table-topics-contest-judges-guide-and-ballot.pdf"}]}
     ],
     killsIt:[
       "The 'well, that's a great question' opener. You've burned 4 seconds and signalled you're stalling.",
@@ -12539,10 +12556,10 @@ const CONTEST_DATA={
     time:{min:2,max:3},
     tagline:"The hardest contest. Most people don't know what judges are actually scoring.",
     criteria:[
-      {label:"Analytical Quality",pct:40,desc:"The biggest category. Were your comments clear, logical, and specific? Did you identify actual strengths AND weaknesses — not just strengths? Judges ask: did this evaluator actually watch the speech, or give a generic evaluation that could apply to anyone?"},
-      {label:"Recommendations",pct:30,desc:"Practical, helpful, positive, specific. Not 'work on your vocal variety' — name the moment, explain why it matters, say exactly what to try. One strong recommendation scores higher than three vague ones."},
-      {label:"Technique",pct:15,desc:"Sensitivity and motivation. Are you speaking to the speaker's benefit or showing off your evaluating skills? The best evaluators make the speaker feel seen, not diagnosed."},
-      {label:"Summation",pct:15,desc:"A concise, encouraging close that briefly pulls together your comments. Not a repeat — a landing. Most evaluators end by trailing off. This is points left on the table."}
+      {label:"Analytical Quality",pct:40,desc:"The biggest category. Were your comments clear, logical, and specific? Did you identify actual strengths AND weaknesses — not just strengths? Judges ask: did this evaluator actually watch the speech, or give a generic evaluation that could apply to anyone?",plain:"Could your evaluation have been delivered to a completely different speaker? If yes, you've lost this category. Name the exact moment, the specific line, the precise thing that didn't land. 'Your vocal variety was great' could apply to anyone — it scores nothing. Specificity is the whole game.",links:[{label:"📋 Official ballot",url:"https://content.toastmasters.org/image/upload/1179-evaluation-contest-judges-guide-and-ballot.pdf"}]},
+      {label:"Recommendations",pct:30,desc:"Practical, helpful, positive, specific. Not 'work on your vocal variety' — name the moment, explain why it matters, say exactly what to try. One strong recommendation scores higher than three vague ones.",plain:"A recommendation is a prescription, not a category. Not 'work on your structure' — but 'your opening was a question and your close was also a question. Next time end with a statement that answers it. That circularity gives the audience a sense of completion.' The test: can the speaker go home and practise exactly what you said?",links:[{label:"📋 Official ballot",url:"https://content.toastmasters.org/image/upload/1179-evaluation-contest-judges-guide-and-ballot.pdf"}]},
+      {label:"Technique",pct:15,desc:"Sensitivity and motivation. Are you speaking to the speaker's benefit or showing off your evaluating skills? The best evaluators make the speaker feel seen, not diagnosed.",plain:"Is this evaluation for the speaker or for the audience? The speaker should leave feeling someone finally understood what they were trying to do — even if problems were identified. Warmth isn't softness. It's the difference between a coach and a critic.",links:[{label:"📋 Official ballot",url:"https://content.toastmasters.org/image/upload/1179-evaluation-contest-judges-guide-and-ballot.pdf"}]},
+      {label:"Summation",pct:15,desc:"A concise, encouraging close that briefly pulls together your comments. Not a repeat — a landing. Most evaluators end by trailing off. This is points left on the table.",plain:"Most evaluators just stop talking. End with one closing thought that makes the room feel something is complete — not a summary, a landing. Fifteen seconds. Almost nobody does it, which means it's easy points for those who do.",links:[{label:"📋 Official ballot",url:"https://content.toastmasters.org/image/upload/1179-evaluation-contest-judges-guide-and-ballot.pdf"}]}
     ],
     killsIt:[
       "Praising everything. 'You were amazing, your eye contact was great, your pauses were perfect...' Judges know you're padding.",
@@ -12769,74 +12786,100 @@ function renderContestDetail(app){
 
     // ── GO DEEPER ─────────────────────────────────────────────────────────────
     const deepOpen=V._contestDeepOpen===true;
-    h+='<button class="guide-deep-hdr" data-action="contest-deep-toggle">';
-    h+='<span>📚 Go deeper</span>';
-    h+='<span class="contest-pill-chev" style="transition:transform .2s;transform:'+(deepOpen?'rotate(180deg)':'rotate(0deg)')+'">▼</span>';
-    h+='</button>';
+            // ── Three independent dropdowns — content always rendered, toggled inline ──
 
-    if(deepOpen){
-      h+='<div class="guide-deep-body">';
-
-      h+='<div class="guide-deep-label">Contest killers</div>';
-      h+='<div class="contest-kills">';
-      c.killsIt.forEach(k=>{ h+='<div class="contest-kill-item"><span class="contest-kill-icon">⚠️</span><span>'+k+'</span></div>'; });
-      h+='</div>';
-
-      h+='<div class="guide-deep-label">The ballot breakdown</div>';
-      h+='<div class="contest-criteria">';
-      c.criteria.forEach((cr,i)=>{
-        h+='<div class="contest-criterion" data-criterion="'+i+'">';
-        h+='<div class="contest-criterion-top"><div class="contest-criterion-label">'+cr.label+'</div>';
-        h+='<div style="display:flex;align-items:center;gap:8px"><div class="contest-criterion-pct" style="color:'+c.color+'">'+cr.pct+'%</div>';
-        h+='<div class="contest-criterion-chev" style="font-size:10px;color:var(--text-3)">▼</div></div></div>';
-        h+='<div class="contest-criterion-bar"><div class="contest-criterion-fill" style="width:'+cr.pct+'%;background:'+c.color+'"></div></div>';
-        h+='</div>';
-      });
-      h+='</div>';
-
-      if(c.id==="international"&&c.champAnalysis){
-        h+='<div class="guide-deep-label">Why they won</div>';
-        c.champAnalysis.forEach(ch=>{
-          h+='<div class="contest-champ-card">';
-          h+='<div class="contest-champ-title">'+ch.title+'</div>';
-          h+='<div class="contest-champ-section-label">Content</div>';
-          h+='<div class="contest-champ-text">'+ch.content+'</div>';
-          h+='<div class="contest-champ-section-label" style="margin-top:8px">Why they really won</div>';
-          h+='<div class="contest-champ-text contest-champ-subjective">'+ch.subjective+'</div>';
-          if(ch.steal){
-            h+='<div class="contest-champ-steal">';
-            h+='<div class="contest-champ-section-label" style="color:#5EB975;margin-top:8px">🟢 Steal this now</div>';
-            h+='<div class="contest-champ-text" style="color:var(--text)">'+ch.steal+'</div>';
-            h+='</div>';
-          }
-          h+='</div>';
-        });
-      }
-
-      if(c.id==="tabletopics"){
-        const randTopics=TT_CONTEST_TOPICS.slice().sort(()=>Math.random()-0.5).slice(0,5);
-        h+='<div class="guide-deep-label">Practice questions</div>';
-        h+='<div class="contest-tt-topics">';
-        randTopics.forEach(q=>{h+='<div class="contest-tt-topic">'+q+'</div>';});
-        h+='<button class="contest-tt-refresh" data-action="contest-tt-refresh">↻ Different questions</button>';
-        h+='</div>';
-      }
-
-      if(c.id==="evaluation"){
-        h+='<div class="guide-deep-label">Watch these first</div>';
-        h+='<div class="contest-eval-speeches">';
-        EVAL_CONTEST_SPEECHES.forEach(s=>{
-          h+='<a class="contest-eval-speech" href="'+s.url+'" target="_blank" rel="noopener">';
-          h+='<div class="contest-eval-speech-top"><div class="contest-eval-speech-title">'+s.title+'</div>';
-          h+='<div class="contest-eval-speech-meta">'+s.speaker+' · '+s.level+'</div></div>';
-          h+='<div class="contest-eval-speech-note">'+s.note+'</div>';
-          h+='<div class="contest-eval-speech-arrow">Watch ↗</div></a>';
-        });
-        h+='</div>';
-      }
-
-      h+='</div>';
+    function pill(id, icon, label, color, content){
+      return '<div style="margin-bottom:8px">'
+        +'<button class="guide-deep-hdr contest-pill-btn" data-pill="'+id+'" style="background:'+color+'14;border-color:'+color+'44;margin-bottom:0">'
+        +'<span style="color:'+color+'">'+icon+' '+label+'</span>'
+        +'<span class="pill-chev" style="font-size:11px;color:'+color+';opacity:0.7;transition:transform .25s">▼</span>'
+        +'</button>'
+        +'<div class="pill-body" style="display:none">'+content+'</div>'
+        +'</div>';
     }
+
+    // Build Contest Killers content
+    let killsHtml='<div class="contest-kills" style="margin-top:8px">';
+    c.killsIt.forEach(k=>{ killsHtml+='<div class="contest-kill-item"><span class="contest-kill-icon">⚠️</span><span>'+k+'</span></div>'; });
+    killsHtml+='</div>';
+    h+=pill('killers','⚠️','Contest killers','#E05252',killsHtml);
+
+    // Build Ballot Breakdown content
+    let ballotHtml='<div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px;margin-top:8px">';
+    c.criteria.forEach((cr,ci)=>{
+      const isLast=ci===c.criteria.length-1;
+      ballotHtml+='<div style="margin-bottom:'+(isLast?'0':'16px')+';padding-bottom:'+(isLast?'0':'16px')+';'+(isLast?'':'border-bottom:1px solid var(--border)')+'">';
+      ballotHtml+='<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">';
+      ballotHtml+='<div style="font-size:13px;font-weight:800;color:var(--text)">'+cr.label+'</div>';
+      ballotHtml+='<div style="font-size:12px;font-weight:700;color:'+c.color+'">'+cr.pct+'%</div>';
+      ballotHtml+='</div>';
+      ballotHtml+='<div style="height:3px;background:var(--border);border-radius:2px;margin-bottom:10px"><div style="height:3px;width:'+cr.pct+'%;background:'+c.color+';border-radius:2px"></div></div>';
+      if(cr.plain) ballotHtml+='<div style="font-size:13px;color:var(--text-primary);line-height:1.6">'+cr.plain+'</div>';
+      ballotHtml+='</div>';
+    });
+    const allLinks=[];const seenUrls=new Set();
+    c.criteria.forEach(x=>{if(x.links)x.links.forEach(lk=>{if(!seenUrls.has(lk.url)){seenUrls.add(lk.url);allLinks.push(lk);}});});
+    if(allLinks.length){
+      ballotHtml+='<div style="font-size:11px;font-weight:700;color:var(--text-secondary);text-transform:uppercase;letter-spacing:0.06em;margin:14px 0 8px">Resources</div>';
+      ballotHtml+='<div style="display:flex;flex-wrap:wrap;gap:6px">';
+      allLinks.forEach(lk=>{ ballotHtml+='<a href="'+lk.url+'" target="_blank" rel="noopener" style="display:inline-block;font-size:11px;font-weight:600;color:'+c.color+';border:1px solid '+c.color+'44;border-radius:20px;padding:4px 10px;text-decoration:none;background:'+c.color+'11">'+lk.label+'</a>'; });
+      ballotHtml+='</div>';
+    }
+    ballotHtml+='</div>';
+    h+=pill('ballot','📋','The ballot breakdown',c.color,ballotHtml);
+
+    // Why They Won (International only)
+    if(c.id==="international"&&c.champAnalysis){
+      let champsHtml='<div style="display:flex;flex-direction:column;gap:8px;margin-top:8px">';
+      c.champAnalysis.forEach((ch,ci)=>{
+        const uid='champ-'+ci;
+        champsHtml+='<div class="contest-champ-card" style="padding:0;overflow:hidden">';
+        champsHtml+='<div data-toggle="'+uid+'" style="display:flex;align-items:center;justify-content:space-between;cursor:pointer;padding:14px;user-select:none">';
+        champsHtml+='<div style="font-size:var(--fs-sm);font-weight:800;color:var(--text);letter-spacing:-0.008em">'+ch.title+'</div>';
+        champsHtml+='<span id="chev-'+uid+'" style="font-size:11px;color:var(--text-secondary);flex-shrink:0;margin-left:8px;transition:transform .25s">▼</span>';
+        champsHtml+='</div>';
+        champsHtml+='<div id="'+uid+'" style="display:none;padding:0 14px 14px">';
+        if(ch.url){champsHtml+='<a href="'+ch.url+'" target="_blank" rel="noopener" style="display:inline-block;font-size:11px;font-weight:700;color:#5B9DD9;text-decoration:none;margin-bottom:10px;letter-spacing:0.02em">▶ Watch on YouTube →</a>';}
+        champsHtml+='<div class="contest-champ-section-label">The speech</div>';
+        champsHtml+='<div class="contest-champ-text">'+ch.content+'</div>';
+        champsHtml+='<div class="contest-champ-section-label" style="margin-top:8px">Why they really won</div>';
+        champsHtml+='<div class="contest-champ-text contest-champ-subjective">'+ch.subjective+'</div>';
+        if(ch.steal){
+          champsHtml+='<div class="contest-champ-steal">';
+          champsHtml+='<div class="contest-champ-section-label" style="color:#5EB975;margin-top:8px">🟢 Steal this now</div>';
+          champsHtml+='<div class="contest-champ-text" style="color:var(--text)">'+ch.steal+'</div>';
+          champsHtml+='</div>';
+        }
+        champsHtml+='</div></div>';
+      });
+      champsHtml+='</div>';
+      h+=pill('champs','🏆','Why they won','#C9963A',champsHtml);
+    }
+
+    // Practice questions (TT only)
+    if(c.id==="tabletopics"){
+      const randTopics=TT_CONTEST_TOPICS.slice().sort(()=>Math.random()-0.5).slice(0,5);
+      let topicsHtml='<div class="contest-tt-topics" style="margin-top:8px">';
+      randTopics.forEach(q=>{topicsHtml+='<div class="contest-tt-topic">'+q+'</div>';});
+      topicsHtml+='<button class="contest-tt-refresh" data-action="contest-tt-refresh">↻ Different questions</button>';
+      topicsHtml+='</div>';
+      h+=pill('topics','🎯','Practice questions','#5EB975',topicsHtml);
+    }
+
+    // Watch these first (Evaluation only)
+    if(c.id==="evaluation"){
+      let evalHtml='<div class="contest-eval-speeches" style="margin-top:8px">';
+      EVAL_CONTEST_SPEECHES.forEach(s=>{
+        evalHtml+='<a class="contest-eval-speech" href="'+s.url+'" target="_blank" rel="noopener">';
+        evalHtml+='<div class="contest-eval-speech-top"><div class="contest-eval-speech-title">'+s.title+'</div>';
+        evalHtml+='<div class="contest-eval-speech-meta">'+s.speaker+' · '+s.level+'</div></div>';
+        evalHtml+='<div class="contest-eval-speech-note">'+s.note+'</div>';
+        evalHtml+='<div class="contest-eval-speech-arrow">Watch ↗</div></a>';
+      });
+      evalHtml+='</div>';
+      h+=pill('eval','🎬','Watch these first','#5B9DD9',evalHtml);
+    }
+
   }else{
     // Practice tab — recording + AI
     const CD=V._contestData||{};
@@ -13056,6 +13099,21 @@ function renderContestDetail(app){
   h+='</div>';
   app.innerHTML=h;
 
+  
+
+  // Champ card — collapsible toggles
+  app.querySelectorAll('[data-toggle]').forEach(label=>{
+    label.addEventListener('click',()=>{
+      const id=label.dataset.toggle;
+      const panel=document.getElementById(id);
+      const chev=document.getElementById('chev-'+id);
+      if(!panel)return;
+      const open=panel.style.display==='none'||panel.style.display==='';
+      panel.style.display=open?'block':'none';
+      if(chev)chev.style.transform=open?'rotate(-180deg)':'rotate(0deg)';
+    });
+  });
+
   // Back
   app.querySelector('[data-action="contest-back"]').addEventListener("click",()=>{V.view="contests";V._contestData={};render();});
 
@@ -13158,50 +13216,26 @@ function renderContestDetail(app){
     });
   });
 
-  // Go Deeper toggle — in-place
-  const deepHdr=app.querySelector('[data-action="contest-deep-toggle"]');
-  if(deepHdr)deepHdr.addEventListener("click",()=>{
-    V._contestDeepOpen=!V._contestDeepOpen;
-    const chev=deepHdr.querySelector(".contest-pill-chev");
-    if(chev)chev.style.transform=V._contestDeepOpen?"rotate(180deg)":"rotate(0deg)";
-    const existing=deepHdr.nextElementSibling;
-    if(existing&&existing.classList.contains("guide-deep-body")){
-      existing.remove();
-    }else{
-      // Re-render deep section inline
-      V._contestDeepOpen=true;
-      render();
-    }
+  // Pill toggles — direct DOM, no re-render
+  app.querySelectorAll('.contest-pill-btn').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      const body=btn.nextElementSibling;
+      const chev=btn.querySelector('.pill-chev');
+      if(!body)return;
+      const open=body.style.display==='none'||body.style.display==='';
+      body.style.display=open?'block':'none';
+      if(chev)chev.style.transform=open?'rotate(180deg)':'rotate(0deg)';
+    });
   });
 
-  // Expandable criteria — toggle in-place, no full render
-  app.querySelectorAll("[data-criterion]").forEach(el=>{
-    el.addEventListener("click",()=>{
-      const i=parseInt(el.dataset.criterion);
-      const c=CONTEST_DATA[V._contestId];
-      if(!c)return;
-      const cr=c.criteria[i];
-      const isOpen=el.classList.contains("open");
-      // Close all
-      app.querySelectorAll("[data-criterion]").forEach(e=>{
-        e.classList.remove("open");
-        const chev=e.querySelector(".contest-criterion-chev");
-        if(chev)chev.style.transform="rotate(0deg)";
-        const body=e.querySelector(".contest-criterion-body");
-        if(body)body.remove();
-      });
-      // Open this one if it was closed
-      if(!isOpen){
-        el.classList.add("open");
-        const chev=el.querySelector(".contest-criterion-chev");
-        if(chev)chev.style.transform="rotate(180deg)";
-        const body=document.createElement("div");
-        body.className="contest-criterion-body";
-        body.textContent=cr.desc;
-        el.appendChild(body);
-      }
-      V._contestCriteriaOpen=isOpen?null:i;
-    });
+  // TT refresh questions — swap content without full re-render
+  const ttRefresh=app.querySelector('.contest-tt-refresh');
+  if(ttRefresh)ttRefresh.addEventListener('click',()=>{
+    const topicsDiv=ttRefresh.closest('.contest-tt-topics');
+    if(!topicsDiv)return;
+    const newTopics=TT_CONTEST_TOPICS.slice().sort(()=>Math.random()-0.5).slice(0,5);
+    const items=topicsDiv.querySelectorAll('.contest-tt-topic');
+    newTopics.forEach((q,i)=>{if(items[i])items[i].textContent=q;});
   });
 
   // Mic
@@ -13343,8 +13377,8 @@ function _contestWireMic(btn,c){
 async function _contestRunEval(c,transcript){
   const cData=V._contestData;
   if(!c||!transcript){return;}
-  const ballotLines=c.criteria.map(cr=>cr.label+' '+cr.pct+'%: '+cr.desc).join('\n');
-  const sys="You are an experienced Toastmasters contest coach and judge. You have competed at district level — reaching district finals in both International Speech and Table Topics — and have judged contests across multiple levels. You know what the official ballots actually score, and something most coaches never say: contest winning has THREE layers.\n\nLayer 1 — does it land with the audience? Universal theme, one emotional anchor, a takeaway that travels beyond the room. Engineerable.\nLayer 2 — does it stand out? At contest level, every speaker is good. The question is not 'is this competent?' — it's 'is this DIFFERENT?' What makes this speech distinctive from another good speech on the same topic? If you can't name one specific thing — image, framing, structure, a perspective only this speaker could bring — you have a competent speech, not a winning one. Engineerable, and the most overlooked.\nLayer 3 — judge preference. Panel composition, personal taste, regional resonance. Outside your control. Optimise for Layer 1 and 2, release Layer 3.\n\nThe benchmark: Dananjaya Hettiarachchi, 2014 World Champion. He competed 10 years before winning. The flower opened and closed — circular structure, thesis made physical. First line: 'You and I are not very different from this flower.' A universal theme — a teacher seeing something in a broken student — that crossed every cultural border. Years of refinement until nothing non-essential remained. He didn't just write a good speech. He wrote one nobody else could have written.\n\nACTUAL BALLOT — "+c.name+" ("+c.time.min+"–"+c.time.max+" minutes):\n"+ballotLines+"\n\nYour philosophy: simplicity beats grandeur. One specific honest observation beats three vague ones. Concept first, then concrete action. Like a music teacher pointing at the one moment that unlocks everything. Be honest about distinctiveness — being safe and competent loses to being specific and brave.\n\nReply in EXACTLY these sections. No markdown bold. Begin with '🎯 BALLOT BREAKDOWN:':\n\n🎯 BALLOT BREAKDOWN: One honest verdict per criterion. Name actual moments — not categories.\n\n✅ WHAT WOULD LAND WITH THE ROOM: The one thing that would resonate — moment, image, or line that travels. Specific.\n\n⚠️ WHAT TO FIX: The single most significant thing holding this back. If the speech is competent but generic, say so directly — that's the gap that loses contests. Concept first, then what to do.\n\n💡 ONE ACTION: Specific enough to work on today. If distinctiveness is the gap, the action should push toward it.\n\nUnder 220 words. Honest — this is a contest.";
+  const ballotLines=c.criteria.map(cr=>cr.label+' '+cr.pct+'%:\nOfficial: '+cr.desc+'\nWhat it actually means: '+cr.plain).join('\n\n');
+  const sys="You are K, an experienced Toastmasters contest coach and district-level finalist in both International Speech and Table Topics. Your coaching starts upstream of structure and delivery — because those can't be fixed until the foundation is right.\n\nThe first question is always: what is this speech about? Not the topic. The governing adjective. The one emotional truth that everything else serves. A speech — like a film score — can only hold 1 to 3 adjectives before it loses focus. If the theme isn't singular, no amount of technique will save it. Roy could have perfect delivery and still lose because the speech doesn't know what it is.\n\nThe second question is character purpose. Every person in the speech must have a reason to be there. Not as a story detail — as a dramatic function. What does this character exist to do for the speaker's transformation? If you can't answer that, they're taking up space.\n\nThe third question is structural integrity. Does the ending earn its landing? A speech can't resolve something it never set up. If the close introduces a new idea — teamwork, legacy, a collective turn — that idea must exist somewhere in the first two acts, even as a seed.\n\nOnly after these three are answered does craft matter. Structure, delivery, rule of three — these are tools. They only work when the architecture beneath them is sound.\n\nContest winning has three layers:\nLayer 1 — does it land universally? One theme, one emotional anchor, a takeaway that travels beyond the room.\nLayer 2 — does it stand out? At contest level every speaker is good. The question is: is this DIFFERENT? What can only this speaker say?\nLayer 3 — judge preference. Outside your control. Optimise for 1 and 2, release 3.\n\nACTUAL BALLOT — "+c.name+" ("+c.time.min+"–"+c.time.max+" minutes):\n"+ballotLines+"\n\nReply in EXACTLY these sections. No markdown bold. Begin with '🎯 BALLOT BREAKDOWN:':\n\n🎯 BALLOT BREAKDOWN: For each criterion — skip the official language. Say what the judges are actually looking for in plain terms, then score this speech against it honestly. Name real moments, not categories.\n\n🧭 THE THEME: Name the governing adjective. Is it singular and clear? If the speech is trying to be three things, say so directly — that's the most important thing to fix before anything else.\n\n👤 CHARACTER PURPOSE: Does every person in the speech have a clear dramatic function? Name the characters and what they exist to do. Flag anyone who is undefined.\n\n🏗 STRUCTURAL INTEGRITY: Does the ending earn its landing? Is there anything in the close that the speech hasn't set up? Be direct.\n\n⚠️ CONTEST GAP: The single thing most likely to cost this speech a placement. If it's theme clarity, say so. If it's distinctiveness — being competent but generic — say that. Concept first, then what to do.\n\n💡 ONE ACTION: Specific enough to work on today.\n\nUnder 250 words. This is a contest — be honest.";
   const istt=c.id==="tabletopics";
   const isEval=c.id==="evaluation";
   const isIntl=c.id==="international";
@@ -14159,19 +14193,21 @@ async function psAnalyzeWithAI(){
     else durAssessment="ON TARGET ("+mins+" min, within "+dur.min+"–"+dur.max+" min window)";
   }
 
-  const sys=`You are a Toastmasters practice coach reviewing a recorded speech. Your coaching philosophy: simplicity beats grandeur. One specific, honest observation that the speaker can act on is worth more than five vague ones.${deliveryNote?"\n\n"+deliveryNote:""}
+  const sys=`You are K, a speech coach. Your coaching starts with architecture, not surface. Before commenting on delivery, structure, or technique — you ask the foundational question first: what is this speech actually about? Not the topic. The theme. The one adjective or emotional truth that everything else should serve.
 
-Think like a music teacher listening back to a recording — you're not grading, you're pointing at the one moment that unlocks everything else.
+A speech — like a film score — can only hold 1 to 3 adjectives before it loses focus. Lord of the Rings spans hours and the theme is still just fellowship. If you can't name the governing adjective of a speech, the audience won't feel it either. That's the first diagnosis.
 
-Reply in EXACTLY these three sections. No markdown. Begin with "✅ WHAT WORKED:":
+Only after the theme is clear does craft matter. No point coaching structure, body language or rule of three when the core hasn't been found yet. A well-delivered speech about nothing is still about nothing.${deliveryNote?"\n\n"+deliveryNote:""}
 
-✅ WHAT WORKED: One specific moment that actually worked — name it. Not "good structure" — name the moment.
+Reply in EXACTLY these three sections. No markdown. Begin with "🎯 THE THEME:":
 
-🎯 TOP PRIORITY: The single most useful thing to fix. Lead with the concept (why it matters), then what to do. One thing only.${limitDelivery?"\n(Do not comment on delivery, vocal variety, or body language — focus on content and language only.)":""}
+🎯 THE THEME: In one or two words — what adjective is this speech actually about? Is it singular and clear, or is it trying to be three things at once? Name what you hear. If it's unfocused, say so directly — that's the most important thing to fix.
 
-💡 NEXT DRILL: One concrete practice drill for next time. Make it specific enough that they know exactly what to do.
+✅ WHAT LANDED: One specific moment that worked. Not "good structure" — name the actual moment and why it served the theme.
 
-${limitDelivery?"Note at the end: remind them that vocal/physical feedback needs a human observer — suggest asking their evaluator to watch for it specifically.":""}Filler word rules: only flag fillers used as crutches — 3+ times, sentence-starts, mid-thought gaps. Under 180 words total.`;
+💡 ONE PRIORITY: The single most useful thing to work on. Lead with why it matters, then what to do. If the theme is unclear, that's always the priority — everything else is secondary.${limitDelivery?"\n(Do not comment on delivery, vocal variety or body language — focus on content only.)":""}
+
+Filler word rules: only flag fillers used as crutches — 3+ times, sentence-starts, mid-thought gaps. Under 180 words total.`;
 
   const msg=(proj?"Project: "+proj.t+"\nProject purpose: "+proj.p+"\n":"Freestyle practice\n")+
     (tags.needsPurpose&&PS._purposeInput?"Speaker's stated purpose: "+PS._purposeInput+"\nCoach specifically against this stated purpose — did the speech achieve it?\n":"")+
