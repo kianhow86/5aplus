@@ -10188,15 +10188,9 @@ function renderEvalHelper(app){
       }
     }
 
-    // ── Level expectations ──
-    h+='<div class="ea-card ea-card-purple">';
-    h+='<div class="ea-card-hdr">📊 Level expectations</div>';
-    if(selLevel<=2){
-      h+='<div class="ea-card-body"><strong>Levels 1-2:</strong> 2 positive points + 2 points for improvement. Focus on encouragement and confidence-building.</div>';
-    }else{
-      h+='<div class="ea-card-body"><strong>Levels 3-5:</strong> 3 positive points + 2 points for improvement. Be specific — this speaker needs sharper feedback to grow.</div>';
-    }
-    h+='</div>';
+    
+
+    
 
     // ── CRC structure (offline guide) ──
     h+='<div class="ea-card ea-card-blue">';
@@ -11195,18 +11189,18 @@ function renderAIEvalAssistant(app){
 
     if(etips){
       h+='<div class="ea-section ea-section-amber">';
-      h+='<div class="ea-section-hdr">👀 What to watch for</div>';
+      h+='<div class="ea-section-hdr">👀 Did they achieve the objective?</div>';
       h+='<div class="ea-section-body">'+escHtml(etips.watch||"")+'</div>';
       h+='</div>';
       if(etips.flag){
         h+='<div class="ea-section ea-section-red">';
-        h+='<div class="ea-section-hdr">🚩 Red flag — address this if you see it</div>';
+        h+='<div class="ea-section-hdr">🚩 If this was missed — say so clearly</div>';
         h+='<div class="ea-section-body">'+escHtml(etips.flag)+'</div>';
         h+='</div>';
       }
       if(etips.focus){
         h+='<div class="ea-section ea-section-teal">';
-        h+='<div class="ea-section-hdr">🎯 Most important criterion</div>';
+        h+='<div class="ea-section-hdr">🎯 Everything else is secondary to this</div>';
         h+='<div class="ea-section-body">'+escHtml(etips.focus)+'</div>';
         h+='</div>';
       }
@@ -11230,7 +11224,7 @@ function renderAIEvalAssistant(app){
     h+='</div></div>';
 
     h+='<div class="ea-script-step ea-step-purple"><div class="ea-step-num">2</div><div class="ea-step-content">';
-    h+='<div class="ea-step-title">Objective check <span class="ea-step-time">~45 sec</span></div>';
+    h+='<div class="ea-step-title">Did they meet the objective? <span class="ea-step-time">~45 sec</span></div>';
     h+='<div class="ea-step-text">"The objective of '+selProj.t+' is to '+(selProj.p||"").toLowerCase().replace(/\.$/,"")+'. In this speech, I observed that…" — directly address whether the objective was met.</div>';
     h+='</div></div>';
 
@@ -11247,12 +11241,12 @@ function renderAIEvalAssistant(app){
     h+='</div>';
 
     h+='<div class="ea-section ea-section-red">';
-    h+='<div class="ea-section-hdr">⚠️ Evaluator pitfalls</div>';
+    h+='<div class="ea-section-hdr">⚠️ The evaluator trap</div>';
     h+='<div class="ea-section-body">';
-    h+='<div class="ea-bullet">• Don\'t evaluate just speech technique — evaluate whether the <strong>project objective</strong> was met</div>';
-    h+='<div class="ea-bullet">• Don\'t read your notes verbatim — cover the essentials, look at the speaker</div>';
-    h+='<div class="ea-bullet">• Don\'t comment on personal attributes — focus on skills and choices</div>';
-    h+='<div class="ea-bullet">• Don\'t give vague suggestions — every recommend should be concrete and tryable next time</div>';
+    h+='<div class="ea-bullet">Your job is to help the speaker — not to prove you were listening.</div>';
+    h+='<div class="ea-bullet">Objective first, always. Structure, eye contact, body language are irrelevant if the project objective was not met.</div>';
+    h+='<div class="ea-bullet">One clear recommendation beats three vague ones. If they need a dictionary to understand it, you have failed as an evaluator.</div>';
+    h+='<div class="ea-bullet">Avoid the default checklist. Feedback that could apply to any speaker helps no one.</div>';
     h+='</div>';
     h+='</div>';
   }
@@ -14527,7 +14521,7 @@ async function psAnalyzeWithAI(){
       +(etips&&etips.watch?"\nWhat to watch for: "+etips.watch.replace(/<[^>]+>/g,""):"")
       +(etips&&etips.flag?"\nRed flag (if the speaker missed the objective): "+etips.flag.replace(/<[^>]+>/g,""):"")
       +(etips&&etips.focus?"\nMost important criterion: "+etips.focus.replace(/<[^>]+>/g,""):"");
-    const sys="You are K, a Toastmasters evaluation coach. Coach the EVALUATOR — not the speech they evaluated. Listen to how well they evaluated and give feedback on the quality of their evaluation.\n\nContext: A TM evaluation is 2–3 minutes. Structure is CRC — Commend (specific strength tied to the project objective), Recommend (one actionable improvement, concept first), Commend Close (genuine encouragement). Most evaluators template-paste the same structure without addressing what THIS project was trying to achieve.\n\nProject being evaluated:\n"+projContext+"\n\nCoach against these four qualities:\n1. Objective-focused — did they evaluate against THIS project's specific purpose and objective? This is the most important. If the speaker missed the objective (see Red flag above), did the evaluator catch it?\n2. Specific — did they name actual moments, not general observations?\n3. Recommendation quality — one clear actionable thing, concept first? Or a vague generic tip that could apply to any speech?\n4. Technique — sensitive, encouraging, motivating — or clinical and cold?\n\nReply in EXACTLY these sections. No markdown. Begin with '✅ WHAT LANDED:':\n\n✅ WHAT LANDED: The strongest part of their evaluation — what actually helped the speaker. Name the specific moment.\n\n🎯 SHARPEN THIS: The one thing that would make this evaluation more useful. If they missed the project objective entirely, say so directly. Concept first — why it matters — then what to try.\n\n💡 FOR NEXT TIME: One transferable habit to build as an evaluator.\n\nUnder 180 words. Coach the evaluator, not the speech.";
+    const sys="You are K, a Toastmasters evaluation coach. Your job is to coach the EVALUATOR — not the speech.\n\nThe purpose of evaluation is to help the speaker become better. Not to showcase how well the evaluator listened. The evaluator's job is to absorb what's relevant to the speaker's specific objectives, filter out everything else, and deliver feedback the speaker can actually use — ideally tomorrow.\n\nThe most common mistake evaluators make: they ignore the project objective entirely and default to the same checklist every time — structure, body language, eye contact, key message. These may be completely irrelevant to what the speaker was trying to achieve. That's a failure of evaluation, not a success.\n\nFor example: if someone is doing an Ice Breaker and they successfully introduced themselves, the objective is met — that's the most important thing. Everything else is secondary. If they didn't land the introduction, the evaluator's job is to say so simply and clearly, without drowning them in information. If the speaker needs a dictionary to understand the feedback, the evaluator has failed.\n\nThe test for a good evaluation: did the feedback actually help this speaker with this specific objective? Not: did the evaluator demonstrate their knowledge?\n\nProject being evaluated:\n"+projContext+"\n\nIf the transcript is very short or unclear — reply with exactly: \"No worries, let's give it another go.\" Nothing else.\n\nOtherwise reply in EXACTLY these sections. No markdown. Begin with '✅ WHAT LANDED:':\n\n✅ WHAT LANDED: Did the evaluator address the project's specific objective? That's the first question. If yes — what specific moment showed it? If no — say so clearly but gently.\n\n🎯 SHARPEN THIS: The single most useful thing to improve. Was the recommendation clear enough to apply tomorrow? Did they use plain language or drown the speaker in jargon? Concept first, then what to try.\n\n💡 THE HABIT: One transferable reminder — not a technique, a mindset. Something they can carry into every evaluation.\n\nUnder 180 words. Evaluate to inspire — the evaluator is trying too.";
     const msg="Evaluation transcript ("+mins+" min):\n"+(transcript||"(no audio captured)");
     try{
       const response=await callCoach(sys,msg,{maxTokens:400,featureId:'ps-eval'});
