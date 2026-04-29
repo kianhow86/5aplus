@@ -172,7 +172,8 @@ a{color:inherit;text-decoration:none}
 .smart-panel.collapsed .smart-panel-rows{max-height:0;opacity:0}
 .smart-panel.collapsed .smart-panel-chev{transform:rotate(-90deg)}
 
-@keyframes smartPanelFlash{
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes slideUp{from{opacity:0;transform:translateY(40px) scale(0.9)}to{opacity:1;transform:translateY(0) scale(1)}}
   0%{box-shadow:0 0 0 0 transparent;border-color:var(--border)}
   35%{box-shadow:0 0 0 5px var(--accent-soft);border-color:var(--accent-border-strong)}
   100%{box-shadow:0 0 0 0 transparent;border-color:var(--border)}
@@ -584,6 +585,7 @@ a{color:inherit;text-decoration:none}
 .resource-empty{color:var(--text-dim);font-size:13px;padding:4px 0 10px;font-style:italic}
 
 /* Animations */
+#app{transition:opacity .12s ease}
 .fade-up{animation:fadeUp .5s cubic-bezier(.22,.61,.36,1) both}
 .path-card:nth-child(1){animation-delay:.05s}
 .path-card:nth-child(2){animation-delay:.1s}
@@ -2073,6 +2075,8 @@ a{color:inherit;text-decoration:none}
 .ps-analysis-section:last-child{margin-bottom:0}
 .ps-analysis-section-hdr{display:flex;align-items:center;gap:7px;font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase}
 .ps-analysis-section-body{font-size:13.5px;line-height:1.6;color:var(--text-2);letter-spacing:-0.003em}
+.coach-points{display:flex;flex-direction:column;gap:6px;margin-top:4px}
+.coach-point{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);border-radius:8px;padding:8px 11px;font-size:13px;line-height:1.55;color:var(--text-2);letter-spacing:-0.003em}
 .ps-section-green{background:rgba(94,185,117,0.1);border:1px solid rgba(94,185,117,0.3)}
 .ps-section-green .ps-analysis-section-hdr{color:#5EB975}
 .ps-section-red{background:rgba(232,93,93,0.1);border:1px solid rgba(232,93,93,0.3)}
@@ -4245,7 +4249,8 @@ let S={
   pathArchive:{},
   // Practice session history — keyed by project pid or contest speech title
   // Each entry: [{date, elapsed, wpm, fillers, summary}]
-  sessions:{}
+  sessions:{},
+  achievements:{}
 };
 let V={
   view:"browser",         // "picker" | "browser" | "project" | "roles" | "role" | "practice" | "timer" | "filler" | "hub" | "quiz-intro" | "quiz-q" | "quiz-result" | "pathfinder-intro" | "pathfinder-q" | "pathfinder-building" | "pathfinder-program"
@@ -7716,6 +7721,13 @@ Under 180 words. Firm and warm.`;
   try{
     const text=await callCoach(sys,msg,{maxTokens:400,featureId:'tt-eval'});
     TTP.aiResult=text;
+    // Save session and check achievements
+    const ttKey='tt-practice';
+    const ttWpm=TTP.elapsed>0?Math.round(TTP.totalWords/(TTP.elapsed/60)):0;
+    const ttSummaryMatch=text.replace(/<[^>]+>/g,'').match(/[^.!?]+[.!?]/);
+    const ttSummary=ttSummaryMatch?ttSummaryMatch[0].trim().slice(0,80):'';
+    saveSession(ttKey,TTP.elapsed,ttWpm,0,ttSummary);
+    checkAchievements('tt');
   }catch(e){TTP.aiResult=renderAIError(e,"ttp-retry-eval");}
   TTP.aiLoading=false;
   const el2=document.getElementById("ttp-analysis");
@@ -11373,8 +11385,8 @@ function renderAISettings(app){
   h+='<div class="settings-test-result" id="settings-test-result"></div>';
   h+='</div>';
 
-  if(cfg.enabled){
-    // Model picker — only shown in direct (own API key) mode.
+  h+='<div class="settings-ai-fields" style="display:'+(cfg.enabled?'block':'none')+'">';
+  // Model picker — only shown in direct (own API key) mode.
     // In backend mode we lock to Sonnet 4.6 to control costs — users on
     // a pooled key don't get to pick Opus and run up the bill.
     if(cfg.mode==="direct"){
@@ -11411,10 +11423,9 @@ function renderAISettings(app){
     h+='<div class="settings-card">';
     h+='<button class="settings-advanced-toggle'+(V._settingsAdvOpen?' open':'')+'" data-action="toggle-advanced">';
     h+='<span>⚙ Connection configuration</span>';
-    h+='<span class="settings-advanced-chev">▼</span>';
+    h+='<span class="settings-advanced-chev adv-chev" style="transition:transform .25s;display:inline-block;transform:'+(V._settingsAdvOpen?'rotate(180deg)':'rotate(0deg)')+'">▼</span>';
     h+='</button>';
-    if(V._settingsAdvOpen){
-      h+='<div class="settings-advanced-body">';
+    h+='<div class="settings-advanced-body" style="display:'+(V._settingsAdvOpen?'block':'none')+'">';
       h+='<div class="settings-section-label">Connection method</div>';
       h+='<div class="settings-radio-group">';
       h+='<label class="settings-radio'+(cfg.mode==="backend"?" active":"")+'">';
@@ -11472,9 +11483,8 @@ function renderAISettings(app){
       }
 
       h+='</div>';
-    }
+  h+='</div>';
     h+='</div>';
-  }
 
   h+='<div class="settings-footnote">Your config saves automatically as you change it. Data leaves your device only when you invoke an AI feature, and only goes to the endpoint you configure.</div>';
   h+='</div>';
@@ -11486,13 +11496,18 @@ function renderAISettings(app){
   const advToggle=app.querySelector('[data-action="toggle-advanced"]');
   if(advToggle)advToggle.addEventListener("click",()=>{
     V._settingsAdvOpen=!V._settingsAdvOpen;
-    render();
+    const advBody=app.querySelector('.settings-advanced-body');
+    const advChev=advToggle.querySelector('.adv-chev');
+    if(advBody)advBody.style.display=V._settingsAdvOpen?'block':'none';
+    if(advChev)advChev.style.transform=V._settingsAdvOpen?'rotate(180deg)':'rotate(0deg)';
   });
   // Master toggle
   app.querySelector("[data-ai-toggle]").addEventListener("change",e=>{
     S.aiConfig.enabled=e.target.checked;
     save();
-    render();
+    // Show/hide AI config fields without full re-render
+    const aiFields=app.querySelector('.settings-ai-fields');
+    if(aiFields)aiFields.style.display=S.aiConfig.enabled?'block':'none';
   });
   // Mode radios
   app.querySelectorAll('input[name="ai-mode"]').forEach(r=>{
@@ -11805,6 +11820,8 @@ function renderMyPaths(app){
     h+='<button class="mp-add-btn secondary" data-action="mp-add">+ Add another path</button>';
   }
 
+  h+=renderAchievements();
+
   h+='</div>';
   app.innerHTML=h;
 
@@ -12053,9 +12070,9 @@ function renderAllProjects(app){
     h+='<div class="ap-group-badge" style="background:'+hexToRgba(p.c,0.18)+';color:'+p.c+'">'+pathCode+'</div>';
     h+='<div class="ap-group-name">'+p.n+'</div>';
     h+='<div class="ap-group-count">'+reqs.length+' required</div>';
-    h+='<div class="ap-group-chev">▼</div>';
+    h+='<div class="ap-group-chev ap-chev">▼</div>';
     h+='</button>';
-    h+='<div class="ap-group-body">';
+    h+='<div class="ap-group-body" id="ap-body-path-'+pathCode+'">';
     h+='<div class="ap-group-list">';
     reqs.forEach(entry=>{
       const proj=PD[entry.pid];
@@ -12089,9 +12106,9 @@ function renderAllProjects(app){
     h+='<div class="ap-group-badge" style="background:rgba(212,169,76,0.18);color:#D4A94C">ELX</div>';
     h+='<div class="ap-group-name">Shared electives</div>';
     h+='<div class="ap-group-count">'+electiveEntries.length+' projects</div>';
-    h+='<div class="ap-group-chev">▼</div>';
+    h+='<div class="ap-group-chev ap-chev">▼</div>';
     h+='</button>';
-    h+='<div class="ap-group-body">';
+    h+='<div class="ap-group-body" id="ap-body-electives">';
     h+='<div class="ap-group-subhint">Electives are pooled across paths. Most can be taken by any pathway at the listed level — exceptions noted inline.</div>';
     h+='<div class="ap-group-list">';
     electiveEntries.forEach(entry=>{
@@ -12121,7 +12138,10 @@ function renderAllProjects(app){
     btn.addEventListener("click",()=>{
       const key=btn.dataset.apToggle;
       V._apOpen[key]=!V._apOpen[key];
-      render();
+      const body=document.getElementById('ap-body-'+key);
+      const chev=btn.querySelector('.ap-chev');
+      if(body){body.style.display=V._apOpen[key]?'block':'none';}
+      if(chev){chev.style.transform=V._apOpen[key]?'rotate(180deg)':'rotate(0deg)';}
     });
   });
   app.querySelectorAll("[data-ap-pid]").forEach(btn=>{
@@ -13102,12 +13122,10 @@ function renderContestDetail(app){
           h+='<button class="contest-mode-tab'+(scriptMode==='record'?' active':'')+'" data-action="contest-mode-record">🎙 Record</button>';
           h+='<button class="contest-mode-tab'+(scriptMode==='paste'?' active':'')+'" data-action="contest-mode-paste">📋 Paste script</button>';
           h+='</div>';
-          if(scriptMode==='paste'){
-            h+='<div style="margin-bottom:12px">';
-            h+='<textarea class="ps-input-field" id="contest-script-input" placeholder="Paste your speech script here..." rows="8" style="font-size:13px;line-height:1.6">'+escHtml(V._contestScript||'')+'</textarea>';
-            h+='<button class="modal-cta" id="contest-script-submit" style="margin-top:8px;background:linear-gradient(135deg,'+c.color+','+c.color+'99)">Analyse script →</button>';
-            h+='</div>';
-          }
+          h+='<div id="contest-paste-panel" style="display:'+(scriptMode==='paste'?'block':'none')+';margin-bottom:12px">';
+          h+='<textarea class="ps-input-field" id="contest-script-input" placeholder="Paste your speech script here..." rows="8" style="font-size:13px;line-height:1.6">'+escHtml(V._contestScript||'')+'</textarea>';
+          h+='<button class="modal-cta" id="contest-script-submit" style="margin-top:8px;background:linear-gradient(135deg,'+c.color+','+c.color+'99)">Analyse script →</button>';
+          h+='</div>';
         }
         h+='<div class="ps-timer-card" id="contest-timer-card"'+(V._contestScriptMode==='paste'?' style="display:none"':'')+'>'; 
         h+='<div class="ps-timer-state" id="contest-timer-state">READY</div>';
@@ -13254,7 +13272,12 @@ function renderContestDetail(app){
       V._contestState=btn.dataset.contestTab;
       V._contestCriteriaOpen=null;
       window.scrollTo(0,0);
-      render();
+      const app=document.getElementById('app');
+      if(app)app.style.opacity='0';
+      requestAnimationFrame(()=>{
+        render();
+        requestAnimationFrame(()=>{if(app)app.style.opacity='1';});
+      });
     });
   });
 
@@ -13285,10 +13308,22 @@ function renderContestDetail(app){
   if(micBtn)_contestWireMic(micBtn,c);
 
   // Record/Paste mode toggle
+  // Contest record/paste mode — toggle DOM directly, no render
   const recBtn=app.querySelector('[data-action="contest-mode-record"]');
   const pasteBtn=app.querySelector('[data-action="contest-mode-paste"]');
-  if(recBtn)recBtn.addEventListener('click',()=>{V._contestScriptMode='record';render();});
-  if(pasteBtn)pasteBtn.addEventListener('click',()=>{V._contestScriptMode='paste';render();});
+  const contestPastePanel=app.querySelector('#contest-paste-panel');
+  const contestMic=app.querySelector('.ps-mic-wrap');
+  const contestTimerCard=app.querySelector('#contest-timer-card');
+  function setContestMode(mode){
+    V._contestScriptMode=mode;
+    if(recBtn)recBtn.classList.toggle('active',mode==='record');
+    if(pasteBtn)pasteBtn.classList.toggle('active',mode==='paste');
+    if(contestPastePanel)contestPastePanel.style.display=mode==='paste'?'block':'none';
+    if(contestMic)contestMic.style.display=mode==='paste'?'none':'';
+    if(contestTimerCard)contestTimerCard.style.display=mode==='paste'?'none':'';
+  }
+  if(recBtn)recBtn.addEventListener('click',()=>setContestMode('record'));
+  if(pasteBtn)pasteBtn.addEventListener('click',()=>setContestMode('paste'));
 
   // Script input — save as typed
   const scriptInput=app.querySelector('#contest-script-input');
@@ -13476,6 +13511,7 @@ async function _contestRunEval(c,transcript){
     const summaryMatch=res.replace(/<[^>]+>/g,'').match(/[^.!?]+[.!?]/);
     const summary=summaryMatch?summaryMatch[0].trim().slice(0,80):'';
     saveSession(contestSessionKey,elapsed,wpm,0,summary);
+    checkAchievements('contest');
     render();
   }catch(e){
     V._contestData={...cData,loading:false,error:e};
@@ -13848,16 +13884,15 @@ function renderPracticeStudio(app){
   if(tags.limit!=="all"&&tags.limit!=="context"){
     const psScriptMode=V._psScriptMode||'record';
         h+='<div style="display:flex;gap:6px;margin-bottom:4px">';
-    if(psScriptMode==='paste'){
-      h+='<button class="contest-mode-tab" data-action="ps-mode-record" style="flex:0;font-size:12px;padding:6px 12px;color:var(--text-secondary)">🎙 Record instead</button>';
-    }else{
-      h+='<button class="contest-mode-tab active" data-action="ps-mode-record">🎙 Record</button>';
-      h+='<button class="contest-mode-tab" data-action="ps-mode-paste">📋 Paste script</button>';
-    }
+    h+='<button class="contest-mode-tab'+(psScriptMode==='record'?' active':'')+'" data-action="ps-mode-record">🎙 Record</button>';
+    h+='<button class="contest-mode-tab'+(psScriptMode==='paste'?' active':'')+'" data-action="ps-mode-paste">📋 Paste script</button>';
+    h+='</div>';
+    // Both panels always rendered, toggled via display
+    h+='<div id="ps-paste-panel" style="display:'+(psScriptMode==='paste'?'block':'none')+'">';
+    h+='<textarea class="ps-input-field" id="ps-script-input" placeholder="Paste your speech script here..." rows="8" style="font-size:13px;line-height:1.6">'+escHtml(V._psScript||'')+'</textarea>';
+    h+='<button class="modal-cta" id="ps-script-submit" style="margin-top:8px;background:linear-gradient(135deg,#A07BC7,#6DB6B4)">Analyse script →</button>';
     h+='</div>';
     if(psScriptMode==='paste'){
-      h+='<textarea class="ps-input-field" id="ps-script-input" placeholder="Paste your speech script here..." rows="8" style="font-size:13px;line-height:1.6">'+escHtml(V._psScript||'')+'</textarea>';
-      h+='<button class="modal-cta" id="ps-script-submit" style="margin-top:8px;background:linear-gradient(135deg,#A07BC7,#6DB6B4)">Analyse script →</button>';
     }else{
       h+='<div class="ps-mic-wrap">';
       h+='<div class="ps-mic-btn" data-action="ps-start"'+(!hasRecognition?' data-timer-only="1"':'')+'>'; 
@@ -13939,11 +13974,22 @@ function renderPracticeStudio(app){
     V.view="role";render();
   });
 
-  // Record/Paste mode toggle
+  // Record/Paste mode — toggle DOM directly, no render
   const psModeRec=app.querySelector('[data-action="ps-mode-record"]');
   const psModePaste=app.querySelector('[data-action="ps-mode-paste"]');
-  if(psModeRec)psModeRec.addEventListener('click',()=>{V._psScriptMode='record';render();});
-  if(psModePaste)psModePaste.addEventListener('click',()=>{V._psScriptMode='paste';render();});
+  const psPastePanel=app.querySelector('#ps-paste-panel');
+  const psMicWrap=app.querySelector('.ps-mic-wrap');
+  const psTimerCard=app.querySelector('.ps-timer-card');
+  function setPsMode(mode){
+    V._psScriptMode=mode;
+    if(psModeRec)psModeRec.classList.toggle('active',mode==='record');
+    if(psModePaste)psModePaste.classList.toggle('active',mode==='paste');
+    if(psPastePanel)psPastePanel.style.display=mode==='paste'?'block':'none';
+    if(psMicWrap)psMicWrap.style.display=mode==='paste'?'none':'';
+    if(psTimerCard)psTimerCard.style.display=mode==='paste'?'none':'';
+  }
+  if(psModeRec)psModeRec.addEventListener('click',()=>setPsMode('record'));
+  if(psModePaste)psModePaste.addEventListener('click',()=>setPsMode('paste'));
 
   // Script input
   const psScriptInput=app.querySelector('#ps-script-input');
@@ -14225,6 +14271,169 @@ function psStop(){
   }
 }
 
+// ── Achievements ─────────────────────────────────────────────────────────────
+const ACHIEVEMENTS={
+  first_word:{
+    id:'first_word',
+    icon:'🎙',
+    name:'First Word',
+    desc:'Completed your first Table Topics session.',
+    color:'#7EB46D'
+  },
+  on_the_clock:{
+    id:'on_the_clock',
+    icon:'⏱',
+    name:'On the Clock',
+    desc:'Stayed within time across 5 TT sessions.',
+    color:'#5B9DD9'
+  },
+  quieter_mind:{
+    id:'quieter_mind',
+    icon:'🧘',
+    name:'Quieter Mind',
+    desc:'Reduced filler words across 3 consecutive sessions.',
+    color:'#A07BC7'
+  },
+  the_brave_one:{
+    id:'the_brave_one',
+    icon:'🏆',
+    name:'The Brave One',
+    desc:'Completed your first contest practice session.',
+    color:'#C9963A'
+  },
+  the_regular:{
+    id:'the_regular',
+    icon:'🔥',
+    name:'The Regular',
+    desc:'10 total practice sessions completed.',
+    color:'#E05252'
+  },
+  found_the_thread:{
+    id:'found_the_thread',
+    icon:'🧵',
+    name:'Found the Thread',
+    desc:'K found something that worked in 5 separate sessions.',
+    color:'#6DB6B4'
+  }
+};
+
+function checkAchievements(context){
+  if(!S.achievements)S.achievements={};
+  const earned=[];
+
+  // Helper — count total sessions across all keys
+  const totalSessions=()=>{
+    if(!S.sessions)return 0;
+    return Object.values(S.sessions).reduce((sum,arr)=>sum+(arr?arr.length:0),0);
+  };
+
+  // Helper — get TT sessions (keyed by TT question or 'tt-practice')
+  const ttSessions=()=>{
+    if(!S.sessions)return [];
+    return Object.entries(S.sessions)
+      .filter(([k])=>k.startsWith('tt-')||context==='tt')
+      .flatMap(([,v])=>v||[]);
+  };
+
+  // 1. First Word — first TT session
+  if(!S.achievements.first_word && context==='tt'){
+    S.achievements.first_word={earned:new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})};
+    earned.push('first_word');
+  }
+
+  // 2. On the Clock — 5 TT sessions within time (elapsed between min and max)
+  if(!S.achievements.on_the_clock){
+    const tts=ttSessions();
+    const inTime=tts.filter(s=>s.elapsed>=60&&s.elapsed<=120).length;
+    if(inTime>=5){
+      S.achievements.on_the_clock={earned:new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})};
+      earned.push('on_the_clock');
+    }
+  }
+
+  // 3. Quieter Mind — filler count down 3 consecutive sessions
+  if(!S.achievements.quieter_mind && S.sessions){
+    const allWithFillers=Object.values(S.sessions).flat().filter(s=>s.fillers>0);
+    if(allWithFillers.length>=3){
+      const last3=allWithFillers.slice(0,3);
+      if(last3[0].fillers<last3[1].fillers&&last3[1].fillers<last3[2].fillers){
+        S.achievements.quieter_mind={earned:new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})};
+        earned.push('quieter_mind');
+      }
+    }
+  }
+
+  // 4. The Brave One — first contest practice
+  if(!S.achievements.the_brave_one && context==='contest'){
+    S.achievements.the_brave_one={earned:new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})};
+    earned.push('the_brave_one');
+  }
+
+  // 5. The Regular — 10 total sessions
+  if(!S.achievements.the_regular && totalSessions()>=10){
+    S.achievements.the_regular={earned:new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})};
+    earned.push('the_regular');
+  }
+
+  // 6. Found the Thread — AI found something that worked 5 times
+  if(!S.achievements.found_the_thread && S.sessions){
+    const withWorked=Object.values(S.sessions).flat()
+      .filter(s=>s.summary&&(s.summary.includes('worked')||s.summary.includes('landed'))).length;
+    if(withWorked>=5){
+      S.achievements.found_the_thread={earned:new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})};
+      earned.push('found_the_thread');
+    }
+  }
+
+  if(earned.length>0){
+    save();
+    // Show celebration for first earned badge
+    showAchievementCelebration(earned[0]);
+  }
+}
+
+function showAchievementCelebration(id){
+  const a=ACHIEVEMENTS[id];
+  if(!a)return;
+  // Remove any existing overlay
+  const existing=document.getElementById('achievement-overlay');
+  if(existing)existing.remove();
+
+  const overlay=document.createElement('div');
+  overlay.id='achievement-overlay';
+  overlay.style.cssText='position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.75);backdrop-filter:blur(8px);animation:fadeIn .3s ease';
+  overlay.innerHTML=`
+    <div style="background:#151719;border:1px solid ${a.color}55;border-radius:20px;padding:32px 24px;max-width:300px;width:90%;text-align:center;animation:slideUp .4s cubic-bezier(0.34,1.56,0.64,1)">
+      <div style="font-size:56px;margin-bottom:12px">${a.icon}</div>
+      <div style="font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:${a.color};margin-bottom:6px">Achievement Unlocked</div>
+      <div style="font-size:20px;font-weight:800;color:#EDEEF0;letter-spacing:-0.02em;margin-bottom:8px">${a.name}</div>
+      <div style="font-size:13px;color:#9DA3AE;line-height:1.6;margin-bottom:24px">${a.desc}</div>
+      <button onclick="document.getElementById('achievement-overlay').remove()" style="background:${a.color};color:#0C0D0F;border:none;border-radius:12px;padding:12px 32px;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit">Nice 🎉</button>
+    </div>
+  `;
+  document.body.appendChild(overlay);
+  overlay.addEventListener('click',e=>{if(e.target===overlay)overlay.remove();});
+}
+
+function renderAchievements(){
+  const earned=S.achievements||{};
+  const all=Object.values(ACHIEVEMENTS);
+  let h='<div style="margin-top:24px">';
+  h+='<div style="font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-secondary);margin-bottom:12px">Your Achievements</div>';
+  h+='<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px">';
+  all.forEach(a=>{
+    const isEarned=!!earned[a.id];
+    const date=isEarned?earned[a.id].earned:'';
+    h+='<div style="background:var(--surface);border:1px solid '+(isEarned?a.color+'55':'var(--border)')+';border-radius:14px;padding:14px 10px;text-align:center;opacity:'+(isEarned?'1':'0.4')+';transition:opacity .3s">';
+    h+='<div style="font-size:28px;margin-bottom:6px'+(isEarned?';filter:drop-shadow(0 0 8px '+a.color+'88)':'')+'">'+a.icon+'</div>';
+    h+='<div style="font-size:11px;font-weight:700;color:'+(isEarned?a.color:'var(--text-secondary)')+';letter-spacing:-0.01em;line-height:1.3">'+a.name+'</div>';
+    if(isEarned&&date)h+='<div style="font-size:9px;color:var(--text-secondary);margin-top:3px">'+date+'</div>';
+    h+='</div>';
+  });
+  h+='</div></div>';
+  return h;
+}
+
 // ── Session history helpers ──────────────────────────────────────────────────
 function saveSession(key, elapsed, wpm, fillers, summary){
   if(!key)return;
@@ -14399,6 +14608,7 @@ Filler word rules: only flag fillers used as crutches — 3+ times, sentence-sta
     const summaryMatch=response.replace(/<[^>]+>/g,'').match(/[^.!?]+[.!?]/);
     const summary=summaryMatch?summaryMatch[0].trim().slice(0,80):'';
     saveSession(PS.pid,PS.elapsed,wpm,PS.totalFillers||0,summary);
+    checkAchievements('speech');
   }catch(err){
     PS.aiAnalysis=renderAIError(err,null);
   }
@@ -14414,16 +14624,20 @@ function renderCoachCards(raw){
   const esc=s=>s.replace(/&/g,"&amp;").replace(/</g,"&lt;");
   const stripMd=s=>s.replace(/^\s*#+\s*/,"").replace(/\*\*/g,"").replace(/__/g,"").replace(/^[*_]+|[*_]+$/g,"").trim();
 
-  // Section definitions — emoji + keyword patterns → colour
   const SECTIONS=[
-    {key:"green",  emojis:/^✅/,    keywords:/WHAT\s*(WORKED|LANDED(\s*WITH\s*THE\s*ROOM)?|LANDED|PLACED\s*YOU)/i, label:"✅ What Worked"},
-    {key:"amber",  emojis:/^🎯/,    keywords:/TOP\s*PRIORITY|BALLOT\s*(BREAKDOWN|SCORE)|SHARPEN\s*THIS|WHAT\s*(TO\s*(CUT|FIX)|COST\s*YOU)/i, label:"🎯 Key Feedback"},
-    {key:"red",    emojis:/^⚠️/,    keywords:/WHAT\s*TO\s*(FIX|CUT|IMPROVE)|COST\s*YOU/i, label:"⚠️ Fix This"},
-    {key:"blue",   emojis:/^💡/,    keywords:/NEXT\s*(PRACTICE\s*)?TIP|ONE\s*ACTION|BEFORE\s*NEXT\s*ROUND|FOR\s*NEXT\s*TIME/i, label:"💡 Next Step"},
+    {key:"worked",   emojis:/^✅/,    keywords:/WHAT\s*(WORKED|LANDED(\s*WITH\s*THE\s*ROOM)?|LANDED|PLACED\s*YOU)/i, label:"✅ What Worked",    cls:"ps-section-green"},
+    {key:"theme",    emojis:/^🎯|^🧭/, keywords:/THE\s*THEME|GOVERNING\s*ADJ/i,                                       label:"🧭 The Theme",      cls:"ps-section-teal"},
+    {key:"thread",   emojis:/^🧵/,    keywords:/THE\s*THREAD/i,                                                        label:"🧵 The Thread",     cls:"ps-section-teal"},
+    {key:"chars",    emojis:/^👤/,    keywords:/CHARACTER\s*PURPOSE/i,                                                  label:"👤 Character Purpose", cls:"ps-section-purple"},
+    {key:"struct",   emojis:/^🏗/,    keywords:/STRUCTURAL\s*INTEGRITY|STRUCTURE/i,                                     label:"🏗 Structure",      cls:"ps-section-blue"},
+    {key:"gap",      emojis:/^⚠️/,    keywords:/CONTEST\s*GAP|WHAT\s*TO\s*(FIX|CUT|IMPROVE)|COST\s*YOU/i,              label:"⚠️ Contest Gap",    cls:"ps-section-red"},
+    {key:"action",   emojis:/^💡/,    keywords:/ONE\s*(PRIORITY|ACTION|THING)|NEXT\s*(PRACTICE\s*)?TIP|BEFORE\s*NEXT/i, label:"💡 One Priority",   cls:"ps-section-amber"},
   ];
 
-  const buckets={green:"",amber:"",red:"",blue:""};
-  const labels={green:"✅ What Worked",amber:"🎯 Key Feedback",red:"⚠️ Fix This",blue:"💡 Next Step"};
+  const buckets={};
+  const labels={};
+  const clss={};
+  SECTIONS.forEach(s=>{buckets[s.key]="";labels[s.key]=s.label;clss[s.key]=s.cls;});
   const unmatched=[];
   let cur=null;
 
@@ -14437,9 +14651,6 @@ function renderCoachCards(raw){
     for(const sec of SECTIONS){
       if(sec.emojis.test(t)||sec.keywords.test(t)){
         cur=sec.key;
-        // Use the fixed label — don't override with full line text
-        labels[sec.key]=sec.label;
-        // Capture inline content after the colon only
         const colonIdx=t.indexOf(':');
         const afterColon=colonIdx>=0?t.slice(colonIdx+1).trim():'';
         if(afterColon)buckets[cur]+=afterColon+' ';
@@ -14453,19 +14664,29 @@ function renderCoachCards(raw){
     }
   });
 
-  const colours={green:"ps-section-green",amber:"ps-section-amber",red:"ps-section-red",blue:"ps-section-blue"};
   let html="";
-  ["green","amber","red","blue"].forEach(key=>{
-    const text=buckets[key].trim();
+  SECTIONS.forEach(sec=>{
+    const text=buckets[sec.key].trim();
     if(text){
-      html+='<div class="ps-analysis-section '+colours[key]+'">';
-      html+='<div class="ps-analysis-section-hdr">'+esc(labels[key])+'</div>';
-      html+='<div class="ps-analysis-section-body">'+esc(text)+'</div>';
+      html+='<div class="ps-analysis-section '+sec.cls+'">';
+      html+='<div class="ps-analysis-section-hdr">'+esc(labels[sec.key])+'</div>';
+      html+='<div class="ps-analysis-section-body">';
+      // Split into sentences for better readability
+      const sentences=text.split(/(?<=[.!?])\s+/).filter(s=>s.trim().length>4);
+      if(sentences.length<=1){
+        html+=esc(text);
+      }else{
+        html+='<div class="coach-points">';
+        sentences.forEach(s=>{
+          html+='<div class="coach-point">'+esc(s.trim())+'</div>';
+        });
+        html+='</div>';
+      }
+      html+='</div>';
       html+='</div>';
     }
   });
 
-  // Fallback — nothing parsed
   if(!html){
     const fallback=unmatched.length?unmatched.join(" "):raw;
     html='<div class="ps-analysis-section ps-section-blue">';
