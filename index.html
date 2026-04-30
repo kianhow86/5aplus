@@ -172,6 +172,7 @@ a{color:inherit;text-decoration:none}
 .smart-panel.collapsed .smart-panel-rows{max-height:0;opacity:0}
 .smart-panel.collapsed .smart-panel-chev{transform:rotate(-90deg)}
 
+@keyframes traceGlow{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
 @keyframes slideUp{from{opacity:0;transform:translateY(40px) scale(0.9)}to{opacity:1;transform:translateY(0) scale(1)}}
   0%{box-shadow:0 0 0 0 transparent;border-color:var(--border)}
@@ -5698,6 +5699,40 @@ function renderProjectDetail(app,pid){
   h+='<div class="pd-summary-row"><strong>Includes:</strong> '+proj.inc+'</div>';
   h+='</div>';
 
+  // Style quiz — collapsed invite for comm-style and lead-style
+  const ptags=_psGetTags(pid);
+  if(ptags.needsStyleQuiz){
+    const quizData=STYLE_QUIZ[ptags.needsStyleQuiz];
+    const quizDone=PS._styleQuiz&&PS._styleQuiz.type===ptags.needsStyleQuiz&&PS._styleQuiz.result;
+    const quizOpen=V._quizOpen===pid;
+    if(quizDone){
+      const style=quizData&&quizData.styles?quizData.styles[PS._styleQuiz.result]:null;
+      if(style){
+      h+='<div style="background:'+style.color+'11;border:1px solid '+style.color+'33;border-radius:14px;padding:14px 16px;margin-bottom:20px">';
+      h+='<div style="display:flex;align-items:center;justify-content:space-between">';
+      h+='<div>';
+      h+='<div style="font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:'+style.color+';margin-bottom:2px">Your Style</div>';
+      h+='<div style="font-size:16px;font-weight:800;color:'+style.color+'">'+style.name+'</div>';
+      h+='</div>';
+      h+='<button data-action="quiz-retake" style="font-size:11px;color:var(--text-secondary);background:none;border:1px solid var(--border);border-radius:8px;padding:4px 10px;cursor:pointer;font-family:inherit">Retake</button>';
+      h+='</div>';
+      h+='<div style="font-size:12px;color:var(--text-secondary);line-height:1.5;margin-top:8px">'+style.desc+'</div>';
+      h+='</div>';
+      } // end if(style)
+    }else{
+      h+='<button data-action="quiz-open" style="width:100%;text-align:left;background:rgba(109,182,180,0.06);border:1px solid rgba(109,182,180,0.4);border-radius:14px;padding:16px;cursor:pointer;font-family:inherit;position:relative;margin-bottom:20px;box-shadow:0 0 0 1px rgba(109,182,180,0.15),0 0 20px rgba(109,182,180,0.12),0 0 40px rgba(109,182,180,0.06);'+(quizOpen?'display:none':'')+'">'; 
+      h+='<div style="position:relative">';
+      h+='<div style="font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--accent);margin-bottom:4px">📋 Do this first</div>';
+      h+='<div style="font-size:14px;font-weight:700;color:var(--text);margin-bottom:3px">'+quizData.title+'</div>';
+      h+='<div style="font-size:12px;color:var(--text-secondary)">Takes 2 minutes · shapes your speech →</div>';
+      h+='</div>';
+      h+='</button>';
+      if(quizOpen){
+        h+=renderStyleQuiz(ptags.needsStyleQuiz);
+      }
+    }
+  }
+
   // Special guidance for role-based projects
   if(pid==="active-listen"){
     h+='<div class="pd-role-callout">';
@@ -6028,6 +6063,43 @@ function renderProjectDetail(app,pid){
     });
   });
   // Notes — save on input, no rerender
+  // Style quiz listeners
+  if(ptags.needsStyleQuiz){
+    const quizType=ptags.needsStyleQuiz;
+
+    // Open quiz invite button
+    const openBtn=app.querySelector('[data-action="quiz-open"]');
+    if(openBtn)openBtn.addEventListener('click',()=>{V._quizOpen=pid;render();});
+
+    // Retake button
+    const retakeBtn=app.querySelector('[data-action="quiz-retake"]');
+    if(retakeBtn)retakeBtn.addEventListener('click',()=>{PS._styleQuiz={type:quizType,answers:{},result:null};V._quizOpen=pid;render();});
+
+    function rewireProjectQuiz(){
+      app.querySelectorAll('[data-quiz-q]').forEach(b=>{
+        b.addEventListener('click',()=>{
+          if(!PS._styleQuiz||PS._styleQuiz.type!==quizType)PS._styleQuiz={type:quizType,answers:{},result:null};
+          PS._styleQuiz.answers[b.dataset.quizQ]=b.dataset.quizS;
+          const card=app.querySelector('.ps-input-card');
+          if(card){const tmp=document.createElement('div');tmp.innerHTML=renderStyleQuiz(quizType);card.replaceWith(tmp.firstElementChild);rewireProjectQuiz();}
+        });
+      });
+      const qs=app.querySelector('[data-action="ps-quiz-submit"]');
+      if(qs)qs.addEventListener('click',()=>{
+        if(!PS._styleQuiz)return;
+        const scores={};
+        Object.values(PS._styleQuiz.answers).forEach(s=>{scores[s]=(scores[s]||0)+1;});
+        const top=Object.entries(scores).sort((a,b)=>b[1]-a[1])[0];
+        PS._styleQuiz.result=top?top[0]:null;
+        V._quizOpen=null;
+        render();
+      });
+      const qr=app.querySelector('[data-action="ps-quiz-reset"]');
+      if(qr)qr.addEventListener('click',()=>{PS._styleQuiz={type:quizType,answers:{},result:null};render();});
+    }
+    rewireProjectQuiz();
+  }
+
   const practiceBtn=app.querySelector('[data-action="practice-this-speech"]');
   if(practiceBtn)practiceBtn.addEventListener('click',()=>{
     PS.pid=pid;
@@ -13516,8 +13588,8 @@ const PS_COACHING_TAGS={
   "negotiate":         {tags:["content","language"],limit:null},
   "reach-consens":     {tags:["content","language"],limit:null},
   "cross-cultural":    {tags:["content","language"],limit:null},
-  "lead-style":        {tags:["content","language"],limit:null},
-  "comm-style":        {tags:["content","language"],limit:null},
+  "lead-style":        {tags:["content","language"],limit:null,needsStyleQuiz:"lead"},
+  "comm-style":        {tags:["content","language"],limit:null,needsStyleQuiz:"comm"},
   "writing-purpose":   {tags:["content","language"],limit:null,needsPurpose:true},
   "eval-feedback":     {tags:["content","language"],limit:null,needsFeedback:true},
   "intro-vocal-body":  {tags:["content","language"],limit:"delivery",
@@ -13618,23 +13690,76 @@ function _psGetTags(pid){
 
 function _psCoachNote(pid){
   const notes={
-    "ice-breaker":"Your only job today is to be yourself. Don't perform — reveal.",
-    "writing-purpose":"Before you start, lock in one sentence: what do you want them to walk away believing?",
-    "intro-vocal-body":"Pick one physical choice before you tap mic — a gesture, a pause, a step. Own it.",
-    "eval-feedback":"Speak to the feedback you got last time. Let me hear if it landed.",
-    "eff-body-lang":"Your body is talking before your mouth opens. Start still, start strong.",
-    "vocal-var":"Think of your voice like a dimmer switch — not just on/off. Find the range.",
-    "story":"Put us in the scene first. Location, moment, one sensory detail. Then pull back.",
-    "persuade-speak":"One claim, one reason, one story. That's all persuasion needs.",
-    "inspire":"Find the moment you actually felt it. Start there.",
-    "connect-aud":"Pick one person in the room. Speak to them. The rest will feel it too.",
-    "reflect":"Don't polish this one. The rough edges are where the truth lives.",
-    "desc-lang":"Replace every adjective with a detail. Not 'beautiful' — tell me what you saw.",
-    "hpl":"You're reporting progress, not performing. Be honest about what didn't work.",
-    "freestyle":"No project, no rules. Just talk. I'll tell you what I hear."
+    // ── Level 1 ──
+    "ice-breaker":        "Your only job today is to be yourself. Don't perform — reveal.",
+    "writing-purpose":    "Before you start, lock in one sentence: what do you want them to walk away believing?",
+    "intro-vocal-body":   "Pick one physical choice before you tap mic — a gesture, a pause, a step. Own it.",
+    "eval-feedback":      "Speak to the feedback you got last time. Let me hear if it landed.",
+    // ── Delivery ──
+    "eff-body-lang":      "Your body is talking before your mouth opens. Start still, start strong.",
+    "vocal-var":          "Think of your voice like a dimmer switch — not just on/off. Find the range.",
+    "visual-aids":        "Don't describe the slide — react to it. Your audience can read. They can't feel what you feel.",
+    "pres-software":      "The slides should never be ahead of you. You lead. They follow.",
+    // ── Storytelling & Language ──
+    "story":              "Put us in the scene first. Location, moment, one sensory detail. Then pull back.",
+    "desc-lang":          "Replace every adjective with a detail. Not 'beautiful' — tell me what you saw.",
+    "focus-pos":          "Positivity without specificity is noise. Find the exact moment that shifted your thinking.",
+    "humor-finale":       "Commit to the bit. Hesitation is the enemy of funny. If you wrote it, trust it.",
+    "know-humor":         "The first laugh is the hardest. The second one is free. Find your opening line and let it breathe.",
+    "engage-humor":       "Humor is misdirection. Set up the expectation, break it. One beat at a time.",
+    "improv-humor":       "You don't write improv — you follow the truth in the room. Stay present.",
+    // ── Persuasion & Influence ──
+    "persuade-speak":     "One claim, one reason, one story. That's all persuasion needs.",
+    "inspire":            "Find the moment you actually felt it. Start there.",
+    "motivate":           "Motivation isn't cheerleading. Find the one thing that makes this personal for the audience.",
+    "comm-change":        "People resist change when they don't feel heard. Acknowledge the fear before the solution.",
+    "pr-strategies":      "Your message competes with noise. Say one thing so clearly it can't be ignored.",
+    "develop-comm":       "A communication plan is only as good as the clarity of its core message. State it in one sentence.",
+    // ── Leadership ──
+    "lead-style":         "Don't describe your leadership style — show it. Give me a moment where it made a difference.",
+    "comm-style":         "Your style isn't good or bad — it's a starting point. Show how understanding it changed something.",
+    "manage-change":      "Show the resistance before you show the resolution. Change without friction isn't believable.",
+    "conflict-res":       "Don't resolve the conflict too quickly. Let the tension breathe — that's where the lesson lives.",
+    "emotional-intel":    "EQ is best shown through a moment where you chose response over reaction. Give me that moment.",
+    "negotiate":          "The best negotiation story is one where both sides walked away changed. Find yours.",
+    "reach-consens":      "Consensus isn't compromise — it's discovery. Show what emerged that neither side started with.",
+    "cross-cultural":     "Don't explain the culture — show the moment of surprise, confusion, or connection.",
+    "ethical":            "Ethical leadership costs something. If it didn't cost you anything, it wasn't a real test.",
+    "lead-any":           "Leadership without a title is the hardest kind. Give me the moment you stepped up anyway.",
+    "lead-team":          "What does this team need from you right now — and are you giving it?",
+    "lead-difficult":     "Difficult conversations are only difficult because something true needs to be said. Say it.",
+    "dev-vision":         "A vision that doesn't make someone uncomfortable probably isn't big enough.",
+    "plan-implement":     "Plans are easy. Show me the moment the plan met reality.",
+    "vol-org":            "Volunteer leadership is chosen, not paid. That choice is the story.",
+    // ── Research & Presentation ──
+    "research-present":   "Data without story is forgettable. Lead with the finding that surprised you.",
+    "present-prop":       "A proposal wins on clarity, not volume. What's the one thing they must agree with?",
+    "manage-time":        "Time management is really decision management. What did you choose to stop doing?",
+    "manage-aud":         "A difficult audience is a gift — they're telling you something isn't working. Listen first.",
+    "qa-session":         "The question period is still your speech. Stay in your theme when you answer.",
+    "manage-events":      "An event succeeds when people feel something. What do you want them to feel walking out?",
+    "team-build":         "Team building that doesn't address the real tension in the room is entertainment, not development.",
+    // ── Specialised ──
+    "interview":          "Every interview answer is a story. Situation, decision, result — in that order.",
+    "active-listen":      "As Topicsmaster, your job is to give people permission to surprise themselves.",
+    "intro-mentor":       "Mentoring starts with curiosity, not advice. Ask before you tell.",
+    "social-speech":      "Social speeches feel small but land deep. One specific memory beats three general tributes.",
+    "networking":         "Networking is just being genuinely interested in one person at a time.",
+    "moderate":           "A good moderator disappears — the panel feels like the star.",
+    "speak-prof":         "Professional speaking is about credibility first, content second. Start with yours.",
+    "podcast":            "Conversation is the format. Speak to one person — not an audience.",
+    "social-media":       "One idea. One format. One person it's for. Everything else is noise.",
+    "blog":               "Write the first draft for one reader. Revise it for everyone.",
+    "online-meet":        "The camera is your eye contact. Use it like you mean it.",
+    "success-collab":     "Collaboration fails when people stop being honest. Show the moment honesty mattered.",
+    "manage-proj":        "Project management is risk management. What did you not plan for?",
+    "improv-humor":       "Stay in the scene. The funny thing is usually what actually happened.",
+    "reflect":            "Don't polish this one. The rough edges are where the truth lives.",
+    "lessons":            "The most useful lessons are the ones you resisted. Start there.",
+    "hpl":                "You're reporting progress, not performing. Be honest about what didn't work.",
+    "freestyle":          "No project, no rules. Just talk. I'll tell you what I hear."
   };
   if(notes[pid])return notes[pid];
-  // Generic fallback using TIPS
   const tip=TIPS[pid];
   if(tip&&tip.tip){
     const plain=tip.tip.replace(/<[^>]+>/g,"");
@@ -13736,9 +13861,7 @@ function renderPracticeStudio(app){
     ?["Let's see what you've got.","Ready when you are.","Take your time. I'm here."]
     :["Evening session — good on you.","Let's make this one count.","Ready when you are."];
   const greet=greetOptions[Math.floor(Math.random()*greetOptions.length)];
-  const coachNote=PS.mode==="evaluator"
-    ?(current?"Evaluating "+current.title+". Record your CRC — K coaches the quality of your evaluation, not the speech.":"Select the project you're evaluating.")
-    :(current?_psCoachNote(current.pid):"Just speak — K will give you feedback on what I hear.");
+  const coachNote=PS.pid?_psCoachNote(PS.pid):null;
 
   // Compact coach bar — single row, no big bubble
   h+='<div class="ps-coach-bar">';
@@ -13756,13 +13879,8 @@ function renderPracticeStudio(app){
 
   // Project dropdown — attached to bar, not inside bubble
   h+='<div class="ps-project-dropdown" id="ps-project-dropdown" style="display:none">';
-  h+='<div class="ps-mode-tabs">';
-  h+='<button class="ps-mode-tab'+(PS.mode==="speaker"?" active":"")+'" data-ps-mode="speaker">🎤 Speaker</button>';
-  h+='<button class="ps-mode-tab'+(PS.mode==="evaluator"?" active":"")+'" data-ps-mode="evaluator">🪞 Evaluator</button>';
-  h+='</div>';
   h+='<input class="ps-project-search" id="ps-project-search" placeholder="🔍 Search…" autocomplete="off"/>';
-  if(PS.mode==="speaker"){
-    let lastLv2=0;
+      let lastLv2=0;
     projects.forEach(p=>{
       if(p.level!==lastLv2){
         h+='<div class="ps-project-level-hdr" data-level-hdr>Level '+p.level+'</div>';
@@ -13779,22 +13897,21 @@ function renderPracticeStudio(app){
       h+='</button>';
     });
     h+='<button class="ps-project-option'+(PS.mode==="speaker"&&!PS.pid?' selected':'')+'" data-ps-pid="freestyle" data-ps-mode-sel="speaker">🎲 Freestyle — no project</button>';
-  }else{
-    let lastLv3=0;
-    projects.forEach(p=>{
-      if(p.level!==lastLv3){
-        h+='<div class="ps-project-level-hdr" data-level-hdr>Level '+p.level+'</div>';
-        lastLv3=p.level;
-      }
-      h+='<button class="ps-project-option'+(p.pid===PS.pid&&PS.mode==="evaluator"?' selected':'')+'" data-ps-pid="'+p.pid+'" data-ps-mode-sel="evaluator">';
-      h+='🪞 Eval: '+p.title+' <span class="ps-project-opt-dur">'+p.dur+'</span>';
-      h+='</button>';
-    });
-  }
+  
   h+='</div>';
 
   // Coach note — subtle, below dropdown
-  h+='<div class="ps-coach-note-bar">'+coachNote+'</div>';
+  if(coachNote){
+    h+='<div style="background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:12px;padding:12px 14px;margin-bottom:14px">';
+    h+='<div style="font-size:10px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--accent);margin-bottom:5px">K\'s note</div>';
+    h+='<div class="ps-coach-note" style="font-size:13px;color:var(--text-2);line-height:1.6;font-style:italic">'+coachNote+'</div>';
+    h+='</div>';
+  }else{
+    h+='<div style="background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:12px;padding:12px 14px;margin-bottom:14px">';
+    h+='<div style="font-size:10px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--accent);margin-bottom:5px">K\'s note</div>';
+    h+='<div class="ps-coach-note" style="font-size:13px;color:var(--text-2);line-height:1.6;font-style:italic">Select a project — K will give you a specific tip before you start.</div>';
+    h+='</div>';
+  }
 
   // B — Project-specific input fields + limitation banners
   const tags=_psGetTags(PS.pid||"");
@@ -13885,7 +14002,7 @@ function renderPracticeStudio(app){
       h+='<div class="ps-marker red">●  '+dur.max+':00</div>';
     }
     h+='</div>';
-    h+='<div class="ps-timer-hint">'+(PS.mode==="evaluator"?"Tap mic · deliver your CRC · tap stop":"Tap to start · tap again to stop")+'</div>';
+    h+='<div class="ps-timer-hint">Tap to start · tap again to stop</div>';
     h+='</div>';
 
     if(!hasRecognition){
@@ -13981,6 +14098,7 @@ function renderPracticeStudio(app){
     PS.elapsed=0;
     PS.aiAnalysis=null;
     PS.aiLoading=true;
+    PS._pasteMode=true;
     PS._govAdj=V._psGoverningAdj||'';
     FD.transcript=script;
     FD.totalWords=script.split(/\s+/).filter(Boolean).length;
@@ -13997,61 +14115,6 @@ function renderPracticeStudio(app){
     }
   });
 
-  // Mode tabs — swap dropdown content in-place, no render
-  app.querySelectorAll("[data-ps-mode]").forEach(btn=>{
-    btn.addEventListener("click",()=>{
-      const newMode=btn.dataset.psMode;
-      if(PS.mode===newMode)return;
-      PS.mode=newMode;
-      PS.pid=null;
-      // Update tab active states
-      app.querySelectorAll("[data-ps-mode]").forEach(b=>b.classList.toggle("active",b.dataset.psMode===newMode));
-      // Update coach label
-      const lbl=app.querySelector(".ps-coach-project-label");
-      if(lbl)lbl.textContent=newMode==="evaluator"?"Evaluating:":"Working on:";
-      const projBtn=app.querySelector(".ps-coach-project-btn");
-      if(projBtn)projBtn.firstChild.textContent=newMode==="evaluator"?"Pick project":"Freestyle";
-      // Update timer markers for the mode
-      const markersEl=app.querySelector(".ps-timer-markers");
-      if(markersEl){
-        if(newMode==="evaluator"){
-          markersEl.innerHTML='<div class="ps-marker green">●  2:00</div><div class="ps-marker red">●  3:00</div>';
-        }else{
-          // Restore project markers if one is selected
-          const p=PS.pid?projects.find(x=>x.pid===PS.pid):null;
-          const dur=p?parseDuration(p.dur):null;
-          markersEl.innerHTML=dur
-            ?'<div class="ps-marker green">●  '+dur.min+':00</div><div class="ps-marker red">●  '+dur.max+':00</div>'
-            :"";
-        }
-      }
-      // Update coach note
-      const noteEl=app.querySelector(".ps-coach-note-bar");
-      if(noteEl)noteEl.textContent=newMode==="evaluator"?"Select the project you're evaluating.":"Just speak — K will give you feedback on what I hear.";
-      // Rebuild dropdown list only
-      _psRebuildDropdownList(app,newMode,projects);
-    });
-  });
-
-  const psSearch=document.getElementById("ps-project-search");
-  if(psSearch)psSearch.addEventListener("input",()=>{
-    const q=psSearch.value.toLowerCase();
-    app.querySelectorAll("[data-ps-pid]").forEach(btn=>{
-      const match=btn.textContent.toLowerCase().includes(q);
-      btn.style.display=match?"":"none";
-    });
-    app.querySelectorAll("[data-level-hdr]").forEach(hdr=>{
-      const next=hdr.nextElementSibling;
-      hdr.style.display=(next&&next.style.display!=="none")?"":"none";
-    });
-  });
-
-  // Save purpose/feedback inputs in-place
-  const purposeInputEl=app.querySelector('#ps-purpose-input');
-  if(purposeInputEl)purposeInputEl.addEventListener('input',()=>{PS._purposeInput=purposeInputEl.value;});
-  const feedbackInputEl=app.querySelector('#ps-feedback-input');
-  if(feedbackInputEl)feedbackInputEl.addEventListener('input',()=>{PS._feedbackInput=feedbackInputEl.value;});
-
   app.querySelectorAll("[data-ps-pid]").forEach(btn=>{
     btn.addEventListener("click",()=>{
       const pid=btn.dataset.psPid==="freestyle"?null:btn.dataset.psPid;
@@ -14062,30 +14125,21 @@ function renderPracticeStudio(app){
       // Update coach bar project button label
       const projBtn=app.querySelector(".ps-coach-project-btn");
       const p=pid?projects.find(x=>x.pid===pid):null;
-      if(projBtn)projBtn.firstChild.textContent=p?p.title:(PS.mode==="evaluator"?"Pick project":"Freestyle");
+      if(projBtn)projBtn.firstChild.textContent=p?p.title:"Freestyle";
       // Update coach note
       const noteEl=app.querySelector(".ps-coach-note");
       if(noteEl){
-        if(PS.mode==="evaluator"){
-          noteEl.textContent=p?"Evaluating "+p.title+". Record your CRC — K coaches the quality of your evaluation, not the speech.":"Select the project you're evaluating.";
-        }else{
-          noteEl.textContent=p?_psCoachNote(p.pid):"Just speak — K will give you feedback on what I hear.";
-        }
+        noteEl.textContent=p?_psCoachNote(p.pid):"Just speak — K will give you feedback on what I hear.";
       }
       // Update timer markers
       const markersEl=app.querySelector(".ps-timer-markers");
       if(markersEl){
-        if(PS.mode==="evaluator"){
-          markersEl.innerHTML='<div class="ps-marker green">●  2:00</div><div class="ps-marker red">●  3:00</div>';
+        const dur=p?parseDuration(p.dur):null;
+        if(dur){
+          markersEl.innerHTML='<div class="ps-marker green">●  '+dur.min+':00</div><div class="ps-marker red">●  '+dur.max+':00</div>';
           markersEl.style.display="";
         }else{
-          const dur=p?parseDuration(p.dur):null;
-          if(dur){
-            markersEl.innerHTML='<div class="ps-marker green">●  '+dur.min+':00</div><div class="ps-marker red">●  '+dur.max+':00</div>';
-            markersEl.style.display="";
-          }else{
-            markersEl.innerHTML="";
-          }
+          markersEl.innerHTML="";
         }
       }
       // Close dropdown
@@ -14107,6 +14161,7 @@ function psStart(timerOnly){
   PS.aiAnalysis=null;
   PS.aiLoading=false;
   PS.micGranted=false;
+  PS._pasteMode=false;
   PS.timerOnly=!!timerOnly;
   PS.lastResultAt=null;
 
@@ -14387,7 +14442,7 @@ function showAchievementsOverlay(){
       found_the_thread:`<svg viewBox="0 0 48 48" fill="none"><path d="M12 24c0-6.627 5.373-12 12-12s12 5.373 12 12-5.373 12-12 12" stroke="${iconColor}" stroke-width="2.5" stroke-linecap="round"/><path d="M24 36a6 6 0 0 1-6-6 6 6 0 0 1 6-6" stroke="${iconColor}" stroke-width="2.5" stroke-linecap="round"/><circle cx="24" cy="30" r="2.5" fill="${iconColor}"/></svg>`
     };
 
-    const hexSvg=`<svg width="68" height="76" viewBox="0 0 100 113" xmlns="http://www.w3.org/2000/svg">
+    const hexSvg=`<svg width="68" height="76" viewBox="0 0 100 113" xmlns="http://www.w3.org/2000/svg" style="overflow:visible">
       <defs>
         <linearGradient id="mg_${a.id}" x1="0%" y1="0%" x2="100%" y2="100%">
           <stop offset="0%" stop-color="${isEarned?a.color:'#444'}" stop-opacity="${isEarned?'0.9':'0.3'}"/>
@@ -14477,7 +14532,7 @@ function showAchievementCelebration(id){
     <div style="text-align:center;padding:20px;max-width:280px;width:90%">
       <div style="position:relative;width:120px;height:134px;margin:0 auto 20px;animation:achBadgeIn .7s cubic-bezier(0.34,1.56,0.64,1) both">
         ${particles}
-        <svg width="120" height="134" viewBox="0 0 100 113" xmlns="http://www.w3.org/2000/svg" style="animation:achGlow 2s ease-in-out 0.7s infinite;border-radius:4px">
+        <svg width="120" height="134" viewBox="0 0 100 113" xmlns="http://www.w3.org/2000/svg" style="animation:achGlow 2s ease-in-out 0.7s infinite;overflow:visible">
           <defs>
             <linearGradient id="cg_${id}" x1="0%" y1="0%" x2="100%" y2="100%">
               <stop offset="0%" stop-color="${a.color}" stop-opacity="0.95"/>
@@ -14556,6 +14611,175 @@ function renderSessionHistory(key,color){
   return h;
 }
 
+// ── Communication & Leadership Style Quiz Data ───────────────────────────────
+const STYLE_QUIZ={
+  comm:{
+    title:"Discover Your Communication Style",
+    intro:"Answer 8 questions based on how you typically behave — not how you'd like to behave. Your result will shape what your speech should be about.",
+    styles:{
+      D:{name:"Direct",color:"#E05252",desc:"You're decisive, results-oriented, and confident. You prefer efficiency over explanation, and you move fast. Others may see you as demanding — but you get things done."},
+      I:{name:"Initiating",color:"#C9963A",desc:"You're sociable, enthusiastic, and relationship-driven. You bring energy to any room and communicate easily with almost anyone. Others may feel you talk more than listen."},
+      S:{name:"Supportive",color:"#7EB46D",desc:"You're calm, patient, and loyal. You're an active listener who puts relationships first. Others trust you deeply — though you may avoid difficult conversations."},
+      A:{name:"Analytical",color:"#5B9DD9",desc:"You're precise, methodical, and careful. You think before you speak and prefer facts over feelings. Others may see you as a perfectionist — but your work is rarely wrong."}
+    },
+    questions:[
+      {q:"When a decision needs to be made, I usually...",opts:[
+        {t:"Decide quickly and move on",s:"D"},
+        {t:"Talk it through with others first",s:"I"},
+        {t:"Take time to consider everyone's feelings",s:"S"},
+        {t:"Gather all the facts before deciding",s:"A"}
+      ]},
+      {q:"In a group discussion, I tend to...",opts:[
+        {t:"Drive the conversation toward a conclusion",s:"D"},
+        {t:"Keep the energy up and get everyone involved",s:"I"},
+        {t:"Make sure quieter voices are heard",s:"S"},
+        {t:"Ask clarifying questions and challenge assumptions",s:"A"}
+      ]},
+      {q:"When I receive critical feedback, I...",opts:[
+        {t:"Accept it if it's useful and move on",s:"D"},
+        {t:"Want to understand how the person feels about me",s:"I"},
+        {t:"Take it personally but don't say so",s:"S"},
+        {t:"Analyse whether it's accurate before responding",s:"A"}
+      ]},
+      {q:"My ideal work environment is...",opts:[
+        {t:"Fast-paced, structured, and results-driven",s:"D"},
+        {t:"Collaborative, social, and full of energy",s:"I"},
+        {t:"Calm, supportive, and relationship-focused",s:"S"},
+        {t:"Organised, precise, and quality-focused",s:"A"}
+      ]},
+      {q:"When I'm explaining something complex, I...",opts:[
+        {t:"Give the key point and expect others to figure out the rest",s:"D"},
+        {t:"Use a story or analogy to make it engaging",s:"I"},
+        {t:"Check in often to make sure the other person is comfortable",s:"S"},
+        {t:"Break it down step by step with full detail",s:"A"}
+      ]},
+      {q:"In conflict, I usually...",opts:[
+        {t:"Address it directly and expect a quick resolution",s:"D"},
+        {t:"Try to lighten the mood and find common ground",s:"I"},
+        {t:"Avoid confrontation and wait for things to settle",s:"S"},
+        {t:"Lay out the facts and build a logical case",s:"A"}
+      ]},
+      {q:"Others would most likely describe me as...",opts:[
+        {t:"Confident and driven",s:"D"},
+        {t:"Fun and easy to talk to",s:"I"},
+        {t:"Reliable and kind",s:"S"},
+        {t:"Careful and thorough",s:"A"}
+      ]},
+      {q:"When starting something new, I...",opts:[
+        {t:"Jump in and figure it out as I go",s:"D"},
+        {t:"Get excited and tell everyone about it",s:"I"},
+        {t:"Ease in gradually and make sure I don't disrupt others",s:"S"},
+        {t:"Research it thoroughly before committing",s:"A"}
+      ]}
+    ],
+    speechPrompt:"Your result is the starting point — not the finish line. Your speech should explore how this style shows up in your actual life: a moment it helped you connect, a time it created friction, something you want to change. The speech is about what you discovered, not a report on the styles."
+  },
+  lead:{
+    title:"Discover Your Leadership Style",
+    intro:"Answer 8 questions based on how you actually lead — not your ideal. Your result will shape what your speech should explore.",
+    styles:{
+      D:{name:"Directive",color:"#E05252",desc:"You lead by setting clear expectations and making decisions quickly. You perform best in crisis or high-stakes environments. At your worst, you can shut down input — at your best, you cut through noise when others can't."},
+      C:{name:"Coaching",color:"#C9963A",desc:"You invest in people's growth. You ask questions more than give answers. You build capable teams over time. The risk: you may spend too long developing when the situation needs a decision."},
+      S:{name:"Supportive",color:"#7EB46D",desc:"You empower your team and share responsibility. You trust people to do their jobs. The risk: without structure, things can drift — but when trust is the foundation, your teams perform at their highest."},
+      V:{name:"Visionary",color:"#A07BC7",desc:"You lead with ideas and inspiration. You're at your best setting direction and rallying people around a compelling future. The risk: the vision can outpace execution if you're not grounded in the day-to-day."}
+    },
+    questions:[
+      {q:"When a team member is struggling, I typically...",opts:[
+        {t:"Give clear direction and check in frequently",s:"D"},
+        {t:"Ask questions to help them find their own answer",s:"C"},
+        {t:"Give them space and offer support when asked",s:"S"},
+        {t:"Share a bigger picture to re-inspire them",s:"V"}
+      ]},
+      {q:"My default when the team faces a crisis is to...",opts:[
+        {t:"Take charge and make the calls",s:"D"},
+        {t:"Bring the team together and coach through it",s:"C"},
+        {t:"Trust the team to handle it with my backing",s:"S"},
+        {t:"Reframe the crisis as an opportunity and re-energise",s:"V"}
+      ]},
+      {q:"I measure my success as a leader by...",opts:[
+        {t:"Results achieved and targets hit",s:"D"},
+        {t:"How much my team has grown",s:"C"},
+        {t:"How trusted and valued my team feels",s:"S"},
+        {t:"How compelling and clear our direction is",s:"V"}
+      ]},
+      {q:"When giving feedback, I tend to...",opts:[
+        {t:"Be direct and get to the point fast",s:"D"},
+        {t:"Frame it as a learning conversation",s:"C"},
+        {t:"Make sure the person feels safe and supported first",s:"S"},
+        {t:"Connect the feedback to the bigger goal or vision",s:"V"}
+      ]},
+      {q:"My team would say I'm most energised by...",opts:[
+        {t:"Getting things done and seeing results",s:"D"},
+        {t:"Watching someone grow into their potential",s:"C"},
+        {t:"Building a team that genuinely trusts each other",s:"S"},
+        {t:"Painting a picture of where we're going",s:"V"}
+      ]},
+      {q:"When making a decision, I...",opts:[
+        {t:"Decide and move — I can course-correct later",s:"D"},
+        {t:"Involve the team and use it as a development moment",s:"C"},
+        {t:"Consult widely and make sure everyone has bought in",s:"S"},
+        {t:"Ask: does this serve the long-term vision?",s:"V"}
+      ]},
+      {q:"My biggest leadership risk is...",opts:[
+        {t:"Being too controlling or impatient",s:"D"},
+        {t:"Taking too long when the situation needs action",s:"C"},
+        {t:"Being too hands-off when structure is needed",s:"S"},
+        {t:"Being too idealistic and losing people in the details",s:"V"}
+      ]},
+      {q:"The kind of leader I most admire is one who...",opts:[
+        {t:"Drives performance and holds people accountable",s:"D"},
+        {t:"Develops others and multiplies capability",s:"C"},
+        {t:"Creates psychological safety and genuine trust",s:"S"},
+        {t:"Inspires people to believe in something bigger than themselves",s:"V"}
+      ]}
+    ],
+    speechPrompt:"Use your result as a lens, not a label. Your speech should explore a real moment where this style shaped how you led — a success, a failure, a realisation. The most powerful speeches come from the honest ones."
+  }
+};
+
+function renderStyleQuiz(quizType){
+  const quiz=STYLE_QUIZ[quizType];
+  if(!quiz)return'';
+  const state=PS._styleQuiz||{type:quizType,answers:{},result:null};
+  const allAnswered=Object.keys(state.answers).length===quiz.questions.length;
+
+  if(state.result){
+    const style=quiz.styles[state.result];
+    return `<div class="ps-input-card" style="border-color:${style.color}33">
+      <div style="font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:${style.color};margin-bottom:4px">Your Style</div>
+      <div style="font-size:18px;font-weight:800;color:${style.color};margin-bottom:8px">${style.name}</div>
+      <div style="font-size:13px;color:var(--text-secondary);line-height:1.6;margin-bottom:12px">${style.desc}</div>
+      <div style="font-size:12px;color:var(--text-secondary);line-height:1.6;padding:10px 12px;background:rgba(255,255,255,0.04);border-radius:8px;border-left:2px solid ${style.color}">
+        <strong style="color:var(--text)">For your speech:</strong> ${quiz.speechPrompt}
+      </div>
+      <button data-action="ps-quiz-reset" style="background:none;border:1px solid var(--border);border-radius:8px;padding:6px 14px;font-size:11px;color:var(--text-secondary);cursor:pointer;font-family:inherit;margin-top:10px">Retake quiz</button>
+    </div>`;
+  }
+
+  let h=`<div class="ps-input-card">
+    <div style="font-size:11px;font-weight:700;color:var(--accent);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:4px">Do this first</div>
+    <div style="font-size:15px;font-weight:800;color:var(--text);margin-bottom:6px">${quiz.title}</div>
+    <div style="font-size:12px;color:var(--text-secondary);line-height:1.6;margin-bottom:16px">${quiz.intro}</div>`;
+
+  quiz.questions.forEach((q,qi)=>{
+    h+=`<div style="margin-bottom:14px">
+      <div style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:8px;line-height:1.4">${qi+1}. ${q.q}</div>
+      <div style="display:flex;flex-direction:column;gap:6px">`;
+    q.opts.forEach((opt,oi)=>{
+      const sel=state.answers[qi]===opt.s;
+      h+=`<button data-quiz-q="${qi}" data-quiz-s="${opt.s}" style="text-align:left;padding:9px 12px;border-radius:9px;border:1px solid ${sel?'var(--accent)':'var(--border)'};background:${sel?'rgba(109,182,180,0.1)':'var(--surface2)'};font-size:12px;color:${sel?'var(--text)':'var(--text-secondary)'};cursor:pointer;font-family:inherit;line-height:1.4;transition:all .15s">${opt.t}</button>`;
+    });
+    h+=`</div></div>`;
+  });
+
+  if(allAnswered){
+    h+=`<button data-action="ps-quiz-submit" style="width:100%;padding:12px;background:linear-gradient(135deg,#6DB6B4,#A07BC7);border:none;border-radius:12px;font-size:14px;font-weight:700;color:#0C0D0F;cursor:pointer;font-family:inherit;margin-top:4px">See my style →</button>`;
+  }
+
+  h+=`</div>`;
+  return h;
+}
+
 async function psAnalyzeWithAI(){
   PS.aiLoading=true;
   _psUpdateAnalysisSection();
@@ -14594,30 +14818,9 @@ async function psAnalyzeWithAI(){
   const wordCount=FD.totalWords||0;
   const wpm=PS.elapsed>0?Math.round(wordCount/(PS.elapsed/60)):0;
 
-  // ── Evaluator mode — coach the evaluation, not the speech ──
-  if(PS.mode==="evaluator"&&proj){
-    const etips=EVAL_TIPS&&EVAL_TIPS[PS.pid];
-    const projContext="Project: "+proj.t
-      +"\nPurpose: "+proj.p
-      +(proj.o?"\nObjective: "+proj.o:"")
-      +(etips&&etips.watch?"\nWhat to watch for: "+etips.watch.replace(/<[^>]+>/g,""):"")
-      +(etips&&etips.flag?"\nRed flag (if the speaker missed the objective): "+etips.flag.replace(/<[^>]+>/g,""):"")
-      +(etips&&etips.focus?"\nMost important criterion: "+etips.focus.replace(/<[^>]+>/g,""):"");
-    const sys="You are K, a Toastmasters evaluation coach. Your job is to coach the EVALUATOR — not the speech.\n\nThe purpose of evaluation is to help the speaker become better. Not to showcase how well the evaluator listened. The evaluator's job is to absorb what's relevant to the speaker's specific objectives, filter out everything else, and deliver feedback the speaker can actually use — ideally tomorrow.\n\nThe most common mistake evaluators make: they ignore the project objective entirely and default to the same checklist every time — structure, body language, eye contact, key message. These may be completely irrelevant to what the speaker was trying to achieve. That's a failure of evaluation, not a success.\n\nFor example: if someone is doing an Ice Breaker and they successfully introduced themselves, the objective is met — that's the most important thing. Everything else is secondary. If they didn't land the introduction, the evaluator's job is to say so simply and clearly, without drowning them in information. If the speaker needs a dictionary to understand the feedback, the evaluator has failed.\n\nSUBTRACTION FIRST. A good evaluation — like a good speech — is about what you leave out. The evaluator who gives five observations is usually less helpful than the one who gives one precise one. Ask: what is the single most useful thing this speaker needs to hear right now? Start there. Everything else is optional.\n\nPERFORMING VS BEING. The worst evaluations are performances — the evaluator demonstrating how carefully they listened, how much they noticed, how articulate they are. The best evaluations feel like a conversation between two people where one genuinely wants to help the other. If the evaluation was for the audience, it failed. If it was for the speaker, it worked.\n\nRECOMMENDATION STANDARD. A recommendation must be specific enough to practise tomorrow. Not 'work on vocal variety' — that could apply to anyone. Something like: 'At the 2-minute mark your voice dropped and the room lost the thread — next time hold that note one beat longer before moving on.' The test: can the speaker go home and do exactly what you said?\n\nThe test for a good evaluation: did the feedback actually help this speaker with this specific objective? Not: did the evaluator demonstrate their knowledge?\n\nProject being evaluated:\n"+projContext+"\n\nIf the transcript is very short or unclear — reply with exactly: \"No worries, let's give it another go.\" Nothing else.\n\nOtherwise reply in EXACTLY these sections. No markdown. Begin with '✅ WHAT LANDED:':\n\n✅ WHAT LANDED: Did the evaluator address the project's specific objective? That's the first question. If yes — what specific moment showed it? If no — say so clearly but gently.\n\n🎯 SHARPEN THIS: Was the recommendation specific enough to apply tomorrow? Or could it apply to any speaker? If the evaluator was performing rather than helping — name it kindly. Concept first, then what to try.\n\n💡 THE HABIT: One transferable reminder — not a technique, a mindset. Something they can carry into every evaluation.\n\nUnder 180 words. Evaluate to inspire — the evaluator is trying too.";
-    const msg="Evaluation transcript ("+mins+" min):\n"+(transcript||"(no audio captured)");
-    try{
-      const response=await callCoach(sys,msg,{maxTokens:400,featureId:'ps-eval'});
-      PS.aiAnalysis=response;
-    }catch(err){
-      PS.aiAnalysis=renderAIError(err,null);
-    }
-    PS.aiLoading=false;
-    _psUpdateAnalysisSection();
-    return;
-  }
-
-  // ── Speaker mode ──
+    // ── Speaker mode ──
   const tags=_psGetTags(PS.pid||"");
+  const proj=PS.pid?PD[PS.pid]:null;
   const limitAll=tags.limit==="all";
   const limitDelivery=tags.limit==="delivery";
 
@@ -14668,10 +14871,14 @@ Reply in EXACTLY these three sections. No markdown. Begin with "✅ WHAT LANDED:
 
 Filler word rules: only flag fillers used as crutches — 3+ times, sentence-starts, mid-thought gaps. Under 200 words total.`;
 
-  const isPasteMode=PS.elapsed===0&&wordCount>50;
+  const isPasteMode=!!(PS._pasteMode);
+  const styleResult=PS._styleQuiz&&PS._styleQuiz.result?PS._styleQuiz.result:null;
+  const styleData=styleResult&&tags.needsStyleQuiz?STYLE_QUIZ[tags.needsStyleQuiz]:null;
+  const styleDesc=styleData&&styleData.styles[styleResult]?styleData.styles[styleResult].name:null;
   const msg=(proj?"Project: "+proj.t+"\nProject purpose: "+proj.p+"\n":"Freestyle practice\n")+
     (isPasteMode?"MODE: This is a pasted script, not a recording. Coach content and structure — theme clarity, subtraction, character purpose. Do not comment on delivery.\n":"" )+
     (isPasteMode&&PS._govAdj?"Speaker's governing adjective: \""+PS._govAdj+"\" — evaluate whether the script actually delivers on this word. If it doesn't, that's the primary feedback.\n":"")+
+    (styleDesc?"Speaker's identified style: "+styleDesc+" — coach whether the speech content authentically reflects this style and what it reveals about the speaker.\n":"")+
     (tags.needsPurpose&&PS._purposeInput?"Speaker's stated purpose: "+PS._purposeInput+"\nCoach specifically against this stated purpose — did the speech achieve it?\n":"")+
     (tags.needsFeedback&&PS._feedbackInput?"Feedback received on first speech: "+PS._feedbackInput+"\nCoach specifically on whether this speech applied that feedback.\n":"")+
     "Duration: "+mins+" minutes"+(dur?" — "+durAssessment:"")+"\n"+
