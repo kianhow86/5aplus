@@ -14780,105 +14780,68 @@ function renderMentees(app){
       termMonths.push(monthNames[d.getMonth()]+' '+d.getFullYear());
     }
 
-        // ── Build term plan using Path Planner logic (no AI for structure) ──
-    const roleSequence=['timer','ah','gram','ttm','ie','tmd','ge','saa'];
-    const roleLabels={timer:'Timer',ah:'Ah Counter',gram:'Grammarian',ttm:'Table Topics Master',
-      ie:'Individual Evaluator',tmd:'Toastmaster of the Day',ge:'General Evaluator',saa:'Sergeant at Arms'};
+    // ── Use Path Planner's buildProgram directly ──
+    const savedPath=S.path;
+    const savedDone=S.done;
 
-    // Get remaining projects for this mentee
-    const menteeRemaining=[];
+    // Mark everything up to lastProject as done so _remainingProjects skips it
+    const fakeDone={};
     if(m.path){
       let passedLast=!m.lastProject;
-      for(let lv=m.level;lv<=5;lv++){
+      for(let lv=1;lv<=5;lv++){
         const g=gP(m.path,lv);
         [...g.r,...g.e.slice(0,g.en)].forEach(pid=>{
-          const proj=PD[pid];
-          if(!proj)return;
           if(!passedLast){
-            if(proj.t===m.lastProject||pid===m.lastProject)passedLast=true;
-            return;
+            fakeDone[pid]=true;
+            const proj=PD[pid];
+            if(proj&&(proj.t===m.lastProject||pid===m.lastProject))passedLast=true;
           }
-          menteeRemaining.push({pid,title:proj.t,level:lv});
         });
       }
     }
 
-    // Spread up to 4 projects across 6 months
-    const months=termMonths.map(mo=>({month:mo,projects:[],roles:[]}));
-    const targetProjects=Math.min(menteeRemaining.length,4);
-    const projectsToPlace=menteeRemaining.slice(0,targetProjects);
-    // Place at months 0,1,3,4
-    const projectSlots=[0,1,3,4];
-    projectsToPlace.forEach((p,i)=>{
-      if(projectSlots[i]!==undefined){
-        months[projectSlots[i]].projects.push({title:p.title,date:'',done:false});
-      }
+    S.path=m.path||'';
+    S.done=fakeDone;
+
+    const answers={
+      termLength:'half',
+      levelGoal:String(Math.min(5,(m.level||1)+1)),
+      frequency:'biweekly',
+      goal:constraints||'Complete projects and take progressively complex roles',
+      constraint:constraints||''
+    };
+
+    const program=buildProgram(answers,m.path||'');
+
+    S.path=savedPath;
+    S.done=savedDone;
+
+    // Convert program weeks → 6 monthly buckets
+    const monthBuckets=termMonths.map(mo=>({month:mo,projects:[],roles:[]}));
+    const weeksPerMonth=Math.ceil(program.weeks.length/6);
+    const ROLE_LABELS={timer:'Timer',ah:'Ah Counter',gram:'Grammarian',
+      ttm:'Table Topics Master',ie:'Individual Evaluator',
+      tmd:'Toastmaster of the Day',ge:'General Evaluator'};
+    // Only include real development roles — exclude saa, photographer, wordmaster
+
+    program.weeks.forEach((wk,wi)=>{
+      const mi=Math.min(5,Math.floor(wi/weeksPerMonth));
+      const bucket=monthBuckets[mi];
+      wk.projects.forEach(p=>{
+        const proj=PD[p.pid];
+        if(proj&&!bucket.projects.find(x=>x.title===proj.t))
+          bucket.projects.push({title:proj.t,date:'',done:false});
+      });
+      wk.roles.forEach(r=>{
+        const label=ROLE_LABELS[typeof r==='string'?r:r.id];
+        if(label&&!bucket.roles.find(x=>x.title===label))
+          bucket.roles.push({title:label,date:'',done:false});
+      });
     });
 
-    // ── Role progression by level ──
-    const levelRoles={
-      1:['Timer','Ah Counter','Grammarian','Table Topics Master'],
-      2:['Timer','Ah Counter','Grammarian','Table Topics Master','Individual Evaluator'],
-      3:['Table Topics Master','Individual Evaluator','General Evaluator','Toastmaster of the Day'],
-      4:['Individual Evaluator','General Evaluator','Toastmaster of the Day'],
-      5:['General Evaluator','Toastmaster of the Day']
-    };
-    const appropriateRoles=levelRoles[Math.min(5,Math.max(1,m.level||1))].join(', ');
-    const projectMonthList=projectsToPlace.map((p,i)=>termMonths[projectSlots[i]]).filter(Boolean).join(', ')||'none';
-
-    const sys=`You are K, a Toastmasters mentor coach helping plan a mentee's term. Return ONLY valid JSON — no markdown, no explanation.
-
-JSON structure:
-{
-  "months": [
-    {
-      "month": "April 2026",
-      "roles": [{"title": "Role name", "date": "", "done": false}]
-    }
-  ]
-}
-
-Rules:
-- Generate for exactly these 6 months: ${termMonths.join(', ')}
-- The mentee is at Level ${m.level||1}. Appropriate roles at this level: ${appropriateRoles}
-- Start simple (Timer, Ah Counter) and build toward more complex roles
-- Months with speeches already scheduled: ${projectMonthList} — assign at most ONE minor role (Timer or Ah Counter) in these months, or no role at all
-- Assign 1-2 roles per month in other months
-- Never assign the same role twice in a row
-- If mentor notes mention nervousness, avoid hosting roles (TMD, TTM) until the final months
-- Only use real Toastmasters roles — no invented ones`;
-
-    const kMsg='Mentee: '+m.name+'\nPath: '+pathName+', Level '+(m.level||1)+(m.lastProject?'\nLast completed: '+m.lastProject:'')+(m.notes?'\nMentor notes: '+m.notes:'')+(constraints?'\nTerm goals/constraints: '+constraints:'');
-
-    try{
-      const raw=await callCoach(sys,kMsg,{maxTokens:800,featureId:'default'});
-      const clean=raw.replace(/<[^>]+>/g,'').replace(/```json|```/g,'').trim();
-      const parsed=JSON.parse(clean);
-      // Merge K's roles into the months we built
-      parsed.months.forEach(km=>{
-        const mo=months.find(x=>x.month===km.month);
-        if(mo&&km.roles)mo.roles=km.roles;
-      });
-    }catch(e){
-      // Fall back to rule-based roles on failure
-      const roleSeq=['Timer','Ah Counter','Grammarian','Table Topics Master','Individual Evaluator','General Evaluator','Toastmaster of the Day'];
-      let rc=0;
-      months.forEach((mo,mi)=>{
-        const isProjectMonth=projectSlots.includes(mi);
-        const count=isProjectMonth?1:2;
-        for(let r=0;r<count;r++){
-          mo.roles.push({title:roleSeq[rc%roleSeq.length],date:'',done:false});
-          rc++;
-        }
-      });
-    }
-
-
-        m.termPlan={generated:new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}),months};
+    m.termPlan={generated:new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}),months:monthBuckets};
     save();
     V._termPlanLoading=false;render();
-    return; // handled above
-
   });
 
   const prepBack=app.querySelector('[data-action="prep-back"]');
