@@ -14781,6 +14781,41 @@ function renderMentees(app){
       termMonths.push(monthNames[d.getMonth()]+' '+d.getFullYear());
     }
 
+        // ── Build real project list from PD — skip already completed ──
+    const pathData2=m.path?PA[m.path]:null;
+    const realProjects=[];
+    if(m.path&&pathData2){
+      let foundLast=!m.lastProject; // if no lastProject set, include everything
+      for(let lv=m.level;lv<=5;lv++){
+        const g=gP(m.path,lv);
+        const allPids=[...g.r,...g.e.slice(0,2)];
+        allPids.forEach(pid=>{
+          const proj=PD[pid];
+          if(!proj||!proj.t)return;
+          // Skip until we pass the last completed project
+          if(!foundLast){
+            if(proj.t===m.lastProject||pid===m.lastProject)foundLast=true;
+            return; // skip this one (it's done)
+          }
+          realProjects.push({title:proj.t,level:lv});
+        });
+      }
+    }
+
+    // Spread projects across months — max 1 per month
+    const projectSchedule=[];
+    let projIdx2=0;
+    termMonths.forEach((mo,i)=>{
+      if(projIdx2<realProjects.length&&(i===0||i===1||i===3||i===4)){
+        projectSchedule.push({month:mo,project:realProjects[projIdx2]});
+        projIdx2++;
+      }
+    });
+
+    const projectContext=projectSchedule.length>0
+      ?'\n\nUse EXACTLY these projects in order (do not invent project names):\n'+projectSchedule.map(ps=>'- '+ps.month+': "'+ps.project.title+'"').join('\n')
+      :'\n\nNo specific projects available — leave projects array empty for each month.';
+
     const sys=`You are K, a Toastmasters mentor coach. Generate a realistic 6-month term plan for a mentee. Return ONLY valid JSON, no markdown, no explanation.
 
 The JSON must follow this exact structure:
@@ -14796,15 +14831,16 @@ The JSON must follow this exact structure:
 }
 
 Rules:
-- Spread projects realistically — one per month at most, some months may have none
-- Roles should progress in complexity — easier roles first, harder later
-- Workshops/sharing only if it makes sense for their level
+- Projects are already assigned — copy them exactly as given, one per month where specified, empty array for other months
+- Roles should progress in complexity — easier first (Timer, Ah Counter), harder later (GE, TMD)
+- Aim for 1-2 roles per month spread across the term
+- Workshops/sharing only 2-3 times across the term
 - Leave date as empty string
-- Generate for exactly these 6 months: ${termMonths.join(', ')}`;
+- Generate for exactly these 6 months: ${termMonths.join(', ')}` + projectContext;
 
     const msg='Mentee: '+m.name+'\nPath: '+pathName+', currently Level '+m.level+(m.lastProject?'\nLast completed: '+m.lastProject:'')+(m.notes?'\nMentor notes: '+m.notes:'')+(constraints?'\nGoals/constraints: '+constraints:'');
 
-    try{
+        try{
       const raw=await callCoach(sys,msg,{maxTokens:1200,featureId:'default'});
       const clean=raw.replace(/<[^>]+>/g,'').replace(/```json|```/g,'').trim();
       const parsed=JSON.parse(clean);
