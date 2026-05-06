@@ -2084,6 +2084,10 @@ a{color:inherit;text-decoration:none}
 .ps-section-green .ps-analysis-section-hdr{color:#5EB975}
 .ps-section-red{background:rgba(232,93,93,0.1);border:1px solid rgba(232,93,93,0.3)}
 .ps-section-red .ps-analysis-section-hdr{color:#E85D5D}
+.ps-section-purple{background:rgba(160,123,199,0.1);border:1px solid rgba(160,123,199,0.3)}
+.ps-section-purple .ps-analysis-section-hdr{color:#A07BC7}
+.ps-section-blue{background:rgba(91,157,217,0.1);border:1px solid rgba(91,157,217,0.3)}
+.ps-section-blue .ps-analysis-section-hdr{color:#5B9DD9}
 .ps-section-amber{background:rgba(232,178,80,0.1);border:1px solid rgba(232,178,80,0.3)}
 .ps-section-amber .ps-analysis-section-hdr{color:#E8B250}
 .ps-section-blue{background:rgba(109,182,180,0.1);border:1px solid rgba(109,182,180,0.3)}
@@ -15370,33 +15374,28 @@ async function psAnalyzeWithAI(){
     else durAssessment="ON TARGET ("+mins+" min, within "+dur.min+"–"+dur.max+" min window)";
   }
 
-  const sys=`You are K, a speech coach. Many speakers have no one to turn to — K may be the only feedback they get. Your job is to evaluate and inspire. Be firm with the diagnosis. Be warm with the delivery. The goal is always to make them want to go again.
+  const sys=`You are K, a Toastmasters evaluator coaching a member on a Pathways project. Your role is to evaluate whether they achieved the project objectives — like a skilled club evaluator would, but more specific and personal.
 
-Your coaching philosophy:
+${proj ? `PROJECT: ${proj.t}
+PURPOSE: ${proj.p}
+OBJECTIVE: ${proj.o}` : `FREESTYLE PRACTICE — give general coaching on structure, clarity, and impact.`}
 
-SUBTRACTION FIRST. The answer is almost always in what to remove, not what to add. When a script has too many stories, too many characters, too many themes — the speech is already in there. Your job is excavation. Ask: which single moment holds the entire theme? Everything else is auditioned.
+${isPasteMode ? `This is a pasted script. Evaluate content and structure only.` : ``}
+${deliveryNote ? deliveryNote : ""}
 
-ONE GOVERNING ADJECTIVE. Before anything else — what is this speech actually about? Not the topic. The theme. The one emotional truth that everything serves. A speech can only hold one to three adjectives before it loses focus. If you can't name the governing adjective, the audience won't feel it either.
+If the transcript is very short — under 30 words or clearly incomplete — reply with exactly: "No worries, let's give it another go." Nothing else.
 
-SIMPLICITY MOVES. One idea, fully committed to, lands harder than five clever ones half-explored. Complexity impresses. Simplicity moves. The speeches that spread use simple language, repetition, and emotional frames anchored to universal human experience — belonging, courage, pride, hope.
+Reply in EXACTLY these five sections, always all five, no exceptions. Each is 2-3 sentences as a flowing paragraph. No bullet points. No markdown. No section numbering.
 
-REPETITION WITH PURPOSE. The same idea heard from two different angles lands deeper the second time. Not repetition for its own sake — repetition as revelation. If there's a phrase or image that could carry the whole theme, it should appear more than once.
+✅ OBJECTIVE CHECK: Did they achieve the project objective? Be direct — yes, partially, or not yet. State clearly which part of the objective was or wasn't met.
 
-PAPER TO STAGE. When something works on the page, suggest how to bring it to life in the room — pause, movement, a prop, eye contact, a repeated gesture. Keep suggestions practical and apolitical.
+🌟 WHAT WORKED: The specific moment, technique, or choice that best served the objective. Be concrete — name the actual phrase or moment, not a general observation.
 
-If the transcript is very short — under 30 words, mostly silence, or clearly incomplete — reply with exactly: "No worries, let's give it another go." Nothing else.
+🔧 WHAT TO IMPROVE: If the objective wasn't fully met, what specifically needs to change? Be constructive and direct. If it was fully met, what would take this from good to memorable?
 
-Otherwise, always find something that genuinely worked first. Then coach.${deliveryNote?"\n\n"+deliveryNote:""}
+👁 PAY ATTENTION TO: One technical or structural thing to watch in the next practice — pacing, transitions, opening hook, eye contact, a repeated word, whatever stands out most from this speech specifically.
 
-Reply in EXACTLY these three sections. No markdown. Begin with "✅ WHAT LANDED:":
-
-✅ WHAT LANDED: One specific moment, phrase, or instinct that worked — or almost worked. Name it directly. Always find something. If it almost landed, say what it was reaching for.
-
-🎯 THE THEME: What adjective is this speech actually about? Is it singular? If it's trying to be three things, name the one worth keeping and frame the others as what to cut — not what's wrong.
-
-💡 ONE PRIORITY: The single most useful thing to work on. Lead with why it matters. Make it feel achievable, not daunting. If you see something on the page that could land powerfully in the room, suggest how to physicalise it.${limitDelivery?"\n(Focus on content only — do not comment on delivery or body language.)":""}
-
-Filler word rules: only flag fillers used as crutches — 3+ times, sentence-starts, mid-thought gaps. Under 200 words total.`;
+💡 TAKE AWAY: One sentence the speaker can carry into their next practice or club meeting. Make it actionable and specific to what they just delivered.`;
 
   const isPasteMode=!!(PS._pasteMode);
   const styleResult=PS._styleQuiz&&PS._styleQuiz.result?PS._styleQuiz.result:null;
@@ -15443,19 +15442,18 @@ function renderCoachCards(raw){
   const stripMd=s=>s.replace(/^\s*#+\s*/,"").replace(/\*\*/g,"").replace(/__/g,"").replace(/^[*_]+|[*_]+$/g,"").trim();
 
   const SECTIONS=[
-    {key:"worked",   emojis:/^✅/,    keywords:/WHAT\s*(WORKED|LANDED(\s*WITH\s*THE\s*ROOM)?|LANDED|PLACED\s*YOU)/i, label:"✅ What Worked",    cls:"ps-section-green"},
-    {key:"theme",    emojis:/^🎯|^🧭/, keywords:/THE\s*THEME|GOVERNING\s*ADJ/i,                                       label:"🧭 The Theme",      cls:"ps-section-teal"},
-    {key:"thread",   emojis:/^🧵/,    keywords:/THE\s*THREAD/i,                                                        label:"🧵 The Thread",     cls:"ps-section-teal"},
-    {key:"chars",    emojis:/^👤/,    keywords:/CHARACTER\s*PURPOSE/i,                                                  label:"👤 Character Purpose", cls:"ps-section-purple"},
-    {key:"struct",   emojis:/^🏗/,    keywords:/STRUCTURAL\s*INTEGRITY|STRUCTURE/i,                                     label:"🏗 Structure",      cls:"ps-section-blue"},
-    {key:"gap",      emojis:/^⚠️/,    keywords:/CONTEST\s*GAP|WHAT\s*TO\s*(FIX|CUT|IMPROVE)|COST\s*YOU/i,              label:"⚠️ Contest Gap",    cls:"ps-section-red"},
-    {key:"action",   emojis:/^💡/,    keywords:/ONE\s*(PRIORITY|ACTION|THING)|NEXT\s*(PRACTICE\s*)?TIP|BEFORE\s*NEXT/i, label:"💡 One Priority",   cls:"ps-section-amber"},
+    {key:"objective", emojis:/^✅/,    keywords:/OBJECTIVE\s*CHECK|DID\s*THEY\s*ACHIEV/i,          label:"✅ Objective Check",   cls:"ps-section-green"},
+    {key:"worked",    emojis:/^🌟/,    keywords:/WHAT\s*WORKED/i,                                    label:"🌟 What Worked",       cls:"ps-section-teal"},
+    {key:"improve",   emojis:/^🔧/,    keywords:/WHAT\s*TO\s*IMPROVE/i,                             label:"🔧 What to Improve",   cls:"ps-section-blue"},
+    {key:"attention", emojis:/^👁/,    keywords:/PAY\s*ATTENTION|WATCH/i,                            label:"👁 Pay Attention To",  cls:"ps-section-purple"},
+    {key:"takeaway",  emojis:/^💡/,    keywords:/TAKE\s*AWAY|ONE\s*PRIORITY|ONE\s*ACTION/i,         label:"💡 Take Away",         cls:"ps-section-amber"},
+    {key:"gap",       emojis:/^⚠️/,    keywords:/CONTEST\s*GAP|COST\s*YOU/i,                        label:"⚠️ Contest Gap",       cls:"ps-section-red"},
   ];
 
   const buckets={};
   const labels={};
   const clss={};
-  SECTIONS.forEach(s=>{buckets[s.key]="";labels[s.key]=s.label;clss[s.key]=s.cls;});
+  SECTIONS.forEach(s=>{buckets[s.key]=[];labels[s.key]=s.label;clss[s.key]=s.cls;});
   const unmatched=[];
   let cur=null;
 
@@ -15471,38 +15469,34 @@ function renderCoachCards(raw){
         cur=sec.key;
         const colonIdx=t.indexOf(':');
         const afterColon=colonIdx>=0?t.slice(colonIdx+1).trim():'';
-        if(afterColon)buckets[cur]+=afterColon+' ';
+        if(afterColon)buckets[cur].push(afterColon);
         matched=true;
         break;
       }
     }
     if(!matched){
-      if(cur)buckets[cur]+=t+" ";
+      if(cur)buckets[cur].push(t);
       else unmatched.push(t);
     }
   });
 
   let html="";
   SECTIONS.forEach(sec=>{
-    const text=buckets[sec.key].trim();
-    if(text){
-      html+='<div class="ps-analysis-section '+sec.cls+'">';
-      html+='<div class="ps-analysis-section-hdr">'+esc(labels[sec.key])+'</div>';
-      html+='<div class="ps-analysis-section-body">';
-      // Split into sentences for better readability
-      const sentences=text.split(/(?<=[.!?])\s+/).filter(s=>s.trim().length>4);
-      if(sentences.length<=1){
-        html+=esc(text);
-      }else{
-        html+='<div class="coach-points">';
-        sentences.forEach(s=>{
-          html+='<div class="coach-point">'+esc(s.trim())+'</div>';
-        });
-        html+='</div>';
-      }
-      html+='</div>';
-      html+='</div>';
+    const lines=buckets[sec.key].filter(l=>l.trim().length>2);
+    if(!lines.length)return;
+    html+='<div class="ps-analysis-section '+sec.cls+'">';
+    html+='<div class="ps-analysis-section-hdr">'+esc(labels[sec.key])+'</div>';
+    html+='<div class="ps-analysis-section-body">';
+    if(lines.length===1){
+      // Single chunk — render as paragraph
+      html+=esc(lines[0]);
+    }else{
+      // Multiple lines — join into a paragraph, don't card each sentence
+      const para=lines.join(' ');
+      html+=esc(para);
     }
+    html+='</div>';
+    html+='</div>';
   });
 
   if(!html){
