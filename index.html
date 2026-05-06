@@ -15338,7 +15338,7 @@ function renderStyleQuiz(quizType){
   return h;
 }
 
-async function psAnalyzeWithAI(){
+window.psAnalyzeWithAI=async function psAnalyzeWithAI(){
   PS.aiLoading=true;
   _psUpdateAnalysisSection();
 
@@ -15354,7 +15354,10 @@ async function psAnalyzeWithAI(){
       if(token)headers["x-client-token"]=token;
       if(cfg.ownerKey)headers["x-owner-key"]=cfg.ownerKey;
 
-      const res=await fetch(endpoint,{method:"POST",headers,body:PS.audioBlob});
+      const whisperCtrl=new AbortController();
+      const whisperTimeout=setTimeout(()=>whisperCtrl.abort(),12000);
+      const res=await fetch(endpoint,{method:"POST",headers,body:PS.audioBlob,signal:whisperCtrl.signal});
+      clearTimeout(whisperTimeout);
       if(res.ok){
         const data=await res.json();
         if(data.transcript&&data.transcript.length>10){
@@ -15447,14 +15450,35 @@ Filler word rules: only flag fillers used as crutches — 3+ times, sentence-sta
     "\nAnalyze the transcript above and give focused coaching.";
 
   try{
-    const response=await callCoach(sys,msg,{maxTokens:400,featureId:'ps-eval'});
+    // Race the AI call against a 25s timeout so the user always gets feedback
+    const timeoutPromise=new Promise((_,reject)=>
+      setTimeout(()=>reject(new Error('TIMEOUT')),25000)
+    );
+    const response=await Promise.race([
+      callCoach(sys,msg,{maxTokens:700,featureId:'ps-eval'}),
+      timeoutPromise
+    ]);
     PS.aiAnalysis=response;
     const summaryMatch=response.replace(/<[^>]+>/g,'').match(/[^.!?]+[.!?]/);
     const summary=summaryMatch?summaryMatch[0].trim().slice(0,80):'';
     saveSession(PS.pid,PS.elapsed,wpm,PS.totalFillers||0,summary);
     checkAchievements('speech');
   }catch(err){
-    PS.aiAnalysis=renderAIError(err,null);
+    if(err.message==='TIMEOUT'){
+      PS.aiAnalysis='<div class="ps-section ps-section-red" style="text-align:center;padding:24px 16px">'
+        +'<div style="font-size:32px;margin-bottom:12px">⏱</div>'
+        +'<div style="font-weight:700;font-size:15px;margin-bottom:8px">K took too long to respond</div>'
+        +'<div style="font-size:13px;opacity:0.7;margin-bottom:16px">This usually means the server is busy or your connection dropped. Your speech data is saved.</div>'
+        +'<button class="btn-secondary" style="font-size:13px" onclick="psAnalyzeWithAI()">Try again</button>'
+        +'</div>';
+    } else {
+      PS.aiAnalysis='<div class="ps-section ps-section-red" style="text-align:center;padding:24px 16px">'
+        +'<div style="font-size:32px;margin-bottom:12px">⚠️</div>'
+        +'<div style="font-weight:700;font-size:15px;margin-bottom:8px">Couldn\'t get feedback</div>'
+        +'<div style="font-size:13px;opacity:0.7;margin-bottom:16px">'+escHtml(err.message)+'</div>'
+        +'<button class="btn-secondary" style="font-size:13px" onclick="psAnalyzeWithAI()">Try again</button>'
+        +'</div>';
+    }
   }
   PS.aiLoading=false;
   _psUpdateAnalysisSection();
