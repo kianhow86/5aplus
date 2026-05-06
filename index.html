@@ -15499,12 +15499,15 @@ function renderCoachCards(raw){
   const stripMd=s=>s.replace(/^\s*#+\s*/,"").replace(/\*\*/g,"").replace(/__/g,"").replace(/^[*_]+|[*_]+$/g,"").trim();
 
   const SECTIONS=[
-    {key:"objective", emojis:/^✅/,    keywords:/OBJECTIVE\s*CHECK|DID\s*(THEY|IT|THE\s*SPEECH)\s*(ACHIEVE|MEET|HIT)/i, label:"✅ Objective Check",  cls:"ps-section-green"},
-    {key:"worked",    emojis:/^🌟/,    keywords:/WHAT\s*WORKED|WHAT\s*LANDED/i,                                           label:"🌟 What Worked",      cls:"ps-section-teal"},
-    {key:"improve",   emojis:/^🔧/,    keywords:/WHAT\s*TO\s*(IMPROVE|FIX|CHANGE)/i,                                      label:"🔧 What to Improve",  cls:"ps-section-blue"},
-    {key:"attention", emojis:/^👁/,    keywords:/PAY\s*ATTENTION|WATCH\s*(FOR|OUT)/i,                                      label:"👁 Pay Attention To", cls:"ps-section-purple"},
-    {key:"takeaway",  emojis:/^💡/,    keywords:/TAKE\s*AWAY|ONE\s*(THING|PRIORITY|ACTION)/i,                              label:"💡 Take Away",        cls:"ps-section-amber"},
-    {key:"gap",       emojis:/^⚠️/,    keywords:/CONTEST\s*GAP|COST\s*YOU/i,                                               label:"⚠️ Contest Gap",      cls:"ps-section-red"},
+    {key:"objective", emojis:/^✅/,    keywords:/OBJECTIVE\s*CHECK|DID\s*(THEY|IT|THE\s*SPEECH)\s*(ACHIEVE|MEET|HIT)/i,          label:"✅ Objective Check",  cls:"ps-section-green"},
+    {key:"worked",    emojis:/^🌟/,    keywords:/WHAT\s*(WORKED|LANDED)|WHAT\s*LANDED/i,                                           label:"🌟 What Worked",      cls:"ps-section-teal"},
+    {key:"improve",   emojis:/^🔧/,    keywords:/WHAT\s*TO\s*(IMPROVE|FIX|CHANGE)/i,                                               label:"🔧 What to Improve",  cls:"ps-section-blue"},
+    {key:"attention", emojis:/^👁/,    keywords:/PAY\s*ATTENTION|WATCH\s*(FOR|OUT)/i,                                               label:"👁 Pay Attention To", cls:"ps-section-purple"},
+    {key:"takeaway",  emojis:/^💡/,    keywords:/TAKE\s*AWAY|ONE\s*(THING|PRIORITY|ACTION)/i,                                       label:"💡 Take Away",        cls:"ps-section-amber"},
+    {key:"gap",       emojis:/^⚠️/,    keywords:/CONTEST\s*GAP|COST\s*YOU/i,                                                        label:"⚠️ Contest Gap",      cls:"ps-section-red"},
+    // Catch old-style headers the AI sometimes still emits
+    {key:"worked",    emojis:/^🎯/,    keywords:/THE\s*THEME|GOVERNING\s*ADJ/i,                                                     label:"🌟 What Worked",      cls:"ps-section-teal"},
+    {key:"improve",   emojis:/^🏗/,    keywords:/STRUCTURE|STRUCTURAL/i,                                                              label:"🔧 What to Improve",  cls:"ps-section-blue"},
   ];
 
   const buckets={};
@@ -15513,6 +15516,9 @@ function renderCoachCards(raw){
   SECTIONS.forEach(s=>{buckets[s.key]="";labels[s.key]=s.label;clss[s.key]=s.cls;});
   const unmatched=[];
   let cur=null;
+
+  // Force any section-starting emoji onto its own line (AI sometimes embeds them inline)
+  raw=raw.replace(/(\s)(✅|🌟|🔧|👁|💡|⚠️|🎯|🏗)/g,'\n$2');
 
   raw.split("\n").forEach(line=>{
     const raw_t=line.trim();
