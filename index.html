@@ -2735,7 +2735,7 @@ const PD={
 "ice-breaker":{t:"Ice Breaker",dur:"4–6 min",p:"Introduce yourself to the club and learn the basic structure of a public speech.",o:"Write and deliver a speech about any topic to introduce yourself to your club.",inc:"A 4–6 min speech"},
 "writing-purpose":{t:"Writing a Speech with Purpose",dur:"5–7 min",p:"Learn basic methods for writing a speech and present a well-organized speech on any topic.",o:"Select any topic, clearly define your purpose, practice, refine organization, present.",inc:"A 5–7 min speech"},
 "intro-vocal-body":{t:"Introduction to Vocal Variety and Body Language",dur:"5–7 min",p:"Practice using vocal variety OR body language to enhance a speech.",o:"Choose vocal variety or body language as your focus, tell your evaluator, speak on any topic.",inc:"A 5–7 min speech"},
-"eval-feedback":{t:"Evaluation and Feedback",dur:"2× 5–7 min + eval role",p:"Practice applying feedback and serving as a speech evaluator.",o:"Two speeches — second one applies feedback from the first. Then serve as evaluator at a club meeting.",inc:"Two 5–7 min speeches + evaluator role",parts:[{t:"Part A — First speech (5–7 min)",desc:"Any topic. Get feedback."},{t:"Part B — Second speech (5–7 min)",desc:"Apply the feedback from Part A — new speech, revision, or re-delivery focused on feedback."},{t:"Part C — Serve as Evaluator",desc:"Evaluate another member's speech at a club meeting."}]},
+"eval-feedback":{t:"Evaluation and Feedback",dur:"2× 5–7 min + eval role",multipart:3,p:"Practice applying feedback and serving as a speech evaluator.",o:"Two speeches — second one applies feedback from the first. Then serve as evaluator at a club meeting.",inc:"Two 5–7 min speeches + evaluator role",parts:[{t:"Part A — First speech (5–7 min)",desc:"Any topic. Get feedback."},{t:"Part B — Second speech (5–7 min)",desc:"Apply the feedback from Part A — new speech, revision, or re-delivery focused on feedback."},{t:"Part C — Serve as Evaluator",desc:"Evaluate another member's speech at a club meeting."}]},
 "lead-style":{t:"Understanding Your Leadership Style",dur:"5–7 min",p:"Identify your primary leadership style(s).",o:"Complete the Discover Your Leadership Style questionnaire, then speak about it.",inc:"Questionnaire + 5–7 min speech"},
 "comm-style":{t:"Understanding Your Communication Style",dur:"5–7 min",p:"Learn about different communication styles and identify your primary style.",o:"Complete the Discover Your Communication Style questionnaire, then speak about its impact on your relationships.",inc:"Questionnaire + 5–7 min speech"},
 "intro-mentor":{t:"Introduction to Toastmasters Mentoring",dur:"5–7 min",p:"Clearly define how Toastmasters envisions mentoring.",o:"Write and present a speech about a time when you were a protégé.",inc:"A 5–7 min speech"},
@@ -9075,11 +9075,11 @@ function _safePushRole(plan,idx,rid,projectWeeks){
 
 // Helper: returns ordered list of projects the user hasn't yet done, starting
 // from their current level and moving up. Uses gP() to respect path structure.
-function _remainingProjects(pathCode){
+function _remainingProjects(pathCode,maxLevel){
   const out=[];
-  for(let lv=1;lv<=5;lv++){
+  const cap=maxLevel||5;
+  for(let lv=1;lv<=cap;lv++){
     const g=gP(pathCode,lv);
-    // Required first, then electives (only fill `en` count of electives)
     g.r.forEach(pid=>{if(!S.done[pid])out.push({pid,lv,kind:"required"});});
     g.e.slice(0,g.en).forEach(pid=>{if(!S.done[pid])out.push({pid,lv,kind:"elective"});});
   }
@@ -9088,7 +9088,17 @@ function _remainingProjects(pathCode){
 
 function buildProgram(answers,pathCode){
   const spec=_termSpec(answers.termLength||"half",answers.levelGoal||"1");
-  const remaining=_remainingProjects(pathCode);
+  // Find current level from done projects, then cap at current + levelGoal
+  const currentLevel=(()=>{
+    for(let lv=1;lv<=5;lv++){
+      const g=gP(pathCode,lv);
+      const allDone=[...g.r,...g.e.slice(0,g.en)].every(pid=>S.done[pid]);
+      if(!allDone)return lv;
+    }
+    return 5;
+  })();
+  const maxLevel=Math.min(5,currentLevel+parseInt(answers.levelGoal||'1'));
+  const remaining=_remainingProjects(pathCode,maxLevel);
   const plan={
     generated:Date.now(),
     termLength:answers.termLength||"half",
@@ -9122,6 +9132,8 @@ function buildProgram(answers,pathCode){
   const midIdx=mi[Math.min(1,mi.length-1)];
   const lateIdx=mi[Math.min(2,mi.length-1)];
 
+  const freq={weekly:1,biweekly:2,irregular:3}[answers.frequency||'biweekly']||2;
+
   // ═══ Rule 1: seed projects across the term ═══
   const targetCount=Math.min(remaining.length,spec.targetProjects);
   const projectsToSchedule=remaining.slice(0,targetCount);
@@ -9130,42 +9142,50 @@ function buildProgram(answers,pathCode){
     const spacing=Math.max(1,Math.floor((spec.weeks-1)/projectsToSchedule.length));
     projectsToSchedule.forEach((p,i)=>{
       const weekIdx=Math.min(lastIdx,i*spacing);
+      const proj=PD[p.pid];
       plan.weeks[weekIdx].projects.push({pid:p.pid,action:"deliver at your home club"});
       projectWeeks.add(weekIdx);
+      // Multi-part projects: spread across consecutive weeks
+      if(proj&&proj.multipart&&proj.multipart>1){
+        for(let part=1;part<proj.multipart;part++){
+          const partIdx=Math.min(lastIdx,weekIdx+part*Math.max(1,Math.floor(freq)));
+          if(!projectWeeks.has(partIdx)){
+            plan.weeks[partIdx].projects.push({pid:p.pid,action:part===1?'Deliver 2nd speech applying feedback':part===2?'Complete evaluation role':'Continue project'});
+            projectWeeks.add(partIdx);
+          }
+        }
+      }
     });
   }
 
-  // ═══ Rule 2: baseline role rotation (cyclical, non-conflict) ═══
-  // Sequence covers 10 distinct roles including SAA and specialty contributions.
-  // Cycles through the whole list rather than stopping at the end — ensures
-  // long terms (26 weeks) never run dry. Skips project weeks (one-role-per-
-  // meeting rule). Tracks recent roles to avoid back-to-back repeats.
-  const roleSequence=[
-    "timer","ah","gram","ttm","ie","tmd","ge","saa",
-    // Specialty contributions — not in ROLES[] as main officer roles but
-    // still real service: rendered as plain text in the week card.
-    "photographer","wordmaster"
-  ];
-  const recentRoles=[]; // last 3 assignments, to avoid repeats
+    // ═══ Rule 2: role rotation with experience gates ═══
+  const ROLE_GATES={timer:0,ah:0,gram:1,ttm:2,ie:2,tmd:3,ge:4};
+  const roleSequence=["timer","ah","gram","ttm","ie","tmd","ge"];
+  const recentRoles=[];
   let cursor=0;
+  let projectsDeliveredSoFar=0;
   for(let i=0;i<spec.weeks;i++){
+    if(i>0&&plan.weeks[i-1].projects.length>0)projectsDeliveredSoFar++;
     if(i%spec.roleEvery!==0)continue;
     if(projectWeeks.has(i))continue;
-    // Find the next role in sequence that isn't in recent memory
     let attempts=0,picked=null;
     while(attempts<roleSequence.length){
       const candidate=roleSequence[cursor%roleSequence.length];
       cursor++;
-      if(!recentRoles.includes(candidate)){picked=candidate;break;}
+      const gate=ROLE_GATES[candidate]??0;
+      if(projectsDeliveredSoFar>=gate&&!recentRoles.includes(candidate)){picked=candidate;break;}
       attempts++;
     }
-    if(!picked)picked=roleSequence[cursor%roleSequence.length];
+    if(!picked){
+      const eligible=roleSequence.filter(r=>(ROLE_GATES[r]??0)<=projectsDeliveredSoFar);
+      picked=eligible[cursor%eligible.length]||'timer';
+    }
     plan.weeks[i].roles.push(picked);
     recentRoles.push(picked);
     if(recentRoles.length>3)recentRoles.shift();
   }
 
-  // ═══ Rule 2b: break / variety weeks for long terms ═══
+// ═══ Rule 2b: break / variety weeks for long terms ═══
   // In terms >= 20 weeks, inject an explicit "recharge" week at roughly the
   // 2/3 mark (if it's otherwise empty) — real humans can't grind 26 weeks
   // straight. Keeps it honest instead of pretending every week is on-task.
@@ -9442,21 +9462,63 @@ function renderPathfinderQuestion(app){
   const step=V._pfStep||0;
   const q=COACH_QUESTIONS[step];
   if(!q){
-    // All questions done → go to building screen
+    // Validate before building — catch impossible combinations
+    const termWeeks={sprint:6,half:13,full:26}[V._pfAnswers?.termLength||'half']||13;
+    const levelGoal=parseInt(V._pfAnswers?.levelGoal||'1');
+    const freq={weekly:1,biweekly:2,irregular:3}[V._pfAnswers?.frequency||'biweekly']||2;
+    const meetingsAvailable=Math.floor(termWeeks/freq);
+    // Each level needs ~4 projects minimum, each needs its own meeting
+    const minMeetingsNeeded=levelGoal*4;
+    if(minMeetingsNeeded>meetingsAvailable){
+      // Show warning — let mentor adjust
+      let h='<div class="fade-up">';
+      h+='<div class="app-inner">';
+      h+='<div style="font-size:48px;text-align:center;margin:24px 0 12px">⚠️</div>';
+      h+='<h1 class="title" style="font-size:22px;margin-bottom:8px">That\'s a stretch</h1>';
+      h+='<div style="font-size:14px;color:var(--text-secondary);line-height:1.6;margin-bottom:20px">'+levelGoal+' level'+(levelGoal>1?'s':'')+' in '+termWeeks+' weeks with '+freq+'-week meeting gaps means ~'+meetingsAvailable+' meetings available, but you\'d need at least '+minMeetingsNeeded+' to deliver all the projects. The plan will be built but expect it to be tight.</div>';
+      h+='<button data-action="pf-build-anyway" style="width:100%;padding:13px;background:linear-gradient(135deg,#A07BC7,#6DB6B4);border:none;border-radius:12px;font-size:15px;font-weight:700;color:#0C0D0F;cursor:pointer;font-family:inherit;margin-bottom:10px">Build it anyway →</button>';
+      h+='<button data-action="pf-go-back" style="width:100%;padding:11px;background:none;border:1px solid var(--border);border-radius:12px;font-size:14px;color:var(--text-secondary);cursor:pointer;font-family:inherit">← Go back and adjust</button>';
+      h+='</div></div>';
+      app.innerHTML=h;
+      app.querySelector('[data-action="pf-build-anyway"]').addEventListener('click',()=>{V.view='pathfinder-building';render();});
+      app.querySelector('[data-action="pf-go-back"]').addEventListener('click',()=>{V._pfStep=COACH_QUESTIONS.length-1;render();});
+      return;
+    }
+    // All good — go to building screen
     V.view="pathfinder-building";
     render();
     return;
   }
   const total=COACH_QUESTIONS.length;
+  const isMentee=!!V._menteeForPathfinder;
+  const m=isMentee&&S.mentees?S.mentees.find(x=>x.id===V._menteeForPathfinder):null;
+  const mName=m?m.name:'your mentee';
+
+  // Mentee-adapted labels and hints
+  const menteeLabels={
+    termLength:{label:'How long should '+mName+'\'s plan run?',hint:'Pick a window that fits their current commitment level.'},
+    levelGoal:{label:'How many Pathways levels should '+mName+' aim to close?',hint:'Be ambitious but realistic — this shapes the whole plan.'},
+    timebudget:{label:'How many hours a week can '+mName+' realistically commit?',hint:'Count meeting attendance + prep + any practice combined.'},
+    frequency:{label:'How often does your club meet?',hint:'This affects how we pace projects and role assignments.'},
+    goal:{label:'What should '+mName+' most focus on developing?',hint:'Pick the area where they\'ll grow most this term.'},
+    constraint:{label:'What\'s '+mName+'\'s biggest current blocker?',hint:'Pick their most honest answer.'},
+    comfort:{label:'How comfortable is '+mName+' on stage right now?',hint:'Be honest — this shapes how aggressively we schedule.'},
+    interest:{label:'What kind of content suits '+mName+' best?',hint:'Helps K pick the right elective projects.'}
+  };
+
+  const label=isMentee&&menteeLabels[q.id]?menteeLabels[q.id].label:q.label;
+  const hint=isMentee&&menteeLabels[q.id]?menteeLabels[q.id].hint:q.hint;
+
   let h='<div class="fade-up">';
   h+='<div class="top-bar">';
   h+='<button class="top-bar-btn" data-action="pf-back">← Back</button>';
-  h+='<div class="pf-progress-count">Question '+(step+1)+' of '+total+'</div>';
+  if(isMentee)h+='<div class="pf-progress-count" style="color:var(--accent);font-size:11px;font-weight:700">PLANNING FOR '+escHtml(mName.toUpperCase())+'</div>';
+  else h+='<div class="pf-progress-count">Question '+(step+1)+' of '+total+'</div>';
   h+='</div>';
   h+='<div class="pf-progress-bar"><div class="pf-progress-fill" style="width:'+((step+1)/total*100)+'%"></div></div>';
 
-  h+='<h1 class="pf-q-title">'+q.label+'</h1>';
-  h+='<div class="pf-q-hint">'+q.hint+'</div>';
+  h+='<h1 class="pf-q-title">'+label+'</h1>';
+  h+='<div class="pf-q-hint">'+hint+'</div>';
 
   h+='<div class="pf-options">';
   q.options.forEach(o=>{
@@ -9513,6 +9575,26 @@ function renderPathfinderBuilding(app){
     const program=buildProgram(V._pfAnswers||{timeline:"focused",goal:"wellrounded",constraint:"none"},S.path);
     S.program=program;
     save();
+    if(V._menteeForPathfinder){
+      const _mid=V._menteeForPathfinder,_mt=S.mentees&&S.mentees.find(x=>x.id===_mid);
+      if(_mt){
+        const _n=new Date(),_mo=_n.getMonth(),_yr=_n.getFullYear();
+        const _ts=_mo>=3&&_mo<=8?new Date(_yr,3,1):new Date(_yr,9,1);
+        const _mn=['January','February','March','April','May','June','July','August','September','October','November','December'];
+        const _tm=[];for(let i=0;i<6;i++){const d=new Date(_ts.getFullYear(),_ts.getMonth()+i,1);_tm.push(_mn[d.getMonth()]+' '+d.getFullYear());}
+        const _rl={timer:'Timer',ah:'Ah Counter',gram:'Grammarian',ttm:'Table Topics Master',ie:'Individual Evaluator',tmd:'Toastmaster of the Day',ge:'General Evaluator'};
+        const _wpm=Math.ceil(program.weeks.length/6);
+        const _bk=_tm.map(mo=>({month:mo,projects:[],roles:[]}));
+        program.weeks.forEach((wk,wi)=>{
+          const bi=Math.min(5,Math.floor(wi/_wpm));
+          wk.projects.forEach(p=>{const proj=PD[p.pid];if(proj&&!_bk[bi].projects.find(x=>x.title===proj.t))_bk[bi].projects.push({title:proj.t,date:'',done:false});});
+          wk.roles.forEach(r=>{const lbl=_rl[typeof r==='string'?r:r.id];if(lbl&&!_bk[bi].roles.find(x=>x.title===lbl))_bk[bi].roles.push({title:lbl,date:'',done:false});});
+        });
+        _mt.termPlan={generated:new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}),months:_bk};
+        save();
+      }
+      V._menteeForPathfinder=null;V.view='mentees';V._menteeTermPlan=_mid;V._termPlanView='checklist';render();return;
+    }
     V.view="pathfinder-program";
     render();
   },1800);
@@ -14511,9 +14593,8 @@ function renderMentees(app){
       }else{
         // Generate prompt
         h+='<div style="background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px;margin-bottom:12px">';
-        h+='<div style="font-size:13px;color:var(--text-secondary);line-height:1.6;margin-bottom:14px">K will generate a realistic 6-month term plan for '+escHtml(m.name)+' based on their path and level. Add any constraints or goals first.</div>';
-        h+='<textarea class="ps-input-field" id="tp-constraints" placeholder="e.g. Wants to focus on evaluation this term, only available for roles once a month, aiming to complete Level 3 by March…" rows="3" style="margin-bottom:12px"></textarea>';
-        h+='<button data-action="tp-generate" style="width:100%;padding:12px;background:linear-gradient(135deg,#A07BC7,#6DB6B4);border:none;border-radius:12px;font-size:14px;font-weight:700;color:#0C0D0F;cursor:pointer;font-family:inherit">Generate term plan →</button>';
+        h+='<div style="font-size:13px;color:var(--text-secondary);line-height:1.6;margin-bottom:14px">K will generate a realistic 6-month term plan for '+escHtml(m.name)+' based on their path and level. Use the same Pathfinder planner — answer a few questions and the plan is generated automatically.</div>';
+        h+='<button data-action="tp-launch-pathfinder" style="width:100%;padding:12px;background:linear-gradient(135deg,#A07BC7,#6DB6B4);border:none;border-radius:12px;font-size:14px;font-weight:700;color:#0C0D0F;cursor:pointer;font-family:inherit">Build with Pathfinder →</button>';
         h+='</div>';
       }
 
@@ -14599,13 +14680,11 @@ function renderMentees(app){
         if(m.notes)h+='<div style="font-size:12px;color:var(--text-secondary);line-height:1.5;border-top:1px solid var(--border);padding-top:8px;margin-bottom:10px;font-style:italic">'+escHtml(m.notes)+'</div>';
 
         // Action grid
-        h+='<div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">';
+        h+='<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px">';
         h+='<button data-nudge-mentee="'+m.id+'" style="padding:8px;background:rgba(109,182,180,0.1);border:1px solid rgba(109,182,180,0.3);border-radius:10px;font-size:12px;font-weight:600;color:var(--accent);cursor:pointer;font-family:inherit">💬 Nudge</button>';
         h+='<button data-advice-mentee="'+m.id+'" style="padding:8px;background:rgba(160,123,199,0.1);border:1px solid rgba(160,123,199,0.3);border-radius:10px;font-size:12px;font-weight:600;color:#A07BC7;cursor:pointer;font-family:inherit">✨ Get advice</button>';
-        h+='<button data-nextstep-mentee="'+m.id+'" style="padding:8px;background:rgba(91,157,217,0.1);border:1px solid rgba(91,157,217,0.3);border-radius:10px;font-size:12px;font-weight:600;color:#5B9DD9;cursor:pointer;font-family:inherit">🗺 What\'s next</button>';
         h+='<button data-log-mentee="'+m.id+'" style="padding:8px;background:rgba(126,180,109,0.1);border:1px solid rgba(126,180,109,0.3);border-radius:10px;font-size:12px;font-weight:600;color:#7EB46D;cursor:pointer;font-family:inherit">📋 Log speech</button>';
         h+='</div>';
-        h+='<button data-role-mentee="'+m.id+'" style="width:100%;margin-top:6px;padding:7px;background:none;border:1px solid var(--border);border-radius:10px;font-size:12px;color:var(--text-secondary);cursor:pointer;font-family:inherit">🎭 Suggest a meeting role</button>';
 
         // Saved results — show last advice/nextstep/role if available
         const showId=V._menteeAdviceOpen===m.id||V._menteeNextOpen===m.id||V._menteeRoleOpen===m.id;
@@ -14760,88 +14839,15 @@ function renderMentees(app){
   });
 
   // Generate term plan
-  const tpGenerate=app.querySelector('[data-action="tp-generate"]');
-  if(tpGenerate)tpGenerate.addEventListener('click',async()=>{
-    const m=S.mentees.find(x=>x.id===V._menteeTermPlan);
-    if(!m)return;
-    const constraints=app.querySelector('#tp-constraints')?.value.trim()||'';
-    const pathName=m.path&&PA[m.path]?PA[m.path].n:'their path';
-    V._termPlanLoading=true;render();
-
-    // Determine term months
-    const now=new Date();
-    const month=now.getMonth();
-    const year=now.getFullYear();
-    const termStart=month>=3&&month<=8?new Date(year,3,1):new Date(year,9,1);
-    const monthNames=['January','February','March','April','May','June','July','August','September','October','November','December'];
-    const termMonths=[];
-    for(let i=0;i<6;i++){
-      const d=new Date(termStart.getFullYear(),termStart.getMonth()+i,1);
-      termMonths.push(monthNames[d.getMonth()]+' '+d.getFullYear());
-    }
-
-    // ── Use Path Planner's buildProgram directly ──
-    const savedPath=S.path;
-    const savedDone=S.done;
-
-    // Mark everything up to lastProject as done so _remainingProjects skips it
-    const fakeDone={};
-    if(m.path){
-      let passedLast=!m.lastProject;
-      for(let lv=1;lv<=5;lv++){
-        const g=gP(m.path,lv);
-        [...g.r,...g.e.slice(0,g.en)].forEach(pid=>{
-          if(!passedLast){
-            fakeDone[pid]=true;
-            const proj=PD[pid];
-            if(proj&&(proj.t===m.lastProject||pid===m.lastProject))passedLast=true;
-          }
-        });
-      }
-    }
-
-    S.path=m.path||'';
-    S.done=fakeDone;
-
-    const answers={
-      termLength:'half',
-      levelGoal:String(Math.min(5,(m.level||1)+1)),
-      frequency:'biweekly',
-      goal:constraints||'Complete projects and take progressively complex roles',
-      constraint:constraints||''
-    };
-
-    const program=buildProgram(answers,m.path||'');
-
-    S.path=savedPath;
-    S.done=savedDone;
-
-    // Convert program weeks → 6 monthly buckets
-    const monthBuckets=termMonths.map(mo=>({month:mo,projects:[],roles:[]}));
-    const weeksPerMonth=Math.ceil(program.weeks.length/6);
-    const ROLE_LABELS={timer:'Timer',ah:'Ah Counter',gram:'Grammarian',
-      ttm:'Table Topics Master',ie:'Individual Evaluator',
-      tmd:'Toastmaster of the Day',ge:'General Evaluator'};
-    // Only include real development roles — exclude saa, photographer, wordmaster
-
-    program.weeks.forEach((wk,wi)=>{
-      const mi=Math.min(5,Math.floor(wi/weeksPerMonth));
-      const bucket=monthBuckets[mi];
-      wk.projects.forEach(p=>{
-        const proj=PD[p.pid];
-        if(proj&&!bucket.projects.find(x=>x.title===proj.t))
-          bucket.projects.push({title:proj.t,date:'',done:false});
-      });
-      wk.roles.forEach(r=>{
-        const label=ROLE_LABELS[typeof r==='string'?r:r.id];
-        if(label&&!bucket.roles.find(x=>x.title===label))
-          bucket.roles.push({title:label,date:'',done:false});
-      });
-    });
-
-    m.termPlan={generated:new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}),months:monthBuckets};
-    save();
-    V._termPlanLoading=false;render();
+  const tpGenerate=app.querySelector('[data-action="tp-launch-pathfinder"]');
+  if(tpGenerate)tpGenerate.addEventListener('click',()=>{
+    const _m=S.mentees.find(x=>x.id===V._menteeTermPlan);
+    if(!_m)return;
+    V._menteeForPathfinder=_m.id;
+    if(_m.path)S.path=_m.path;
+    V._pfAnswers={};
+    V.view='pathfinder-q';
+    render();
   });
 
   const prepBack=app.querySelector('[data-action="prep-back"]');
@@ -14860,7 +14866,14 @@ function renderMentees(app){
     if(!m.speeches)m.speeches=[];
     m.speeches.push({project,notes,date:new Date().toLocaleDateString('en-US',{month:'short',day:'numeric'})});
     m.lastActive=new Date().toLocaleDateString('en-US',{month:'short',day:'numeric'});
-    save();V._menteeLog=null;render();
+    save();
+    // Stay in log view — clear inputs so another entry can be added
+    const projInput=app.querySelector('#log-project');
+    const notesInput=app.querySelector('#log-notes');
+    if(projInput)projInput.value='';
+    if(notesInput)notesInput.value='';
+    // Refresh the past speeches list below
+    render();
   });
 
   app.querySelectorAll('[data-dismiss-result]').forEach(btn=>{
