@@ -15341,14 +15341,13 @@ async function psAnalyzeWithAI(){
     }
   }
 
+  // ── Speaker mode ──
+  const proj=PS.pid?PD[PS.pid]:null;
+  const tags=_psGetTags(PS.pid||"");
   const dur=proj?parseDuration(proj.dur):null;
   const mins=(PS.elapsed/60).toFixed(1);
   const wordCount=FD.totalWords||0;
   const wpm=PS.elapsed>0?Math.round(wordCount/(PS.elapsed/60)):0;
-
-    // ── Speaker mode ──
-  const tags=_psGetTags(PS.pid||"");
-  const proj=PS.pid?PD[PS.pid]:null;
   const limitAll=tags.limit==="all";
   const limitDelivery=tags.limit==="delivery";
 
