@@ -15338,6 +15338,8 @@ function renderStyleQuiz(quizType){
   return h;
 }
 
+function checkAchievements(context){}  // stub — achievement system pending restore
+
 window.psAnalyzeWithAI=async function psAnalyzeWithAI(){
   PS.aiLoading=true;
   _psUpdateAnalysisSection();
@@ -15574,7 +15576,7 @@ function _psUpdateAnalysisSection(){
   if(!PS.aiAnalysis)return;
 
   // If the analysis is already a rendered error card (from renderAIError), inject directly
-  if(PS.aiAnalysis.startsWith('<div class="ai-error-card">')){
+  if(PS.aiAnalysis.startsWith('<div')||PS.aiAnalysis.startsWith('<span')){
     el.innerHTML=PS.aiAnalysis;
     return;
   }
