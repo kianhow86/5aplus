@@ -15374,6 +15374,10 @@ async function psAnalyzeWithAI(){
     else durAssessment="ON TARGET ("+mins+" min, within "+dur.min+"–"+dur.max+" min window)";
   }
 
+  const isPasteMode=!!(PS._pasteMode);
+  const styleResult=PS._styleQuiz&&PS._styleQuiz.result?PS._styleQuiz.result:null;
+  const styleData=styleResult&&tags.needsStyleQuiz?STYLE_QUIZ[tags.needsStyleQuiz]:null;
+  const styleDesc=styleData&&styleData.styles[styleResult]?styleData.styles[styleResult].name:null;
   const sys=`You are K, a Toastmasters evaluator coaching a member on a Pathways project. Your role is to evaluate whether they achieved the project objectives — like a skilled club evaluator would, but more specific and personal.
 
 ${proj ? `PROJECT: ${proj.t}
@@ -15397,10 +15401,6 @@ Reply in EXACTLY these five sections, always all five, no exceptions. Each is 2-
 
 💡 TAKE AWAY: One sentence the speaker can carry into their next practice or club meeting. Make it actionable and specific to what they just delivered.`;
 
-  const isPasteMode=!!(PS._pasteMode);
-  const styleResult=PS._styleQuiz&&PS._styleQuiz.result?PS._styleQuiz.result:null;
-  const styleData=styleResult&&tags.needsStyleQuiz?STYLE_QUIZ[tags.needsStyleQuiz]:null;
-  const styleDesc=styleData&&styleData.styles[styleResult]?styleData.styles[styleResult].name:null;
   const msg=(proj?"Project: "+proj.t+"\nProject purpose: "+proj.p+"\n":"Freestyle practice\n")+
     (isPasteMode?"MODE: This is a pasted script, not a recording. Coach content and structure — theme clarity, subtraction, character purpose. Do not comment on delivery.\n":"" )+
     (isPasteMode&&PS._govAdj?"Speaker's governing adjective: \""+PS._govAdj+"\" — evaluate whether the script actually delivers on this word. If it doesn't, that's the primary feedback.\n":"")+
