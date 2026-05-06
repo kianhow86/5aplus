@@ -13691,12 +13691,12 @@ async function _contestRunEval(c,transcript){
     const summaryMatch=res.replace(/<[^>]+>/g,'').match(/[^.!?]+[.!?]/);
     const summary=summaryMatch?summaryMatch[0].trim().slice(0,80):'';
     saveSession(contestSessionKey,elapsed,wpm,0,summary);
-    checkAchievements('contest');
     render();
   }catch(e){
     V._contestData={...cData,loading:false,error:e};
     render();
   }
+  checkAchievements('contest');
 }
 
 
@@ -15422,12 +15422,17 @@ Filler word rules: only flag fillers used as crutches — 3+ times, sentence-sta
     const summaryMatch=response.replace(/<[^>]+>/g,'').match(/[^.!?]+[.!?]/);
     const summary=summaryMatch?summaryMatch[0].trim().slice(0,80):'';
     saveSession(PS.pid,PS.elapsed,wpm,PS.totalFillers||0,summary);
-    checkAchievements('speech');
   }catch(err){
     PS.aiAnalysis=renderAIError(err,null);
   }
+  checkAchievements('speech');
   PS.aiLoading=false;
   _psUpdateAnalysisSection();
+}
+
+// ── checkAchievements: stub — full achievement system pending restore ──
+function checkAchievements(context){
+  // No-op stub — achievements UI removed in cleanup, can be restored later
 }
 
 // ── Universal coach feedback renderer — parses any section-based AI response into colour cards ──
