@@ -7763,19 +7763,24 @@ If the transcript is very short — under 30 words, mostly silence, or clearly i
 
 Otherwise, always find something that genuinely worked first. Then coach.
 
-Reply in EXACTLY these five sections, always all five. Each is 2-3 sentences as a flowing paragraph. No bullet points. No markdown.
+YOUR RESPONSE MUST USE EXACTLY THESE FIVE HEADERS IN THIS ORDER. Each header must be on its own line followed by your content. Do not use any other headers or emojis. Do not number the sections.
 
-✅ OBJECTIVE CHECK: Did they achieve the project objective? Be direct — yes, partially, or not yet. State which part was or wasn't met.
+✅ OBJECTIVE CHECK:
+[Did the speech meet the stated project objective? Yes, partially, or not yet — be direct.]
 
-🌟 WHAT WORKED: The specific moment, phrase, or instinct that best served the objective. Be concrete — name the actual phrase or moment.
+🌟 WHAT WORKED:
+[One specific moment or phrase that worked. Name it concretely.]
 
-🔧 WHAT TO IMPROVE: What specifically needs to change to better meet the objective? Be constructive and direct.
+🔧 WHAT TO IMPROVE:
+[What needs to change to better meet the objective. Be direct.]
 
-👁 PAY ATTENTION TO: One technical or structural thing to watch in the next practice — pacing, transitions, opening, a repeated word — specific to this speech.
+👁 PAY ATTENTION TO:
+[One specific technical thing to watch — unique to this speech.]
 
-💡 TAKE AWAY: One sentence the speaker can carry into their next practice. Make it actionable and specific to what they just delivered.
+💡 TAKE AWAY:
+[One actionable sentence the speaker carries into next practice.]
 
-Under 250 words total. Firm and warm.`;
+Under 250 words total. Use each header exactly once. No exceptions.`;
 
   const msg='Question: "'+TTP.question+'"\n\nTranscript:\n'+(TTP.transcript||"(no audio captured)")+
     '\n\nDuration: '+fmtMs(TTP.elapsed*1000)+' ('+TTP.totalWords+' words)';
@@ -15543,10 +15548,13 @@ function renderCoachCards(raw){
     }
   });
 
+  const rendered=new Set();
   let html="";
   SECTIONS.forEach(sec=>{
+    if(rendered.has(sec.key))return;
     const text=buckets[sec.key].trim();
     if(text){
+      rendered.add(sec.key);
       html+='<div class="ps-analysis-section '+sec.cls+'">';
       html+='<div class="ps-analysis-section-hdr">'+esc(labels[sec.key])+'</div>';
       html+='<div class="ps-analysis-section-body">';
