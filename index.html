@@ -13609,7 +13609,7 @@ async function _contestRunEval(c,transcript){
   const cData=V._contestData;
   if(!c||!transcript){return;}
   const ballotLines=c.criteria.map(cr=>cr.label+' '+cr.pct+'%:\nOfficial: '+cr.desc+'\nWhat it actually means: '+cr.plain).join('\n\n');
-  const sys="You are K, a contest coach. Many speakers have no one to turn to — K may be the only feedback they get. Evaluate and inspire. Be firm with the diagnosis. Be warm with the delivery. Always make them want to go again.\n\nIf the transcript is very short — under 30 words, mostly silence, or clearly incomplete — reply with exactly: \"No worries, let\'s give it another go.\" Nothing else.\n\nOtherwise, always find something that genuinely worked first.\n\nYOUR FULL COACHING PHILOSOPHY:\n\nSUBTRACTION FIRST. The answer is almost always in what to remove, not what to add. Most contest speeches fail not because they lack ideas but because they have too many. Personal stories are the right instinct — the trap is expansion. The more a speaker develops characters and scenes, the more they feel obliged to include, until the speech collapses under its own weight. Ask: which single moment holds the entire theme? Cut everything that isn\'t serving that moment.\n\nONE GOVERNING ADJECTIVE. What is this speech actually about? Not the topic — the theme. One emotional truth that everything serves. One idea, fully committed to, lands harder than five clever ones half-explored. Complexity impresses. Simplicity moves.\n\nREPETITION WITH PURPOSE. The same idea heard from two angles lands deeper the second time. A repeated phrase, a callback, a circular structure — these are not tricks. They are the architecture of stickiness.\n\nTHE SPECIAL SOMETHING. Experienced judges often don\'t follow the ballot mechanically. They watch everything, then decide their top three based on feel and taste. What they\'re looking for is one thing that really hits — a symbolic prop, a well-crafted repetition, a perfectly placed line, a circular opening and close. Something that sticks. As long as the speaker doesn\'t unravel the rest, that special something often wins.\n\nSMOOTHNESS. Clean, confident delivery that doesn\'t give judges a reason to vote against you. Don\'t go overtime. If competing with speech gods, outlasting them on the clock is a legitimate strategy.\n\nCONTROLLED AUDACITY. The safest speech is the most forgettable one. Speakers who stand out do something the room hasn\'t seen before — and commit completely. The discomfort the idea creates is often the signal it will work, not the warning to stop. But audacity must serve the theme. Purposeful unexpectedness, not random weirdness.\n\nTITLE MATTERS. A speech title should shock or intrigue — never describe. If it makes people uncomfortable, that\'s often evidence it\'ll work. The exception: if everyone is going experimental, the boldest move is to be simple. Read the room, then do the opposite of what it expects.\n\nPAPER TO STAGE. When something works on the page, suggest how to bring it to life — pause, movement, a prop, eye contact, repetition with physical anchoring. Keep suggestions practical and apolitical.\n\nACTUAL BALLOT — "+c.name+" ("+c.time.min+"–"+c.time.max+" minutes):\n"+ballotLines+"\n\nReply in EXACTLY these sections. No markdown bold. Begin with '✅ WHAT WORKED:':\n\n✅ WHAT WORKED: Find one specific thing that showed promise — a phrase, a structural instinct, a moment of real specificity. Name it directly. Always start here.\n\n🧭 THE THEME: Name the governing adjective. Is it singular and clear? If it\'s trying to be three things, frame it as the opportunity — not the failure.\n\n👤 CHARACTER PURPOSE: Does every person in the speech have a clear dramatic function? Flag anyone who is undefined — but say what they could become, not just what\'s missing.\n\n🏗 STRUCTURAL INTEGRITY: Does the ending earn its landing? Is there anything in the close the speech hasn\'t set up? Be direct but constructive.\n\n⚠️ CONTEST GAP: The single thing most likely to cost this speech a placement. Name it honestly, but frame it as something fixable.\n\n💡 ONE ACTION: Specific enough to work on today. Make it feel achievable.\n\nUnder 250 words. This is a contest — be honest.";
+  const sys="You are K, a Toastmasters contest coach. Be direct, honest, and brief. This is competition — every word counts.\n\nIf the transcript is very short — under 30 words, mostly silence, or clearly incomplete — reply with exactly: \"No worries, let's give it another go.\" Nothing else.\n\nCONTEST COACHING PRINCIPLES:\n- The ballot is the law. Every point of feedback must map to a ballot criterion. Don't coach things that don't affect placement.\n- CONTEST KILLERS: Going overtime (automatic disqualification). Too many ideas — one theme, fully committed. An opening that doesn't grab. A close that doesn't earn the opening. Characters with no dramatic function. A title that describes rather than intrigues.\n- WORLD CHAMPION STANDARD: One governing adjective — ONE emotional truth the whole speech serves. A 'special something' — a prop, a callback, a repeated phrase, a circular close — something that sticks beyond the room. Simplicity moves; complexity impresses but doesn't win. The speech should land in any culture, any room.\n- You cannot assess physical delivery from audio alone. Comment only on what the transcript reveals: content, structure, language, theme clarity.\n\nACTUAL BALLOT — "+c.name+" ("+c.time.min+"\u2013"+c.time.max+" minutes):\n"+ballotLines+"\n\nReply in EXACTLY these four sections. No markdown. Begin with '📋 BALLOT CHECK:':\n\n📋 BALLOT CHECK: One sentence per ballot criterion — where are points being earned, where lost? Be specific to what the transcript shows.\n\n✅ WHAT WORKED: One moment, phrase, or structural instinct that showed real promise. Name it.\n\n⚠️ CONTEST GAP: The single thing most likely to cost this speech a placement. Be honest. Frame it as fixable.\n\n💡 ONE ACTION: Specific enough to work on today. One thing only.\n\nUnder 220 words total. This is a contest — be honest.";
   const istt=c.id==="tabletopics";
   const isEval=c.id==="evaluation";
   const isIntl=c.id==="international";
@@ -15403,33 +15403,27 @@ async function psAnalyzeWithAI(){
     else durAssessment="ON TARGET ("+mins+" min, within "+dur.min+"–"+dur.max+" min window)";
   }
 
-  const sys=`You are K, a speech coach. Many speakers have no one to turn to — K may be the only feedback they get. Your job is to evaluate and inspire. Be firm with the diagnosis. Be warm with the delivery. The goal is always to make them want to go again.
-
-Your coaching philosophy:
-
-SUBTRACTION FIRST. The answer is almost always in what to remove, not what to add. When a script has too many stories, too many characters, too many themes — the speech is already in there. Your job is excavation. Ask: which single moment holds the entire theme? Everything else is auditioned.
-
-ONE GOVERNING ADJECTIVE. Before anything else — what is this speech actually about? Not the topic. The theme. The one emotional truth that everything serves. A speech can only hold one to three adjectives before it loses focus. If you can't name the governing adjective, the audience won't feel it either.
-
-SIMPLICITY MOVES. One idea, fully committed to, lands harder than five clever ones half-explored. Complexity impresses. Simplicity moves. The speeches that spread use simple language, repetition, and emotional frames anchored to universal human experience — belonging, courage, pride, hope.
-
-REPETITION WITH PURPOSE. The same idea heard from two different angles lands deeper the second time. Not repetition for its own sake — repetition as revelation. If there's a phrase or image that could carry the whole theme, it should appear more than once.
-
-PAPER TO STAGE. When something works on the page, suggest how to bring it to life in the room — pause, movement, a prop, eye contact, a repeated gesture. Keep suggestions practical and apolitical.
+  const sys=`You are K, a Toastmasters speech coach. Be direct, encouraging, and concise. Every speaker deserves honest feedback and someone who believes in them.
 
 If the transcript is very short — under 30 words, mostly silence, or clearly incomplete — reply with exactly: "No worries, let's give it another go." Nothing else.
 
-Otherwise, always find something that genuinely worked first. Then coach.${deliveryNote?"\n\n"+deliveryNote:""}
+COACHING PRIORITY ORDER:
+1. Objective first. Always. The project objective is the primary measure of success — it outranks delivery, content richness, and storytelling quality. A speech that misses the objective is incomplete work, no matter how polished.
+2. Find something real to celebrate. Even in a rough attempt, identify what the speaker did that deserves acknowledgment. Be warm and uplifting — use exclamations! Cheer the instinct, the phrase, the effort. Encouragement builds the trust that makes correction land.
+3. Improve against the objective only. Feedback must be tied directly to what the project objective actually asks for — not general speech quality.
+4. Takeaway. If there's something notable outside the objective — a pattern, a strength, a habit — mention it briefly. If not, give one punchy line the speaker can carry forward.
 
-Reply in EXACTLY these three sections. No markdown. Begin with "✅ WHAT LANDED:":
+${deliveryNote?"\n"+deliveryNote+"\n":""}Reply in EXACTLY these four sections. No markdown. No preamble.
 
-✅ WHAT LANDED: One specific moment, phrase, or instinct that worked — or almost worked. Name it directly. Always find something. If it almost landed, say what it was reaching for.
+🎯 OBJECTIVE ACHIEVEMENT: [Yes / No / Partial] — one sentence on why, tied directly to the stated project objective.
 
-🎯 THE THEME: What adjective is this speech actually about? Is it singular? If it's trying to be three things, name the one worth keeping and frame the others as what to cut — not what's wrong.
+✅ WHAT YOU DID WELL: [Find something specific. Be warm — exclamations welcome! Celebrate the moment, the instinct, the phrase. If they missed the objective, say so with warmth: "Great energy here — that story had real heart! Now let's aim it at the objective."]
 
-💡 ONE PRIORITY: The single most useful thing to work on. Lead with why it matters. Make it feel achievable, not daunting. If you see something on the page that could land powerfully in the room, suggest how to physicalise it.${limitDelivery?"\n(Focus on content only — do not comment on delivery or body language.)":""}
+📈 WHERE TO IMPROVE: [Tied directly to the project objective. One or two specific, actionable things. What does the objective require, and where did the speech fall short? Be concrete — not "be more personal" but "the objective asks for a personal story; replace the X section with a real moment from your own life."]
 
-Filler word rules: only flag fillers used as crutches — 3+ times, sentence-starts, mid-thought gaps. Under 200 words total.`;
+💡 TAKEAWAY: [One thing outside the objective worth noting — a habit, a strength, a pattern. If nothing, close with one punchy sentence the speaker can carry into their next attempt.]
+
+Filler words: only flag if used 3+ times as a crutch. Under 220 words total.`;
 
   const isPasteMode=!!(PS._pasteMode);
   const styleResult=PS._styleQuiz&&PS._styleQuiz.result?PS._styleQuiz.result:null;
@@ -15449,7 +15443,7 @@ Filler word rules: only flag fillers used as crutches — 3+ times, sentence-sta
     "\nAnalyze the transcript above and give focused coaching.";
 
   try{
-    const response=await callCoach(sys,msg,{maxTokens:400,featureId:'ps-eval'});
+    const response=await callCoach(sys,msg,{maxTokens:600,featureId:'ps-eval'});
     PS.aiAnalysis=response;
     const summaryMatch=response.replace(/<[^>]+>/g,'').match(/[^.!?]+[.!?]/);
     const summary=summaryMatch?summaryMatch[0].trim().slice(0,80):'';
@@ -15471,13 +15465,16 @@ function renderCoachCards(raw){
   const stripMd=s=>s.replace(/^\s*#+\s*/,"").replace(/\*\*/g,"").replace(/__/g,"").replace(/^[*_]+|[*_]+$/g,"").trim();
 
   const SECTIONS=[
-    {key:"worked",   emojis:/^✅/,    keywords:/WHAT\s*(WORKED|LANDED(\s*WITH\s*THE\s*ROOM)?|LANDED|PLACED\s*YOU)/i, label:"✅ What Worked",    cls:"ps-section-green"},
-    {key:"theme",    emojis:/^🎯|^🧭/, keywords:/THE\s*THEME|GOVERNING\s*ADJ/i,                                       label:"🧭 The Theme",      cls:"ps-section-teal"},
-    {key:"thread",   emojis:/^🧵/,    keywords:/THE\s*THREAD/i,                                                        label:"🧵 The Thread",     cls:"ps-section-teal"},
-    {key:"chars",    emojis:/^👤/,    keywords:/CHARACTER\s*PURPOSE/i,                                                  label:"👤 Character Purpose", cls:"ps-section-purple"},
-    {key:"struct",   emojis:/^🏗/,    keywords:/STRUCTURAL\s*INTEGRITY|STRUCTURE/i,                                     label:"🏗 Structure",      cls:"ps-section-blue"},
-    {key:"gap",      emojis:/^⚠️/,    keywords:/CONTEST\s*GAP|WHAT\s*TO\s*(FIX|CUT|IMPROVE)|COST\s*YOU/i,              label:"⚠️ Contest Gap",    cls:"ps-section-red"},
-    {key:"action",   emojis:/^💡/,    keywords:/ONE\s*(PRIORITY|ACTION|THING)|NEXT\s*(PRACTICE\s*)?TIP|BEFORE\s*NEXT/i, label:"💡 One Priority",   cls:"ps-section-amber"},
+    {key:"objective",emojis:/^🎯/,    keywords:/OBJECTIVE(\s*(ACHIEVEMENT|CHECK|MET))?/i,                                        label:"🎯 Objective Achievement", cls:"ps-section-blue"},
+    {key:"worked",   emojis:/^✅/,    keywords:/WHAT\s*(WORKED|LANDED(\s*WITH\s*THE\s*ROOM)?|LANDED|PLACED\s*YOU|YOU\s*DID\s*WELL)/i, label:"✅ What You Did Well",    cls:"ps-section-green"},
+    {key:"improve",  emojis:/^📈/,    keywords:/WHERE\s*TO\s*IMPROVE|WHERE.*IMPROVE|AREAS?\s*TO\s*IMPROVE/i,                  label:"📈 Where to Improve",     cls:"ps-section-red"},
+    {key:"theme",    emojis:/^🧭/,    keywords:/THE\s*THEME|GOVERNING\s*ADJ/i,                                                  label:"🧭 The Theme",            cls:"ps-section-blue"},
+    {key:"thread",   emojis:/^🧵/,    keywords:/THE\s*THREAD/i,                                                                  label:"🧵 The Thread",           cls:"ps-section-blue"},
+    {key:"chars",    emojis:/^👤/,    keywords:/CHARACTER\s*PURPOSE/i,                                                            label:"👤 Character Purpose",    cls:"ps-section-amber"},
+    {key:"struct",   emojis:/^🏗/,    keywords:/STRUCTURAL\s*INTEGRITY|STRUCTURE/i,                                               label:"🏗 Structure",            cls:"ps-section-blue"},
+    {key:"ballot",   emojis:/^📋/,    keywords:/BALLOT\s*CHECK/i,                                                                 label:"📋 Ballot Check",         cls:"ps-section-blue"},
+    {key:"gap",      emojis:/^⚠️/,    keywords:/CONTEST\s*GAP|WHAT\s*TO\s*(FIX|CUT|IMPROVE)|COST\s*YOU/i,                     label:"⚠️ Contest Gap",          cls:"ps-section-red"},
+    {key:"action",   emojis:/^💡/,    keywords:/TAKEAWAY|ONE\s*(PRIORITY|ACTION|THING)|NEXT\s*(PRACTICE\s*)?TIP|BEFORE\s*NEXT/i, label:"💡 One Priority",      cls:"ps-section-amber"},
   ];
 
   const buckets={};
