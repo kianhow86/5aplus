@@ -14584,11 +14584,36 @@ function renderMentees(app){
             }
             const renderItems=(items,icon,type)=>{
               if(!items||!items.length)return'';
-              return items.map((item,i)=>'<div style="display:flex;align-items:center;gap:8px;padding:5px 0;border-bottom:1px solid var(--border)">'
-                +'<input type="checkbox" data-tp-check data-mid="'+m.id+'" data-mth="'+mo.month+'" data-type="'+type+'" data-idx="'+i+'"'+(item.done?' checked':'')+' style="width:16px;height:16px;accent-color:var(--accent);cursor:pointer"/>'
-                +'<div style="flex:1"><div style="font-size:12px;color:'+(item.done?'var(--text-secondary)':'var(--text)')+';'+(item.done?'text-decoration:line-through':'')+'">'+(icon?' '+icon+' ':'')+escHtml(item.title)+'</div>'
-                +(item.date?'<div style="font-size:10px;color:var(--text-secondary)">'+item.date+'</div>':'')
-                +'</div></div>').join('');
+              return items.map((item,i)=>{
+                const swapping=type==='projects'&&item.isElective&&V._tpSwapState&&V._tpSwapState.month===mo.month&&V._tpSwapState.idx===i;
+                const g2=swapping?gP(m.path,item.level):{r:[],e:[]};
+                const inPlanPids=new Set((m.termPlan&&m.termPlan.months||[]).flatMap(mm=>(mm.projects||[]).map(p=>p.pid)));
+                let s='<div style="padding:5px 0;border-bottom:1px solid var(--border)">';
+                s+='<div style="display:flex;align-items:center;gap:8px">';
+                s+='<input type="checkbox" data-tp-check data-mid="'+m.id+'" data-mth="'+mo.month+'" data-type="'+type+'" data-idx="'+i+'"'+(item.done?' checked':'')+' style="width:16px;height:16px;accent-color:var(--accent);cursor:pointer"/>';
+                s+='<div style="flex:1"><div style="font-size:12px;color:'+(item.done?'var(--text-secondary)':'var(--text)')+';'+(item.done?'text-decoration:line-through':'')+'">  '+(icon?' '+icon+' ':'')+escHtml(item.title)+(item.isElective?'<span style="font-size:9px;color:var(--accent);margin-left:4px;font-weight:700">ELECTIVE</span>':'')+' </div></div>';
+                if(type==='projects'&&item.isElective){
+                  s+='<button data-tp-swap-open data-mid="'+m.id+'" data-mth="'+mo.month+'" data-idx="'+i+'" style="background:none;border:1px solid var(--border);border-radius:6px;padding:3px 7px;font-size:11px;color:var(--accent);cursor:pointer;font-family:inherit;white-space:nowrap">swap</button>';
+                }
+                s+='</div>';
+                if(swapping){
+                  s+='<div style="margin-top:8px;padding:10px;background:rgba(109,182,180,0.07);border-radius:8px">';
+                  s+='<div style="font-size:11px;font-weight:700;color:var(--accent);margin-bottom:6px">Choose a replacement elective</div>';
+                  g2.e.forEach(pid=>{
+                    if(pid===item.pid)return;
+                    const ep=PD[pid];if(!ep)return;
+                    const alreadyIn=inPlanPids.has(pid);
+                    s+='<button data-tp-swap-pick data-mid="'+m.id+'" data-mth="'+mo.month+'" data-idx="'+i+'" data-newpid="'+pid+'" style="display:block;width:100%;text-align:left;padding:8px 10px;background:transparent;border:1px solid '+(alreadyIn?'var(--border)':'rgba(109,182,180,0.3)')+';border-radius:8px;margin-bottom:4px;cursor:'+(alreadyIn?'default':'pointer')+';font-family:inherit;opacity:'+(alreadyIn?'0.45':'1')+'">';
+                    s+='<div style="font-size:12px;font-weight:600;color:var(--text)">'+escHtml(ep.t)+'</div>';
+                    s+='<div style="font-size:10px;color:var(--text-3);">'+ep.dur+(alreadyIn?' · already in plan':'')+'</div>';
+                    s+='</button>';
+                  });
+                  s+='<button data-tp-swap-cancel style="width:100%;padding:7px;background:none;border:none;font-size:11px;color:var(--text-3);cursor:pointer;font-family:inherit;margin-top:2px">Cancel</button>';
+                  s+='</div>';
+                }
+                s+='</div>';
+                return s;
+              }).join('');
             };
             h+=renderItems(mo.projects,'📋','projects');
             h+=renderItems(mo.roles,'🎭','roles');
@@ -14611,8 +14636,8 @@ function renderMentees(app){
               });
               h+='<div style="display:flex;align-items:center;gap:8px;padding:8px 10px;background:var(--surface);border:1px solid var(--border);border-radius:8px;margin-bottom:4px">';
               h+='<input type="checkbox" data-tp-check data-mid="'+m.id+'" data-mth="'+mthRef+'" data-type="'+cat.key+'" data-idx="'+realIdx+'"'+(item.done?' checked':'')+' style="width:16px;height:16px;accent-color:var(--accent);cursor:pointer"/>';
-              h+='<div style="flex:1"><div style="font-size:13px;color:'+(item.done?'var(--text-secondary)':'var(--text)')+';'+(item.done?'text-decoration:line-through':'')+'">'+escHtml(item.title)+'</div>';
-              h+='<div style="font-size:10px;color:var(--text-secondary)">'+item.month+(item.date?' · '+item.date:'')+'</div></div>';
+              h+='<div style="flex:1"><div style="font-size:13px;color:'+(item.done?'var(--text-secondary)':'var(--text)')+';'+(item.done?'text-decoration:line-through':'')+'">'+escHtml(item.title)+(item.isElective?'<span style="font-size:9px;color:var(--accent);margin-left:4px;font-weight:700">ELECTIVE</span>':' ')+'</div>';
+              h+='<div style="font-size:10px;color:var(--text-secondary)">'+item.month+(item.date?' · '+item.date:'')+(item.isElective?' · swap in Calendar view':'')+'</div></div>';
               h+='</div>';
             });
           });
@@ -14623,32 +14648,70 @@ function renderMentees(app){
         // Questionnaire flow
         const tpStep=V._tpQStep;
         const tpAnswers=V._tpQAnswers||{};
-        if(tpStep===undefined||tpStep<0){
+        if(tpStep===undefined){
           // ── Intro screen ──
           h+='<div style="background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:18px;margin-bottom:12px">';
           h+='<div style="font-size:12px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--accent);margin-bottom:10px">6-Month Term Plan</div>';
-          h+='<div style="font-size:13px;color:var(--text-2);line-height:1.6;margin-bottom:14px">6 questions. One tailored 6-month plan for '+escHtml(m.name)+'. — projects sequenced, roles rotated, blockers addressed.</div>';
+          h+='<div style="font-size:13px;color:var(--text-2);line-height:1.6;margin-bottom:14px">7 quick questions. One tailored plan for '+escHtml(m.name)+' — projects sequenced from their exact position, roles rotated, blockers addressed.</div>';
           h+='<div style="display:flex;flex-direction:column;gap:6px;margin-bottom:16px">';
-          h+='<div style="font-size:12px;color:var(--text-3)">📋 Projects sequenced from their current level</div>';
+          h+='<div style="font-size:12px;color:var(--text-3)">📋 Projects sequenced from their current position</div>';
           h+='<div style="font-size:12px;color:var(--text-3)">🎭 Meeting roles rotated progressively</div>';
           h+='<div style="font-size:12px;color:var(--text-3)">🎯 Shaped around their goal and blockers</div>';
-          h+='<div style="font-size:12px;color:var(--text-3)">🏁 Checkpoints across the term</div>';
+          h+='<div style="font-size:12px;color:var(--text-3)">↔ Elective projects swappable after plan is built</div>';
           h+='</div>';
           h+='<button data-action="tp-start-q" style="width:100%;padding:12px;background:linear-gradient(135deg,#A07BC7,#6DB6B4);border:none;border-radius:12px;font-size:14px;font-weight:700;color:#0C0D0F;cursor:pointer;font-family:inherit">Build plan for '+escHtml(m.name)+' →</button>';
+          h+='</div>';
+        }else if(tpStep===-1){
+          // ── Step 0: Project picker (where is the mentee right now?) ──
+          const pickG=m.path?gP(m.path,m.level):{r:[],e:[],en:0};
+          const pickTotal=MENTEE_PLAN_QUESTIONS.length+1;
+          h+='<div style="background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px;margin-bottom:12px">';
+          h+='<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">';
+          h+='<button data-action="tp-picker-back" style="background:none;border:none;font-size:12px;color:var(--text-3);cursor:pointer;font-family:inherit;padding:0">← Back</button>';
+          h+='<div style="font-size:11px;color:var(--text-3)">1 of '+pickTotal+'</div>';
+          h+='</div>';
+          h+='<div style="height:3px;background:var(--border);border-radius:2px;margin-bottom:14px"><div style="height:100%;width:'+(Math.round(1/pickTotal*100))+'%;background:var(--accent);border-radius:2px"></div></div>';
+          h+='<div style="font-size:14px;font-weight:700;color:var(--text);margin-bottom:4px">Where did '+escHtml(m.name)+' leave off?</div>';
+          h+='<div style="font-size:12px;color:var(--text-3);margin-bottom:12px">Tap the last project they completed. Tap the last project they completed — we will sequence everything after it.</div>';
+          h+='<button data-action="tp-pick-proj" data-pid="" style="display:block;width:100%;text-align:left;background:transparent;border:1px solid var(--border);border-radius:10px;padding:10px 12px;margin-bottom:6px;cursor:pointer;font-family:inherit">';
+          h+='<div style="font-size:13px;font-weight:600;color:var(--text)">Just starting Level '+m.level+'</div>';
+          h+='<div style="font-size:11px;color:var(--text-3);margin-top:2px">Not started at this level yet</div>';
+          h+='</button>';
+          if(pickG.r&&pickG.r.length){
+            h+='<div style="font-size:10px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-3);margin:10px 0 6px">Required</div>';
+            pickG.r.forEach(pid=>{
+              const proj=PD[pid];if(!proj)return;
+              h+='<button data-action="tp-pick-proj" data-pid="'+pid+'" style="display:block;width:100%;text-align:left;background:transparent;border:1px solid var(--border);border-radius:10px;padding:10px 12px;margin-bottom:6px;cursor:pointer;font-family:inherit">';
+              h+='<div style="font-size:13px;font-weight:600;color:var(--text)">'+escHtml(proj.t)+'</div>';
+              h+='<div style="font-size:11px;color:var(--text-3);margin-top:2px">Required · '+proj.dur+'</div>';
+              h+='</button>';
+            });
+          }
+          if(pickG.e&&pickG.e.length){
+            h+='<div style="font-size:10px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-3);margin:10px 0 6px">Electives</div>';
+            pickG.e.forEach(pid=>{
+              const proj=PD[pid];if(!proj)return;
+              h+='<button data-action="tp-pick-proj" data-pid="'+pid+'" style="display:block;width:100%;text-align:left;background:transparent;border:1px solid var(--border);border-radius:10px;padding:10px 12px;margin-bottom:6px;cursor:pointer;font-family:inherit">';
+              h+='<div style="font-size:13px;font-weight:600;color:var(--text)">'+escHtml(proj.t)+'</div>';
+              h+='<div style="font-size:11px;color:var(--text-3);margin-top:2px">Elective · '+proj.dur+'</div>';
+              h+='</button>';
+            });
+          }
           h+='</div>';
         }else{
           // ── Questionnaire ──
           const q=MENTEE_PLAN_QUESTIONS[tpStep];
           if(q){
             const qLabel=q.label.replace('[name]',escHtml(m.name));
-            const qTotal=MENTEE_PLAN_QUESTIONS.length;
+            const qTotal=MENTEE_PLAN_QUESTIONS.length+1;
+            const qPos=tpStep+2;
             h+='<div style="background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px;margin-bottom:12px">';
             // Progress bar
             h+='<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">';
             h+='<button data-action="tp-q-back" style="background:none;border:none;font-size:12px;color:var(--text-3);cursor:pointer;font-family:inherit;padding:0">← Back</button>';
-            h+='<div style="font-size:11px;color:var(--text-3)">'+(tpStep+1)+' of '+qTotal+'</div>';
+            h+='<div style="font-size:11px;color:var(--text-3)">'+qPos+' of '+qTotal+'</div>';
             h+='</div>';
-            h+='<div style="height:3px;background:var(--border);border-radius:2px;margin-bottom:14px"><div style="height:100%;width:'+(Math.round((tpStep+1)/qTotal*100))+'%;background:var(--accent);border-radius:2px;transition:width .3s"></div></div>';
+            h+='<div style="height:3px;background:var(--border);border-radius:2px;margin-bottom:14px"><div style="height:100%;width:'+(Math.round(qPos/qTotal*100))+'%;background:var(--accent);border-radius:2px;transition:width .3s"></div></div>';
             h+='<div style="font-size:14px;font-weight:700;color:var(--text);margin-bottom:4px">'+qLabel+'</div>';
             h+='<div style="font-size:12px;color:var(--text-3);margin-bottom:12px">'+escHtml(q.hint)+'</div>';
             q.options.forEach(o=>{
@@ -14910,12 +14973,14 @@ function renderMentees(app){
   // Questionnaire handlers
   const tpStartQ=app.querySelector('[data-action="tp-start-q"]');
   if(tpStartQ)tpStartQ.addEventListener('click',()=>{
-    V._tpQStep=0;V._tpQAnswers={};render();
+    V._tpQStep=-1;V._tpQAnswers={};V._tpLastPid=undefined;render();
   });
 
   const tpQBack=app.querySelector('[data-action="tp-q-back"]');
   if(tpQBack)tpQBack.addEventListener('click',()=>{
-    V._tpQStep=(V._tpQStep||0)-1;render();
+    const prev=(V._tpQStep||0)-1;
+    V._tpQStep=prev; // 0→-1 returns to picker, -1 would go to intro (undefined) but back btn not shown there
+    render();
   });
 
   const tpQSkip=app.querySelector('[data-action="tp-q-skip"]');
@@ -14935,12 +15000,57 @@ function renderMentees(app){
     });
   });
 
+  // Project picker — back to intro
+  const tpPickerBack=app.querySelector('[data-action="tp-picker-back"]');
+  if(tpPickerBack)tpPickerBack.addEventListener('click',()=>{
+    V._tpQStep=undefined;render();
+  });
+
+  // Project picker — select last project
+  app.querySelectorAll('[data-action="tp-pick-proj"]').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      V._tpLastPid=btn.dataset.pid||null; // empty string = not started
+      V._tpQStep=0;render();
+    });
+  });
+
+  // Swap open
+  app.querySelectorAll('[data-tp-swap-open]').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      const already=V._tpSwapState&&V._tpSwapState.month===btn.dataset.mth&&V._tpSwapState.idx==btn.dataset.idx;
+      V._tpSwapState=already?null:{mid:btn.dataset.mid,month:btn.dataset.mth,idx:parseInt(btn.dataset.idx)};
+      render();
+    });
+  });
+
+  // Swap cancel
+  const tpSwapCancel=app.querySelector('[data-tp-swap-cancel]');
+  if(tpSwapCancel)tpSwapCancel.addEventListener('click',()=>{V._tpSwapState=null;render();});
+
+  // Swap pick — replace elective
+  app.querySelectorAll('[data-tp-swap-pick]').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      const m2=S.mentees.find(x=>x.id===btn.dataset.mid);
+      if(!m2||!m2.termPlan)return;
+      const mObj=m2.termPlan.months.find(x=>x.month===btn.dataset.mth);
+      if(!mObj)return;
+      const idx=parseInt(btn.dataset.idx);
+      const newPid=btn.dataset.newpid;
+      const newProj=PD[newPid];
+      if(!newProj||!mObj.projects[idx])return;
+      const g3=gP(m2.path,mObj.projects[idx].level);
+      mObj.projects[idx]={title:newProj.t,pid:newPid,level:mObj.projects[idx].level,isElective:true,done:false};
+      V._tpSwapState=null;
+      save();render();
+    });
+  });
+
   async function _tpFinishQ(){
     const m=S.mentees.find(x=>x.id===V._menteeTermPlan);
     if(!m)return;
     V._termPlanLoading=true;V._tpQStep=undefined;render();
     try{
-      const months=_buildMenteePlanFromAnswers(m,V._tpQAnswers||{});
+      const months=_buildMenteePlanFromAnswers(m,V._tpQAnswers||{},V._tpLastPid||null);
       m.termPlan={generated:new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}),months};
       save();
     }catch(e){console.error('Term plan build failed:',e);}
@@ -15185,51 +15295,70 @@ function _getKDirective(){
 }
 
 // ── Convert buildProgram week output → mentee term plan month format ──────
-function _buildMenteePlanFromAnswers(m,answers){
-  // Compute levelGoal from how many projects remain
+function _buildMenteePlanFromAnswers(m,answers,lastPid){
+  // Compute remaining projects from mentee data (NOT S.done — that is the user, not the mentee)
   const remaining=[];
   if(m.path){
-    let passed=!m.lastProject;
+    let passed=!lastPid&&!m.lastProject;
     for(let lv=m.level;lv<=5;lv++){
       const g=gP(m.path,lv);
+      const electiveSet=new Set(g.e||[]);
       [...g.r,...g.e.slice(0,g.en)].forEach(pid=>{
         const proj=PD[pid];if(!proj)return;
-        if(!passed){if(proj.t===m.lastProject||pid===m.lastProject)passed=true;return;}
-        remaining.push({pid,title:proj.t,level:lv});
+        if(!passed){
+          if(lastPid?pid===lastPid:(proj.t===m.lastProject||pid===m.lastProject))passed=true;
+          return;
+        }
+        remaining.push({pid,title:proj.t,level:lv,isElective:electiveSet.has(pid)});
       });
     }
   }
-  const lvGoal=remaining.length>=10?'3':remaining.length>=6?'2':'1';
-  const fullAnswers={...answers,termLength:'full',levelGoal:lvGoal};
-  const program=buildProgram(fullAnswers,m.path||'');
 
-  // Map week output (26 weeks) to 6 months (4 weeks each)
-  const now=new Date();
-  const mo=now.getMonth();
-  const yr=now.getFullYear();
-  const termStart=mo>=3&&mo<=8?new Date(yr,3,1):new Date(yr,9,1);
+  // Term months
+  const now=new Date();const mon=now.getMonth();const yr=now.getFullYear();
+  const termStart=mon>=3&&mon<=8?new Date(yr,3,1):new Date(yr,9,1);
   const MN=['January','February','March','April','May','June','July','August','September','October','November','December'];
-  const rLabels={timer:'Timer',ah:'Ah Counter',gram:'Grammarian',ttm:'Table Topics Master',
-    ie:'Individual Evaluator',tmd:'Toastmaster of the Day',ge:'General Evaluator',
-    saa:'Sergeant at Arms',photographer:'Photographer',wordmaster:'Wordmaster'};
   const months=[];
   for(let i=0;i<6;i++){
     const d=new Date(termStart.getFullYear(),termStart.getMonth()+i,1);
-    const mObj={month:MN[d.getMonth()]+' '+d.getFullYear(),projects:[],roles:[]};
-    const wkStart=i*4;
-    const wkEnd=Math.min(wkStart+4,program.weeks.length);
-    for(let w=wkStart;w<wkEnd;w++){
-      const wk=program.weeks[w];
-      (wk.projects||[]).forEach(pr=>{
-        const proj=PD[pr.pid];
-        if(proj)mObj.projects.push({title:proj.t,done:false});
-      });
-      (wk.roles||[]).forEach(rid=>{
-        mObj.roles.push({title:rLabels[rid]||rid,done:false});
-      });
-    }
-    months.push(mObj);
+    months.push({month:MN[d.getMonth()]+' '+d.getFullYear(),projects:[],roles:[]});
   }
+
+  // Spread up to 4 projects across months 0,1,3,4
+  const slots=[0,1,3,4];
+  const targetCount=Math.min(remaining.length,4);
+  remaining.slice(0,targetCount).forEach((p,i)=>{
+    if(slots[i]!==undefined)
+      months[slots[i]].projects.push({title:p.title,pid:p.pid,level:p.level,isElective:p.isElective,done:false});
+  });
+  const projMonthSet=new Set(slots.slice(0,targetCount));
+
+  // Role rotation
+  const roleSeq=['timer','ah','gram','ttm','ie','tmd','ge','saa'];
+  const rLabels={timer:'Timer',ah:'Ah Counter',gram:'Grammarian',ttm:'Table Topics Master',
+    ie:'Individual Evaluator',tmd:'Toastmaster of the Day',ge:'General Evaluator',saa:'Sergeant at Arms'};
+  let roleCursor=0;
+  months.forEach((mObj,mi)=>{
+    const roleCount=projMonthSet.has(mi)?1:2;
+    for(let r=0;r<roleCount;r++){
+      const role=roleSeq[roleCursor%roleSeq.length];roleCursor++;
+      mObj.roles.push({title:rLabels[role]||role,done:false});
+    }
+  });
+
+  // Constraint adjustments
+  const con=answers.constraint;
+  if(con==='time'){months.forEach(mObj=>{if(mObj.projects.length&&mObj.roles.length>1)mObj.roles=mObj.roles.slice(0,1);});}
+  else if(con==='feedback'){months.forEach((mObj,mi)=>{if(!projMonthSet.has(mi)&&!mObj.roles.find(r=>r.title==='Individual Evaluator'))mObj.roles.unshift({title:'Individual Evaluator',done:false});});}
+  else if(con==='nervous'){if(months[0].roles.length>1)months[0].roles=months[0].roles.slice(0,1);}
+
+  // Interest bias
+  const addRole=(mi,label)=>{if(!projMonthSet.has(mi)&&!months[mi].roles.find(r=>r.title===label))months[mi].roles.unshift({title:label,done:false});};
+  const int=answers.interest;
+  if(int==='impromptu')addRole(1,'Table Topics Master');
+  else if(int==='evaluating')addRole(1,'Individual Evaluator');
+  else if(int==='leading')addRole(3,'Toastmaster of the Day');
+
   return months;
 }
 
