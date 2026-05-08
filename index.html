@@ -9041,6 +9041,81 @@ const COACH_QUESTIONS=[
 ];
 
 // ═══ Term specification ═══
+// ═══ Mentee term plan questions — mentor perspective, mentee as subject ═══
+// Adapted from COACH_QUESTIONS. All phrasing is from the mentor's POV.
+// _tpMenteeName is injected at render time to personalise the prompts.
+const MENTEE_PLAN_QUESTIONS=[
+  {
+    id:"timebudget",
+    label:"How many hours a week can [name] realistically commit?",
+    hint:"Count meeting attendance + prep + any practice combined.",
+    options:[
+      {id:"low",label:"Under 2 hours",desc:"Meetings with minimal prep — light touch"},
+      {id:"mid",label:"2–4 hours",desc:"Meetings plus dedicated prep sessions"},
+      {id:"high",label:"5+ hours",desc:"Deep prep, daily practice, full commitment"}
+    ]
+  },
+  {
+    id:"frequency",
+    label:"How often does [name]'s club meet?",
+    hint:"Shapes how we pace project delivery and role assignments.",
+    options:[
+      {id:"weekly",label:"Weekly",desc:"Standard club cadence"},
+      {id:"biweekly",label:"Every 2 weeks",desc:"Twice-monthly meetings"},
+      {id:"irregular",label:"Irregular",desc:"Monthly or varies — hard to predict"}
+    ]
+  },
+  {
+    id:"goal",
+    label:"What do you most want [name] to develop this term?",
+    hint:"Pick the one that will move the needle most for them right now.",
+    options:[
+      {id:"stage",label:"Stage presence",desc:"Delivery, voice, body language"},
+      {id:"leadership",label:"Leadership",desc:"Running meetings, leading teams"},
+      {id:"persuasion",label:"Persuasion",desc:"Selling ideas, influence, negotiation"},
+      {id:"humor",label:"Humor",desc:"Comfortable wit, lightening the room"},
+      {id:"vision",label:"Vision-casting",desc:"Strategic communication, change leadership"},
+      {id:"wellrounded",label:"Well-rounded",desc:"Build across the board"}
+    ]
+  },
+  {
+    id:"constraint",
+    label:"What's [name]'s biggest current blocker?",
+    hint:"Your most honest read — this shapes the early weeks of their plan.",
+    options:[
+      {id:"nervous",label:"Nerves",desc:"Still anxious on stage"},
+      {id:"time",label:"Limited time",desc:"Can't prepare as much as needed"},
+      {id:"feedback",label:"Weak feedback",desc:"Not getting useful input after speeches"},
+      {id:"audience",label:"No real audience",desc:"Limited to club setting only"},
+      {id:"burnt",label:"Lost momentum",desc:"Plateaued or lacking motivation"},
+      {id:"none",label:"No major blockers",desc:"Just needs a clearer plan"}
+    ]
+  },
+  {
+    id:"comfort",
+    label:"Where is [name] most comfortable speaking?",
+    hint:"Sets the stretch-goal milestones for the term.",
+    options:[
+      {id:"club",label:"Home club only",desc:"Friendly audience, safe environment"},
+      {id:"work",label:"Club + work settings",desc:"Team meetings, pitches, updates"},
+      {id:"public",label:"Club + public stages",desc:"Conferences, events, larger audiences"}
+    ]
+  },
+  {
+    id:"interest",
+    label:"Which part of meetings energizes [name] most?",
+    hint:"Helps us bias their role rotation toward what they enjoy.",
+    optional:true,
+    options:[
+      {id:"speaking",label:"Prepared speaking",desc:"Crafted, rehearsed speeches"},
+      {id:"impromptu",label:"Table Topics",desc:"Impromptu thinking on their feet"},
+      {id:"evaluating",label:"Evaluating",desc:"Giving sharp, useful feedback"},
+      {id:"leading",label:"Leading meetings",desc:"Running the whole show"}
+    ]
+  }
+];
+
+
 // Computes plan length, phase boundaries, milestone weeks, and pacing from
 // the user's termLength + levelGoal answers. Returns all the knobs that
 // buildProgram needs in one object.
@@ -14545,12 +14620,49 @@ function renderMentees(app){
 
         h+='<button data-action="tp-regenerate" style="width:100%;padding:10px;background:none;border:1px solid var(--border);border-radius:10px;font-size:12px;color:var(--text-secondary);cursor:pointer;font-family:inherit;margin-top:8px">↻ Regenerate plan</button>';
       }else{
-        // Generate prompt
-        h+='<div style="background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px;margin-bottom:12px">';
-        h+='<div style="font-size:13px;color:var(--text-secondary);line-height:1.6;margin-bottom:14px">K will generate a realistic 6-month term plan for '+escHtml(m.name)+' based on their path and level. Add any constraints or goals first.</div>';
-        h+='<textarea class="ps-input-field" id="tp-constraints" placeholder="e.g. Wants to focus on evaluation this term, only available for roles once a month, aiming to complete Level 3 by March…" rows="3" style="margin-bottom:12px"></textarea>';
-        h+='<button data-action="tp-generate" style="width:100%;padding:12px;background:linear-gradient(135deg,#A07BC7,#6DB6B4);border:none;border-radius:12px;font-size:14px;font-weight:700;color:#0C0D0F;cursor:pointer;font-family:inherit">Generate term plan →</button>';
-        h+='</div>';
+        // Questionnaire flow
+        const tpStep=V._tpQStep;
+        const tpAnswers=V._tpQAnswers||{};
+        if(tpStep===undefined||tpStep<0){
+          // ── Intro screen ──
+          h+='<div style="background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:18px;margin-bottom:12px">';
+          h+='<div style="font-size:12px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--accent);margin-bottom:10px">6-Month Term Plan</div>';
+          h+='<div style="font-size:13px;color:var(--text-2);line-height:1.6;margin-bottom:14px">6 questions. One tailored 6-month plan for '+escHtml(m.name)+'. — projects sequenced, roles rotated, blockers addressed.</div>';
+          h+='<div style="display:flex;flex-direction:column;gap:6px;margin-bottom:16px">';
+          h+='<div style="font-size:12px;color:var(--text-3)">📋 Projects sequenced from their current level</div>';
+          h+='<div style="font-size:12px;color:var(--text-3)">🎭 Meeting roles rotated progressively</div>';
+          h+='<div style="font-size:12px;color:var(--text-3)">🎯 Shaped around their goal and blockers</div>';
+          h+='<div style="font-size:12px;color:var(--text-3)">🏁 Checkpoints across the term</div>';
+          h+='</div>';
+          h+='<button data-action="tp-start-q" style="width:100%;padding:12px;background:linear-gradient(135deg,#A07BC7,#6DB6B4);border:none;border-radius:12px;font-size:14px;font-weight:700;color:#0C0D0F;cursor:pointer;font-family:inherit">Build plan for '+escHtml(m.name)+' →</button>';
+          h+='</div>';
+        }else{
+          // ── Questionnaire ──
+          const q=MENTEE_PLAN_QUESTIONS[tpStep];
+          if(q){
+            const qLabel=q.label.replace('[name]',escHtml(m.name));
+            const qTotal=MENTEE_PLAN_QUESTIONS.length;
+            h+='<div style="background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px;margin-bottom:12px">';
+            // Progress bar
+            h+='<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">';
+            h+='<button data-action="tp-q-back" style="background:none;border:none;font-size:12px;color:var(--text-3);cursor:pointer;font-family:inherit;padding:0">← Back</button>';
+            h+='<div style="font-size:11px;color:var(--text-3)">'+(tpStep+1)+' of '+qTotal+'</div>';
+            h+='</div>';
+            h+='<div style="height:3px;background:var(--border);border-radius:2px;margin-bottom:14px"><div style="height:100%;width:'+(Math.round((tpStep+1)/qTotal*100))+'%;background:var(--accent);border-radius:2px;transition:width .3s"></div></div>';
+            h+='<div style="font-size:14px;font-weight:700;color:var(--text);margin-bottom:4px">'+qLabel+'</div>';
+            h+='<div style="font-size:12px;color:var(--text-3);margin-bottom:12px">'+escHtml(q.hint)+'</div>';
+            q.options.forEach(o=>{
+              h+='<button data-action="tp-q-option" data-tp-qid="'+q.id+'" data-tp-opt="'+o.id+'" style="display:block;width:100%;text-align:left;background:'+(tpAnswers[q.id]===o.id?'rgba(109,182,180,0.12)':'transparent')+';border:1px solid '+(tpAnswers[q.id]===o.id?'var(--accent)':' var(--border)')+';border-radius:10px;padding:10px 12px;margin-bottom:6px;cursor:pointer;font-family:inherit">';
+              h+='<div style="font-size:13px;font-weight:600;color:var(--text)">'+escHtml(o.label)+'</div>';
+              h+='<div style="font-size:11px;color:var(--text-3);margin-top:2px">'+escHtml(o.desc)+'</div>';
+              h+='</button>';
+            });
+            if(q.optional){
+              h+='<button data-action="tp-q-skip" style="width:100%;padding:8px;background:none;border:none;font-size:12px;color:var(--text-3);cursor:pointer;font-family:inherit;margin-top:4px">Skip this one</button>';
+            }
+            h+='</div>';
+          }
+        }
       }
 
       h+='<button data-action="tp-back" style="width:100%;padding:10px;background:none;border:1px solid var(--border);border-radius:10px;font-size:13px;color:var(--text-secondary);cursor:pointer;font-family:inherit;margin-top:8px">← Back to mentees</button>';
@@ -14756,12 +14868,12 @@ function renderMentees(app){
   });
 
   const tpBack=app.querySelector('[data-action="tp-back"]');
-  if(tpBack)tpBack.addEventListener('click',()=>{V._menteeTermPlan=null;render();});
+  if(tpBack)tpBack.addEventListener('click',()=>{V._menteeTermPlan=null;V._tpQStep=undefined;V._tpQAnswers={};render();});
 
   const tpRegenerate=app.querySelector('[data-action="tp-regenerate"]');
   if(tpRegenerate)tpRegenerate.addEventListener('click',()=>{
     const m=S.mentees.find(x=>x.id===V._menteeTermPlan);
-    if(m){m.termPlan=null;save();}
+    if(m){m.termPlan=null;V._tpQStep=undefined;V._tpQAnswers={};save();}
     render();
   });
 
@@ -14795,97 +14907,45 @@ function renderMentees(app){
     });
   });
 
-  // Generate term plan
-  const tpGenerate=app.querySelector('[data-action="tp-generate"]');
-  if(tpGenerate)tpGenerate.addEventListener('click',async()=>{
+  // Questionnaire handlers
+  const tpStartQ=app.querySelector('[data-action="tp-start-q"]');
+  if(tpStartQ)tpStartQ.addEventListener('click',()=>{
+    V._tpQStep=0;V._tpQAnswers={};render();
+  });
+
+  const tpQBack=app.querySelector('[data-action="tp-q-back"]');
+  if(tpQBack)tpQBack.addEventListener('click',()=>{
+    V._tpQStep=(V._tpQStep||0)-1;render();
+  });
+
+  const tpQSkip=app.querySelector('[data-action="tp-q-skip"]');
+  if(tpQSkip)tpQSkip.addEventListener('click',()=>{
+    V._tpQStep=(V._tpQStep||0)+1;
+    if(V._tpQStep>=MENTEE_PLAN_QUESTIONS.length){_tpFinishQ();}
+    else{render();}
+  });
+
+  app.querySelectorAll('[data-action="tp-q-option"]').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      V._tpQAnswers=V._tpQAnswers||{};
+      V._tpQAnswers[btn.dataset.tpQid]=btn.dataset.tpOpt;
+      V._tpQStep=(V._tpQStep||0)+1;
+      if(V._tpQStep>=MENTEE_PLAN_QUESTIONS.length){_tpFinishQ();}
+      else{render();}
+    });
+  });
+
+  async function _tpFinishQ(){
     const m=S.mentees.find(x=>x.id===V._menteeTermPlan);
     if(!m)return;
-    const constraints=app.querySelector('#tp-constraints')?.value.trim()||'';
-    const pathName=m.path&&PA[m.path]?PA[m.path].n:'their path';
-    V._termPlanLoading=true;render();
-
-    // Determine term months
-    const now=new Date();
-    const month=now.getMonth();
-    const year=now.getFullYear();
-    const termStart=month>=3&&month<=8?new Date(year,3,1):new Date(year,9,1);
-    const monthNames=['January','February','March','April','May','June','July','August','September','October','November','December'];
-    const termMonths=[];
-    for(let i=0;i<6;i++){
-      const d=new Date(termStart.getFullYear(),termStart.getMonth()+i,1);
-      termMonths.push(monthNames[d.getMonth()]+' '+d.getFullYear());
-    }
-
-        // ── Build term plan using Path Planner logic (no AI for structure) ──
-    const roleSequence=['timer','ah','gram','ttm','ie','tmd','ge','saa'];
-    const roleLabels={timer:'Timer',ah:'Ah Counter',gram:'Grammarian',ttm:'Table Topics Master',
-      ie:'Individual Evaluator',tmd:'Toastmaster of the Day',ge:'General Evaluator',saa:'Sergeant at Arms'};
-
-    // Get remaining projects for this mentee
-    const menteeRemaining=[];
-    if(m.path){
-      let passedLast=!m.lastProject;
-      for(let lv=m.level;lv<=5;lv++){
-        const g=gP(m.path,lv);
-        [...g.r,...g.e.slice(0,g.en)].forEach(pid=>{
-          const proj=PD[pid];
-          if(!proj)return;
-          if(!passedLast){
-            if(proj.t===m.lastProject||pid===m.lastProject)passedLast=true;
-            return;
-          }
-          menteeRemaining.push({pid,title:proj.t,level:lv});
-        });
-      }
-    }
-
-    // Spread up to 4 projects across 6 months
-    const months=termMonths.map(mo=>({month:mo,projects:[],roles:[]}));
-    const targetProjects=Math.min(menteeRemaining.length,4);
-    const projectsToPlace=menteeRemaining.slice(0,targetProjects);
-    // Place at months 0,1,3,4
-    const projectSlots=[0,1,3,4];
-    projectsToPlace.forEach((p,i)=>{
-      if(projectSlots[i]!==undefined){
-        months[projectSlots[i]].projects.push({title:p.title,date:'',done:false});
-      }
-    });
-
-    // Role rotation — 1-2 per month, skip project months
-    const projectMonthIdxs=new Set(projectsToPlace.map((_,i)=>projectSlots[i]).filter(x=>x!==undefined));
-    let roleCursor=0;
-    months.forEach((mo,mi)=>{
-      const roleCount=projectMonthIdxs.has(mi)?1:2;
-      for(let r=0;r<roleCount;r++){
-        const role=roleSequence[roleCursor%roleSequence.length];
-        roleCursor++;
-        mo.roles.push({title:roleLabels[role]||role,date:'',done:false});
-      }
-    });
-
-    // If constraints provided, ask K to adjust roles/workshops only
-    if(constraints){
-      const sys=`A Toastmasters mentor has generated a term plan for their mentee. The mentor has added notes about specific goals or constraints. Adjust ONLY the roles array based on these notes. Keep the projects exactly as they are. Do not add workshops. Return the full JSON with all 6 months. No markdown, no explanation.`;
-      const planJson=JSON.stringify({months});
-      const adjMsg='Mentee: '+m.name+'\nConstraints/goals: '+constraints+'\n\nCurrent plan:\n'+planJson;
-      try{
-        const raw2=await callCoach(sys,adjMsg,{maxTokens:1200,featureId:'default'});
-        const clean2=raw2.replace(/<[^>]+>/g,'').replace(/```json|```/g,'').trim();
-        const parsed2=JSON.parse(clean2);
-        m.termPlan={generated:new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}),months:parsed2.months};
-      }catch(e){
-        // Fall back to the rule-based plan
-        m.termPlan={generated:new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}),months};
-      }
-    }else{
+    V._termPlanLoading=true;V._tpQStep=undefined;render();
+    try{
+      const months=_buildMenteePlanFromAnswers(m,V._tpQAnswers||{});
       m.termPlan={generated:new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}),months};
-    }
-    save();
+      save();
+    }catch(e){console.error('Term plan build failed:',e);}
     V._termPlanLoading=false;render();
-    return; // handled above
-
-    V._termPlanLoading=false;render();
-  });
+  }
 
   const prepBack=app.querySelector('[data-action="prep-back"]');
   if(prepBack)prepBack.addEventListener('click',()=>{V._menteeView='list';render();});
@@ -15122,6 +15182,55 @@ function _getKDirective(){
   if(!candidates.length)return null;
   const dayOfYear=Math.floor((now-new Date(new Date().getFullYear(),0,0).getTime())/dayMs);
   return candidates[dayOfYear%candidates.length];
+}
+
+// ── Convert buildProgram week output → mentee term plan month format ──────
+function _buildMenteePlanFromAnswers(m,answers){
+  // Compute levelGoal from how many projects remain
+  const remaining=[];
+  if(m.path){
+    let passed=!m.lastProject;
+    for(let lv=m.level;lv<=5;lv++){
+      const g=gP(m.path,lv);
+      [...g.r,...g.e.slice(0,g.en)].forEach(pid=>{
+        const proj=PD[pid];if(!proj)return;
+        if(!passed){if(proj.t===m.lastProject||pid===m.lastProject)passed=true;return;}
+        remaining.push({pid,title:proj.t,level:lv});
+      });
+    }
+  }
+  const lvGoal=remaining.length>=10?'3':remaining.length>=6?'2':'1';
+  const fullAnswers={...answers,termLength:'full',levelGoal:lvGoal};
+  const program=buildProgram(fullAnswers,m.path||'');
+
+  // Map week output (26 weeks) to 6 months (4 weeks each)
+  const now=new Date();
+  const mo=now.getMonth();
+  const yr=now.getFullYear();
+  const termStart=mo>=3&&mo<=8?new Date(yr,3,1):new Date(yr,9,1);
+  const MN=['January','February','March','April','May','June','July','August','September','October','November','December'];
+  const rLabels={timer:'Timer',ah:'Ah Counter',gram:'Grammarian',ttm:'Table Topics Master',
+    ie:'Individual Evaluator',tmd:'Toastmaster of the Day',ge:'General Evaluator',
+    saa:'Sergeant at Arms',photographer:'Photographer',wordmaster:'Wordmaster'};
+  const months=[];
+  for(let i=0;i<6;i++){
+    const d=new Date(termStart.getFullYear(),termStart.getMonth()+i,1);
+    const mObj={month:MN[d.getMonth()]+' '+d.getFullYear(),projects:[],roles:[]};
+    const wkStart=i*4;
+    const wkEnd=Math.min(wkStart+4,program.weeks.length);
+    for(let w=wkStart;w<wkEnd;w++){
+      const wk=program.weeks[w];
+      (wk.projects||[]).forEach(pr=>{
+        const proj=PD[pr.pid];
+        if(proj)mObj.projects.push({title:proj.t,done:false});
+      });
+      (wk.roles||[]).forEach(rid=>{
+        mObj.roles.push({title:rLabels[rid]||rid,done:false});
+      });
+    }
+    months.push(mObj);
+  }
+  return months;
 }
 
 function checkAchievements(type){
