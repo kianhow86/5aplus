@@ -15682,7 +15682,7 @@ COACHING PRIORITY ORDER:
 
 ${deliveryNote?"\n"+deliveryNote+"\n":""}Reply in these sections. No markdown. No preamble.
 
-🎯 OBJECTIVE ACHIEVEMENT: [Yes / No / Partial] — one sentence on why, tied directly to the stated project objective. Mandatory.
+🎯 OBJECTIVE ACHIEVEMENT: [Yes / No / Partial] — TWO SENTENCES MAXIMUM. Sentence 1: verdict and one-line reason. Sentence 2 (optional): the single most important gap or win, tied to the objective. Nothing more in this section. Mandatory.
 
 ✅ WHAT YOU DID WELL: [Find something specific. Be warm — exclamations welcome! Celebrate the moment, the instinct, the phrase. If they missed the objective, say so with warmth: "Great energy here — that story had real heart! Now let's aim it at the objective."] Mandatory.
 
@@ -15711,7 +15711,7 @@ Filler words: only flag if used 3+ times as a crutch. Under 220 words total.`;
     "\nAnalyze the transcript above and give focused coaching."+(isPsFollowup?"\n\nFOLLOW-UP ATTEMPT: The speaker took your coaching and went again. Their previous attempt:\n"+(PS._prevTranscript||"(no transcript)")+"\n\nYour previous coaching:\n"+PS._prevFeedback+"\n\nFor each section of your feedback, explicitly note what changed — better, worse, or unchanged. Acknowledge improvement when it happened. If they addressed your feedback, name it.":"");
 
   try{
-    const response=await callCoach(sys,msg,{maxTokens:600,featureId:'ps-eval'});
+    const response=await callCoach(sys,msg,{maxTokens:800,featureId:'ps-eval'});
     PS.aiAnalysis=response;
     const summaryMatch=response.replace(/<[^>]+>/g,'').match(/[^.!?]+[.!?]/);
     const summary=summaryMatch?summaryMatch[0].trim().slice(0,80):'';
@@ -15783,7 +15783,7 @@ function renderCoachCards(raw){
       html+='<div class="ps-analysis-section-hdr">'+esc(labels[sec.key])+'</div>';
       html+='<div class="ps-analysis-section-body">';
       // Split into sentences, then merge short ones into their predecessor
-      const rawSentences=text.split(/(?<=[.!?])\s+/).filter(s=>s.trim().length>4);
+      const rawSentences=text.split(/(?<=[.!?])\s+(?=[A-Z“"])/).filter(s=>s.trim().length>4);
       const sentences=[];
       rawSentences.forEach(s=>{
         const wordCount=s.trim().split(/\s+/).length;
@@ -15797,8 +15797,11 @@ function renderCoachCards(raw){
       if(sentences.length<=1){
         html+=esc(text);
       }else{
+        // Cap at 3 boxes — merge overflow sentences into last
+        const MAX_BOXES=3;
+        const capped=sentences.length<=MAX_BOXES?sentences:[...sentences.slice(0,MAX_BOXES-1),sentences.slice(MAX_BOXES-1).join(' ')];
         html+='<div class="coach-points">';
-        sentences.forEach(s=>{
+        capped.forEach(s=>{
           html+='<div class="coach-point">'+esc(s.trim())+'</div>';
         });
         html+='</div>';
