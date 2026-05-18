@@ -235,7 +235,7 @@ a{color:inherit;text-decoration:none}
 .list-row.placeholder{cursor:default;opacity:0.55}
 .list-row.placeholder:hover{background:var(--surface);border-color:var(--border)}
 .list-row-icon{width:66px;height:66px;border-radius:16px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:30px;border:1px solid rgba(255,255,255,0.08);box-shadow:inset 0 1px 0 rgba(255,255,255,0.12),0 4px 14px rgba(0,0,0,0.35)}
-.list-row-icon svg{width:38px;height:38px;display:block;overflow:visible}.ttp-keepcoach-btn{background:rgba(139,92,246,0.12)!important;border-color:rgba(139,92,246,0.35)!important;color:#C4B5FD!important}.ttp-keepcoach-btn:hover{background:rgba(139,92,246,0.22)!important}.ttp-newq-wrap{text-align:center;padding:16px 0 4px}.ttp-newq-wrap .top-bar-btn{opacity:0.55;font-size:12px}.ttp-newq-wrap .top-bar-btn:hover{opacity:0.85}.ttp-followup-badge{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:500;letter-spacing:0.02em;color:#C4B5FD;background:rgba(139,92,246,0.1);border:1px solid rgba(139,92,246,0.25);border-radius:20px;padding:4px 12px;margin-bottom:14px}
+.list-row-icon svg{width:38px;height:38px;display:block;overflow:visible}.ps-keepcoach-btn{background:rgba(139,92,246,0.12)!important;border-color:rgba(139,92,246,0.35)!important;color:#C4B5FD!important}.ps-keepcoach-btn:hover{background:rgba(139,92,246,0.22)!important}.ps-followup-badge{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:500;letter-spacing:0.02em;color:#C4B5FD;background:rgba(139,92,246,0.1);border:1px solid rgba(139,92,246,0.25);border-radius:20px;padding:4px 12px;margin-bottom:14px}.contest-again-row{display:flex;gap:8px;margin-top:16px;width:100%}.contest-again-row .ttp-random-btn{flex:1;margin-top:0!important}
 .list-row-icon-left-bar{width:3px;border-radius:3px;align-self:stretch;flex-shrink:0;opacity:0.7}
 .list-row-text{flex:1;min-width:0}
 .list-row-name{font-size:17px;font-weight:700;color:var(--text);letter-spacing:-0.012em;line-height:1.2}
@@ -7710,11 +7710,10 @@ function _ttpRenderDone(app){
 
   let h='<div class="fade-up ttp-view">';
   h+='<div class="top-bar">';
-  h+='<button class="top-bar-btn" data-action="ttp-fresh">↩ Fresh start</button>';
-  h+='<button class="top-bar-btn ttp-keepcoach-btn" data-action="ttp-followup">↩ Keep coaching</button>';
+  h+='<button class="top-bar-btn" data-action="ttp-again">Try again</button>';
+  h+='<button class="top-bar-btn" data-action="ttp-new">New question</button>';
   h+='</div>';
 
-  if(TTP.isFollowup&&TTP.prevFeedback)h+='<div class="ttp-followup-badge">↩ Follow-up attempt — K will compare with your last run</div>';
   h+='<div class="ttp-done-question">'+escHtml(TTP.question)+'</div>';
 
   h+='<div class="ps-results-grid">';
@@ -7743,22 +7742,14 @@ function _ttpRenderDone(app){
     h+='<div class="ps-transcript-full">'+escHtml(TTP.transcript)+'</div></details>';
   }
 
-  h+='<div class="ttp-newq-wrap"><button class="top-bar-btn" data-action="ttp-new">New question →</button></div>';
   h+='</div>';
   app.innerHTML=h;
 
-  app.querySelector('[data-action="ttp-fresh"]').addEventListener("click",()=>{
-    TTP.prevTranscript="";TTP.prevElapsed=0;TTP.prevWords=0;TTP.prevFeedback=null;TTP.isFollowup=false;
-    TTP.phase="question";TTP.elapsed=0;TTP.transcript="";TTP.totalWords=0;TTP.aiResult=null;render();
-  });
-  app.querySelector('[data-action="ttp-followup"]').addEventListener("click",()=>{
-    TTP.prevTranscript=TTP.transcript;TTP.prevElapsed=TTP.elapsed;TTP.prevWords=TTP.totalWords;
-    TTP.prevFeedback=(TTP.aiResult||'').replace(/<[^>]+>/g,'').trim();
-    TTP.isFollowup=true;
+  app.querySelector('[data-action="ttp-again"]').addEventListener("click",()=>{
     TTP.phase="question";TTP.elapsed=0;TTP.transcript="";TTP.totalWords=0;TTP.aiResult=null;render();
   });
   app.querySelector('[data-action="ttp-new"]').addEventListener("click",()=>{
-    TTP.phase="setup";TTP.question="";TTP.prevFeedback=null;TTP.isFollowup=false;TTP.aiResult=null;render();
+    TTP.phase="setup";TTP.question="";TTP.aiResult=null;render();
   });
 }
 
@@ -7771,35 +7762,13 @@ async function ttpAnalyze(){
   const el=document.getElementById("ttp-analysis");
   if(el)el.innerHTML='<div class="ps-analysis-loading"><span class="coach-dots"><span>.</span><span>.</span><span>.</span></span></div>';
 
-  const isFollowup=!!(TTP.isFollowup&&TTP.prevFeedback);
-  const sys=isFollowup
-    ? `You are K, a speech coach. The speaker just took your coaching and went again on the same question.
-
-PREVIOUS ATTEMPT (${fmtMs((TTP.prevElapsed||0)*1000)}, ${TTP.prevWords||0} words):
-${TTP.prevTranscript||"(no transcript)"}
-
-YOUR PREVIOUS COACHING:
-${TTP.prevFeedback}
-
-Evaluate the new attempt in light of what you coached. What changed? What improved? What still needs work? Acknowledge progress directly when it happens. If they acted on your feedback, name it. If they didn't, note it once and move on.
-
-If the new transcript is under 30 words, reply with exactly: "Good effort — keep building on what's working." Nothing else.
-
-Reply in EXACTLY these four sections:
-
-✅ WHAT CHANGED: The most notable shift from last time. Name it directly — better, different, or still stuck.
-🎯 THE THREAD: Did they find and commit to one governing idea this time?
-🏗 STRUCTURE: How did the opening and momentum compare to the last attempt?
-💡 ONE THING: The single most useful next step to work on.
-
-Under 180 words. Direct about the delta. Warm about the progress.`
-    : `You are K, a speech coach. Many speakers have no one to turn to — K may be the only feedback they get. Evaluate and inspire. Be firm with the diagnosis. Be warm with the delivery. Always make them want to go again.
+  const sys=`You are K, a speech coach. Many speakers have no one to turn to — K may be the only feedback they get. Evaluate and inspire. Be firm with the diagnosis. Be warm with the delivery. Always make them want to go again.
 
 Your philosophy on Table Topics: the question is a door, not a destination. The best speakers don't answer literally — they pivot, reframe, or use the question as a launchpad for something true. Think of how skilled communicators handle a hard question — they find the emotional ground beneath it and speak from there. Purely answering the question is robotic. The techniques are real and learnable: the pivot, the personal story that sidesteps the premise, the reframe that makes the question almost irrelevant.
 
 The core principle across all speaking: one idea, fully committed to, lands harder than five clever ones half-explored. Subtraction is the answer most of the time. One governing thread. Everything else is noise.
 
-If the transcript is very short — under 30 words, mostly silence, or clearly incomplete — reply with exactly: "No worries, let's give it another go." Nothing else.
+If the transcript is very short — under 30 words, mostly silence, or clearly incomplete — reply with exactly: \"No worries, let's give it another go.\" Nothing else.
 
 Otherwise, always find something that genuinely worked first. Then coach.
 
@@ -7812,11 +7781,8 @@ Reply in EXACTLY these four sections:
 
 Under 180 words. Firm and warm.`;
 
-  const msg=isFollowup
-    ? 'Question: "'+TTP.question+'"\n\nNew attempt:\n'+(TTP.transcript||"(no audio captured)")+
-      '\n\nDuration: '+fmtMs(TTP.elapsed*1000)+' ('+TTP.totalWords+' words)'
-    : 'Question: "'+TTP.question+'"\n\nTranscript:\n'+(TTP.transcript||"(no audio captured)")+
-      '\n\nDuration: '+fmtMs(TTP.elapsed*1000)+' ('+TTP.totalWords+' words)';
+  const msg='Question: "'+TTP.question+'"\n\nTranscript:\n'+(TTP.transcript||"(no audio captured)")+
+    '\n\nDuration: '+fmtMs(TTP.elapsed*1000)+' ('+TTP.totalWords+' words)';
 
   try{
     const text=await callCoach(sys,msg,{maxTokens:400,featureId:'tt-eval'});
@@ -13395,8 +13361,12 @@ function renderContestDetail(app){
         if(CD.loading){
           h+='<div class="role-ai-loading" style="padding:32px;text-align:center"><span class="coach-dots"><span>.</span><span>.</span><span>.</span></span><div style="margin-top:12px;font-size:13px;color:var(--text-3)">Reviewing against the contest ballot…</div></div>';
         }else if(CD.result){
+          if(V._contestIsFollowup&&V._contestPrevFeedback)h+='<div class="ps-followup-badge" style="margin-bottom:12px">↩ Follow-up — K will compare with your previous attempt</div>';
           h+='<div class="contest-result fade-up">'+renderCoachCards(CD.result)+'</div>';
-          h+='<button class="ttp-random-btn" style="width:100%;margin-top:16px" data-action="contest-again">🎙 Practice again</button>';
+          h+='<div class="contest-again-row">';
+          h+='<button class="ttp-random-btn" data-action="contest-fresh">↩ Fresh start</button>';
+          h+='<button class="ttp-random-btn ps-keepcoach-btn" data-action="contest-followup">↩ Keep coaching</button>';
+          h+='</div>';
         }else if(CD.error){
           h+=renderAIError(CD.error,()=>{V._contestData={...V._contestData,error:null,loading:true};render();_contestRunEval(c,CD.transcript);});
         }
@@ -13619,6 +13589,19 @@ function renderContestDetail(app){
     }
     render();
   });
+  const cFreshBtn=app.querySelector('[data-action="contest-fresh"]');
+  if(cFreshBtn)cFreshBtn.addEventListener("click",()=>{
+    V._contestPrevTranscript="";V._contestPrevFeedback=null;V._contestIsFollowup=false;
+    V._contestData={};render();
+  });
+  const cFollowupBtn=app.querySelector('[data-action="contest-followup"]');
+  if(cFollowupBtn)cFollowupBtn.addEventListener("click",()=>{
+    const _CD=V._contestData||{};
+    V._contestPrevTranscript=_CD.transcript||"";
+    V._contestPrevFeedback=(_CD.result||"").replace(/<[^>]+>/g,"").trim();
+    V._contestIsFollowup=true;
+    V._contestData={};render();
+  });
 }
 
 // Contest mic + recording pipeline — mirrors TT Practice pattern
@@ -13751,7 +13734,10 @@ async function _contestRunEval(c,transcript){
   // Inject session history into userMsg
   const contestSessionKey=speechTitle||(c.id+'-'+c.name);
   const historyCtx=buildHistoryContext(contestSessionKey);
-  const userMsgWithHistory=userMsg+(historyCtx?'\n'+historyCtx:'');
+  const followupCtx=isIntl&&V._contestIsFollowup&&V._contestPrevFeedback
+    ?'\n\nFOLLOW-UP ATTEMPT: The speaker took your coaching and went again with the same speech. Previous attempt transcript:\n'+(V._contestPrevTranscript||'(no transcript)')+'\n\nYour previous coaching:\n'+V._contestPrevFeedback+'\n\nFor each section, explicitly note what changed — better, worse, or unchanged. Acknowledge improvement when it happened. If they addressed your feedback, name it.'
+    :'';
+  const userMsgWithHistory=userMsg+(historyCtx?'\n'+historyCtx:'')+followupCtx;
 
   try{
     const res=await callCoach(sys+champPrinciples,userMsgWithHistory,{featureId:"ps-eval"});
@@ -15706,6 +15692,7 @@ ${deliveryNote?"\n"+deliveryNote+"\n":""}Reply in EXACTLY these four sections. N
 
 Filler words: only flag if used 3+ times as a crutch. Under 220 words total.`;
 
+  const isPsFollowup=!!(PS._isFollowup&&PS._prevFeedback);
   const isPasteMode=!!(PS._pasteMode);
   const styleResult=PS._styleQuiz&&PS._styleQuiz.result?PS._styleQuiz.result:null;
   const styleData=styleResult&&tags.needsStyleQuiz?STYLE_QUIZ[tags.needsStyleQuiz]:null;
@@ -15721,7 +15708,7 @@ Filler words: only flag if used 3+ times as a crutch. Under 220 words total.`;
     (PS._extraNotes?"\nSpeaker notes: "+PS._extraNotes+"\n":"")+
     "\nFULL TRANSCRIPT:\n"+(transcript||"(no audio captured)")+"\n"+
     buildHistoryContext(PS.pid)+
-    "\nAnalyze the transcript above and give focused coaching.";
+    "\nAnalyze the transcript above and give focused coaching."+(isPsFollowup?"\n\nFOLLOW-UP ATTEMPT: The speaker took your coaching and went again. Their previous attempt:\n"+(PS._prevTranscript||"(no transcript)")+"\n\nYour previous coaching:\n"+PS._prevFeedback+"\n\nFor each section of your feedback, explicitly note what changed — better, worse, or unchanged. Acknowledge improvement when it happened. If they addressed your feedback, name it.":"");
 
   try{
     const response=await callCoach(sys,msg,{maxTokens:600,featureId:'ps-eval'});
@@ -15859,9 +15846,11 @@ function renderPracticeStudioDone(app){
 
   let h='<div class="fade-up ps-view">';
   h+='<div class="top-bar">';
-  h+='<button class="top-bar-btn" data-action="ps-again">← Practice again</button>';
+  h+='<button class="top-bar-btn" data-action="ps-fresh">↩ Fresh start</button>';
+  h+='<button class="top-bar-btn ps-keepcoach-btn" data-action="ps-followup">↩ Keep coaching</button>';
   h+='</div>';
 
+  if(PS._isFollowup&&PS._prevFeedback)h+='<div class="ps-followup-badge" style="margin:12px 0 0">↩ Follow-up — K will compare with your last attempt</div>';
   h+='<div class="ps-done-header">';
   h+='<div class="ps-done-icon">✓</div>';
   h+='<div class="ps-done-title">'+(proj?proj.t:"Freestyle")+'</div>';
@@ -15920,7 +15909,15 @@ function renderPracticeStudioDone(app){
 
   _psUpdateAnalysisSection();
 
-  app.querySelector('[data-action="ps-again"]').addEventListener("click",()=>{
+  app.querySelector('[data-action="ps-fresh"]').addEventListener("click",()=>{
+    PS._prevTranscript="";PS._prevFeedback=null;PS._isFollowup=false;
+    PS.phase="ready";PS.aiAnalysis=null;PS._extraNotes=null;
+    render();
+  });
+  app.querySelector('[data-action="ps-followup"]').addEventListener("click",()=>{
+    PS._prevTranscript=(FD.transcript||"").trim();
+    PS._prevFeedback=(PS.aiAnalysis||"").replace(/<[^>]+>/g,"").trim();
+    PS._isFollowup=true;
     PS.phase="ready";PS.aiAnalysis=null;PS._extraNotes=null;
     render();
   });
