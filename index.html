@@ -13710,7 +13710,7 @@ async function _contestRunEval(c,transcript){
   const cData=V._contestData;
   if(!c||!transcript){return;}
   const ballotLines=c.criteria.map(cr=>cr.label+' '+cr.pct+'%:\nOfficial: '+cr.desc+'\nWhat it actually means: '+cr.plain).join('\n\n');
-  const sys="You are K, a Toastmasters contest coach. Be direct, honest, and brief. This is competition — every word counts.\n\nIf the transcript is very short — under 30 words, mostly silence, or clearly incomplete — reply with exactly: \"No worries, let's give it another go.\" Nothing else.\n\nCONTEST COACHING PRINCIPLES:\n- The ballot is the law. Every point of feedback must map to a ballot criterion. Don't coach things that don't affect placement.\n- CONTEST KILLERS: Going overtime (automatic disqualification). Too many ideas — one theme, fully committed. An opening that doesn't grab. A close that doesn't earn the opening. Characters with no dramatic function. A title that describes rather than intrigues.\n- WORLD CHAMPION STANDARD: One governing adjective — ONE emotional truth the whole speech serves. A 'special something' — a prop, a callback, a repeated phrase, a circular close — something that sticks beyond the room. Simplicity moves; complexity impresses but doesn't win. The speech should land in any culture, any room.\n- You cannot assess physical delivery from audio alone. Comment only on what the transcript reveals: content, structure, language, theme clarity.\n\nACTUAL BALLOT — "+c.name+" ("+c.time.min+"\u2013"+c.time.max+" minutes):\n"+ballotLines+"\n\nReply in EXACTLY these four sections. No markdown. Begin with '📋 BALLOT CHECK:':\n\n📋 BALLOT CHECK: One sentence per ballot criterion — where are points being earned, where lost? Be specific to what the transcript shows.\n\n✅ WHAT WORKED: One moment, phrase, or structural instinct that showed real promise. Name it.\n\n⚠️ CONTEST GAP: The single thing most likely to cost this speech a placement. Be honest. Frame it as fixable.\n\n💡 ONE ACTION: Specific enough to work on today. One thing only.\n\nUnder 220 words total. This is a contest — be honest.";
+  const sys="You are K, a Toastmasters contest coach. Be direct, honest, and brief. This is competition — every word counts.\n\nIf the transcript is very short — under 30 words, mostly silence, or clearly incomplete — reply with exactly: \"No worries, let's give it another go.\" Nothing else.\n\nCONTEST COACHING PRINCIPLES:\n- The ballot is the law. Every point of feedback must map to a ballot criterion. Don't coach things that don't affect placement.\n- CONTEST KILLERS: Going overtime (automatic disqualification). Too many ideas — one theme, fully committed. An opening that doesn't grab. A close that doesn't earn the opening. Characters with no dramatic function. A title that describes rather than intrigues.\n- WORLD CHAMPION STANDARD: One governing adjective — ONE emotional truth the whole speech serves. A 'special something' — a prop, a callback, a repeated phrase, a circular close — something that sticks beyond the room. Simplicity moves; complexity impresses but doesn't win. The speech should land in any culture, any room.\n- You cannot assess physical delivery from audio alone. Comment only on what the transcript reveals: content, structure, language, theme clarity.\n\nACTUAL BALLOT — "+c.name+" ("+c.time.min+"\u2013"+c.time.max+" minutes):\n"+ballotLines+"\n\nReply in EXACTLY these four sections. No markdown. Begin with '📋 BALLOT CHECK:':\n\n📋 BALLOT CHECK: One sentence per ballot criterion — where are points being earned, where lost? Be specific to what the transcript shows.\n\n✅ WHAT WORKED: One moment, phrase, or structural instinct that showed real promise. Name it.\n\n⚠️ CONTEST GAP: The single thing most likely to cost this speech a placement. Be honest. Frame it as fixable.\n\n💡 ONE ACTION: Mandatory. The single most impactful change this speech needs before competition. Tie it directly to the ballot criterion it affects. Be concrete — not a general principle but a specific edit, line, or structural move. Frame it as something actionable in the next practice session. One sentence.\n\nUnder 220 words total. This is a contest — be honest.";
   const istt=c.id==="tabletopics";
   const isEval=c.id==="evaluation";
   const isIntl=c.id==="international";
@@ -15680,15 +15680,15 @@ COACHING PRIORITY ORDER:
 3. Improve against the objective only. Feedback must be tied directly to what the project objective actually asks for — not general speech quality.
 4. Takeaway. If there's something notable outside the objective — a pattern, a strength, a habit — mention it briefly. If not, give one punchy line the speaker can carry forward.
 
-${deliveryNote?"\n"+deliveryNote+"\n":""}Reply in EXACTLY these four sections. No markdown. No preamble.
+${deliveryNote?"\n"+deliveryNote+"\n":""}Reply in these sections. No markdown. No preamble.
 
-🎯 OBJECTIVE ACHIEVEMENT: [Yes / No / Partial] — one sentence on why, tied directly to the stated project objective.
+🎯 OBJECTIVE ACHIEVEMENT: [Yes / No / Partial] — one sentence on why, tied directly to the stated project objective. Mandatory.
 
-✅ WHAT YOU DID WELL: [Find something specific. Be warm — exclamations welcome! Celebrate the moment, the instinct, the phrase. If they missed the objective, say so with warmth: "Great energy here — that story had real heart! Now let's aim it at the objective."]
+✅ WHAT YOU DID WELL: [Find something specific. Be warm — exclamations welcome! Celebrate the moment, the instinct, the phrase. If they missed the objective, say so with warmth: "Great energy here — that story had real heart! Now let's aim it at the objective."] Mandatory.
 
-📈 WHERE TO IMPROVE: [Tied directly to the project objective. One or two specific, actionable things. What does the objective require, and where did the speech fall short? Be concrete — not "be more personal" but "the objective asks for a personal story; replace the X section with a real moment from your own life."]
+📈 WHERE TO IMPROVE: [Tied directly to the project objective. One or two specific, actionable things. What does the objective require, and where did the speech fall short? Be concrete — not "be more personal" but "the objective asks for a personal story; replace the X section with a real moment from your own life."] Mandatory.
 
-💡 TAKEAWAY: [One thing outside the objective worth noting — a habit, a strength, a pattern. If nothing, close with one punchy sentence the speaker can carry into their next attempt.]
+💡 ONE PRIORITY: [Optional. Include ONLY if there is something specific and genuinely useful that was NOT already covered above — a recurring pattern, a distinctive habit, a transferable strength. One sentence maximum. If there is nothing new to add beyond the three sections above, omit this section entirely. Do not summarise. Do not repeat. Do not include a generic encouragement.]
 
 Filler words: only flag if used 3+ times as a crutch. Under 220 words total.`;
 
@@ -15782,8 +15782,18 @@ function renderCoachCards(raw){
       html+='<div class="ps-analysis-section '+sec.cls+'">';
       html+='<div class="ps-analysis-section-hdr">'+esc(labels[sec.key])+'</div>';
       html+='<div class="ps-analysis-section-body">';
-      // Split into sentences for better readability
-      const sentences=text.split(/(?<=[.!?])\s+/).filter(s=>s.trim().length>4);
+      // Split into sentences, then merge short ones into their predecessor
+      const rawSentences=text.split(/(?<=[.!?])\s+/).filter(s=>s.trim().length>4);
+      const sentences=[];
+      rawSentences.forEach(s=>{
+        const wordCount=s.trim().split(/\s+/).length;
+        if(sentences.length>0&&wordCount<8){
+          // Short sentence — stitch onto previous
+          sentences[sentences.length-1]+=' '+s.trim();
+        }else{
+          sentences.push(s.trim());
+        }
+      });
       if(sentences.length<=1){
         html+=esc(text);
       }else{
