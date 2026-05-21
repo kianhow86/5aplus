@@ -246,7 +246,7 @@ a{color:inherit;text-decoration:none}
 /* ═══ AURORA PATH CUBES — mesh gradient + SVG glyph + monogram badge ═══ */
 .path-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
 @media(max-width:400px){.path-grid{grid-template-columns:repeat(2,1fr)}}
-.path-card{position:relative;border:1px solid;border-radius:20px;cursor:pointer;transition:transform .2s ease,filter .2s ease;overflow:hidden;min-height:168px;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px)}
+.path-card{position:relative;border:1px solid;border-radius:18px;cursor:pointer;transition:transform .2s ease,filter .2s ease;overflow:hidden;min-height:186px;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px)}
 .path-card::before{display:none}
 .path-card::after{
   content:"";position:absolute;inset:0;pointer-events:none;opacity:0;
@@ -260,7 +260,7 @@ a{color:inherit;text-decoration:none}
 .path-card-mesh{position:absolute;inset:0;z-index:0;pointer-events:none}
 
 /* Glyph — CENTERED, big, with subtle lift via drop-shadow */
-.path-card-glyph{position:absolute;top:50%;left:50%;transform:translate(-50%,-60%);width:76px;height:76px;color:#fff;filter:drop-shadow(0 3px 10px rgba(0,0,0,0.3));z-index:2}
+.path-card-glyph{position:absolute;top:50%;left:50%;transform:translate(-50%,-60%);width:76px;height:76px;color:var(--pc,#fff);filter:drop-shadow(0 0 6px var(--pc,rgba(255,255,255,0.5))) drop-shadow(0 0 18px var(--pc,rgba(255,255,255,0.18)));z-index:2}
 .path-card-glyph svg{width:100%;height:100%}
 
 /* Monogram badge — small, top-right */
@@ -393,7 +393,7 @@ a{color:inherit;text-decoration:none}
 
 /* Action row: big path-colored Choose CTA + "already started" + secondary Back */
 .modal-actions{display:flex;flex-direction:column;gap:8px;margin-top:6px}
-.modal-cta{width:100%;padding:16px 20px;background:var(--pc,var(--accent));color:#0A0B0F;border-radius:14px;font-weight:700;font-size:15px;letter-spacing:-0.005em;cursor:pointer;font-family:inherit;border:none;transition:filter .15s ease,transform .15s ease}
+.modal-cta{width:100%;padding:16px 20px;background:var(--pc,var(--accent));color:#0A0B0F;border-radius:14px;font-weight:700;font-size:15px;letter-spacing:-0.005em;cursor:pointer;font-family:inherit;border:none;transition:filter .15s ease,transform .15s ease}.modal-cta-ghost{width:100%;padding:14px 20px;border-radius:14px;font-size:14px;font-weight:600;font-family:inherit;cursor:pointer;border:1.5px solid rgba(160,123,199,0.35);background:transparent;color:rgba(160,123,199,0.85);text-align:center;transition:border-color .15s,color .15s,background .15s;letter-spacing:-0.01em}.modal-cta-ghost:hover{border-color:rgba(160,123,199,0.6);color:#C4B5FD;background:rgba(160,123,199,0.07)}
 .modal-cta:hover{filter:brightness(1.08)}
 .modal-cta:active{transform:scale(0.98)}
 .modal-secondary-cta{width:100%;padding:12px 18px;background:transparent;color:var(--text-2);border:1px solid var(--border);border-radius:12px;font-weight:600;font-size:13.5px;cursor:pointer;font-family:inherit;transition:background .15s ease,color .15s ease,border-color .15s ease;letter-spacing:-0.003em}
@@ -4484,38 +4484,17 @@ const HUB_GLYPHS={
 // filled icon, inner highlight or detail, ambient sparkles. Designed to sit at
 // 72×72 centered on the aurora mesh for a premium badge-like feel.
 const PATH_GLYPHS={
-  // Dynamic Leadership — bold lightning bolt with radiating energy sparks
-  DL:'<svg viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="21" fill="rgba(255,255,255,0.07)"/><circle cx="8" cy="10" r="1.3" fill="#fff" opacity="0.7"/><circle cx="40" cy="38" r="1.3" fill="#fff" opacity="0.7"/><circle cx="40" cy="9" r="0.9" fill="#fff" opacity="0.5"/><circle cx="10" cy="40" r="0.9" fill="#fff" opacity="0.5"/><path d="M27 4L12 26h10l-2 18 15-22H25l2-18z" fill="#fff" stroke="rgba(0,0,0,0.22)" stroke-width="0.6" stroke-linejoin="round"/><path d="M27 4L17 22h5l-1 7" fill="none" stroke="rgba(255,255,255,0.55)" stroke-width="1.3" stroke-linejoin="round"/></svg>',
-
-  // Engaging Humor — smiley with sparkle eyes + playful starbursts
-  EH:'<svg viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="20" fill="rgba(255,255,255,0.12)"/><circle cx="24" cy="24" r="19" fill="none" stroke="#fff" stroke-width="2"/><circle cx="18" cy="20" r="2.3" fill="#fff"/><circle cx="30" cy="20" r="2.3" fill="#fff"/><path d="M15 27c2 4 6 6 9 6s7-2 9-6" fill="none" stroke="#fff" stroke-width="2.8" stroke-linecap="round"/><path d="M8 11l1.2 2.2 2.2 1.2-2.2 1.2L8 17.8 6.8 15.6 4.6 14.4 6.8 13.2z" fill="#fff" opacity="0.85"/><path d="M40 34l0.9 1.8 1.8 0.9-1.8 0.9-0.9 1.8-0.9-1.8-1.8-0.9 1.8-0.9z" fill="#fff" opacity="0.7"/></svg>',
-
-  // Motivational Strategies — mountain range with a radiant sun behind
-  MS:'<svg viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="21" fill="rgba(255,255,255,0.07)"/><circle cx="34" cy="15" r="4.5" fill="#fff" opacity="0.95"/><circle cx="34" cy="15" r="6.5" fill="none" stroke="#fff" stroke-width="0.9" opacity="0.45"/><circle cx="34" cy="15" r="8.5" fill="none" stroke="#fff" stroke-width="0.6" opacity="0.25"/><path d="M5 38 L14 22 L20 30 L26 18 L33 30 L43 38 Z" fill="#fff" opacity="0.28"/><path d="M5 38 L14 22 L20 30 L26 18 L33 30 L43 38" fill="none" stroke="#fff" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/><line x1="4" y1="40" x2="44" y2="40" stroke="#fff" stroke-width="1.6" opacity="0.7"/></svg>',
-
-  // Persuasive Influence — two overlapping speech bubbles (filled + outlined)
-  PI:'<svg viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="21" fill="rgba(255,255,255,0.07)"/><path d="M6 12h16a4 4 0 014 4v6a4 4 0 01-4 4H14l-5 5v-5H6a4 4 0 01-4-4v-6a4 4 0 014-4z" fill="#fff" opacity="0.95"/><circle cx="10" cy="19" r="1.3" fill="rgba(0,0,0,0.3)"/><circle cx="15" cy="19" r="1.3" fill="rgba(0,0,0,0.3)"/><circle cx="20" cy="19" r="1.3" fill="rgba(0,0,0,0.3)"/><path d="M42 22H26a4 4 0 00-4 4v6a4 4 0 004 4h2v5l5-5h9a4 4 0 004-4v-6a4 4 0 00-4-4z" fill="none" stroke="#fff" stroke-width="2.2"/></svg>',
-
-  // Presentation Mastery — mic with grille lines, cradle, stand + sound rays
-  PM:'<svg viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="21" fill="rgba(255,255,255,0.07)"/><rect x="18" y="6" width="12" height="20" rx="6" fill="#fff"/><line x1="21" y1="12" x2="27" y2="12" stroke="rgba(0,0,0,0.3)" stroke-width="1"/><line x1="21" y1="15" x2="27" y2="15" stroke="rgba(0,0,0,0.3)" stroke-width="1"/><line x1="21" y1="18" x2="27" y2="18" stroke="rgba(0,0,0,0.3)" stroke-width="1"/><line x1="21" y1="21" x2="27" y2="21" stroke="rgba(0,0,0,0.3)" stroke-width="1"/><path d="M10 21a14 14 0 0028 0" fill="none" stroke="#fff" stroke-width="2.8" stroke-linecap="round"/><line x1="24" y1="35" x2="24" y2="42" stroke="#fff" stroke-width="2.8" stroke-linecap="round"/><line x1="17" y1="42" x2="31" y2="42" stroke="#fff" stroke-width="2.8" stroke-linecap="round"/></svg>',
-
-  // Visionary Communication — eye with iris + pupil + sparkles
-  VC:'<svg viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="21" fill="rgba(255,255,255,0.07)"/><path d="M3 24C9 14 16 11 24 11s15 3 21 13c-6 10-13 13-21 13S9 34 3 24z" fill="#fff" opacity="0.22"/><path d="M3 24C9 14 16 11 24 11s15 3 21 13c-6 10-13 13-21 13S9 34 3 24z" fill="none" stroke="#fff" stroke-width="2.2"/><circle cx="24" cy="24" r="7" fill="#fff" opacity="0.4"/><circle cx="24" cy="24" r="4" fill="#fff"/><circle cx="22.5" cy="22.5" r="1.3" fill="rgba(0,0,0,0.4)"/><path d="M7 7l0.9 1.9 1.9 0.9-1.9 0.9L7 12.6 6.1 10.7 4.2 9.8 6.1 8.9z" fill="#fff" opacity="0.8"/><path d="M40 38l0.7 1.5 1.5 0.7-1.5 0.7-0.7 1.5-0.7-1.5-1.5-0.7 1.5-0.7z" fill="#fff" opacity="0.6"/></svg>',
-
-  // Effective Coaching — concentric target with arrow embedded in bullseye
-  EC:'<svg viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="21" fill="rgba(255,255,255,0.07)"/><circle cx="24" cy="24" r="18" fill="none" stroke="#fff" stroke-width="1.8"/><circle cx="24" cy="24" r="13" fill="none" stroke="#fff" stroke-width="1.8" opacity="0.8"/><circle cx="24" cy="24" r="8" fill="rgba(255,255,255,0.3)" stroke="#fff" stroke-width="1.8"/><circle cx="24" cy="24" r="3" fill="#fff"/><line x1="28" y1="20" x2="42" y2="6" stroke="#fff" stroke-width="2.8" stroke-linecap="round"/><path d="M39 6h6v6" fill="none" stroke="#fff" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"/></svg>',
-
-  // Innovative Planning — lightbulb with rays, filament + base stripes
-  IP:'<svg viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="21" fill="rgba(255,255,255,0.07)"/><line x1="24" y1="2" x2="24" y2="7" stroke="#fff" stroke-width="2.2" stroke-linecap="round" opacity="0.85"/><line x1="38" y1="10" x2="35" y2="13" stroke="#fff" stroke-width="2.2" stroke-linecap="round" opacity="0.85"/><line x1="10" y1="10" x2="13" y2="13" stroke="#fff" stroke-width="2.2" stroke-linecap="round" opacity="0.85"/><line x1="42" y1="22" x2="45" y2="22" stroke="#fff" stroke-width="2.2" stroke-linecap="round" opacity="0.65"/><line x1="3" y1="22" x2="6" y2="22" stroke="#fff" stroke-width="2.2" stroke-linecap="round" opacity="0.65"/><path d="M15 21a9 9 0 0118 0c0 4-2 7-5 8v4H20v-4c-3-1-5-4-5-8z" fill="#fff" opacity="0.95"/><path d="M20 21l4 5 4-5" fill="none" stroke="rgba(0,0,0,0.35)" stroke-width="1.4" stroke-linejoin="round"/><line x1="19" y1="37" x2="29" y2="37" stroke="#fff" stroke-width="2" stroke-linecap="round"/><line x1="20" y1="41" x2="28" y2="41" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>',
-
-  // Leadership Development — classical podium with columns
-  LD:'<svg viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="21" fill="rgba(255,255,255,0.07)"/><rect x="6" y="38" width="36" height="5" rx="1" fill="#fff"/><rect x="8" y="10" width="32" height="5" rx="1" fill="#fff"/><rect x="12" y="6" width="24" height="4" rx="1" fill="#fff" opacity="0.85"/><rect x="11" y="15" width="3.5" height="23" fill="#fff" opacity="0.92"/><rect x="18" y="15" width="3.5" height="23" fill="#fff" opacity="0.92"/><rect x="26" y="15" width="3.5" height="23" fill="#fff" opacity="0.92"/><rect x="33.5" y="15" width="3.5" height="23" fill="#fff" opacity="0.92"/></svg>',
-
-  // Strategic Relationships — two interlocked rings with highlight
-  SR:'<svg viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="21" fill="rgba(255,255,255,0.07)"/><circle cx="17" cy="24" r="11" fill="none" stroke="#fff" stroke-width="2.8"/><circle cx="31" cy="24" r="11" fill="none" stroke="#fff" stroke-width="2.8"/><path d="M24 14c3 3 3 17 0 20c-3-3-3-17 0-20z" fill="#fff" opacity="0.38"/></svg>',
-
-  // Team Collaboration — three figures in a group (center slightly forward)
-  TC:'<svg viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="21" fill="rgba(255,255,255,0.07)"/><circle cx="11" cy="17" r="4" fill="#fff" opacity="0.88"/><path d="M4 36a7 7 0 0114 0" fill="#fff" opacity="0.88"/><circle cx="37" cy="17" r="4" fill="#fff" opacity="0.88"/><path d="M30 36a7 7 0 0114 0" fill="#fff" opacity="0.88"/><circle cx="24" cy="14" r="5" fill="#fff"/><path d="M15 38a9 9 0 0118 0z" fill="#fff"/></svg>'
+  DL:'<svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%"><g stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polyline points="14,76 36,52 54,61 78,27" stroke-width="1.6"/><polyline points="68,25 78,25 78,36" stroke-width="1.6"/><circle cx="14" cy="76" r="3.5" fill="currentColor" stroke="none" opacity="0.5"/><circle cx="78" cy="26" r="4" fill="currentColor" stroke="none"/></g></svg>',
+  EH:'<svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%"><g stroke="currentColor" stroke-linecap="round"><circle cx="50" cy="50" r="26" stroke-width="1.5"/><path d="M50 12 L51.8 20.5 L58 22 L51.8 23.5 L50 32 L48.2 23.5 L42 22 L48.2 20.5 Z" fill="currentColor" stroke="none" opacity="0.75"/><path d="M76 66 L77.2 70.5 L81 71.5 L77.2 72.5 L76 77 L74.8 72.5 L71 71.5 L74.8 70.5 Z" fill="currentColor" stroke="none" opacity="0.52"/><circle cx="50" cy="50" r="5" fill="currentColor" stroke="none"/></g></svg>',
+  MS:'<svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%"><g stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><line x1="14" y1="70" x2="86" y2="70" stroke-width="1.5"/><line x1="18" y1="76" x2="82" y2="76" stroke-width="1" opacity="0.36"/><path d="M22 70 A28 28 0 0 1 78 70" stroke-width="1.5" fill="none"/><line x1="50" y1="26" x2="50" y2="15" stroke-width="1.5"/><line x1="67" y1="32" x2="75" y2="24" stroke-width="1.5"/><line x1="80" y1="48" x2="91" y2="47" stroke-width="1.5"/><line x1="33" y1="32" x2="25" y2="24" stroke-width="1.5"/><line x1="20" y1="48" x2="9" y2="47" stroke-width="1.5"/></g></svg>',
+  PI:'<svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%"><g stroke="currentColor" stroke-linecap="round"><path d="M50 50 C50 38 35 30 25 38 C15 46 15 54 25 62 C35 70 50 62 50 50 C50 38 65 30 75 38 C85 46 85 54 75 62 C65 70 50 62 50 50 Z" stroke-width="1.5"/><circle cx="50" cy="50" r="4" fill="currentColor" stroke="none"/><circle cx="25" cy="50" r="2.5" fill="currentColor" stroke="none" opacity="0.5"/><circle cx="75" cy="50" r="2.5" fill="currentColor" stroke="none" opacity="0.5"/></g></svg>',
+  PM:'<svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%"><circle cx="50" cy="50" r="40" stroke="currentColor" stroke-width="1" stroke-dasharray="5 4" opacity="0.32"/><circle cx="50" cy="50" r="26" stroke="currentColor" stroke-width="1.3" opacity="0.72"/><circle cx="50" cy="50" r="13" stroke="currentColor" stroke-width="1.5"/><circle cx="50" cy="50" r="4.5" fill="currentColor"/></svg>',
+  VC:'<svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%"><ellipse cx="50" cy="50" rx="40" ry="14" stroke="currentColor" stroke-width="1.1" transform="rotate(-25 50 50)" opacity="0.42"/><ellipse cx="50" cy="50" rx="30" ry="12" stroke="currentColor" stroke-width="1.4" transform="rotate(25 50 50)" opacity="0.68"/><circle cx="50" cy="50" r="8" stroke="currentColor" stroke-width="1.5"/><circle cx="87" cy="38" r="3" fill="currentColor" opacity="0.52"/><circle cx="14" cy="63" r="3" fill="currentColor" opacity="0.52"/></svg>',
+  EC:'<svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%"><circle cx="50" cy="50" r="38" stroke="currentColor" stroke-width="1.1" opacity="0.38"/><circle cx="50" cy="50" r="25" stroke="currentColor" stroke-width="1.3" opacity="0.65"/><circle cx="50" cy="50" r="13" stroke="currentColor" stroke-width="1.5"/><circle cx="50" cy="50" r="4.5" fill="currentColor"/><line x1="12" y1="50" x2="34" y2="50" stroke="currentColor" stroke-width="1" opacity="0.38" stroke-linecap="round"/><line x1="66" y1="50" x2="88" y2="50" stroke="currentColor" stroke-width="1" opacity="0.38" stroke-linecap="round"/><line x1="50" y1="12" x2="50" y2="34" stroke="currentColor" stroke-width="1" opacity="0.38" stroke-linecap="round"/><line x1="50" y1="66" x2="50" y2="88" stroke="currentColor" stroke-width="1" opacity="0.38" stroke-linecap="round"/></svg>',
+  IP:'<svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%"><g stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><line x1="50" y1="24" x2="24" y2="66" stroke-width="1.2" opacity="0.55"/><line x1="50" y1="24" x2="76" y2="66" stroke-width="1.2" opacity="0.55"/><line x1="24" y1="66" x2="76" y2="66" stroke-width="1.2" opacity="0.55"/><circle cx="50" cy="24" r="8" stroke-width="1.5"/><circle cx="24" cy="66" r="7" stroke-width="1.4"/><circle cx="76" cy="66" r="7" stroke-width="1.4"/><circle cx="50" cy="24" r="3.5" fill="currentColor" stroke="none"/><circle cx="24" cy="66" r="2.5" fill="currentColor" stroke="none" opacity="0.6"/><circle cx="76" cy="66" r="2.5" fill="currentColor" stroke="none" opacity="0.6"/></g></svg>',
+  LD:'<svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%"><g stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polyline points="20,75 50,55 80,75" stroke-width="1.6"/><polyline points="25,58 50,38 75,58" stroke-width="1.4" opacity="0.70"/><polyline points="32,42 50,25 68,42" stroke-width="1.2" opacity="0.42"/><circle cx="50" cy="25" r="4" fill="currentColor" stroke="none"/></g></svg>',
+  SR:'<svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%"><g stroke="currentColor" stroke-linecap="round"><circle cx="36" cy="50" r="22" stroke-width="1.5"/><circle cx="64" cy="50" r="22" stroke-width="1.5"/><circle cx="36" cy="50" r="4" fill="currentColor" stroke="none" opacity="0.65"/><circle cx="64" cy="50" r="4" fill="currentColor" stroke="none" opacity="0.65"/><line x1="50" y1="36" x2="50" y2="64" stroke-width="1.1" opacity="0.45"/></g></svg>',
+  TC:'<svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%"><g stroke="currentColor" stroke-linecap="round"><circle cx="50" cy="36" r="18" stroke-width="1.5" opacity="0.8"/><circle cx="34" cy="64" r="18" stroke-width="1.5" opacity="0.8"/><circle cx="66" cy="64" r="18" stroke-width="1.5" opacity="0.8"/><circle cx="50" cy="55" r="4.5" fill="currentColor" stroke="none"/></g></svg>'
 };
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -5003,13 +4982,16 @@ function renderPathCardHtml(code,isLegacy){
   const c2=hexShift(p.c,35);
   const c3=hexShift(p.c,-30);
   const baseTintOpacity=isLegacy?0.14:0.22;
-  const borderOpacity=isLegacy?0.3:0.45;
+  const borderOpacity=isLegacy?0.26:0.38;
 
+  const bloom1=isLegacy?0.48:0.62;
+  const bloom2=isLegacy?0.24:0.34;
   const mesh=
     'background:'+
-    'radial-gradient(ellipse 85% 60% at 20% 15%,'+hexToRgba(c2,0.7)+' 0%,transparent 55%),'+
-    'radial-gradient(ellipse 75% 70% at 85% 85%,'+hexToRgba(c3,0.55)+' 0%,transparent 55%),'+
-    hexToRgba(c1,baseTintOpacity);
+    'radial-gradient(ellipse 90% 75% at 18% 12%,'+hexToRgba(c2,bloom1)+' 0%,'+hexToRgba(c2,0.06)+' 50%,transparent 72%),'+
+    'radial-gradient(ellipse 65% 58% at 85% 90%,'+hexToRgba(c3,bloom2)+' 0%,transparent 56%),'+
+    'radial-gradient(circle at 86% 7%,rgba(255,255,255,0.024) 0%,transparent 26%),'+
+    'rgb(9,8,12)';
 
   const glyph=PATH_GLYPHS[code]||'<svg viewBox="0 0 48 48"></svg>';
 
@@ -5898,7 +5880,10 @@ function renderProjectDetail(app,pid){
 
   // Practice this speech CTA
   h+=renderSessionHistory(pid,'#A07BC7');
-  h+='<button class="modal-cta" data-action="practice-this-speech" style="background:linear-gradient(135deg,#A07BC7,#6DB6B4);margin:12px 0;font-size:15px">🎙 Practice this speech →</button>';
+  h+='<div style="display:flex;flex-direction:column;gap:10px;margin:12px 0">';
+  h+='<button class="modal-cta" data-action="practice-this-speech" style="background:linear-gradient(135deg,#A07BC7,#6DB6B4);font-size:15px">🎙 Get Coach Feedback</button>';
+  h+='<button class="modal-cta-ghost" data-action="draft-this-speech">✏️ Open in Speech Draft Builder</button>';
+  h+='</div>';
 
   h+='<div class="app-footer">Progress saved on this device · Tap ← to return</div>';
 
@@ -6090,6 +6075,12 @@ function renderProjectDetail(app,pid){
     V.viewingRole=null;
     V._psReturnToProject=pid;
     V.view='ai-coach';
+    render();
+  });
+  const draftThisBtn=app.querySelector('[data-action="draft-this-speech"]');
+  if(draftThisBtn)draftThisBtn.addEventListener('click',()=>{
+    V._sdPid=pid;
+    V.view='speech-draft';
     render();
   });
 
@@ -8960,6 +8951,16 @@ function renderFDReport(app){
 
 const COACH_QUESTIONS=[
   {
+    id:"tmExperience",
+    label:"How long have you been in Toastmasters?",
+    hint:"Helps us pace your role rotation realistically.",
+    options:[
+      {id:"new",  label:"Just getting started", desc:"First few meetings or weeks"},
+      {id:"lt1",  label:"Less than a year",      desc:"Still finding my footing"},
+      {id:"gt1",  label:"More than a year",       desc:"Comfortable with the format"}
+    ]
+  },
+  {
     id:"termLength",
     label:"How long should this plan run?",
     hint:"Pick a window you can realistically commit to. You can rebuild anytime.",
@@ -9188,7 +9189,8 @@ function _safeSetMilestone(plan,idx,text){
   }
 }
 function _safePushRole(plan,idx,rid,projectWeeks){
-  if(idx>=0&&idx<plan.weeks.length&&!projectWeeks.has(idx)&&!plan.weeks[idx].roles.includes(rid)){
+  // One role per meeting — only push if week has no role yet
+  if(idx>=0&&idx<plan.weeks.length&&!projectWeeks.has(idx)&&plan.weeks[idx].roles.length===0){
     plan.weeks[idx].roles.push(rid);
   }
 }
@@ -9200,8 +9202,18 @@ function _remainingProjects(pathCode){
   for(let lv=1;lv<=5;lv++){
     const g=gP(pathCode,lv);
     // Required first, then electives (only fill `en` count of electives)
-    g.r.forEach(pid=>{if(!S.done[pid])out.push({pid,lv,kind:"required"});});
-    g.e.slice(0,g.en).forEach(pid=>{if(!S.done[pid])out.push({pid,lv,kind:"elective"});});
+    g.r.forEach(pid=>{
+      if(S.done[pid])return;
+      if(pid==='eval-feedback'){
+        // Expand into 3 discrete plan entries — speech 1, speech 2, serve as evaluator
+        out.push({pid,lv,kind:'required',evalPart:1});
+        out.push({pid,lv,kind:'required',evalPart:2});
+        out.push({pid,lv,kind:'required',evalPart:3});
+      }else{
+        out.push({pid,lv,kind:'required'});
+      }
+    });
+    g.e.slice(0,g.en).forEach(pid=>{if(!S.done[pid])out.push({pid,lv,kind:'elective'});});
   }
   return out;
 }
@@ -9209,6 +9221,12 @@ function _remainingProjects(pathCode){
 function buildProgram(answers,pathCode){
   const spec=_termSpec(answers.termLength||"half",answers.levelGoal||"1");
   const remaining=_remainingProjects(pathCode);
+  // TTM threshold — based on TM experience
+  // new: second half | lt1: after first third | gt1: no restriction
+  const _tmExp=answers.tmExperience||"new";
+  const minTtmWeek=_tmExp==="gt1"?0
+    :_tmExp==="lt1"?Math.floor(spec.weeks*0.33)
+    :Math.floor(spec.weeks*0.5);
   const plan={
     generated:Date.now(),
     termLength:answers.termLength||"half",
@@ -9243,14 +9261,21 @@ function buildProgram(answers,pathCode){
   const lateIdx=mi[Math.min(2,mi.length-1)];
 
   // ═══ Rule 1: seed projects across the term ═══
-  const targetCount=Math.min(remaining.length,spec.targetProjects);
-  const projectsToSchedule=remaining.slice(0,targetCount);
+  // Always include every Level 1 project (mandatory baseline).
+  // eval-feedback expands to 3 entries — they must all be scheduled.
+  const _l1=remaining.filter(p=>p.lv===1);
+  const _higher=remaining.filter(p=>p.lv>1);
+  const _higherSlots=Math.max(0,spec.targetProjects-_l1.length);
+  const projectsToSchedule=[..._l1,..._higher.slice(0,_higherSlots)];
   const projectWeeks=new Set();
   if(projectsToSchedule.length>0){
     const spacing=Math.max(1,Math.floor((spec.weeks-1)/projectsToSchedule.length));
     projectsToSchedule.forEach((p,i)=>{
       const weekIdx=Math.min(lastIdx,i*spacing);
-      plan.weeks[weekIdx].projects.push({pid:p.pid,action:"deliver at your home club"});
+      // Preserve evalPart metadata so renderPfWeekCard can label correctly
+      const entry={pid:p.pid,action:"deliver at your home club"};
+      if(p.evalPart)entry.evalPart=p.evalPart;
+      plan.weeks[weekIdx].projects.push(entry);
       projectWeeks.add(weekIdx);
     });
   }
@@ -9260,26 +9285,51 @@ function buildProgram(answers,pathCode){
   // Cycles through the whole list rather than stopping at the end — ensures
   // long terms (26 weeks) never run dry. Skips project weeks (one-role-per-
   // meeting rule). Tracks recent roles to avoid back-to-back repeats.
+  // ie is removed from rotation — it appears only as part of eval-feedback (Part 3)
+  // ge and tmd are Level 2+ roles — guarded below by minSeniorRoleWeek
   const roleSequence=[
-    "timer","ah","gram","ttm","ie","tmd","ge","saa",
-    // Specialty contributions — not in ROLES[] as main officer roles but
-    // still real service: rendered as plain text in the week card.
-    "photographer","wordmaster"
+    "timer","ah","gram","ttm","saa","photographer","wordmaster"
   ];
+  const seniorRoles=new Set(["ge","tmd"]);
+  // Find first week where a Level 2+ project is scheduled
+  const firstLv2Idx=plan.weeks.findIndex(w=>
+    w.projects.some(pr=>{
+      const p=remaining.find(r=>r.pid===pr.pid);
+      return p&&p.lv>=2;
+    })
+  );
+  // Senior roles (ge, tmd) allowed from Level 2 onwards; fall back to midpoint
+  const minSeniorRoleWeek=firstLv2Idx>=0?firstLv2Idx:Math.floor(spec.weeks/2);
+  // Inject ge and tmd into the sequence only after minSeniorRoleWeek
   const recentRoles=[]; // last 3 assignments, to avoid repeats
   let cursor=0;
   for(let i=0;i<spec.weeks;i++){
     if(i%spec.roleEvery!==0)continue;
     if(projectWeeks.has(i))continue;
-    // Find the next role in sequence that isn't in recent memory
+    // Build the available pool:
+    //   TTM — after minTtmWeek (experience-gated)
+    //   ge/tmd — after minSeniorRoleWeek (Level 2+)
+    const pool=[...roleSequence];
+    if(i>=minTtmWeek)pool.push("ttm");
+    // tmd: Level 2+ for all; ge: new=never, lt1=last-quarter+L2, gt1=L2+
+    const _lastQuarterWeek=Math.floor(spec.weeks*0.75);
+    if(i>=minSeniorRoleWeek){
+      pool.push("tmd");
+      if(_tmExp==="gt1"||
+        (_tmExp==="lt1"&&i>=_lastQuarterWeek)){
+        pool.push("ge");
+      }
+      // new members: no GE at any point in the plan
+    }
+    // Find the next role in pool that isn't in recent memory
     let attempts=0,picked=null;
-    while(attempts<roleSequence.length){
-      const candidate=roleSequence[cursor%roleSequence.length];
+    while(attempts<pool.length){
+      const candidate=pool[cursor%pool.length];
       cursor++;
       if(!recentRoles.includes(candidate)){picked=candidate;break;}
       attempts++;
     }
-    if(!picked)picked=roleSequence[cursor%roleSequence.length];
+    if(!picked)picked=pool[cursor%pool.length];
     plan.weeks[i].roles.push(picked);
     recentRoles.push(picked);
     if(recentRoles.length>3)recentRoles.shift();
@@ -9356,16 +9406,19 @@ function buildProgram(answers,pathCode){
   }
 
   // ═══ Rule 6: interest-based role bias ═══
+  // All pushes respect: (a) one-role-per-meeting, (b) experience thresholds
   const int=answers.interest;
   if(int==="impromptu"){
-    const idx=Math.min(1,lastIdx);
-    if(!projectWeeks.has(idx)&&!plan.weeks[idx].roles.includes("ttm"))plan.weeks[idx].roles.unshift("ttm");
+    // TTM: earliest allowed week per experience; never onto a week that has a role
+    const idx=Math.min(Math.max(minTtmWeek,1),lastIdx);
+    if(!projectWeeks.has(idx)&&plan.weeks[idx].roles.length===0)plan.weeks[idx].roles.unshift("ttm");
   }else if(int==="evaluating"){
-    const idx=Math.min(1,lastIdx);
-    if(!projectWeeks.has(idx)&&!plan.weeks[idx].roles.includes("ie"))plan.weeks[idx].roles.unshift("ie");
+    // ie is handled by eval-feedback Part 3 — skip standalone early push
+    // (nothing to do here; eval-feedback scheduling places it correctly)
   }else if(int==="leading"){
-    const idx=Math.min(3,lastIdx);
-    if(!projectWeeks.has(idx)&&!plan.weeks[idx].roles.includes("tmd"))plan.weeks[idx].roles.unshift("tmd");
+    // tmd: respect the senior-role gate (Level 2+)
+    const idx=Math.min(Math.max(minSeniorRoleWeek,3),lastIdx);
+    if(!projectWeeks.has(idx)&&plan.weeks[idx].roles.length===0)plan.weeks[idx].roles.unshift("tmd");
   }
 
   // ═══ Rule 6b: time-budget fine-tuning ═══
@@ -9651,7 +9704,19 @@ function renderPfWeekCard(w,refinedFocuses,refinedMilestones,checkInWeekSet,prog
 
   if(w.projects.length>0){
     h+='<div class="pf-week-section"><div class="pf-week-label">📋 Projects</div>';
+    const evalLabels={1:'Evaluation & Feedback — Speech 1',2:'Evaluation & Feedback — Speech 2',3:'Evaluation & Feedback — Serve as Evaluator'};
+    const evalHints={
+      1:'Deliver your first speech and receive formal evaluation. Write down the top 2 points your evaluator gives you.',
+      2:'Deliver a second speech applying your evaluator\'s feedback. Open with what you changed and why.',
+      3:'Evaluate another speaker using the CRC method: Commend → Recommend → Commend. This completes the project.'
+    };
     w.projects.forEach(pr=>{
+      if(pr.evalPart){
+        // Eval-feedback split entry — custom label + hint
+        h+='<div class="pf-week-item"><a class="pf-item-link" data-pf-project="eval-feedback">'+evalLabels[pr.evalPart]+'</a></div>';
+        h+='<div class="pf-early-start"><span class="pf-early-icon">💡</span><span>'+evalHints[pr.evalPart]+'</span></div>';
+        return;
+      }
       const proj=PD[pr.pid];
       if(proj){
         h+='<div class="pf-week-item"><a class="pf-item-link" data-pf-project="'+pr.pid+'">'+proj.t+'</a> <span class="pf-item-dim">· '+proj.dur+'</span></div>';
@@ -10988,7 +11053,7 @@ async function sdAIEnhance(app, ask='full'){
         (hasProj?'<button class="sd-followup-btn" data-action="sd-ai-enhance" data-sd-ask="project">🎯 Project tips</button>':'')+
         '</div>';
       wrap.querySelectorAll('[data-action="sd-ai-enhance"]').forEach(b=>{
-        b.addEventListener("click",()=>sdAIEnhance(app));
+        b.addEventListener("click",()=>sdAIEnhance(app,b.dataset.sdAsk||'full'));
       });
     }
   }catch(e){
