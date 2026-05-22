@@ -105,7 +105,7 @@ a{color:inherit;text-decoration:none}
 .kicker{font-size:var(--fs-xs);font-weight:700;color:var(--text-3);letter-spacing:0.12em;text-transform:uppercase;margin-bottom:8px}
 .title{font-size:var(--fs-3xl);font-weight:800;letter-spacing:-0.022em;line-height:1.1;margin-bottom:6px;color:var(--text)}.hub-hero{margin-bottom:14px;width:100%}.hub-hero-svg{display:block;overflow:visible}
 .title .accent{color:var(--accent);font-weight:800;font-style:normal;background:none;-webkit-text-fill-color:currentColor;filter:none}
-.subtitle-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;}.subtitle-row .hub-icon-group{display:flex;gap:8px;}.subtitle{font-size:var(--fs-sm);color:var(--text-3);line-height:1.5;margin-bottom:0;font-weight:400;letter-spacing:-0.003em;max-width:560px}
+.subtitle-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;}.subtitle-row .hub-icon-group{display:flex;gap:8px;}.subtitle{font-size:var(--fs-sm);color:var(--text-3);line-height:1.5;margin-bottom:20px;font-weight:400;letter-spacing:-0.003em;max-width:560px}
 
 /* Top bar */
 .top-bar{display:flex;justify-content:space-between;align-items:center;margin-bottom:22px;gap:8px}
@@ -950,7 +950,7 @@ a{color:inherit;text-decoration:none}
 .pf-loc-tag{display:inline-block;margin-left:6px;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;vertical-align:middle}
 .pf-loc-tag.home{background:rgba(232,93,93,0.13);color:#E85D5D}
 .pf-loc-tag.any{background:rgba(94,185,117,0.13);color:#5EB975}
-.pf-footer-note{font-size:11.5px;color:var(--text-3);text-align:center;padding:14px 0;letter-spacing:-0.003em;line-height:1.5}
+.pf-export{margin:24px 0 8px;padding:16px;background:rgba(255,255,255,0.04);border-radius:12px;border:1px solid rgba(255,255,255,0.07)}.pf-export-label{font-size:13px;font-weight:600;color:var(--text-2);margin-bottom:10px}.pf-export-row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.pf-date-input{flex:1;min-width:120px;padding:9px 12px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:10px;color:var(--text-1);font-size:13px;font-family:inherit;outline:none}.pf-date-input:focus{border-color:rgba(255,255,255,0.25)}.pf-export-hint{font-size:11px;color:var(--text-3);margin-top:8px}.pf-footer-note{font-size:11.5px;color:var(--text-3);text-align:center;padding:14px 0;letter-spacing:-0.003em;line-height:1.5}
 
 /* ═══ AI Coach chat view ═══ */
 .ai-coach-view{display:flex;flex-direction:column;height:calc(100dvh - 40px);max-height:100%}
@@ -9505,7 +9505,8 @@ function renderPathfinderIntro(app){
   const hasPath=!!S.path;
   const p=hasPath?PA[S.path]:null;
   const pc=p?p.c:"#6DB6B4";
-  const existing=S.program;
+  // Per-path: read this path's plan; fall back to legacy S.program
+  const existing=(S.programs||{})[S.path]||S.program;
 
   // Enumerate all enrolled paths (active + archived with activity).
   // If user has 2+, show a path picker step before the rest of the flow.
@@ -9684,7 +9685,9 @@ function renderPathfinderBuilding(app){
   // Generate program after a short delay for effect
   setTimeout(()=>{
     const program=buildProgram(V._pfAnswers||{timeline:"focused",goal:"wellrounded",constraint:"none"},S.path);
-    S.program=program;
+    // Store plan under its path code — each path keeps its own plan
+    if(!S.programs)S.programs={};
+    S.programs[program.pathCode]=program;
     save();
     V.view="pathfinder-program";
     render();
@@ -9784,8 +9787,77 @@ function renderPfWeekCard(w,refinedFocuses,refinedMilestones,checkInWeekSet,prog
   return h;
 }
 
+
+// ── Calendar export helpers ─────────────────────────────────────────────────
+function generateICS(prog,startDateStr,freqDays){
+  freqDays=freqDays||7;
+  // Parse as local date to avoid UTC timezone shift
+  const pts=startDateStr.split('-');
+  const startDate=new Date(+pts[0],+pts[1]-1,+pts[2]);
+  const evalLabels={
+    1:'E&F — Speech 1 (receive feedback)',
+    2:'E&F — Speech 2 (apply feedback)',
+    3:'E&F — Serve as Evaluator (IE)'
+  };
+  const esc=s=>(s||'').replace(/\\/g,'\\\\').replace(/,/g,'\\,').replace(/;/g,'\\;').replace(/\n/g,'\\n');
+  const pad=n=>String(n).padStart(2,'0');
+  const fmt=d=>d.getFullYear()+''+pad(d.getMonth()+1)+''+pad(d.getDate());
+  const pathName=(PA[prog.pathCode]||{}).n||prog.pathCode;
+  const lines=[
+    'BEGIN:VCALENDAR','VERSION:2.0',
+    'PRODID:-//TMCompanion//Pathfinder//EN',
+    'CALSCALE:GREGORIAN','METHOD:PUBLISH',
+    'X-WR-CALNAME:TM Plan \u2014 '+pathName
+  ];
+  prog.weeks.forEach((w,i)=>{
+    const d=new Date(startDate);
+    d.setDate(startDate.getDate()+i*freqDays);
+    const d1=new Date(d);d1.setDate(d.getDate()+1);
+    // Main summary
+    const mp=w.projects[0],mr=w.roles[0];
+    let summary;
+    if(mp){
+      if(mp.evalPart)summary='TM Week '+w.n+' \u2014 '+evalLabels[mp.evalPart];
+      else summary='TM Week '+w.n+' \u2014 '+((PD[mp.pid]||{}).t||mp.pid);
+    }else if(mr){
+      summary='TM Week '+w.n+' \u2014 Role: '+mr.toUpperCase();
+    }else{
+      summary='TM Week '+w.n;
+    }
+    // Description
+    const dl=[];
+    if(w.projects.length){
+      dl.push('PROJECTS:');
+      w.projects.forEach(pr=>{
+        dl.push('  \u2022 '+(pr.evalPart?evalLabels[pr.evalPart]:((PD[pr.pid]||{}).t||pr.pid)));
+      });
+    }
+    if(w.roles.length)dl.push('ROLE: '+w.roles.map(r=>r.toUpperCase()).join(', '));
+    if(w.practice&&w.practice.length)dl.push('PRACTICE: '+w.practice.map(p=>p.tool||p).join(', '));
+    if(w.focus)dl.push('FOCUS: '+w.focus);
+    lines.push('BEGIN:VEVENT');
+    lines.push('DTSTART;VALUE=DATE:'+fmt(d));
+    lines.push('DTEND;VALUE=DATE:'+fmt(d1));
+    lines.push('SUMMARY:'+esc(summary));
+    lines.push('DESCRIPTION:'+esc(dl.join('\n')));
+    lines.push('UID:tm-pf-w'+w.n+'-'+prog.generated+'@tmcompanion');
+    lines.push('END:VEVENT');
+  });
+  lines.push('END:VCALENDAR');
+  return lines.join('\r\n');
+}
+
+function downloadICS(content,filename){
+  const blob=new Blob([content],{type:'text/calendar;charset=utf-8'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url;a.download=filename||'tm-plan.ics';
+  document.body.appendChild(a);a.click();
+  setTimeout(()=>{URL.revokeObjectURL(url);a.remove();},1000);
+}
+
 function renderPathfinderProgram(app){
-  const prog=S.program;
+  const prog=(S.programs||{})[S.path]||S.program;
   if(!prog){V.view="pathfinder-intro";render();return;}
   const p=PA[prog.pathCode];
   const pc=p?p.c:"#6DB6B4";
@@ -9845,6 +9917,19 @@ function renderPathfinderProgram(app){
   });
   h+='</div>';
 
+  // Export to calendar panel
+  const _today=new Date().toISOString().slice(0,10);
+  h+='<div class="pf-export">';
+  h+='<div class="pf-export-label">📅 Export to Calendar</div>';
+  h+='<div class="pf-export-row">';
+  h+='<input type="date" id="pf-cal-start" class="pf-date-input" value="'+_today+'" placeholder="First meeting date">';
+  h+='<select id="pf-cal-freq" class="pf-date-input" style="flex:none;width:auto">';
+  h+='<option value="7">Weekly</option><option value="14">Bi-weekly</option>';
+  h+='</select>';
+  h+='<button class="top-bar-btn" data-action="pf-export-ics">↓ Download .ics</button>';
+  h+='</div>';
+  h+='<div class="pf-export-hint">Imports into Google Calendar, Apple Calendar &amp; Outlook · Pick your first meeting date</div>';
+  h+='</div>';
   h+='<div class="pf-footer-note">Plan generated '+new Date(prog.generated).toLocaleDateString()+' · Tap projects or roles to open their detail page. Rebuild any time your situation changes.</div>';
   h+='</div>';
   app.innerHTML=h;
@@ -9854,6 +9939,16 @@ function renderPathfinderProgram(app){
   });
   app.querySelector('[data-action="pf-rebuild-from-program"]').addEventListener("click",()=>{
     V._pfStep=0;V._pfAnswers={};V.view="pathfinder-q";render();
+  });
+  const _exportBtn=app.querySelector('[data-action="pf-export-ics"]');
+  if(_exportBtn)_exportBtn.addEventListener('click',()=>{
+    const _di=document.getElementById('pf-cal-start');
+    const _fi=document.getElementById('pf-cal-freq');
+    const _sd=_di?_di.value:new Date().toISOString().slice(0,10);
+    const _freq=_fi?parseInt(_fi.value):7;
+    if(!_sd){alert('Pick a start date first.');return;}
+    const _ics=generateICS(prog,_sd,_freq);
+    downloadICS(_ics,'tm-plan-'+((prog.pathCode||'tm').toLowerCase())+'.ics');
   });
   // AI Enhance — shows loading, calls Claude, re-renders with refined text
   const enhanceBtn=app.querySelector('[data-action="pf-enhance"]');
