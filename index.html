@@ -4350,7 +4350,9 @@ function resolveInitialView(){
   // If the user hasn't set a mode yet, default to alacarte so the hub
   // shows practice-first suggestions. They can set up Pathways any time.
   // First launch — show onboarding
-  if(!S.persona){
+  if(!S.agreedToTerms){
+    V.view='notice';  // First ever launch — show user agreement
+  }else if(!S.persona){
     V.view='welcome';
   }else{
     V.view='hub';
@@ -4546,6 +4548,8 @@ function render(){
   else if(V.view==="eval-helper"){renderEvalHelper(app);}
   else if(V.view==="speech-draft"){renderSpeechDraft(app);}
   else if(V.view==="my-paths"){renderMyPaths(app);}
+  else if(V.view==="notice"){renderNotice(app);}
+  else if(V.view==="tos"){renderToS(app);}
   else if(V.view==="welcome"){renderWelcome(app);}
   else if(V.view==="welcome-alacarte"){renderWelcomeAlacarte(app);}
   else if(V.view==="all-projects"){renderAllProjects(app);}
@@ -4698,7 +4702,7 @@ function renderHub(app){
   }
   h+='</div>';
 
-  h+='<div class="app-footer">Made by Kian How · Not affiliated with Toastmasters International · v1.72</div>';
+  h+='<div class="app-footer">Made by Kian How · Not affiliated with Toastmasters International · v1.72 · <a data-action="show-notice" style="color:var(--accent);text-decoration:none;cursor:pointer">User Agreement</a></div>';
   h+='</div>';
   app.innerHTML=h;
 
@@ -4709,6 +4713,7 @@ function renderHub(app){
 
   const gear=app.querySelector('[data-action="open-settings"]');
   if(gear)gear.addEventListener("click",()=>{V.view="settings";render();});
+  // User Agreement handled by global document click handler
   const aiBtn=app.querySelector('[data-action="open-ai-settings"]');
   if(aiBtn)aiBtn.addEventListener("click",()=>{V.view="ai-settings";render();});
   // K's directive tap
@@ -5029,7 +5034,7 @@ function renderPathPicker(app){
   h+='<button class="quiz-prompt-btn" data-action="open-quiz">🧭 &nbsp; Not sure which one? Take the fun quiz</button>';
   h+='</div>';
 
-  h+='<div class="app-footer">Made by Kian How · Not affiliated with Toastmasters International · v1.72</div>';
+  h+='<div class="app-footer">Made by Kian How · Not affiliated with Toastmasters International · v1.72 · <a data-action="show-notice" style="color:var(--accent);text-decoration:none;cursor:pointer">User Agreement</a></div>';
   h+='</div>';
   app.innerHTML=h;
 
@@ -5393,7 +5398,7 @@ function renderPathBrowser(app){
   // Keeping it in the tree lets us toggle visibility without re-rendering.
   h+='<div class="path-complete-banner'+(pct>=100?'':' hidden')+'"><strong>🎉 Path complete!</strong><div style="font-size:13px;color:var(--text-muted);line-height:1.5">Next step: DTM. Keep going.</div></div>';
 
-  h+='<div class="app-footer">Made by Kian How · Not affiliated with Toastmasters International · v1.72</div>';
+  h+='<div class="app-footer">Made by Kian How · Not affiliated with Toastmasters International · v1.72 · <a data-action="show-notice" style="color:var(--accent);text-decoration:none;cursor:pointer">User Agreement</a></div>';
   h+='</div>';
   app.innerHTML=h;
 
@@ -7066,7 +7071,7 @@ function renderPracticeHub(app){
   h+=toolRow({tool:"speech-draft",color:"#3B82F6", icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.9" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><path d="M13 2v5h7"/><line x1="8" y1="13.5" x2="12" y2="13.5"/><line x1="8" y1="17.5" x2="12" y2="17.5"/><path d="M17.5 4.5l2.5 2.5-7 7-2.5 0.5 0.5-2.5z"/><line x1="17.5" y1="4.5" x2="20" y2="7"/></svg>',  name:"Speech Draft Builder",desc:"AI builds your speech outline and opening lines"});
 
   h+='</div>';
-  h+='<div class="app-footer">Made by Kian How · Not affiliated with Toastmasters International · v1.72</div>';
+  h+='<div class="app-footer">Made by Kian How · Not affiliated with Toastmasters International · v1.72 · <a data-action="show-notice" style="color:var(--accent);text-decoration:none;cursor:pointer">User Agreement</a></div>';
   h+='</div>';
   app.innerHTML=h;
 
@@ -10477,18 +10482,29 @@ function renderEvalHelper(app){
   if(V._evalPid===undefined||V._evalPid===null)V._evalPid="";
   if(!V._evalNotes)V._evalNotes="";
 
+  // Show all projects across ALL paths — evaluators rarely share the same path as the speaker
   const levelGroups=[];
-  const pathCode=S.path||"DL";
+  const allPathCodes=Object.keys(PA);
   for(let lv=1;lv<=5;lv++){
-    const g=gP(pathCode,lv);
-    const pids=[...g.r,...g.e].filter(pid=>PD[pid]&&PD[pid].dur&&PD[pid].dur.includes("min"));
+    const seen=new Set();
+    const pids=[];
+    allPathCodes.forEach(pc=>{
+      const g=gP(pc,lv);
+      [...g.r,...g.e].forEach(pid=>{
+        if(!seen.has(pid)&&PD[pid]&&PD[pid].dur&&PD[pid].dur.includes("min")){
+          seen.add(pid);pids.push(pid);
+        }
+      });
+    });
     if(pids.length)levelGroups.push({level:lv,pids});
   }
   if(!levelGroups.length)levelGroups.push({level:1,pids:["ice-breaker","writing-speech","intro-vvbl","eval-feedback"]});
 
   const selProj=V._evalPid?PD[V._evalPid]:null;
   let selLevel=0;
-  if(V._evalPid){for(const lg of levelGroups){if(lg.pids.includes(V._evalPid)){selLevel=lg.level;break;}}}
+  if(V._evalPid){
+    for(const lg of levelGroups){if(lg.pids.includes(V._evalPid)){selLevel=lg.level;break;}}
+  }
 
   let h='<div class="fade-up eh-view">';
   h+='<div class="top-bar">';
@@ -12228,12 +12244,130 @@ function _buildModeCards(modes,sel){
   return h;
 }
 
+function renderToS(app){
+  let h='<div class="fade-up welcome">';
+
+  // Top bar with back button
+  h+='<div class="top-bar" style="margin-bottom:20px">';
+  h+='<button class="top-bar-btn" data-action="tos-back">← Back</button>';
+  h+='</div>';
+
+  // Header
+  h+='<div style="margin-bottom:20px">';
+  h+='<div class="welcome-kicker">Legal</div>';
+  h+='<div style="font-size:24px;font-weight:800;color:var(--text);margin-bottom:4px">User Agreement</div>';
+  h+='<div style="font-size:10px;font-weight:600;letter-spacing:3px;color:var(--text-3);text-transform:uppercase">Last updated: May 2026</div>';
+  h+='</div>';
+
+  // Sections
+  const sections=[
+    ['1. What this app is','TMCompanion is a free, independent practice companion for Toastmasters members. It is not affiliated with, endorsed by, or connected to Toastmasters International in any way.'],
+    ['2. No warranty','This app is provided as-is. AI coaching outputs are for practice purposes only and may not always be accurate. Use your own judgment. The developer makes no guarantees about the accuracy, reliability, or suitability of any content generated by the app.'],
+    ['3. Your data','Speech audio and transcripts are processed by OpenAI and Anthropic via their APIs for transcription and coaching. We encourage users to review their respective privacy policies for full details. All other data — your progress, notes, and plans — is stored locally on your device and never transmitted to any server.'],
+    ['4. Age requirement','This app is intended for users 18 and older, consistent with Toastmasters International&#39;s minimum membership age.'],
+    ['5. Limitation of liability','The developer is not liable for any loss, damage, or consequence arising from your use of this app, including but not limited to data loss from clearing your browser cache, reliance on AI coaching outputs, or service interruption.'],
+    ['6. Changes and availability','This app is a personal project. The developer reserves the right to modify, suspend, or discontinue the app at any time without notice.'],
+    ['7. Intellectual property','Toastmasters® is a registered trademark of Toastmasters International. All references to Toastmasters content are for educational and practice purposes only.'],
+  ];
+
+  sections.forEach(([title,body])=>{
+    h+='<div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:15px 18px;margin-bottom:10px">';
+    h+='<div style="font-size:12px;font-weight:700;color:var(--text);margin-bottom:5px">'+title+'</div>';
+    h+='<div style="font-size:13px;color:var(--text-2);line-height:1.65">'+body+'</div>';
+    h+='</div>';
+  });
+
+  // Bio
+  h+='<div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:15px 18px;margin-bottom:10px">';
+  h+='<div style="font-size:12px;font-weight:700;color:var(--text);margin-bottom:5px">About K</div>';
+  h+='<div style="font-size:13px;color:var(--text-2);line-height:1.65">K is your AI speech coach — designed by Kian How from years of Toastmasters experience, powered by Claude by Anthropic.</div>';
+  h+='</div>';
+  h+='<div style="margin-top:6px;padding:15px 18px;border-top:1px solid var(--border);font-size:12px;color:var(--text-3);line-height:1.65;text-align:center">';
+  h+='Built by Kian How, a member of 5A+ Shanghai Toastmasters Club as part of his Distinguished Toastmaster (DTM) project. This app was created as a personal project to support the Toastmasters community — not as a commercial product.';
+  h+='</div>';
+
+  h+='<div class="app-footer">Made by Kian How · Not affiliated with Toastmasters International · v1.72</div>';
+  h+='</div>';
+  app.innerHTML=h;
+
+  app.querySelector('[data-action="tos-back"]').addEventListener('click',()=>{
+    V.view=V._tosReturnView||'hub';
+    render();
+  });
+}
+
+function renderNotice(app){
+  let h='<div class="fade-up welcome">';
+
+  // Hero — same centered style as mode selection
+  h+='<div class="welcome-hero">';
+  h+='<div class="welcome-kicker">Before You Begin</div>';
+  h+='<div class="welcome-title" style="font-size:26px">TMCompanion is a companion.<br>Not a replacement.</div>';
+  h+='<div class="welcome-subtitle">The heart of Toastmasters is human connection. This app supports your practice between meetings — the real growth still happens in the room, with real people.</div>';
+  h+='</div>';
+
+  // Body content — centered, consistent spacing
+  h+='<div style="margin-bottom:16px;font-size:14px;color:var(--text-2);line-height:1.65;text-align:center">AI coaching here is a starting point, not the final word. Use it to prepare. Bring what you learn back to your club.</div>';
+
+  // Data card
+  h+='<div style="background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:15px 18px;margin-bottom:16px;text-align:center">';
+  h+='<div style="font-size:10px;font-weight:700;letter-spacing:3px;color:var(--accent);text-transform:uppercase;margin-bottom:7px">Your Data</div>';
+  h+='<div style="font-size:13px;color:var(--text-2);line-height:1.6">AI features send audio and transcripts to OpenAI and Anthropic for processing. We encourage you to review their privacy policies for full details. Everything else — your progress, notes, and plans — stays on your device only.</div>';
+  h+='</div>';
+
+  // Bullets — centered dots with centered text
+  h+='<div style="display:flex;flex-direction:column;gap:7px;margin-bottom:22px;text-align:center">';
+  const bullets=['For users 18 and older','Not affiliated with Toastmasters International','AI coaching is for practice only — use your own judgment'];
+  bullets.forEach(b=>{
+    h+='<div style="font-size:12px;color:var(--text-3);line-height:1.5">· '+b+'</div>';
+  });
+  h+='</div>';
+
+  // Got it button — same style as mode selection confirm
+  h+='<button data-action="notice-agree" style="width:100%;padding:14px;background:linear-gradient(135deg,#6DB6B4,#A07BC7);border:none;border-radius:14px;font-size:15px;font-weight:800;color:#0C0D0F;cursor:pointer;font-family:inherit;margin-bottom:12px">Got it →</button>';
+  h+='<div style="text-align:center;font-size:11px;color:var(--text-4);margin-bottom:4px">By continuing you agree to these terms · <span data-action="toggle-tos" style="color:var(--accent);cursor:pointer;text-decoration:underline">Terms of Service</span></div>';
+  h+='<div id="tos-panel" style="display:none;margin-top:14px;background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:18px;font-size:11.5px;color:var(--text-2);line-height:1.7;text-align:left">';
+  h+='<div style="font-size:13px;font-weight:800;color:var(--text);margin-bottom:12px">Terms of Service</div>';
+  h+='<div style="font-size:9px;font-weight:700;letter-spacing:3px;color:var(--text-3);text-transform:uppercase;margin-bottom:12px">Last updated: May 2026</div>';
+
+  const tosSections=[
+    ['1. What this app is','TMCompanion is a free, independent practice companion for Toastmasters members. It is not affiliated with, endorsed by, or connected to Toastmasters International in any way.'],
+    ['2. No warranty','This app is provided as-is. AI coaching outputs are for practice purposes only and may not always be accurate. Use your own judgment. The developer makes no guarantees about the accuracy, reliability, or suitability of any content generated by the app.'],
+    ['3. Your data','Speech audio and transcripts are processed by OpenAI and Anthropic via their APIs for transcription and coaching. We encourage users to review their respective privacy policies for full details. All other data — your progress, notes, and plans — is stored locally on your device and never transmitted to any server.'],
+    ['4. Age requirement','This app is intended for users 18 and older, consistent with Toastmasters International\' s minimum membership age.'],
+    ['5. Limitation of liability','The developer is not liable for any loss, damage, or consequence arising from your use of this app, including but not limited to data loss from clearing your browser cache, reliance on AI coaching outputs, or service interruption.'],
+    ['6. Changes and availability','This app is a personal project. The developer reserves the right to modify, suspend, or discontinue the app at any time without notice.'],
+    ['7. Intellectual property','Toastmasters® is a registered trademark of Toastmasters International. All references to Toastmasters content are for educational and practice purposes only.'],
+  ];
+  tosSections.forEach(([title,body])=>{
+    h+='<div style="margin-bottom:10px"><div style="font-weight:700;color:var(--text);margin-bottom:2px">'+title+'</div><div>'+body+'</div></div>';
+  });
+
+  h+='<div style="margin-top:14px;padding-top:12px;border-top:1px solid var(--border);font-size:11px;color:var(--text-3);line-height:1.6">Built by Kian How, a member of 5A+ Shanghai Toastmasters Club as part of his Distinguished Toastmaster (DTM) project. This app was created as a personal project to support the Toastmasters community — not as a commercial product.</div>';
+  h+='</div>';
+
+  h+='</div>';
+  app.innerHTML=h;
+
+  app.querySelector('[data-action="notice-agree"]').addEventListener('click',()=>{
+    S.agreedToTerms=true;
+    save();
+    V.view='welcome';
+    render();
+  });
+  const tosToggle=app.querySelector('[data-action="toggle-tos"]');
+  if(tosToggle)tosToggle.addEventListener('click',()=>{
+    const panel=app.querySelector('#tos-panel');
+    if(panel)panel.style.display=panel.style.display==='none'?'block':'none';
+  });
+}
+
 function renderWelcome(app){
   let h='<div class="fade-up welcome">';
   h+='<div class="welcome-hero">';
   h+='<div class="welcome-kicker">Welcome to</div>';
-  h+='<div class="welcome-title">Toastmasters<br>Companion</div>';
-  h+='<div class="welcome-subtitle">Your AI practice partner. Pick a mode to get started.</div>';
+  h+='<div class="welcome-title">TM Companion</div>';
+  h+='<div class="welcome-subtitle">For the work between meetings.</div>';
   h+='</div>';
 
   h+='<div style="margin:24px 0 16px">';
@@ -16136,7 +16270,10 @@ document.addEventListener("click",e=>{
 
   if(!btn)return;
   const action=btn.dataset.action;
-  if(action==="open-ai-settings"){
+  if(action==="show-notice"){
+    V._tosReturnView=V.view;
+    V.view="tos";render();
+  }else if(action==="open-ai-settings"){
     V.view="ai-settings";render();
   }else if(action==="ttp-retry-eval"){
     // Re-run TTP evaluation with the existing transcript
