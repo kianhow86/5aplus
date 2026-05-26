@@ -13888,6 +13888,15 @@ function renderContestDetail(app){
           h+='<textarea class="ps-input-field" id="contest-key-msg" placeholder="Key message e.g. The things we leave unsaid cost us more than the things we say wrong." rows="2">'+escHtml(V._contestKeyMsg||'')+'</textarea>';
           h+='</div>';
 
+          // K focus card — shown when coming from session history follow-up
+          if(V._contestIsFollowup&&V._contestPrevFeedback&&V._contestHistoryFocus){
+            h+='<div style="background:rgba(229,179,82,0.12);border:1px solid rgba(229,179,82,0.35);border-left:3px solid #E5B352;border-radius:12px;padding:13px 15px;margin-bottom:12px">';
+            h+='<div style="font-size:9px;font-weight:700;letter-spacing:0.12em;color:#E5B352;text-transform:uppercase;margin-bottom:5px">K says — ballot focus</div>';
+            h+='<div style="font-size:13px;color:var(--text-2);line-height:1.55">'+V._contestHistoryFocus+'</div>';
+            h+='</div>';
+            h+='<div class="ps-followup-badge" style="margin-bottom:10px">↩ Follow-up — K will compare with your previous attempt</div>';
+          }
+
           // ── Record / Paste Script toggle ──
           const scriptMode=V._contestScriptMode||'record';
           h+='<div style="display:flex;gap:6px;margin-bottom:12px">';
