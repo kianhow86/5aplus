@@ -12501,26 +12501,30 @@ function renderCoachSessionDetail(app){
 
   app.querySelector('[data-action="session-followup"]').addEventListener('click',()=>{
     if(isContest){
-      // Load into contest follow-up state
+      // Navigate to the correct contest type, pre-loaded for follow-up
+      V._contestId=session.contestType||'international';
+      V._contestState='guide';
       V._contestPrevTranscript=session.transcript;
       V._contestPrevFeedback=session.feedback;
       V._contestIsFollowup=true;
       V._contestSpeechTitle=session.speechTitle||'';
       V._contestKeyMsg=session.keyMessage||'';
       V._contestData={phase:'ready',transcript:'',loading:false,result:null,error:null};
-      // Navigate to contest view
-      V.view='contests';
+      V._contestHistoryFocus=_extractFocus(session.feedback,'contest');
+      V.view='contest-detail';
       render();
     }else{
-      // Load into speech coach follow-up state
+      // Navigate to speech coach with correct project pre-loaded
       PS._prevTranscript=session.transcript;
       PS._prevFeedback=session.feedback;
       PS._isFollowup=true;
+      PS._historyFocus=_extractFocus(session.feedback,'speech');
       PS.pid=session.pid||null;
+      PS._psReturnToProject=session.pid||null;
       PS.phase='ready';
       PS.aiAnalysis=null;
       PS._extraNotes=null;
-      V.view='practice-studio';
+      V.view='ai-coach';
       render();
     }
   });
@@ -12532,6 +12536,28 @@ function renderCoachSessionDetail(app){
     V.view='coach-history';
     render();
   });
+}
+
+
+// Extract the most actionable focus point from previous K feedback
+function _extractFocus(feedback,type){
+  if(!feedback)return null;
+  const clean=feedback.replace(/<[^>]+>/g,' ').replace(/\s+/g,' ').trim();
+  // ONE PRIORITY section
+  const priIdx=clean.indexOf('ONE PRIORITY');
+  if(priIdx>=0){
+    const raw=clean.slice(priIdx+12,priIdx+250).replace(/^[: \u2014]+/,'');
+    const text=raw.replace(/[\u{1F3AF}\u{2705}\u{1F4C8}\u{1F4A1}]/gu,'').trim().slice(0,180);
+    if(text.length>15)return text;
+  }
+  // WHERE TO IMPROVE section
+  const impIdx=clean.indexOf('WHERE TO IMPROVE');
+  if(impIdx>=0){
+    const raw=clean.slice(impIdx+16,impIdx+300).replace(/^[: \u2014]+/,'');
+    const first=raw.split('. ')[0].replace(/[\u{1F3AF}\u{2705}\u{1F4A1}]/gu,'').trim();
+    if(first.length>15)return first+(first.endsWith('.')?'':'.');
+  }
+  return null;
 }
 
 function renderNotice(app){
@@ -13871,6 +13897,7 @@ function renderContestDetail(app){
           h+='<div id="contest-paste-panel" style="display:'+(scriptMode==='paste'?'block':'none')+';margin-bottom:12px">';
           h+='<textarea class="ps-input-field" id="contest-script-input" placeholder="Paste your speech script here..." rows="8" style="font-size:13px;line-height:1.6">'+escHtml(V._contestScript||'')+'</textarea>';
           h+='<button class="modal-cta" id="contest-script-submit" style="margin-top:8px;background:linear-gradient(135deg,'+c.color+','+c.color+'99)">Analyse script →</button>';
+          h+='<button data-action="open-coach-history" style="width:100%;background:none;border:none;padding:8px 0 2px;font-size:12px;color:var(--accent);cursor:pointer;font-family:inherit;opacity:0.75">📚 Session history</button>';
           h+='</div>';
         }
         h+='<div class="ps-timer-card" id="contest-timer-card"'+(V._contestScriptMode==='paste'?' style="display:none"':'')+'>'; 
@@ -13893,11 +13920,18 @@ function renderContestDetail(app){
         if(CD.loading){
           h+='<div class="role-ai-loading" style="padding:32px;text-align:center"><span class="coach-dots"><span>.</span><span>.</span><span>.</span></span><div style="margin-top:12px;font-size:13px;color:var(--text-3)">Reviewing against the contest ballot…</div></div>';
         }else if(CD.result){
-          if(V._contestIsFollowup&&V._contestPrevFeedback)h+='<div class="ps-followup-badge" style="margin-bottom:12px">↩ Follow-up — K will compare with your previous attempt</div>';
-          h+='<div class="contest-result fade-up">'+renderCoachCards(CD.result)+'</div>';
-          if(S.coachHistory&&S.coachHistory.some(s=>s.type==='contest')){
-            h+='<button data-action="open-coach-history" style="width:100%;background:none;border:none;padding:10px 0 2px;font-size:12px;color:var(--accent);cursor:pointer;font-family:inherit;text-align:center;opacity:0.8">📚 View session history</button>';
+          if(V._contestIsFollowup&&V._contestPrevFeedback){
+            h+='<div class="ps-followup-badge" style="margin-bottom:8px">↩ Follow-up — K will compare with your previous attempt</div>';
+            const _cf2=V._contestHistoryFocus||null;
+            if(_cf2){
+              h+='<div style="background:rgba(229,179,82,0.10);border:1px solid rgba(229,179,82,0.28);border-radius:12px;padding:13px 15px;margin-bottom:10px">';
+              h+='<div style="font-size:9px;font-weight:700;letter-spacing:0.12em;color:#E5B352;text-transform:uppercase;margin-bottom:5px">K says — ballot focus</div>';
+              h+='<div style="font-size:13px;color:var(--text-2);line-height:1.55">'+_cf2+'</div>';
+              h+='</div>';
+            }
           }
+          h+='<div class="contest-result fade-up">'+renderCoachCards(CD.result)+'</div>';
+          h+='<button data-action="open-coach-history" style="width:100%;background:none;border:none;padding:10px 0 2px;font-size:12px;color:var(--accent);cursor:pointer;font-family:inherit;text-align:center;opacity:0.8">📚 Session history</button>';
           h+='<div class="contest-again-row">';
           h+='<button class="ttp-random-btn" data-action="contest-fresh">↩ Fresh start</button>';
           h+='<button class="ttp-random-btn ps-keepcoach-btn" data-action="contest-followup">↩ Keep coaching</button>';
@@ -14727,6 +14761,7 @@ function renderPracticeStudio(app){
     h+='<div style="font-size:11px;color:var(--text-secondary);margin-top:4px">Optional — K will coach whether your script actually delivers on this word.</div>';
     h+='</div>';
     h+='<button class="modal-cta" id="ps-script-submit" style="margin-top:8px;background:linear-gradient(135deg,#A07BC7,#6DB6B4)">Analyse script →</button>';
+    h+='<button data-action="open-coach-history" style="width:100%;background:none;border:none;padding:8px 0 2px;font-size:12px;color:var(--accent);cursor:pointer;font-family:inherit;opacity:0.75">📚 Session history</button>';
     h+='</div>';
     if(psScriptMode==='paste'){
     }else{
@@ -16451,7 +16486,19 @@ function renderPracticeStudioDone(app){
   h+='<button class="top-bar-btn ps-keepcoach-btn" data-action="ps-followup">↩ Keep coaching</button>';
   h+='</div>';
 
-  if(PS._isFollowup&&PS._prevFeedback)h+='<div class="ps-followup-badge" style="margin:12px 0 0">↩ Follow-up — K will compare with your last attempt</div>';
+  if(PS._isFollowup&&PS._prevFeedback){
+    h+='<div class="ps-followup-badge" style="margin:12px 0 0">↩ Follow-up — K will compare with your last attempt</div>';
+    const _hf=PS._historyFocus||null;
+    if(_hf){
+      const _ph=PS.pid?PD[PS.pid]:null;
+      h+='<div style="background:rgba(160,123,199,0.12);border:1px solid rgba(160,123,199,0.28);border-radius:12px;padding:13px 15px;margin:10px 0">';
+      h+='<div style="font-size:9px;font-weight:700;letter-spacing:0.12em;color:#A07BC7;text-transform:uppercase;margin-bottom:5px">';
+      h+=(_ph?'K says — objective focus':'K says — focus on this')+'</div>';
+      if(_ph)h+='<div style="font-size:11px;color:var(--text-3);margin-bottom:4px">'+_ph.t+'</div>';
+      h+='<div style="font-size:13px;color:var(--text-2);line-height:1.55">'+_hf+'</div>';
+      h+='</div>';
+    }
+  }
   h+='<div class="ps-done-header">';
   h+='<div class="ps-done-icon">✓</div>';
   h+='<div class="ps-done-title">'+(proj?proj.t:"Freestyle")+'</div>';
@@ -16497,10 +16544,8 @@ function renderPracticeStudioDone(app){
     h+='</div>';
   }
 
-  // Session History link
-  if(S.coachHistory&&S.coachHistory.some(s=>s.type==='speech')){
-    h+='<button data-action="open-coach-history" style="width:100%;background:none;border:none;padding:10px 0 2px;font-size:12px;color:var(--accent);cursor:pointer;font-family:inherit;text-align:center;opacity:0.8">📚 View session history</button>';
-  }
+  // Session History link — always visible
+  h+='<button data-action="open-coach-history" style="width:100%;background:none;border:none;padding:10px 0 2px;font-size:12px;color:var(--accent);cursor:pointer;font-family:inherit;text-align:center;opacity:0.8">📚 Session history</button>';
   // Collapsible transcript
   if(transcript){
     h+='<details class="ps-transcript-details">';
