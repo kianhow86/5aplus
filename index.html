@@ -203,7 +203,7 @@ a{color:inherit;text-decoration:none}
 /* Subtitle inside card */
 .hub-tile-inner-sub{font-size:10.5px;color:rgba(255,255,255,0.62);line-height:1.35;text-align:center;margin-top:4px;z-index:2;flex:1}
 /* Category tag at bottom */
-.hub-tile-cat{font-size:8.5px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;margin-top:10px;padding:3px 10px;border-radius:20px;background:rgba(0,0,0,0.28);border:1px solid currentColor;opacity:0.9;z-index:2;flex-shrink:0}
+.hub-tile-cat{font-size:8.5px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;margin-top:10px;padding:3px 10px;border-radius:20px;background:rgba(0,0,0,0.28);border:1px solid currentColor;opacity:0.9;z-index:2;flex-shrink:0}.eh-tag{font-size:9.5px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;padding:3px 10px;border-radius:20px;border:1px solid;display:inline-block;white-space:nowrap}
 
 /* Name below tile — hidden now (text is inside) */
 .hub-tile-name{display:none}
@@ -4549,6 +4549,8 @@ function render(){
   else if(V.view==="speech-draft"){renderSpeechDraft(app);}
   else if(V.view==="my-paths"){renderMyPaths(app);}
   else if(V.view==="notice"){renderNotice(app);}
+  else if(V.view==="coach-history"){renderCoachHistory(app);}
+  else if(V.view==="coach-session"){renderCoachSessionDetail(app);}
   else if(V.view==="tos"){renderToS(app);}
   else if(V.view==="welcome"){renderWelcome(app);}
   else if(V.view==="welcome-alacarte"){renderWelcomeAlacarte(app);}
@@ -4565,7 +4567,7 @@ function render(){
   else if(V.view==="new-path-prompt"){renderNewPathPrompt(app);}
   else if(V.view==="wod"){renderWODTool(app);}
   else if(V.view==="ge-framework"){renderGEFramework(app);}
-  else if(V.view==="filler"){renderFillerDetector(app);}
+  else if(V.view==="filler"){V.view="practice";render();} // Filler Detector retired
   else if(V.view==="browser"){renderPathBrowser(app);}
   else{renderHub(app);} // unknown view -> hub
   try{window.scrollTo(0,0);}catch{}
@@ -6339,8 +6341,7 @@ function renderRoleDetail(app,roleId){
 
   }else if(role.id==="ah"){
     h+='<div class="role-tools-note" style="border-style:solid;border-color:rgba(123,167,204,0.45);background:rgba(123,167,204,0.1)">';
-    h+='<div style="margin-bottom:10px">🎙️ <strong>Filler Detector</strong> — practice your speech and see your specific fillers in real time.</div>';
-    h+='<button class="modal-cta" style="width:auto;padding:10px 22px;font-size:14px;background:var(--blue);color:#fff" data-action="open-filler">Open Filler Detector →</button>';
+
     h+='</div>';
 
   }else if(role.id==="ttm"){
@@ -7066,7 +7067,6 @@ function renderPracticeHub(app){
   }
   h+=toolRow({tool:"timer",       color:"#3B82F6", icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="14" r="7.5"/><polyline points="12 10.5 12 14 14.5 14"/><line x1="10.2" y1="3.9" x2="13.8" y2="3.9"/><line x1="12" y1="3.9" x2="12" y2="6.5"/><line x1="18.8" y1="7.7" x2="18" y2="8.5"/></svg>',  name:"Speech Timer",       desc:"Green / yellow / red / bell — Toastmasters-accurate timing"});
   h+=toolRow({tool:"topics",      color:"#8B5CF6", icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.9" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><circle cx="9" cy="10.5" r="0.75" fill="currentColor" stroke="none"/><circle cx="12" cy="10.5" r="0.75" fill="currentColor" stroke="none"/><circle cx="15" cy="10.5" r="0.75" fill="currentColor" stroke="none"/></svg>', name:"Table Topics",        desc:"Impromptu prompts — pick a theme and speak"});
-  h+=toolRow({tool:"filler",      color:"#22C55E", icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.9" stroke-linecap="round"><line x1="4"    y1="20" x2="4"    y2="16.5"/><line x1="8.5"  y1="20" x2="8.5"  y2="10.5"/><line x1="12"   y1="20" x2="12"   y2="4.5"/><line x1="15.5" y1="20" x2="15.5" y2="10.5"/><line x1="20"   y1="20" x2="20"   y2="16.5"/></svg>',  name:"Filler Detector",     desc:"Counts your ums, ahs, likes in real time"});
   h+=toolRow({tool:"eval-helper", color:"#F59E0B", icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.9" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H7a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h5"/><path d="M14 2v5h5"/><path d="M14 2l5 5"/><line x1="9" y1="10.5" x2="12.5" y2="10.5"/><line x1="9" y1="13.5" x2="12.5" y2="13.5"/><circle cx="18.5" cy="18.5" r="3" fill="currentColor" stroke="none"/><path d="M16.5 18.5l1.5 1.5 2.5-2.5" stroke="white" stroke-width="0.8" fill="none"/></svg>',  name:"Evaluation Helper",   desc:"AI-drafted CRC feedback for any Pathways speech"});
   h+=toolRow({tool:"speech-draft",color:"#3B82F6", icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.9" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><path d="M13 2v5h7"/><line x1="8" y1="13.5" x2="12" y2="13.5"/><line x1="8" y1="17.5" x2="12" y2="17.5"/><path d="M17.5 4.5l2.5 2.5-7 7-2.5 0.5 0.5-2.5z"/><line x1="17.5" y1="4.5" x2="20" y2="7"/></svg>',  name:"Speech Draft Builder",desc:"AI builds your speech outline and opening lines"});
 
@@ -9370,7 +9370,7 @@ function buildProgram(answers,pathCode){
   const frontWeeks=Math.min(4,Math.floor(spec.weeks/3));
   if(c==="nervous"){
     for(let i=0;i<frontWeeks;i++){
-      plan.weeks[i].practice.push({tool:"filler",action:"Daily 5-min solo read-aloud with Filler Detector"});
+      plan.weeks[i].practice.push({tool:"ai-coach",action:"Daily 5-min read-aloud — record and get K's coaching on fillers and pacing"});
     }
     if(plan.weeks[0].projects.length===0){
       plan.weeks[0].focus="Warm up — easy wins first";
@@ -9395,7 +9395,7 @@ function buildProgram(answers,pathCode){
   const recordingWeeks=Math.min(6,Math.floor(spec.weeks/2));
   if(g==="stage"){
     for(let i=0;i<recordingWeeks;i++){
-      plan.weeks[i].practice.push({tool:"filler",action:"Record every rehearsal on your phone; watch back with sound off"});
+      plan.weeks[i].practice.push({tool:"ai-coach",action:"Record rehearsals and use K's coaching to spot verbal distractions"});
     }
   }else if(g==="leadership"){
     _safePushRole(plan,Math.min(2,lastIdx),"tmd",projectWeeks);
@@ -10484,21 +10484,36 @@ function renderEvalHelper(app){
 
   // Show all projects across ALL paths — evaluators rarely share the same path as the speaker
   const levelGroups=[];
-  const allPathCodes=Object.keys(PA);
+  const pidRequired={};  // pid → [pathCodes where required]
+  const pidElective={};  // pid → [pathCodes where elective]
+  const pidColor={};     // pid → first path color (for required)
+  const allPathCodes=Object.keys(PA).filter(pc=>!(PA[pc]||{}).legacy);
+  const totalPaths=allPathCodes.length;
   for(let lv=1;lv<=5;lv++){
     const seen=new Set();
     const pids=[];
     allPathCodes.forEach(pc=>{
       const g=gP(pc,lv);
-      [...g.r,...g.e].forEach(pid=>{
-        if(!seen.has(pid)&&PD[pid]&&PD[pid].dur&&PD[pid].dur.includes("min")){
-          seen.add(pid);pids.push(pid);
+      const col=(PA[pc]||{}).c||"#888";
+      g.r.forEach(pid=>{
+        if(PD[pid]&&PD[pid].dur&&PD[pid].dur.includes("min")){
+          if(!seen.has(pid)){seen.add(pid);pids.push(pid);}
+          (pidRequired[pid]=pidRequired[pid]||[]).push(pc);
+          if(!pidColor[pid])pidColor[pid]=col;
+        }
+      });
+      g.e.forEach(pid=>{
+        if(PD[pid]&&PD[pid].dur&&PD[pid].dur.includes("min")){
+          if(!seen.has(pid)){seen.add(pid);pids.push(pid);}
+          (pidElective[pid]=pidElective[pid]||[]).push(pc);
+          if(!pidColor[pid])pidColor[pid]=col;
         }
       });
     });
     if(pids.length)levelGroups.push({level:lv,pids});
   }
   if(!levelGroups.length)levelGroups.push({level:1,pids:["ice-breaker","writing-speech","intro-vvbl","eval-feedback"]});
+  if(!V._evalOpenLevels)V._evalOpenLevels=new Set([1]);
 
   const selProj=V._evalPid?PD[V._evalPid]:null;
   let selLevel=0;
@@ -10518,14 +10533,45 @@ function renderEvalHelper(app){
     h+='<div class="subtitle">Tap the project you\'re evaluating — get specific coaching on what to listen for.</div>';
     h+='<div class="eh-project-list">';
     levelGroups.forEach(({level,pids})=>{
-      h+='<div class="eh-level-hdr">Level '+level+'</div>';
-      pids.forEach(pid=>{
-        const p=PD[pid];if(!p)return;
-        h+='<button class="eh-project-btn" data-eh-pid="'+pid+'">';
-        h+='<div class="eh-project-btn-info"><div class="eh-project-btn-name">'+p.t+'</div><div class="eh-project-btn-dur">'+p.dur+'</div></div>';
-        h+='<div class="eh-project-btn-arrow">→</div>';
-        h+='</button>';
-      });
+      const isOpen=V._evalOpenLevels.has(level);
+      // Collapsible level header
+      const _lvColors={1:'#6DB6B4',2:'#A07BC7',3:'#5B9DD9',4:'#E5B352',5:'#C9A66B'};
+      const _lvCol=_lvColors[level]||'var(--text-3)';
+      const _lvBg='linear-gradient(90deg,'+_lvCol+'18 0%,'+_lvCol+'06 40%,transparent 70%)';
+      h+='<button class="eh-level-hdr" data-eh-level="'+level+'" style="width:100%;display:flex;justify-content:space-between;align-items:center;background:'+_lvBg+';border:none;cursor:pointer;padding:11px 14px 11px 14px;border-radius:10px;font-family:inherit">';
+      h+='<span>LEVEL <span style="color:'+_lvCol+';font-weight:800">'+level+'</span></span>';
+      h+='<span style="font-size:12px;color:'+_lvCol+';transition:transform .2s;opacity:0.7;'+( isOpen?'transform:rotate(180deg)':'' )+'">▾</span>';
+      h+='</button>';
+      if(isOpen){
+        pids.forEach(pid=>{
+          const p=PD[pid];if(!p)return;
+          const req=pidRequired[pid]||[];
+          const elec=pidElective[pid]||[];
+          const col=pidColor[pid]||"var(--accent)";
+          const isAllPaths=req.length===totalPaths;
+          const hasElective=elec.length>0;
+          h+='<button class="eh-project-btn" data-eh-pid="'+pid+'">';
+          h+='<div class="eh-project-btn-info">';
+          h+='<div class="eh-project-btn-name">'+p.t+'</div>';
+          // Smart tag row
+          h+='<div style="display:flex;flex-wrap:wrap;gap:5px;margin-top:7px">';
+          if(isAllPaths){
+            h+='<span class="eh-tag" style="color:var(--accent);border-color:var(--accent-border);background:var(--accent-soft)">ALL PATHS</span>';
+          }else{
+            req.forEach(pc=>{
+              h+='<span class="eh-tag" style="color:'+col+';border-color:'+col+'66;background:'+col+'18">'+pc+'</span>';
+            });
+          }
+          if(hasElective){
+            h+='<span class="eh-tag" style="color:var(--text-3);border-color:var(--border);background:var(--surface)">ELECTIVE</span>';
+          }
+          h+='</div>';
+          h+='<div class="eh-project-btn-dur" style="margin-top:4px">'+p.dur+'</div>';
+          h+='</div>';
+          h+='<div class="eh-project-btn-arrow">→</div>';
+          h+='</button>';
+        });
+      }
     });
     h+='</div>';
   }else{
@@ -10595,6 +10641,14 @@ function renderEvalHelper(app){
   app.querySelector('[data-action="eh-back"]').addEventListener("click",()=>{V.view="practice";V._evalPid="";V._evalNotes="";render();});
   const changeBtn=app.querySelector('[data-action="eh-change"]');
   if(changeBtn)changeBtn.addEventListener("click",()=>{V._evalPid="";render();});
+  app.querySelectorAll("[data-eh-level]").forEach(btn=>{
+    btn.addEventListener("click",()=>{
+      const lv=parseInt(btn.dataset.ehLevel);
+      if(V._evalOpenLevels.has(lv))V._evalOpenLevels.delete(lv);
+      else V._evalOpenLevels.add(lv);
+      render();
+    });
+  });
   app.querySelectorAll("[data-eh-pid]").forEach(btn=>{
     btn.addEventListener("click",()=>{V._evalPid=btn.dataset.ehPid;V._evalNotes="";render();});
   });
@@ -12296,6 +12350,190 @@ function renderToS(app){
   });
 }
 
+
+// ── Coaching History ──────────────────────────────────────────────────────
+function renderCoachHistory(app){
+  const sessions=S.coachHistory||[];
+  let h='<div class="fade-up">';
+  h+='<div class="top-bar">';
+  h+='<button class="top-bar-btn" data-action="history-back">← Back</button>';
+  h+='<div class="top-bar-title">Session History</div>';
+  h+='</div>';
+
+  if(!sessions.length){
+    h+='<div class="welcome-hero" style="padding:40px 20px;text-align:center">';
+    h+='<div style="font-size:32px;margin-bottom:12px">📚</div>';
+    h+='<div style="font-size:16px;font-weight:700;color:var(--text);margin-bottom:8px">No sessions yet</div>';
+    h+='<div style="font-size:13px;color:var(--text-3)">Complete a coaching session and it will appear here.</div>';
+    h+='</div>';
+  }else{
+    // Group by recency
+    const now=new Date();
+    const todayStr=now.toDateString();
+    const yest=new Date(now-864e5).toDateString();
+    const weekAgo=new Date(now-7*864e5);
+    const groups=[
+      {label:'Today',    sessions:[]},
+      {label:'Yesterday',sessions:[]},
+      {label:'This Week',sessions:[]},
+      {label:'Earlier',  sessions:[]},
+    ];
+    sessions.forEach(s=>{
+      const d=new Date(s.date);
+      const ds=d.toDateString();
+      if(ds===todayStr)groups[0].sessions.push(s);
+      else if(ds===yest)groups[1].sessions.push(s);
+      else if(d>=weekAgo)groups[2].sessions.push(s);
+      else groups[3].sessions.push(s);
+    });
+
+    groups.forEach(g=>{
+      if(!g.sessions.length)return;
+      h+='<div style="font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-3);padding:18px 0 8px">'+g.label+'</div>';
+      g.sessions.forEach(s=>{
+        const isContest=s.type==='contest';
+        const label=isContest
+          ?(s.contestName||'Contest')+(s.speechTitle?' — "'+s.speechTitle+'"':'')
+          :(s.projectTitle||'Freestyle');
+        const timeStr=new Date(s.date).toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'});
+        const accentCol=isContest?'#E5B352':'#A07BC7';
+        const feedbackSnippet=s.feedback.replace(/<[^>]+>/g,'').replace(/[🎯✅📈💡]/g,'').slice(0,80).trim();
+
+        h+='<button data-action="open-session" data-session-id="'+s.id+'" style="width:100%;text-align:left;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:13px 14px;margin-bottom:8px;cursor:pointer;font-family:inherit">';
+        h+='<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px">';
+        h+='<div style="font-size:13px;font-weight:700;color:var(--text);flex:1;padding-right:8px">'+label+'</div>';
+        h+='<div style="font-size:10px;color:var(--text-3);flex-shrink:0">'+timeStr+'</div>';
+        h+='</div>';
+        if(feedbackSnippet)h+='<div style="font-size:11.5px;color:var(--text-3);line-height:1.5;margin-bottom:6px">'+feedbackSnippet+'…</div>';
+        h+='<div style="display:flex;align-items:center;gap:8px">';
+        h+='<span style="font-size:9.5px;font-weight:700;letter-spacing:0.08em;padding:2px 8px;border-radius:10px;background:'+accentCol+'18;color:'+accentCol+';border:1px solid '+accentCol+'44">'+(isContest?'CONTEST':'SPEECH')+'</span>';
+        if(s.elapsed)h+='<span style="font-size:10px;color:var(--text-4)">'+Math.floor(s.elapsed/60)+':'+(s.elapsed%60<10?'0':'')+Math.floor(s.elapsed%60)+'</span>';
+        if(s.wpm)h+='<span style="font-size:10px;color:var(--text-4)">'+s.wpm+' wpm</span>';
+        h+='</div>';
+        h+='</button>';
+      });
+    });
+  }
+
+  h+='</div>';
+  app.innerHTML=h;
+
+  const backBtn=app.querySelector('[data-action="history-back"]');
+  if(backBtn)backBtn.addEventListener('click',()=>{V.view=V._historyReturnView||'hub';render();});
+
+  app.querySelectorAll('[data-action="open-session"]').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      V._coachSessionId=parseInt(btn.dataset.sessionId);
+      V.view='coach-session';
+      render();
+    });
+  });
+}
+
+function renderCoachSessionDetail(app){
+  const sessions=S.coachHistory||[];
+  const session=sessions.find(s=>s.id===V._coachSessionId);
+  if(!session){V.view='coach-history';render();return;}
+
+  const isContest=session.type==='contest';
+  const accentCol=isContest?'#E5B352':'#A07BC7';
+  const label=isContest
+    ?(session.contestName||'Contest')+(session.speechTitle?' — "'+session.speechTitle+'"':'')
+    :(session.projectTitle||'Freestyle');
+  const dateStr=new Date(session.date).toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'});
+  const timeStr=new Date(session.date).toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'});
+
+  let h='<div class="fade-up">';
+  h+='<div class="top-bar">';
+  h+='<button class="top-bar-btn" data-action="session-back">← History</button>';
+  h+='</div>';
+
+  // Header
+  h+='<div style="margin-bottom:16px">';
+  h+='<div style="font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:'+accentCol+';margin-bottom:5px">'+(isContest?'CONTEST':'SPEECH COACH')+' · '+dateStr+' · '+timeStr+'</div>';
+  h+='<div style="font-size:20px;font-weight:800;color:var(--text);line-height:1.2">'+label+'</div>';
+  if(session.title&&!isContest)h+='<div style="font-size:13px;color:var(--text-2);margin-top:3px">"'+session.title+'"</div>';
+  if(session.keyMessage)h+='<div style="font-size:12px;color:var(--text-3);margin-top:3px;font-style:italic">Key message: '+session.keyMessage+'</div>';
+  h+='</div>';
+
+  // Stats
+  if(session.elapsed||session.wpm){
+    h+='<div style="display:flex;gap:10px;margin-bottom:16px">';
+    if(session.elapsed){
+      const m=Math.floor(session.elapsed/60),s2=session.elapsed%60;
+      h+='<div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:10px 14px;text-align:center;flex:1">';
+      h+='<div style="font-size:18px;font-weight:800;color:var(--text)">'+m+':'+(s2<10?'0':'')+s2+'</div>';
+      h+='<div style="font-size:10px;color:var(--text-3);margin-top:2px">Duration</div>';
+      h+='</div>';
+    }
+    if(session.wpm){
+      h+='<div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:10px 14px;text-align:center;flex:1">';
+      h+='<div style="font-size:18px;font-weight:800;color:var(--text)">'+session.wpm+'</div>';
+      h+='<div style="font-size:10px;color:var(--text-3);margin-top:2px">WPM</div>';
+      h+='</div>';
+    }
+    h+='</div>';
+  }
+
+  // Transcript
+  if(session.transcript){
+    const wc=session.transcript.split(/\s+/).filter(Boolean).length;
+    h+='<details style="margin-bottom:14px">';
+    h+='<summary style="font-size:12px;color:var(--text-3);cursor:pointer;padding:8px 0;list-style:none">📄 Show transcript ('+wc+' words)</summary>';
+    h+='<div style="font-size:12px;color:var(--text-2);line-height:1.7;margin-top:8px;padding:12px;background:var(--surface);border-radius:10px;border:1px solid var(--border)">'+escHtml(session.transcript)+'</div>';
+    h+='</details>';
+  }
+
+  // Feedback
+  h+='<div style="font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-3);margin-bottom:8px">K\'s Feedback</div>';
+  h+=renderCoachCards(session.feedback);
+
+  // Follow Up + Delete buttons
+  h+='<div style="display:flex;gap:8px;margin-top:18px">';
+  h+='<button data-action="session-followup" style="flex:1;padding:13px;background:linear-gradient(135deg,'+accentCol+','+accentCol+'99);border:none;border-radius:12px;font-size:14px;font-weight:700;color:#0C0D0F;cursor:pointer;font-family:inherit">↩ Follow up from here</button>';
+  h+='<button data-action="session-delete" style="padding:13px 16px;background:var(--surface);border:1px solid var(--border);border-radius:12px;font-size:13px;color:var(--text-3);cursor:pointer;font-family:inherit">🗑</button>';
+  h+='</div>';
+
+  h+='</div>';
+  app.innerHTML=h;
+
+  app.querySelector('[data-action="session-back"]').addEventListener('click',()=>{V.view='coach-history';render();});
+
+  app.querySelector('[data-action="session-followup"]').addEventListener('click',()=>{
+    if(isContest){
+      // Load into contest follow-up state
+      V._contestPrevTranscript=session.transcript;
+      V._contestPrevFeedback=session.feedback;
+      V._contestIsFollowup=true;
+      V._contestSpeechTitle=session.speechTitle||'';
+      V._contestKeyMsg=session.keyMessage||'';
+      V._contestData={phase:'ready',transcript:'',loading:false,result:null,error:null};
+      // Navigate to contest view
+      V.view='contests';
+      render();
+    }else{
+      // Load into speech coach follow-up state
+      PS._prevTranscript=session.transcript;
+      PS._prevFeedback=session.feedback;
+      PS._isFollowup=true;
+      PS.pid=session.pid||null;
+      PS.phase='ready';
+      PS.aiAnalysis=null;
+      PS._extraNotes=null;
+      V.view='practice-studio';
+      render();
+    }
+  });
+
+  app.querySelector('[data-action="session-delete"]').addEventListener('click',()=>{
+    if(!confirm('Delete this session?'))return;
+    S.coachHistory=(S.coachHistory||[]).filter(s=>s.id!==session.id);
+    save();
+    V.view='coach-history';
+    render();
+  });
+}
+
 function renderNotice(app){
   let h='<div class="fade-up welcome">';
 
@@ -13657,6 +13895,9 @@ function renderContestDetail(app){
         }else if(CD.result){
           if(V._contestIsFollowup&&V._contestPrevFeedback)h+='<div class="ps-followup-badge" style="margin-bottom:12px">↩ Follow-up — K will compare with your previous attempt</div>';
           h+='<div class="contest-result fade-up">'+renderCoachCards(CD.result)+'</div>';
+          if(S.coachHistory&&S.coachHistory.some(s=>s.type==='contest')){
+            h+='<button data-action="open-coach-history" style="width:100%;background:none;border:none;padding:10px 0 2px;font-size:12px;color:var(--accent);cursor:pointer;font-family:inherit;text-align:center;opacity:0.8">📚 View session history</button>';
+          }
           h+='<div class="contest-again-row">';
           h+='<button class="ttp-random-btn" data-action="contest-fresh">↩ Fresh start</button>';
           h+='<button class="ttp-random-btn ps-keepcoach-btn" data-action="contest-followup">↩ Keep coaching</button>';
@@ -14043,6 +14284,19 @@ async function _contestRunEval(c,transcript){
     const summaryMatch=res.replace(/<[^>]+>/g,'').match(/[^.!?]+[.!?]/);
     const summary=summaryMatch?summaryMatch[0].trim().slice(0,80):'';
     saveSession(contestSessionKey,elapsed,wpm,0,summary);
+    // Save full session to coaching history
+    saveCoachSession({
+      type:'contest',
+      contestType:c.id||null,
+      contestName:c.name||null,
+      speechTitle:speechTitle||null,
+      transcript:transcript||'',
+      feedback:res,
+      elapsed:cData.elapsed||0,
+      wpm:wpm,
+      title:speechTitle||null,
+      keyMessage:V._contestKeyMsg||null,
+    });
     checkAchievements('contest');
     render();
   }catch(e){
@@ -15589,7 +15843,6 @@ function _getKDirective(){
     const allSessions=S.sessions?Object.values(S.sessions).flat():[];
     if(allSessions.length<3)candidates.push({msg:"Practice out loud — record a 2-minute speech and hear what K says.",cta:"Open Speech Coach",action:"ai-coach"});
     candidates.push({msg:"Keep your speaking muscles sharp. A quick Table Topics session takes 5 minutes.",cta:"Start now",action:"topics"});
-    candidates.push({msg:"Record yourself and count your fillers. Most people are surprised.",cta:"Open Filler Detector",action:"filler"});
     candidates.push({msg:"Run a full rehearsal with the speech timer. No excuses.",cta:"Open Timer",action:"timer"});
   }else{
     const path=S.path?PA[S.path]:null;
@@ -15701,6 +15954,34 @@ function saveSession(key, elapsed, wpm, fillers, summary){
     summary:summary||''
   });
   S.sessions[key]=S.sessions[key].slice(0,10);
+  save();
+}
+
+
+function saveCoachSession(data){
+  if(!data||!data.feedback)return;
+  if(!S.coachHistory)S.coachHistory=[];
+  const session={
+    id:Date.now(),
+    date:new Date().toISOString(),
+    type:data.type||'speech',
+    // Speech fields
+    pid:data.pid||null,
+    projectTitle:data.projectTitle||null,
+    // Contest fields
+    contestType:data.contestType||null,
+    contestName:data.contestName||null,
+    speechTitle:data.speechTitle||null,
+    // Common
+    transcript:(data.transcript||'').slice(0,8000), // cap at 8KB
+    feedback:data.feedback||'',
+    elapsed:Math.round(data.elapsed||0),
+    wpm:data.wpm||0,
+    title:data.title||null,
+    keyMessage:data.keyMessage||null,
+  };
+  S.coachHistory.unshift(session);
+  S.coachHistory=S.coachHistory.slice(0,50); // keep last 50
   save();
 }
 
@@ -15984,7 +16265,7 @@ ${deliveryNote?"\n"+deliveryNote+"\n":""}Reply in these sections. No markdown. N
 
 💡 ONE PRIORITY: [Optional. Include ONLY if there is something specific and genuinely useful that was NOT already covered above — a recurring pattern, a distinctive habit, a transferable strength. One sentence maximum. If there is nothing new to add beyond the three sections above, omit this section entirely. Do not summarise. Do not repeat. Do not include a generic encouragement.]
 
-Filler words: only flag if used 3+ times as a crutch. Under 220 words total.`;
+Verbal distractions: Analyse the transcript for filler words (um, uh, ah, so, like, you know, right, basically, honestly, literally), repetitive sentence starters, and rushed pacing. Only flag patterns that appear 3+ times or noticeably disrupt flow — not isolated instances. When flagging, be specific: name the exact word or phrase and how often. Suggest concrete techniques: intentional pause before key points, slower delivery on transitions, breath placement, or restructuring the sentence opener. Context matters — fillers clustered at transitions suggest loss of thread; scattered fillers suggest pacing anxiety. Coach the cause, not just the symptom. Under 220 words total.`;
 
   const isPsFollowup=!!(PS._isFollowup&&PS._prevFeedback);
   const isPasteMode=!!(PS._pasteMode);
@@ -16010,6 +16291,19 @@ Filler words: only flag if used 3+ times as a crutch. Under 220 words total.`;
     const summaryMatch=response.replace(/<[^>]+>/g,'').match(/[^.!?]+[.!?]/);
     const summary=summaryMatch?summaryMatch[0].trim().slice(0,80):'';
     saveSession(PS.pid,PS.elapsed,wpm,PS.totalFillers||0,summary);
+    // Save full session to coaching history
+    const _proj=PS.pid?PD[PS.pid]:null;
+    saveCoachSession({
+      type:'speech',
+      pid:PS.pid||null,
+      projectTitle:_proj?_proj.t:null,
+      transcript:(FD.transcript||'').trim(),
+      feedback:response,
+      elapsed:PS.elapsed,
+      wpm:wpm,
+      title:PS._titleInput||null,
+      keyMessage:PS._purposeInput||null,
+    });
     checkAchievements('speech');
   }catch(err){
     PS.aiAnalysis=renderAIError(err,null);
@@ -16203,6 +16497,10 @@ function renderPracticeStudioDone(app){
     h+='</div>';
   }
 
+  // Session History link
+  if(S.coachHistory&&S.coachHistory.some(s=>s.type==='speech')){
+    h+='<button data-action="open-coach-history" style="width:100%;background:none;border:none;padding:10px 0 2px;font-size:12px;color:var(--accent);cursor:pointer;font-family:inherit;text-align:center;opacity:0.8">📚 View session history</button>';
+  }
   // Collapsible transcript
   if(transcript){
     h+='<details class="ps-transcript-details">';
@@ -16273,6 +16571,9 @@ document.addEventListener("click",e=>{
   if(action==="show-notice"){
     V._tosReturnView=V.view;
     V.view="tos";render();
+  }else if(action==="open-coach-history"){
+    V._historyReturnView=V.view;
+    V.view="coach-history";render();
   }else if(action==="open-ai-settings"){
     V.view="ai-settings";render();
   }else if(action==="ttp-retry-eval"){
