@@ -4704,7 +4704,7 @@ function renderHub(app){
   }
   h+='</div>';
 
-  h+='<div class="app-footer">Made by Kian How · Not affiliated with Toastmasters International · v1.72 · <a data-action="show-notice" style="color:var(--accent);text-decoration:none;cursor:pointer">User Agreement</a></div>';
+  h+='<div class="app-footer">Made by Kian How · Not affiliated with Toastmasters International · v1.73 · <a data-action="show-notice" style="color:var(--accent);text-decoration:none;cursor:pointer">User Agreement</a></div>';
   h+='</div>';
   app.innerHTML=h;
 
@@ -5036,7 +5036,7 @@ function renderPathPicker(app){
   h+='<button class="quiz-prompt-btn" data-action="open-quiz">🧭 &nbsp; Not sure which one? Take the fun quiz</button>';
   h+='</div>';
 
-  h+='<div class="app-footer">Made by Kian How · Not affiliated with Toastmasters International · v1.72 · <a data-action="show-notice" style="color:var(--accent);text-decoration:none;cursor:pointer">User Agreement</a></div>';
+  h+='<div class="app-footer">Made by Kian How · Not affiliated with Toastmasters International · v1.73 · <a data-action="show-notice" style="color:var(--accent);text-decoration:none;cursor:pointer">User Agreement</a></div>';
   h+='</div>';
   app.innerHTML=h;
 
@@ -5400,7 +5400,7 @@ function renderPathBrowser(app){
   // Keeping it in the tree lets us toggle visibility without re-rendering.
   h+='<div class="path-complete-banner'+(pct>=100?'':' hidden')+'"><strong>🎉 Path complete!</strong><div style="font-size:13px;color:var(--text-muted);line-height:1.5">Next step: DTM. Keep going.</div></div>';
 
-  h+='<div class="app-footer">Made by Kian How · Not affiliated with Toastmasters International · v1.72 · <a data-action="show-notice" style="color:var(--accent);text-decoration:none;cursor:pointer">User Agreement</a></div>';
+  h+='<div class="app-footer">Made by Kian How · Not affiliated with Toastmasters International · v1.73 · <a data-action="show-notice" style="color:var(--accent);text-decoration:none;cursor:pointer">User Agreement</a></div>';
   h+='</div>';
   app.innerHTML=h;
 
@@ -7071,7 +7071,7 @@ function renderPracticeHub(app){
   h+=toolRow({tool:"speech-draft",color:"#3B82F6", icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.9" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><path d="M13 2v5h7"/><line x1="8" y1="13.5" x2="12" y2="13.5"/><line x1="8" y1="17.5" x2="12" y2="17.5"/><path d="M17.5 4.5l2.5 2.5-7 7-2.5 0.5 0.5-2.5z"/><line x1="17.5" y1="4.5" x2="20" y2="7"/></svg>',  name:"Speech Draft Builder",desc:"AI builds your speech outline and opening lines"});
 
   h+='</div>';
-  h+='<div class="app-footer">Made by Kian How · Not affiliated with Toastmasters International · v1.72 · <a data-action="show-notice" style="color:var(--accent);text-decoration:none;cursor:pointer">User Agreement</a></div>';
+  h+='<div class="app-footer">Made by Kian How · Not affiliated with Toastmasters International · v1.73 · <a data-action="show-notice" style="color:var(--accent);text-decoration:none;cursor:pointer">User Agreement</a></div>';
   h+='</div>';
   app.innerHTML=h;
 
@@ -12340,7 +12340,7 @@ function renderToS(app){
   h+='Built by Kian How, a member of 5A+ Shanghai Toastmasters Club as part of his Distinguished Toastmaster (DTM) project. This app was created as a personal project to support the Toastmasters community — not as a commercial product.';
   h+='</div>';
 
-  h+='<div class="app-footer">Made by Kian How · Not affiliated with Toastmasters International · v1.72</div>';
+  h+='<div class="app-footer">Made by Kian How · Not affiliated with Toastmasters International · v1.73</div>';
   h+='</div>';
   app.innerHTML=h;
 
@@ -12539,25 +12539,71 @@ function renderCoachSessionDetail(app){
 }
 
 
-// Extract the most actionable focus point from previous K feedback
-function _extractFocus(feedback,type){
-  if(!feedback)return null;
+// Extract 2-3 key coaching points from previous K feedback
+function _extractFocusPoints(feedback,type){
+  if(!feedback)return[];
   const clean=feedback.replace(/<[^>]+>/g,' ').replace(/\s+/g,' ').trim();
-  // ONE PRIORITY section
-  const priIdx=clean.indexOf('ONE PRIORITY');
-  if(priIdx>=0){
-    const raw=clean.slice(priIdx+12,priIdx+250).replace(/^[: \u2014]+/,'');
-    const text=raw.replace(/[\u{1F3AF}\u{2705}\u{1F4C8}\u{1F4A1}]/gu,'').trim().slice(0,180);
-    if(text.length>15)return text;
+  const pts=[];
+
+  if(type==='contest'){
+    // ONE ACTION — the single most impactful change
+    const aIdx=clean.indexOf('ONE ACTION');
+    if(aIdx>=0){
+      const raw=clean.slice(aIdx+10,aIdx+300).replace(/^[: \u2014]+/,'');
+      const t=raw.replace(/[\u26A0\u2705\u{1F4CB}\u{1F4A1}]/gu,'').split('.')[0].trim();
+      if(t.length>15)pts.push(t+(t.endsWith('.')?'':'.'));
+    }
+    // CONTEST GAP — placement risk
+    const gIdx=clean.indexOf('CONTEST GAP');
+    if(gIdx>=0){
+      const raw=clean.slice(gIdx+11,gIdx+300).replace(/^[: \u2014]+/,'');
+      const t=raw.replace(/[\u26A0\u2705\u{1F4CB}\u{1F4A1}]/gu,'').split('.')[0].trim();
+      if(t.length>15&&pts.length<3)pts.push(t+(t.endsWith('.')?'':'.'));
+    }
+  }else{
+    // ONE PRIORITY — top coaching note
+    const pIdx=clean.indexOf('ONE PRIORITY');
+    if(pIdx>=0){
+      const raw=clean.slice(pIdx+12,pIdx+300).replace(/^[: \u2014]+/,'');
+      const t=raw.replace(/[\u{1F3AF}\u2705\u{1F4C8}\u{1F4A1}]/gu,'').trim().slice(0,200);
+      if(t.length>15)pts.push(t);
+    }
+    // WHERE TO IMPROVE — first 2 sentences
+    const iIdx=clean.indexOf('WHERE TO IMPROVE');
+    if(iIdx>=0){
+      const raw=clean.slice(iIdx+16,iIdx+500).replace(/^[: \u2014]+/,'');
+      raw.split('. ').slice(0,3).forEach(s=>{
+        const t=s.replace(/[\u{1F3AF}\u2705\u{1F4A1}]/gu,'').trim();
+        if(t.length>15&&pts.length<3)pts.push(t+(t.endsWith('.')?'':'.'));
+      });
+    }
   }
-  // WHERE TO IMPROVE section
-  const impIdx=clean.indexOf('WHERE TO IMPROVE');
-  if(impIdx>=0){
-    const raw=clean.slice(impIdx+16,impIdx+300).replace(/^[: \u2014]+/,'');
-    const first=raw.split('. ')[0].replace(/[\u{1F3AF}\u{2705}\u{1F4A1}]/gu,'').trim();
-    if(first.length>15)return first+(first.endsWith('.')?'':'.');
-  }
-  return null;
+  return pts;
+}
+
+// Legacy single-value wrapper (kept for backward compat)
+function _extractFocus(feedback,type){
+  const pts=_extractFocusPoints(feedback,type);
+  return pts.length?pts[0]:null;
+}
+
+
+
+// Render K's Focus card for follow-up sessions
+function _renderKFocusCard(feedback,type){
+  const pts=_extractFocusPoints(feedback,type);
+  if(!pts.length)return'';
+  let h='<div data-focus-card style="background:rgba(229,179,82,0.10);border:1px solid rgba(229,179,82,0.32);border-left:3px solid #E5B352;border-radius:12px;padding:14px 16px;margin-bottom:14px">';
+  h+='<div style="font-size:9px;font-weight:700;letter-spacing:0.12em;color:#E5B352;text-transform:uppercase;margin-bottom:9px">K\'s focus — last session</div>';
+  h+='<div data-focus-points>';
+  pts.forEach(p=>{
+    h+='<div style="font-size:13px;color:var(--text-2);line-height:1.55;margin-bottom:5px;display:flex;gap:7px">';
+    h+='<span style="color:#E5B352;flex-shrink:0">›</span><span>'+p+'</span></div>';
+  });
+  h+='</div>';
+  h+='<button data-action="kfocus-refresh" data-type="'+type+'" style="margin-top:10px;background:none;border:1px solid rgba(229,179,82,0.3);border-radius:8px;padding:6px 12px;font-size:11px;color:#E5B352;cursor:pointer;font-family:inherit;width:100%">✨ Ask K for a fresh brief</button>';
+  h+='</div>';
+  return h;
 }
 
 function renderNotice(app){
@@ -13889,11 +13935,8 @@ function renderContestDetail(app){
           h+='</div>';
 
           // K focus card — shown when coming from session history follow-up
-          if(V._contestIsFollowup&&V._contestPrevFeedback&&V._contestHistoryFocus){
-            h+='<div style="background:rgba(229,179,82,0.12);border:1px solid rgba(229,179,82,0.35);border-left:3px solid #E5B352;border-radius:12px;padding:13px 15px;margin-bottom:12px">';
-            h+='<div style="font-size:9px;font-weight:700;letter-spacing:0.12em;color:#E5B352;text-transform:uppercase;margin-bottom:5px">K says — ballot focus</div>';
-            h+='<div style="font-size:13px;color:var(--text-2);line-height:1.55">'+V._contestHistoryFocus+'</div>';
-            h+='</div>';
+          if(V._contestIsFollowup&&V._contestPrevFeedback){
+            h+=_renderKFocusCard(V._contestPrevFeedback,'contest');
             h+='<div class="ps-followup-badge" style="margin-bottom:10px">↩ Follow-up — K will compare with your previous attempt</div>';
           }
 
@@ -13931,13 +13974,6 @@ function renderContestDetail(app){
         }else if(CD.result){
           if(V._contestIsFollowup&&V._contestPrevFeedback){
             h+='<div class="ps-followup-badge" style="margin-bottom:8px">↩ Follow-up — K will compare with your previous attempt</div>';
-            const _cf2=V._contestHistoryFocus||null;
-            if(_cf2){
-              h+='<div style="background:rgba(229,179,82,0.10);border:1px solid rgba(229,179,82,0.28);border-radius:12px;padding:13px 15px;margin-bottom:10px">';
-              h+='<div style="font-size:9px;font-weight:700;letter-spacing:0.12em;color:#E5B352;text-transform:uppercase;margin-bottom:5px">K says — ballot focus</div>';
-              h+='<div style="font-size:13px;color:var(--text-2);line-height:1.55">'+_cf2+'</div>';
-              h+='</div>';
-            }
           }
           h+='<div class="contest-result fade-up">'+renderCoachCards(CD.result)+'</div>';
           h+='<button data-action="open-coach-history" style="width:100%;background:none;border:none;padding:10px 0 2px;font-size:12px;color:var(--accent);cursor:pointer;font-family:inherit;text-align:center;opacity:0.8">📚 Session history</button>';
@@ -14691,16 +14727,7 @@ function renderPracticeStudio(app){
   // Follow-up focus card — shown when coming from session history
   if(PS._isFollowup&&PS._prevFeedback){
     h+='<div class="ps-followup-badge" style="margin-bottom:10px">↩ Follow-up — K will compare with your last attempt</div>';
-    const _hf2=PS._historyFocus||null;
-    if(_hf2){
-      const _ph2=PS.pid?PD[PS.pid]:null;
-      h+='<div style="background:rgba(229,179,82,0.12);border:1px solid rgba(229,179,82,0.35);border-left:3px solid #E5B352;border-radius:12px;padding:13px 15px;margin-bottom:14px">';
-      h+='<div style="font-size:9px;font-weight:700;letter-spacing:0.12em;color:#E5B352;text-transform:uppercase;margin-bottom:5px">';
-      h+=(_ph2?'K says — objective focus':'K says — focus on this')+'</div>';
-      if(_ph2)h+='<div style="font-size:11px;color:var(--text-3);margin-bottom:4px">'+_ph2.t+'</div>';
-      h+='<div style="font-size:13px;color:var(--text-2);line-height:1.55">'+_hf2+'</div>';
-      h+='</div>';
-    }
+    h+=_renderKFocusCard(PS._prevFeedback,'speech');
   }
 
   // Coach note — subtle, below dropdown
@@ -16640,6 +16667,28 @@ document.addEventListener("click",e=>{
   if(action==="show-notice"){
     V._tosReturnView=V.view;
     V.view="tos";render();
+  }else if(action==="kfocus-refresh"){
+    const _kBtn=e.target.closest('[data-action="kfocus-refresh"]');
+    const _kType=_kBtn?_kBtn.dataset.type:'speech';
+    const _kFeedback=_kType==='contest'?V._contestPrevFeedback:PS._prevFeedback;
+    if(!_kFeedback)return;
+    const _kCard=_kBtn?_kBtn.closest('[data-focus-card]'):null;
+    if(_kBtn){_kBtn.textContent='K is thinking…';_kBtn.disabled=true;}
+    const _kSys='You are K, a direct Toastmasters coach. Given feedback from a speaker\'s previous session, write 2-3 sharp, specific coaching points they should focus on in their next attempt. Each point on a new line starting with ›. One sentence max per point. No preamble. No labels. No encouragement. Just the points.';
+    callCoach(_kSys,'Previous session feedback:\n'+_kFeedback,{maxTokens:150,featureId:'focus-brief'})
+      .then(res=>{
+        if(!_kCard)return;
+        const _pts=_kCard.querySelector('[data-focus-points]');
+        if(_pts){
+          _pts.innerHTML=res.split('\n').filter(l=>l.trim()).map(l=>{
+            const t=l.replace(/^[›•\-\*]\s*/,'').trim();
+            return t?'<div style="font-size:13px;color:var(--text-2);line-height:1.55;margin-bottom:5px;display:flex;gap:7px"><span style="color:#E5B352;flex-shrink:0">›</span><span>'+t+'</span></div>':'';}).join('');
+        }
+        if(_kBtn)_kBtn.style.display='none';
+      })
+      .catch(()=>{
+        if(_kBtn){_kBtn.textContent='✨ Ask K for a fresh brief';_kBtn.disabled=false;}
+      });
   }else if(action==="open-coach-history"){
     V._historyReturnView=V.view;
     V.view="coach-history";render();
