@@ -14634,6 +14634,9 @@ function _psRebuildDropdownList(app,mode,projects){
     btn.addEventListener("click",()=>{
       const pid=btn.dataset.psPid==="freestyle"?null:btn.dataset.psPid;
       PS.pid=pid;
+      // Clear follow-up state when user switches to a different project
+      PS._isFollowup=false;PS._prevFeedback=null;PS._prevTranscript=null;PS._historyFocus=null;
+      const _fc2=app.querySelector("[data-focus-card]");if(_fc2)_fc2.remove();
       dd.querySelectorAll("[data-ps-pid]").forEach(b=>b.classList.remove("selected"));
       btn.classList.add("selected");
       const projBtn=app.querySelector(".ps-coach-project-btn");
@@ -14950,6 +14953,8 @@ function renderPracticeStudio(app){
     btn.addEventListener("click",()=>{
       const pid=btn.dataset.psPid==="freestyle"?null:btn.dataset.psPid;
       PS.pid=pid;
+      PS._isFollowup=false;PS._prevFeedback=null;PS._prevTranscript=null;PS._historyFocus=null;
+      const _fc3=app.querySelector("[data-focus-card]");if(_fc3)_fc3.remove();
       // Update selected state in-place
       app.querySelectorAll("[data-ps-pid]").forEach(b=>b.classList.remove("selected"));
       btn.classList.add("selected");
@@ -16667,6 +16672,12 @@ document.addEventListener("click",e=>{
   if(action==="show-notice"){
     V._tosReturnView=V.view;
     V.view="tos";render();
+  }else if(action==="kfocus-dismiss"){
+    // Clear follow-up state for both speech and contest
+    PS._isFollowup=false;PS._prevFeedback=null;PS._prevTranscript=null;PS._historyFocus=null;
+    V._contestIsFollowup=false;V._contestPrevFeedback=null;V._contestPrevTranscript=null;V._contestHistoryFocus=null;
+    const _fc=e.target.closest('[data-focus-card]');
+    if(_fc)_fc.remove();
   }else if(action==="kfocus-refresh"){
     const _kBtn=e.target.closest('[data-action="kfocus-refresh"]');
     const _kType=_kBtn?_kBtn.dataset.type:'speech';
