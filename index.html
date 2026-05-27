@@ -13949,10 +13949,10 @@ function renderContestDetail(app){
           h+='<button class="contest-mode-tab'+(scriptMode==='record'?' active':'')+'" data-action="contest-mode-record">🎙 Record</button>';
           h+='<button class="contest-mode-tab'+(scriptMode==='paste'?' active':'')+'" data-action="contest-mode-paste">📋 Paste script</button>';
           h+='</div>';
+          h+='<button data-action="open-coach-history" style="width:100%;background:none;border:none;padding:4px 0 10px;font-size:12px;color:var(--accent);cursor:pointer;font-family:inherit;opacity:0.75">📚 Session history</button>';
           h+='<div id="contest-paste-panel" style="display:'+(scriptMode==='paste'?'block':'none')+';margin-bottom:12px">';
           h+='<textarea class="ps-input-field" id="contest-script-input" placeholder="Paste your speech script here..." rows="8" style="font-size:13px;line-height:1.6">'+escHtml(V._contestScript||'')+'</textarea>';
           h+='<button class="modal-cta" id="contest-script-submit" style="margin-top:8px;background:linear-gradient(135deg,'+c.color+','+c.color+'99)">Analyse script →</button>';
-          h+='<button data-action="open-coach-history" style="width:100%;background:none;border:none;padding:8px 0 2px;font-size:12px;color:var(--accent);cursor:pointer;font-family:inherit;opacity:0.75">📚 Session history</button>';
           h+='</div>';
         }
         h+='<div class="ps-timer-card" id="contest-timer-card"'+(V._contestScriptMode==='paste'?' style="display:none"':'')+'>'; 
@@ -14810,6 +14810,7 @@ function renderPracticeStudio(app){
     h+='<button class="contest-mode-tab'+(psScriptMode==='record'?' active':'')+'" data-action="ps-mode-record">🎙 Record</button>';
     h+='<button class="contest-mode-tab'+(psScriptMode==='paste'?' active':'')+'" data-action="ps-mode-paste">📋 Paste script</button>';
     h+='</div>';
+    h+='<button data-action="open-coach-history" style="width:100%;background:none;border:none;padding:4px 0 10px;font-size:12px;color:var(--accent);cursor:pointer;font-family:inherit;opacity:0.75">📚 Session history</button>';
     // Both panels always rendered, toggled via display
     h+='<div id="ps-paste-panel" style="display:'+(psScriptMode==='paste'?'block':'none')+'">';
     h+='<textarea class="ps-input-field" id="ps-script-input" placeholder="Paste your speech script here..." rows="8" style="font-size:13px;line-height:1.6">'+escHtml(V._psScript||'')+'</textarea>';
@@ -14819,7 +14820,6 @@ function renderPracticeStudio(app){
     h+='<div style="font-size:11px;color:var(--text-secondary);margin-top:4px">Optional — K will coach whether your script actually delivers on this word.</div>';
     h+='</div>';
     h+='<button class="modal-cta" id="ps-script-submit" style="margin-top:8px;background:linear-gradient(135deg,#A07BC7,#6DB6B4)">Analyse script →</button>';
-    h+='<button data-action="open-coach-history" style="width:100%;background:none;border:none;padding:8px 0 2px;font-size:12px;color:var(--accent);cursor:pointer;font-family:inherit;opacity:0.75">📚 Session history</button>';
     h+='</div>';
     if(psScriptMode==='paste'){
     }else{
@@ -16683,6 +16683,7 @@ document.addEventListener("click",e=>{
     V._contestIsFollowup=false;V._contestPrevFeedback=null;V._contestPrevTranscript=null;V._contestHistoryFocus=null;
     const _fc=e.target.closest('[data-focus-card]');
     if(_fc)_fc.remove();
+    document.querySelectorAll('.ps-followup-badge').forEach(el=>el.remove());
   }else if(action==="kfocus-refresh"){
     const _kBtn=e.target.closest('[data-action="kfocus-refresh"]');
     const _kType=_kBtn?_kBtn.dataset.type:'speech';
