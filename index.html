@@ -203,6 +203,30 @@ a{color:inherit;text-decoration:none}
 /* Subtitle inside card */
 .hub-tile-inner-sub{font-size:10.5px;color:rgba(255,255,255,0.62);line-height:1.35;text-align:center;margin-top:4px;z-index:2;flex:1}
 /* Category tag at bottom */
+
+.pf-elective-tag{font-size:8.5px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-3);background:rgba(255,255,255,0.05);border:1px solid var(--border);border-radius:6px;padding:2px 6px;margin-left:4px;vertical-align:middle}
+.pf-swap-btn{font-size:11px;color:var(--accent);background:none;border:none;cursor:pointer;font-family:inherit;padding:0 0 0 6px;opacity:0.8;vertical-align:middle}
+.pf-swap-btn:hover{opacity:1}
+.edu-browser-mod{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:13px 14px;margin-bottom:10px;cursor:pointer;transition:background .15s}
+.edu-browser-mod:hover{background:var(--surface-2,#1E2028)}
+.edu-browser-mod.selected{border-color:var(--accent);background:var(--accent-soft)}
+.edu-mod-title{font-size:13.5px;font-weight:700;color:var(--text);margin-bottom:3px}
+.edu-mod-p{font-size:12px;color:var(--text-2);margin-bottom:5px;line-height:1.5}
+.edu-mod-gain{font-size:11px;color:var(--text-3);line-height:1.45}
+.edu-mod-gain strong{color:var(--accent)}
+.edu-mod-more{font-size:11px;color:var(--accent);font-weight:600;margin-top:6px}
+.edu-detail-back{background:none;border:none;color:var(--text-3);font-size:12px;font-weight:600;cursor:pointer;padding:0;margin-bottom:12px}
+.edu-detail-kicker{font-size:9px;font-weight:700;letter-spacing:0.1em;color:var(--accent);text-transform:uppercase;margin-bottom:5px}
+.edu-detail-title{font-size:19px;font-weight:700;color:var(--text);line-height:1.25;margin-bottom:6px}
+.edu-detail-p{font-size:13px;color:var(--text-2);line-height:1.55;margin-bottom:14px}
+.edu-detail-label{font-size:10px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-3);margin:14px 0 7px}
+.edu-detail-list{margin:0;padding-left:18px}
+.edu-detail-list li{font-size:13px;color:var(--text-2);line-height:1.5;margin-bottom:6px}
+.edu-detail-deliver{font-size:13px;color:var(--text-2);line-height:1.55;background:rgba(94,185,117,0.07);border-left:2px solid rgba(94,185,117,0.4);border-radius:6px;padding:9px 12px}
+.edu-detail-gain{font-size:12px;color:var(--text-3);line-height:1.5;margin-top:14px}
+.edu-detail-gain strong{color:var(--accent)}
+.edu-detail-dl{display:inline-block;font-size:12px;color:var(--accent);margin-top:12px;text-decoration:none}
+.edu-detail-pick{margin-top:16px;background:var(--accent);color:#0A0B0F;border:none;font-weight:700}
 .hub-tile-cat{font-size:8.5px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;margin-top:10px;padding:3px 10px;border-radius:20px;background:rgba(0,0,0,0.28);border:1px solid currentColor;opacity:0.9;z-index:2;flex-shrink:0}.eh-tag{font-size:9.5px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;padding:3px 10px;border-radius:20px;border:1px solid;display:inline-block;white-space:nowrap}
 
 /* Name below tile — hidden now (text is inside) */
@@ -223,7 +247,18 @@ a{color:inherit;text-decoration:none}
   .hub-tile-glyph{width:54px;height:54px;margin-bottom:8px}
   .hub-tile-inner-name{font-size:12px}
   .hub-tile-inner-sub{font-size:9.5px;margin-top:3px}
-  .hub-tile-cat{font-size:7.5px;padding:2px 8px;margin-top:8px}
+  
+.pf-elective-tag{font-size:8.5px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-3);background:rgba(255,255,255,0.05);border:1px solid var(--border);border-radius:6px;padding:2px 6px;margin-left:4px;vertical-align:middle}
+.pf-swap-btn{font-size:11px;color:var(--accent);background:none;border:none;cursor:pointer;font-family:inherit;padding:0 0 0 6px;opacity:0.8;vertical-align:middle}
+.pf-swap-btn:hover{opacity:1}
+.edu-browser-mod{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:13px 14px;margin-bottom:10px;cursor:pointer;transition:background .15s}
+.edu-browser-mod:hover{background:var(--surface-2,#1E2028)}
+.edu-browser-mod.selected{border-color:var(--accent);background:var(--accent-soft)}
+.edu-mod-title{font-size:13.5px;font-weight:700;color:var(--text);margin-bottom:3px}
+.edu-mod-p{font-size:12px;color:var(--text-2);margin-bottom:5px;line-height:1.5}
+.edu-mod-gain{font-size:11px;color:var(--text-3);line-height:1.45}
+.edu-mod-gain strong{color:var(--accent)}
+.hub-tile-cat{font-size:7.5px;padding:2px 8px;margin-top:8px}
   .smart-panel,.hub-smart{margin-bottom:0}
 }
 
@@ -453,6 +488,20 @@ a{color:inherit;text-decoration:none}
 .level-extra-text{font-size:13px;color:var(--text);line-height:1.5;letter-spacing:-0.003em}
 .level-extra-text strong{font-weight:700;color:var(--text)}
 .level-extra-note{font-size:11.5px;color:var(--text-3);line-height:1.45;margin-top:6px;font-style:italic;letter-spacing:-0.002em}
+.edu-cards{margin-top:6px}
+.edu-req{margin-top:8px}
+.edu-req.done{background:rgba(94,185,117,0.1);border-color:rgba(94,185,117,0.38)}
+.edu-req-row{display:flex;gap:11px;align-items:flex-start}
+.edu-req-main{flex:1;min-width:0}
+.edu-req-head{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:3px}
+.edu-choose-link{font-size:11px;color:var(--accent);font-weight:600;cursor:pointer;white-space:nowrap}
+.edu-check{flex-shrink:0;width:22px;height:22px;margin-top:1px;border:2px solid rgba(255,255,255,0.22);border-radius:6px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;background:transparent;position:relative}
+.edu-check:hover{border-color:rgba(94,185,117,0.6)}
+.edu-check.done{background:linear-gradient(135deg,#5EB975,#4A9D62);border-color:#5EB975}
+.edu-check.done::after{content:"✓";color:#0A0B0F;font-weight:800;font-size:13px;line-height:1}
+.edu-check.awaiting{opacity:0.4;cursor:pointer}
+.edu-check.locked{cursor:not-allowed;border-color:rgba(255,255,255,0.1)}
+.edu-check.locked::after{content:"🔒";position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:10px;opacity:0.55}
 .section-hdr{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--text-4);margin:16px 0 6px}
 .section-hdr:first-child{margin-top:8px}
 
@@ -2711,23 +2760,79 @@ const LEVEL_EXTRAS={
   },
   3:{
     roles:"[tmd|Toastmaster], [ie|Evaluator], and one of: [ttm|Topicsmaster], Table Topics Speaker, or Introductory Mentor.",
-    edu:{
-      title:"Successful Club Series",
-      desc:"(choose 1): Creating the Best Club Climate, Meeting Roles and Responsibilities, Keeping the Commitment, or Going Beyond Our Club.",
-      note:"10–15 min workshops — TI provides the outline, you present to your club."
-    }
+    edu:[
+      {series:"scs", key:"scs3", allow:["scs-cbc","scs-mrr","scs-ktc","scs-gbc"]}
+    ]
   },
   4:{
     roles:"[tmd|Toastmaster], [ge|General Evaluator], [ie|Evaluator], and one of: Table Topics Speaker, [ttm|Topicsmaster], Specialized Role, or repeat one of TOD / GE / EV.",
-    edu:{
-      title:"Leadership Excellence Series or Better Speaker Series",
-      desc:"(choose 1 from either series): The Visionary Leader, Developing a Mission, Values - Your Inner Strength, Motivating People, Building a Team, Beginning Your Speech, Concluding Your Speech, Controlling Your Fear, Impromptu Speaking, Know Your Audience, Preparation and Practice, Selecting Your Topic, Take the Terror Out of a Talk, Using Body Language, or Using Your Voice.",
-      note:"10–15 min workshop — present one to your club as your Level 4 education contribution."
-    }
+    edu:[
+      {series:"scs", key:"scs4", allow:["scs-fnm","scs-cts","scs-dcp"]},
+      {series:"bss", key:"bss4", allow:"*"}
+    ]
   },
   5:{
     roles:"Take on a club officer role for 6+ months, lead a [hpl|High Performance Leadership] project, or serve as a Pathways Mentor for a new member.",
-    edu:null
+    edu:[
+      {series:"scs", key:"scs5", allow:["scs-mot","scs-etm","scs-men"]},
+      {series:"les", key:"les5", allow:"*"}
+    ]
+  }
+};
+
+
+const EDU_MODULES={
+  scs:{
+    name:"Successful Club Series",
+    url:"https://www.toastmasters.org/resources/the-successful-club-series-set",
+    desc:"10–15 min educational workshop delivered to your club. Help your club thrive.",
+    modules:[
+      {id:"scs-mot", t:"Moments of Truth", dur:"10–15 min", p:"Six defining moments decide whether your club is extraordinary or forgettable.", o:"Walk the club through the six moments — First Impressions, Orientation, Fellowship, Program Planning, Membership Strength, Recognition — and run an honest self-assessment of each.", gain:"A shared framework for judging club quality from the member's point of view.", covers:["The six 'moments of truth' that shape how guests and members judge your club: First Impressions, Membership Orientation, Fellowship & Communication, Program Planning, Membership Strength, Achievement Recognition","Why each moment quietly decides whether your club feels extraordinary or forgettable","An honest, member's-eye assessment of which moments your club nails and which need work"], deliver:"Don't lecture the six moments — facilitate. Pause after each and ask the room how your club actually performs there; the honest discussion is the point."},
+      {id:"scs-fnm", t:"Finding New Members for Your Club", dur:"10–15 min", p:"A club that isn't growing is slowly shrinking.", o:"Cover both sides of growth — actively recruiting (word of mouth, social media, Speechcraft) and treating guests so well they want to join — and make the case that recruitment is everyone's job.", gain:"A clear view of where your membership pipeline leaks, and simple actions every member can take now.", covers:["How to actively recruit: word of mouth, social media, and running a Speechcraft program","How to treat guests so well they want to join","Why membership growth is every member's job, not just the VP Membership's","Where your club's membership pipeline is leaking"], deliver:"Make it personal and practical — end with one specific action each member can take this week to bring or welcome a guest."},
+      {id:"scs-etm", t:"Evaluate to Motivate", dur:"10–15 min", p:"A great evaluation isn't a critique — it's a gift.", o:"Break the evaluator's role into three phases — prepare, observe with empathy, deliver confidence-building feedback — anchored on one rule: evaluate the speech, not the person.", gain:"A framework for becoming the kind of evaluator speakers actually look forward to.", covers:["The evaluator's role across three phases: prepare before, observe with empathy during, deliver confidence-building feedback after","The key rule: evaluate the speech, not the person","The 'Tell and Sell' approach to giving feedback the speaker will actually use"], deliver:"Model a good evaluation live if you can — show the difference between vague praise and specific, motivating feedback."},
+      {id:"scs-cts", t:"Closing the Sale", dur:"10–15 min", p:"Getting guests through the door is only half the job.", o:"Show how to guide an interested guest toward membership without pressure — the CLOSE approach, a win-win mindset, and a walkthrough of the application so anyone can help a guest sign up.", gain:"Confidence to have the membership conversation when a guest says 'I'm interested.'", covers:["How to guide an interested guest toward membership without pressure","The CLOSE framework (Compare, Lose, Opinion, Story, Example) and the win-win mindset","A walkthrough of the membership application so any member can help a guest sign up"], deliver:"Role-play a guest conversation with a member — the goal is for everyone to feel ready when a guest says 'I'm interested.'"},
+      {id:"scs-cbc", t:"Creating the Best Club Climate", dur:"10–15 min", p:"Club climate is the invisible force deciding whether members stay, grow, and bring friends.", o:"Explore the two factors that set the climate — the learning environment and how members interact — and give everyone concrete ways to improve both.", gain:"Simple actions each member can take immediately to raise the temperature.", covers:["Why club climate decides whether members stay, grow, and bring friends","The two factors that set the climate: the learning environment and the way members interact","Concrete actions every member can take to improve both"], deliver:"Keep it action-focused — close by collecting a few specific changes the club will make to warm up its climate."},
+      {id:"scs-mrr", t:"Meeting Roles and Responsibilities", dur:"10–15 min", p:"Every great meeting runs on people who know their role and own it.", o:"Walk through every meeting role — Toastmaster, Topicsmaster, evaluators, timer, grammarian, Ah-Counter and more — as leadership practice in miniature, not just a task list.", gain:"Confidence to take on the roles you've been quietly avoiding.", covers:["Every assigned meeting role — Toastmaster, Topicsmaster, Speakers, General Evaluator, Speech Evaluators, Timer, Grammarian, Ah-Counter — plus officer and optional roles","What each role contributes to meeting quality","Why roles are leadership practice in miniature, not just tasks"], deliver:"Encourage members to sign up for a role they've been avoiding — the talk works best as a nudge toward action."},
+      {id:"scs-men", t:"Mentoring", dur:"10–15 min", p:"A mentor is a role model, a coach, and a confidante.", o:"Cover what makes a good mentor, the steps of the relationship from first meeting through ongoing support, and why mentoring drives retention and satisfaction for the whole club.", gain:"A practical playbook for being a mentor worth having.", covers:["What makes a good mentor — role model, coach, and confidante","The concrete steps of a mentoring relationship, from first meeting through ongoing support","Why mentoring benefits the club: more members, more satisfied members, better retention"], deliver:"Pair the talk with a call to action — invite experienced members to volunteer as mentors before they leave the room."},
+      {id:"scs-ktc", t:"Keeping the Commitment", dur:"10–15 min", p:"Joining Toastmasters is a promise — to prepare, participate, and contribute.", o:"Hold a mirror up to every member with an honest look at both commitments: to your own growth, and to the club and its standards.", gain:"A renewed sense of personal accountability — and a club that holds its own line.", covers:["The promise every member makes on joining: to prepare, participate, and contribute","An honest look at whether members are keeping their end of the deal","Both sides of commitment: to your own growth, and to the club and its standards"], deliver:"Frame it as a mirror, not a scolding — invite each member to recommit to one thing."},
+      {id:"scs-gbc", t:"Going Beyond Our Club", dur:"10–15 min", p:"Toastmasters is far bigger than your weekly meeting.", o:"Open members' eyes to the wider organisation — contests from club to World Championship, leadership beyond the club at Area/Division/District, and what conferences actually offer.", gain:"A clear picture of the wider Toastmasters world, and the motivation to step into it.", covers:["Speech contests, from club level all the way to the World Championship","Leadership roles beyond the club: Area, Division, District, and the Board","What conferences and conventions actually offer — seminars, contests, camaraderie"], deliver:"Bring a personal story or photo from an event beyond the club — it makes the wider Toastmasters world feel real and reachable."},
+      {id:"scs-dcp", t:"How to Be a Distinguished Club", dur:"10–15 min", p:"Distinguished Club status is the scoreboard for a club that's actually growing.", o:"Walk through the DCP's 10 goals across Education, Membership, Training, and Administration, and the thresholds — 5 for Distinguished, 7 for Select, 9 for President's Distinguished.", gain:"Shared ownership of the club's success, and a scoreboard every member can read and move.", covers:["The Distinguished Club Program's 10 goals across four categories: Education, Membership, Training, Administration","The thresholds: 5 goals = Distinguished, 7 = Select, 9 = President's Distinguished","How every member can contribute to the club's score"], deliver:"Show the club's current DCP scoreboard live if you can — nothing motivates like seeing how close you are to the next level."}
+    ]
+  },
+  bss:{
+    name:"Better Speaker Series",
+    url:"https://www.toastmasters.org/resources/the-better-speaker-series-set",
+    desc:"10–15 min workshop on public speaking craft. Make your fellow members better.",
+    modules:[
+      {id:"bss-begin", t:"Beginning Your Speech", dur:"10–15 min", p:"The first 30 seconds decide whether the audience leans in or checks out.", o:"Cover what a strong opening must do, then run through techniques that hook an audience — startling statement, story, rhetorical question, quotation — and the openings to avoid.", gain:"A toolkit of openings that earn attention from the first sentence.", covers:["What a strong opening must do: grab attention, introduce the topic, build rapport — in the first 5-10% of your time","Seven opening techniques, each with an example: state the topic's importance, a startling statement, arouse curiosity, tell a story, a rhetorical question, a quotation, reference the occasion","Other hooks: humour, audience participation, a demonstration","Openings to avoid: apologising for your prep, dull starts, burying the topic"], deliver:"Demonstrate two or three techniques live rather than listing them — a startling statement lands far better shown than described."},
+      {id:"bss-end", t:"Concluding Your Speech", dur:"10–15 min", p:"An audience remembers how you finished — don't let it fade to grey.", o:"Present the techniques for a strong close — call to action, callback to the opening, summary, quotation — plus the habits that make it land: memorise it, end on time, add nothing new.", gain:"How to make your final words the most memorable part of the speech.", covers:["What a strong conclusion must do: create closure and make an impact, in the final 5-10% of your time","Closing techniques: a quotation, a short story, a call to action, a rhetorical question, referring back to your opening, summarising your points","Tips for success: memorise your conclusion, end on time, add no new points"], deliver:"Show a weak fade-out ending versus a sharp one — the contrast teaches more than the list of techniques."},
+      {id:"bss-fear", t:"Controlling Your Fear", dur:"10–15 min", p:"The goal isn't to kill the nerves — it's to stop them running the show.", o:"Name what triggers speaking anxiety and how it shows up physically, then practise the methods that manage it — graduated experience, visualisation, and relaxation techniques.", gain:"Practical ways to channel nerves into energy instead of being paralysed by them.", covers:["What triggers speaking anxiety — new situations, risk of failure, fear of looking foolish or boring","How anxiety shows up physically, and why that's normal","Three ways to manage it: graduated experience, visualisation, and relaxation (breathing, isometrics)"], deliver:"Reassure as you go — the key takeaway is that nerves are normal and the audience rarely notices. Lead a 30-second breathing exercise to prove relaxation works."},
+      {id:"bss-impromptu", t:"Impromptu Speaking", dur:"10–15 min", p:"Think clearly and speak with confidence when you've had no time to prepare.", o:"Teach a five-step method — listen, pause, confirm, tell, end — plus quick structures (opinion, cause-and-effect, past/present/future) for organising a thought on the spot.", gain:"Composure for the moments that matter most — Q&As, meetings, being put on the spot.", covers:["A five-step method for any impromptu talk: Listen, Pause, Confirm, Tell, End","Quick structures to organise a thought on the spot: express an opinion, cause and effect, break the topic into parts, past/present/future","Three rules whatever you do: be confident, be brief, be sincere"], deliver:"Run a few live Table Topics using the five steps — impromptu speaking is learned by doing, not watching."},
+      {id:"bss-topic", t:"Selecting Your Topic", dur:"10–15 min", p:"The right topic is half the speech — choose before you write.", o:"Show where good topics come from, then how to narrow the field against your audience, the occasion, and your own knowledge until you land on one specific enough to deliver well.", gain:"A reliable way to find the speech that only you can give.", covers:["Two sources of topics: personal experience and reference material","Why writing ideas down as they come matters","How to narrow your choice against your audience, the occasion, and your own abilities","How to make a topic specific enough for the time you're given"], deliver:"Have the room brainstorm topics from their own experience, then narrow one together using the criteria — it makes the process stick."},
+      {id:"bss-audience", t:"Know Your Audience", dur:"10–15 min", p:"Tailor the message to who's actually in the room, not who you imagined.", o:"Cover the audience variables worth knowing, how to research them in advance, and how to match your objective — inform, inspire, persuade, entertain — to what the audience needs.", gain:"The ability to make any audience feel you're speaking directly to them.", covers:["The audience variables worth knowing: age, gender mix, occupation, education, interests","Environmental factors that affect attention: room, seating, lighting, time of day, distractions","How to research an audience in advance","Matching your objective to the audience: inform, inspire, persuade, entertain"], deliver:"Ask the room to picture a recent audience and name what they didn't know about it — the gaps make the case for doing the research."},
+      {id:"bss-org", t:"Organizing Your Speech", dur:"10–15 min", p:"A clear structure is what lets an audience follow you without effort.", o:"Walk the 'tell them' framework, build a speech from outline to mindmap, and keep the structure orderly so ideas land in the right order.", gain:"A repeatable method for organising any speech so it flows and sticks.", covers:["The classic structure: tell them what you'll tell them, tell them, tell them what you told them","How to build an outline: introduction, body (main points + support), conclusion","How to fill the outline — list points, order them, expand, then add an opening and close","Using a mindmap to decide what goes in and when"], deliver:"Build a short outline live from a volunteer's topic so the room sees structure emerge, rather than just hearing about it."},
+      {id:"bss-intro", t:"Creating an Introduction", dur:"10–15 min", p:"A good introduction hands the speaker authority and the audience a reason to listen.", o:"Cover what every introduction needs, how to draft one, and the restraint that separates a good introducer from a bad one — don't upstage, don't reveal, don't save the name for last.", gain:"How to set up another speaker for success — and what to expect when someone introduces you.", covers:["Why a good introduction matters: a smooth transition, the right mindset, and authority for the speaker","What every introduction needs — and the Toastmasters essentials: assignment, objectives, delivery time","How to draft one, and the restraint required: don't upstage, don't reveal details, don't save the name for last","Lectern etiquette: leading applause, the handshake, leaving cleanly"], deliver:"This is the BSS talk about introducing others — demonstrate by introducing a member well, then debrief what you did and didn't do."},
+      {id:"bss-prep", t:"Preparation and Practice", dur:"10–15 min", p:"Confidence on stage is built off stage, in the rehearsal you didn't skip.", o:"Cover what to scope out before you speak — room, lectern, mic, visual aids — and how to rehearse ideas rather than words, then refine with feedback.", gain:"A preparation routine that reduces anxiety and makes delivery consistent.", covers:["What to scope out before you speak: the lectern and stage, the microphone, room conditions, your visual aids","How to rehearse — practise ideas, not words, and finish every rehearsal run","How to improve a speech gradually and arrange for feedback","Extra considerations: prepare physically, run a mental rehearsal"], deliver:"Share a checklist the room can reuse before their next speech — the value is turning vague 'practice more' into specific, repeatable prep."},
+      {id:"bss-body", t:"Using Body Language", dur:"10–15 min", p:"Say more with how you stand than with the words you choose.", o:"Break body language into facial expression, gesture, and movement — what each communicates, the three types of gesture, and how to rehearse them with a mirror or camera.", gain:"How to project authority, warmth, and conviction without saying a word.", covers:["The three categories of body language: facial expressions, gestures, and whole-body movement","Eye contact, and how to make everyone feel personally addressed","The three types of gesture: conventional, descriptive, emotional","Stance and movement — staying relaxed and balanced, and varying your position"], deliver:"Demonstrate the same sentence with flat versus expressive body language — the contrast makes the lesson land instantly."}
+    ]
+  },
+  les:{
+    name:"Leadership Excellence Series",
+    url:"https://www.toastmasters.org/resources/the-leadership-excellence-series-set",
+    desc:"10–15 min workshop on leadership skills. Develop your team and yourself.",
+    modules:[
+      {id:"les-vis", t:"The Visionary Leader", dur:"10–15 min", p:"A vision isn't a slogan — it's the picture that makes people want to follow.", o:"Define what a vision statement is, what makes one effective (clear, challenging, inspiring, easily communicated), and how to craft and communicate one your team will rally behind.", gain:"The difference between inspiring people toward a future and just handing them tasks.", covers:["What a vision is — a mental picture of what an organization aspires to become — and the purpose it serves","The characteristics of an effective vision statement: clear, challenging, inspiring, people-oriented, easily communicated","How to craft a vision and involve your team in shaping it","How to communicate a vision so people embrace it"], deliver:"Open with the Saint-Exupery 'longing for the sea' idea — it captures the whole point: leaders inspire toward a vision, they don't just assign tasks."},
+      {id:"les-mis", t:"Developing a Mission", dur:"10–15 min", p:"If vision is where you're going, mission is how you get there — every day.", o:"Separate mission from vision, break down what a strong mission statement is, isn't, and does, then build one from your team's values, beliefs, and goals.", gain:"A method for turning an aspiration into a statement of purpose that guides daily action.", covers:["Real mission statements as examples — Nike, Microsoft, and the Toastmasters club mission","How mission differs from vision (mission is how you achieve the vision)","What a strong mission statement is, isn't, and does","How to create one from your team's values, beliefs, and goals — and communicate it"], deliver:"Use the three example missions to anchor the abstract idea, then walk the room through drafting a one-sentence mission of their own."},
+      {id:"les-val", t:"Values and Leadership", dur:"10–15 min", p:"Your values are the decisions you've already made before the pressure hits.", o:"Define values, ethics, and morals, and show how leaders make their values visible — through what they say, what they explain, and what they model.", gain:"Clarity on the values that should drive your decisions, and the confidence to lead from them openly.", covers:["What values are — the beliefs that shape how people decide and behave","The difference between ethics and morals","The three ways effective leaders demonstrate their values: talking, explaining, showing","Why recognizing and rewarding team members reinforces shared values"], deliver:"Invite the room to name one value they lead by — the Roy Disney line ('it's not hard to make decisions when you know your values') makes a strong close."},
+      {id:"les-goal", t:"Goal Setting and Planning", dur:"10–15 min", p:"A goal without a plan is a wish; a plan without a goal is busywork.", o:"Define goals and plans, apply the SMART test, and walk the five-step planning process — strategy, timetable, responsibilities, obstacles, revision — using the club's DCP as a live example.", gain:"A repeatable way to turn ambitions into measurable, time-bound results the team owns.", covers:["The difference between a goal and a plan","The characteristics of a good goal: Specific, Measurable, Action-oriented, Realistic, Time-bounded","The five-step planning process: strategies, timetable, responsibilities, anticipate obstacles, modify","Why involving the team in goal-setting increases commitment — using the DCP as an example"], deliver:"Anchor the framework to the club's own DCP goals so the planning steps feel immediately useful."},
+      {id:"les-del", t:"Delegate to Empower", dur:"10–15 min", p:"Delegation isn't offloading work — it's multiplying what your team can do.", o:"Name the real barriers to delegating, then walk the steps of doing it well — matching task to person, granting authority, establishing accountability — and the payoff for everyone.", gain:"The confidence to hand off real responsibility, and a more capable team because of it.", covers:["What delegation really is — transferring responsibility and empowering someone to achieve a goal","The barriers that stop leaders delegating: lack of confidence, need for control, insecurity, reluctance","The five steps of delegating well — from matching task to person through establishing accountability","The benefits: a more engaged team, higher productivity, more innovation"], deliver:"The Patton quote — 'tell them what to do, not how, and they'll surprise you' — is the whole message; build toward it."},
+      {id:"les-team", t:"Building a Team", dur:"10–15 min", p:"A group of capable people isn't a team until someone builds it into one.", o:"Cover why teams outperform individuals, the steps to organizing one — from selecting members to building trust — and how a leader's role shifts from supervisor to coach as the team matures.", gain:"A blueprint for moving a collection of individuals into a self-directing, high-functioning team.", covers:["The benefits of teams — for the organization and for you as a leader","The seven steps to organizing a team, from selecting members to building trust","What to train a team in: problem-solving, meetings, project management, communication, conflict resolution","How a leader's role shifts — from supervisor to coach — as the team matures"], deliver:"Use the 'leader's changing role' progression (supervisor to coach) as your spine; it shows growth, not just a checklist."},
+      {id:"les-fbk", t:"Giving Effective Feedback", dur:"10–15 min", p:"Feedback done right builds confidence; done wrong, it builds resentment.", o:"Walk the four steps of effective feedback and the techniques that make it land — being specific, using the 'I' approach, tying actions to team impact, and ending on a positive note.", gain:"A way to correct and encourage that strengthens performance instead of bruising it.", covers:["Why feedback matters — it helps teams build confidence and succeed","The four steps: set clear objectives, observe, give immediate feedback, recognize good performance","How to give constructive feedback: be specific, use the 'I' technique, tie it to team impact, end positive","How to recognize positive performance so people repeat it"], deliver:"Demonstrate the 'I' technique with a quick before/after example — feedback that blames versus feedback that owns the speaker's view."},
+      {id:"les-coach", t:"The Leader as a Coach", dur:"10–15 min", p:"The best leaders don't just direct — they develop the people they lead.", o:"Lay out what coaching actually involves, a coach's responsibilities, and a five-step coaching conversation — from comparing performance to expectations through following up.", gain:"A coaching approach that grows people's capability instead of just managing their output.", covers:["The universal principles of leading: clear direction, collaboration, motivation","The fundamentals of coaching — making sure people know what, why, how, how well, and how they're doing","A coach's responsibilities and the five-step coaching conversation","Tips for the discussion, and the benefits: high morale, empowerment, development"], deliver:"Close on 'coach by example' — and model it by coaching the room through one of the five steps rather than describing it."},
+      {id:"les-mot", t:"Motivating People", dur:"10–15 min", p:"You can't install motivation — but you can create the conditions for it.", o:"Explore what actually drives people, the range of motivators beyond money, and how to use recognition well — rewarding the right behaviour and removing what gets in the way.", gain:"Ways to energise a team that don't depend on authority or a pay rise.", covers:["What motivation means — understanding people and creating the conditions for it","The range of motivators: money, praise, public recognition, more responsibility, promotion","Why encouraging people to use their natural skills motivates them","How to use recognition well: reward the right behaviour, address the wrong, remove obstacles"], deliver:"Ask the room what actually motivates them — the answers rarely top out at money, which proves the point better than any slide."},
+      {id:"les-srv", t:"Service and Leadership", dur:"10–15 min", p:"Real authority comes from serving the team, not standing above it.", o:"Reframe leadership as service — what servant leaders do, how they facilitate rather than command, and the gains a team makes when led this way.", gain:"A leadership mindset built on enabling others, and why it outperforms control.", covers:["What effective leaders do: provide direction, foster collaboration, motivate achievement","How team leaders serve — encouraging participation, facilitating communication and problem-solving, tolerating mistakes, helping people grow","The benefits a team gains when it's led through service rather than control"], deliver:"The Sam Ervin quote — power 'in order to be of service' — frames the whole talk; open or close with it."},
+      {id:"les-conf", t:"Resolving Conflict", dur:"10–15 min", p:"Unresolved conflict doesn't disappear — it festers. Facing it is the job.", o:"Define conflict and its sources, compare the five ways people handle it, and walk a collaboration process — surfacing the root cause, hearing every side, brainstorming toward consensus.", gain:"A calm, structured method for turning conflict into resolution instead of damage.", covers:["What conflict and conflict resolution actually are","The types of conflict: personalities, misunderstanding, issues, leadership styles","The five ways people handle conflict: ignore, smooth over, force, compromise, collaborate","How to facilitate collaboration — find the root cause, hear every side, brainstorm toward consensus"], deliver:"Walk the collaboration steps as if resolving a real club disagreement; the 'word of caution' about emotion and blame is worth dwelling on."}
+    ]
   }
 };
 
@@ -4620,6 +4725,8 @@ function renderHub(app){
       totalReq+=g.r.length+g.en;
       totalDone+=g.r.filter(pid=>S.done[pid]).length;
       totalDone+=Math.min(g.en,g.e.filter(pid=>S.done[pid]).length);
+      totalReq+=eduReqTotal(lv);
+      totalDone+=eduReqDone(S.path,lv);
     }
     pct=totalReq>0?Math.round(totalDone/totalReq*100):0;
   }
@@ -4704,7 +4811,7 @@ function renderHub(app){
   }
   h+='</div>';
 
-  h+='<div class="app-footer">Made by Kian How · Not affiliated with Toastmasters International · v1.73 · <a data-action="show-notice" style="color:var(--accent);text-decoration:none;cursor:pointer">User Agreement</a></div>';
+  h+='<div class="app-footer">Made by Kian How · Not affiliated with Toastmasters International · v1.74 · <a data-action="show-notice" style="color:var(--accent);text-decoration:none;cursor:pointer">User Agreement</a></div>';
   h+='</div>';
   app.innerHTML=h;
 
@@ -5036,7 +5143,7 @@ function renderPathPicker(app){
   h+='<button class="quiz-prompt-btn" data-action="open-quiz">🧭 &nbsp; Not sure which one? Take the fun quiz</button>';
   h+='</div>';
 
-  h+='<div class="app-footer">Made by Kian How · Not affiliated with Toastmasters International · v1.73 · <a data-action="show-notice" style="color:var(--accent);text-decoration:none;cursor:pointer">User Agreement</a></div>';
+  h+='<div class="app-footer">Made by Kian How · Not affiliated with Toastmasters International · v1.74 · <a data-action="show-notice" style="color:var(--accent);text-decoration:none;cursor:pointer">User Agreement</a></div>';
   h+='</div>';
   app.innerHTML=h;
 
@@ -5257,8 +5364,8 @@ function renderLevelCard(lv,pathCode,p){
   const g=gP(pathCode,lv);
   const reqDone=g.r.filter(pid=>S.done[pid]).length;
   const eDone=Math.min(g.en,g.e.filter(pid=>S.done[pid]).length);
-  const levelDone=reqDone+eDone;
-  const levelTotal=g.r.length+g.en;
+  const levelDone=reqDone+eDone+eduReqDone(pathCode,lv);
+  const levelTotal=g.r.length+g.en+eduReqTotal(lv);
   const complete=levelDone>=levelTotal&&levelTotal>0;
   const submitted=!!S.levelSubmitted[levelSubmittedKey(pathCode,lv)];
   const prevLvSub=lv===1||!!S.levelSubmitted[levelSubmittedKey(pathCode,lv-1)];
@@ -5296,6 +5403,10 @@ function renderLevelCard(lv,pathCode,p){
     h+='</div>';
     h+='</div>';
   }
+  // Education Series presentations — required at L3/4/5. Pulled out below the
+  // electives as first-class completion items (delivered checkbox + hard block),
+  // not buried in the Level Info accordion.
+  h+=renderEduCards(lv,pathCode,locked);
   if(lv===5){
     h+='<div class="final-callout">';
     h+='<div class="final-callout-label">🏆 Your Pathways capstone</div>';
@@ -5316,18 +5427,12 @@ function renderLevelCard(lv,pathCode,p){
       h+='<div class="level-extra-text">'+renderRoleMarkers(extras.roles)+'</div>';
       h+='</div>';
     }
-    if(extras.edu){
-      h+='<div class="level-extra-card edu">';
-      h+='<div class="level-extra-kicker edu-kicker">📚 Education Series presentations</div>';
-      h+='<div class="level-extra-text"><strong>'+extras.edu.title+'</strong> '+extras.edu.desc+'</div>';
-      if(extras.edu.note)h+='<div class="level-extra-note">'+extras.edu.note+'</div>';
-      h+='</div>';
-    }
     h+='</div>';
     h+='</div>';
   }
+  const eduBlocked=eduReqTotal(lv)>eduReqDone(pathCode,lv);
   h+='<div class="level-submit-wrap">';
-  h+=renderLevelSubmitHtml(lv,complete,submitted);
+  h+=renderLevelSubmitHtml(lv,complete,submitted,eduBlocked);
   h+='</div>';
   h+='</div></div>';
   h+='</div>';
@@ -5344,6 +5449,8 @@ function renderPathBrowser(app){
     totalRequired+=g.r.length+g.en;
     totalDone+=g.r.filter(pid=>S.done[pid]).length;
     totalDone+=Math.min(g.en,g.e.filter(pid=>S.done[pid]).length);
+    totalRequired+=eduReqTotal(lv);
+    totalDone+=eduReqDone(S.path,lv);
   }
   const pct=totalRequired>0?Math.round(totalDone/totalRequired*100):0;
   // .path-scope propagates --pc to level nums, active borders, submit buttons,
@@ -5400,7 +5507,7 @@ function renderPathBrowser(app){
   // Keeping it in the tree lets us toggle visibility without re-rendering.
   h+='<div class="path-complete-banner'+(pct>=100?'':' hidden')+'"><strong>🎉 Path complete!</strong><div style="font-size:13px;color:var(--text-muted);line-height:1.5">Next step: DTM. Keep going.</div></div>';
 
-  h+='<div class="app-footer">Made by Kian How · Not affiliated with Toastmasters International · v1.73 · <a data-action="show-notice" style="color:var(--accent);text-decoration:none;cursor:pointer">User Agreement</a></div>';
+  h+='<div class="app-footer">Made by Kian How · Not affiliated with Toastmasters International · v1.74 · <a data-action="show-notice" style="color:var(--accent);text-decoration:none;cursor:pointer">User Agreement</a></div>';
   h+='</div>';
   app.innerHTML=h;
 
@@ -5419,6 +5526,39 @@ function renderPathBrowser(app){
     });
   });
   // Level Info & Requirements toggle — independent, doesn't affect siblings
+  // Education Series card click
+  // Education Series "Choose / Change" link → open the filtered picker
+  app.querySelectorAll("[data-edu-open]").forEach(link=>{
+    link.addEventListener("click",e=>{
+      e.stopPropagation();
+      const series=link.dataset.eduSeries;
+      const key=link.dataset.eduKey;
+      const level=parseInt(link.dataset.eduLevel,10);
+      const allowRaw=link.dataset.eduAllow;
+      const allow=(allowRaw==="*")?"*":allowRaw.split(",");
+      const prog=S.programs&&S.programs[S.path]?S.programs[S.path]:{};
+      renderEduBrowser(app,series,allow,key,level,prog);
+    });
+  });
+  // Education Series delivered checkbox → toggle delivered (needs a selection first)
+  app.querySelectorAll("[data-edu-check]").forEach(box=>{
+    box.addEventListener("click",e=>{
+      e.stopPropagation();
+      if(box.classList.contains("locked"))return;
+      const key=box.dataset.eduCheck;
+      const chosen=eduChosenId(S.path,key);
+      if(!chosen){
+        // Must pick a presentation before it can be marked delivered — open picker.
+        const link=box.parentElement?box.parentElement.querySelector("[data-edu-open]"):null;
+        if(link)link.click();
+        return;
+      }
+      const est=eduStore(S.path);
+      if(est.done[key]){delete est.done[key];}else{est.done[key]=true;}
+      save();
+      renderKeepingOpenLevel();
+    });
+  });
   app.querySelectorAll("[data-level-extras-toggle]").forEach(btn=>{
     btn.addEventListener("click",e=>{
       e.stopPropagation();
@@ -6461,13 +6601,93 @@ function renderRoleDetail(app,roleId){
 // inside the path browser context; safe to call when summary/levels exist.
 // ═══════════════════════════════════════════════════════════════════════════
 
+// ── Education Series requirements (Levels 3–5) ──────────────────────────────
+// LEVEL_EXTRAS[lv].edu is a list of required presentations for that level. SCS
+// spans L3/L4/L5 with a different subset each; L4 adds BSS, L5 adds LES. Stored
+// per program: eduChoices[key]=moduleId (which one), eduDone[key]=true (delivered).
+// These helpers are the single source of truth so the completion formulas in
+// renderLevelCard / getCurrentLevel / isLevelComplete can never drift apart.
+function eduReqsFor(lv){
+  const e=LEVEL_EXTRAS[lv];
+  return (e&&Array.isArray(e.edu))?e.edu:[];
+}
+function eduReqTotal(lv){ return eduReqsFor(lv).length; }
+// Edu selections/delivery live in a dedicated per-path store, independent of
+// S.programs (which only exists once a member generates a plan). Keyed by path
+// so it's multi-path safe without archiving. Shape: S.edu[pathCode]={choices,done}.
+function eduStore(pathCode){
+  if(!S.edu)S.edu={};
+  if(!S.edu[pathCode])S.edu[pathCode]={choices:{},done:{}};
+  const e=S.edu[pathCode];
+  if(!e.choices)e.choices={};
+  if(!e.done)e.done={};
+  return e;
+}
+function eduChosenId(pathCode,key){
+  const e=S.edu&&S.edu[pathCode];
+  return (e&&e.choices)?(e.choices[key]||null):null;
+}
+function eduDelivered(pathCode,key){
+  const e=S.edu&&S.edu[pathCode];
+  return !!(e&&e.done&&e.done[key]);
+}
+function eduReqDone(pathCode,lv){
+  return eduReqsFor(lv).filter(r=>eduDelivered(pathCode,r.key)).length;
+}
+// Resolve a requirement's allowed modules ("*" => the whole series).
+function eduAllowedModules(req){
+  const series=EDU_MODULES[req.series];
+  if(!series)return[];
+  if(req.allow==="*"||!Array.isArray(req.allow))return series.modules;
+  return series.modules.filter(m=>req.allow.includes(m.id));
+}
+
+// Render the required Education Series cards for a level (one per requirement).
+// Each card lets you pick a presentation (opens the browser) and tick a
+// delivered checkbox — the same control a project row uses. Delivered counts
+// toward completion and is what unlocks "Mark Level Complete".
+function renderEduCards(lv,pathCode,locked){
+  const reqs=eduReqsFor(lv);
+  if(!reqs.length)return"";
+  let h='<div class="edu-cards">';
+  h+='<div class="section-hdr">📚 Education Series presentations · required</div>';
+  reqs.forEach(req=>{
+    const series=EDU_MODULES[req.series];
+    if(!series)return;
+    const chosenId=eduChosenId(pathCode,req.key);
+    const chosen=chosenId?series.modules.find(m=>m.id===chosenId):null;
+    const delivered=eduDelivered(pathCode,req.key);
+    const allowed=eduAllowedModules(req);
+    const checkCls='edu-check'+(delivered?' done':'')+(locked?' locked':'')+(!chosen?' awaiting':'');
+    const allowAttr=(req.allow==="*")?"*":req.allow.join(",");
+    h+='<div class="level-extra-card edu edu-req'+(delivered?' done':'')+'">';
+    h+='<div class="edu-req-row">';
+    h+='<div class="'+checkCls+'" data-edu-check="'+req.key+'"'+((!chosen)?' title="Pick a presentation first"':'')+'></div>';
+    h+='<div class="edu-req-main">';
+    h+='<div class="edu-req-head">';
+    h+='<span class="level-extra-kicker edu-kicker">'+series.name+'</span>';
+    h+='<span class="edu-choose-link" data-edu-open="1" data-edu-series="'+req.series+'" data-edu-key="'+req.key+'" data-edu-level="'+lv+'" data-edu-allow="'+allowAttr+'">'+(chosen?'Change':'Choose →')+'</span>';
+    h+='</div>';
+    if(chosen){
+      h+='<div class="level-extra-text"><strong'+(delivered?' style="text-decoration:line-through;opacity:0.55"':'')+'>'+chosen.t+'</strong> — '+chosen.p+'</div>';
+    }else{
+      const titles=allowed.map(m=>m.t).join(", ");
+      const label=(req.allow==="*")?('Choose any of the '+allowed.length+': '+titles):('Choose 1: '+titles);
+      h+='<div class="level-extra-text">'+label+'.</div>';
+    }
+    h+='</div></div></div>';
+  });
+  h+='</div>';
+  return h;
+}
+
 function getCurrentLevel(pathCode){
   // First level that isn't fully done. If all done, returns 5.
   for(let lv=1;lv<=5;lv++){
     const g=gP(pathCode,lv);
     const reqDone=g.r.filter(p=>S.done[p]).length;
     const eDone=Math.min(g.en,g.e.filter(p=>S.done[p]).length);
-    if((reqDone+eDone)<(g.r.length+g.en))return lv;
+    if((reqDone+eDone+eduReqDone(pathCode,lv))<(g.r.length+g.en+eduReqTotal(lv)))return lv;
   }
   return 5;
 }
@@ -6476,7 +6696,8 @@ function isLevelComplete(pathCode,lv){
   const g=gP(pathCode,lv);
   const reqDone=g.r.filter(p=>S.done[p]).length;
   const eDone=Math.min(g.en,g.e.filter(p=>S.done[p]).length);
-  return(reqDone+eDone)>=(g.r.length+g.en)&&(g.r.length+g.en)>0;
+  const total=g.r.length+g.en+eduReqTotal(lv);
+  return(reqDone+eDone+eduReqDone(pathCode,lv))>=total&&total>0;
 }
 
 function levelSubmittedKey(pathCode,lv){return pathCode+"-"+lv;}
@@ -6669,6 +6890,22 @@ function scrollTopThenMorph(newLevel){
   setTimeout(()=>morphLevelTitle(newLevel),delay);
 }
 
+// Re-render the path browser but keep the currently-expanded level open.
+// Level expansion is a DOM-only class, so a bare render() collapses it and
+// bounces the user to the level overview — edu actions use this instead.
+function renderKeepingOpenLevel(){
+  const openEl=document.querySelector(".level-card.expanded");
+  const openLv=openEl?openEl.dataset.level:null;
+  render();
+  if(openLv){
+    const card=document.querySelector('.level-card[data-level="'+openLv+'"]');
+    if(card){
+      document.querySelectorAll(".level-card.expanded").forEach(c=>{if(c!==card)c.classList.remove("expanded");});
+      card.classList.add("expanded");
+    }
+  }
+}
+
 function updateCompletionUI(changedPid,opts){
   opts=opts||{};
   if(!S.path)return;
@@ -6695,8 +6932,8 @@ function updateCompletionUI(changedPid,opts){
     const g=gP(S.path,lv);
     const reqDone=g.r.filter(p=>S.done[p]).length;
     const eDone=Math.min(g.en,g.e.filter(p=>S.done[p]).length);
-    const levelDone=reqDone+eDone;
-    const levelTotal=g.r.length+g.en;
+    const levelDone=reqDone+eDone+eduReqDone(S.path,lv);
+    const levelTotal=g.r.length+g.en+eduReqTotal(lv);
     const complete=levelDone>=levelTotal&&levelTotal>0;
     const submitted=!!S.levelSubmitted[levelSubmittedKey(S.path,lv)];
     totalReq+=levelTotal;
@@ -6718,7 +6955,8 @@ function updateCompletionUI(changedPid,opts){
       // or the "submitted" badge depending on state.
       const submitHost=card.querySelector(".level-submit-wrap");
       if(submitHost){
-        submitHost.innerHTML=renderLevelSubmitHtml(lv,complete,submitted);
+        const eduBlocked=eduReqTotal(lv)>eduReqDone(S.path,lv);
+        submitHost.innerHTML=renderLevelSubmitHtml(lv,complete,submitted,eduBlocked);
       }
       // Refresh locked state on project checkboxes. Uses levelSubmitted (not
       // tick count) so submitting L1 immediately unlocks L2 checkboxes.
@@ -6756,7 +6994,7 @@ function updateCompletionUI(changedPid,opts){
   if(banner)banner.classList.toggle("hidden",pct<100);
 }
 
-function renderLevelSubmitHtml(lv,allChecked,submitted){
+function renderLevelSubmitHtml(lv,allChecked,submitted,eduBlocked){
   if(submitted){
     return'<div class="level-completed-row">'+
       '<div class="level-completed-badge">✓ Level '+lv+' marked complete</div>'+
@@ -6772,6 +7010,13 @@ function renderLevelSubmitHtml(lv,allChecked,submitted){
   if(priorBlocked){
     return'<button class="level-submit-btn locked" disabled>🔒 Finish earlier levels first</button>'+
       '<div class="level-submit-btn-subtle">Mark Level '+(lv-1)+' complete before unlocking Level '+lv+'.</div>';
+  }
+  // Hard block: the Education Series presentation(s) for this level must be
+  // marked delivered before completion. (Projects stay soft — see below.)
+  if(eduBlocked){
+    const reqN=eduReqTotal(lv);
+    return'<button class="level-submit-btn locked" disabled>🔒 Deliver your Education Series presentation'+(reqN>1?'s':'')+' first</button>'+
+      '<div class="level-submit-btn-subtle">Tick each required presentation above as delivered to complete Level '+lv+'.</div>';
   }
   // Always show the button — active styling only when all boxes ticked,
   // muted styling otherwise (still tappable — user's judgment)
@@ -6828,8 +7073,16 @@ function showCelebrateModal({kind,levelNum,pathCode,projectTitle,onClose}){
       if(extras.roles){
         reminderHtml+='<div class="celebrate-reminder-item"><span class="celebrate-reminder-kicker">📌 Meeting roles</span><div>'+renderRoleMarkers(extras.roles)+'</div></div>';
       }
-      if(extras.edu){
-        reminderHtml+='<div class="celebrate-reminder-item"><span class="celebrate-reminder-kicker">📚 Education Series</span><div><strong>'+extras.edu.title+'</strong> '+extras.edu.desc+'</div></div>';
+      if(Array.isArray(extras.edu)&&extras.edu.length){
+        let eduItems='';
+        extras.edu.forEach(req=>{
+          const series=EDU_MODULES[req.series];
+          if(!series)return;
+          const cid=eduChosenId(S.path,req.key);
+          const chosen=cid?series.modules.find(m=>m.id===cid):null;
+          eduItems+='<div><strong>'+series.name+':</strong> '+(chosen?chosen.t:'(choose one)')+'</div>';
+        });
+        reminderHtml+='<div class="celebrate-reminder-item"><span class="celebrate-reminder-kicker">📚 Education Series</span><div>'+eduItems+'</div></div>';
       }
       reminderHtml+='</div>';
     }
@@ -7071,7 +7324,7 @@ function renderPracticeHub(app){
   h+=toolRow({tool:"speech-draft",color:"#3B82F6", icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.9" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><path d="M13 2v5h7"/><line x1="8" y1="13.5" x2="12" y2="13.5"/><line x1="8" y1="17.5" x2="12" y2="17.5"/><path d="M17.5 4.5l2.5 2.5-7 7-2.5 0.5 0.5-2.5z"/><line x1="17.5" y1="4.5" x2="20" y2="7"/></svg>',  name:"Speech Draft Builder",desc:"AI builds your speech outline and opening lines"});
 
   h+='</div>';
-  h+='<div class="app-footer">Made by Kian How · Not affiliated with Toastmasters International · v1.73 · <a data-action="show-notice" style="color:var(--accent);text-decoration:none;cursor:pointer">User Agreement</a></div>';
+  h+='<div class="app-footer">Made by Kian How · Not affiliated with Toastmasters International · v1.74 · <a data-action="show-notice" style="color:var(--accent);text-decoration:none;cursor:pointer">User Agreement</a></div>';
   h+='</div>';
   app.innerHTML=h;
 
@@ -8970,7 +9223,6 @@ const COACH_QUESTIONS=[
     label:"How long should this plan run?",
     hint:"Pick a window you can realistically commit to. You can rebuild anytime.",
     options:[
-      {id:"sprint",label:"Sprint · 6 weeks",desc:"Tight focus on one goal. Great for a single level push."},
       {id:"half",label:"Half-term · 13 weeks",desc:"Roughly 3 months. Typical club pace, 1-2 levels closed."},
       {id:"full",label:"Full term · 26 weeks",desc:"6 months, aligned with a typical officer term. 2-3 levels."}
     ]
@@ -9255,7 +9507,7 @@ function buildProgram(answers,pathCode){
   // Initialize weeks with dynamic length + phase
   for(let n=1;n<=spec.weeks;n++){
     plan.weeks.push({
-      n,phase:_phaseForWeek(spec,n),focus:"",projects:[],roles:[],practice:[],milestone:null
+      n,phase:_phaseForWeek(spec,n),focus:"",projects:[],roles:[],practice:[],edu:[],milestone:null
     });
   }
 
@@ -9271,19 +9523,46 @@ function buildProgram(answers,pathCode){
   const _l1=remaining.filter(p=>p.lv===1);
   const _higher=remaining.filter(p=>p.lv>1);
   const _higherSlots=Math.max(0,spec.targetProjects-_l1.length);
-  const projectsToSchedule=[..._l1,..._higher.slice(0,_higherSlots)];
+  // Cap _higher to only span spec.lvGoal levels from the lowest level present
+  // Prevents L4 projects bleeding into a "1 level" plan when user is at L3
+  const _minHigherLv=_higher.length?_higher[0].lv:2;
+  const _maxAllowedLv=_minHigherLv+(spec.lvGoal-1);
+  const _higherCapped=_higher.filter(p=>p.lv<=_maxAllowedLv);
+  const projectsToSchedule=[..._l1,..._higherCapped.slice(0,_higherSlots)];
   const projectWeeks=new Set();
   if(projectsToSchedule.length>0){
     const spacing=Math.max(1,Math.floor((spec.weeks-1)/projectsToSchedule.length));
     projectsToSchedule.forEach((p,i)=>{
       const weekIdx=Math.min(lastIdx,i*spacing);
       // Preserve evalPart metadata so renderPfWeekCard can label correctly
-      const entry={pid:p.pid,action:"deliver at your home club"};
+      const entry={pid:p.pid,action:"deliver at your home club",lv:p.lv,kind:p.kind};
       if(p.evalPart)entry.evalPart=p.evalPart;
       plan.weeks[weekIdx].projects.push(entry);
       projectWeeks.add(weekIdx);
     });
   }
+
+  // ═══ Rule 1b: pin Education Series presentations (required at L3–L5) ═══
+  // Don't pre-pick a module — pin a generic "choose one" item into the last
+  // week each in-scope level appears. The member picks the actual presentation
+  // later; selection/delivery state is read live from S.edu (single source).
+  const _lastWeekForLv={};
+  plan.weeks.forEach((w,idx)=>{w.projects.forEach(pr=>{if(pr.lv)_lastWeekForLv[pr.lv]=idx;});});
+  [3,4,5].forEach(L=>{
+    const reqs=eduReqsFor(L);
+    if(!reqs.length||_lastWeekForLv[L]===undefined)return; // level not in this plan's scope
+    // Don't pile the presentation onto a speech week. For each required
+    // presentation, find the next project-free, edu-free week after the level's
+    // last project; fall back to that week only if nothing free is available.
+    let cursor=_lastWeekForLv[L];
+    reqs.forEach(req=>{
+      let target=_lastWeekForLv[L];
+      for(let idx=cursor+1;idx<plan.weeks.length;idx++){
+        if(plan.weeks[idx].projects.length===0&&plan.weeks[idx].edu.length===0){target=idx;cursor=idx;break;}
+      }
+      plan.weeks[target].edu.push({series:req.series,key:req.key,allow:req.allow,lv:L});
+    });
+  });
 
   // ═══ Rule 2: baseline role rotation (cyclical, non-conflict) ═══
   // Sequence covers 10 distinct roles including SAA and specialty contributions.
@@ -9727,7 +10006,14 @@ function renderPfWeekCard(w,refinedFocuses,refinedMilestones,checkInWeekSet,prog
       }
       const proj=PD[pr.pid];
       if(proj){
-        h+='<div class="pf-week-item"><a class="pf-item-link" data-pf-project="'+pr.pid+'">'+proj.t+'</a> <span class="pf-item-dim">· '+proj.dur+'</span></div>';
+        const _isElective=pr.kind==='elective';
+        h+='<div class="pf-week-item">';
+        h+='<a class="pf-item-link" data-pf-project="'+pr.pid+'">'+proj.t+'</a> <span class="pf-item-dim">· '+proj.dur+'</span>';
+        if(_isElective){
+          h+=' <span class="pf-elective-tag">ELECTIVE</span>';
+          h+=' <button class="pf-swap-btn" data-pf-swap-pid="'+pr.pid+'" data-pf-swap-lv="'+pr.lv+'" data-pf-swap-week="'+w.n+'">↕ swap</button>';
+        }
+        h+='</div>';
         const phases=PROJECT_PHASES[pr.pid];
         if(phases&&phases.leadWeeks>0){
           const startWk=w.n-phases.leadWeeks;
@@ -9736,6 +10022,28 @@ function renderPfWeekCard(w,refinedFocuses,refinedMilestones,checkInWeekSet,prog
           h+='<span>Start <strong>'+phases.leadWeeks+' weeks early</strong> (from '+startTxt+'). '+phases.summary+'</span></div>';
         }
       }
+    });
+    h+='</div>';
+  }
+  const _edu=w.edu||[];
+  if(_edu.length>0){
+    const _pc=(prog&&prog.pathCode)||S.path;
+    h+='<div class="pf-week-section"><div class="pf-week-label">📚 Education Series</div>';
+    _edu.forEach(req=>{
+      const series=EDU_MODULES[req.series];
+      const cid=eduChosenId(_pc,req.key);
+      const chosen=(cid&&series)?series.modules.find(m=>m.id===cid):null;
+      const delivered=eduDelivered(_pc,req.key);
+      const allowAttr=(req.allow==="*")?"*":req.allow.join(",");
+      const attrs='data-edu-open="1" data-edu-series="'+req.series+'" data-edu-key="'+req.key+'" data-edu-level="'+req.lv+'" data-edu-allow="'+allowAttr+'"';
+      h+='<div class="pf-week-item">';
+      if(chosen){
+        h+='<a class="pf-item-link" '+attrs+'>'+(delivered?'✓ ':'')+chosen.t+'</a> <span class="pf-item-dim">· '+(series?series.name:'')+'</span>';
+        h+=' <button class="pf-swap-btn" '+attrs+'>↕ swap</button>';
+      }else{
+        h+='<a class="pf-item-link" '+attrs+'>Education Series Presentation</a> <span class="pf-item-dim">· '+(series?series.name:'')+' · choose one</span>';
+      }
+      h+='</div>';
     });
     h+='</div>';
   }
@@ -9979,6 +10287,16 @@ function renderPathfinderProgram(app){
     save();
     render();
   });
+  // Elective swap buttons
+  app.querySelectorAll(".pf-swap-btn").forEach(btn=>{
+    btn.addEventListener("click",e=>{
+      e.stopPropagation();
+      const pid=btn.dataset.pfSwapPid;
+      const lv=parseInt(btn.dataset.pfSwapLv);
+      const weekN=parseInt(btn.dataset.pfSwapWeek);
+      renderElectiveSwapper(app,pid,lv,weekN,prog);
+    });
+  });
   app.querySelectorAll("[data-pf-project]").forEach(a=>{
     a.addEventListener("click",()=>{
       V.viewingProject=a.dataset.pfProject;
@@ -10002,6 +10320,19 @@ function renderPathfinderProgram(app){
       else if(tool==="filler"){V.view="filler";FD&&(FD.phase="idle");}
       else if(tool==="timer"){V.view="timer";}
       render();
+    });
+  });
+  // Education Series pinned item → open the filtered picker (same as level browser)
+  app.querySelectorAll("[data-edu-open]").forEach(link=>{
+    link.addEventListener("click",e=>{
+      e.stopPropagation();
+      const series=link.dataset.eduSeries;
+      const key=link.dataset.eduKey;
+      const level=parseInt(link.dataset.eduLevel,10);
+      const allowRaw=link.dataset.eduAllow;
+      const allow=(allowRaw==="*")?"*":allowRaw.split(",");
+      const prog=S.programs&&S.programs[S.path]?S.programs[S.path]:{};
+      renderEduBrowser(app,series,allow,key,level,prog);
     });
   });
   // Check-in expand/collapse
@@ -12340,7 +12671,7 @@ function renderToS(app){
   h+='Built by Kian How, a member of 5A+ Shanghai Toastmasters Club as part of his Distinguished Toastmaster (DTM) project. This app was created as a personal project to support the Toastmasters community — not as a commercial product.';
   h+='</div>';
 
-  h+='<div class="app-footer">Made by Kian How · Not affiliated with Toastmasters International · v1.73</div>';
+  h+='<div class="app-footer">Made by Kian How · Not affiliated with Toastmasters International · v1.74</div>';
   h+='</div>';
   app.innerHTML=h;
 
@@ -12607,6 +12938,145 @@ function _renderKFocusCard(feedback,type){
   h+='<button data-action="kfocus-refresh" data-type="'+type+'" style="margin-top:10px;background:none;border:1px solid rgba(229,179,82,0.3);border-radius:8px;padding:6px 12px;font-size:11px;color:#E5B352;cursor:pointer;font-family:inherit;width:100%">✨ Ask K for a fresh brief</button>';
   h+='</div>';
   return h;
+}
+
+
+// ── Elective swapper modal ─────────────────────────────────────────────────
+function renderElectiveSwapper(app, pid, lv, weekN, prog){
+  const pathCode=prog.pathCode||S.path;
+  const g=gP(pathCode,lv);
+  const available=g.e.filter(p=>p!==pid); // all electives except current
+  const curProj=PD[pid];
+  let h='<div class="modal-backdrop" style="align-items:center">';
+  h+='<div class="modal-card" style="max-height:80vh;overflow-y:auto;width:100%;max-width:480px" onclick="event.stopPropagation()">';
+  h+='<div class="modal-hdr">';
+  h+='<div style="font-size:9px;font-weight:700;letter-spacing:0.1em;color:var(--accent);text-transform:uppercase;margin-bottom:5px">Swap Elective — Level '+lv+'</div>';
+  h+='<div style="font-size:16px;font-weight:700;color:var(--text)">Choose a different elective</div>';
+  h+='<div style="font-size:12px;color:var(--text-3);margin-top:3px">Current: '+( curProj?curProj.t:'—')+'</div>';
+  h+='</div>';
+  h+='<div style="margin-top:14px">';
+  available.forEach(epid=>{
+    const ep=PD[epid];if(!ep)return;
+    const done=S.done[epid];
+    h+='<div class="edu-browser-mod'+(done?' done-dim':'')+'" data-swap-select="'+epid+'" data-swap-week="'+weekN+'" data-swap-old="'+pid+'">';
+    h+='<div class="edu-mod-title">'+ep.t+(done?' ✓':'')+' <span style="font-size:11px;font-weight:400;color:var(--text-3)">· '+ep.dur+'</span></div>';
+    if(ep.p)h+='<div class="edu-mod-p">'+ep.p+'</div>';
+    if(ep.o)h+='<div class="edu-mod-gain">'+ep.o+'</div>';
+    h+='</div>';
+  });
+  h+='</div>';
+  h+='<button data-action="close-elective-swapper" class="modal-cta" style="margin-top:14px;background:var(--surface);color:var(--text-2);border:1px solid var(--border)">Cancel</button>';
+  h+='</div></div>';
+  const overlay=document.createElement('div');
+  overlay.innerHTML=h;
+  document.body.appendChild(overlay.firstChild);
+
+  // Wire swap selection
+  document.querySelectorAll('[data-swap-select]').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      const newPid=btn.dataset.swapSelect;
+      const wn=parseInt(btn.dataset.swapWeek);
+      const oldPid=btn.dataset.swapOld;
+      // Update plan
+      const planKey=prog.pathCode||S.path;
+      const plan=S.programs[planKey];
+      if(plan){
+        plan.weeks.forEach(w=>{
+          if(w.n===wn){
+            w.projects=w.projects.map(p=>p.pid===oldPid?{...p,pid:newPid}:p);
+          }
+        });
+        save();
+      }
+      document.querySelectorAll('.modal-backdrop').forEach(el=>el.remove());
+      render();
+    });
+  });
+
+  document.querySelectorAll('.modal-backdrop').forEach(el=>{
+    el.addEventListener('click',e=>{ if(e.target===el)document.querySelectorAll('.modal-backdrop').forEach(b=>b.remove()); });
+  });
+  document.querySelectorAll('[data-action="close-elective-swapper"]').forEach(el=>{
+    el.addEventListener('click',()=>document.querySelectorAll('.modal-backdrop').forEach(e=>e.remove()));
+  });
+}
+
+// ── Education Series browser modal ─────────────────────────────────────────
+function renderEduBrowser(app, seriesId, allow, storeKey, level, prog){
+  const series=EDU_MODULES[seriesId];
+  if(!series)return;
+  const planKey=(prog&&prog.pathCode)||S.path;
+  const allowAll=(allow==="*"||!Array.isArray(allow));
+  const mods=allowAll?series.modules:series.modules.filter(m=>allow.includes(m.id));
+
+  const overlay=document.createElement('div');
+  overlay.innerHTML='<div class="modal-backdrop" style="align-items:center"><div class="modal-card" style="max-height:85vh;overflow-y:auto;width:100%;max-width:480px" onclick="event.stopPropagation()"></div></div>';
+  const backdrop=overlay.firstChild;
+  document.body.appendChild(backdrop);
+  const cardEl=backdrop.querySelector('.modal-card');
+  backdrop.addEventListener('click',ev=>{ if(ev.target===backdrop)close(); });
+
+  function close(){document.querySelectorAll('.modal-backdrop').forEach(el=>el.remove());}
+  function esc(s){return (s||"").replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+
+  function showList(){
+    const chosenId=eduChosenId(planKey,storeKey);
+    let h='<div class="modal-hdr">';
+    h+='<div style="font-size:9px;font-weight:700;letter-spacing:0.1em;color:var(--accent);text-transform:uppercase;margin-bottom:5px">Level '+level+' · Education Series</div>';
+    h+='<div style="font-size:17px;font-weight:700;color:var(--text)">'+series.name+'</div>';
+    h+='<div style="font-size:12px;color:var(--text-3);margin-top:3px">'+series.desc+'</div>';
+    if(series.url)h+='<a href="'+series.url+'" target="_blank" style="font-size:11px;color:var(--accent);display:inline-block;margin-top:5px">📥 Download from Toastmasters.org →</a>';
+    h+='</div>';
+    h+='<div style="margin-top:14px">';
+    mods.forEach(mod=>{
+      const isChosen=chosenId===mod.id;
+      h+='<div class="edu-browser-mod'+(isChosen?' selected':'')+'" data-edu-detail="'+mod.id+'">';
+      h+='<div class="edu-mod-title">'+mod.t+' <span style="font-size:11px;font-weight:400;color:var(--text-3)">· '+mod.dur+'</span>'+(isChosen?' <span style="color:var(--accent);font-size:11px">✓ Selected</span>':'')+'</div>';
+      h+='<div class="edu-mod-p">'+mod.p+'</div>';
+      h+='<div class="edu-mod-more">View details →</div>';
+      h+='</div>';
+    });
+    h+='</div>';
+    if(chosenId){
+      h+='<button data-edu-clear class="modal-cta" style="margin-top:10px;background:none;color:var(--text-3);border:1px solid var(--border);font-size:13px">Clear selection</button>';
+    }
+    h+='<button data-edu-close class="modal-cta" style="margin-top:8px;background:var(--surface);color:var(--text-2);border:1px solid var(--border)">Close</button>';
+    cardEl.innerHTML=h;
+    cardEl.scrollTop=0;
+    cardEl.querySelectorAll('[data-edu-detail]').forEach(row=>row.addEventListener('click',()=>showDetail(row.dataset.eduDetail)));
+    const clr=cardEl.querySelector('[data-edu-clear]');
+    if(clr)clr.addEventListener('click',()=>{const e=eduStore(planKey);delete e.choices[storeKey];delete e.done[storeKey];save();close();renderKeepingOpenLevel();});
+    const cl=cardEl.querySelector('[data-edu-close]');
+    if(cl)cl.addEventListener('click',close);
+  }
+
+  function showDetail(mid){
+    const mod=series.modules.find(m=>m.id===mid);
+    if(!mod){showList();return;}
+    const isChosen=eduChosenId(planKey,storeKey)===mod.id;
+    let h='<button data-edu-back class="edu-detail-back">← All presentations</button>';
+    h+='<div class="edu-detail-kicker">'+series.name+' · '+mod.dur+'</div>';
+    h+='<div class="edu-detail-title">'+esc(mod.t)+'</div>';
+    h+='<div class="edu-detail-p">'+esc(mod.p)+'</div>';
+    if(mod.covers&&mod.covers.length){
+      h+='<div class="edu-detail-label">What it covers</div><ul class="edu-detail-list">';
+      mod.covers.forEach(c=>{h+='<li>'+esc(c)+'</li>';});
+      h+='</ul>';
+    }
+    if(mod.deliver){
+      h+='<div class="edu-detail-label">Delivering it</div>';
+      h+='<div class="edu-detail-deliver">'+esc(mod.deliver)+'</div>';
+    }
+    h+='<div class="edu-detail-gain"><strong>You\'ll gain:</strong> '+esc(mod.gain)+'</div>';
+    if(series.url)h+='<a href="'+series.url+'" target="_blank" class="edu-detail-dl">📥 Download the official TI slides →</a>';
+    h+='<button data-edu-pick class="modal-cta edu-detail-pick">'+(isChosen?'✓ Selected — keep this':'Select this presentation')+'</button>';
+    cardEl.innerHTML=h;
+    cardEl.scrollTop=0;
+    cardEl.querySelector('[data-edu-back]').addEventListener('click',showList);
+    cardEl.querySelector('[data-edu-pick]').addEventListener('click',()=>{eduStore(planKey).choices[storeKey]=mod.id;save();close();renderKeepingOpenLevel();});
+  }
+
+  showList();
 }
 
 function renderNotice(app){
