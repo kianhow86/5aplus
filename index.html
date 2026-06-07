@@ -1504,6 +1504,10 @@ a{color:inherit;text-decoration:none}
 /* Project input fields */
 .ps-input-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:13px 14px;margin-bottom:10px}
 .ps-input-label{font-size:var(--fs-sm);font-weight:700;color:var(--text);letter-spacing:-0.008em;margin-bottom:3px}
+.ps-part-picker{margin-bottom:12px;display:flex;flex-direction:column;gap:7px}
+.ps-part-btn{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:10px 14px;font-size:12px;font-weight:600;color:var(--text-2);cursor:pointer;text-align:left;line-height:1.4;transition:all .15s}
+.ps-part-btn.active{background:var(--accent-soft,rgba(94,185,117,.12));border-color:var(--accent);color:var(--accent)}
+.ps-part-desc{display:block;font-size:11px;font-weight:400;color:var(--text-3);margin-top:2px}
 .ps-input-hint{font-size:var(--fs-xs);color:var(--text-3);line-height:1.4;letter-spacing:-0.003em;margin-bottom:8px}
 .ps-input-field{width:100%;box-sizing:border-box;background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:8px;padding:9px 11px;font-family:inherit;font-size:var(--fs-sm);color:var(--text);resize:none;outline:none;line-height:1.5;transition:border-color .15s}
 .ps-input-field:focus{border-color:var(--accent)}
@@ -2840,7 +2844,7 @@ const PD={
 "ice-breaker":{t:"Ice Breaker",dur:"4–6 min",p:"Introduce yourself to the club and learn the basic structure of a public speech.",o:"Write and deliver a speech about any topic to introduce yourself to your club.",inc:"A 4–6 min speech"},
 "writing-purpose":{t:"Writing a Speech with Purpose",dur:"5–7 min",p:"Learn basic methods for writing a speech and present a well-organized speech on any topic.",o:"Select any topic, clearly define your purpose, practice, refine organization, present.",inc:"A 5–7 min speech"},
 "intro-vocal-body":{t:"Introduction to Vocal Variety and Body Language",dur:"5–7 min",p:"Practice using vocal variety OR body language to enhance a speech.",o:"Choose vocal variety or body language as your focus, tell your evaluator, speak on any topic.",inc:"A 5–7 min speech"},
-"eval-feedback":{t:"Evaluation and Feedback",dur:"2× 5–7 min + eval role",p:"Practice applying feedback and serving as a speech evaluator.",o:"Two speeches — second one applies feedback from the first. Then serve as evaluator at a club meeting.",inc:"Two 5–7 min speeches + evaluator role",parts:[{t:"Part A — First speech (5–7 min)",desc:"Any topic. Get feedback."},{t:"Part B — Second speech (5–7 min)",desc:"Apply the feedback from Part A — new speech, revision, or re-delivery focused on feedback."},{t:"Part C — Serve as Evaluator",desc:"Evaluate another member's speech at a club meeting."}]},
+"eval-feedback":{t:"Evaluation and Feedback",dur:"2× 5–7 min + eval role",p:"Practice applying feedback and serving as a speech evaluator.",o:"Two speeches — second one applies feedback from the first. Then serve as evaluator at a club meeting.",inc:"Two 5–7 min speeches + evaluator role",parts:[{t:"Part A — First speech (5–7 min)",desc:"Any topic. Get feedback."},{t:"Part B — Second speech (5–7 min)",desc:"Apply the feedback from Part A — new speech, revision, or re-delivery focused on feedback."},{t:"Part C — Serve as Evaluator",desc:"Evaluate another member's speech at a club meeting.",coach:false}]},
 "lead-style":{t:"Understanding Your Leadership Style",dur:"5–7 min",p:"Identify your primary leadership style(s).",o:"Complete the Discover Your Leadership Style questionnaire, then speak about it.",inc:"Questionnaire + 5–7 min speech"},
 "comm-style":{t:"Understanding Your Communication Style",dur:"5–7 min",p:"Learn about different communication styles and identify your primary style.",o:"Complete the Discover Your Communication Style questionnaire, then speak about its impact on your relationships.",inc:"Questionnaire + 5–7 min speech"},
 "intro-mentor":{t:"Introduction to Toastmasters Mentoring",dur:"5–7 min",p:"Clearly define how Toastmasters envisions mentoring.",o:"Write and present a speech about a time when you were a protégé.",inc:"A 5–7 min speech"},
@@ -13717,6 +13721,7 @@ const COACH_STARTERS=[
 
 let PS={
   pid:null,           // project being practiced (null = any/freestyle)
+  part:null,          // selected part for multi-part projects ('a','b')
   mode:"speaker",     // "speaker" | "evaluator"
   phase:"ready",      // "ready" | "active" | "done"
   elapsed:0,          // seconds elapsed
@@ -15222,6 +15227,22 @@ function renderPracticeStudio(app){
 
   // B — Project-specific input fields + limitation banners
   const tags=_psGetTags(PS.pid||"");
+  const proj2=PS.pid?PD[PS.pid]:null;
+
+  // Part picker for multi-part projects (e.g. Evaluation and Feedback)
+  if(proj2&&proj2.parts){
+    const coachableParts=proj2.parts.filter(p=>p.coach!==false);
+    if(coachableParts.length>1){
+      h+='<div class="ps-part-picker">';
+      h+='<div class="ps-input-label" style="margin-bottom:8px">Which part are you practicing?</div>';
+      coachableParts.forEach((p,i)=>{
+        const key=String.fromCharCode(97+i);
+        const active=PS.part===key;
+        h+='<button class="ps-part-btn'+(active?' active':'')+'" data-ps-part="'+key+'">'+p.t+'<span class="ps-part-desc">'+p.desc+'</span></button>';
+      });
+      h+='</div>';
+    }
+  }
 
   // Writing a Speech with Purpose — state your purpose first
   if(tags.needsPurpose){
@@ -15232,11 +15253,16 @@ function renderPracticeStudio(app){
     h+='</div>';
   }
 
-  // Eval and Feedback Part B — what feedback did you receive?
-  if(tags.needsFeedback){
+  // Eval and Feedback Part B — original script + feedback received
+  if(tags.needsFeedback&&PS.part==='b'){
     h+='<div class="ps-input-card">';
-    h+='<div class="ps-input-label">What feedback did you receive on your first speech?</div>';
-    h+='<div class="ps-input-hint">Type the key points from your evaluator. K will coach whether this speech applied them.</div>';
+    h+='<div class="ps-input-label">Paste your original speech (Part A)</div>';
+    h+='<div class="ps-input-hint">The script or key points from your first attempt. K will compare what changed.</div>';
+    h+='<textarea class="ps-input-field" id="ps-orig-input" placeholder="Paste your Part A script here..." rows="4">'+escHtml(PS._origScript||"")+'</textarea>';
+    h+='</div>';
+    h+='<div class="ps-input-card">';
+    h+='<div class="ps-input-label">What feedback did you receive after Part A?</div>';
+    h+='<div class="ps-input-hint">Key points from your evaluator. K will coach whether your revised speech applied them.</div>';
     h+='<textarea class="ps-input-field" id="ps-feedback-input" placeholder="e.g. My evaluator said my opening was weak and I used too many fillers. She suggested I start with a story instead." rows="3">'+escHtml(PS._feedbackInput||"")+'</textarea>';
     h+='</div>';
   }
@@ -15402,6 +15428,13 @@ function renderPracticeStudio(app){
   if(psScriptSubmit)psScriptSubmit.addEventListener('click',async()=>{
     const script=psScriptInput?psScriptInput.value.trim():'';
     if(!script){alert('Please paste your script first.');return;}
+    // Capture input fields before render() destroys them
+    const feedbackEl=document.getElementById('ps-feedback-input');
+    if(feedbackEl)PS._feedbackInput=feedbackEl.value.trim();
+    const origEl=document.getElementById('ps-orig-input');
+    if(origEl)PS._origScript=origEl.value.trim();
+    const purposeEl=document.getElementById('ps-purpose-input');
+    if(purposeEl)PS._purposeInput=purposeEl.value.trim();
     PS.phase='done';
     PS.elapsed=0;
     PS.aiAnalysis=null;
@@ -15428,6 +15461,10 @@ function renderPracticeStudio(app){
       const pid=btn.dataset.psPid==="freestyle"?null:btn.dataset.psPid;
       PS.pid=pid;
       PS._isFollowup=false;PS._prevFeedback=null;PS._prevTranscript=null;PS._historyFocus=null;
+      // Auto-select Part A for multi-part projects; clear part state for single-part
+      const coachableParts=pid&&PD[pid]&&PD[pid].parts?PD[pid].parts.filter(p=>p.coach!==false):null;
+      PS.part=(coachableParts&&coachableParts.length>1)?'a':null;
+      PS._origScript=null;PS._feedbackInput=null;
       const _fc3=app.querySelector("[data-focus-card]");if(_fc3)_fc3.remove();
       app.querySelectorAll(".ps-followup-badge").forEach(el=>el.remove());
       // Update selected state in-place
@@ -15460,11 +15497,27 @@ function renderPracticeStudio(app){
   });
   const startBtn=app.querySelector('[data-action="ps-start"]');
   if(startBtn)startBtn.addEventListener("click",()=>psStart(startBtn.dataset.timerOnly==="1"));
+  // Part picker buttons — switch between Part A / Part B
+  app.querySelectorAll('[data-ps-part]').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      PS.part=btn.dataset.psPart;
+      PS._origScript=null;PS._feedbackInput=null;
+      render();
+    });
+  });
   const stopBtn=app.querySelector('[data-action="ps-stop"]');
   if(stopBtn)stopBtn.addEventListener("click",psStop);
 }
 
 function psStart(timerOnly){
+  // Capture input field values before render() destroys the DOM elements
+  const purposeEl=document.getElementById('ps-purpose-input');
+  if(purposeEl)PS._purposeInput=purposeEl.value.trim();
+  const feedbackEl=document.getElementById('ps-feedback-input');
+  if(feedbackEl)PS._feedbackInput=feedbackEl.value.trim();
+  const origEl=document.getElementById('ps-orig-input');
+  if(origEl)PS._origScript=origEl.value.trim();
+
   _recordSfx(true);
   PS.elapsed=0;
   PS.fillerCounts={};
@@ -16838,12 +16891,18 @@ Verbal distractions: Analyse the transcript for filler words (um, uh, ah, so, li
   const styleResult=PS._styleQuiz&&PS._styleQuiz.result?PS._styleQuiz.result:null;
   const styleData=styleResult&&tags.needsStyleQuiz?STYLE_QUIZ[tags.needsStyleQuiz]:null;
   const styleDesc=styleData&&styleData.styles[styleResult]?styleData.styles[styleResult].name:null;
-  const msg=(proj?"Project: "+proj.t+"\nProject purpose: "+proj.p+"\n":"Freestyle practice\n")+
+  const partLabel=PS.part&&proj&&proj.parts?
+    (proj.parts.filter(p=>p.coach!==false)[PS.part==='a'?0:PS.part==='b'?1:0]||{}).t||'':null;
+  const msg=(proj?"Project: "+proj.t+"\nProject purpose: "+proj.p+"\n":
+    "Freestyle practice\n")+
+    (partLabel?"Practicing: "+partLabel+"\n":"")+
     (isPasteMode?"MODE: This is a pasted script, not a recording. Coach content and structure — theme clarity, subtraction, character purpose. Do not comment on delivery.\n":"" )+
     (isPasteMode&&PS._govAdj?"Speaker's governing adjective: \""+PS._govAdj+"\" — evaluate whether the script actually delivers on this word. If it doesn't, that's the primary feedback.\n":"")+
     (styleDesc?"Speaker's identified style: "+styleDesc+" — coach whether the speech content authentically reflects this style and what it reveals about the speaker.\n":"")+
     (tags.needsPurpose&&PS._purposeInput?"Speaker's stated purpose: "+PS._purposeInput+"\nCoach specifically against this stated purpose — did the speech achieve it?\n":"")+
-    (tags.needsFeedback&&PS._feedbackInput?"Feedback received on first speech: "+PS._feedbackInput+"\nCoach specifically on whether this speech applied that feedback.\n":"")+
+    (tags.needsFeedback&&PS.part==='b'&&PS._origScript?"ORIGINAL SPEECH (Part A — before feedback):\n"+PS._origScript+"\n\n":"")+
+    (tags.needsFeedback&&PS.part==='b'&&PS._feedbackInput?"FEEDBACK RECEIVED after Part A: "+PS._feedbackInput+"\n":"")+ 
+    (tags.needsFeedback&&PS.part==='b'?(PS._origScript||PS._feedbackInput)?"The transcript below is the REVISED speech (Part B). Coach specifically on: what changed from the original, what feedback was incorporated, what was missed, and what still needs work — not on the speech in isolation.\n":"Coach this as a revised speech applying feedback from a first attempt.\n":"")+
     "Duration: "+mins+" minutes"+(dur?" — "+durAssessment:"")+"\n"+
     "Word count: "+wordCount+" ("+wpm+" wpm)\n"+
     (PS._extraNotes?"\nSpeaker notes: "+PS._extraNotes+"\n":"")+
