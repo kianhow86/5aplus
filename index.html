@@ -4815,7 +4815,7 @@ function renderHub(app){
   }
   h+='</div>';
 
-  h+='<div class="app-footer">Made by Kian How · Not affiliated with Toastmasters International · v1.74 · <a data-action="show-notice" style="color:var(--accent);text-decoration:none;cursor:pointer">User Agreement</a></div>';
+  h+='<div class="app-footer">Made by Kian How · Not affiliated with Toastmasters International · v1.75 · <a data-action="show-notice" style="color:var(--accent);text-decoration:none;cursor:pointer">User Agreement</a></div>';
   h+='</div>';
   app.innerHTML=h;
 
@@ -5147,7 +5147,7 @@ function renderPathPicker(app){
   h+='<button class="quiz-prompt-btn" data-action="open-quiz">🧭 &nbsp; Not sure which one? Take the fun quiz</button>';
   h+='</div>';
 
-  h+='<div class="app-footer">Made by Kian How · Not affiliated with Toastmasters International · v1.74 · <a data-action="show-notice" style="color:var(--accent);text-decoration:none;cursor:pointer">User Agreement</a></div>';
+  h+='<div class="app-footer">Made by Kian How · Not affiliated with Toastmasters International · v1.75 · <a data-action="show-notice" style="color:var(--accent);text-decoration:none;cursor:pointer">User Agreement</a></div>';
   h+='</div>';
   app.innerHTML=h;
 
@@ -5511,7 +5511,7 @@ function renderPathBrowser(app){
   // Keeping it in the tree lets us toggle visibility without re-rendering.
   h+='<div class="path-complete-banner'+(pct>=100?'':' hidden')+'"><strong>🎉 Path complete!</strong><div style="font-size:13px;color:var(--text-muted);line-height:1.5">Next step: DTM. Keep going.</div></div>';
 
-  h+='<div class="app-footer">Made by Kian How · Not affiliated with Toastmasters International · v1.74 · <a data-action="show-notice" style="color:var(--accent);text-decoration:none;cursor:pointer">User Agreement</a></div>';
+  h+='<div class="app-footer">Made by Kian How · Not affiliated with Toastmasters International · v1.75 · <a data-action="show-notice" style="color:var(--accent);text-decoration:none;cursor:pointer">User Agreement</a></div>';
   h+='</div>';
   app.innerHTML=h;
 
@@ -7328,7 +7328,7 @@ function renderPracticeHub(app){
   h+=toolRow({tool:"speech-draft",color:"#3B82F6", icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.9" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><path d="M13 2v5h7"/><line x1="8" y1="13.5" x2="12" y2="13.5"/><line x1="8" y1="17.5" x2="12" y2="17.5"/><path d="M17.5 4.5l2.5 2.5-7 7-2.5 0.5 0.5-2.5z"/><line x1="17.5" y1="4.5" x2="20" y2="7"/></svg>',  name:"Speech Draft Builder",desc:"AI builds your speech outline and opening lines"});
 
   h+='</div>';
-  h+='<div class="app-footer">Made by Kian How · Not affiliated with Toastmasters International · v1.74 · <a data-action="show-notice" style="color:var(--accent);text-decoration:none;cursor:pointer">User Agreement</a></div>';
+  h+='<div class="app-footer">Made by Kian How · Not affiliated with Toastmasters International · v1.75 · <a data-action="show-notice" style="color:var(--accent);text-decoration:none;cursor:pointer">User Agreement</a></div>';
   h+='</div>';
   app.innerHTML=h;
 
@@ -12675,7 +12675,7 @@ function renderToS(app){
   h+='Built by Kian How, a member of 5A+ Shanghai Toastmasters Club as part of his Distinguished Toastmaster (DTM) project. This app was created as a personal project to support the Toastmasters community — not as a commercial product.';
   h+='</div>';
 
-  h+='<div class="app-footer">Made by Kian How · Not affiliated with Toastmasters International · v1.74</div>';
+  h+='<div class="app-footer">Made by Kian How · Not affiliated with Toastmasters International · v1.75</div>';
   h+='</div>';
   app.innerHTML=h;
 
@@ -15493,6 +15493,8 @@ function renderPracticeStudio(app){
       // Close dropdown
       const dd=document.getElementById("ps-project-dropdown");
       if(dd)dd.style.display="none";
+      // Re-render so section B (part picker, input fields) updates for the new project
+      render();
     });
   });
   const startBtn=app.querySelector('[data-action="ps-start"]');
