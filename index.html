@@ -8025,12 +8025,14 @@ If the transcript is very short — under 30 words, mostly silence, or clearly i
 
 Otherwise, always find something that genuinely worked first. Then coach.
 
-Reply in EXACTLY these four sections:
+Reply in EXACTLY these four sections — use these exact labels, no others:
 
 ✅ WHAT WORKED: One specific thing that showed promise — a phrase, a pivot, an instinct. Name it directly. Always find something.
 🎯 THE THREAD: Did they find one governing idea and commit? Or wander? Name what you heard. Frame it as the opportunity.
 🏗 STRUCTURE: One observation about momentum — did it open with something that created pull?
 💡 ONE THING: The most useful thing to work on. Make it feel doable. If something on the page could land powerfully in the room, suggest how to physicalise it.
+
+DO NOT use "Objective Achievement", "What You Did Well", "Where to Improve", or "One Priority" — those belong to a different coaching context. Use only the four labels above.
 
 Under 180 words. Firm and warm.`;
 
@@ -14995,11 +14997,11 @@ function _psCoachNote(pid){
     // ── Level 1 ──
     "ice-breaker":        "Your only job today is to be yourself. Don't perform — reveal.",
     "writing-purpose":    "Before you start, lock in one sentence: what do you want them to walk away believing?",
-    "intro-vocal-body":   "Pick one physical choice before you tap mic — a gesture, a pause, a step. Own it.",
+    "intro-vocal-body":   "I can't see you from here — so pick one physical intention before you start. A deliberate gesture, a pause with weight, a step that means something.",
     "eval-feedback":      "Speak to the feedback you got last time. Let me hear if it landed.",
     // ── Delivery ──
-    "eff-body-lang":      "Your body is talking before your mouth opens. Start still, start strong.",
-    "vocal-var":          "Think of your voice like a dimmer switch — not just on/off. Find the range.",
+    "eff-body-lang":      "I work from what you say, not how you move. Go in with one clear physical intention — stillness, or a single gesture that earns its place.",
+    "vocal-var":          "Transcript can't catch your pitch or pace — so we'll work your script choices first, then take the contrast to the mic.",
     "visual-aids":        "Don't describe the slide — react to it. Your audience can read. They can't feel what you feel.",
     "pres-software":      "The slides should never be ahead of you. You lead. They follow.",
     // ── Storytelling & Language ──
@@ -15041,8 +15043,8 @@ function _psCoachNote(pid){
     "qa-session":         "The question period is still your speech. Stay in your theme when you answer.",
     "manage-events":      "An event succeeds when people feel something. What do you want them to feel walking out?",
     "team-build":         "Team building that doesn't address the real tension in the room is entertainment, not development.",
-    // ── Specialised ──
-    "interview":          "Every interview answer is a story. Situation, decision, result — in that order.",
+    // ── Table Topics ──
+    "tabletopics":        "1–2 minutes, no prep. The question is a door — where you go matters more than answering it.",
     "active-listen":      "As Topicsmaster, your job is to give people permission to surprise themselves.",
     "intro-mentor":       "Mentoring starts with curiosity, not advice. Ask before you tell.",
     "social-speech":      "Social speeches feel small but land deep. One specific memory beats three general tributes.",
@@ -16866,6 +16868,28 @@ async function psAnalyzeWithAI(){
     else durAssessment="ON TARGET ("+mins+" min, within "+dur.min+"–"+dur.max+" min window)";
   }
 
+  const _projectNotes={
+    'intro-vocal-body':
+      "COACHING MODE — INTRODUCTION TO VOCAL VARIETY AND BODY LANGUAGE: You cannot assess physical delivery from a transcript. DO NOT attempt to evaluate how the speaker moved, gestured, or varied their voice. INSTEAD: (1) Coach content and structure as normal. (2) Add a TECHNIQUE GUIDANCE section at the end covering both Body Language (use gestures with intention — pointing a direction, hand to chest when referencing yourself, open palm toward the audience when referencing them, show scale or size; avoid filler movement like swaying or random pacing; let stillness work for you; eye contact: scan the room and hold on individuals for a full thought; feet shoulder-width, weight balanced) and Vocal Variety (vary pace — slow down for key insights, speed up for energy; pause deliberately before important points and after punchlines; vary volume — lower to draw people in, raise for emphasis; vary pitch to avoid monotone; silence beats every filler word). Present these as tools to practise on stage, not as an assessment of this attempt.",
+    'eff-body-lang':
+      "COACHING MODE — EFFECTIVE BODY LANGUAGE: This is a body language project. You cannot assess physical delivery from a transcript. DO NOT evaluate gestures, movement, stance, or physical presence. INSTEAD: (1) Coach content and structure. (2) Add a BODY LANGUAGE GUIDANCE section: use gestures with intention (pointing a direction, hand to chest for self-reference, open palm toward audience for audience-reference, hands apart to show scale); avoid filler movement — random arm waving, swaying, and aimless pacing undercut credibility; stillness is a tool — let a key moment land without movement; eye contact: scan the room, land and hold on one person for a complete thought before moving; feet shoulder-width, weight balanced, avoid weight-shifting; facial expressions should match the emotional tone of each moment. These are techniques to take onto the floor, not an assessment of this speech.",
+    'vocal-var':
+      "COACHING MODE — VOCAL VARIETY: This project is specifically about pace, pitch, power, and pause. A transcript cannot capture vocal performance. DO NOT assess how this speech was delivered vocally. INSTEAD: (1) Coach content and structure. (2) Add a VOCAL VARIETY GUIDANCE section: Pace — identify moments in the script where slowing down would create impact, and where speeding up would build energy; Pitch — flag moments where a monotone delivery would flatten the content, and suggest where pitch variation would serve the meaning; Power — note where lowering volume would draw the audience in, and where raising it would land emphasis; Pause — mark 2-3 specific places in the transcript where a deliberate pause before or after would give the idea room to land; Filler words — silence always beats 'um' or 'ah'; diaphragm breathing gives resonance and control. Present these as specific, actionable guidance for their next run-through.",
+    'inspire':
+      "COACHING MODE — INSPIRE AN AUDIENCE: The sole objective is whether this speech would genuinely move the audience to reflection or action. For OBJECTIVE ACHIEVEMENT, evaluate: Was there a clear emotional peak or call to action? Would this speech actually move someone — and if so, to do or feel what specifically? What is the one thing the audience would carry away? Every other section (structure, delivery, storytelling) matters only insofar as it serves the moment of inspiration. If the speech lacks a clear call to action or emotional climax, that is the primary feedback regardless of how polished the rest is.",
+    'persuade-speak':
+      "COACHING MODE — PERSUASIVE SPEAKING: Coach specifically on persuasion technique. For OBJECTIVE ACHIEVEMENT, evaluate whether this speech would genuinely persuade someone. Assess all five elements: Ethos — did the speaker establish credibility or personal authority on this topic? Pathos — was there an emotional appeal that makes the audience care? Logos — was there evidence, data, or logical reasoning supporting the claim? Call to Action — was there a clear, specific ask of the audience? Counter-argument — were objections or opposing views acknowledged and addressed? A polished speech that is missing these elements has not achieved this project's objective.",
+    'research-present':
+      "COACHING MODE — RESEARCHING AND PRESENTING: The objective is a well-researched, logically structured speech. For OBJECTIVE ACHIEVEMENT, evaluate: Was evidence cited and attributed — not just stated as personal opinion? Was the argument logically built, with each point following from the last? Did this feel genuinely researched, or primarily based on the speaker's existing views? Was the depth sufficient to show real inquiry into the topic? Note to speaker at the end of your coaching: 'I can assess your argument structure and evidence use, but not factual accuracy — verify your sources independently.' Do not primarily coach on storytelling or personal narrative — research quality and logical structure are what this project is measuring.",
+    'desc-lang':
+      "COACHING MODE — USING DESCRIPTIVE LANGUAGE: Vivid, figurative language is the primary objective — structure is secondary. For OBJECTIVE ACHIEVEMENT, evaluate specifically: Were figurative techniques used (metaphor, simile, personification, sensory language — sight, sound, smell, taste, touch)? How precise and vivid was the word choice — did it paint pictures or was it generic? Were there moments where the language itself created emotional impact, not just the idea behind it? Give specific examples from the transcript: quote a phrase that was vivid and one that was generic, and show what the generic one could become. The core coaching question is: did the words make the audience see, hear, or feel something? If not, that is the primary gap."
+  };
+  const partNote=(PS.pid==='eval-feedback'&&PS.part==='a')?
+    "COACHING MODE — PART A (first speech): There is no Pathways objective to achieve here. The speaker's only job was to deliver a speech. For OBJECTIVE ACHIEVEMENT, confirm the speech was delivered and note one thing that will make the most useful feedback for their Part B revision. Focus your coaching entirely on what the speaker should work on next — treat this session as producing the feedback they will apply in Part B.":
+    (PS.pid==='eval-feedback'&&PS.part==='b')?
+    "COACHING MODE — PART B (revised speech): The ONLY objective is whether the speaker applied the feedback from Part A. OBJECTIVE ACHIEVEMENT must be assessed solely on this — not on general speech quality. If original speech and feedback context are provided above, compare directly. Name what changed, what improved, and what feedback was not yet incorporated.":
+    (PS.pid&&_projectNotes[PS.pid])||"";
+
   const sys=`You are K, a Toastmasters speech coach. Be direct, encouraging, and concise. Every speaker deserves honest feedback and someone who believes in them.
 
 If the transcript is very short — under 30 words, mostly silence, or clearly incomplete — reply with exactly: "No worries, let's give it another go." Nothing else.
@@ -16876,7 +16900,7 @@ COACHING PRIORITY ORDER:
 3. Improve against the objective only. Feedback must be tied directly to what the project objective actually asks for — not general speech quality.
 4. Takeaway. If there's something notable outside the objective — a pattern, a strength, a habit — mention it briefly. If not, give one punchy line the speaker can carry forward.
 
-${deliveryNote?"\n"+deliveryNote+"\n":""}Reply in these sections. No markdown. No preamble.
+${deliveryNote?"\n"+deliveryNote+"\n":""}${partNote?"\n"+partNote+"\n":""}Reply in these sections. No markdown. No preamble.
 
 🎯 OBJECTIVE ACHIEVEMENT: [Yes / No / Partial] — TWO SENTENCES MAXIMUM. Sentence 1: verdict and one-line reason. Sentence 2 (optional): the single most important gap or win, tied to the objective. Nothing more in this section. Mandatory.
 
@@ -16895,7 +16919,10 @@ Verbal distractions: Analyse the transcript for filler words (um, uh, ah, so, li
   const styleDesc=styleData&&styleData.styles[styleResult]?styleData.styles[styleResult].name:null;
   const partLabel=PS.part&&proj&&proj.parts?
     (proj.parts.filter(p=>p.coach!==false)[PS.part==='a'?0:PS.part==='b'?1:0]||{}).t||'':null;
-  const msg=(proj?"Project: "+proj.t+"\nProject purpose: "+proj.p+"\n":
+  const projPurpose=PS.pid==='eval-feedback'?
+    (PS.part==='a'?"Deliver any speech — no specific objective. The speech exists to generate feedback for Part B.":
+     PS.part==='b'?"Apply the feedback received after Part A. This is the only objective.":proj.p):proj.p;
+  const msg=(proj?"Project: "+proj.t+"\nProject purpose: "+projPurpose+"\n":
     "Freestyle practice\n")+
     (partLabel?"Practicing: "+partLabel+"\n":"")+
     (isPasteMode?"MODE: This is a pasted script, not a recording. Coach content and structure — theme clarity, subtraction, character purpose. Do not comment on delivery.\n":"" )+
