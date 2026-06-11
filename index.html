@@ -1042,15 +1042,15 @@ a{color:inherit;text-decoration:none}
 /* ═══ Hub gear (top-right Settings icon) ═══ */
 .hub-top-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
 .hub-icon-group{display:flex;gap:8px}
-.hub-gear{background:transparent;border:1px solid var(--border);border-radius:10px;width:38px;height:38px;display:flex;align-items:center;justify-content:center;color:var(--text-2);font-size:17px;cursor:pointer;font-family:inherit;transition:background .15s,color .15s,border-color .15s,transform .2s}
-.hub-gear:hover{background:var(--surface);color:var(--text);border-color:var(--border-strong);transform:rotate(45deg)}
-.hub-gear:active{transform:rotate(45deg) scale(0.92)}
-.hub-gear.ai{color:#A07BC7;border-color:rgba(160,123,199,0.3)}
-.hub-gear.ai:hover{background:rgba(160,123,199,0.08);color:#C49BD9;border-color:#A07BC7;transform:scale(1.1) rotate(0)}
-.hub-gear.ai:active{transform:scale(0.95) rotate(0)}
-.hub-gear.donate{color:#E05A5A;border-color:rgba(224,90,90,0.3)}
-.hub-gear.donate:hover{background:rgba(224,90,90,0.08);color:#F07070;border-color:#E05A5A;transform:scale(1.1) rotate(0)}
-.hub-gear.donate:active{transform:scale(0.95) rotate(0)}
+.hub-gear{border-radius:13px;width:42px;height:42px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-family:inherit;padding:0;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);transition:filter .15s ease,transform .15s ease,box-shadow .15s ease}
+.hub-gear:hover{transform:translateY(-1px);filter:brightness(1.14)}
+.hub-gear:active{transform:scale(0.95)}
+.hub-gear.settings{background:linear-gradient(135deg,rgba(70,100,150,0.30) 0%,rgba(30,50,90,0.10) 100%);border:1px solid rgba(80,110,160,0.38);box-shadow:inset 0 1px 0 rgba(255,255,255,0.10),0 0 10px rgba(70,100,150,0.16),0 4px 12px rgba(0,0,0,0.28)}
+.hub-gear.settings:hover{box-shadow:inset 0 1px 0 rgba(255,255,255,0.14),0 0 20px rgba(80,120,180,0.30),0 4px 16px rgba(0,0,0,0.32)}
+.hub-gear.ai{background:linear-gradient(135deg,rgba(140,80,220,0.34) 0%,rgba(70,30,160,0.10) 100%);border:1px solid rgba(140,80,220,0.42);box-shadow:inset 0 1px 0 rgba(255,255,255,0.12),0 0 12px rgba(130,70,210,0.20),0 4px 12px rgba(0,0,0,0.28)}
+.hub-gear.ai:hover{box-shadow:inset 0 1px 0 rgba(255,255,255,0.16),0 0 24px rgba(140,80,220,0.38),0 4px 16px rgba(0,0,0,0.32)}
+.hub-gear.donate{background:linear-gradient(135deg,rgba(220,50,50,0.34) 0%,rgba(140,20,20,0.10) 100%);border:1px solid rgba(210,60,60,0.42);box-shadow:inset 0 1px 0 rgba(255,255,255,0.12),0 0 12px rgba(200,40,40,0.20),0 4px 12px rgba(0,0,0,0.28)}
+.hub-gear.donate:hover{box-shadow:inset 0 1px 0 rgba(255,255,255,0.16),0 0 24px rgba(200,50,50,0.38),0 4px 16px rgba(0,0,0,0.32)}
 .pp-3C3366RS7T4UQ{text-align:center;border:none;border-radius:0.25rem;min-width:11.625rem;padding:0 2rem;height:2.625rem;font-weight:bold;background-color:#FFD140;color:#000000;font-family:"Helvetica Neue",Arial,sans-serif;font-size:1rem;line-height:1.25rem;cursor:pointer;transition:filter .15s}
 .pp-3C3366RS7T4UQ:hover{filter:brightness(1.08)}
 
@@ -4743,7 +4743,7 @@ function renderHub(app){
   let h='<div class="fade-up">';
   
   h+='<div class="hub-hero"><svg width="100%" viewBox="0 0 400 105" preserveAspectRatio="none" class="hub-hero-svg"><text y="32" textLength="400" lengthAdjust="spacingAndGlyphs" font-size="26" font-weight="800" font-family="system-ui,sans-serif" fill="white" letter-spacing="-0.5">YOUR TOASTMASTERS JOURNEY</text><text y="100" textLength="400" lengthAdjust="spacingAndGlyphs" font-size="78" font-weight="900" font-family="system-ui,sans-serif" fill="#6DB6B4" letter-spacing="-2">IN ONE APP</text></svg></div>';
-  h+='<div class="subtitle-row"><span class="subtitle">Built by Kian How</span><div class="hub-icon-group"><button class="hub-gear donate" data-action="open-donate" aria-label="Support TMCompanion">❤️</button><button class="hub-gear ai" data-action="open-ai-settings" aria-label="AI Settings">✨</button><button class="hub-gear" data-action="open-settings" aria-label="Settings">⚙</button></div></div>';
+  h+='<div class="subtitle-row"><span class="subtitle">Built by Kian How</span><div class="hub-icon-group"><button class="hub-gear donate" data-action="open-donate" aria-label="Support TMCompanion"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><defs><radialGradient id="dhg" cx="40%" cy="35%" r="65%"><stop offset="0%" stop-color="#FF7070"/><stop offset="100%" stop-color="#B71C1C"/></radialGradient></defs><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" fill="url(#dhg)"/></svg></button><button class="hub-gear ai" data-action="open-ai-settings" aria-label="AI Settings"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><defs><linearGradient id="aig" x1="3" y1="2" x2="21" y2="22" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#C084FC"/><stop offset="100%" stop-color="#60A5FA"/></linearGradient></defs><path d="M12 2 13.5 9.5 21 11 13.5 12.5 12 20 10.5 12.5 3 11 10.5 9.5Z" fill="url(#aig)"/><path d="M19 3 19.8 5.2 22 6 19.8 6.8 19 9 18.2 6.8 16 6 18.2 5.2Z" fill="url(#aig)" opacity="0.75"/></svg></button><button class="hub-gear settings" data-action="open-settings" aria-label="Settings"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><defs><linearGradient id="sgg" x1="3" y1="3" x2="21" y2="21" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#C8D6E8"/><stop offset="100%" stop-color="#7B8FA6"/></linearGradient></defs><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z" fill="url(#sgg)"/></svg></button></div></div>';
 
 
 
