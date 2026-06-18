@@ -194,6 +194,79 @@ exports.handler = async (event) => {
     };
   }
 
+  // ── Geo-routing: China users → DeepSeek ──
+  const country = (event.headers["x-nf-geo-country"] || "").toUpperCase();
+  const dsKey = process.env.DEEPSEEK_API_KEY;
+
+  if (country === "CN" && dsKey) {
+    // Build DeepSeek messages — system goes as first message in array
+    const dsMessages = [];
+    if (system) dsMessages.push({ role: "system", content: system });
+    dsMessages.push(...messages);
+
+    let dsResp;
+    try {
+      dsResp = await fetch("https://api.deepseek.com/v1/chat/completions", {
+        method: "POST",
+        headers: {
+          "Content-Type":  "application/json",
+          "Authorization": "Bearer " + dsKey
+        },
+        body: JSON.stringify({
+          model:      "deepseek-chat",
+          max_tokens: max_tokens || 1024,
+          messages:   dsMessages
+        })
+      });
+    } catch (dsErr) {
+      console.error("DeepSeek fetch failed, falling back to Anthropic:", dsErr.message);
+    }
+
+    if (dsResp && dsResp.ok) {
+      const dsData = await dsResp.json();
+      const dsText = dsData.choices?.[0]?.message?.content || "";
+
+      // Normalise to Anthropic response shape — client needs no changes
+      const normalised = JSON.stringify({
+        id:         dsData.id || ("ds-" + Date.now()),
+        type:       "message",
+        role:       "assistant",
+        content:    [{ type: "text", text: dsText }],
+        model:      "deepseek-chat",
+        stop_reason:"end_turn",
+        usage:      { input_tokens: 0, output_tokens: 0 }
+      });
+
+      // Increment usage counters
+      if (store) {
+        const dk = dayKey(token);
+        const mk = monthKey(token);
+        Promise.all([
+          store.set(dk, String(dayUsage + 1)),
+          store.set(mk, String(monthUsage + 1))
+        ]).catch(err => console.error("Usage increment failed:", err.message));
+      }
+
+      return {
+        statusCode: 200,
+        headers: {
+          ...corsHeaders,
+          "content-type":   "application/json",
+          "X-Client-Token": token,
+          "X-Usage-Day":    String(dayUsage + 1),
+          "X-Usage-Month":  String(monthUsage + 1),
+          "X-Limit-Day":    String(dailyLimit),
+          "X-Limit-Month":  String(MONTHLY_LIMIT),
+          "X-AI-Provider":  "deepseek"
+        },
+        body: normalised
+      };
+    }
+
+    // DeepSeek failed — fall through to Anthropic silently
+    console.error("DeepSeek response not ok, falling back to Anthropic");
+  }
+
   // ── Call Anthropic ──
   const apiKey = process.env.ANTHROPIC_API_KEY;
   if (!apiKey) {
