@@ -7095,7 +7095,8 @@ function showCelebrateModal({kind,levelNum,pathCode,projectTitle,onClose}){
       }
       reminderHtml+='</div>';
     }
-    body=(p?"Level "+levelNum+" of "+p.n+" is done. This is real, measurable progress.":"Level "+levelNum+" complete.")+reminderHtml;
+    const basecampHtml='<div class="celebrate-reminder" style="margin-top:10px"><div class="celebrate-reminder-title">📋 Submit for approval</div><div class="celebrate-reminder-item">Log into Base Camp and submit Level '+levelNum+' for your VPE to approve. <a href="https://www.toastmasters.org" target="_blank" rel="noopener" style="color:var(--pc);font-weight:600;text-decoration:underline">Open Base Camp →</a></div></div>';
+    body=(p?"Level "+levelNum+" of "+p.n+" is done. This is real, measurable progress.":"Level "+levelNum+" complete.")+reminderHtml+basecampHtml;
     cta="Continue →";
     sizeCls="";
     confettiCount=60;
@@ -12172,88 +12173,16 @@ function renderAISettings(app){
   h+='<div class="settings-test-result" id="settings-test-result"></div>';
   h+='</div>';
 
-  h+='<div class="settings-ai-fields" style="display:'+(cfg.enabled?'block':'none')+'">';
-    h+='<div class="settings-card">';
-    h+='<button class="settings-advanced-toggle'+(V._settingsAdvOpen?' open':'')+'" data-action="toggle-advanced">';
-    h+='<span>⚙ Connection configuration</span>';
-    h+='<span class="settings-advanced-chev adv-chev" style="transition:transform .25s;display:inline-block;transform:'+(V._settingsAdvOpen?'rotate(180deg)':'rotate(0deg)')+'">▼</span>';
-    h+='</button>';
-    h+='<div class="settings-advanced-body" style="display:'+(V._settingsAdvOpen?'block':'none')+'">';
-      h+='<div class="settings-section-label">Connection method</div>';
-      h+='<div class="settings-radio-group">';
-      h+='<label class="settings-radio'+(cfg.mode==="backend"?" active":"")+'">';
-      h+='<input type="radio" name="ai-mode" value="backend"'+(cfg.mode==="backend"?" checked":"")+'>';
-      h+='<div class="settings-radio-body">';
-      h+='<div class="settings-radio-title">Backend endpoint (recommended)</div>';
-      h+='<div class="settings-radio-desc">Point to a proxy that holds the Anthropic key server-side. Safer for shared use.</div>';
-      h+='</div>';
-      h+='</label>';
-      h+='<label class="settings-radio'+(cfg.mode==="direct"?" active":"")+'">';
-      h+='<input type="radio" name="ai-mode" value="direct"'+(cfg.mode==="direct"?" checked":"")+'>';
-      h+='<div class="settings-radio-body">';
-      h+='<div class="settings-radio-title">Direct — my own API key</div>';
-      h+='<div class="settings-radio-desc">For testing. Key lives in localStorage on this device. Get one at <a href="https://console.anthropic.com" target="_blank" rel="noopener">console.anthropic.com</a>.</div>';
-      h+='</div>';
-      h+='</label>';
-      h+='</div>';
-      if(cfg.mode==="direct"){
-        h+='<div class="settings-section-label" style="margin-top:16px">API key</div>';
-        h+='<input type="password" class="settings-input" data-ai-field="apiKey" value="'+(cfg.apiKey||"").replace(/"/g,"&quot;")+'" placeholder="sk-ant-..." autocomplete="off">';
-        h+='<div class="settings-hint">⚠️ Anyone with access to this device can use your key. Personal testing only.</div>';
-      }else{
-        h+='<div class="settings-section-label" style="margin-top:16px">Endpoint URL</div>';
-        h+='<input type="url" class="settings-input" data-ai-field="endpoint" value="'+(cfg.endpoint||"").replace(/"/g,"&quot;")+'" placeholder="https://your-site.example.com/api/coach">';
-        h+='<div class="settings-hint">Accepts JSON <code>{systemPrompt, userMessage, maxTokens, model}</code>, returns <code>{text: "..."}</code>.</div>';
-      }
-      h+='<button class="settings-test-btn" style="margin-top:14px" data-action="settings-test" id="settings-test-btn">Test connection</button>';
-      h+='<div class="settings-test-result" id="settings-test-result"></div>';
 
-      // Owner mode — hidden unless you know it's there.
-      // Enter the OWNER_KEY from your Netlify env vars to unlock any model.
-      if(cfg.mode!=="direct"){
-        h+='<div class="settings-section-label" style="margin-top:20px">Owner access</div>';
-        h+='<input type="password" class="settings-input" data-ai-field="ownerKey" value="'+(cfg.ownerKey||"").replace(/"/g,"&quot;")+'" placeholder="Owner key (optional)" autocomplete="off">';
-        h+='<div class="settings-hint">Enter your owner key to unlock all models including Opus. Leave blank for standard access.</div>';
-        if(cfg.ownerKey){
-          h+='<div class="settings-section-label" style="margin-top:14px">Model</div>';
-          const ownerModels=[
-            {id:"claude-sonnet-4-6",name:"Claude Sonnet 4.6",desc:"Fast, capable, cost-effective"},
-            {id:"claude-opus-4-6",name:"Claude Opus 4.6",desc:"Previous Opus — strong reasoning"},
-            {id:"claude-opus-4-7",name:"Claude Opus 4.7",desc:"Most capable — your bill 😎"}
-          ];
-          h+='<div class="settings-model-list">';
-          ownerModels.forEach(m=>{
-            h+='<label class="settings-model-option'+(cfg.model===m.id?" active":"")+'">';
-            h+='<input type="radio" name="ai-model" value="'+m.id+'"'+(cfg.model===m.id?" checked":"")+'>';
-            h+='<div class="settings-model-body">';
-            h+='<div class="settings-model-name">'+m.name+'</div>';
-            h+='<div class="settings-model-desc">'+m.desc+'</div>';
-            h+='</div>';
-            h+='</label>';
-          });
-          h+='</div>';
-        }
-      }
 
-      h+='</div>';
-  h+='</div>';
-    h+='</div>';
-
-  h+='<div class="settings-footnote">Your config saves automatically as you change it. Data leaves your device only when you invoke an AI feature, and only goes to the endpoint you configure.</div>';
+  h+='<div class="settings-footnote">Your settings save automatically. Data leaves your device only when you invoke an AI feature.</div>';
   h+='</div>';
   app.innerHTML=h;
 
   app.querySelector('[data-action="settings-back"]').addEventListener("click",()=>{
     V.view="hub";render();
   });
-  const advToggle=app.querySelector('[data-action="toggle-advanced"]');
-  if(advToggle)advToggle.addEventListener("click",()=>{
-    V._settingsAdvOpen=!V._settingsAdvOpen;
-    const advBody=app.querySelector('.settings-advanced-body');
-    const advChev=advToggle.querySelector('.adv-chev');
-    if(advBody)advBody.style.display=V._settingsAdvOpen?'block':'none';
-    if(advChev)advChev.style.transform=V._settingsAdvOpen?'rotate(180deg)':'rotate(0deg)';
-  });
+
   // Master toggle
   app.querySelector("[data-ai-toggle]").addEventListener("change",e=>{
     S.aiConfig.enabled=e.target.checked;
