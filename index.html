@@ -5654,18 +5654,24 @@ function renderPathBrowser(app){
       submitBtn._submitting=true;
       const lv=parseInt(submitBtn.dataset.level,10);
       if(!lv||!S.path)return;
-      // Auto-tick every project in this level. Marking a level complete
-      // implies all its projects are done — the ticks are the receipt.
-      // Multi-part projects: auto-tick all their sub-parts too.
+      // Auto-tick required projects. For electives, only tick up to g.en
+      // (the required count) — using already-ticked ones first, then filling
+      // from the front of the list. Prevents inflating the visual done count.
       const g=gP(S.path,lv);
-      [...g.r,...g.e].forEach(pid=>{
+      const _tick=pid=>{
         S.done[pid]=true;
         const proj=PD[pid];
         if(proj&&proj.parts){
           S.partsDone[pid]={};
           proj.parts.forEach((_,i)=>{S.partsDone[pid][i]=true;});
         }
-      });
+      };
+      g.r.forEach(_tick);
+      if(g.en>0){
+        const alreadyDone=g.e.filter(pid=>S.done[pid]);
+        const stillNeeded=Math.max(0,g.en-alreadyDone.length);
+        g.e.filter(pid=>!S.done[pid]).slice(0,stillNeeded).forEach(_tick);
+      }
       S.levelSubmitted[levelSubmittedKey(S.path,lv)]=true;
       save();
       // Defer morph until AFTER celebration modal dismisses + page scrolls
@@ -9552,6 +9558,38 @@ function buildProgram(answers,pathCode){
       plan.weeks[weekIdx].projects.push(entry);
       projectWeeks.add(weekIdx);
     });
+  }
+
+  // ═══ Rule 1c: new-member Ice Breaker delay ═══
+  // Jumping straight into a speech at meeting 1 is daunting for brand-new
+  // members. Push Ice Breaker to meeting 3 (or 4 if they flagged nerves),
+  // so the opening weeks are role-only — Timer, Ah Counter, Grammarian —
+  // building stage familiarity before the first speech. Roles fill in
+  // automatically from Rule 2's rotation since those weeks have no project.
+  if(_tmExp==="new"){
+    const ibTargetIdx=(answers.constraint==="nervous")?3:2; // week 4 or 3 (0-indexed)
+    let ibEntry=null;
+    for(let wi=0;wi<plan.weeks.length;wi++){
+      const pos=plan.weeks[wi].projects.findIndex(p=>p.pid==="ice-breaker");
+      if(pos!==-1&&wi<ibTargetIdx){
+        ibEntry=plan.weeks[wi].projects.splice(pos,1)[0];
+        projectWeeks.delete(wi);
+        break;
+      }
+    }
+    if(ibEntry!==null){
+      // Find target slot — skip any week already holding a project
+      let target=ibTargetIdx;
+      while(target<plan.weeks.length-1&&projectWeeks.has(target))target++;
+      plan.weeks[target].projects.unshift(ibEntry);
+      projectWeeks.add(target);
+      // Label pre-IB weeks so the member understands why no speech yet
+      for(let wi=0;wi<target;wi++){
+        if(!projectWeeks.has(wi)&&!plan.weeks[wi].focus){
+          plan.weeks[wi].focus="Role week — observe the format and build stage presence before your first speech";
+        }
+      }
+    }
   }
 
   // ═══ Rule 1b: pin Education Series presentations (required at L3–L5) ═══
