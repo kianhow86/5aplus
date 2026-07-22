@@ -4479,6 +4479,9 @@ function resolveInitialView(){
     V.view='welcome';
   }else{
     V.view='hub';
+    // Deep-link: if the URL carries a known hash (#timer, #planner, etc.),
+    // open that view directly. Only after onboarding is complete.
+    applyHashRoute();
   }
 }
 
@@ -4694,9 +4697,58 @@ function render(){
   else if(V.view==="browser"){renderPathBrowser(app);}
   else{renderHub(app);} // unknown view -> hub
   try{window.scrollTo(0,0);}catch{}
+  // ── Deep-link hash sync ──
+  // Keep the URL hash in step with the current top-level view so each
+  // function has its own shareable/bookmarkable address (e.g. #timer).
+  // Only syncs the public entry-point views listed in HASH_FOR_VIEW; deeper
+  // sub-views (detail pages, quiz steps) don't get their own hash.
+  try{
+    const wantHash=HASH_FOR_VIEW[V.view];
+    if(wantHash&&location.hash!=="#"+wantHash){
+      history.replaceState(null,"","#"+wantHash);
+    }else if(!wantHash&&location.hash){
+      history.replaceState(null,"","#");
+    }
+  }catch{}
   maybeShowOfflineBanner();
   renderModal();
   renderBottomNav();
+}
+
+// ── Deep-link routing ──
+// Public, shareable entry points. Keeps hashes clean and stable so the
+// district (or anyone) can link straight to a function.
+const HASH_FOR_VIEW={
+  hub:"home",
+  browser:"pathways",
+  "my-paths":"my-paths",
+  "pathfinder-intro":"planner",
+  "ai-coach":"coach",
+  practice:"practice",
+  "timer-select":"timer",
+  "tt-practice":"topics",
+  "eval-helper":"evaluate",
+  "speech-draft":"speech-builder",
+  mentees:"mentees",
+  contests:"contests",
+  "ge-framework":"general-evaluator",
+  wod:"word-of-the-day"
+};
+// Reverse map: hash -> view
+const VIEW_FOR_HASH=Object.fromEntries(Object.entries(HASH_FOR_VIEW).map(([v,h])=>[h,v]));
+
+// Apply the current URL hash to V.view. Returns true if a known hash was found.
+function applyHashRoute(){
+  let h=(location.hash||"").replace(/^#/,"").trim().toLowerCase();
+  if(!h)return false;
+  const view=VIEW_FOR_HASH[h];
+  if(view){
+    // Don't override the first-launch agreement gate
+    if(V.view==="notice"||V.view==="welcome")return false;
+    V.view=view;
+    return true;
+  }
+  return false;
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -17401,6 +17453,14 @@ function renderPracticeStudioDone(app){
 load();
 resolveInitialView();
 render();
+
+// ── Deep-link: respond to hash changes (browser back/forward, or a link
+// tapped while the app is already open). Only acts on known hashes and only
+// after onboarding is done.
+window.addEventListener("hashchange",()=>{
+  if(V.view==="notice"||V.view==="welcome")return;
+  if(applyHashRoute())render();
+});
 
 // Re-render offline banner when connection changes
 window.addEventListener("online",  ()=>maybeShowOfflineBanner());
