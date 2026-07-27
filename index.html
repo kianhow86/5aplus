@@ -954,6 +954,15 @@ a{color:inherit;text-decoration:none}
 @keyframes pfStepIn{0%{opacity:0;transform:translateY(5px)}100%{opacity:1;transform:translateY(0)}}
 
 /* Program output view */
+.dl-disclaimer{background:rgba(232,178,80,0.10);border:1px solid rgba(232,178,80,0.28);border-radius:14px;padding:12px 14px;margin:0 0 16px}
+.dl-disclaimer-row{display:flex;gap:9px;align-items:flex-start}
+.dl-disclaimer-icon{font-size:15px;color:#E8B250;flex-shrink:0;line-height:1.4}
+.dl-disclaimer-main{flex:1;min-width:0}
+.dl-disclaimer-text{font-size:11.5px;line-height:1.5;color:var(--text-2);letter-spacing:-0.002em}
+.dl-disclaimer-actions{display:flex;gap:14px;align-items:center;margin-top:9px}
+.dl-disclaimer-ok{background:#E8B250;color:#0A0B0F;border:none;border-radius:7px;padding:5px 14px;font-size:12px;font-weight:600;font-family:inherit;cursor:pointer}
+.dl-disclaimer-ok:active{transform:scale(0.97)}
+.dl-disclaimer-more{font-size:11.5px;color:var(--text-3);text-decoration:underline;cursor:pointer}
 .pf-summary{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 22px}
 .pf-goalwarn{background:rgba(232,178,80,0.08);border:1px solid rgba(232,178,80,0.3);border-radius:14px;padding:14px 16px;margin:0 0 22px}
 .pf-goalwarn-title{font-size:14px;font-weight:700;color:#E8B250;margin-bottom:5px;letter-spacing:-0.01em}
@@ -4469,6 +4478,28 @@ function switchPath(newCode){
 
 // Determine which view to show at boot — always land on hub
 function resolveInitialView(){
+  // ── Deep-link arrival ──
+  // Someone tapping tmcompanion.netlify.app/#timer from an external page
+  // wants the timer, not a two-screen onboarding wall. Send them straight
+  // to the tool and surface the required independence statement as an
+  // inline bar at the top of that view instead (see maybeShowDeepLinkDisclaimer).
+  // The statement is still shown on first contact, before any use, and still
+  // requires an explicit tap to dismiss — it just doesn't block the tool.
+  const deepHash=(location.hash||"").replace(/^#/,"").trim().toLowerCase();
+  if(deepHash&&VIEW_FOR_HASH[deepHash]){
+    V.view=VIEW_FOR_HASH[deepHash];
+    if(!S.persona){
+      // Default silently — practice-first suggestions. They can set up
+      // Pathways any time from the hub.
+      S.persona='practice';
+      S.mode='alacarte';
+      save();
+    }
+    // Flag the inline disclaimer if they've never agreed on this device.
+    V._deepLinkDisclaimer=!S.agreedToTerms;
+    return;
+  }
+
   // Always land on the hub. No welcome screen.
   // If the user hasn't set a mode yet, default to alacarte so the hub
   // shows practice-first suggestions. They can set up Pathways any time.
@@ -4479,9 +4510,6 @@ function resolveInitialView(){
     V.view='welcome';
   }else{
     V.view='hub';
-    // Deep-link: if the URL carries a known hash (#timer, #planner, etc.),
-    // open that view directly. Only after onboarding is complete.
-    applyHashRoute();
   }
 }
 
@@ -4522,6 +4550,43 @@ function renderAIError(err,onRetryAction){
 }
 
 // ── Offline banner ─────────────────────────────────────────────────────────
+// ── Inline independence statement for deep-link arrivals ──
+// Shown at the top of whichever tool they landed on, before any use.
+// One tap records agreement exactly as the full-page notice does.
+function maybeShowDeepLinkDisclaimer(){
+  const app=document.getElementById("app");
+  const existing=document.getElementById("dl-disclaimer");
+  const onTermsPage=(V.view==="tos"||V.view==="notice");
+  if(!V._deepLinkDisclaimer||S.agreedToTerms||!app||onTermsPage){
+    if(existing)existing.remove();
+    return;
+  }
+  if(existing)return; // already rendered this cycle
+  const bar=document.createElement("div");
+  bar.id="dl-disclaimer";
+  bar.className="dl-disclaimer";
+  let h='<div class="dl-disclaimer-row">';
+  h+='<span class="dl-disclaimer-icon">ⓘ</span>';
+  h+='<div class="dl-disclaimer-main">';
+  h+='<div class="dl-disclaimer-text">This app is independent of Toastmasters International. It is not authorized by, endorsed by, sponsored by, affiliated with, or otherwise approved by Toastmasters International.</div>';
+  h+='<div class="dl-disclaimer-actions">';
+  h+='<button class="dl-disclaimer-ok" data-action="dl-agree">Got it</button>';
+  h+='<a class="dl-disclaimer-more" data-action="dl-terms">Full terms</a>';
+  h+='</div></div></div>';
+  bar.innerHTML=h;
+  app.prepend(bar);
+  bar.querySelector('[data-action="dl-agree"]').addEventListener("click",()=>{
+    S.agreedToTerms=true;
+    save();
+    V._deepLinkDisclaimer=false;
+    bar.remove();
+  });
+  bar.querySelector('[data-action="dl-terms"]').addEventListener("click",()=>{
+    V.view="tos";
+    render();
+  });
+}
+
 function maybeShowOfflineBanner(){
   const existing=document.getElementById("offline-banner");
   if(!navigator.onLine){
@@ -4710,6 +4775,7 @@ function render(){
       history.replaceState(null,"","#");
     }
   }catch{}
+  maybeShowDeepLinkDisclaimer();
   maybeShowOfflineBanner();
   renderModal();
   renderBottomNav();
