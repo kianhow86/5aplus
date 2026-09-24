@@ -665,41 +665,104 @@ a{color:inherit;text-decoration:none}
 .app-footer{text-align:center;color:var(--text-4);font-size:var(--fs-xs);margin-top:36px;padding-top:16px;border-top:1px solid rgba(255,255,255,0.04)}
 
 /* ═══ Bottom nav — glassy purple pill hub button ═══ */
-.bottom-nav{position:fixed;bottom:0;left:0;right:0;z-index:50;background:linear-gradient(to top,rgba(10,11,15,0.98) 60%,rgba(10,11,15,0.85));border-top:1px solid rgba(255,255,255,0.06);padding:12px 16px calc(env(safe-area-inset-bottom,0px) + 12px)}
-.bottom-nav-inner{max-width:720px;margin:0 auto;display:flex;justify-content:center;align-items:center}
-.nav-hub-btn{
-  display:inline-flex;align-items:center;gap:12px;
-  padding:13px 32px 13px 16px;
-  position:relative;overflow:hidden;
-  background:linear-gradient(135deg,rgba(80,40,160,0.55) 0%,rgba(30,20,70,0.75) 100%);
-  border:1.5px solid rgba(140,90,255,0.5);
-  color:#fff;border-radius:50px;cursor:pointer;
-  font-family:inherit;font-weight:600;font-size:16px;letter-spacing:-0.005em;
-  transition:transform .12s ease,filter .15s ease,border-color .15s ease;
-  box-shadow:0 0 28px rgba(110,50,240,0.35),0 0 8px rgba(110,50,240,0.2),inset 0 1px 0 rgba(255,255,255,0.12);
-  backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)
+/* ── Hub — ported from hub-reference.html (values verbatim; app class names kept) ── */
+:root{--nav-h:76px;--hub-green:127,198,106;--hub-teal:95,214,214;--hub-violet:139,111,247;--hub-amber:208,138,69;--hub-blue:91,157,217;--hub-gold:245,200,91;--hub-k:109,182,180}
+html,body{height:100%}
+body.on-hub{position:fixed;inset:0;overflow:hidden;overscroll-behavior:none}
+#app.is-hub{max-width:none;padding:0;height:var(--app-h,100dvh);overflow-y:auto;overscroll-behavior:none;-webkit-overflow-scrolling:touch}
+.hub2{min-height:var(--app-h,100dvh);display:flex;flex-direction:column;max-width:480px;margin:0 auto;padding:calc(env(safe-area-inset-top,0px) + 10px) 14px calc(env(safe-area-inset-bottom,0px) + 84px);box-sizing:border-box}
+.hub2-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;flex-shrink:0}
+.hub2-mark{font-size:10.5px;font-weight:700;letter-spacing:.2em;color:rgba(235,235,245,.62);text-transform:uppercase}
+.hub2-icons{display:flex;gap:8px}
+.hub2-ic{width:36px;height:36px;border-radius:50%;background:#16171B;border:1px solid rgba(255,255,255,.09);display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0}
+.hub2-ic:active{transform:scale(.94)}
+.smart-panel.k-card,.smart-panel.k-card.collapsed{flex-shrink:0;display:block;padding:15px;margin-bottom:14px;border-radius:24px;background:radial-gradient(90% 90% at 92% 80%,rgba(var(--hub-k),.16),transparent 62%),linear-gradient(180deg,#15191B,#111315);border:1px solid rgba(var(--hub-k),.28);box-shadow:inset 0 1px 0 rgba(255,255,255,.05)}
+.k-row{display:flex;gap:12px;align-items:flex-start}
+.k-av{flex-shrink:0;width:40px;height:40px;border-radius:50%;overflow:hidden;border:1.5px solid rgba(var(--hub-k),.45)}
+.k-av img{width:100%;height:100%;object-fit:cover;display:block}
+.k-body{flex:1;min-width:0}
+.k-label{font-size:10.5px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:#8ED3D0;margin-bottom:3px}
+.k-msg{font-size:19px;font-weight:800;letter-spacing:-.02em;line-height:1.14;margin-bottom:3px;color:#F2F2F4;text-wrap:balance}
+.k-sub{font-size:12px;color:rgba(235,235,245,.76);line-height:1.36;margin-bottom:10px;text-wrap:pretty}
+.k-cta{display:inline-flex;align-items:center;gap:7px;min-height:38px;padding:0 15px;border-radius:12px;background:#8ED3D0;color:#062220;font-size:13px;font-weight:700;cursor:pointer}
+.k-cta:active{transform:scale(.97)}
+.hub2-label{display:flex;justify-content:space-between;margin:0 0 8px;padding:0 2px;flex-shrink:0}
+.hub2-label span{font-size:10px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:rgba(235,235,245,.5)}
+.hub-pin{display:flex;flex-direction:column;flex:1 0 auto}
+.hub-cols{flex:1 0 auto;display:flex;gap:10px;align-items:stretch;margin-bottom:10px}
+.hub-col{flex:1;min-width:0;display:flex;flex-direction:column;gap:10px}
+.pw-tile{position:relative;width:100%;display:flex;flex-direction:column;align-items:stretch;padding:14px;border-radius:24px;text-align:left;cursor:pointer;font-family:inherit;color:#F2F2F4;background:radial-gradient(110% 70% at var(--wx,88%) var(--wy,80%),rgba(var(--c),var(--wa,.18)),transparent 62%),linear-gradient(180deg,#16191A,#111314);border:1px solid rgba(var(--c),.26);box-shadow:inset 0 1px 0 rgba(255,255,255,.05);transition:transform .12s}
+/* tile illustration: faint artwork behind the content (art/ folder in the repo) */
+.pw-tile{position:relative;overflow:hidden}
+.pw-tile > *:not(.art){position:relative;z-index:1}
+.art{position:absolute;z-index:0;pointer-events:none;display:block}
+.art-path{width:118%;right:-30%;top:-6%;opacity:.176}
+.art-coach{width:130%;right:-40%;top:-6%;opacity:.38}
+.art-practice{width:74%;right:-12%;top:-16%;opacity:.16}
+.art-roles{width:78%;right:-20%;top:-22%;opacity:.16}
+.art-contest{width:44%;right:-4%;top:-58%;opacity:.16}
+.art-projects{width:120%;right:-36%;top:-8%;opacity:.176}
+.art-mentees{width:118%;right:-34%;top:-10%;opacity:.176}
+.pw-tile:active{transform:scale(.985)}
+.pw-tile.grow{flex:1 0 auto}
+.pw-push{flex:1;min-height:10px}
+.pw-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:12px}
+.pw-glyph{flex-shrink:0;width:44px;height:44px;border-radius:13px;display:flex;align-items:center;justify-content:center;background:rgba(var(--c),.13);border:1px solid rgba(var(--c),.28)}
+.pw-glyph svg{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round}
+.pw-focus{font-size:9.5px;font-weight:700;letter-spacing:.06em;white-space:nowrap;color:rgba(235,235,245,.82);background:rgba(255,255,255,.07);border-radius:10px;padding:3px 7px;text-transform:uppercase}
+.pw-name{font-size:14.5px;font-weight:800;letter-spacing:-.012em;line-height:1.2;color:#F2F2F4}
+.pw-sub{font-size:11.5px;color:rgba(235,235,245,.74);line-height:1.32;margin-top:3px}
+.pw-row{display:flex;align-items:center;gap:6px}
+.pw-row .pw-sub{flex:1;min-width:0}
+.pw-chev{flex-shrink:0;width:16px;height:16px;fill:none;stroke:rgba(235,235,245,.55);stroke-width:2;margin-top:3px}
+.pw-dv{flex-shrink:0;height:1px;background:rgba(255,255,255,.09);margin:0 0 10px}
+.pw-fh{font-size:12px;font-weight:700;line-height:1.35;color:#F2F2F4;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.pw-f{font-size:11.5px;color:rgba(235,235,245,.8);line-height:1.35}
+.pw-f2{font-size:11.5px;color:rgba(235,235,245,.62);line-height:1.35;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pw-fk{font-size:10px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:rgba(235,235,245,.5);margin-bottom:3px}
+.pw-chips{display:flex;flex-wrap:wrap;gap:4px;margin:4px 0 2px}
+.pw-chips span{font-size:10px;font-weight:700;color:#F2F2F4;background:rgba(255,255,255,.08);border-radius:6px;padding:2px 6px;font-variant-numeric:tabular-nums}
+.pw-chips span.warn{color:#F5B454;background:rgba(245,158,11,.16)}
+.pw-pill{align-self:flex-start;display:inline-flex;align-items:center;gap:6px;min-height:36px;padding:0 13px;margin-top:10px;border-radius:12px;font-size:12.5px;font-weight:700;cursor:pointer}
+.pw-pill:active{transform:scale(.97)}
+.cta-green{background:#A9E08C;color:#0E2308}
+.cta-violet{background:#C7B4FF;color:#1B1235}
+.pw-arr{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+.pw-strip{--c:var(--hub-gold);flex-direction:row;align-items:center;gap:13px;padding:14px;background:radial-gradient(70% 140% at 30% 0%,rgba(var(--hub-gold),.13),transparent 64%),linear-gradient(180deg,#18171A,#121113)}
+.pw-strip .pw-name{font-size:15px}
+.pw-strip .pw-bot{flex:1;min-width:0}
+.pw-badge{flex-shrink:0;font-size:11px;font-weight:700;color:#F5C85B;border:1px solid rgba(var(--hub-gold),.4);background:rgba(var(--hub-gold),.08);border-radius:20px;padding:5px 11px;white-space:nowrap}
+@media (max-height:700px){
+  /* Small phones (SE, 8): fact blocks drop, K compacts, spacing tightens — no scroll */
+  .hub2{padding-top:calc(env(safe-area-inset-top,0px) + 6px)}
+  .hub2-top{margin-bottom:8px}
+  .hub2-ic{width:32px;height:32px}
+  .smart-panel.k-card,.smart-panel.k-card.collapsed{padding:12px;margin-bottom:10px}
+  .k-av{width:32px;height:32px}
+  .k-msg{font-size:16px}
+  .k-sub{margin-bottom:8px}
+  .k-cta{min-height:34px;font-size:12.5px}
+  .hub2-label{margin-bottom:6px}
+  .hub-cols{gap:8px;margin-bottom:8px}
+  .hub-col{gap:8px}
+  .pw-tile{padding:12px}
+  .pw-top{margin-bottom:10px}
+  .pw-glyph{width:40px;height:40px}
+  .pw-facts{display:none}
+  .pw-tile.grow .pw-push{display:none}
 }
-.nav-hub-btn::before{
-  content:"";position:absolute;inset:0;border-radius:50px;
-  background:linear-gradient(180deg,rgba(255,255,255,0.08) 0%,transparent 50%);
-  pointer-events:none
-}
-.nav-hub-btn::after{
-  content:"";position:absolute;bottom:0;left:10%;right:10%;height:2px;
-  background:linear-gradient(90deg,#7B3FE4,#9B6BFF,#4FB8C8);
-  border-radius:0 0 4px 4px;opacity:0.85
-}
-.nav-hub-btn:hover{filter:brightness(1.15);border-color:rgba(170,120,255,0.7)}
-.nav-hub-btn:active{transform:scale(0.97)}
-.nav-hub-btn.active{border-color:rgba(170,120,255,0.8);box-shadow:0 0 36px rgba(110,50,240,0.5),0 0 12px rgba(110,50,240,0.3),inset 0 1px 0 rgba(255,255,255,0.15)}
-.nav-hub-btn-icon{
-  width:38px;height:38px;border-radius:50%;flex-shrink:0;
-  background:rgba(20,10,50,0.7);
-  border:1px solid rgba(140,90,255,0.35);
-  display:flex;align-items:center;justify-content:center;
-  box-shadow:inset 0 1px 0 rgba(255,255,255,0.08)
-}
-.has-bottom-nav{padding-bottom:calc(env(safe-area-inset-bottom,0px) + 90px)}
+/* ── Section 15: bottom nav with a fixed height, independent of the viewport ── */
+.bottom-nav{position:fixed;left:0;right:0;bottom:0;z-index:50;height:calc(var(--nav-h) + env(safe-area-inset-bottom,0px));padding:16px 16px 0;box-sizing:border-box;background:linear-gradient(to top,rgba(10,11,15,0.98) 60%,rgba(10,11,15,0.85));border-top:1px solid rgba(255,255,255,0.06);transform:translateZ(0)}
+.bottom-nav-inner{height:44px;max-width:720px;margin:0 auto;display:flex;justify-content:center;align-items:center}
+.nav-hub-btn{display:inline-flex;align-items:center;gap:8px;height:44px;padding:0 20px 0 14px;position:relative;background:rgba(139,111,247,0.20);border:1px solid rgba(139,111,247,0.55);color:#fff;border-radius:22px;cursor:pointer;font-family:inherit;font-weight:600;font-size:14px;letter-spacing:-0.005em;box-shadow:0 0 26px rgba(139,111,247,0.42),0 6px 18px rgba(0,0,0,0.45);-webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px);transition:transform .12s ease,background .15s ease}
+.nav-hub-btn::before,.nav-hub-btn::after{display:none}
+.nav-hub-btn:hover{filter:none;border-color:rgba(139,111,247,0.7)}
+.nav-hub-btn:active{transform:scale(0.97);background:rgba(139,111,247,0.28)}
+.nav-hub-btn.active{border-color:rgba(139,111,247,0.55);box-shadow:0 0 26px rgba(139,111,247,0.42),0 6px 18px rgba(0,0,0,0.45)}
+.nav-hub-btn-icon{width:18px;height:18px;border-radius:0;background:none;border:none;box-shadow:none;display:flex;align-items:center;justify-content:center;color:#fff}
+.nav-hub-btn-icon svg{width:18px;height:18px}
+.has-bottom-nav{padding-bottom:calc(var(--nav-h) + env(safe-area-inset-bottom,0px))}
+
 
 /* ═══ Roles grid (sizing defined in top-level role cube block) ═══ */
 .roles-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:8px}
@@ -1303,60 +1366,76 @@ a{color:inherit;text-decoration:none}
 .rl-live{flex-shrink:0;font-size:9px;font-weight:800;letter-spacing:0.08em;color:#fff;background:#C47A3A;border-radius:6px;padding:3px 7px}
 .rl-guide{flex-shrink:0;padding:0 13px;border-left:1px solid rgba(196,122,58,0.3);font-size:11px;font-weight:700;color:var(--text-2);cursor:pointer;font-family:inherit}
 
-#app.is-hub{padding-top:calc(env(safe-area-inset-top,0px) + 14px);padding-bottom:0}
-.hub2{display:flex;flex-direction:column;height:calc(100vh - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px) - 113px);height:calc(100dvh - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px) - 113px);min-height:0}
-.hub2-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-shrink:0}
-.hub2-mark{font-size:10.5px;font-weight:800;letter-spacing:0.14em;color:var(--text-3);text-transform:uppercase}
-.hub2-icons{display:flex;gap:7px}
-.hub2-ic{width:28px;height:28px;border-radius:50%;background:var(--surface);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0}
-.smart-panel.k-card,.smart-panel.k-card.collapsed{flex-shrink:0;margin-bottom:12px;padding:13px 14px 13px 13px;border-radius:15px;border:1px solid var(--accent-border,rgba(109,182,180,0.28));border-left:3px solid var(--accent);background:linear-gradient(100deg,rgba(109,182,180,0.10),rgba(109,182,180,0.02) 60%,transparent),var(--surface)}
-.k-row{display:flex;align-items:flex-start;gap:10px}
-.k-av{flex-shrink:0;width:30px;height:30px;border-radius:50%;overflow:hidden;border:1.5px solid rgba(109,182,180,0.4)}
-.k-av img{width:100%;height:100%;object-fit:cover;display:block}
-.k-body{flex:1;min-width:0}
-.k-label{font-size:9px;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;color:var(--accent);margin-bottom:4px}
-.k-msg{font-size:14.5px;font-weight:700;color:var(--text);line-height:1.32;letter-spacing:-0.012em}
-.k-cta{display:inline-flex;align-items:center;margin-top:10px;background:var(--accent);color:#0A0B0F;padding:8px 14px;border-radius:9px;font-size:12px;font-weight:800;cursor:pointer}
-.hub2-label{display:flex;align-items:center;justify-content:space-between;margin:0 0 8px;flex-shrink:0}
-.hub2-label span{font-size:9px;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-3)}
-.hub-pin{flex:1;min-height:0;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:repeat(5,1fr) auto;gap:8px}
-.pw-tile{position:relative;min-height:0;border-radius:16px;border:1px solid transparent;display:flex;flex-direction:column;align-items:flex-start;justify-content:space-between;padding:13px;text-align:left;cursor:pointer;font-family:inherit;overflow:hidden;transition:transform .15s ease,filter .15s ease}
-.pw-tile:active{transform:scale(0.98)}
-.pw-top{display:flex;align-items:flex-start;justify-content:space-between;width:100%}
-.pw-glyph{flex-shrink:0;display:flex;align-items:center;justify-content:center}
-.pw-glyph svg{width:100%;height:100%;overflow:visible}
-.ic-glow{filter:drop-shadow(0 0 5px currentColor) drop-shadow(0 0 12px currentColor);opacity:.92}
-.pw-pct{font-size:15px;font-weight:800;color:#fff;font-variant-numeric:tabular-nums;letter-spacing:-0.02em}
-.pw-bot{width:100%;min-width:0}
-.pw-name{font-weight:700;color:#fff;line-height:1.15;letter-spacing:-0.01em}
-.pw-tile.tall .pw-name{font-size:15.5px}
-.pw-tile.short .pw-name,.pw-strip .pw-name{font-size:14.5px}
-.pw-sub{font-size:10px;color:rgba(255,255,255,0.52);line-height:1.35;margin-top:3px}
-.pw-facts{border-top:1px solid rgba(255,255,255,0.09);margin-top:9px;padding-top:8px}
-.pw-fk{font-size:8.5px;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.5);margin-bottom:3px}
-.pw-fh{font-size:12px;font-weight:700;color:#fff;line-height:1.25;margin-bottom:5px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-.pw-chips{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:5px}
-.pw-chips span{font-size:9.5px;font-weight:700;color:#fff;background:rgba(0,0,0,0.3);border-radius:6px;padding:2px 6px;font-variant-numeric:tabular-nums}
-.pw-ff{font-size:9.5px;color:rgba(255,255,255,0.5)}
-.pw-fl{font-size:10.5px;font-weight:700;color:#fff;line-height:1.35}
-.pw-fn{font-size:9.5px;color:rgba(255,255,255,0.55);line-height:1.35;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.pw-inv{font-size:10.5px;color:rgba(255,255,255,0.75);line-height:1.4;margin-bottom:7px}
-.pw-focus{display:inline-block;font-size:7.5px;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.82);background:rgba(0,0,0,0.34);border-radius:6px;padding:2px 6px;margin-bottom:5px}
-.pw-chips span.warn{color:#F5B454;background:rgba(245,158,11,0.18)}
-.pw-pill{display:inline-flex;font-size:11px;font-weight:800;border-radius:9px;padding:5px 11px;cursor:pointer}
-.pw-strip{flex-direction:row;align-items:center;justify-content:flex-start;gap:13px;padding:11px 15px}
-.pw-strip .pw-bot{flex:1;min-width:0}
-.pw-badge{flex-shrink:0;font-size:11px;font-weight:800;border-radius:20px;padding:4px 10px}
-#app.is-hub{max-width:480px}
-@media (max-height:700px){
-  .k-msg{font-size:14px}
-  .k-cta{margin-top:8px;padding:7px 12px}
-  .pw-facts{display:none}
-}
 .seg2{display:flex;gap:4px;padding:4px;border-radius:12px;background:var(--surface);border:1px solid var(--border);margin:16px 0 10px}
 .seg2-btn{flex:1;padding:9px;border-radius:9px;font-size:12.5px;font-weight:700;color:var(--text-3);cursor:pointer;font-family:inherit;background:transparent}
 .seg2-btn.on{background:#89C46A;color:#0A0B0F}
 .seg2-link{display:block;background:none;border:none;padding:2px 2px 0;margin-bottom:14px;font-size:12.5px;font-weight:600;color:var(--accent);cursor:pointer;font-family:inherit;text-align:left}
+
+/* ── Table Topics® setup — ported from tt-reference.html ── */
+.tts{min-height:0;display:flex;flex-direction:column;gap:0}
+.tts .back{align-self:flex-start;display:inline-flex;align-items:center;gap:6px;height:36px;padding:0 14px 0 10px;border-radius:18px;background:#16171B;border:1px solid rgba(255,255,255,.09);font-size:13px;font-weight:600;color:rgba(235,235,245,.74);margin-bottom:22px;cursor:pointer;font-family:inherit}
+.tts .back svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.tts .back:active{transform:scale(.96)}
+.tts-hero{display:flex;gap:14px;align-items:center;margin-bottom:20px}
+.tts-ico{flex-shrink:0;width:52px;height:52px;border-radius:15px;display:flex;align-items:center;justify-content:center;background:rgba(139,111,247,.14);border:1px solid rgba(139,111,247,.3);color:#C4AEFF}
+.tts-ico svg{width:26px;height:26px;fill:none;stroke:currentColor;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round}
+.tts-h1{font-size:24px;font-weight:800;letter-spacing:-.022em;line-height:1.1;color:#F2F2F4}
+.tts-h1 sup{font-size:.45em;vertical-align:super;font-weight:700}
+.tts-lede{font-size:13px;color:rgba(235,235,245,.74);line-height:1.4;margin-top:4px}
+.tts-card{border-radius:24px;padding:16px;margin-bottom:12px;background:radial-gradient(110% 80% at 88% 100%,rgba(139,111,247,.2),transparent 62%),linear-gradient(180deg,#17161D,#121116);border:1px solid rgba(139,111,247,.3);box-shadow:inset 0 1px 0 rgba(255,255,255,.05)}
+.tts-lbl{display:flex;align-items:baseline;gap:6px;margin-bottom:9px;font-size:10px;font-weight:700;letter-spacing:.16em;color:rgba(235,235,245,.5);text-transform:uppercase}
+.tts-lbl i{font-style:normal;letter-spacing:0;font-weight:500;font-size:11px;text-transform:none}
+.tts-field{display:flex;align-items:center;gap:10px;height:48px;padding:0 14px;border-radius:14px;background:rgba(0,0,0,.28);border:1px solid rgba(255,255,255,.1)}
+.tts-field:focus-within{border-color:rgba(139,111,247,.6);box-shadow:0 0 0 3px rgba(139,111,247,.15)}
+.tts-field svg{flex-shrink:0;width:18px;height:18px;fill:none;stroke:rgba(235,235,245,.5);stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round}
+.tts-field input{flex:1;min-width:0;height:100%;font-size:15px;outline:none;background:none;border:0;color:#F2F2F4;font-family:inherit}
+.tts-field input::placeholder{color:rgba(235,235,245,.38)}
+.tts-seg{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin:14px 0 16px}
+.tts-seg button{position:relative;display:flex;flex-direction:column;align-items:center;gap:3px;padding:9px 4px 8px;border-radius:13px;text-align:center;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.09);cursor:pointer;font-family:inherit;color:#F2F2F4}
+.tts-seg button span{font-size:12px;font-weight:700;line-height:1.15}
+.tts-seg button small{font-size:10px;color:rgba(235,235,245,.5);line-height:1.2}
+.tts-seg button[aria-pressed="true"]{background:rgba(139,111,247,.2);border-color:rgba(139,111,247,.55)}
+.tts-seg button[aria-pressed="true"] small{color:rgba(235,235,245,.74)}
+.tts-easy{position:absolute;top:-7px;left:50%;transform:translateX(-50%);font-size:8.5px;font-weight:800;letter-spacing:.06em;color:#062220;background:#8ED3D0;border-radius:6px;padding:1px 5px;white-space:nowrap;font-style:normal}
+.tts-actions{display:flex;gap:9px}
+.tts-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:50px;border-radius:14px;font-size:15px;font-weight:700;transition:transform .12s;cursor:pointer;font-family:inherit;border:0}
+.tts-btn:active{transform:scale(.97)}
+.tts-btn:disabled{opacity:.55;cursor:default;transform:none}
+.tts-btn svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.tts-primary{flex:1;background:#C7B4FF;color:#1B1235;box-shadow:0 6px 20px rgba(139,111,247,.28)}
+.tts-ghost{flex-shrink:0;padding:0 16px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);color:#F2F2F4}
+.tts-reassure{display:flex;gap:8px;align-items:center;margin-top:12px;font-size:11.5px;color:rgba(235,235,245,.5)}
+.tts-reassure svg{flex-shrink:0;width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+.tts-steps{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px}
+.tts-step{border-radius:18px;padding:12px;background:#141518;border:1px solid rgba(255,255,255,.07)}
+.tts-step b{display:block;font-size:10px;font-weight:800;letter-spacing:.14em;color:#C4AEFF;margin-bottom:5px}
+.tts-step span{font-size:12.5px;font-weight:700;line-height:1.25;color:#F2F2F4}
+.tts-step small{display:block;font-size:11px;color:rgba(235,235,245,.5);margin-top:3px;line-height:1.3}
+.tts-tips{border-radius:18px;background:#141518;border:1px solid rgba(255,255,255,.07);overflow:hidden;margin-bottom:12px}
+.tts-tips summary{list-style:none;display:flex;align-items:center;gap:11px;padding:14px;cursor:pointer}
+.tts-tips summary::-webkit-details-marker{display:none}
+.tts-ti{flex-shrink:0;width:32px;height:32px;border-radius:10px;display:flex;align-items:center;justify-content:center;background:rgba(245,200,91,.12);border:1px solid rgba(245,200,91,.28);color:#F5C85B}
+.tts-ti svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round}
+.tts-tq{flex:1;font-size:14px;font-weight:700;color:#F2F2F4}
+.tts-chev{width:18px;height:18px;fill:none;stroke:rgba(235,235,245,.5);stroke-width:2;transition:transform .2s}
+.tts-tips[open] .tts-chev{transform:rotate(180deg)}
+.tts-tips .tts-body{padding:0 14px 14px}
+.tts-last{display:flex;flex-direction:column;gap:10px;border-radius:20px;padding:14px;margin-bottom:12px;background:#141518;border:1px solid rgba(255,255,255,.08)}
+.tts-last-lbl{font-size:10px;font-weight:700;letter-spacing:.16em;color:rgba(235,235,245,.5);text-transform:uppercase}
+.tts-last-q{font-size:14px;font-weight:700;line-height:1.35;color:#F2F2F4;text-wrap:pretty}
+.tts-last-meta{display:flex;flex-wrap:wrap;gap:6px}
+.tts-last-meta span{font-size:11px;font-weight:600;color:rgba(235,235,245,.74);background:rgba(255,255,255,.06);border-radius:10px;padding:3px 8px}
+.tts-last-meta .good{color:#9EE0A6;background:rgba(126,221,160,.12)}
+.tts-last-act{display:flex;gap:8px}
+.tts-sm{height:38px;padding:0 14px;border-radius:12px;font-size:13px;font-weight:700;display:inline-flex;align-items:center;gap:6px;cursor:pointer;font-family:inherit}
+.tts-sm svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.tts-sm-v{background:rgba(139,111,247,.18);border:1px solid rgba(139,111,247,.4);color:#fff}
+.tts-sm-g{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);color:rgba(235,235,245,.74)}
+.tts-hello{display:flex;gap:12px;align-items:flex-start;border-radius:20px;padding:14px;margin-bottom:12px;background:radial-gradient(90% 90% at 90% 90%,rgba(109,182,180,.14),transparent 62%),#141719;border:1px solid rgba(109,182,180,.28)}
+.tts-hello img{flex-shrink:0;width:36px;height:36px;border-radius:50%;object-fit:cover;border:1.5px solid rgba(109,182,180,.45)}
+.tts-hello b{display:block;font-size:14px;font-weight:700;margin-bottom:3px;color:#F2F2F4}
+.tts-hello p{font-size:12.5px;color:rgba(235,235,245,.74);line-height:1.45;margin:0}
+.tts-notes{white-space:pre-wrap;font-size:14px;line-height:1.55;color:var(--text-2)}
 
 .welcome-skip{display:block;width:100%;background:none;border:none;text-align:center;font-size:12.5px;font-weight:600;color:var(--text-3);text-decoration:underline;text-underline-offset:3px;cursor:pointer;font-family:inherit;padding:6px 0;margin-bottom:10px}
 .welcome-q{font-size:15px;font-weight:700;color:var(--text);margin-bottom:14px;letter-spacing:-0.005em}
@@ -2514,7 +2593,8 @@ a{color:inherit;text-decoration:none}
 .ttp-view{display:flex;flex-direction:column;gap:14px;padding-bottom:32px}
 /* Ship 6: question phase is one fixed screen; the recording phase scrolls as before */
 #app.is-tt{padding-top:calc(env(safe-area-inset-top,0px) + 14px);padding-bottom:0}
-.ttp-view[data-ttp-state="question"]{gap:0;padding-bottom:0;height:calc(100dvh - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px) - 113px)}
+#app.is-tts{padding:calc(env(safe-area-inset-top,0px) + 10px) 14px calc(env(safe-area-inset-bottom,0px) + 96px);max-width:480px}
+.ttp-view[data-ttp-state="question"]{gap:0;padding-bottom:0;height:calc(var(--app-h,100dvh) - env(safe-area-inset-top,0px) - var(--nav-h) - 14px)}
 .ttp-view[data-ttp-state="question"] .ttp-q-panel{flex:1;min-height:0;gap:0}
 .ttp-view[data-ttp-state="active"] .ttp-a-panel{padding-bottom:calc(env(safe-area-inset-bottom,0px) + 60px)}
 .ttq-ctx{display:flex;align-items:center;justify-content:space-between;margin:2px 0 12px}
@@ -4485,6 +4565,53 @@ function gP(pc,lv){
 // STATE
 // ═══════════════════════════════════════════════════════════════════════════
 
+// iOS standalone reports 100dvh / safe-area-inset-bottom wrong on first paint
+// (corrects on first scroll). Measure the real height ourselves instead.
+function setAppHeight(){document.documentElement.style.setProperty('--app-h',window.innerHeight+'px');}
+setAppHeight();
+requestAnimationFrame(setAppHeight);
+setTimeout(setAppHeight,300);
+window.addEventListener('resize',setAppHeight);
+window.addEventListener('orientationchange',()=>setTimeout(setAppHeight,200));
+window.addEventListener('pageshow',setAppHeight);
+document.addEventListener('visibilitychange',()=>{if(!document.hidden)setAppHeight();});
+
+// Single source of truth for the version shown in the app. Bump here only.
+const APP_VERSION='1.8';
+// What's new — newest first. Plain language, a few lines per version.
+const CHANGELOG=[
+  {v:'1.8',date:'Sep 2026',items:[
+    'Redesigned hub: your mode leads, cards show real progress and next steps',
+    'Table Topics® setup: pick a topic style, retry your last topic, see K’s notes',
+    'No more repeat Table Topics® — the app remembers what it has served',
+    'Pathways: level tabs and an “Up next” card so you always know where you are',
+    'Practice Tools and Meeting Roles restyled; live Timer now lives under Roles',
+    'Fixed the hub bar on first launch on iPhone',
+    'Faster first launch: practice mode by default, skip link on welcome'
+  ]},
+  {v:'1.75',date:'Jul 2026',items:[
+    'Path Planner fits your remaining meetings; new members get role-only warm-ups first',
+    'Timer: loud colour phases, bell at max time, alarm 30 seconds over',
+    'Deep links to every tool, e.g. /#timer',
+    'Support button (PayPal · Alipay)'
+  ]}
+];
+function openWhatsNew(){
+  const root=document.getElementById('modal-root');
+  let h='<div class="modal-backdrop" data-close="1"><div class="modal" data-stop="1" style="--pc:#6DB6B4">';
+  h+='<button class="modal-close" data-action="close-whatsnew" aria-label="Close">✕</button>';
+  h+='<h2 class="modal-title" style="font-size:22px">What’s new</h2>';
+  CHANGELOG.forEach((c,i)=>{
+    h+='<div style="margin-top:'+(i?'18px':'6px')+'"><div style="font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--accent)">v'+c.v+(i===0?' · current':'')+' <span style="color:var(--text-3);font-weight:600;letter-spacing:0;text-transform:none">· '+c.date+'</span></div>';
+    h+='<ul style="margin:8px 0 0;padding-left:18px;font-size:14px;line-height:1.5;color:var(--text-2)">'+c.items.map(t=>'<li style="margin-bottom:4px">'+t+'</li>').join('')+'</ul></div>';
+  });
+  h+='</div></div>';
+  root.innerHTML=h;
+  const close=()=>{root.innerHTML='';};
+  root.querySelector('[data-action="close-whatsnew"]').addEventListener('click',close);
+  root.querySelector('.modal-backdrop').addEventListener('click',e=>{if(e.target.dataset.close)close();});
+}
+
 let S={
   path:"",       // active path code: "PM", "DL", etc
   done:{},       // active path's completed projects { "ice-breaker": true }
@@ -4833,7 +4960,9 @@ function render(){
   const app=document.getElementById("app");
   // Hub is a fixed one-viewport layout; every other view scrolls normally.
   app.classList.toggle("is-hub",V.view==="hub");
+  document.body.classList.toggle("on-hub",V.view==="hub");
   app.classList.toggle("is-tt",V.view==="tt-practice"&&TTP.phase==="question");
+  app.classList.toggle("is-tts",V.view==="tt-practice"&&TTP.phase==="setup");
   // Safety: if we leave the fullscreen timer, make sure it pauses (battery + wake lock)
   if(V.view!=="timer"&&T.running)pauseTimer();
   // Safety: if we leave the filler detector while it's active, stop it
@@ -4971,13 +5100,15 @@ function applyHashRoute(){
 // and the hairline _practiceSVG/_menteesSVG). All currentColor, so the icon,
 // its glow and its tint always match. See .ic-glow.
 const HUB_ICONS={
-  coach:'<svg viewBox="0 0 48 48" fill="none"><rect x="20" y="7" width="8" height="17" rx="4" stroke="currentColor" stroke-width="1.6"/><path d="M16 21a8 8 0 0 0 16 0" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M24 29v8M18 37h12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M36 15a10 10 0 0 1 0 12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M41 11a16 16 0 0 1 0 20" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>',
-  practice:'<svg viewBox="0 0 48 48" fill="none"><circle cx="24" cy="12" r="5" stroke="currentColor" stroke-width="1.6"/><path d="M15 27c0-5 4-8 9-8s9 3 9 8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><rect x="12" y="29" width="24" height="10" rx="2.5" stroke="currentColor" stroke-width="1.6"/><path d="M20 34h8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>',
-  roles:'<svg viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="10" stroke="currentColor" stroke-width="1.6"/><circle cx="24" cy="7" r="3.4" fill="currentColor"/><circle cx="38.7" cy="15.5" r="3" stroke="currentColor" stroke-width="1.6"/><circle cx="38.7" cy="32.5" r="3" stroke="currentColor" stroke-width="1.6"/><circle cx="24" cy="41" r="3" stroke="currentColor" stroke-width="1.6"/><circle cx="9.3" cy="32.5" r="3" stroke="currentColor" stroke-width="1.6"/><circle cx="9.3" cy="15.5" r="3" stroke="currentColor" stroke-width="1.6"/></svg>',
-  contest:'<svg viewBox="0 0 48 48" fill="none"><path d="M16 9h16v9a8 8 0 0 1-16 0z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M16 12h-5v3a5 5 0 0 0 5 5M32 12h5v3a5 5 0 0 1-5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M24 26v7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><rect x="17" y="33" width="14" height="6" rx="2" stroke="currentColor" stroke-width="1.6"/></svg>',
-  allProjects:'<svg viewBox="0 0 48 48" fill="none"><rect x="7" y="8" width="15" height="15" rx="2.5" stroke="currentColor" stroke-width="1.6"/><rect x="26" y="8" width="15" height="15" rx="2.5" stroke="currentColor" stroke-width="1.6"/><rect x="7" y="27" width="15" height="15" rx="2.5" stroke="currentColor" stroke-width="1.6"/><rect x="26" y="27" width="15" height="15" rx="2.5" fill="currentColor"/></svg>',
-  mentees:'<svg viewBox="0 0 48 48" fill="none"><circle cx="19" cy="14" r="6" stroke="currentColor" stroke-width="1.6"/><path d="M9 38c0-7 4.5-11 10-11 3.5 0 6.5 1.6 8.4 4.3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><circle cx="34" cy="24" r="4.5" stroke="currentColor" stroke-width="1.6"/><path d="M27 38c0-5 3-8 7-8s7 3 7 8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>'
+  path:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 5h11"/><path d="M3 12h15"/><path d="M3 19h8"/></svg>',
+  roles:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="5" r="2.5"/><circle cx="5.5" cy="10" r="2.5"/><circle cx="18.5" cy="10" r="2.5"/><circle cx="8" cy="18" r="2.5"/><circle cx="16" cy="18" r="2.5"/></svg>',
+  practice:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="5.5" r="2.8"/><path d="M7 14c0-2.8 2.2-4.5 5-4.5s5 1.7 5 4.5"/><path d="M5 14h14l-1.5 6h-11z"/></svg>',
+  coach:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="2.5" width="6" height="12" rx="3"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0"/><path d="M12 17.5V21"/></svg>',
+  contest:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3h8v6a4 4 0 0 1-8 0z"/><path d="M8 5H5v1.5A3.5 3.5 0 0 0 8 10M16 5h3v1.5A3.5 3.5 0 0 1 16 10"/><path d="M12 13v4"/><path d="M8 21h8l-1-4H9z"/></svg>',
+  allProjects:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="3.5" width="7" height="7" rx="1.5"/><rect x="13.5" y="3.5" width="7" height="7" rx="1.5"/><rect x="3.5" y="13.5" width="7" height="7" rx="1.5"/><rect x="13.5" y="13.5" width="7" height="7" rx="1.5"/></svg>',
+  mentees:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="7" r="3.2"/><path d="M3.5 20c0-3.6 2.4-5.8 5.5-5.8 1.9 0 3.5.8 4.5 2.2"/><circle cx="17" cy="11" r="2.6"/><path d="M13.5 20c0-2.7 1.6-4.3 3.5-4.3s3.5 1.6 3.5 4.3"/></svg>'
 };
+
 // Pathways icon doubles as a live progress display: 5 rungs, bottom = Level 1.
 // Complete = filled; current level full stroke, then fading upward; no path = all faint.
 function _pathIcon(levelDone,curLv,hasPath){
@@ -5018,142 +5149,149 @@ function renderHub(app){
   }
 
   const _modeLabel=S.persona==='mentor'?'Mentor mode':S.persona==='grow'?'Grow mode':'Practice mode';
+  const ARR='<svg class="pw-arr" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
+  const CHEV='<svg class="pw-chev" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg>';
   let h='<div class="fade-up hub2">';
   h+='<div class="hub2-top"><span class="hub2-mark">Speak · Lead · Grow</span><div class="hub2-icons">';
-  h+='<button class="hub2-ic" data-action="open-donate" aria-label="Support TMCompanion"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" fill="#E06666"/></svg></button>';
-  h+='<button class="hub2-ic" data-action="open-ai-settings" aria-label="AI Settings"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M12 2 13.5 9.5 21 11 13.5 12.5 12 20 10.5 12.5 3 11 10.5 9.5Z" fill="#A78BFA"/></svg></button>';
-  h+='<button class="hub2-ic" data-action="open-settings" aria-label="Settings"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M12 15.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Z" stroke="#9FB0C4" stroke-width="1.8"/><path d="M19.4 13a7.6 7.6 0 0 0 0-2l2-1.5-2-3.4-2.4 1a7.6 7.6 0 0 0-1.7-1l-.3-2.6H10l-.3 2.6a7.6 7.6 0 0 0-1.7 1l-2.4-1-2 3.4L3.6 11a7.6 7.6 0 0 0 0 2l-2 1.5 2 3.4 2.4-1a7.6 7.6 0 0 0 1.7 1l.3 2.6h4l.3-2.6a7.6 7.6 0 0 0 1.7-1l2.4 1 2-3.4-2-1.5Z" stroke="#9FB0C4" stroke-width="1.5"/></svg></button>';
+  h+='<button class="hub2-ic" data-action="open-donate" aria-label="Support TMCompanion"><svg width="17" height="17" viewBox="0 0 24 24" fill="#E36A6A"><path d="M12 21s-7.5-4.6-9.5-9.2C1 8.4 3 5 6.5 5c2 0 3.5 1.1 5.5 3.1C14 6.1 15.5 5 17.5 5 21 5 23 8.4 21.5 11.8 19.5 16.4 12 21 12 21z"/></svg></button>';
+  h+='<button class="hub2-ic" data-action="open-ai-settings" aria-label="AI Settings"><svg width="17" height="17" viewBox="0 0 24 24" fill="#A78BFA"><path d="M12 2c.4 4.6 2.4 6.6 7 7-4.6.4-6.6 2.4-7 7-.4-4.6-2.4-6.6-7-7 4.6-.4 6.6-2.4 7-7z"/></svg></button>';
+  h+='<button class="hub2-ic" data-action="open-settings" aria-label="Settings"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#D5D6DC" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></button>';
   h+='</div></div>';
 
-  // ── K's directive ── (the tour's first step targets .smart-panel)
-  const _directive=_getKDirective();
-  if(_directive){
+  // ── K's directive: headline + supporting line + button ──
+  let _kHead,_kSub,_kCta,_kAction;
+  if(!p){
+    _kHead='Find your path.';_kSub='Personalised coaching for every speech.';_kCta='Choose a path';_kAction='path';
+  }else{
+    const _d=_getKDirective();
+    if(_d){const m=_d.msg.match(/^(.+?[.!?])\s+(.+)$/);_kHead=m?m[1]:_d.msg;_kSub=m?m[2]:'';_kCta=_d.cta;_kAction=_d.action;}
+  }
+  if(_kHead){
     h+='<div class="smart-panel k-card" id="goal-panel" data-action="directive-tap">';
     h+='<div class="k-row"><div class="k-av"><img src="'+COACH_AVATAR+'" alt="K"/></div><div class="k-body">';
     h+='<div class="k-label">K says</div>';
-    h+='<div class="k-msg">'+_directive.msg+'</div>';
-    h+='<div class="k-cta" data-directive-action="'+_directive.action+'">'+_directive.cta+' →</div>';
+    h+='<div class="k-msg">'+_kHead+'</div>';
+    if(_kSub)h+='<div class="k-sub">'+_kSub+'</div>';
+    h+='<div class="k-cta" data-directive-action="'+_kAction+'">'+_kCta+' '+ARR+'</div>';
     h+='</div></div></div>';
   }
 
   h+='<div class="hub2-label"><span>Your playground</span><span>'+_modeLabel+'</span></div>';
 
-  // ── Pinwheel: five fixed slots; the lead (tall, top-left) is the user's mode ──
-  //   grow → My Pathways · practice → Speech Coach · mentor → My Mentees.
-  // Tall tiles carry fact blocks built only from stored values — no AI call.
-  // The lead gets the full block; the demoted tall tile gets two compact lines.
-  const SLOT={lead:{col:"1",row:"1 / 4"},shortA:{col:"2",row:"1 / 3"},tall2:{col:"2",row:"3 / 6"},shortB:{col:"1",row:"4 / 6"},strip:{col:"1 / 3",row:"6"}};
+  // ── Cards: two stretched columns; only tall cards grow, into .pw-push ──
+  const COL={path:"green",practice:"teal",coach:"violet",roles:"amber",allProjects:"blue",mentees:"violet"};
+  const ART={path:"pathways-ribbon.png",coach:"coach-ripples.png",practice:"practice-glass.png",roles:"roles-ring.png",projects:"projects-grid.png",mentees:"mentees-orbs.png"};
+  const POS={green:"90% 78%|.18",teal:"90% 70%|.18",violet:"85% 82%|.2",amber:"70% 18%|.18",blue:"85% 80%|.18"};
   function ptile(cfg){
-    const pos=SLOT[cfg.slot];
-    const size=cfg.slot==='lead'||cfg.slot==='tall2'?'tall':'short';
-    let s='<button class="pw-tile'+(cfg.slot==='strip'?' pw-strip':' '+size)+'" data-hub="'+cfg.hub+'" style="grid-column:'+pos.col+';grid-row:'+pos.row+';'+auroraMeshStyle(cfg.color,1.0,cfg.glowMode)+'">';
-    const ico='<div class="pw-glyph ic-glow" style="color:'+cfg.ic+';width:'+cfg.px+'px;height:'+cfg.px+'px">'+cfg.glyph+'</div>';
-    if(cfg.slot==='strip'){
-      s+=ico+'<div class="pw-bot"><div class="pw-name">'+cfg.name+'</div><div class="pw-sub">'+cfg.sub+'</div></div>';
-      if(cfg.badge)s+='<span class="pw-badge" style="background:'+cfg.badgeBg+';color:'+cfg.badgeFg+'">'+cfg.badge+'</span>';
+    if(cfg.strip){
+      let s='<button class="pw-tile pw-strip" data-hub="'+cfg.hub+'">';
+      s+='<img class="art art-contest" src="/art/contest-spotlight.png" alt="" aria-hidden="true" decoding="async">';
+      s+='<div class="pw-glyph" style="color:'+cfg.ic+'">'+cfg.glyph+'</div>';
+      s+='<div class="pw-bot"><div class="pw-name">'+cfg.name+'</div><div class="pw-sub">'+cfg.sub+'</div></div>';
+      s+='<span class="pw-badge">'+cfg.badge+'</span></button>';
+      return s;
+    }
+    const col=COL[cfg.wash]; const [pos,wa]=POS[col].split('|'); const [wx,wy]=pos.split(' ');
+    let s='<button class="pw-tile'+(cfg.tall?' grow':'')+(cfg.lead?' is-lead':'')+'" data-hub="'+cfg.hub+'" style="--c:var(--hub-'+col+');--wx:'+wx+';--wy:'+wy+';--wa:'+wa+'">';
+    if(cfg.art)s+='<img class="art art-'+cfg.art+'" src="/art/'+ART[cfg.art]+'" alt="" aria-hidden="true" decoding="async">';
+    s+='<div class="pw-top"><div class="pw-glyph" style="color:'+cfg.ic+'">'+cfg.glyph+'</div>'+(cfg.lead?'<span class="pw-focus">Your focus</span>':'')+'</div>';
+    s+='<div class="pw-name">'+cfg.name+'</div>';
+    if(cfg.tall){
+      s+='<div class="pw-sub">'+cfg.sub+'</div>';
+      s+='<div class="pw-push"></div>';
+      s+='<div class="pw-facts"><div class="pw-dv"></div>'+cfg.facts+'</div>';
     }else{
-      s+='<div class="pw-top">'+ico+(cfg.num!=null?'<span class="pw-pct">'+cfg.num+'</span>':'')+'</div>';
-      s+='<div class="pw-bot">';
-      // In normal flow above the name — the top-right corner belongs to the number.
-      if(cfg.slot==='lead')s+='<span class="pw-focus">Your focus</span>';
-      s+='<div class="pw-name">'+cfg.name+'</div>';
-      if(cfg.sub)s+='<div class="pw-sub">'+cfg.sub+'</div>';
-      if(cfg.facts)s+='<div class="pw-facts">'+cfg.facts+'</div>';
-      s+='</div>';
+      s+='<div class="pw-row"><span class="pw-sub">'+cfg.sub+'</span>'+CHEV+'</div>';
     }
     return s+'</button>';
   }
-  const _pill=(key,label,bg,fg)=>'<span class="pw-pill" data-pill="'+key+'" style="background:'+bg+';color:'+fg+'">'+label+'</span>';
+  const _pill=(key,label,cls)=>'<span class="pw-pill '+cls+'" data-pill="'+key+'">'+label+' '+ARR+'</span>';
   const _mmss=sec=>Math.floor(sec/60)+':'+String(sec%60).padStart(2,'0');
 
   // ── Speech Coach (newest S.coachHistory entry) ──
   function coachFacts(lead){
     const ch=S.coachHistory||[];
-    if(!ch.length)return '<div class="pw-inv">'+(lead?'Paste a script or speak 2 minutes. K writes you notes.':'Paste a script or speak 2 minutes.')+'</div>'+_pill('coach','Try it →','#C4AEFF','#1a1033');
+    if(!ch.length)return '<div class="pw-f">'+(lead?'Paste a script or speak for 2 minutes. K writes you notes.':'Paste a script or speak for 2 minutes.')+'</div>'+_pill('coach','Try it','cta-violet');
     const c=ch[0], d=_relDays(c.date);
-    if(d!=null&&d>14)return '<div class="pw-inv">Last session '+d+' days ago.'+(lead?' Two minutes is enough.':'')+'</div>'+_pill('coach','Pick up →','#C4AEFF','#1a1033');
+    if(d!=null&&d>14)return '<div class="pw-f">Last session '+d+' days ago.'+(lead?' Two minutes is enough.':'')+'</div>'+_pill('coach','Pick up','cta-violet');
     const head=c.title||c.projectTitle||c.speechTitle||('Session · '+(d!=null?_relLabel(d):'recent'));
     const foot=(d!=null?_relLabel(d)+' · ':'')+ch.length+(ch.length===1?' session':' sessions');
-    if(!lead)return '<div class="pw-fl">'+escHtml(head)+(c.elapsed>0?' · '+_mmss(c.elapsed):'')+'</div><div class="pw-ff">'+foot+'</div>';
+    if(!lead)return '<div class="pw-fh">'+escHtml(head)+(c.elapsed>0?' · '+_mmss(c.elapsed):'')+'</div><div class="pw-f2">'+foot+'</div>';
     let chips='';
     if(c.elapsed>0)chips+='<span>'+_mmss(c.elapsed)+'</span>';
     chips+=c.wpm>0?'<span>'+c.wpm+' wpm</span>':'<span>Script</span>';
-    return '<div class="pw-fk">Last reviewed</div><div class="pw-fh">'+escHtml(head)+'</div><div class="pw-chips">'+chips+'</div><div class="pw-ff">'+foot+'</div>';
+    return '<div class="pw-fk">Last reviewed</div><div class="pw-fh">'+escHtml(head)+'</div><div class="pw-chips">'+chips+'</div><div class="pw-f2">'+foot+'</div>'+_pill('coach','Continue','cta-violet');
   }
 
   // ── My Pathways (S.path / S.done against PA) ──
-  let _levelDone=[false,false,false,false,false],_curLv=null,_pathFacts;
+  let _curLv=null,_pathFacts,_nextPid=null;
   if(p){
     let dn=0,tot=0;
     for(let lv=1;lv<=5;lv++){
       const g=gP(S.path,lv);
       const t=g.r.length+g.en+eduReqTotal(lv);
       const k=g.r.filter(x=>S.done[x]).length+Math.min(g.en,g.e.filter(x=>S.done[x]).length)+Math.min(eduReqTotal(lv),eduReqDone(S.path,lv));
-      _levelDone[lv-1]=k>=t;
       if(k<t&&_curLv===null){_curLv=lv;dn=k;tot=t;}
     }
     if(_curLv===null){
-      _pathFacts='<div class="pw-fk">Path complete</div><div class="pw-fh">All 5 levels done</div>';
+      _pathFacts='<div class="pw-fh">All 5 levels complete · 100%</div>'+_pill('path-open','Open','cta-green');
     }else{
       const rem=_remainingProjects(S.path);
-      let nextT='',nextDur='';
-      if(rem.length&&rem[0].lv===_curLv&&PD[rem[0].pid]){nextT=PD[rem[0].pid].t;nextDur=PD[rem[0].pid].dur||'';}
+      let nextT='';
+      if(rem.length&&rem[0].lv===_curLv&&PD[rem[0].pid]){nextT=PD[rem[0].pid].t;_nextPid=rem[0].pid;}
       else if(eduReqTotal(_curLv)>eduReqDone(S.path,_curLv)){nextT='Education Series presentation';}
-      else if(rem.length&&PD[rem[0].pid]){nextT=PD[rem[0].pid].t;nextDur=PD[rem[0].pid].dur||'';}
-      _pathFacts='<div class="pw-fk">Level '+_curLv+' of 5</div>'
-        +(nextT?'<div class="pw-fh">'+escHtml(nextT)+'</div>':'')
-        +'<div class="pw-chips"><span>'+dn+' of '+tot+' done</span>'+(nextDur?'<span>'+escHtml(nextDur)+'</span>':'')+'</div>'
-        +'<div class="pw-ff">Next up · tap to continue</div>';
+      else if(rem.length&&PD[rem[0].pid]){nextT=PD[rem[0].pid].t;_nextPid=rem[0].pid;}
+      _pathFacts='<div class="pw-fh">Level '+_curLv+' of 5 · '+pct+'%</div>'+(nextT?'<div class="pw-f2">Next: '+escHtml(nextT)+'</div>':'')+_pill('path-continue','Continue','cta-green');
     }
   }else{
-    _pathFacts='<div class="pw-inv">11 paths. A short quiz finds yours.</div>'+_pill('path','Choose →','#B6E398','#0f1a0a');
+    _pathFacts='<div class="pw-f">11 paths. A short quiz finds yours.</div>'+_pill('path','Choose','cta-green');
   }
 
-  // ── My Mentees (same 30-day rule as the Mentees screen: _menteeInactive) ──
+  // ── My Mentees (same 30-day rule as the Mentees screen) ──
   function menteeFacts(){
     const ms=S.mentees||[];
-    if(!ms.length)return '<div class="pw-inv">Add the members you mentor and track their progress.</div>'+_pill('mentees','Add mentee →','#B8C6FF','#101633');
+    if(!ms.length)return '<div class="pw-f">Add the members you mentor and track their progress.</div>'+_pill('mentees','Add mentee','cta-violet');
     const active=ms.filter(m=>!_menteeInactive(m)).length;
     const speeches=ms.reduce((n,m)=>n+(m.speeches?m.speeches.length:0),0);
     const foot=active+' active · '+speeches+(speeches===1?' speech':' speeches')+' logged';
     const quiet=ms.filter(m=>_menteeInactive(m)).sort((a,b)=>new Date(a.lastActive)-new Date(b.lastActive));
-    if(!quiet.length)return '<div class="pw-fk">All caught up</div><div class="pw-fh">Everyone’s been active</div><div class="pw-ff">'+foot+'</div>';
+    if(!quiet.length)return '<div class="pw-fk">All caught up</div><div class="pw-fh">Everyone’s been active</div><div class="pw-f2">'+foot+'</div>'+_pill('mentees','Open','cta-violet');
     const m=quiet[0], wks=Math.floor((Date.now()-new Date(m.lastActive).getTime())/(7*86400000));
-    return '<div class="pw-fk">Needs attention</div><div class="pw-fh">'+escHtml(m.name||'A mentee')+'</div>'
-      +'<div class="pw-chips"><span class="warn">'+wks+' wks quiet</span>'+(m.level?'<span>L'+m.level+'</span>':'')+'</div>'
-      +'<div class="pw-ff">'+foot+'</div>';
+    return '<div class="pw-fk">Needs attention</div><div class="pw-fh">'+escHtml(m.name||'A mentee')+'</div><div class="pw-chips"><span class="warn">'+wks+' wks quiet</span>'+(m.level?'<span>L'+m.level+'</span>':'')+'</div><div class="pw-f2">'+foot+'</div>'+_pill('mentees','Open','cta-violet');
   }
 
-  // Sub-copy
   const _tts=(S.sessions&&S.sessions['tt-practice'])||[];
   let _ptSub='Three drills, no setup';
   if(_tts.length&&_tts[0].iso){const d=_relDays(_tts[0].iso);if(d!=null)_ptSub='3 tools · TT '+(d===0?'today':d+'d ago');}
 
-  // ── Tile definitions, then one ordered layout per persona ──
-  const T_COACH=slot=>({hub:"ai-coach",slot,color:"#8B6FF7",ic:"#C4AEFF",px:44,glyph:HUB_ICONS.coach,name:"Speech Coach",sub:"Record or paste a script",facts:coachFacts(slot==='lead')});
-  const T_PRACTICE=slot=>({hub:"practice",slot,color:"#5FD6D6",ic:"#8FE6E6",px:39,glyph:HUB_ICONS.practice,name:"Practice Tools",sub:_ptSub});
-  const T_ROLES=slot=>({hub:"roles",slot,color:"#C47A3A",ic:"#EDB176",px:39,glowMode:"dark",glyph:HUB_ICONS.roles,name:"Meeting Roles",sub:ROLES.length+" toolkits · incl. Timer"});
-  const T_PATH=slot=>({hub:"path",slot,color:"#89C46A",ic:"#B6E398",px:42,glyph:_pathIcon(_levelDone,_curLv,!!p),name:"My Pathways",num:p?pct+'%':null,sub:p?p.n:"Pick a path to begin",facts:_pathFacts});
-  const T_ALLPROJ=slot=>({hub:"all-projects",slot,color:"#5B9DD9",ic:"#9FC7EC",px:42,glyph:HUB_ICONS.allProjects,name:"All Projects",sub:"Browse every Pathways project",facts:'<div class="pw-fl">'+Object.keys(PA).length+' paths · 5 levels each</div><div class="pw-ff">No tracking needed</div>'});
-  const T_MENTEES=slot=>({hub:"mentees",slot,color:"#8AA4FF",ic:"#B8C6FF",px:42,glyph:HUB_ICONS.mentees,name:"My Mentees",num:(S.mentees||[]).length?String(S.mentees.length):null,sub:"Track progress. Send encouragement.",facts:menteeFacts()});
-  const T_CONTESTS=slot=>({hub:"contests",slot,color:"#F5C85B",ic:"#F5C85B",px:34,glowMode:"spotlight",glyph:HUB_ICONS.contest,name:"Contests",sub:"Challenge yourself. Celebrate wins.",badge:Object.keys(CONTEST_DATA).length+' types',badgeBg:'#F5C85B',badgeFg:'#0A0B0F'});
+  const T_COACH=lead=>({hub:"ai-coach",tall:true,lead,wash:"coach",art:"coach",ic:"#C4AEFF",glyph:HUB_ICONS.coach,name:"Speech Coach",sub:"Record or paste a script",facts:coachFacts(lead)});
+  const T_PRACTICE=()=>({hub:"practice",wash:"practice",art:"practice",ic:"#8FE6E6",glyph:HUB_ICONS.practice,name:"Practice Tools",sub:_ptSub});
+  const T_ROLES=()=>({hub:"roles",wash:"roles",art:"roles",ic:"#EDB176",glyph:HUB_ICONS.roles,name:"Meeting Roles",sub:ROLES.length+" toolkits · incl. Timer"});
+  const T_PATH=lead=>({hub:"path",tall:true,lead,wash:"path",art:"path",ic:"#B6E398",glyph:HUB_ICONS.path,name:"My Pathways",sub:p?p.n:"Pick a path to begin",facts:_pathFacts});
+  const T_ALLPROJ=()=>({hub:"all-projects",tall:true,wash:"allProjects",art:"projects",ic:"#9FC7EC",glyph:HUB_ICONS.allProjects,name:"All Projects",sub:"Browse every Pathways project",facts:'<div class="pw-fh">'+Object.keys(PA).length+' paths · 5 levels each</div><div class="pw-f2">No tracking needed</div>'});
+  const T_MENTEES=lead=>({hub:"mentees",tall:true,lead,wash:"mentees",art:"mentees",ic:"#B6C9FF",glyph:HUB_ICONS.mentees,name:"My Mentees",sub:"Track progress. Send encouragement.",facts:menteeFacts()});
+  const T_CONTESTS=()=>({hub:"contests",strip:true,ic:"#F5C85B",glyph:HUB_ICONS.contest,name:"Contests",sub:"Challenge yourself. Celebrate wins.",badge:Object.keys(CONTEST_DATA).length+' types'});
   const LAYOUT={
-    grow:    [T_PATH('lead'),   T_PRACTICE('shortA'),T_COACH('tall2'),  T_ROLES('shortB'),T_CONTESTS('strip')],
-    practice:[T_COACH('lead'),  T_PRACTICE('shortA'),T_ALLPROJ('tall2'),T_ROLES('shortB'),T_CONTESTS('strip')],
-    mentor:  [T_MENTEES('lead'),T_PRACTICE('shortA'),T_COACH('tall2'),  T_ROLES('shortB'),T_CONTESTS('strip')]
+    grow:    {left:[T_PATH(true),   T_ROLES()],right:[T_PRACTICE(),T_COACH(false)]},
+    practice:{left:[T_COACH(true),  T_ROLES()],right:[T_PRACTICE(),T_ALLPROJ()]},
+    mentor:  {left:[T_MENTEES(true),T_ROLES()],right:[T_PRACTICE(),T_COACH(false)]}
   };
-  h+='<div class="hub-pin">';
-  (LAYOUT[S.persona]||LAYOUT.practice).forEach(t=>{h+=ptile(t);});
-  h+='</div>';
+  const L=LAYOUT[S.persona]||LAYOUT.practice;
+  h+='<div class="hub-pin"><div class="hub-cols">';
+  h+='<div class="hub-col">'+L.left.map(ptile).join('')+'</div>';
+  h+='<div class="hub-col">'+L.right.map(ptile).join('')+'</div>';
+  h+='</div>'+ptile(T_CONTESTS())+'</div>';
   h+='</div>';
   app.innerHTML=h;
 
-  // Invitation pills inside tiles — route to the first action, not the tile default.
+  // Pills inside tiles route to the first useful action, not the tile default.
   app.querySelectorAll('[data-pill]').forEach(pl=>pl.addEventListener('click',e=>{
     e.stopPropagation();
     const k=pl.dataset.pill;
     if(k==='coach'){V.view='ai-coach';}
     else if(k==='path'){V.view='quiz-intro';}
+    else if(k==='path-continue'){if(_nextPid){V.view='project';V.viewingProject=_nextPid;}else{V.view='browser';}}
+    else if(k==='path-open'){V.view='browser';}
     else if(k==='mentees'){V.view='mentees';V._menteeEditing=null;V._menteeNudge=null;}
     render();
   }));
@@ -5183,7 +5321,7 @@ function renderHub(app){
       else if(action==='eval-helper'){V.view='eval-helper';}
       else if(action==='contests'){V.view='contests';}
       else if(action==='filler'){V.view='filler';}
-      else if(action==='timer'){V.view='timer-select';T.returnTo='hub';}
+      else if(action==='timer'){V.viewingRole=null;V.view='timer-select';T.returnTo='roles';}
       render();
     });
   }
@@ -5487,7 +5625,7 @@ function renderPathPicker(app){
   h+='<button class="quiz-prompt-btn" data-action="open-quiz">🧭 &nbsp; Not sure which one? Take the fun quiz</button>';
   h+='</div>';
 
-  h+='<div class="app-footer">Made by Kian How · This app is independent of Toastmasters International. It is not authorized by, endorsed by, sponsored by, affiliated with, or otherwise approved by Toastmasters International. · v1.75 · <a data-action="show-notice" style="color:var(--accent);text-decoration:none;cursor:pointer">User Agreement</a></div>';
+  h+='<div class="app-footer">Made by Kian How · This app is independent of Toastmasters International. It is not authorized by, endorsed by, sponsored by, affiliated with, or otherwise approved by Toastmasters International. · <a data-action="whats-new" style="color:var(--accent);cursor:pointer">v'+APP_VERSION+' · What’s new</a> · <a data-action="show-notice" style="color:var(--accent);text-decoration:none;cursor:pointer">User Agreement</a></div>';
   h+='</div>';
   app.innerHTML=h;
   _wirePathsSeg(app);
@@ -5906,7 +6044,7 @@ function renderPathBrowser(app){
   // Keeping it in the tree lets us toggle visibility without re-rendering.
   h+='<div class="path-complete-banner'+(pct>=100?'':' hidden')+'"><strong>🎉 Path complete!</strong><div style="font-size:13px;color:var(--text-muted);line-height:1.5">Next step: DTM. Keep going.</div></div>';
 
-  h+='<div class="app-footer">Made by Kian How · This app is independent of Toastmasters International. It is not authorized by, endorsed by, sponsored by, affiliated with, or otherwise approved by Toastmasters International. · v1.75 · <a data-action="show-notice" style="color:var(--accent);text-decoration:none;cursor:pointer">User Agreement</a></div>';
+  h+='<div class="app-footer">Made by Kian How · This app is independent of Toastmasters International. It is not authorized by, endorsed by, sponsored by, affiliated with, or otherwise approved by Toastmasters International. · <a data-action="whats-new" style="color:var(--accent);cursor:pointer">v'+APP_VERSION+' · What’s new</a> · <a data-action="show-notice" style="color:var(--accent);text-decoration:none;cursor:pointer">User Agreement</a></div>';
   h+='</div>';
   app.innerHTML=h;
 
@@ -6780,7 +6918,7 @@ function renderBottomNav(){
   const onHome=(V.view==="hub");
   let h='<div class="bottom-nav"><div class="bottom-nav-inner">';
   h+='<button class="nav-hub-btn'+(onHome?' active':'')+'" data-nav="hub">';
-  h+='<span class="nav-hub-btn-icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 2C10 2 10.6 6.8 12.2 8.4C13.8 10 18 10 18 10C18 10 13.8 10 12.2 11.6C10.6 13.2 10 18 10 18C10 18 9.4 13.2 7.8 11.6C6.2 10 2 10 2 10C2 10 6.2 10 7.8 8.4C9.4 6.8 10 2 10 2Z" fill="white"/></svg></span>';
+  h+='<span class="nav-hub-btn-icon"><svg width="18" height="18" viewBox="0 0 20 20" fill="none"><path d="M10 2C10 2 10.6 6.8 12.2 8.4C13.8 10 18 10 18 10C18 10 13.8 10 12.2 11.6C10.6 13.2 10 18 10 18C10 18 9.4 13.2 7.8 11.6C6.2 10 2 10 2 10C2 10 6.2 10 7.8 8.4C9.4 6.8 10 2 10 2Z" fill="currentColor"/></svg></span>';
   h+='<span>Hub</span>';
   h+='</button>';
   h+='</div></div>';
@@ -7799,7 +7937,7 @@ function renderPracticeHub(app){
   h+='</div>';
   h+='<div class="pt-divider"></div>';
   h+='<button class="pt-contests" data-action="pt-contests"><span class="pt-contests-ico">'+((CONTEST_DATA.international&&CONTEST_DATA.international.emoji)||'')+'</span><span style="flex:1;min-width:0"><span style="display:block;font-size:13.5px;font-weight:700;color:#F5C85B;line-height:1.2;margin-bottom:2px">Contests</span><span style="display:block;font-size:11px;color:var(--text-3);line-height:1.35">Refine under pressure — ballots &amp; rules</span></span><span class="pt-arrow">›</span></button>';
-  h+='<div class="app-footer">Made by Kian How · This app is independent of Toastmasters International. It is not authorized by, endorsed by, sponsored by, affiliated with, or otherwise approved by Toastmasters International. · v1.75 · <a data-action="show-notice" style="color:var(--accent);text-decoration:none;cursor:pointer">User Agreement</a></div>';
+  h+='<div class="app-footer">Made by Kian How · This app is independent of Toastmasters International. It is not authorized by, endorsed by, sponsored by, affiliated with, or otherwise approved by Toastmasters International. · <a data-action="whats-new" style="color:var(--accent);cursor:pointer">v'+APP_VERSION+' · What’s new</a> · <a data-action="show-notice" style="color:var(--accent);text-decoration:none;cursor:pointer">User Agreement</a></div>';
   h+='</div>';
   app.innerHTML=h;
 
@@ -8002,7 +8140,8 @@ let TTP={
   phase:"setup",       // "setup"|"question"|"active"|"done"
   theme:"",
   question:"",
-  questionSource:"",   // "ai"|"bank"
+  questionSource:"",   // "ai"|"bank"|"repeat"
+  style:"story",       // "story"|"opinion"|"whatif"|"curveball"
   questionLoading:false,
   elapsed:0,
   _iv:null,
@@ -8032,12 +8171,15 @@ async function ttpFetchQuestion(theme,useAI){
     TTP.questionLoading=true; render();
     try{
       const seen=_ttSeenList().slice(-12);
-      const n=_ttSeenList().length;
-      const formats=["an opinion the speaker must defend","a hypothetical ('what if…')","a memory or story prompt","a this-or-that choice they must justify","a lesson or advice they'd give someone"];
-      const fmt=formats[n%formats.length];
+      const STYLE_PROMPT={
+        story:    'Style: STORY. Ask for one personal moment or memory. Easy, warm, answerable by anyone.',
+        opinion:  'Style: OPINION. Ask the speaker to take a clear side on something everyday.',
+        whatif:   'Style: WHAT IF. A short imaginative hypothetical. Playful, not philosophical.',
+        curveball:'Style: CURVEBALL. Unexpected, slightly absurd, still answerable in 2 minutes.'
+      };
       const seed=Math.random().toString(36).slice(2,8);
       const sys="You are a Toastmasters Topicsmaster. A great Table Topics question is like a musical motif — simple, immediate, impossible to ignore. The speaker should grasp it in one second and start talking. Short, punchy, one clear idea. One sentence, under 15 words, ends with a question mark. No context, no setup, no sub-clauses. Just the question.";
-      let msg="[Seed: "+seed+"]\nTheme: "+(theme||"open")+"\nFormat: "+fmt+".\nDifficulty: Medium.";
+      let msg="[Seed: "+seed+"]\nTheme: "+(theme||"open")+"\n"+(STYLE_PROMPT[TTP.style]||STYLE_PROMPT.story);
       if(seen.length)msg+="\n\nDo NOT reuse or lightly reword any of these, and vary the sentence structure from them:\n- "+seen.join("\n- ");
       msg+="\n\nReply with ONE single-sentence question only. Nothing else.";
       let raw=await callCoach(sys,msg,{maxTokens:80,forceBase:true,featureId:'tt-question'});
@@ -8046,11 +8188,11 @@ async function ttpFetchQuestion(theme,useAI){
       const qMatch=cleanText.match(/[A-Z][^?!.]*\?/);
       let q=(qMatch?qMatch[0]:cleanText).trim().replace(/^[\d]+[.)]\s*/,"").replace(/^[\-•*]\s*/,"").replace(/^["']|["']$/g,"").trim();
       if(q.length>=15&&q.length<=300&&q.includes("?")){TTP.question=q;TTP.questionSource="ai";}
-      else{TTP.question=ttpOfflineQuestion(theme);TTP.questionSource="bank";}
-    }catch(e){TTP.question=ttpOfflineQuestion(theme);TTP.questionSource="bank";}
+      else{TTP.question=ttpOfflineQuestion(theme,TTP.style);TTP.questionSource="bank";}
+    }catch(e){TTP.question=ttpOfflineQuestion(theme,TTP.style);TTP.questionSource="bank";}
     TTP.questionLoading=false;
   }else{
-    TTP.question=ttpOfflineQuestion(theme);
+    TTP.question=ttpOfflineQuestion(theme,TTP.style);
     TTP.questionSource="bank";
   }
   _ttMarkSeen(TTP.question);
@@ -8059,7 +8201,7 @@ async function ttpFetchQuestion(theme,useAI){
   render();
 }
 
-function ttpOfflineQuestion(theme){
+function ttpOfflineQuestion(theme,style){
   // Flatten all theme queues into a pool, filtered by theme if given
   let pool=[];
   if(theme){
@@ -8074,6 +8216,10 @@ function ttpOfflineQuestion(theme){
     TOPICS_THEMES.forEach(th=>{pool=pool.concat(th.prompts||[]);});
   }
   if(!pool.length)return "What is one lesson you've learned that has shaped who you are today?";
+  // Prefer questions that match the chosen style (light keyword heuristic — the bank
+  // has no style tags), but never depend on it: fall back to the whole pool.
+  const STYLE_RE={story:/\b(time|moment|remember|when you|story)\b/i,whatif:/\b(if you|what if|imagine)\b/i,opinion:/\b(should|better|agree|best|worst|overrated)\b/i};
+  if(style&&STYLE_RE[style]){const m=pool.filter(q=>STYLE_RE[style].test(q));if(m.length)pool=m;}
   const seen=new Set(_ttSeenList());
   let fresh=pool.filter(q=>!seen.has(q));
   if(!fresh.length){
@@ -8096,44 +8242,63 @@ function renderTTPractice(app){
 // ── SETUP ──────────────────────────────────────────────────────────────────
 function _ttpRenderSetup(app){
   const aiOn=S.aiConfig&&S.aiConfig.enabled;
-  let h='<div class="fade-up ttp-view">';
-  h+='<div class="top-bar"><button class="top-bar-btn" data-action="ttp-back">← Practice</button></div>';
+  if(!TTP.style)TTP.style='story';
+  const ttS=(S.sessions&&S.sessions['tt-practice'])||[];
+  const last=ttS.find(s=>s.topic);          // newest session that stored a topic
+  const isNew=ttS.length===0;
+  const newish=ttS.length<3;                 // newcomer extras
+  const ARR='<svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
 
-  h+='<div class="ttp-hero">';
-  h+='<div class="ttp-hero-icon">🎯</div>';
-  h+='<div class="ttp-hero-title">Table Topics<sup style="font-size:0.5em;vertical-align:super">®</sup></div>';
-  h+='<div class="ttp-hero-sub">Impromptu speaking practice — get a question, think on your feet, record and get coached.</div>';
-  h+='</div>';
+  let h='<div class="fade-up ttp-view tts">';
+  h+='<button class="back" data-action="ttp-back"><svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>Practice</button>';
 
-  h+='<div class="ttp-setup-card">';
-  h+='<div class="ttp-setup-label">MEETING THEME <span class="ttp-optional">(optional)</span></div>';
-  h+='<input class="role-ai-input" id="ttp-theme" placeholder="e.g. Courage, Technology, Food, Leadership…" value="'+escHtml(TTP.theme)+'"/>';
-  h+='<div class="ttp-setup-actions">';
-  h+='<button class="ttp-random-btn" data-action="ttp-random">🎲 Random</button>';
-  if(aiOn){
-    h+='<button class="ttp-generate-btn" data-action="ttp-generate">✨ Generate question</button>';
-  }else{
-    h+='<button class="ttp-generate-btn" data-action="ttp-random">📋 Get a question</button>';
+  h+='<div class="tts-hero"><div class="tts-ico"><svg viewBox="0 0 24 24"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20.5l1.4-4.6A8 8 0 1 1 21 12z"/><path d="M9 10.5a3 3 0 1 1 3.9 2.9c-.6.2-.9.7-.9 1.3v.3"/><path d="M12 17.6v.1"/></svg></div>';
+  h+='<div><div class="tts-h1">Table Topics<sup>®</sup></div><div class="tts-lede">Get a topic. Think on your feet. Get coached.</div></div></div>';
+
+  if(isNew){
+    h+='<div class="tts-hello"><img src="'+COACH_AVATAR+'" alt="K"><div><b>Your first topic. We\'ll start easy.</b><p>30 seconds is a real answer. Nobody hears it but you, and K only points out what went well and one thing to try.</p></div></div>';
+  }else if(last){
+    const d=_relDays(last.iso);
+    const when=d==null?'':(d===0?'TODAY':d===1?'YESTERDAY':d+' DAYS AGO');
+    const timing=last.elapsed<60?'Short':last.elapsed>120?'Over':'In time';
+    h+='<div class="tts-last">';
+    h+='<div class="tts-last-lbl">Last attempt'+(when?' · '+when:'')+'</div>';
+    h+='<div class="tts-last-q">“'+escHtml(last.topic)+'”</div>';
+    h+='<div class="tts-last-meta"><span>'+Math.floor(last.elapsed/60)+':'+String(last.elapsed%60).padStart(2,'0')+'</span>'+(last.wpm>0?'<span>'+last.wpm+' wpm</span>':'')+'<span'+(timing==='In time'?' class="good"':'')+'>'+timing+'</span></div>';
+    h+='<div class="tts-last-act"><button class="tts-sm tts-sm-v" data-action="ttp-retry-last"><svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/></svg>Try it again</button>';
+    if(last.notes)h+='<button class="tts-sm tts-sm-g" data-action="ttp-see-notes">See notes</button>';
+    h+='</div></div>';
   }
+
+  h+='<section class="tts-card">';
+  h+='<div class="tts-lbl">Meeting theme <i>optional</i></div>';
+  h+='<label class="tts-field"><svg viewBox="0 0 24 24"><path d="M20.6 13.4 13.4 20.6a2 2 0 0 1-2.8 0L3 13V3h10l7.6 7.6a2 2 0 0 1 0 2.8z"/><circle cx="7.5" cy="7.5" r="1.3"/></svg>';
+  h+='<input id="ttp-theme" type="text" placeholder="e.g. Courage, Technology, Food…" autocomplete="off" value="'+escHtml(TTP.theme||'')+'"></label>';
+  h+='<div class="tts-lbl" style="margin-top:14px;margin-bottom:0">Topic style</div>';
+  const STYLES=[['story','Story','Tell one moment'],['opinion','Opinion','Take a side'],['whatif','What if…','Imagine it'],['curveball','Curveball','Surprise me']];
+  h+='<div class="tts-seg" id="ttp-seg">';
+  STYLES.forEach(([id,name,sub])=>{
+    h+='<button type="button" data-style="'+id+'" aria-pressed="'+(TTP.style===id)+'">'+(id==='story'&&newish?'<i class="tts-easy">EASIEST</i>':'')+'<span>'+name+'</span><small>'+sub+'</small></button>';
+  });
   h+='</div>';
-  if(TTP.questionLoading){
-    h+='<div class="role-ai-loading" style="padding:12px"><span class="coach-dots"><span>.</span><span>.</span><span>.</span></span></div>';
-  }
+  const busy=TTP.questionLoading;
+  h+='<div class="tts-actions">';
+  h+='<button class="tts-btn tts-ghost" data-action="ttp-random" aria-label="Random topic"'+(busy?' disabled':'')+'><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="4"/><circle cx="8.5" cy="8.5" r="1" fill="currentColor"/><circle cx="15.5" cy="15.5" r="1" fill="currentColor"/><circle cx="15.5" cy="8.5" r="1" fill="currentColor"/><circle cx="8.5" cy="15.5" r="1" fill="currentColor"/><circle cx="12" cy="12" r="1" fill="currentColor"/></svg>Random</button>';
+  h+='<button class="tts-btn tts-primary" data-action="'+(aiOn?'ttp-generate':'ttp-random')+'"'+(busy?' disabled':'')+'>'+(busy?'Finding a topic…':'Get a topic'+ARR)+'</button>';
   h+='</div>';
+  if(newish)h+='<div class="tts-reassure"><svg viewBox="0 0 24 24"><rect x="4" y="10" width="16" height="11" rx="2.5"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>Practice stays on this phone. You can re-record as often as you like.</div>';
+  h+='</section>';
 
-  if(!aiOn){
-    h+='<div class="ttp-ai-off-note">Add your AI key in ✨ AI Settings for AI-generated questions and coaching. Offline questions still available.</div>';
+  if(!aiOn)h+='<div class="ttp-ai-off-note">Add your AI key in ✨ AI Settings for AI-generated topics and coaching. Offline topics still available.</div>';
+
+  if(newish){
+    h+='<div class="tts-steps"><div class="tts-step"><b>1</b><span>Read it</span><small>A few seconds to think</small></div><div class="tts-step"><b>2</b><span>Speak</span><small>Aim for 1–2 minutes</small></div><div class="tts-step"><b>3</b><span>Get notes</span><small>K reviews your answer</small></div></div>';
   }
 
-  // ── What makes a good TT answer — collapsible guide ──
-  const answerGuideOpen=V._ttpAnswerGuideOpen===true;
-  h+='<div class="tg-guide'+(answerGuideOpen?' open':'')+'" id="ttp-answer-guide">';
-  h+='<button class="tg-guide-hdr" data-action="ttp-answer-guide-toggle">';
-  h+='<span>💡 What makes a great Table Topics® answer?</span>';
-  h+='<span class="tg-guide-chev">▼</span>';
-  h+='</button>';
-  h+='<div class="tg-guide-body">';
-
+  // ── Tips: container restyled; the app's existing guide content is kept verbatim ──
+  h+='<details class="tts-tips" id="ttp-answer-guide"'+(V._ttpAnswerGuideOpen?' open':'')+'>';
+  h+='<summary><span class="tts-ti"><svg viewBox="0 0 24 24"><path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 0 0-3.5 10.9c.6.4.9 1 .9 1.7V16h5.2v-.4c0-.7.3-1.3.9-1.7A6 6 0 0 0 12 3z"/></svg></span><span class="tts-tq">What makes a great answer?</span><svg class="tts-chev" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></summary>';
+  h+='<div class="tts-body">';
   h+='<div class="tg-guide-intro">A great TT answer isn\'t about knowing the answer — it\'s about committing to one. Think of it like jazz improvisation: the musician doesn\'t wait for the perfect note. They start, and the structure carries them.</div>';
 
   const answerTips=[
@@ -8193,25 +8358,26 @@ function _ttpRenderSetup(app){
   });
   h+='</div>';
 
-  h+='</div>'; // /tg-guide-body
-  h+='</div>'; // /tg-guide
+  h+='</div>'; // /tts-body
+  h+='</details>';
 
   h+='</div>';
   app.innerHTML=h;
 
   app.querySelector('[data-action="ttp-back"]').addEventListener("click",()=>{V.view="practice";render();});
-
-  const answerGuideToggle=app.querySelector('[data-action="ttp-answer-guide-toggle"]');
-  if(answerGuideToggle)answerGuideToggle.addEventListener("click",()=>{
-    V._ttpAnswerGuideOpen=!V._ttpAnswerGuideOpen;
-    const guide=document.getElementById("ttp-answer-guide");
-    if(guide)guide.classList.toggle("open",V._ttpAnswerGuideOpen);
-  });
+  const guide=document.getElementById("ttp-answer-guide");
+  if(guide)guide.addEventListener("toggle",()=>{V._ttpAnswerGuideOpen=guide.open;});
 
   const themeInput=app.querySelector("#ttp-theme");
   if(themeInput)themeInput.addEventListener("input",()=>{TTP.theme=themeInput.value;});
 
-  // Random (offline bank)
+  // Topic style — no re-render needed
+  app.querySelectorAll('#ttp-seg [data-style]').forEach(b=>b.addEventListener('click',()=>{
+    TTP.style=b.dataset.style;
+    app.querySelectorAll('#ttp-seg [data-style]').forEach(x=>x.setAttribute('aria-pressed',String(x===b)));
+  }));
+
+  // Random (offline bank, style-aware)
   app.querySelectorAll('[data-action="ttp-random"]').forEach(btn=>{
     btn.addEventListener("click",()=>{
       TTP.theme=themeInput?themeInput.value.trim():TTP.theme;
@@ -8219,13 +8385,27 @@ function _ttpRenderSetup(app){
       ttpFetchQuestion(TTP.theme,false);
     });
   });
-
   // AI generate
   const genBtn=app.querySelector('[data-action="ttp-generate"]');
   if(genBtn)genBtn.addEventListener("click",()=>{
     TTP.theme=themeInput?themeInput.value.trim():TTP.theme;
     TTP._promptN=0;
     ttpFetchQuestion(TTP.theme,true);
+  });
+
+  // Last attempt: retry / notes
+  const retry=app.querySelector('[data-action="ttp-retry-last"]');
+  if(retry&&last)retry.addEventListener('click',()=>{
+    TTP.question=last.topic;TTP.style=last.style||TTP.style;TTP.theme=last.theme||'';
+    TTP.questionSource='repeat';TTP._promptN=(TTP._promptN||0)+1;TTP.phase='question';render();
+  });
+  const notesBtn=app.querySelector('[data-action="ttp-see-notes"]');
+  if(notesBtn&&last)notesBtn.addEventListener('click',()=>{
+    const root=document.getElementById('modal-root');
+    root.innerHTML='<div class="modal-backdrop" data-close="1"><div class="modal" data-stop="1" style="--pc:#C4AEFF"><button class="modal-close" data-action="close-notes" aria-label="Close">✕</button><h2 class="modal-title" style="font-size:20px">K\'s notes</h2><div class="modal-desc" style="margin-bottom:12px">“'+escHtml(last.topic)+'”</div><div class="tts-notes">'+last.notes+'</div></div></div>';
+    const close=()=>{root.innerHTML='';};
+    root.querySelector('[data-action="close-notes"]').addEventListener('click',close);
+    root.querySelector('.modal-backdrop').addEventListener('click',e=>{if(e.target.dataset.close)close();});
   });
 }
 
@@ -8236,10 +8416,10 @@ function _ttpRenderQuestion(app){
 
   // ── QUESTION PANEL (shown initially) — Ship 6 layout ──
   const themeLabel=TTP.theme?('Theme · '+escHtml(TTP.theme)):'Theme · Open';
-  const srcLabel=TTP.questionSource==="ai"?"AI":"Bank";
+  const srcLabel=TTP.questionSource==="repeat"?"Second try":TTP.questionSource==="ai"?"AI":"Bank";
   h+='<div class="ttp-q-panel">';
   h+='<div class="scr-head" style="margin-bottom:10px"><button class="circ-back" data-action="ttp-restart" aria-label="Back"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button><h1 class="scr-title">Table Topics<sup style="font-size:0.5em;vertical-align:super">®</sup></h1></div>';
-  h+='<div class="ttq-ctx"><span class="ttq-chip">'+themeLabel+'</span><span class="ttq-n">Prompt '+(TTP._promptN||1)+' · '+srcLabel+'</span></div>';
+  h+='<div class="ttq-ctx"><span class="ttq-chip">'+themeLabel+'</span><span class="ttq-n">'+(TTP.questionSource==="repeat"?srcLabel:'Prompt '+(TTP._promptN||1)+' · '+srcLabel)+'</span></div>';
   h+='<div class="ttq-card"><div class="ttq-k">Your topic</div><div class="ttq-t">'+escHtml(TTP.question)+'</div><div class="ttq-hint">Aim for 1–2 minutes.</div></div>';
   h+='<button class="ttq-start" data-action="ttp-start">Start speaking →</button>';
   h+='<button class="ttq-new" data-action="ttp-new"'+(TTP.questionLoading?' disabled':'')+'>'+(TTP.questionLoading?'Finding a topic…':'New topic')+'</button>';
@@ -8280,7 +8460,7 @@ function _ttpRenderQuestion(app){
   const nb=app.querySelector('[data-action="ttp-new"]');
   if(nb)nb.addEventListener("click",()=>{
     // Same theme, same source as the current question (AI only if it's on).
-    const useAI=TTP.questionSource==="ai"&&!!(S.aiConfig&&S.aiConfig.enabled);
+    const useAI=TTP.questionSource!=="bank"&&!!(S.aiConfig&&S.aiConfig.enabled);
     ttpFetchQuestion(TTP.theme,useAI);
   });
 }
@@ -8528,7 +8708,8 @@ Under 180 words. Firm and warm.`;
   const ttWpm=TTP.elapsed>0?Math.round(TTP.totalWords/(TTP.elapsed/60)):0;
   const ttSummaryMatch=(TTP.aiResult||'').replace(/<[^>]+>/g,'').match(/[^.!?]+[.!?]/);
   const ttSummary=ttSummaryMatch?ttSummaryMatch[0].trim().slice(0,80):'';
-  saveSession(ttKey,TTP.elapsed,ttWpm,0,ttSummary);
+  const _notesOk=typeof TTP.aiResult==='string'&&!/data-action="ttp-retry-eval"/.test(TTP.aiResult);
+  saveSession(ttKey,TTP.elapsed,ttWpm,0,ttSummary,{topic:TTP.question,style:TTP.style,theme:TTP.theme||'',notes:_notesOk?TTP.aiResult:''});
   checkAchievements('tt');
   TTP.aiLoading=false;
   const el2=document.getElementById("ttp-analysis");
@@ -11256,6 +11437,10 @@ function renderSettings(app){
   h+='</button>';
   h+='</div>';
 
+  // ── About ──
+  h+='<div class="settings-section-label" style="margin-top:22px">About</div>';
+  h+='<button class="list-row" data-action="whats-new" style="width:100%;text-align:left;display:flex;align-items:center;gap:12px;padding:14px 16px;border-radius:14px;background:var(--surface);border:1px solid var(--border);font-family:inherit;cursor:pointer">';
+  h+='<span style="flex:1;min-width:0"><span style="display:block;font-size:15px;font-weight:700;color:var(--text)">TM Companion v'+APP_VERSION+'</span><span style="display:block;font-size:12.5px;color:var(--text-3);margin-top:2px">What’s new in this version</span></span><span style="color:var(--text-3);font-size:17px">›</span></button>';
 
   app.innerHTML=h;
 
@@ -17068,7 +17253,7 @@ function _getKDirective(){
     const allSessions=S.sessions?Object.values(S.sessions).flat():[];
     if(allSessions.length<3)candidates.push({msg:"Practice out loud — record a 2-minute speech and hear what K says.",cta:"Open Speech Coach",action:"ai-coach"});
     candidates.push({msg:"Keep your speaking muscles sharp. A quick Table Topics session takes 5 minutes.",cta:"Start now",action:"topics"});
-    candidates.push({msg:"Run a full rehearsal with the speech timer. No excuses.",cta:"Open Timer",action:"timer"});
+    candidates.push({msg:"Run a full rehearsal with the speech timer. Time it once, start to finish.",cta:"Open Timer",action:"timer"});
   }else{
     const path=S.path?PA[S.path]:null;
     const doneCount=S.done?Object.keys(S.done).length:0;
@@ -17166,7 +17351,7 @@ function _buildMenteePlanFromAnswers(m,answers,lastPid){
 function checkAchievements(type){
   // stub — achievements feature not yet implemented
 }
-function saveSession(key, elapsed, wpm, fillers, summary){
+function saveSession(key, elapsed, wpm, fillers, summary, extra){
   if(!key)return;
   if(!S.sessions)S.sessions={};
   if(!S.sessions[key])S.sessions[key]=[];
@@ -17176,7 +17361,8 @@ function saveSession(key, elapsed, wpm, fillers, summary){
     elapsed:Math.round(elapsed),
     wpm:wpm||0,
     fillers:fillers||0,
-    summary:summary||''
+    summary:summary||'',
+    ...(extra||{})
   });
   S.sessions[key]=S.sessions[key].slice(0,10);
   save();
@@ -17828,6 +18014,8 @@ window.addEventListener("offline", ()=>maybeShowOfflineBanner());
 // ── Global delegated handler for AI error cards ──
 // These buttons can appear in any view so they need a document-level listener.
 document.addEventListener("click",e=>{
+  const wn=e.target.closest('[data-action="whats-new"]');
+  if(wn){e.preventDefault();openWhatsNew();return;}
   const btn=e.target.closest("[data-action]");
   const contestCard=e.target.closest("[data-contest]");
 
