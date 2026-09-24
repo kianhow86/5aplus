@@ -666,11 +666,11 @@ a{color:inherit;text-decoration:none}
 
 /* ═══ Bottom nav — glassy purple pill hub button ═══ */
 /* ── Hub — ported from hub-reference.html (values verbatim; app class names kept) ── */
-:root{--nav-h:76px;--hub-green:127,198,106;--hub-teal:95,214,214;--hub-violet:139,111,247;--hub-amber:208,138,69;--hub-blue:91,157,217;--hub-gold:245,200,91;--hub-k:109,182,180}
+:root{--nav-h:76px;--sab:min(env(safe-area-inset-bottom,0px),34px);--hub-green:127,198,106;--hub-teal:95,214,214;--hub-violet:139,111,247;--hub-amber:208,138,69;--hub-blue:91,157,217;--hub-gold:245,200,91;--hub-k:109,182,180}
 html,body{height:100%}
-body.on-hub{position:fixed;inset:0;overflow:hidden;overscroll-behavior:none}
+body.on-hub{overflow:hidden;overscroll-behavior:none;height:100%}
 #app.is-hub{max-width:none;padding:0;height:var(--app-h,100dvh);overflow-y:auto;overscroll-behavior:none;-webkit-overflow-scrolling:touch}
-.hub2{min-height:var(--app-h,100dvh);display:flex;flex-direction:column;max-width:480px;margin:0 auto;padding:calc(env(safe-area-inset-top,0px) + 10px) 14px calc(env(safe-area-inset-bottom,0px) + 84px);box-sizing:border-box}
+.hub2{min-height:var(--app-h,100dvh);display:flex;flex-direction:column;max-width:480px;margin:0 auto;padding:calc(env(safe-area-inset-top,0px) + 10px) 14px calc(var(--sab) + 84px);box-sizing:border-box}
 .hub2-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;flex-shrink:0}
 .hub2-mark{font-size:10.5px;font-weight:700;letter-spacing:.2em;color:rgba(235,235,245,.62);text-transform:uppercase}
 .hub2-icons{display:flex;gap:8px}
@@ -752,7 +752,7 @@ body.on-hub{position:fixed;inset:0;overflow:hidden;overscroll-behavior:none}
   .pw-tile.grow .pw-push{display:none}
 }
 /* ── Section 15: bottom nav with a fixed height, independent of the viewport ── */
-.bottom-nav{position:fixed;left:0;right:0;bottom:0;z-index:50;height:calc(var(--nav-h) + env(safe-area-inset-bottom,0px));padding:16px 16px 0;box-sizing:border-box;background:linear-gradient(to top,rgba(10,11,15,0.98) 60%,rgba(10,11,15,0.85));border-top:1px solid rgba(255,255,255,0.06);transform:translateZ(0)}
+.bottom-nav{position:fixed;left:0;right:0;bottom:0;z-index:50;height:calc(var(--nav-h) + var(--sab));padding:16px 16px 0;box-sizing:border-box;background:linear-gradient(to top,rgba(10,11,15,0.98) 60%,rgba(10,11,15,0.85));border-top:1px solid rgba(255,255,255,0.06);transform:translateZ(0)}
 .bottom-nav-inner{height:44px;max-width:720px;margin:0 auto;display:flex;justify-content:center;align-items:center}
 .nav-hub-btn{display:inline-flex;align-items:center;gap:8px;height:44px;padding:0 20px 0 14px;position:relative;background:rgba(139,111,247,0.20);border:1px solid rgba(139,111,247,0.55);color:#fff;border-radius:22px;cursor:pointer;font-family:inherit;font-weight:600;font-size:14px;letter-spacing:-0.005em;box-shadow:0 0 26px rgba(139,111,247,0.42),0 6px 18px rgba(0,0,0,0.45);-webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px);transition:transform .12s ease,background .15s ease}
 .nav-hub-btn::before,.nav-hub-btn::after{display:none}
@@ -761,7 +761,7 @@ body.on-hub{position:fixed;inset:0;overflow:hidden;overscroll-behavior:none}
 .nav-hub-btn.active{border-color:rgba(139,111,247,0.55);box-shadow:0 0 26px rgba(139,111,247,0.42),0 6px 18px rgba(0,0,0,0.45)}
 .nav-hub-btn-icon{width:18px;height:18px;border-radius:0;background:none;border:none;box-shadow:none;display:flex;align-items:center;justify-content:center;color:#fff}
 .nav-hub-btn-icon svg{width:18px;height:18px}
-.has-bottom-nav{padding-bottom:calc(var(--nav-h) + env(safe-area-inset-bottom,0px))}
+.has-bottom-nav{padding-bottom:calc(var(--nav-h) + var(--sab))}
 
 
 /* ═══ Roles grid (sizing defined in top-level role cube block) ═══ */
@@ -4567,27 +4567,44 @@ function gP(pc,lv){
 
 // iOS standalone reports 100dvh / safe-area-inset-bottom wrong on first paint
 // (corrects on first scroll). Measure the real height ourselves instead.
-function setAppHeight(){document.documentElement.style.setProperty('--app-h',window.innerHeight+'px');}
+// On a cold launch of the installed app, iOS can report innerHeight and the bottom
+// safe-area inset too large, and only fixes them after a scroll. The visual
+// viewport is the part of the page actually on screen, so we size from that,
+// re-measure on every signal iOS gives, and nudge WebKit to settle.
+function setAppHeight(){
+  const vv=window.visualViewport;
+  const h=Math.round(vv&&vv.height?vv.height:window.innerHeight);
+  if(h>0)document.documentElement.style.setProperty('--app-h',h+'px');
+}
 setAppHeight();
 requestAnimationFrame(setAppHeight);
-setTimeout(setAppHeight,300);
+[100,300,800,1500,3000].forEach(t=>setTimeout(setAppHeight,t));
 window.addEventListener('resize',setAppHeight);
-window.addEventListener('orientationchange',()=>setTimeout(setAppHeight,200));
+window.addEventListener('orientationchange',()=>{setTimeout(setAppHeight,200);setTimeout(setAppHeight,600);});
 window.addEventListener('pageshow',setAppHeight);
-document.addEventListener('visibilitychange',()=>{if(!document.hidden)setAppHeight();});
+window.addEventListener('focus',setAppHeight);
+document.addEventListener('visibilitychange',()=>{if(!document.hidden){setAppHeight();setTimeout(setAppHeight,300);}});
+if(window.visualViewport){
+  window.visualViewport.addEventListener('resize',setAppHeight);
+  window.visualViewport.addEventListener('scroll',setAppHeight);
+}
+// A scroll nudge is the classic way to make WebKit recompute its viewport on launch.
+window.addEventListener('load',()=>{setTimeout(()=>{try{window.scrollTo(0,1);window.scrollTo(0,0);}catch{}setAppHeight();},50);});
 
 // Single source of truth for the version shown in the app. Bump here only.
 const APP_VERSION='1.8';
 // What's new — newest first. Plain language, a few lines per version.
 const CHANGELOG=[
   {v:'1.8',date:'Sep 2026',items:[
-    'Redesigned hub: your mode leads, cards show real progress and next steps',
+    'Redesigned hub: your mode leads, cards show real progress and next steps, with new artwork behind each tile',
     'Table Topics® setup: pick a topic style, retry your last topic, see K’s notes',
     'No more repeat Table Topics® — the app remembers what it has served',
     'Pathways: level tabs and an “Up next” card so you always know where you are',
     'Practice Tools and Meeting Roles restyled; live Timer now lives under Roles',
-    'Fixed the hub bar on first launch on iPhone',
-    'Faster first launch: practice mode by default, skip link on welcome'
+    'Fixed the hub bar taking too much space on first launch on iPhone',
+    'Faster first launch: practice mode by default, skip link on welcome',
+    'Footers now carry Toastmasters International’s required independence statement',
+    'This “What’s new” list — in Settings › About, or tap the version in any footer'
   ]},
   {v:'1.75',date:'Jul 2026',items:[
     'Path Planner fits your remaining meetings; new members get role-only warm-ups first',
