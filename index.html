@@ -667,9 +667,9 @@ a{color:inherit;text-decoration:none}
 /* ═══ Bottom nav — glassy purple pill hub button ═══ */
 /* ── Hub — ported from hub-reference.html (values verbatim; app class names kept) ── */
 :root{--nav-h:76px;--sab:min(env(safe-area-inset-bottom,0px),34px);--hub-green:127,198,106;--hub-teal:95,214,214;--hub-violet:139,111,247;--hub-amber:208,138,69;--hub-blue:91,157,217;--hub-gold:245,200,91;--hub-k:109,182,180}
-html,body{height:100%}
-body.on-hub{overflow:hidden;overscroll-behavior:none;height:100%}
-#app.is-hub{max-width:none;padding:0;height:var(--app-h,100dvh);overflow-y:auto;overscroll-behavior:none;-webkit-overflow-scrolling:touch}
+body.on-hub{overscroll-behavior-y:none}
+body.on-hub.has-bottom-nav{padding-bottom:0}   /* .hub2 already reserves the nav space */
+#app.is-hub{max-width:none;padding:0}
 .hub2{min-height:var(--app-h,100dvh);display:flex;flex-direction:column;max-width:480px;margin:0 auto;padding:calc(env(safe-area-inset-top,0px) + 10px) 14px calc(var(--sab) + 84px);box-sizing:border-box}
 .hub2-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;flex-shrink:0}
 .hub2-mark{font-size:10.5px;font-weight:700;letter-spacing:.2em;color:rgba(235,235,245,.62);text-transform:uppercase}
@@ -5045,7 +5045,8 @@ function render(){
   else if(V.view==="filler"){V.view="practice";render();} // Filler Detector retired
   else if(V.view==="browser"){renderPathBrowser(app);}
   else{renderHub(app);} // unknown view -> hub
-  try{window.scrollTo(0,0);}catch{}
+  try{window.scrollTo(0,0);document.documentElement.scrollTop=0;document.body.scrollTop=0;}catch{}
+  if(V.view==="hub"){requestAnimationFrame(()=>{try{window.scrollTo(0,0);}catch{}});}
   // ── Deep-link hash sync ──
   // Keep the URL hash in step with the current top-level view so each
   // function has its own shareable/bookmarkable address (e.g. #timer).
