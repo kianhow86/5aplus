@@ -1340,6 +1340,9 @@ body.on-hub.has-bottom-nav{padding-bottom:0}   /* .hub2 already reserves the nav
 .scr-sub{font-size:12.5px;color:var(--text-3);line-height:1.5;margin:0 0 16px 43px}
 .pt-list{display:flex;flex-direction:column;gap:12px;min-height:calc(100dvh - 430px)}
 .pt-row{flex:1;min-height:92px;display:flex;align-items:center;gap:13px;width:100%;text-align:left;border-radius:15px;padding:15px;cursor:pointer;font-family:inherit}
+.pt-row{position:relative;overflow:hidden}
+.pt-row > *:not(.pt-art){position:relative;z-index:1}
+.pt-art{position:absolute;z-index:0;pointer-events:none;height:100%;top:0;right:-4%;opacity:.1}
 .pt-ico{flex-shrink:0;width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center}
 .pt-ico svg{width:22px;height:22px}
 .pt-body{flex:1;min-width:0}
@@ -7941,6 +7944,7 @@ function renderPracticeHub(app){
   function toolRow(cfg){
     const c=cfg.color;
     let s='<button class="pt-row" data-tool="'+cfg.tool+'" style="border:1px solid '+hexToRgba(c,0.26)+';border-left:3px solid '+hexToRgba(c,0.6)+';background:linear-gradient(100deg,'+hexToRgba(c,0.12)+','+hexToRgba(c,0.02)+' 60%,transparent)">';
+    if(cfg.art)s+='<img class="pt-art" src="/art/'+cfg.art+'" alt="" aria-hidden="true" decoding="async">';
     s+='<div class="pt-ico" style="background:'+hexToRgba(c,0.12)+';color:'+c+'">'+cfg.icon+'</div>';
     s+='<div class="pt-body"><div class="pt-name">'+cfg.name+'</div><div class="pt-desc">'+cfg.desc+'</div>';
     if(cfg.status)s+='<div class="pt-status" style="color:'+(cfg.statusMuted?'var(--text-3)':c)+'">'+cfg.status+'</div>';
@@ -7949,9 +7953,9 @@ function renderPracticeHub(app){
   }
   // Speech Timer moved to Meeting Roles → Timer (live). The tool itself is unchanged.
   h+='<div class="pt-list">';
-  h+=toolRow({tool:"topics",      color:"#8B5CF6", icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.9" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><circle cx="9" cy="10.5" r="0.75" fill="currentColor" stroke="none"/><circle cx="12" cy="10.5" r="0.75" fill="currentColor" stroke="none"/><circle cx="15" cy="10.5" r="0.75" fill="currentColor" stroke="none"/></svg>', name:"Table Topics<sup style=\"font-size:0.5em;vertical-align:super\">®</sup>", desc:"Impromptu prompts — pick a theme and speak", status:_ttStatus, statusMuted:!_ttS.length});
-  h+=toolRow({tool:"eval-helper", color:"#F59E0B", icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.9" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H7a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h5"/><path d="M14 2v5h5"/><path d="M14 2l5 5"/><line x1="9" y1="10.5" x2="12.5" y2="10.5"/><line x1="9" y1="13.5" x2="12.5" y2="13.5"/><circle cx="18.5" cy="18.5" r="3" fill="currentColor" stroke="none"/><path d="M16.5 18.5l1.5 1.5 2.5-2.5" stroke="white" stroke-width="0.8" fill="none"/></svg>', name:"Evaluation Helper",  desc:"AI-drafted CRC feedback for any Pathways speech"});
-  h+=toolRow({tool:"speech-draft",color:"#3B82F6", icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.9" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><path d="M13 2v5h7"/><line x1="8" y1="13.5" x2="12" y2="13.5"/><line x1="8" y1="17.5" x2="12" y2="17.5"/><path d="M17.5 4.5l2.5 2.5-7 7-2.5 0.5 0.5-2.5z"/><line x1="17.5" y1="4.5" x2="20" y2="7"/></svg>', name:"Speech Draft Builder",desc:"AI builds your speech outline and opening lines"});
+  h+=toolRow({art:"tt-card.png",tool:"topics",      color:"#8B5CF6", icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.9" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><circle cx="9" cy="10.5" r="0.75" fill="currentColor" stroke="none"/><circle cx="12" cy="10.5" r="0.75" fill="currentColor" stroke="none"/><circle cx="15" cy="10.5" r="0.75" fill="currentColor" stroke="none"/></svg>', name:"Table Topics<sup style=\"font-size:0.5em;vertical-align:super\">®</sup>", desc:"Impromptu prompts — pick a theme and speak", status:_ttStatus, statusMuted:!_ttS.length});
+  h+=toolRow({art:"eval-sheet.png",tool:"eval-helper", color:"#F59E0B", icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.9" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H7a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h5"/><path d="M14 2v5h5"/><path d="M14 2l5 5"/><line x1="9" y1="10.5" x2="12.5" y2="10.5"/><line x1="9" y1="13.5" x2="12.5" y2="13.5"/><circle cx="18.5" cy="18.5" r="3" fill="currentColor" stroke="none"/><path d="M16.5 18.5l1.5 1.5 2.5-2.5" stroke="white" stroke-width="0.8" fill="none"/></svg>', name:"Evaluation Helper",  desc:"AI-drafted CRC feedback for any Pathways speech"});
+  h+=toolRow({art:"draft-page.png",tool:"speech-draft",color:"#3B82F6", icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.9" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><path d="M13 2v5h7"/><line x1="8" y1="13.5" x2="12" y2="13.5"/><line x1="8" y1="17.5" x2="12" y2="17.5"/><path d="M17.5 4.5l2.5 2.5-7 7-2.5 0.5 0.5-2.5z"/><line x1="17.5" y1="4.5" x2="20" y2="7"/></svg>', name:"Speech Draft Builder",desc:"AI builds your speech outline and opening lines"});
   h+='</div>';
   h+='<div class="pt-divider"></div>';
   h+='<button class="pt-contests" data-action="pt-contests"><span class="pt-contests-ico">'+((CONTEST_DATA.international&&CONTEST_DATA.international.emoji)||'')+'</span><span style="flex:1;min-width:0"><span style="display:block;font-size:13.5px;font-weight:700;color:#F5C85B;line-height:1.2;margin-bottom:2px">Contests</span><span style="display:block;font-size:11px;color:var(--text-3);line-height:1.35">Refine under pressure — ballots &amp; rules</span></span><span class="pt-arrow">›</span></button>';
