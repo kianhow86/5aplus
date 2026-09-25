@@ -1527,6 +1527,17 @@ body.on-hub.has-bottom-nav{padding-bottom:0}   /* .hub2 already reserves the nav
 .psr-paste:focus{outline:2px solid var(--pvl);outline-offset:0}
 .psr-paste-meta{width:100%;display:flex;justify-content:space-between;margin-top:10px;font-size:12.5px;color:var(--pi3)}
 .psr-oneword{width:100%;margin-top:12px}
+.psr-stg{width:100%;display:flex;align-items:center;gap:5px;margin-bottom:10px;flex:none}
+.psr-stg-l{font-size:10.5px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--pi3);flex:none;margin-right:2px}
+.psr-stg button{height:30px;padding:0 6px;border-radius:15px;background:#131519;border:1px solid rgba(255,255,255,.12);font-size:12px;font-weight:650;color:rgba(235,235,245,.72);font-family:inherit;cursor:pointer;flex:1;min-width:0;white-space:nowrap}
+.psr-stg button.on{background:rgba(139,111,247,.14);border-color:rgba(139,111,247,.4);color:#C4AEFF}
+.psr-notes{background:rgba(255,255,255,.03);border-color:rgba(255,255,255,.12);color:#C4AEFF}
+.psr-notes.set{background:rgba(59,130,246,.08);border-color:rgba(59,130,246,.32);color:#8FB8FF}
+.psr[data-mode="paste"] .psr-notes{display:none}
+.pk-notes-ta{flex:1;min-height:140px;border-radius:16px;background:var(--pk-card)!important;border:1px solid var(--pk-line-2)!important;padding:14px!important;width:100%;font:inherit;font-size:15px;line-height:1.5;color:var(--pk-ink,#F2F2F4);resize:none;outline:none;box-sizing:border-box}
+.pk-notes-ta::placeholder{color:var(--pk-ink-3)}
+.pk-notes-sub{font-size:13.5px;line-height:1.45;color:var(--pk-ink-3);margin-top:-4px}
+.cn-acts .cn-wide{grid-column:1/-1}
 .psr-oneword label{display:block;font-size:10.5px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--pi3);margin-bottom:6px}
 .psr-oneword input{width:100%;height:42px;border-radius:12px;background:#0B0C10;border:1px solid var(--pl2);padding:0 12px;font:inherit;font-size:14px;color:var(--pi1);box-sizing:border-box}
 .psr-cta{height:54px;width:100%;border-radius:17px;background:var(--pv);color:#fff;font-size:16.5px;font-weight:800;display:flex;align-items:center;justify-content:center;gap:9px;border:0;cursor:pointer;font-family:inherit;transition:transform .12s,filter .12s;flex-shrink:0}
@@ -5070,6 +5081,9 @@ const CHANGELOG=[
     'Rehearse → opens Speech Coach with the outline attached; K reports how the delivery matched the plan, section by section',
     'Speech Coach now coaches non-Pathways speeches against your own brief — goal, type of speech and one message — with a new “What I heard” check',
     'Freestyle practice gets an optional goal so K knows what to judge against, and the timer follows the length you set',
+    'Paste mode: paste a full script, a rough draft or just your outline (K guesses for you). Drafts get coached on structure first; outlines get coached on the plan, not the wording',
+    'Coached an outline? Tap “Rehearse from these notes” to say it out loud with the notes attached',
+    'Speaking from notes? Add them before you record and K checks what came through, what got lost and where you left the notes',
     'Saved outlines keep your progress; unfinished drafts can be continued from the start screen',
     'Session History: tap Select to pick sessions (or Select all) and delete them in one go',
     'Slimmer Hub bar at the bottom of the screen, so it no longer covers buttons',
@@ -14503,6 +14517,7 @@ function renderCoachSessionDetail(app){
       PS.pid=session.pid||null;PS.freestyle=!session.pid;
       PS.brief=session.brief||null;PS.customDur=session.brief&&session.brief.minutes?{minutes:session.brief.minutes}:null;
       PS.outline=session.outline||null;PS._goal=session.goal||null;
+      PS.notesText=session.notes||null;
       PS._psReturnToProject=session.pid||null;
       PS.phase='ready';
       PS.aiAnalysis=null;
@@ -16519,6 +16534,45 @@ function _psNoteText(){
 }
 // Leaving an outline/brief behind when the speaker picks something else.
 function _psClearBrief(){PS.outline=null;PS.customDur=null;PS.brief=null;PS._goal=null;}
+// Pasted text: full script, rough draft or outline/notes. Outline = mostly bullets or short lines;
+// draft = well under the planned length; otherwise a full script.
+const PS_STAGES=[["script","Script"],["draft","Draft"],["outline","Outline"]];
+function _psLines(text){return String(text||"").split(/\n+/).map(l=>l.trim()).filter(Boolean);}
+function _psPoints(text){return _psLines(text).length;}
+function _psDetectStage(text){
+  const t=String(text||"").trim();if(!t)return "script";
+  const lines=_psLines(t);
+  const bullet=/^([-*•·▪◦–—>]|\d+[.)]|[a-zA-Z][.)])\s*/;
+  const shortish=lines.filter(l=>bullet.test(l)||l.split(/\s+/).length<=10).length;
+  if(lines.length>=3&&shortish/lines.length>=0.6)return "outline";
+  const dur=_psDur();
+  if(dur){
+    const mid=dur.exact||(dur.min+dur.max)/2;
+    const words=t.split(/\s+/).filter(Boolean).length;
+    if(words<mid*140*0.6)return "draft";
+  }
+  return "script";
+}
+function _psStageNow(){return V._psStage||_psDetectStage(V._psScript||"");}
+// Notes sheet — speakers who rehearse from notes, not a script
+function _psOpenNotes(){
+  const old=document.getElementById('ps-sheet');if(old)old.remove();
+  const has=!!(PS.notesText&&PS.notesText.trim());
+  let h='<div class="pk-scrim" data-pk-close></div><div class="pk-sheet" role="dialog" aria-label="Your notes">';
+  h+='<div class="pk-grab"></div>';
+  h+='<div class="pk-sh"><b>Your notes</b><button class="pk-ib" data-pk-close aria-label="Close"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>';
+  h+='<p class="pk-notes-sub">Paste the points you speak from. K checks what you said against them — what came through, what got lost.</p>';
+  h+='<textarea class="pk-notes-ta" id="pk-notes" placeholder="Open: the airport story&#10;Point 1: …&#10;Point 2: …&#10;Close: back to the airport">'+escHtml(PS.notesText||'')+'</textarea>';
+  h+='<button class="pk-btn" data-pk-save>Use these notes</button>';
+  if(has)h+='<div class="pk-free"><button data-pk-clear>Remove notes</button></div>';
+  h+='</div>';
+  const el=document.createElement('div');el.id='ps-sheet';el.className='pk';el.innerHTML=h;
+  document.body.appendChild(el);document.body.classList.add('pk-open');
+  const close=()=>{el.remove();document.body.classList.remove('pk-open');};
+  el.querySelectorAll('[data-pk-close]').forEach(x=>x.addEventListener('click',close));
+  el.querySelector('[data-pk-save]').addEventListener('click',()=>{PS.notesText=el.querySelector('#pk-notes').value.trim()||null;close();render();});
+  const cl=el.querySelector('[data-pk-clear]');if(cl)cl.addEventListener('click',()=>{PS.notesText=null;close();render();});
+}
 
 function _psCoachNote(pid){
   const notes={
@@ -16837,6 +16891,11 @@ function renderPracticeStudio(app){
     const o=PS.outline;
     h+='<button class="psr-outline" data-action="ps-edit-outline" title="K will check the speech against this outline"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 6h13M8 12h13M8 18h9"/><circle cx="3.5" cy="6" r="1"/><circle cx="3.5" cy="12" r="1"/><circle cx="3.5" cy="18" r="1"/></svg><span class="t"><b>Outline</b> '+escHtml((o.frameworkLabel||'').split(' (')[0])+' · '+o.sections.length+' sections</span><span class="e">Edit</span></button>';
   }
+  // Speaking from notes — record mode only (CSS hides it in paste mode)
+  if(PS.mode!=="evaluator"&&!(PS.outline&&PS.outline.sections)){
+    const np=PS.notesText?_psPoints(PS.notesText):0;
+    h+='<button class="psr-outline psr-notes'+(np?' set':'')+'" data-action="ps-notes"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 6h13M8 12h13M8 18h9"/><circle cx="3.5" cy="6" r="1"/><circle cx="3.5" cy="12" r="1"/><circle cx="3.5" cy="18" r="1"/></svg>'+(np?'<span class="t"><b>Your notes</b> · '+np+(np===1?' point':' points')+'</span><span class="e">Edit</span>':'<span class="t">Speaking from notes?</span><span class="e">Add them</span>')+'</button>';
+  }
   // Freestyle with no brief — an optional goal so K knows what to judge against
   if(!PS.pid&&PS.mode!=="evaluator"&&!PS.outline&&!PS.brief){
     h+='<div class="psr-goals"><span class="psr-goals-l">Goal</span>';
@@ -16930,7 +16989,7 @@ function renderPracticeStudio(app){
     const marks=dur?'<div class="psr-marks ps-timer-markers"><span style="color:#5EB975"><i style="background:#5EB975"></i>Green '+_psFmtMin(dur.min)+'</span><span style="color:#E85D5D"><i style="background:#E85D5D"></i>Red '+_psFmtMin(dur.max)+'</span></div>':'<div class="psr-marks ps-timer-markers"></div>';
     h+='<nav class="psr-seg" role="tablist" aria-label="Mode">';
     h+='<button data-seg="record" data-action="ps-mode-record" role="tab"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21"/></svg>Record</button>';
-    h+='<button data-seg="paste" data-action="ps-mode-paste" role="tab"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="3" width="8" height="4" rx="1"/><path d="M16 5h2a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h2"/><path d="M8 12h8M8 16h5"/></svg>Paste script</button>';
+    h+='<button data-seg="paste" data-action="ps-mode-paste" role="tab"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="3" width="8" height="4" rx="1"/><path d="M16 5h2a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h2"/><path d="M8 12h8M8 16h5"/></svg>Paste text</button>';
     h+='</nav>';
     h+='<section class="psr-stage"><img class="psr-art" src="/art/coach-ripples.png" alt="" aria-hidden="true" decoding="sync">';
     // RECORD — the timer ring is the start button
@@ -16943,8 +17002,11 @@ function renderPracticeStudio(app){
     // PASTE
     const _pw=(V._psScript||'').trim().split(/\s+/).filter(Boolean).length;
     h+='<div class="psr-panel" data-panel="paste">';
-    h+='<textarea class="psr-paste" id="ps-script-input" placeholder="Paste or type your speech. K reads it for structure, clarity and timing.">'+escHtml(V._psScript||'')+'</textarea>';
-    h+='<div class="psr-paste-meta"><span id="ps-word-count">'+_pw+' words</span><span id="ps-read-time">≈ '+Math.floor(_pw/140)+':'+String(Math.round((_pw/140%1)*60)).padStart(2,'0')+' read</span></div>';
+    const _stg=_psStageNow();
+    h+='<div class="psr-stg" id="ps-stage" role="radiogroup" aria-label="What are you pasting?"><span class="psr-stg-l">This is my</span>'+PS_STAGES.map(s=>'<button type="button" role="radio" data-ps-stage="'+s[0]+'" class="'+(_stg===s[0]?'on':'')+'" aria-checked="'+(_stg===s[0])+'">'+s[1]+'</button>').join('')+'</div>';
+    h+='<textarea class="psr-paste" id="ps-script-input" placeholder="Paste your script, a rough draft, or just your outline. K coaches it at whatever stage it\'s at.">'+escHtml(V._psScript||'')+'</textarea>';
+    const _ps=Math.round(_pw/140*60);
+    h+='<div class="psr-paste-meta"><span id="ps-word-count">'+_pw+(_pw===1?' word':' words')+'</span><span id="ps-read-time">'+(_stg==='outline'?_psPoints(V._psScript)+' points':'≈ '+Math.floor(_ps/60)+':'+String(_ps%60).padStart(2,'0')+' read')+'</span></div>';
     h+='<div class="psr-oneword"><label for="ps-governing-adj">In one word — what is it about? <span style="text-transform:none;letter-spacing:0;font-weight:500">optional</span></label><input id="ps-governing-adj" placeholder="e.g. courage, belonging, resilience…" value="'+escHtml(V._psGoverningAdj||'')+'"/></div>';
     h+='</div>';
     h+='</section>';
@@ -17012,13 +17074,24 @@ function renderPracticeStudio(app){
 
   // Script input
   const psScriptInput=app.querySelector('#ps-script-input');
-  if(psScriptInput)psScriptInput.addEventListener('input',()=>{
-    V._psScript=psScriptInput.value;
-    const w=psScriptInput.value.trim().split(/\s+/).filter(Boolean).length;
+  const psPasteMeta=()=>{
+    const txt=V._psScript||'';
+    const w=txt.trim().split(/\s+/).filter(Boolean).length;
+    const stg=_psStageNow();
     const wc=app.querySelector('#ps-word-count'),rt=app.querySelector('#ps-read-time');
     if(wc)wc.textContent=w+(w===1?' word':' words');
-    if(rt){const s=Math.round(w/140*60);rt.textContent='≈ '+Math.floor(s/60)+':'+String(s%60).padStart(2,'0')+' read';}
-  });
+    if(rt){if(stg==='outline'){const n=_psPoints(txt);rt.textContent=n+(n===1?' point':' points');}else{const s=Math.round(w/140*60);rt.textContent='≈ '+Math.floor(s/60)+':'+String(s%60).padStart(2,'0')+' read';}}
+    app.querySelectorAll('[data-ps-stage]').forEach(b=>{const on=b.dataset.psStage===stg;b.classList.toggle('on',on);b.setAttribute('aria-checked',on);});
+  };
+  if(psScriptInput)psScriptInput.addEventListener('input',()=>{V._psScript=psScriptInput.value;if(!V._psScript.trim())V._psStage=null;psPasteMeta();});
+  // Stage chips — a tap overrides the auto-detect; tapping the detected one again hands it back to auto
+  app.querySelectorAll('[data-ps-stage]').forEach(b=>b.addEventListener('click',()=>{
+    const s=b.dataset.psStage;
+    V._psStage=(s===_psDetectStage(V._psScript||''))?null:s;
+    psPasteMeta();
+  }));
+  const psNotesBtn=app.querySelector('[data-action="ps-notes"]');
+  if(psNotesBtn)psNotesBtn.addEventListener('click',_psOpenNotes);
 
   const psGovAdj=app.querySelector('#ps-governing-adj');
   if(psGovAdj)psGovAdj.addEventListener('input',()=>{V._psGoverningAdj=psGovAdj.value;});
@@ -17040,6 +17113,7 @@ function renderPracticeStudio(app){
     PS.aiAnalysis=null;
     PS.aiLoading=true;
     PS._pasteMode=true;
+    PS._stage=_psStageNow();
     PS._govAdj=V._psGoverningAdj||'';
     FD.transcript=script;
     FD.totalWords=script.split(/\s+/).filter(Boolean).length;
@@ -17136,6 +17210,7 @@ function psStart(timerOnly){
   PS.aiLoading=false;
   PS.micGranted=false;
   PS._pasteMode=false;
+  PS._stage=null;
   PS.timerOnly=!!timerOnly;
   PS.lastResultAt=null;
 
@@ -18468,6 +18543,15 @@ Time: if a planned length is given, treat the timing verdict as part of the goal
 Verbal distractions: Analyse the transcript for filler words (um, uh, ah, so, like, you know, right, basically, honestly, literally), repetitive sentence starters, and rushed pacing. Only flag patterns that appear 3+ times or noticeably disrupt flow. When flagging, name the exact word or phrase and how often, and suggest a concrete technique: an intentional pause before key points, slower delivery on transitions, breath placement, or a restructured sentence opener. Coach the cause, not just the symptom. Under ${hasOutline?260:220} words total.`;
 }
 
+function _psPasteTimingLine(stage,words,dur){
+  const plan=dur?(dur.exact?dur.exact+" min":dur.min+"–"+dur.max+" min"):"";
+  if(stage==="outline")return (plan?"Planned length: "+plan+"\n":"")+"Outline: "+_psPoints(FD.transcript)+" lines, "+words+" words. No timing — it's a plan, not a script.\n";
+  const read=(words/140).toFixed(1);
+  let v="";
+  if(dur){const lo=dur.exact||dur.min, hi=dur.exact||dur.max;v=words/140<lo*0.9?" — SHORT of the plan":words/140>hi*1.1?" — OVER the plan":" — about right";}
+  if(stage==="draft")return (plan?"Planned length: "+plan+"\n":"")+"Draft so far: "+words+" words (~"+read+" min read aloud at 140 wpm)"+(v===" — SHORT of the plan"?" — still short of the plan":"")+"\n";
+  return (plan?"Planned length: "+plan+"\n":"")+"Script: "+words+" words (~"+read+" min read aloud at 140 wpm)"+v+"\n";
+}
 async function psAnalyzeWithAI(){
   PS.aiLoading=true;
   _psUpdateAnalysisSection();
@@ -18540,6 +18624,11 @@ async function psAnalyzeWithAI(){
     outline.sections.map(sc=>_psFmtMin(sc.start/60)+" "+sc.label+" — "+(sc.text||"(left blank)")).join("\n")+"\n"+_psFmtMin(outline.total/60)+" End\n":"";
   const outlineSection=outline?"\n🗺 AGAINST YOUR OUTLINE: [Which planned sections came through, which were dropped, merged or reordered. Then, estimating from each section's share of the words, where the time went against the planned start times. Two to four sentences. Judge how the plan was executed, not the plan itself.] Mandatory when an outline is provided.\n":"";
 
+  // Pasted text has a stage; recordings may come with the notes the speaker spoke from
+  const stage=PS._pasteMode?(PS._stage||"script"):null;
+  const notes=!PS._pasteMode&&!outline&&PS.notesText?PS.notesText.trim():"";
+  const notesBlock=notes?"\nTHE SPEAKER'S NOTES (they spoke from these, not from a script):\n"+notes+"\n":"";
+  const notesSection=notes?"\n🗺 AGAINST YOUR NOTES: [Which points from the notes came through, which were dropped, reordered, or added on the fly. Where they left the notes, say whether it helped or cost them. Two to three sentences. Judge how they used the notes, not how the notes were written.] Mandatory when notes are provided.\n":"";
   const _projectNotes={
     'intro-vocal-body':
       "COACHING MODE — INTRODUCTION TO VOCAL VARIETY AND BODY LANGUAGE: You cannot assess physical delivery from a transcript. DO NOT attempt to evaluate how the speaker moved, gestured, or varied their voice. INSTEAD: (1) Coach content and structure as normal. (2) Add a TECHNIQUE GUIDANCE section at the end covering both Body Language (use gestures with intention — pointing a direction, hand to chest when referencing yourself, open palm toward the audience when referencing them, show scale or size; avoid filler movement like swaying or random pacing; let stillness work for you; eye contact: scan the room and hold on individuals for a full thought; feet shoulder-width, weight balanced) and Vocal Variety (vary pace — slow down for key insights, speed up for energy; pause deliberately before important points and after punchlines; vary volume — lower to draw people in, raise for emphasis; vary pitch to avoid monotone; silence beats every filler word). Present these as tools to practise on stage, not as an assessment of this attempt.",
@@ -18580,11 +18669,20 @@ ${deliveryNote?"\n"+deliveryNote+"\n":""}${partNote?"\n"+partNote+"\n":""}Reply 
 
 📈 WHERE TO IMPROVE: [Tied directly to the project objective. One or two specific, actionable things. What does the objective require, and where did the speech fall short? Be concrete — not "be more personal" but "the objective asks for a personal story; replace the X section with a real moment from your own life."] Mandatory.
 
-${outlineSection}
+${outlineSection||notesSection}
 💡 ONE PRIORITY: [Optional. Include ONLY if there is something specific and genuinely useful that was NOT already covered above — a recurring pattern, a distinctive habit, a transferable strength. One sentence maximum. If there is nothing new to add beyond the three sections above, omit this section entirely. Do not summarise. Do not repeat. Do not include a generic encouragement.]
 
 Verbal distractions: Analyse the transcript for filler words (um, uh, ah, so, like, you know, right, basically, honestly, literally), repetitive sentence starters, and rushed pacing. Only flag patterns that appear 3+ times or noticeably disrupt flow — not isolated instances. When flagging, be specific: name the exact word or phrase and how often. Suggest concrete techniques: intentional pause before key points, slower delivery on transitions, breath placement, or restructuring the sentence opener. Context matters — fillers clustered at transitions suggest loss of thread; scattered fillers suggest pacing anxiety. Coach the cause, not just the symptom. Under ${outline?260:220} words total.`
-  :_psOtherSys(PS.brief?PS.brief.goal:PS._goal,PS.brief?PS.brief.kind:null,!!outline,outlineSection);
+  :_psOtherSys(PS.brief?PS.brief.goal:PS._goal,PS.brief?PS.brief.kind:null,!!(outline||notes),outlineSection||notesSection);
+  let sysUsed=sys;
+  if(stage){
+    // Nothing is spoken in paste mode — drop the filler/pacing brief
+    sysUsed=sysUsed.replace(/Verbal distractions:[\s\S]*?(Under \d+ words total\.)/,"$1");
+    if(stage==="outline"){
+      sysUsed=sysUsed.replace(/If the transcript is very short[^\n]*/,"This is an outline, so short is normal. Only if it holds fewer than two real points, reply with exactly: \"Give me a bit more to work with. Add your main points and I'll coach the plan.\" Nothing else.")
+        .replace(/\nTime: if a planned length is given[^\n]*\n/,"\n");
+    }
+  }
 
   const isPsFollowup=!!(PS._isFollowup&&PS._prevFeedback);
   const isPasteMode=!!(PS._pasteMode);
@@ -18600,23 +18698,26 @@ Verbal distractions: Analyse the transcript for filler words (um, uh, ah, so, li
     :(PS._goal?"Freestyle practice\nGoal the speaker chose: "+PS._goal+"\n":"Freestyle practice — no goal stated\n");
   const msg=(proj?"Project: "+proj.t+"\nProject purpose: "+projPurpose+"\n"+(outline&&outline.message?"Speaker's one message: \""+outline.message+"\"\n":""):briefLine)+
     (partLabel?"Practicing: "+partLabel+"\n":"")+
-    (isPasteMode?"MODE: This is a pasted script, not a recording. Coach content and structure — theme clarity, subtraction, character purpose. Do not comment on delivery.\n":"" )+
+    (stage==="script"?"MODE: This is a pasted script, not a recording. Coach content and structure — theme clarity, subtraction, character purpose. Do not comment on delivery.\n":"")+
+    (stage==="draft"?"MODE: This is a ROUGH DRAFT — unfinished, and not a recording. Coach structure and message first: is there one clear message, does the order build, is there an opening and a close that returns to the message? Flag at most one language issue, and only if it blurs the message. Say plainly but gently what is still missing for the planned length — what to add, not that it is short. Do not comment on delivery, fillers or pacing.\n":"")+
+    (stage==="outline"?"MODE: This is an OUTLINE — the speaker's notes. They will speak from these points, not from a written script. Coach the plan, not the words. Check: one message the whole outline serves; a story, example or number carrying each point (name any bare point); an order that builds; an opening that earns attention; a close that lands the message. Do NOT critique wording, grammar, sentence style, delivery or timing. For the goal/objective verdict, judge whether this plan, delivered well, would meet it. In WHAT I HEARD, give the message the plan points to. ONE PRIORITY is mandatory: the one change to make to the outline before rehearsing it out loud.\n":"")+
     (isPasteMode&&PS._govAdj?"Speaker's governing adjective: \""+PS._govAdj+"\" — evaluate whether the script actually delivers on this word. If it doesn't, that's the primary feedback.\n":"")+
     (styleDesc?"Speaker's identified style: "+styleDesc+" — coach whether the speech content authentically reflects this style and what it reveals about the speaker.\n":"")+
     (tags.needsPurpose&&PS._purposeInput?"Speaker's stated purpose: "+PS._purposeInput+"\nCoach specifically against this stated purpose — did the speech achieve it?\n":"")+
     (tags.needsFeedback&&PS.part==='b'&&PS._origScript?"ORIGINAL SPEECH (Part A — before feedback):\n"+PS._origScript+"\n\n":"")+
     (tags.needsFeedback&&PS.part==='b'&&PS._feedbackInput?"FEEDBACK RECEIVED after Part A: "+PS._feedbackInput+"\n":"")+ 
     (tags.needsFeedback&&PS.part==='b'?(PS._origScript||PS._feedbackInput)?"The transcript below is the REVISED speech (Part B). Coach specifically on: what changed from the original, what feedback was incorporated, what was missed, and what still needs work — not on the speech in isolation.\n":"Coach this as a revised speech applying feedback from a first attempt.\n":"")+
+    (stage?_psPasteTimingLine(stage,wordCount,dur):
     "Duration: "+mins+" minutes"+(dur?" — "+durAssessment:"")+"\n"+
-    "Word count: "+wordCount+" ("+wpm+" wpm)\n"+
+    "Word count: "+wordCount+" ("+wpm+" wpm)\n")+
     (PS._extraNotes?"\nSpeaker notes: "+PS._extraNotes+"\n":"")+
-    outlineBlock+
-    "\nFULL TRANSCRIPT:\n"+(transcript||"(no audio captured)")+"\n"+
+    outlineBlock+notesBlock+
+    "\n"+(stage==="outline"?"THE OUTLINE":stage==="draft"?"THE DRAFT":stage?"THE SCRIPT":"FULL TRANSCRIPT")+":\n"+(transcript||"(no audio captured)")+"\n"+
     buildHistoryContext(PS.pid)+
     "\nAnalyze the transcript above and give focused coaching."+(isPsFollowup?"\n\nFOLLOW-UP ATTEMPT: The speaker took your coaching and went again. Their previous attempt:\n"+(PS._prevTranscript||"(no transcript)")+"\n\nYour previous coaching:\n"+PS._prevFeedback+"\n\nFor each section of your feedback, explicitly note what changed — better, worse, or unchanged. Acknowledge improvement when it happened. If they addressed your feedback, name it.":"");
 
   try{
-    const response=await callCoach(sys,msg,{maxTokens:800,featureId:'ps-eval'});
+    const response=await callCoach(sysUsed,msg,{maxTokens:800,featureId:'ps-eval'});
     PS.aiAnalysis=response;
     const summaryMatch=response.replace(/<[^>]+>/g,'').match(/[^.!?]+[.!?]/);
     const summary=summaryMatch?summaryMatch[0].trim().slice(0,80):'';
@@ -18636,6 +18737,8 @@ Verbal distractions: Analyse the transcript for filler words (um, uh, ah, so, li
       brief:PS.brief||null,
       goal:PS._goal||null,
       outline:outline||null,
+      stage:stage||null,
+      notes:notes||null,
     });
     checkAchievements('speech');
   }catch(err){
@@ -18658,6 +18761,7 @@ const COACH_SECTIONS=[
     {key:"struct",   emojis:/^🏗/,    keywords:/STRUCTURAL\s*INTEGRITY|STRUCTURE/i,                                               label:"🏗 Structure",            cls:"ps-section-blue"},
     {key:"ballot",   emojis:/^📋/,    keywords:/BALLOT\s*CHECK/i,                                                                 label:"📋 Ballot Check",         cls:"ps-section-blue"},
     {key:"gap",      emojis:/^⚠️/,    keywords:/CONTEST\s*GAP|WHAT\s*TO\s*(FIX|CUT|IMPROVE)|COST\s*YOU/i,                     label:"⚠️ Contest Gap",          cls:"ps-section-red"},
+    {key:"notes",    emojis:/^🗺\s*AGAINST\s*(YOUR|THE)\s*NOTES/i,keywords:/^AGAINST\s*(YOUR|THE)\s*NOTES/i,                          label:"🗺 Against Your Notes",    cls:"ps-section-amber"},
     {key:"outline",  emojis:/^🗺/,    keywords:/AGAINST\s*(YOUR|THE)\s*OUTLINE/i,                                                label:"🗺 Against Your Outline",  cls:"ps-section-amber"},
     {key:"action",   emojis:/^💡/,    keywords:/TAKEAWAY|ONE\s*(PRIORITY|ACTION|THING)|NEXT\s*(PRACTICE\s*)?TIP|BEFORE\s*NEXT/i, label:"💡 One Priority",      cls:"ps-section-amber"},
 ];
@@ -18827,6 +18931,7 @@ const CN_TONES={
   worked:{tone:"green",label:"What worked",icon:"worked"},
   improve:{tone:"coral",label:"Where to improve",icon:"improve"},
   outline:{tone:"amber",label:"Against your outline",icon:"outline"},
+  notes:{tone:"amber",label:"Against your notes",icon:"outline"},
   theme:{tone:"teal",label:"The theme",icon:"note"},
   thread:{tone:"teal",label:"The thread",icon:"note"},
   chars:{tone:"amber",label:"Character purpose",icon:"note"},
@@ -18881,7 +18986,7 @@ function _cnNotesHtml(raw,opts){
   // 2 · one priority (promoted)
   if(has("action")){
     h+='<section class="cn-card cn-prio"><div class="cn-sec-h">'+_cnIco("vio","prio")+'<span class="cn-kick cn-t-vio">Next rehearsal · one priority</span></div>';
-    h+='<p>'+escHtml(buckets.action)+'</p><button class="cn-btn cn-btn-p" data-action="'+(opts.contest?'contest-followup-focus':'ps-followup-focus')+'">'+(opts.contest?'Go again with this focus':'Rehearse with this focus')+'</button></section>';
+    h+='<p>'+escHtml(buckets.action)+'</p><button class="cn-btn cn-btn-p" data-action="'+(opts.contest?'contest-followup-focus':'ps-followup-focus')+'">'+(opts.contest?'Go again with this focus':(PS._pasteMode&&PS._stage==='outline')?'Revise with this focus':'Rehearse with this focus')+'</button></section>';
   }
   // 3 · what I heard
   if(has("heard")){
@@ -18897,7 +19002,7 @@ function _cnNotesHtml(raw,opts){
     h+='</section>';
   }
   // 4+ · lists, in a fixed order, then any other known sections
-  ["worked","improve","outline","theme","thread","chars","struct","ballot","gap"].forEach(k=>{if(has(k)&&!(opts.contest&&k==="ballot"))h+=_cnList(k,buckets[k]);});
+  ["worked","improve","outline","notes","theme","thread","chars","struct","ballot","gap"].forEach(k=>{if(has(k)&&!(opts.contest&&k==="ballot"))h+=_cnList(k,buckets[k]);});
   return h;
 }
 
@@ -18907,15 +19012,21 @@ function _cnStatsHtml(){
   const fmt=s=>{s=Math.max(0,Math.round(s));return Math.floor(s/60)+":"+String(s%60).padStart(2,"0");};
   const cell=(b,lbl,em,tone)=>'<div class="cn-stat"><b>'+b+'</b><span>'+lbl+'</span><em class="'+(tone?'cn-t-'+tone:'cn-t-mute')+'">'+em+'</em></div>';
   let h='<div class="cn-stats">';
-  if(PS._pasteMode){
+  if(PS._pasteMode&&PS._stage==="outline"){
+    const n=_psPoints(FD.transcript);
+    h+=cell(String(n),"Points","in outline");
+    h+=cell(words.toLocaleString(),"Words","pasted");
+    h+=dur?cell(_psDurLabel().replace(/\s*min$/,"")+" min","Your length","to speak to"):cell("—","Your length","not set");
+  }else if(PS._pasteMode){
+    const draft=PS._stage==="draft";
     const read=words/140*60;
     h+=cell("~"+fmt(read),"Read time","at 140 wpm");
-    h+=cell(words.toLocaleString(),"Words","pasted");
+    h+=cell(words.toLocaleString(),"Words",draft?"so far":"pasted");
     if(dur){
       const target=dur.exact?dur.exact*60:null;
       const label=dur.exact?fmt(target):(_psDurLabel().replace(/\s*min$/,"")+" min");
       let em="On target",tone="green";
-      if(read<dur.min*60){em="~"+fmt((dur.exact?target:dur.min*60)-read)+" short";tone="amber";}
+      if(read<dur.min*60){em="~"+fmt((dur.exact?target:dur.min*60)-read)+(draft?" to write":" short");tone="amber";}
       else if(read>dur.max*60){em="~"+fmt(read-(dur.exact?target:dur.max*60))+" over";tone="amber";}
       h+=cell(label,"Your length",em,tone);
     }else h+=cell("—","Your length","not set");
@@ -18952,7 +19063,7 @@ function renderPracticeStudioDone(app){
 
   let h='<main class="fade-up cn">';
   h+='<header class="cn-head"><button class="cn-ib" data-action="ps-fresh" aria-label="Back to Speech Coach">'+back+'</button>';
-  h+='<div class="cn-title"><b>'+escHtml(title)+'</b><small>Coaching notes · '+(PS._pasteMode?'pasted script':'recorded')+'</small></div>';
+  h+='<div class="cn-title"><b>'+escHtml(title)+'</b><small>Coaching notes · '+(PS._pasteMode?({outline:'outline',draft:'rough draft'}[PS._stage]||'pasted script'):(PS.notesText&&!(PS.outline&&PS.outline.sections)?'recorded from notes':'recorded'))+'</small></div>';
   h+='<button class="cn-ib" data-action="open-coach-history" aria-label="Session history">'+clock+'</button></header>';
   h+='<div class="cn-stack">';
   if(PS._isFollowup&&PS._prevFeedback){
@@ -18982,15 +19093,29 @@ function renderPracticeStudioDone(app){
     h+='<button class="cn-row" data-action="ps-edit-outline">'+CN_ICONS.list+'<b>Your outline</b><small>'+escHtml((PS.outline.frameworkLabel||'').split(' (')[0])+'</small>'+CN_ICONS.chev+'</button>';
   }
   if(transcript){
-    h+='<details class="cn-tr"><summary class="cn-row">'+CN_ICONS.doc+'<b>'+(PS._pasteMode?'Script':'Transcript')+'</b><small>'+wordCount.toLocaleString()+' words</small>'+CN_ICONS.chev+'</summary><div class="cn-tr-body">'+escHtml(transcript)+'</div></details>';
+    h+='<details class="cn-tr"><summary class="cn-row">'+CN_ICONS.doc+'<b>'+(PS._pasteMode?({outline:'Outline',draft:'Draft'}[PS._stage]||'Script'):'Transcript')+'</b><small>'+wordCount.toLocaleString()+' words</small>'+CN_ICONS.chev+'</summary><div class="cn-tr-body">'+escHtml(transcript)+'</div></details>';
   }
-  h+='<div class="cn-acts"><button class="cn-btn cn-btn-g" data-action="ps-fresh">New speech</button><button class="cn-btn cn-btn-g" data-action="ps-followup">Try again</button></div>';
+  if(PS._pasteMode&&PS._stage==='outline'){
+    h+='<div class="cn-acts"><button class="cn-btn cn-btn-p cn-wide" data-action="ps-rehearse-notes">Rehearse from these notes</button><button class="cn-btn cn-btn-g" data-action="ps-fresh">New speech</button><button class="cn-btn cn-btn-g" data-action="ps-followup">Revise outline</button></div>';
+  }else if(!PS._pasteMode&&PS.notesText&&!(PS.outline&&PS.outline.sections)){
+    h+='<div class="cn-acts"><button class="cn-btn cn-btn-g" data-action="ps-fresh">New speech</button><button class="cn-btn cn-btn-g" data-action="ps-followup">Go again</button></div>';
+  }else{
+    h+='<div class="cn-acts"><button class="cn-btn cn-btn-g" data-action="ps-fresh">New speech</button><button class="cn-btn cn-btn-g" data-action="ps-followup">Try again</button></div>';
+  }
   h+='</div></main>';
   app.innerHTML=h;
   window.scrollTo(0,0);
 
   const eo=app.querySelector('[data-action="ps-edit-outline"]');
   if(eo)eo.addEventListener("click",()=>{if(PS.outline)_obOpenFromSnapshot(PS.outline);});
+  // Outline coached → take it to the mic, notes attached
+  const rn=app.querySelector('[data-action="ps-rehearse-notes"]');
+  if(rn)rn.addEventListener("click",()=>{
+    PS.notesText=(FD.transcript||"").trim()||null;
+    PS._pasteMode=false;PS._stage=null;V._psScriptMode='record';
+    PS._prevTranscript="";PS._prevFeedback=null;PS._isFollowup=false;PS._historyFocus=null;
+    PS.phase="ready";PS.aiAnalysis=null;PS._extraNotes=null;render();
+  });
   _cnWireActions(app);
   const runBtn=app.querySelector('[data-action="ps-run-with-notes"]');
   if(runBtn)runBtn.addEventListener("click",()=>{
