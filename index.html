@@ -668,7 +668,7 @@ button,a,[role="button"],label,summary{-webkit-tap-highlight-color:transparent}
 
 /* ═══ Bottom nav — glassy purple pill hub button ═══ */
 /* ── Hub — ported from hub-reference.html (values verbatim; app class names kept) ── */
-:root{--nav-h:52px;--sab:min(env(safe-area-inset-bottom,0px),34px);--nav-sb:max(calc(var(--sab) - 14px),8px);--hub-green:127,198,106;--hub-teal:95,214,214;--hub-rose:236,112,160;--hub-violet:139,111,247;--hub-amber:236,132,60;--hub-blue:84,146,245;--hub-gold:245,200,91;--hub-k:109,182,180}
+:root{--nav-h:52px;--sab:min(env(safe-area-inset-bottom,0px),34px);--nav-sb:max(calc(var(--sab) - 14px),8px);--hub-green:127,198,106;--hub-teal:95,214,214;--hub-rose:236,112,160;--hub-violet:139,111,247;--hub-amber:236,132,60;--hub-blue:84,146,245;--hub-peri:182,201,255;--hub-gold:245,200,91;--hub-k:109,182,180}
 body.on-hub{overscroll-behavior-y:none}
 body.on-hub.has-bottom-nav{padding-bottom:0}   /* .hub2 already reserves the nav space */
 #app.is-hub{max-width:none;padding:0}
@@ -729,6 +729,24 @@ body.on-hub.has-bottom-nav{padding-bottom:0}   /* .hub2 already reserves the nav
 .pw-pill:active{transform:scale(.97)}
 .cta-green{background:#A9E08C;color:#0E2308}
 .cta-violet{background:#C7B4FF;color:#1B1235}
+.cta-peri{background:#C3D2FF;color:#101A36}
+.cta-blue{background:#A9C9F5;color:#0B1A2E}
+/* Hub mode switch — GROW · PRACTICE · MENTOR */
+.hub2-label{align-items:center;gap:8px}
+.hub2-label>span{white-space:nowrap;min-width:0;overflow:hidden;text-overflow:ellipsis}
+.hub-modes{flex:none;margin-left:auto}
+@media (max-width:340px){.hub2-label>span{display:none}}
+@media (max-width:380px){.hub2-label>span{letter-spacing:.11em}.hub-modes button{padding:0 6px;letter-spacing:.08em}}
+.hub-modes{position:relative;display:flex;gap:1px;padding:2px;border-radius:9px;background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.08)}
+.hub-modes button{position:relative;z-index:1;height:22px;padding:0 7px;border-radius:7px;font:inherit;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(235,235,245,.5);background:none;border:0;cursor:pointer;transition:color .15s}
+.hub-modes button.on{color:rgb(var(--m))}
+.hub-modes button:active{transform:scale(.96)}
+.hub-modes .ind{position:absolute;top:2px;bottom:2px;left:2px;width:0;border-radius:7px;background:rgba(var(--m,139,111,247),.16);transition:left .28s cubic-bezier(.2,.8,.2,1),width .28s cubic-bezier(.2,.8,.2,1),background .28s}
+.hub-modes.no-tr .ind{transition:none}
+/* short tiles grow too (name sits at the bottom); tall slots take 1.6× */
+.hub-col>.pw-tile:not(.grow){flex:1 0 auto}
+.hub-col>.pw-tile:not(.grow) .pw-name{margin-top:auto}
+.hub-col>.pw-tile.grow{flex:1.6 0 auto}
 .pw-arr{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
 .pw-strip{--c:var(--hub-gold);flex-direction:row;align-items:center;gap:13px;padding:14px;background:radial-gradient(70% 140% at 30% 0%,rgba(var(--hub-gold),.13),transparent 64%),linear-gradient(180deg,#18171A,#121113)}
 .pw-strip .pw-name{font-size:15px}
@@ -1243,6 +1261,18 @@ body.on-hub.has-bottom-nav{padding-bottom:0}   /* .hub2 already reserves the nav
 .settings-test-fail{color:#E85D5D;font-weight:500}
 
 .settings-footnote{font-size:11.5px;color:var(--text-3);text-align:center;padding:14px 10px 20px;line-height:1.5;letter-spacing:-0.003em}
+.ab-card{padding:18px;border-radius:20px;background:radial-gradient(90% 70% at 90% 0%,rgba(139,111,247,.12),transparent 62%),var(--surface);border:1px solid var(--border)}
+.ab-head{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.ab-av{width:48px;height:48px;border-radius:50%;object-fit:cover;border:1.5px solid rgba(139,111,247,.45);flex:none}
+.ab-head b{display:block;font-size:17px;font-weight:800;color:var(--text)}
+.ab-head small{display:block;font-size:12.5px;color:var(--text-3);margin-top:2px}
+.ab-card p{font-size:14.5px;line-height:1.55;color:var(--text-secondary);margin:0 0 12px}
+.ab-card .ab-lead{font-size:17px;font-weight:800;line-height:1.3;color:var(--text);letter-spacing:-.01em}
+.ab-card .ab-line{font-size:15px;font-weight:700;color:#C4AEFF;font-style:italic}
+.ab-contact{display:flex;flex-direction:column;gap:8px;margin-top:4px}
+.ab-link{display:flex;align-items:center;gap:10px;height:44px;padding:0 14px;border-radius:12px;background:rgba(255,255,255,.04);border:1px solid var(--border);color:var(--text);font-size:14px;font-weight:600;text-decoration:none}
+.ab-link svg{color:#C4AEFF;flex:none}
+.ab-link:active{transform:scale(.99)}
 .settings-section-header{font-size:14px;font-weight:700;color:var(--text);letter-spacing:-0.005em;margin:22px 4px 10px}
 
 /* Settings — collapsible Advanced section */
@@ -5088,6 +5118,9 @@ const CHANGELOG=[
     'Session History: tap Select to pick sessions (or Select all) and delete them in one go',
     'Slimmer Hub bar at the bottom of the screen, so it no longer covers buttons',
     'Hub tiles each have their own colour now, so you can tell them apart at a glance',
+    'Switch between Grow, Practice and Mentor right on the Hub. Only the tiles that change slide over. The mode picker in Settings is gone',
+    'Settings is now “Behind the app”: who made TMCompanion, why, and how to reach me — with versions and your data below',
+    'All Projects on the Hub gets a Browse button; My Mentees gets its own colour',
     'Contests redesigned: the ballot at a glance, K’s take, and one tap into contest killers, the ballot in plain words and why the champions won',
     'Contest practice shows the full timing — green, amber, red and the disqualification line — before you start',
     'No more flicker when switching tabs, levels and options — screens only animate when you actually move to a new one',
@@ -5697,14 +5730,13 @@ function renderHub(app){
     pct=totalReq>0?Math.round(totalDone/totalReq*100):0;
   }
 
-  const _modeLabel=S.persona==='mentor'?'Mentor mode':S.persona==='grow'?'Grow mode':'Practice mode';
   const ARR='<svg class="pw-arr" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
   const CHEV='<svg class="pw-chev" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg>';
   let h='<div class="fade-up hub2">';
   h+='<div class="hub2-top"><span class="hub2-mark">Speak · Lead · Grow</span><div class="hub2-icons">';
   h+='<button class="hub2-ic" data-action="open-donate" aria-label="Support TMCompanion"><svg width="17" height="17" viewBox="0 0 24 24" fill="#E36A6A"><path d="M12 21s-7.5-4.6-9.5-9.2C1 8.4 3 5 6.5 5c2 0 3.5 1.1 5.5 3.1C14 6.1 15.5 5 17.5 5 21 5 23 8.4 21.5 11.8 19.5 16.4 12 21 12 21z"/></svg></button>';
   h+='<button class="hub2-ic" data-action="open-ai-settings" aria-label="AI Settings"><svg width="17" height="17" viewBox="0 0 24 24" fill="#A78BFA"><path d="M12 2c.4 4.6 2.4 6.6 7 7-4.6.4-6.6 2.4-7 7-.4-4.6-2.4-6.6-7-7 4.6-.4 6.6-2.4 7-7z"/></svg></button>';
-  h+='<button class="hub2-ic" data-action="open-settings" aria-label="Settings"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#D5D6DC" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></button>';
+  h+='<button class="hub2-ic" data-action="open-settings" aria-label="About and settings"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#D5D6DC" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></button>';
   h+='</div></div>';
 
   // ── K's directive: headline + supporting line + button ──
@@ -5725,12 +5757,14 @@ function renderHub(app){
     h+='</div></div></div>';
   }
 
-  h+='<div class="hub2-label"><span>Your playground</span><span>'+_modeLabel+'</span></div>';
+  const _pmode=S.persona==='mentor'||S.persona==='grow'?S.persona:'practice';
+  h+='<div class="hub2-label"><span>Your playground</span><div class="hub-modes no-tr" role="radiogroup" aria-label="Mode"><span class="ind" aria-hidden="true"></span>'+
+    [["grow","Grow","var(--hub-green)"],["practice","Practice","var(--hub-violet)"],["mentor","Mentor","var(--hub-peri)"]].map(m=>'<button type="button" role="radio" data-hub-mode="'+m[0]+'" style="--m:'+m[2]+'" class="'+(m[0]===_pmode?'on':'')+'" aria-checked="'+(m[0]===_pmode)+'">'+m[1]+'</button>').join('')+'</div></div>';
 
   // ── Cards: two stretched columns; only tall cards grow, into .pw-push ──
-  const COL={path:"green",practice:"rose",coach:"violet",roles:"amber",allProjects:"blue",mentees:"blue"};
+  const COL={path:"green",practice:"rose",coach:"violet",roles:"amber",allProjects:"blue",mentees:"peri"};
   const ART={path:"pathways-ribbon.png",coach:"coach-ripples.png",practice:"practice-glass-rose.png",roles:"roles-ring.png",projects:"projects-grid.png",mentees:"mentees-orbs.png"};
-  const POS={green:"90% 78%|.3",rose:"90% 70%|.3",teal:"90% 70%|.3",violet:"85% 82%|.32",amber:"70% 18%|.3",blue:"85% 80%|.3"};
+  const POS={peri:"80% 20%|.3",green:"90% 78%|.3",rose:"90% 70%|.3",teal:"90% 70%|.3",violet:"85% 82%|.32",amber:"70% 18%|.3",blue:"85% 80%|.3"};
   function ptile(cfg){
     if(cfg.strip){
       let s='<button class="pw-tile pw-strip" data-hub="'+cfg.hub+'">';
@@ -5741,7 +5775,7 @@ function renderHub(app){
       return s;
     }
     const col=COL[cfg.wash]; const [pos,wa]=POS[col].split('|'); const [wx,wy]=pos.split(' ');
-    let s='<button class="pw-tile'+(cfg.tall?' grow':'')+(cfg.lead?' is-lead':'')+'" data-hub="'+cfg.hub+'" style="--c:var(--hub-'+col+');--wx:'+wx+';--wy:'+wy+';--wa:'+wa+'">';
+    let s='<button class="pw-tile'+(cfg.tall?' grow':'')+(cfg.lead?' is-lead':'')+'" data-hub="'+cfg.hub+'"'+(cfg.slot?' data-slot="'+cfg.slot+'"':'')+' style="--c:var(--hub-'+col+');--wx:'+wx+';--wy:'+wy+';--wa:'+wa+'">';
     if(cfg.art)s+='<img class="art art-'+cfg.art+'" src="/art/'+ART[cfg.art]+'" alt="" aria-hidden="true" decoding="sync">';
     s+='<div class="pw-top"><div class="pw-glyph" style="color:'+cfg.ic+'">'+cfg.glyph+'</div>'+(cfg.lead?'<span class="pw-focus">Your focus</span>':'')+'</div>';
     s+='<div class="pw-name">'+cfg.name+'</div>';
@@ -5799,14 +5833,14 @@ function renderHub(app){
   // ── My Mentees (same 30-day rule as the Mentees screen) ──
   function menteeFacts(){
     const ms=S.mentees||[];
-    if(!ms.length)return '<div class="pw-f">Add the members you mentor and track their progress.</div>'+_pill('mentees','Add mentee','cta-violet');
+    if(!ms.length)return '<div class="pw-f">Add the members you mentor and track their progress.</div>'+_pill('mentees','Add mentee','cta-peri');
     const active=ms.filter(m=>!_menteeInactive(m)).length;
     const speeches=ms.reduce((n,m)=>n+(m.speeches?m.speeches.length:0),0);
     const foot=active+' active · '+speeches+(speeches===1?' speech':' speeches')+' logged';
     const quiet=ms.filter(m=>_menteeInactive(m)).sort((a,b)=>new Date(a.lastActive)-new Date(b.lastActive));
-    if(!quiet.length)return '<div class="pw-fk">All caught up</div><div class="pw-fh">Everyone’s been active</div><div class="pw-f2">'+foot+'</div>'+_pill('mentees','Open','cta-violet');
+    if(!quiet.length)return '<div class="pw-fk">All caught up</div><div class="pw-fh">Everyone’s been active</div><div class="pw-f2">'+foot+'</div>'+_pill('mentees','Open','cta-peri');
     const m=quiet[0], wks=Math.floor((Date.now()-new Date(m.lastActive).getTime())/(7*86400000));
-    return '<div class="pw-fk">Needs attention</div><div class="pw-fh">'+escHtml(m.name||'A mentee')+'</div><div class="pw-chips"><span class="warn">'+wks+' wks quiet</span>'+(m.level?'<span>L'+m.level+'</span>':'')+'</div><div class="pw-f2">'+foot+'</div>'+_pill('mentees','Open','cta-violet');
+    return '<div class="pw-fk">Needs attention</div><div class="pw-fh">'+escHtml(m.name||'A mentee')+'</div><div class="pw-chips"><span class="warn">'+wks+' wks quiet</span>'+(m.level?'<span>L'+m.level+'</span>':'')+'</div><div class="pw-f2">'+foot+'</div>'+_pill('mentees','Open','cta-peri');
   }
 
   const _tts=(S.sessions&&S.sessions['tt-practice'])||[];
@@ -5817,7 +5851,7 @@ function renderHub(app){
   const T_PRACTICE=()=>({hub:"practice",wash:"practice",art:"practice",ic:"#F6A8C8",glyph:HUB_ICONS.practice,name:"Practice Tools",sub:_ptSub});
   const T_ROLES=()=>({hub:"roles",wash:"roles",art:"roles",ic:"#F4AE7A",glyph:HUB_ICONS.roles,name:"Meeting Roles",sub:ROLES.length+" toolkits · incl. Timer"});
   const T_PATH=lead=>({hub:"path",tall:true,lead,wash:"path",art:"path",ic:"#B6E398",glyph:HUB_ICONS.path,name:"My Pathways",sub:p?p.n:"Pick a path to begin",facts:_pathFacts});
-  const T_ALLPROJ=()=>({hub:"all-projects",tall:true,wash:"allProjects",art:"projects",ic:"#A9C8FF",glyph:HUB_ICONS.allProjects,name:"All Projects",sub:"Browse every Pathways project",facts:'<div class="pw-fh">'+Object.keys(PA).length+' paths · 5 levels each</div><div class="pw-f2">No tracking needed</div>'});
+  const T_ALLPROJ=()=>({hub:"all-projects",tall:true,wash:"allProjects",art:"projects",ic:"#A9C8FF",glyph:HUB_ICONS.allProjects,name:"All Projects",sub:"Browse every Pathways project",facts:'<div class="pw-fh">'+Object.keys(PA).length+' paths · 5 levels each</div><div class="pw-f2">Browse by level or path</div>'+_pill('all-projects','Browse','cta-blue')});
   const T_MENTEES=lead=>({hub:"mentees",tall:true,lead,wash:"mentees",art:"mentees",ic:"#B6C9FF",glyph:HUB_ICONS.mentees,name:"My Mentees",sub:"Track progress. Send encouragement.",facts:menteeFacts()});
   const T_CONTESTS=()=>({hub:"contests",strip:true,ic:"#F5C85B",glyph:HUB_ICONS.contest,name:"Contests",sub:"Challenge yourself. Celebrate wins.",badge:Object.keys(CONTEST_DATA).length+' types'});
   const LAYOUT={
@@ -5826,6 +5860,7 @@ function renderHub(app){
     mentor:  {left:[T_MENTEES(true),T_ROLES()],right:[T_PRACTICE(),T_COACH(false)]}
   };
   const L=LAYOUT[S.persona]||LAYOUT.practice;
+  L.left[0].slot='lead';L.right[1].slot='tall';
   h+='<div class="hub-pin"><div class="hub-cols">';
   h+='<div class="hub-col">'+L.left.map(ptile).join('')+'</div>';
   h+='<div class="hub-col">'+L.right.map(ptile).join('')+'</div>';
@@ -5842,8 +5877,41 @@ function renderHub(app){
     else if(k==='path-continue'){if(_nextPid){V.view='project';V.viewingProject=_nextPid;}else{V.view='browser';}}
     else if(k==='path-open'){V.view='browser';}
     else if(k==='mentees'){V.view='mentees';V._menteeEditing=null;V._menteeNudge=null;}
+    else if(k==='all-projects'){V.view='all-projects';}
     render();
   }));
+
+  // ── Mode switch: only the lead + second-tall slots change; changed tiles slide ──
+  const _modesEl=app.querySelector('.hub-modes');
+  if(_modesEl){
+    const ORDER=['grow','practice','mentor'];
+    const place=(mode)=>{const b=_modesEl.querySelector('[data-hub-mode="'+mode+'"]'),i=_modesEl.querySelector('.ind');if(!b||!i)return;i.style.left=b.offsetLeft+'px';i.style.width=b.offsetWidth+'px';_modesEl.style.setProperty('--m',b.style.getPropertyValue('--m'));};
+    const an=V._hubModeAnim;V._hubModeAnim=null;
+    place(an?an.from:_pmode);
+    void _modesEl.offsetWidth;
+    _modesEl.classList.remove('no-tr');
+    if(an){
+      place(_pmode);
+      an.changed.forEach(slot=>{const el=app.querySelector('[data-slot="'+slot+'"]');if(el&&el.animate)el.animate([{opacity:0,transform:'translateX('+(an.dir*22)+'px)'},{opacity:1,transform:'none'}],{duration:240,easing:'cubic-bezier(.2,.8,.2,1)',fill:'backwards'});});
+    }
+    _modesEl.querySelectorAll('[data-hub-mode]').forEach(b=>b.addEventListener('click',async()=>{
+      const mode=b.dataset.hubMode;if(mode===_pmode||V._hubSwitching)return;
+      const nl=LAYOUT[mode];
+      const changed=[['lead',L.left[0].hub,nl.left[0].hub],['tall',L.right[1].hub,nl.right[1].hub]].filter(x=>x[1]!==x[2]).map(x=>x[0]);
+      const dir=Math.sign(ORDER.indexOf(mode)-ORDER.indexOf(_pmode))||1;
+      S.persona=mode;S.mode=mode==='grow'?'path':'alacarte';save();
+      const reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion:reduce)').matches;
+      if(reduce||!Element.prototype.animate){render();return;}
+      _modesEl.querySelectorAll('[data-hub-mode]').forEach(x=>{const on=x===b;x.classList.toggle('on',on);x.setAttribute('aria-checked',on);});
+      V._hubSwitching=true;
+      try{
+        await Promise.all(changed.map(slot=>{const el=app.querySelector('[data-slot="'+slot+'"]');return el?el.animate([{opacity:1,transform:'none'},{opacity:0,transform:'translateX('+(-dir*22)+'px)'}],{duration:140,easing:'ease-in',fill:'forwards'}).finished:null;}));
+      }catch(e){}
+      V._hubSwitching=false;
+      V._hubModeAnim={from:_pmode,dir,changed};
+      if(V.view==='hub')render();
+    }));
+  }
 
   // ═══ Wire handlers ═══
   // Goal picker toggle
@@ -12052,69 +12120,26 @@ function renderSettings(app){
   h+='<div class="top-bar">';
   h+='<button class="top-bar-btn" data-action="settings-back">← Back</button>';
   h+='</div>';
-  h+='<div class="kicker">Settings</div>';
-  h+='<h1 class="title">App <span class="accent">settings</span></h1>';
-  h+='<div class="subtitle">AI coaching lives in a separate screen — tap ✨ on the hub.</div>';
+  h+='<div class="kicker">About</div>';
+  h+='<h1 class="title">Behind <span class="accent">the app</span></h1>';
 
-  // ── 1. App Mode ──
-  h+='<div style="margin-bottom:6px">';
-  h+='<div style="font-size:22px;font-weight:800;color:var(--text);letter-spacing:-0.02em;margin-bottom:4px">How will you use this app?</div>';
-  h+='<div style="font-size:14px;color:var(--text-secondary)">Choose your focus. You can switch anytime.</div>';
-  h+='</div>';
+  // ── About: who made it, why, how to reach me ──
+  h+='<section class="ab-card">';
+  h+='<div class="ab-head"><img class="ab-av" src="'+COACH_AVATAR+'" alt="Kian How"><div><b>Kian How</b><small>Creative systems designer · DTM</small></div></div>';
+  h+='<p>I turn real-world friction into tools. TMCompanion is my DTM project, built for the part of speaking nobody sees: rehearsing alone. K is the coach I wanted in those moments.</p>';
+  h+='<p class="ab-line">I never put myself inside one box.</p>';
+  h+='<div class="ab-contact">';
+  h+='<a class="ab-link" href="mailto:kian@kianhow.com"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg><span>kian@kianhow.com</span></a>';
+  h+='<a class="ab-link" href="https://kianhow.com" target="_blank" rel="noopener"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg><span>kianhow.com</span></a>';
+  h+='</div></section>';
 
-  const modeCards=[
-    {
-      id:'grow',
-      label:'Grow',
-      desc:'Track your progress. Plan your path. Build toward your next speech.',
-      color:'#7EB46D',
-      icon:`<svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" width="36" height="36">
-        <circle cx="10" cy="36" r="4" stroke="#7EB46D" stroke-width="2.5" fill="none"/>
-        <circle cx="24" cy="22" r="4" stroke="#7EB46D" stroke-width="2.5" fill="none"/>
-        <circle cx="38" cy="10" r="4" stroke="#7EB46D" stroke-width="2.5" fill="none"/>
-        <path d="M13.5 33.5 L20.5 25.5" stroke="#7EB46D" stroke-width="2.5" stroke-linecap="round"/>
-        <path d="M27.5 19.5 L34.5 13.5" stroke="#7EB46D" stroke-width="2.5" stroke-linecap="round"/>
-      </svg>`
-    },
-    {
-      id:'practice',
-      label:'Practice',
-      desc:'Jump straight in. Tools ready, no tracking required.',
-      color:'#A07BC7',
-      icon:`<svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" width="36" height="36">
-        <path d="M24 6 L28 18 L24 14 L20 18 Z" stroke="#A07BC7" stroke-width="2.5" stroke-linejoin="round" fill="none"/>
-        <path d="M24 42 L20 30 L24 34 L28 30 Z" stroke="#A07BC7" stroke-width="2.5" stroke-linejoin="round" fill="none"/>
-        <path d="M24 14 L24 34" stroke="#A07BC7" stroke-width="2.5" stroke-linecap="round"/>
-      </svg>`
-    },
-    {
-      id:'mentor',
-      label:'Mentor',
-      desc:'Guide others. Track mentees and support their growth.',
-      color:'#C9963A',
-      icon:`<svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" width="36" height="36">
-        <circle cx="18" cy="16" r="5" stroke="#C9963A" stroke-width="2.5" fill="none"/>
-        <path d="M8 36c0-5.523 4.477-8 10-8s10 2.477 10 8" stroke="#C9963A" stroke-width="2.5" stroke-linecap="round" fill="none"/>
-        <circle cx="33" cy="18" r="4" stroke="#C9963A" stroke-width="2.5" fill="none"/>
-        <path d="M27 36c0-4 2.686-6 6-6s6 2 6 6" stroke="#C9963A" stroke-width="2.5" stroke-linecap="round" fill="none"/>
-      </svg>`
-    }
-  ];
+  // ── Versions ──
+  h+='<div class="settings-section-header" style="margin-top:22px">Versions</div>';
+  h+='<button class="list-row" data-action="whats-new" style="width:100%;text-align:left;display:flex;align-items:center;gap:12px;padding:14px 16px;border-radius:14px;background:var(--surface);border:1px solid var(--border);font-family:inherit;cursor:pointer">';
+  h+='<span style="flex:1;min-width:0"><span style="display:block;font-size:15px;font-weight:700;color:var(--text)">TMCompanion v'+APP_VERSION+'</span><span style="display:block;font-size:12.5px;color:var(--text-3);margin-top:2px">What’s new in this version</span></span><span style="color:var(--text-3);font-size:17px">›</span></button>';
 
-  const _settingsModes=[
-    {id:'grow',    name:'Grow',     color:'#7EB46D', desc:'Track your progress. Plan your path. Build toward your next speech.',
-     icon:`<svg viewBox="0 0 48 48" fill="none" width="32" height="32"><circle cx="10" cy="36" r="4" stroke="#7EB46D" stroke-width="2.5"/><circle cx="24" cy="22" r="4" stroke="#7EB46D" stroke-width="2.5"/><circle cx="38" cy="10" r="4" stroke="#7EB46D" stroke-width="2.5"/><path d="M13.5 33.5 L20.5 25.5M27.5 19.5 L34.5 13.5" stroke="#7EB46D" stroke-width="2.5" stroke-linecap="round"/></svg>`},
-    {id:'practice',name:'Practice', color:'#A07BC7', desc:'Jump straight in. Tools ready, no tracking required.',
-     icon:`<svg viewBox="0 0 48 48" fill="none" width="32" height="32"><path d="M24 6 L28 18 L24 14 L20 18 Z" stroke="#A07BC7" stroke-width="2.5" stroke-linejoin="round"/><path d="M24 42 L20 30 L24 34 L28 30 Z" stroke="#A07BC7" stroke-width="2.5" stroke-linejoin="round"/><path d="M24 14 L24 34" stroke="#A07BC7" stroke-width="2.5" stroke-linecap="round"/></svg>`},
-    {id:'mentor',  name:'Mentor',   color:'#C9963A', desc:'Guide others. Track mentees and support their growth.',
-     icon:`<svg viewBox="0 0 48 48" fill="none" width="32" height="32"><circle cx="18" cy="16" r="5" stroke="#C9963A" stroke-width="2.5"/><path d="M8 36c0-5.523 4.477-8 10-8s10 2.477 10 8" stroke="#C9963A" stroke-width="2.5" stroke-linecap="round"/><circle cx="33" cy="18" r="4" stroke="#C9963A" stroke-width="2.5"/><path d="M27 36c0-4 2.686-6 6-6s6 2 6 6" stroke="#C9963A" stroke-width="2.5" stroke-linecap="round"/></svg>`},
-  ];
-  h+='<div id="settings-mode-cards" style="display:flex;flex-direction:column;gap:10px;margin-bottom:0">'+_buildModeCards(_settingsModes,S.persona||'grow')+'</div>'
-
-  h+='<button data-action="redo-onboarding" style="width:100%;padding:10px;background:none;border:1px solid var(--border);border-radius:10px;font-size:13px;color:var(--text-secondary);cursor:pointer;font-family:inherit;margin-top:4px;margin-bottom:28px">↩ Redo mode selection</button>';
-
-  // ── 3. Data ──
-  h+='<div class="settings-section-header" style="margin-top:20px">Data</div>';
+  // ── Data ──
+  h+='<div class="settings-section-header" style="margin-top:22px">Your data</div>';
   h+='<div class="settings-card">';
   h+='<div class="settings-row-hint" style="margin-bottom:14px">Everything is stored locally in this browser. These buttons let you selectively reset parts without nuking the whole app.</div>';
   if(S.path&&PA[S.path]){
@@ -12136,30 +12161,12 @@ function renderSettings(app){
   h+='</button>';
   h+='</div>';
 
-  // ── About ──
-  h+='<div class="settings-section-label" style="margin-top:22px">About</div>';
-  h+='<button class="list-row" data-action="whats-new" style="width:100%;text-align:left;display:flex;align-items:center;gap:12px;padding:14px 16px;border-radius:14px;background:var(--surface);border:1px solid var(--border);font-family:inherit;cursor:pointer">';
-  h+='<span style="flex:1;min-width:0"><span style="display:block;font-size:15px;font-weight:700;color:var(--text)">TM Companion v'+APP_VERSION+'</span><span style="display:block;font-size:12.5px;color:var(--text-3);margin-top:2px">What’s new in this version</span></span><span style="color:var(--text-3);font-size:17px">›</span></button>';
 
   app.innerHTML=h;
 
   app.querySelector('[data-action="settings-back"]').addEventListener("click",()=>{
     V.view="hub";render();
   });
-  // App mode toggle (Grow / Practice / Mentor)
-  const _settingsModes2=_settingsModes; // capture for listener closure
-  function rewireSettingsCards(){
-    app.querySelectorAll('#settings-mode-cards [data-welcome-mode]').forEach(btn=>{
-      btn.addEventListener('click',()=>{
-        S.persona=btn.dataset.welcomeMode;
-        S.mode=S.persona==='grow'?'path':'alacarte';
-        save();
-        const container=app.querySelector('#settings-mode-cards');
-        if(container){container.innerHTML=_buildModeCards(_settingsModes2,S.persona);rewireSettingsCards();}
-      });
-    });
-  }
-  rewireSettingsCards();
   // Voice style
   const voiceField=app.querySelector('#settings-voice');
   const voiceSaved=app.querySelector('#voice-saved');
