@@ -668,7 +668,7 @@ button,a,[role="button"],label,summary{-webkit-tap-highlight-color:transparent}
 
 /* ═══ Bottom nav — glassy purple pill hub button ═══ */
 /* ── Hub — ported from hub-reference.html (values verbatim; app class names kept) ── */
-:root{--nav-h:52px;--sab:min(env(safe-area-inset-bottom,0px),34px);--nav-sb:max(calc(var(--sab) - 14px),8px);--hub-green:127,198,106;--hub-teal:95,214,214;--hub-rose:236,112,160;--hub-violet:139,111,247;--hub-amber:236,132,60;--hub-blue:84,146,245;--hub-peri:182,201,255;--hub-gold:245,200,91;--hub-k:109,182,180}
+:root{--nav-h:52px;--sab:min(env(safe-area-inset-bottom,0px),34px);--nav-sb:max(calc(var(--sab) - 14px),8px);--hub-green:127,198,106;--hub-teal:95,214,214;--hub-rose:236,112,160;--hub-violet:139,111,247;--hub-amber:236,132,60;--hub-blue:84,146,245;--hub-peri:182,201,255;--hub-gold:245,200,91;--hub-k:167,139,250}
 body.on-hub{overscroll-behavior-y:none}
 body.on-hub.has-bottom-nav{padding-bottom:0}   /* .hub2 already reserves the nav space */
 #app.is-hub{max-width:none;padding:0}
@@ -683,10 +683,10 @@ body.on-hub.has-bottom-nav{padding-bottom:0}   /* .hub2 already reserves the nav
 .k-av{flex-shrink:0;width:40px;height:40px;border-radius:50%;overflow:hidden;border:1.5px solid rgba(var(--hub-k),.45)}
 .k-av img{width:100%;height:100%;object-fit:cover;display:block}
 .k-body{flex:1;min-width:0}
-.k-label{font-size:10.5px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:#8ED3D0;margin-bottom:3px}
+.k-label{font-size:10.5px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:#C9B8FF;margin-bottom:3px}
 .k-msg{font-size:19px;font-weight:800;letter-spacing:-.02em;line-height:1.14;margin-bottom:3px;color:#F2F2F4;text-wrap:balance}
 .k-sub{font-size:12px;color:rgba(235,235,245,.76);line-height:1.36;margin-bottom:10px;text-wrap:pretty}
-.k-cta{display:inline-flex;align-items:center;gap:7px;min-height:38px;padding:0 15px;border-radius:12px;background:#8ED3D0;color:#062220;font-size:13px;font-weight:700;cursor:pointer}
+.k-cta{display:inline-flex;align-items:center;gap:7px;min-height:38px;padding:0 15px;border-radius:12px;background:#C7B4FF;color:#1B1235;font-size:13px;font-weight:700;cursor:pointer}
 .k-cta:active{transform:scale(.97)}
 .hub2-label{display:flex;justify-content:space-between;margin:0 0 8px;padding:0 2px;flex-shrink:0}
 .hub2-label span{font-size:10px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:rgba(235,235,245,.5)}
@@ -731,6 +731,30 @@ body.on-hub.has-bottom-nav{padding-bottom:0}   /* .hub2 already reserves the nav
 .cta-violet{background:#C7B4FF;color:#1B1235}
 .cta-peri{background:#C3D2FF;color:#101A36}
 .cta-blue{background:#A9C9F5;color:#0B1A2E}
+/* ── Mode colour: every tile takes the mode's hue; the lead tile is strongest. Contests stay gold. ── */
+@property --cr{syntax:'<number>';inherits:true;initial-value:112}
+@property --cg{syntax:'<number>';inherits:true;initial-value:196}
+@property --cb{syntax:'<number>';inherits:true;initial-value:142}
+@property --mhi{syntax:'<color>';inherits:true;initial-value:#B6E398}
+@property --mcta{syntax:'<color>';inherits:true;initial-value:#A9E08C}
+@property --mink{syntax:'<color>';inherits:true;initial-value:#0E2308}
+.hub2{transition:--cr .16s,--cg .16s,--cb .16s,--mhi .16s,--mcta .16s,--mink .16s}
+.hub2[data-mode="grow"]{--cr:112;--cg:196;--cb:142;--mhi:#A9E4BE;--mcta:#A3DDB6;--mink:#0B2414}
+.hub2[data-mode="practice"][data-pc="burgundy"]{--cr:184;--cg:64;--cb:112;--mhi:#F0A9C9;--mcta:#C04E80;--mink:#FFF0F6}
+.hub2[data-mode="practice"][data-pc="teal"]{--cr:70;--cg:186;--cb:200;--mhi:#9BE0EA;--mcta:#95D6E0;--mink:#06222A}
+.hub2[data-mode="mentor"]{--cr:104;--cg:138;--cb:246;--mhi:#B3C3FF;--mcta:#AFC0FA;--mink:#0E1638}
+.hub2 .pw-tile:not(.pw-strip){--c:var(--cr),var(--cg),var(--cb)}
+.hub2 .pw-tile:not(.pw-strip) .pw-glyph{color:var(--mhi)}
+.hub2 .pw-tile.t-lead{--wa:.34;border-color:rgba(var(--c),.5)}
+.hub2 .pw-tile.t-lead{box-shadow:inset 0 1px 0 rgba(255,255,255,.06),0 10px 28px -14px rgba(var(--c),.55)}
+.hub2 .pw-tile.t-tall{--wa:.07;border-color:rgba(var(--c),.16)}
+.hub2 .pw-tile.t-short{background:linear-gradient(180deg,#17181B,#121315);border-color:rgba(255,255,255,.08)}
+.hub2 .pw-tile.t-tall .pw-glyph,.hub2 .pw-tile.t-short .pw-glyph{background:rgba(255,255,255,.04);border-color:rgba(255,255,255,.1)}
+.hub2 .pw-tile:not(.pw-strip) .pw-pill{background:rgba(255,255,255,.06);color:var(--mhi);box-shadow:inset 0 0 0 1px rgba(255,255,255,.14)}
+.hub2 .pw-tile.t-lead .pw-pill{background:var(--mcta);color:var(--mink);box-shadow:none}
+.art-mask{background:rgb(var(--c));aspect-ratio:1/1;-webkit-mask-size:contain;mask-size:contain;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
+.t-tall .art-mask{filter:opacity(.5)}
+.t-short .art-mask{background:rgb(235,235,245);filter:opacity(.35)}
 /* Hub mode switch — GROW · PRACTICE · MENTOR */
 .hub2-label{align-items:center;gap:8px}
 .hub2-label>span{white-space:nowrap;min-width:0;overflow:hidden;text-overflow:ellipsis}
@@ -5128,7 +5152,8 @@ const CHANGELOG=[
     'Switch between Grow, Practice and Mentor right on the Hub. Only the tiles that change slide over. The mode picker in Settings is gone',
     'Table Topics: tap ✕ on “Last attempt” to hide it until your next try, or delete that attempt',
     'Settings is now “Behind the app”: who made TMCompanion, why, and how to reach me — with versions and your data below',
-    'All Projects on the Hub gets a Browse button; My Mentees gets its own colour',
+    'All Projects on the Hub gets a Browse button',
+    'Each mode now has one colour — green for Grow, berry for Practice, blue for Mentor — on your main tile; the rest stay quiet. K is violet, Contests stay gold',
     'Contests redesigned: the ballot at a glance, K’s take, and one tap into contest killers, the ballot in plain words and why the champions won',
     'Contest practice shows the full timing — green, amber, red and the disqualification line — before you start',
     'No more flicker when switching tabs, levels and options — screens only animate when you actually move to a new one',
@@ -5721,6 +5746,7 @@ function _relDays(iso){
 }
 function _relLabel(d){return d===0?'today':d===1?'yesterday':d+' days ago';}
 
+const HUB_PRACTICE='burgundy'; // 'burgundy' | 'teal'
 function renderHub(app){
   const p=S.path?PA[S.path]:null;
 
@@ -5740,7 +5766,8 @@ function renderHub(app){
 
   const ARR='<svg class="pw-arr" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
   const CHEV='<svg class="pw-chev" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg>';
-  let h='<div class="fade-up hub2">';
+  const _hm=S.persona==='mentor'||S.persona==='grow'?S.persona:'practice';
+  let h='<div class="fade-up hub2" data-mode="'+_hm+'" data-pc="'+HUB_PRACTICE+'">';
   h+='<div class="hub2-top"><span class="hub2-mark">Speak · Lead · Grow</span><div class="hub2-icons">';
   h+='<button class="hub2-ic" data-action="open-donate" aria-label="Support TMCompanion"><svg width="17" height="17" viewBox="0 0 24 24" fill="#E36A6A"><path d="M12 21s-7.5-4.6-9.5-9.2C1 8.4 3 5 6.5 5c2 0 3.5 1.1 5.5 3.1C14 6.1 15.5 5 17.5 5 21 5 23 8.4 21.5 11.8 19.5 16.4 12 21 12 21z"/></svg></button>';
   h+='<button class="hub2-ic" data-action="open-ai-settings" aria-label="AI Settings"><svg width="17" height="17" viewBox="0 0 24 24" fill="#A78BFA"><path d="M12 2c.4 4.6 2.4 6.6 7 7-4.6.4-6.6 2.4-7 7-.4-4.6-2.4-6.6-7-7 4.6-.4 6.6-2.4 7-7z"/></svg></button>';
@@ -5767,7 +5794,7 @@ function renderHub(app){
 
   const _pmode=S.persona==='mentor'||S.persona==='grow'?S.persona:'practice';
   h+='<div class="hub2-label"><span>Your playground</span><div class="hub-modes no-tr" role="radiogroup" aria-label="Mode"><span class="ind" aria-hidden="true"></span>'+
-    [["grow","Grow","var(--hub-green)"],["practice","Practice","var(--hub-violet)"],["mentor","Mentor","var(--hub-peri)"]].map(m=>'<button type="button" role="radio" data-hub-mode="'+m[0]+'" style="--m:'+m[2]+'" class="'+(m[0]===_pmode?'on':'')+'" aria-checked="'+(m[0]===_pmode)+'">'+m[1]+'</button>').join('')+'</div></div>';
+    [["grow","Grow","140,214,166"],["practice","Practice",HUB_PRACTICE==="teal"?"120,210,222":"232,128,174"],["mentor","Mentor","150,172,255"]].map(m=>'<button type="button" role="radio" data-hub-mode="'+m[0]+'" style="--m:'+m[2]+'" class="'+(m[0]===_pmode?'on':'')+'" aria-checked="'+(m[0]===_pmode)+'">'+m[1]+'</button>').join('')+'</div></div>';
 
   // ── Cards: two stretched columns; only tall cards grow, into .pw-push ──
   const COL={path:"green",practice:"rose",coach:"violet",roles:"amber",allProjects:"blue",mentees:"peri"};
@@ -5783,9 +5810,10 @@ function renderHub(app){
       return s;
     }
     const col=COL[cfg.wash]; const [pos,wa]=POS[col].split('|'); const [wx,wy]=pos.split(' ');
-    let s='<button class="pw-tile'+(cfg.tall?' grow':'')+(cfg.lead?' is-lead':'')+'" data-hub="'+cfg.hub+'"'+(cfg.slot?' data-slot="'+cfg.slot+'"':'')+' style="--c:var(--hub-'+col+');--wx:'+wx+';--wy:'+wy+';--wa:'+wa+'">';
-    if(cfg.art)s+='<img class="art art-'+cfg.art+'" src="/art/'+ART[cfg.art]+'" alt="" aria-hidden="true" decoding="sync">';
-    s+='<div class="pw-top"><div class="pw-glyph" style="color:'+cfg.ic+'">'+cfg.glyph+'</div>'+(cfg.lead?'<span class="pw-focus">Your focus</span>':'')+'</div>';
+    const tier=cfg.lead?'t-lead':cfg.slot==='tall'?'t-tall':'t-short';
+    let s='<button class="pw-tile '+tier+(cfg.tall?' grow':'')+(cfg.lead?' is-lead':'')+'" data-hub="'+cfg.hub+'"'+(cfg.slot?' data-slot="'+cfg.slot+'"':'')+' style="--wx:'+wx+';--wy:'+wy+'">';
+    if(cfg.art)s+='<span class="art art-mask art-'+cfg.art+'" aria-hidden="true" style="-webkit-mask-image:url(/art/'+ART[cfg.art]+');mask-image:url(/art/'+ART[cfg.art]+')"></span>';
+    s+='<div class="pw-top"><div class="pw-glyph">'+cfg.glyph+'</div>'+(cfg.lead?'<span class="pw-focus">Your focus</span>':'')+'</div>';
     s+='<div class="pw-name">'+cfg.name+'</div>';
     if(cfg.tall){
       s+='<div class="pw-sub">'+cfg.sub+'</div>';
@@ -5911,6 +5939,7 @@ function renderHub(app){
       const reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion:reduce)').matches;
       if(reduce||!Element.prototype.animate){render();return;}
       _modesEl.querySelectorAll('[data-hub-mode]').forEach(x=>{const on=x===b;x.classList.toggle('on',on);x.setAttribute('aria-checked',on);});
+      const _root=app.querySelector('.hub2');if(_root)_root.setAttribute('data-mode',mode);
       V._hubSwitching=true;
       try{
         await Promise.all(changed.map(slot=>{const el=app.querySelector('[data-slot="'+slot+'"]');return el?el.animate([{opacity:1,transform:'none'},{opacity:0,transform:'translateX('+(-dir*22)+'px)'}],{duration:140,easing:'ease-in',fill:'forwards'}).finished:null;}));
