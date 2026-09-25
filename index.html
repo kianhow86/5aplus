@@ -1443,6 +1443,15 @@ body.on-hub.has-bottom-nav{padding-bottom:0}   /* .hub2 already reserves the nav
 /* ── Speech Coach ready/recording — ported from coach-reference.html ──
    Modes switch with data-mode on .ps-view (attribute only, never a re-render). */
 #app.is-psr{padding:0;max-width:none}
+.psr-outline{display:flex;align-items:center;gap:8px;width:100%;height:38px;padding:0 12px;border-radius:12px;background:rgba(59,130,246,.08);border:1px solid rgba(59,130,246,.32);color:#8FB8FF;font-family:inherit;cursor:pointer;text-align:left;flex:none}
+.psr-outline .t{flex:1;min-width:0;font-size:13px;color:rgba(235,235,245,.72);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.psr-outline b{font-weight:700;color:#F2F2F4}
+.psr-outline .e{font-size:12.5px;font-weight:700;flex:none}
+.psr-goals{display:flex;flex-wrap:nowrap;gap:5px;align-items:center;flex:none;min-width:0}
+.psr-goals-l{font-size:10.5px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:rgba(235,235,245,.46);flex:none;margin-right:2px}
+.psr-goal{height:30px;padding:0 6px;border-radius:15px;background:#131519;border:1px solid rgba(255,255,255,.12);font-size:12px;font-weight:650;color:rgba(235,235,245,.72);font-family:inherit;cursor:pointer;flex:1;min-width:0;text-align:center;white-space:nowrap}
+.psr-goal.on{background:rgba(139,111,247,.14);border-color:rgba(139,111,247,.4);color:#C4AEFF}
+.ps-done-outline{margin-top:6px;background:none;border:0;color:#8FB8FF;font-size:13px;font-weight:700;font-family:inherit;cursor:pointer;padding:4px 0}
 .ps-view.psr{--pc1:#131519;--pc2:#171A1F;--pl1:rgba(255,255,255,.07);--pl2:rgba(255,255,255,.12);--pi1:#F2F2F4;--pi2:rgba(235,235,245,.72);--pi3:rgba(235,235,245,.46);--pv:#8B6FF7;--pvh:#C4AEFF;--pvb:rgba(139,111,247,.12);--pvl:rgba(139,111,247,.32);
   min-height:calc(var(--app-h,100dvh) - var(--nav-h) - var(--sab));max-width:480px;margin:0 auto;padding:calc(env(safe-area-inset-top,0px) + 14px) 20px 14px;gap:14px;box-sizing:border-box}
 .psr .ps-ready-panel,.psr .ps-active-panel{flex:1;min-height:0;gap:14px}
@@ -2194,91 +2203,105 @@ body.on-hub.has-bottom-nav{padding-bottom:0}   /* .hub2 already reserves the nav
 .eh-draft-text p:last-child{margin:0}
 .eh-draft-hint{font-size:11.5px;color:var(--text-3);margin-top:10px;padding-top:10px;border-top:1px solid rgba(255,255,255,0.06);line-height:1.5;letter-spacing:-0.003em}
 .eh-ai-off-note{font-size:13px;color:var(--text-3);padding:12px 16px;background:var(--surface);border-radius:11px;line-height:1.5;letter-spacing:-0.003em}
-/* ═══ Speech Draft Builder ═══ */
-
-/* Speech Draft Builder — structured output section cards */
-.sd-section-card{border-radius:12px;padding:12px 14px;margin-bottom:9px;border:1px solid var(--border)}
-.sd-section-card:last-of-type{margin-bottom:0}
-.sd-section-hdr{font-size:11px;font-weight:700;letter-spacing:0.09em;text-transform:uppercase;margin-bottom:6px}
-.sd-section-body{font-size:13.5px;color:var(--text-2);line-height:1.6;letter-spacing:-0.003em}
-.sd-section-amber{background:rgba(232,178,80,0.08);border-color:rgba(232,178,80,0.3)}
-.sd-section-amber .sd-section-hdr{color:#E8B250}
-.sd-section-purple{background:rgba(160,123,199,0.08);border-color:rgba(160,123,199,0.3)}
-.sd-section-purple .sd-section-hdr{color:#A07BC7}
-.sd-section-blue{background:rgba(109,182,180,0.08);border-color:rgba(109,182,180,0.3)}
-.sd-section-blue .sd-section-hdr{color:#6DB6B4}
-.sd-section-green{background:rgba(94,185,117,0.08);border-color:rgba(94,185,117,0.3)}
-.sd-section-green .sd-section-hdr{color:#5EB975}
-.sd-section-{background:rgba(255,255,255,0.03);border-color:rgba(255,255,255,0.08)}
-.sd-section- .sd-section-hdr{color:var(--text-3)}
-.sd-result-keymsg{font-size:12.5px;color:var(--text-3);font-style:italic;margin-bottom:12px;letter-spacing:-0.003em;line-height:1.45}
-
-.sd-form{display:flex;flex-direction:column;gap:0}
-
-/* ═══ Speech Draft Builder — offline scaffold ═══ */
-.sd-label-note{font-size:10px;font-weight:400;text-transform:none;letter-spacing:0;color:var(--text-3);margin-left:4px}
-.sd-suggestion{font-size:12px;color:#6DB6B4;margin-top:6px;letter-spacing:-0.003em}
-.sd-fw-badge{display:inline-block;background:rgba(109,182,180,0.18);color:#6DB6B4;font-size:10px;font-weight:700;padding:2px 7px;border-radius:6px;margin-left:6px;vertical-align:middle;letter-spacing:0.04em}
-
-/* Result card */
-.sd-result-fw-tag{display:inline-block;background:rgba(160,123,199,0.12);border:1px solid rgba(160,123,199,0.3);color:#A07BC7;font-size:11px;font-weight:700;padding:3px 10px;border-radius:8px;margin-bottom:10px;letter-spacing:0.04em}
-.sd-coaching-card{background:rgba(232,178,80,0.07);border:1px solid rgba(232,178,80,0.28);border-radius:12px;padding:14px;margin-bottom:12px}
-.sd-coaching-hdr{font-size:12px;font-weight:800;color:#E8B250;letter-spacing:-0.003em;margin-bottom:6px}
-.sd-coaching-body{font-size:13px;color:var(--text-2);line-height:1.55;letter-spacing:-0.003em}
-
-/* Section cards */
-.sd-section-card{background:var(--surface);border:1px solid var(--border);border-radius:13px;padding:14px 16px;margin-bottom:10px}
-.sd-section-hdr{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:8px;gap:8px}
-.sd-section-name{font-size:12px;font-weight:800;color:var(--text);letter-spacing:-0.003em;text-transform:uppercase}
-.sd-section-target{font-size:10.5px;color:var(--text-3);letter-spacing:0.02em;flex-shrink:0}
-.sd-section-prompt{font-size:var(--fs-sm);color:var(--text-3);line-height:1.55;letter-spacing:-0.003em;margin-bottom:8px}
-.sd-section-starter{font-size:var(--fs-sm);color:var(--text-3);line-height:1.5;letter-spacing:-0.003em;padding:8px 12px;background:rgba(255,255,255,0.03);border-radius:8px;border-left:2px solid rgba(109,182,180,0.35)}
-.sd-starter-label{font-weight:700;color:var(--text-3);font-style:normal}
-
-.sd-word-target{font-size:12px;color:var(--text-3);text-align:center;padding:8px 0;letter-spacing:-0.003em}
-
-/* AI enhance */
-
-/* Speech Draft follow-up grid */
-.sd-followup-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:6px}
-.sd-followup-btn{padding:10px 12px;background:var(--surface);border:1px solid var(--border);border-radius:11px;color:var(--text-2);font-size:12.5px;font-weight:600;cursor:pointer;font-family:inherit;transition:background .15s,transform .18s cubic-bezier(.34,1.56,.64,1);text-align:left;letter-spacing:-0.003em;line-height:1.35}
-.sd-followup-btn:hover{background:var(--surface-2);color:var(--text);transform:scale(1.03)}
-.sd-followup-btn:active{transform:scale(0.97);transition-duration:.08s}
-
-.sd-ai-enhance-wrap{margin-top:16px;padding-top:16px;border-top:1px solid var(--border);display:flex;flex-direction:column;gap:10px}
-.sd-ai-enhance-label{font-size:13px;color:var(--text-3);letter-spacing:-0.003em}
-.sd-ai-enhance-btn{padding:11px 18px;background:linear-gradient(135deg,#A07BC7,#6DB6B4);color:#0A0B0F;border:none;border-radius:11px;font-weight:700;font-size:14px;cursor:pointer;font-family:inherit;transition:filter .15s;letter-spacing:-0.003em}
-.sd-ai-enhance-btn:hover{filter:brightness(1.08)}
-.sd-ai-enhance-done{font-size:13px;color:#5EB975;font-weight:600;letter-spacing:-0.003em}
-
-/* AI-written opening */
-.sd-ai-opening{background:rgba(160,123,199,0.08);border:1px solid rgba(160,123,199,0.3);border-radius:13px;padding:14px 16px;margin-bottom:12px}
-.sd-ai-opening-hdr{font-size:11px;font-weight:800;color:#A07BC7;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:8px}
-.sd-ai-opening-text{font-size:14px;color:var(--text);line-height:1.6;letter-spacing:-0.006em;font-style:italic}
-.sd-ai-opening-hint{font-size:11.5px;color:var(--text-3);margin-top:8px;letter-spacing:-0.003em}
-
-.sd-frameworks{display:flex;flex-direction:column;gap:7px}
-.sd-framework-btn{padding:12px 14px;background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:12px;text-align:left;cursor:pointer;font-family:inherit;transition:background .15s,border-color .15s}
-.sd-framework-btn.active{background:rgba(109,182,180,0.1);border-color:rgba(109,182,180,0.5)}
-.sd-fw-label{font-size:13.5px;font-weight:700;color:var(--text);letter-spacing:-0.005em;margin-bottom:3px}
-.sd-fw-desc{font-size:12px;color:var(--text-3);letter-spacing:-0.003em;line-height:1.4}
-.sd-framework-btn.active .sd-fw-label{color:var(--accent)}
-.sd-framework-btn.active .sd-fw-desc{color:var(--text-2)}
-.sd-preview{background:rgba(0,0,0,0.2);border-radius:11px;padding:12px 14px;margin:10px 0 16px;display:flex;flex-direction:column;gap:7px}
-.sd-preview-label{font-size:10px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--text-3);margin-bottom:2px}
-.sd-preview-pt{display:flex;gap:10px;align-items:flex-start;font-size:12.5px;color:var(--text-2);line-height:1.45;letter-spacing:-0.003em}
-.sd-preview-n{font-size:11px;font-weight:800;color:var(--accent);flex-shrink:0;padding-top:1px;width:14px}
-.sd-result-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:20px;margin-top:4px}
-.sd-result-title{font-size:19px;font-weight:800;color:var(--text);letter-spacing:-0.01em;margin-bottom:4px}
-.sd-result-project{font-size:12px;color:var(--text-3);margin-bottom:4px;letter-spacing:-0.003em}
-.sd-result-fw{font-size:11.5px;font-weight:700;color:var(--accent);letter-spacing:0.05em;text-transform:uppercase;margin-bottom:16px}
-.sd-result-section{margin-bottom:14px;padding-bottom:14px;border-bottom:1px solid rgba(255,255,255,0.05)}
-.sd-result-section:last-of-type{border-bottom:none;margin-bottom:0;padding-bottom:0}
-.sd-result-sec-label{font-size:10px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--text-3);margin-bottom:6px}
-.sd-result-text{font-size:13.5px;color:var(--text-2);line-height:1.65;letter-spacing:-0.003em}
-.sd-result-blank{font-size:13px;color:var(--text-3);line-height:1.55;letter-spacing:-0.003em;font-style:italic;padding:8px 12px;background:rgba(255,255,255,0.03);border-radius:8px;border-left:2px solid rgba(109,182,180,0.3)}
-.sd-result-hint{font-size:11.5px;color:var(--text-3);margin-top:14px;padding-top:12px;border-top:1px solid rgba(255,255,255,0.06);line-height:1.5;letter-spacing:-0.003em}
-.sd-loading{opacity:0.7}
+/* ═══ Speech Outline Builder ═══ */
+#app.is-ob{padding:0;max-width:none}
+.ob{--card:#131519;--card-2:#171A1F;--line:rgba(255,255,255,.07);--line-2:rgba(255,255,255,.12);--ink:#F2F2F4;--ink-2:rgba(235,235,245,.72);--ink-3:rgba(235,235,245,.46);--blue:#3B82F6;--blue-hi:#8FB8FF;--blue-bg:rgba(59,130,246,.12);--blue-line:rgba(59,130,246,.32);--amber:#E8B250;--amber-bg:rgba(232,178,80,.1);--amber-line:rgba(232,178,80,.3);--green:#5EB975;
+  display:flex;min-height:calc(var(--app-h,100dvh) - var(--nav-h) - var(--sab));max-width:480px;margin:0 auto;flex-direction:column;gap:12px;padding:calc(env(safe-area-inset-top,0px) + 8px) 20px 10px;box-sizing:border-box;color:var(--ink)}
+.ob *{box-sizing:border-box}
+.ob :where(button){font:inherit;color:inherit;background:none;border:0;cursor:pointer;text-align:left;padding:0;margin:0;font-family:inherit}
+.ob button:focus-visible,.ob textarea:focus-visible,.ob input:focus-visible{outline:2px solid var(--blue-hi);outline-offset:2px}
+.ob[data-screen="outline"]{gap:9px}
+.ob-msg{display:flex;align-items:flex-start;gap:9px;min-width:0;padding:8px 12px;border-radius:12px;background:rgba(59,130,246,.07);border:1px solid var(--blue-line);color:var(--blue-hi);flex:none;width:100%}
+.ob-msg svg{flex:none;margin-top:2px}
+.ob-msg .v{font-size:13px;font-weight:600;color:var(--ink);line-height:1.35;text-wrap:pretty;min-width:0}
+.ob-head{display:flex;align-items:center;gap:12px;flex:none}
+.ob-ib{width:40px;height:40px;border-radius:50%;background:var(--card);border:1px solid var(--line-2);display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--ink)}
+.ob-ib:active,.ob-pill:active{transform:scale(.95)}
+.ob-title{flex:1;min-width:0;font-size:19px;font-weight:800;letter-spacing:-.02em;line-height:1.15}
+.ob-pill{height:36px;padding:0 13px;border-radius:18px;background:var(--card);border:1px solid var(--line-2);display:flex;align-items:center;gap:7px;font-size:13px;font-weight:650;color:var(--ink-2);flex:none}
+.ob-prog{display:flex;align-items:center;gap:10px;flex:none}
+.ob-prog .bars{flex:1;display:flex;gap:5px}
+.ob-prog .bars i{flex:1;height:4px;border-radius:3px;background:var(--line-2)}
+.ob-prog .bars i.d{background:var(--blue)}
+.ob-prog span{font-size:12px;font-weight:700;color:var(--ink-3);font-variant-numeric:tabular-nums;white-space:nowrap}
+.ob-h{font-size:24px;font-weight:800;letter-spacing:-.025em;line-height:1.15}
+.ob-sub{font-size:14px;color:var(--ink-2);line-height:1.45;margin-top:4px;text-wrap:pretty}
+.ob-card{position:relative;border-radius:20px;background:var(--card);border:1px solid var(--line);padding:15px}
+.ob-card.sel{background:radial-gradient(120% 90% at 100% 0%,rgba(59,130,246,.16),transparent 60%),var(--card);border-color:var(--blue-line)}
+.ob-kick{font-size:10.5px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);white-space:nowrap}
+.ob-kick.b{color:var(--blue-hi)}
+.ob-t{font-size:17px;font-weight:750;line-height:1.2;letter-spacing:-.01em}
+.ob-p{font-size:13.5px;color:var(--ink-2);line-height:1.45;text-wrap:pretty}
+.ob-chip{display:inline-flex;align-items:center;gap:5px;height:26px;padding:0 10px;border-radius:13px;background:var(--blue-bg);border:1px solid var(--blue-line);font-size:12px;font-weight:700;color:var(--blue-hi);white-space:nowrap;flex:none}
+.ob-chip.n{background:var(--card-2);border-color:var(--line-2);color:var(--ink-2)}
+.ob-row{display:flex;align-items:center;gap:12px;border-radius:15px;background:var(--card);border:1px solid var(--line);padding:12px 14px;width:100%;flex:none}
+.ob-row:active{background:var(--card-2)}
+.ob-row .ob-t{font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ob-row small{font-size:12px;color:var(--ink-3);display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ob-ico{width:36px;height:36px;border-radius:11px;background:var(--blue-bg);border:1px solid var(--blue-line);display:flex;align-items:center;justify-content:center;color:var(--blue-hi);flex-shrink:0}
+.ob-dot{width:22px;height:22px;border-radius:50%;border:1.5px solid var(--line-2);flex-shrink:0;display:flex;align-items:center;justify-content:center}
+.ob-dot.on{border-color:var(--blue);background:var(--blue)}
+.ob-dot.ok{border-color:rgba(94,185,117,.5);background:rgba(94,185,117,.15)}
+.ob-grow{flex:1;min-height:0;display:flex;flex-direction:column;gap:10px;overflow:hidden}
+.ob-cta{height:54px;border-radius:17px;background:var(--blue);color:#fff;font-size:16px;font-weight:800;display:flex;align-items:center;justify-content:center;gap:9px;width:100%;flex-shrink:0}
+.ob-cta:active{transform:scale(.98);filter:brightness(.92)}
+.ob-ghost{height:46px;border-radius:14px;background:var(--card);border:1px solid var(--line-2);font-size:14px;font-weight:700;color:var(--ink);display:flex;align-items:center;justify-content:center;gap:8px;flex:1}
+.ob-lab{font-size:12px;font-weight:700;color:var(--ink-3);display:flex;gap:6px;align-items:baseline}
+.ob-lab b{color:var(--ink);font-weight:700}
+.ob-budget{display:flex;gap:3px;height:28px}
+.ob-budget i{border-radius:7px;background:var(--card-2);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-style:normal;font-size:10.5px;font-weight:700;color:var(--ink-3);font-variant-numeric:tabular-nums;min-width:0;overflow:hidden;cursor:pointer}
+.ob-budget i.on{background:var(--blue-bg);border-color:var(--blue-line);color:var(--blue-hi)}
+.ob-budget i.ok{color:var(--green)}
+.ob-ta{width:100%;min-height:80px;flex:1;border-radius:14px;background:var(--bg);border:1px solid var(--line-2);padding:12px;font:inherit;font-size:15px;line-height:1.5;color:var(--ink);resize:none;font-family:inherit}
+.ob-ta::placeholder{color:var(--ink-3)}
+.ob-flag{display:flex;gap:10px;padding:9px 12px;border-radius:13px;background:var(--amber-bg);border:1px solid var(--amber-line);font-size:13px;line-height:1.4;color:var(--ink-2);margin-top:8px}
+.ob-flag b{color:var(--amber);font-weight:700;flex:none}
+.ob-note{display:flex;gap:9px;padding:11px 13px;border-radius:13px;background:var(--card);border:1px dashed var(--line-2);font-size:12.5px;line-height:1.45;color:var(--ink-3);flex:none}
+.ob-sec{display:grid;grid-template-columns:44px 1fr;gap:3px 10px;padding:7px 0;border-top:1px solid var(--line);cursor:pointer}
+.ob-end{padding-bottom:0;padding-top:7px;cursor:default}.ob-end .nm{align-self:center}.ob-end .tm,.ob-end .nm{color:var(--ink-3)}
+.ob-sec:first-child{border-top:0;padding-top:2px}
+.ob-sec .tm{white-space:nowrap;font-size:12.5px;font-weight:800;color:var(--blue-hi);font-variant-numeric:tabular-nums;padding-top:1px}
+.ob-sec .nm{font-size:12px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:var(--ink-3)}
+.ob-sec .pt{grid-column:2;font-size:14px;line-height:1.4;color:var(--ink);text-wrap:pretty}
+.ob-seg-wrap{display:flex;flex-wrap:wrap;gap:7px}
+.ob-opt{height:36px;padding:0 13px;border-radius:18px;background:var(--card);border:1px solid var(--line-2);font-size:13.5px;font-weight:650;color:var(--ink-2)}
+.ob-opt.on{background:var(--blue-bg);border-color:var(--blue-line);color:var(--blue-hi)}
+.ob-len{font-size:13px;color:var(--ink-3);font-weight:600}
+.ob-len b{font-size:26px;font-weight:800;color:var(--ink);letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.ob-range{-webkit-appearance:none;appearance:none;width:100%;height:36px;background:transparent;cursor:pointer;margin:0}
+.ob-range::-webkit-slider-runnable-track{height:6px;border-radius:3px;background:linear-gradient(90deg,var(--blue) var(--p,19%),var(--line-2) var(--p,19%))}
+.ob-range::-moz-range-track{height:6px;border-radius:3px;background:var(--line-2)}
+.ob-range::-moz-range-progress{height:6px;border-radius:3px;background:var(--blue)}
+.ob-range::-webkit-slider-thumb{-webkit-appearance:none;width:28px;height:28px;margin-top:-11px;border-radius:50%;background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.4)}
+.ob-range::-moz-range-thumb{width:28px;height:28px;border:0;border-radius:50%;background:#fff}
+.ob-scale{display:flex;justify-content:space-between;font-size:11px;color:var(--ink-3);font-variant-numeric:tabular-nums;padding:0 4px}
+.ob-goals{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.ob-goal{border-radius:15px;background:var(--card);border:1px solid var(--line);padding:12px 13px;display:flex;flex-direction:column;gap:3px}
+.ob-goal b{font-size:15px;font-weight:750}
+.ob-goal span{font-size:12px;color:var(--ink-3)}
+.ob-goal.on{background:radial-gradient(120% 90% at 100% 0%,rgba(59,130,246,.16),transparent 60%),var(--card);border-color:var(--blue-line)}
+.ob-goal.on b{color:var(--blue-hi)}
+.ob-in{width:100%;height:48px;border-radius:14px;background:var(--bg);border:1px solid var(--line-2);padding:0 14px;font:inherit;font-size:15px;color:var(--ink);font-family:inherit}
+.ob-in::placeholder{color:var(--ink-3)}
+.ob-tile{position:relative;overflow:hidden;flex:1;min-height:0;width:100%;border-radius:24px;padding:20px;display:flex;flex-direction:column;justify-content:space-between;background:var(--card);border:1px solid var(--line);transition:transform .12s}
+.ob-tile:active{transform:scale(.985)}
+.ob-tile>*:not(.art){position:relative;z-index:1}
+.ob-tile .art{position:absolute;z-index:0;pointer-events:none}
+.ob-tile-path{background:radial-gradient(110% 80% at 100% 0%,rgba(59,130,246,.16),transparent 62%),var(--card);border-color:var(--blue-line)}
+.ob-tile-path .art{inset:0;width:100%;height:100%;object-fit:cover;object-position:78% 45%;opacity:.3;-webkit-mask-image:linear-gradient(100deg,transparent 12%,#000 62%);mask-image:linear-gradient(100deg,transparent 12%,#000 62%)}
+.ob-tile-other{background:radial-gradient(110% 80% at 100% 0%,rgba(232,178,80,.12),transparent 62%),var(--card);border-color:rgba(232,178,80,.24)}
+.ob-tile-other .art{inset:0;width:100%;height:100%;object-fit:cover;object-position:80% 45%;opacity:.3;-webkit-mask-image:linear-gradient(100deg,transparent 12%,#000 62%);mask-image:linear-gradient(100deg,transparent 12%,#000 62%)}
+.ob-kav{width:28px;height:28px;border-radius:50%;background:linear-gradient(140deg,#6DB6B4,#38625f);display:flex;align-items:center;justify-content:center;font-size:12px;color:#0A0B0F;font-weight:800;flex-shrink:0}
+.ob-ideas{display:flex;flex-direction:column;gap:6px}
+.ob-idea{display:flex;gap:8px;align-items:flex-start;width:100%;padding:9px 11px;border-radius:12px;background:var(--card-2);border:1px solid var(--line-2);font-size:13.5px;line-height:1.4;color:var(--ink-2);text-wrap:pretty}
+.ob-idea:active{background:var(--blue-bg)}
+.ob-idea.used{opacity:.45}
+.ob-sheet{position:fixed;inset:0;z-index:400;display:flex;align-items:flex-end;justify-content:center}
+.ob-sheet-bg{position:absolute;inset:0;background:rgba(0,0,0,.55)}
+.ob-sheet-card{position:relative;width:100%;max-width:480px;background:#131519;border:1px solid rgba(255,255,255,.12);border-bottom:0;border-radius:22px 22px 0 0;padding:10px 18px calc(var(--sab) + 18px);color:#F2F2F4;--card:#131519;--card-2:#171A1F;--line-2:rgba(255,255,255,.12);--ink:#F2F2F4;--ink-2:rgba(235,235,245,.72);--amber:#E8B250;--amber-bg:rgba(232,178,80,.1);--amber-line:rgba(232,178,80,.3);animation:obUp .22s ease}
+.ob-sheet-grab{width:38px;height:4px;border-radius:2px;background:rgba(255,255,255,.18);margin:0 auto 14px}
+@keyframes obUp{from{transform:translateY(24px);opacity:0}to{transform:none;opacity:1}}
+@media (max-height:700px){.ob{gap:9px}.ob-h{font-size:21px}.ob-sub{display:none}}
 
 /* ═══ Table Topics AI section ═══ */
 .tt-ai-section{background:linear-gradient(135deg,rgba(160,123,199,0.07),rgba(109,182,180,0.04));border:1px solid rgba(160,123,199,0.28);border-radius:16px;padding:16px;margin-bottom:14px}
@@ -4672,13 +4695,25 @@ if(window.visualViewport){
 window.addEventListener('load',()=>{setTimeout(()=>{try{window.scrollTo(0,1);window.scrollTo(0,0);}catch{}setAppHeight();},50);});
 
 // Single source of truth for the version shown in the app. Bump here only.
-const APP_VERSION='1.8';
+const APP_VERSION='1.9';
 // What's new — newest first. Plain language, a few lines per version.
 const CHANGELOG=[
+  {v:'1.9',date:'Sep 2026',items:[
+    'New Outline Builder replaces the Speech Draft Builder: pick a Pathways project or describe any other speech, choose a structure, and write one point per section — timed to your speech',
+    'Outlines show when each section starts, so you can see where your time goes before you rehearse',
+    'Any other speech: set the type (TED-style talk, work presentation, pitch, toast, club sharing), the length and the goal — inform, persuade, inspire or entertain',
+    'Suggest ideas: K offers three angles for the section you’re on; with AI off you get a starter line instead',
+    'K reviews a finished outline for a weak opening, a point with no example, or a close that doesn’t return to your message',
+    'Rehearse → opens Speech Coach with the outline attached; K reports how the delivery matched the plan, section by section',
+    'Speech Coach now coaches non-Pathways speeches against your own brief — goal, type of speech and one message — with a new “What I heard” check',
+    'Freestyle practice gets an optional goal so K knows what to judge against, and the timer follows the length you set',
+    'Saved outlines keep your progress; unfinished drafts can be continued from the start screen'
+  ]},
   {v:'1.8',date:'Sep 2026',items:[
     'Redesigned hub: your mode leads, cards show real progress and next steps, with new artwork behind each tile',
     'Speech Coach redesign: the timer ring is the start button, and it fills as you speak against your project’s green and red times',
-    'Practice Tools rows now carry their own artwork',
+    'Practice Tools rows now carry their own artwork; Contests lives on the hub only',
+    'Removed “My Speaking Voice” from Settings',
     'Table Topics® setup: pick a topic style, retry your last topic, see K’s notes',
     'No more repeat Table Topics® — the app remembers what it has served',
     'Pathways: level tabs and an “Up next” card so you always know where you are',
@@ -5063,6 +5098,7 @@ function render(){
   app.classList.toggle("is-tt",V.view==="tt-practice"&&TTP.phase==="question");
   app.classList.toggle("is-tts",V.view==="tt-practice"&&TTP.phase==="setup");
   app.classList.toggle("is-psr",V.view==="ai-coach"&&PS.phase!=="done");
+  app.classList.toggle("is-ob",V.view==="speech-draft");
   // Safety: if we leave the fullscreen timer, make sure it pauses (battery + wake lock)
   if(V.view!=="timer"&&T.running)pauseTimer();
   // Safety: if we leave the filler detector while it's active, stop it
@@ -5074,7 +5110,7 @@ function render(){
   // you return to the same tool later.
   const view=V.view;
   if(view!=="eval-helper")  {V._evalPid=V._evalPid||"";} // keep pid if staying
-  if(view!=="speech-draft") {/* _sdResult intentionally kept for back-nav */}
+  if(view!=="speech-draft"&&V._ob&&V._ob.screen!=="outline")V._ob=null; // reopen at start (outline kept for coach round-trips)
   if(view!=="ai-tool"){
     // Clear AI tool state when leaving — but not _eaPid (user might return)
     if(V._tgLoading)V._tgLoading=false;
@@ -6690,7 +6726,7 @@ function renderProjectDetail(app,pid){
   h+=renderSessionHistory(pid,'#A07BC7');
   h+='<div style="display:flex;flex-direction:column;gap:10px;margin:12px 0">';
   h+='<button class="modal-cta" data-action="practice-this-speech" style="background:linear-gradient(135deg,#A07BC7,#6DB6B4);font-size:15px">🎙 Get Coach Feedback</button>';
-  h+='<button class="modal-cta-ghost" data-action="draft-this-speech">✏️ Open in Speech Draft Builder</button>';
+  h+='<button class="modal-cta-ghost" data-action="draft-this-speech">✏️ Outline this speech</button>';
   h+='</div>';
 
   h+='<div class="app-footer">Progress saved on this device · Tap ← to return</div>';
@@ -6887,7 +6923,10 @@ function renderProjectDetail(app,pid){
   });
   const draftThisBtn=app.querySelector('[data-action="draft-this-speech"]');
   if(draftThisBtn)draftThisBtn.addEventListener('click',()=>{
-    V._sdPid=pid;
+    V._obPid=pid;V._obReturn={view:'project',pid:pid};
+    V._ob={screen:'start'};
+    _obNewDraft('pathways');S.obDraft.projectId=pid;save();
+    V._ob={screen:'project'};
     V.view='speech-draft';
     render();
   });
@@ -7191,11 +7230,11 @@ function renderRoleDetail(app,roleId){
       h+='<button class="modal-cta" style="width:auto;padding:10px 22px;font-size:14px;background:#8B5CF6;color:#fff" data-action="open-coach" style="margin-bottom:8px">Open Speech Coach →</button>';
       h+='</div>';
       h+='<div class="role-tools-note" style="border-style:solid;border-color:rgba(59,130,246,0.45);background:rgba(59,130,246,0.07);margin-top:8px">';
-      h+='<div style="margin-bottom:10px">📝 <strong>Speech Draft Builder</strong> — AI builds your speech outline and opening lines.</div>';
-      h+='<button class="modal-cta" style="width:auto;padding:10px 22px;font-size:14px;background:#3B82F6;color:#fff" data-action="open-draft">Open Speech Draft Builder →</button>';
+      h+='<div style="margin-bottom:10px">📝 <strong>Outline Builder</strong> — one point per section, timed to your project or your own brief.</div>';
+      h+='<button class="modal-cta" style="width:auto;padding:10px 22px;font-size:14px;background:#3B82F6;color:#fff" data-action="open-draft">Open Outline Builder →</button>';
       h+='</div>';
     }else{
-      h+='<div class="role-tools-note">Enable AI in ✨ AI Settings to unlock Speech Coach and Speech Draft Builder.</div>';
+      h+='<div class="role-tools-note">Enable AI in ✨ AI Settings to unlock Speech Coach. The Outline Builder works without AI.</div>';
     }
 
   }else{
@@ -7447,8 +7486,8 @@ function getSmartSuggestions(){
     });
     rows.push({
       icon:"📝",
-      title:"Speech Draft Builder",
-      desc:"8 proven structures — get your scaffold in seconds, no AI needed",
+      title:"Outline Builder",
+      desc:"8 proven structures, one point per section, timed to your speech — no AI needed",
       action:"speech-draft"
     });
     rows.push({
@@ -8035,18 +8074,14 @@ function renderPracticeHub(app){
   h+='<div class="pt-list">';
   h+=toolRow({art:"tt-card.png",tool:"topics",      color:"#8B5CF6", icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.9" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><circle cx="9" cy="10.5" r="0.75" fill="currentColor" stroke="none"/><circle cx="12" cy="10.5" r="0.75" fill="currentColor" stroke="none"/><circle cx="15" cy="10.5" r="0.75" fill="currentColor" stroke="none"/></svg>', name:"Table Topics<sup style=\"font-size:0.5em;vertical-align:super\">®</sup>", desc:"Impromptu prompts — pick a theme and speak", status:_ttStatus, statusMuted:!_ttS.length});
   h+=toolRow({art:"eval-sheet.png",tool:"eval-helper", color:"#F59E0B", icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.9" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H7a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h5"/><path d="M14 2v5h5"/><path d="M14 2l5 5"/><line x1="9" y1="10.5" x2="12.5" y2="10.5"/><line x1="9" y1="13.5" x2="12.5" y2="13.5"/><circle cx="18.5" cy="18.5" r="3" fill="currentColor" stroke="none"/><path d="M16.5 18.5l1.5 1.5 2.5-2.5" stroke="white" stroke-width="0.8" fill="none"/></svg>', name:"Evaluation Helper",  desc:"AI-drafted CRC feedback for any Pathways speech"});
-  h+=toolRow({art:"draft-page.png",tool:"speech-draft",color:"#3B82F6", icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.9" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><path d="M13 2v5h7"/><line x1="8" y1="13.5" x2="12" y2="13.5"/><line x1="8" y1="17.5" x2="12" y2="17.5"/><path d="M17.5 4.5l2.5 2.5-7 7-2.5 0.5 0.5-2.5z"/><line x1="17.5" y1="4.5" x2="20" y2="7"/></svg>', name:"Speech Draft Builder",desc:"AI builds your speech outline and opening lines"});
+  h+=toolRow({art:"draft-page.png",tool:"speech-draft",color:"#3B82F6", icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.9" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><path d="M13 2v5h7"/><line x1="8" y1="13.5" x2="12" y2="13.5"/><line x1="8" y1="17.5" x2="12" y2="17.5"/><path d="M17.5 4.5l2.5 2.5-7 7-2.5 0.5 0.5-2.5z"/><line x1="17.5" y1="4.5" x2="20" y2="7"/></svg>', name:"Outline Builder",desc:"Pick a structure, fill one point per section, rehearse it"});
   h+='</div>';
-  h+='<div class="pt-divider"></div>';
-  h+='<button class="pt-contests" data-action="pt-contests"><span class="pt-contests-ico">'+((CONTEST_DATA.international&&CONTEST_DATA.international.emoji)||'')+'</span><span style="flex:1;min-width:0"><span style="display:block;font-size:13.5px;font-weight:700;color:#F5C85B;line-height:1.2;margin-bottom:2px">Contests</span><span style="display:block;font-size:11px;color:var(--text-3);line-height:1.35">Refine under pressure — ballots &amp; rules</span></span><span class="pt-arrow">›</span></button>';
   h+='<div class="app-footer">Made by Kian How · This app is independent of Toastmasters International. It is not authorized by, endorsed by, sponsored by, affiliated with, or otherwise approved by Toastmasters International. · <a data-action="whats-new" style="color:var(--accent);cursor:pointer">v'+APP_VERSION+' · What’s new</a> · <a data-action="show-notice" style="color:var(--accent);text-decoration:none;cursor:pointer">User Agreement</a></div>';
   h+='</div>';
   app.innerHTML=h;
 
   const _ptBack=app.querySelector('[data-action="pt-back"]');
   if(_ptBack)_ptBack.addEventListener("click",()=>{V.view="hub";render();});
-  const _ptCon=app.querySelector('[data-action="pt-contests"]');
-  if(_ptCon)_ptCon.addEventListener("click",()=>{V.view="contests";render();});
 
   app.querySelectorAll('[data-tool="timer"]').forEach(el=>{
     el.addEventListener("click",()=>{
@@ -11506,16 +11541,6 @@ function renderSettings(app){
 
   h+='<button data-action="redo-onboarding" style="width:100%;padding:10px;background:none;border:1px solid var(--border);border-radius:10px;font-size:13px;color:var(--text-secondary);cursor:pointer;font-family:inherit;margin-top:4px;margin-bottom:28px">↩ Redo mode selection</button>';
 
-  // ── 2. My Speaking Voice ──
-  h+='<div class="settings-section-header">My Speaking Voice</div>';
-  h+='<div class="settings-card">';
-  h+='<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">';
-  h+='<div style="font-size:12px;color:var(--text-secondary);line-height:1.5">Describe your style so K writes scripts and openings that sound like you.</div>';
-  h+='<div id="voice-saved" style="font-size:11px;color:var(--accent);opacity:0;transition:opacity .3s;flex-shrink:0;margin-left:8px">Saved ✓</div>';
-  h+='</div>';
-  h+='<textarea class="ps-input-field" id="settings-voice" placeholder="e.g. I speak directly with dry humour. I pause a lot. I use simple words and avoid jargon. I sometimes mix in Malay phrases." rows="3" style="font-size:13px">'+escHtml(S.voiceStyle||'')+'</textarea>';
-  h+='</div>';
-
   // ── 3. Data ──
   h+='<div class="settings-section-header" style="margin-top:20px">Data</div>';
   h+='<div class="settings-card">';
@@ -12191,308 +12216,554 @@ const SPEECH_FRAMEWORKS=[
 ];
 
 
+// ═══════════════════════════════════════════════════════════════════════════
+// SPEECH OUTLINE BUILDER  (replaces Speech Draft Builder)
+// One step per screen. Data comes only from PD[pid] {t,dur,p,o} and
+// SPEECH_FRAMEWORKS[i] {label,desc,best,sections[{id,label,target,prompt,starter}]}.
+// Working draft lives in S.obDraft; saved outlines in S.outlines[].
+// ═══════════════════════════════════════════════════════════════════════════
+const OB_TYPES=[
+  {id:"ted",   label:"TED-style talk"},
+  {id:"work",  label:"Work presentation"},
+  {id:"pitch", label:"Pitch"},
+  {id:"toast", label:"Toast or tribute"},
+  {id:"club",  label:"Club sharing"},
+  {id:"other", label:"Other"}
+];
+const OB_GOALS=[
+  {id:"inform",    label:"Inform",    sub:"Teach or explain"},
+  {id:"persuade",  label:"Persuade",  sub:"Change a mind"},
+  {id:"inspire",   label:"Inspire",   sub:"Move to action"},
+  {id:"entertain", label:"Entertain", sub:"Make it fun"}
+];
+const OB_GOAL_FW={persuade:["psb","mms"],inspire:["bookend","bab"],inform:["r3","wsaw"],entertain:["r3","bookend"]};
+
+function _obTypeLabel(id){const t=OB_TYPES.find(x=>x.id===id);return t?t.label:"Speech";}
+function _obGoalLabel(id){const g=OB_GOALS.find(x=>x.id===id);return g?g.label:"";}
+function _obFw(id){return SPEECH_FRAMEWORKS.find(f=>f.id===id)||null;}
+function _obFmt(s){s=Math.max(0,Math.round(s));return Math.floor(s/60)+":"+String(s%60).padStart(2,"0");}
+function _obRel(iso){
+  const t=new Date(iso).getTime();if(!t)return "";
+  const m=Math.floor((Date.now()-t)/60000);
+  if(m<1)return "just now";if(m<60)return m+" min ago";
+  const h=Math.floor(m/60);if(h<24)return h+(h===1?" hour ago":" hours ago");
+  const d=Math.floor(h/24);if(d<7)return d===1?"yesterday":d+" days ago";
+  const w=Math.floor(d/7);if(w<5)return w===1?"last week":w+" weeks ago";
+  return new Date(iso).toLocaleDateString("en-US",{month:"short",day:"numeric"});
+}
+
+// Draft accessors ------------------------------------------------------------
+function _obDraft(){return S.obDraft||null;}
+function _obNewDraft(kind){
+  // Keep an unfinished draft that has real content: park it in Saved.
+  const old=S.obDraft;
+  if(old&&old.frameworkId&&_obDoneCount(old)>0&&!old.saved){
+    if(!S.outlines)S.outlines=[];
+    const copy=JSON.parse(JSON.stringify(old));delete copy._review;copy.saved=true;
+    if(!S.outlines.some(o=>o.id===old.id))S.outlines.unshift(copy);
+  }
+  S.obDraft={id:Date.now(),kind:kind,projectId:null,brief:null,frameworkId:null,message:"",points:{},updatedAt:new Date().toISOString(),saved:false};
+  save();return S.obDraft;
+}
+function _obTouch(){const d=_obDraft();if(d){d.updatedAt=new Date().toISOString();d._review=null;save();}}
+function _obTitle(d){
+  if(!d)return "Outline";
+  if(d.kind==="pathways")return d.projectId&&PD[d.projectId]?PD[d.projectId].t:"Pathways project";
+  return d.brief?_obTypeLabel(d.brief.kind):"Speech";
+}
+function _obSections(d){const fw=d&&d.frameworkId?_obFw(d.frameworkId):null;return fw?fw.sections:[];}
+function _obDoneCount(d){return _obSections(d).filter(s=>(d.points[s.id]||"").trim()).length;}
+function _obComplete(d){const n=_obSections(d).length;return n>0&&_obDoneCount(d)===n;}
+
+// Time budget: pathways = midpoint of project duration; other = minutes×60.
+// Split by each section's word-target midpoint, rounded to 5 s, last absorbs.
+function _obTotalSecs(d){
+  if(!d)return 0;
+  if(d.kind==="pathways"){const p=d.projectId?PD[d.projectId]:null;const dur=p?parseDuration(p.dur):null;return dur?Math.round((dur.min+dur.max)/2*60):300;}
+  return d.brief?Math.max(60,(d.brief.minutes||12)*60):720;
+}
+function _obBudget(d){
+  const secs=_obSections(d),total=_obTotalSecs(d);
+  if(!secs.length)return {total,items:[]};
+  const mids=secs.map(s=>{const m=(s.target||"").match(/(\d+)\s*[-–]\s*(\d+)/);return m?(+m[1]+ +m[2])/2:60;});
+  const sum=mids.reduce((a,b)=>a+b,0)||1;
+  const items=[];let used=0;
+  secs.forEach((s,i)=>{
+    let len=i===secs.length-1?total-used:Math.round(total*mids[i]/sum/5)*5;
+    if(len<5)len=5;
+    items.push({id:s.id,label:s.label,start:used,len:len,target:s.target});
+    used+=len;
+  });
+  return {total,items};
+}
+
+// Recommended structures ----------------------------------------------------
+function _obRecommended(d){
+  let ids=[];
+  if(d.kind==="pathways"){
+    ids=SPEECH_FRAMEWORKS.filter(f=>f.best&&f.best.includes(d.projectId)).map(f=>f.id);
+    if(!ids.length)ids=["r3","prep","psp"];
+  }else{
+    const goal=d.brief&&d.brief.goal||"inform";
+    ids=(OB_GOAL_FW[goal]||["r3","prep"]).slice();
+    if(d.brief&&d.brief.minutes<3){ids=["prep"].concat(ids.filter(x=>x!=="prep"));}
+  }
+  if((d.message||"").trim()){
+    // Structures whose close returns to a single point move one place up.
+    ["bookend","prep"].forEach(id=>{const i=ids.indexOf(id);if(i>0){ids.splice(i,1);ids.splice(i-1,0,id);}});
+  }
+  return ids.slice(0,3);
+}
+function _obRecWhy(d){
+  if(d.kind==="pathways"){const p=PD[d.projectId];return p?"These are made for "+p.t+".":"";}
+  const g=d.brief&&d.brief.goal;
+  return g?"These work best when you want to "+g+".":"";
+}
+
+// Outline snapshot handed to Speech Coach ------------------------------------
+function _obSnapshot(d){
+  const b=_obBudget(d);const fw=_obFw(d.frameworkId);
+  return {
+    id:d.id,kind:d.kind,projectId:d.projectId||null,frameworkId:d.frameworkId,
+    frameworkLabel:fw?fw.label:"",message:(d.message||"").trim(),
+    brief:d.brief?Object.assign({},d.brief,{label:_obTypeLabel(d.brief.kind)+" · "+d.brief.minutes+" min"}):null,
+    total:b.total,
+    sections:b.items.map(it=>({label:it.label,start:it.start,len:it.len,text:(d.points[it.id]||"").trim()}))
+  };
+}
+function _obOpenCoach(d){
+  const snap=_obSnapshot(d);
+  PS.phase="ready";PS.aiAnalysis=null;PS._extraNotes=null;
+  PS._isFollowup=false;PS._prevFeedback=null;PS._prevTranscript=null;PS._historyFocus=null;
+  PS.mode="speaker";PS.part=null;PS._origScript=null;PS._feedbackInput=null;
+  PS.outline=snap;PS._goal=null;
+  if(d.kind==="pathways"){
+    PS.pid=d.projectId;PS.freestyle=false;PS.customDur=null;PS.brief=null;
+    const parts=PD[d.projectId]&&PD[d.projectId].parts?PD[d.projectId].parts.filter(p=>p.coach!==false):null;
+    PS.part=(parts&&parts.length>1)?"a":null;
+  }else{
+    PS.pid=null;PS.freestyle=true;PS.customDur={minutes:d.brief.minutes};
+    PS.brief={kind:d.brief.kind,goal:d.brief.goal,minutes:d.brief.minutes,message:snap.message,label:snap.brief.label};
+  }
+  V._psReturnToProject=null;V._psReturnToOutline=true;V.viewingRole=null;
+  V.view="ai-coach";render();
+}
+// Reopen the builder on a snapshot (from the coach's "Edit outline")
+function _obOpenFromSnapshot(snap){
+  let d=(S.outlines||[]).find(o=>o.id===snap.id)||(S.obDraft&&S.obDraft.id===snap.id?S.obDraft:null);
+  if(!d){
+    d={id:snap.id,kind:snap.kind,projectId:snap.projectId,brief:snap.brief?{kind:snap.brief.kind,minutes:snap.brief.minutes,goal:snap.brief.goal,message:snap.message}:null,frameworkId:snap.frameworkId,message:snap.message,points:{},updatedAt:new Date().toISOString(),saved:false};
+    const secs=_obSections(d);snap.sections.forEach((s,i)=>{if(secs[i])d.points[secs[i].id]=s.text;});
+  }
+  S.obDraft=JSON.parse(JSON.stringify(d));save();
+  V._ob={screen:"outline"};V.view="speech-draft";render();
+}
+
+// ═══ RENDER ═════════════════════════════════════════════════════════════════
 function renderSpeechDraft(app){
-  const aiOn=S.aiConfig&&S.aiConfig.enabled;
-  if(!V._sdPid)V._sdPid="";
-  if(!V._sdTopic)V._sdTopic="";
-  if(!V._sdKeyMsg)V._sdKeyMsg="";
-  if(!V._sdFramework)V._sdFramework="psp"; // default to first framework
-  if(!V._sdResult)V._sdResult=null;
+  if(!V._ob)V._ob={screen:"start"};
+  const ob=V._ob, d=_obDraft();
+  // Guard: screens that need a draft
+  if(!d&&!["start","saved","projects"].includes(ob.screen))ob.screen="start";
+  const aiOn=!!(S.aiConfig&&S.aiConfig.enabled);
+  const I={
+    back:'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>',
+    chev:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--ink-3);flex-shrink:0"><path d="M9 6l6 6-6 6"/></svg>',
+    saved:'<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>',
+    list:'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 6h13M8 12h13M8 18h9"/><circle cx="3.5" cy="6" r="1"/><circle cx="3.5" cy="12" r="1"/><circle cx="3.5" cy="18" r="1"/></svg>',
+    grid:'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>',
+    pin:'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 17v5"/><path d="M9 10.76V6h6v4.76a2 2 0 0 0 1.11 1.79l1.78.9A2 2 0 0 1 19 15.24V16H5v-.76a2 2 0 0 1 1.11-1.79l1.78-.9A2 2 0 0 0 9 10.76z"/><path d="M8 2h8"/></svg>',
+    spark:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="color:var(--blue-hi)"><path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z"/></svg>',
+    mic:'<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex:none"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21"/></svg>',
+    copy:'<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>',
+    tick:'<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>',
+    resume:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg>',
+    info:'<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0"><circle cx="12" cy="12" r="9"/><path d="M12 8v.01M12 11v5"/></svg>'
+  };
+  const head=(title,right,backAct)=>'<header class="ob-head"><button class="ob-ib" data-ob="'+(backAct||"back")+'" aria-label="Back">'+I.back+'</button><div class="ob-title">'+title+'</div>'+(right||'')+'</header>';
+  const prog=(n,label)=>'<div class="ob-prog"><div class="bars">'+[1,2,3,4].map(i=>'<i'+(i<=n?' class="d"':'')+'></i>').join('')+'</div><span>'+n+' of 4 · '+label+'</span></div>';
+  const msgStrip=d&&(d.message||"").trim()?'<button class="ob-msg" data-ob="edit-msg">'+I.pin+'<span class="v">'+escHtml(d.message.trim())+'</span></button>':'';
+  const savedBtn='<button class="ob-pill" data-ob="saved">'+I.saved+'Saved</button>';
 
-  // Smart framework suggestion based on selected project
-  const proj=V._sdPid?PD[V._sdPid]:null;
-  const suggestedFw=proj?SPEECH_FRAMEWORKS.find(f=>f.best&&f.best.includes(V._sdPid)):null;
+  let h='<div class="fade-up ob" data-screen="'+ob.screen+'">';
 
-  // Project list
-  const levelGroups=[];
-  const pathCode=S.path||"DL";
-  for(let lv=1;lv<=5;lv++){
-    const g=gP(pathCode,lv);
-    const pids=[...g.r,...g.e].filter(pid=>PD[pid]&&PD[pid].dur&&PD[pid].dur.includes("min"));
-    if(pids.length)levelGroups.push({level:lv,pids});
-  }
-
-  let h='<div class="fade-up sd-view">';
-  h+='<div class="top-bar">';
-  h+='<button class="top-bar-btn" data-action="sd-back">'+(V.viewingRole?roleBackLabel(V.viewingRole):'← Practice')+'</button>';
-  if(V._sdResult)h+='<button class="top-bar-btn" data-action="sd-reset">Start over</button>';
-  h+='</div>';
-  h+='<div class="kicker">Practice</div>';
-  h+='<h1 class="title">📝 Speech <span class="accent">Draft Builder</span></h1>';
-
-  if(V._sdResult){
-    h+=V._sdResult;
+  // ── 0 · START ──
+  if(ob.screen==="start"){
+    h+=head("Outline Builder",savedBtn,"exit");
+    h+='<div class="ob-h" style="margin-top:6px">What are you preparing?</div>';
+    h+='<div class="ob-grow" style="gap:12px">';
+    h+='<button class="ob-tile ob-tile-path" data-ob="new-pathways"><img class="art" src="/art/outline-pathways.jpg" alt="" aria-hidden="true" decoding="async"><div class="ob-ico" style="width:52px;height:52px;border-radius:16px"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 20h4v-4h4v-4h4V8h4V4"/><path d="M19 4h2v2"/></svg></div><div><div class="ob-t" style="font-size:21px;margin-bottom:5px">Pathways project</div><div class="ob-p">Built on your project\'s brief and time.</div></div></button>';
+    h+='<button class="ob-tile ob-tile-other" data-ob="new-other"><img class="art" src="/art/outline-other.jpg" alt="" aria-hidden="true" decoding="async"><div class="ob-ico" style="width:52px;height:52px;border-radius:16px;background:rgba(232,178,80,.1);border-color:rgba(232,178,80,.3);color:#F5C88A">'+I.mic.replace('width="17" height="17"','width="26" height="26"').replace('stroke-width="2"','stroke-width="1.75"')+'</div><div><div class="ob-t" style="font-size:21px;margin-bottom:5px">Any other speech</div><div class="ob-p">Talks, pitches, toasts — any length.</div></div></button>';
     h+='</div>';
-    app.innerHTML=h;
-    // Wire retry / AI enhance from error or result cards
-    app.querySelector('[data-action="sd-back"]').addEventListener("click",()=>{
-    if(V.viewingRole){V.view="role";V._sdResult=null;render();return;}
-    V.view="practice";V._sdResult=null;render();
-  });
-    const resetBtn=app.querySelector('[data-action="sd-reset"]');
-    if(resetBtn)resetBtn.addEventListener("click",()=>{V._sdResult=null;render();});
-    // Wire all follow-up AI buttons
-    app.querySelectorAll('[data-action="sd-ai-enhance"]').forEach(b=>{
-      b.addEventListener("click",()=>sdAIEnhance(app, b.dataset.sdAsk||'full'));
-    });
-    return;
+    if(d&&d.frameworkId&&!_obComplete(d)){
+      h+='<button class="ob-row" data-ob="continue"><div class="ob-ico" style="width:34px;height:34px;border-radius:10px">'+I.resume+'</div><div style="flex:1;min-width:0"><div class="ob-t" style="font-size:14.5px">Continue '+escHtml(_obTitle(d))+'</div><small>'+_obDoneCount(d)+' of '+_obSections(d).length+' sections · '+_obRel(d.updatedAt)+'</small></div>'+I.chev+'</button>';
+    }
   }
 
-  h+='<div class="subtitle">Pick a structure, add your topic — your scaffold appears instantly. AI can write the opening lines after.</div>';
-  h+='<div class="sd-form">';
-
-  // Project picker
-  h+='<div class="sd-field">';
-  h+='<div class="sd-label">PROJECT <span class="sd-label-note">optional</span></div>';
-  h+='<select class="eh-select" id="sd-pid">';
-  h+='<option value="">Freestyle / no specific project</option>';
-  levelGroups.forEach(({level,pids})=>{
-    h+='<optgroup label="Level '+level+'">';
-    pids.forEach(pid=>{
-      const p=PD[pid];
-      if(p)h+='<option value="'+pid+'"'+(V._sdPid===pid?' selected':'')+'>'+p.t+'</option>';
-    });
-    h+='</optgroup>';
-  });
-  h+='</select>';
-  if(suggestedFw&&suggestedFw.id!==V._sdFramework){
-    h+='<div class="sd-suggestion">💡 Suggested for this project: <strong>'+suggestedFw.label+'</strong></div>';
+  // ── 1a · PROJECT (Pathways brief) ──
+  else if(ob.screen==="project"){
+    const remaining=(S.path?_remainingProjects(S.path):[]).filter(r=>PD[r.pid]&&PD[r.pid].dur&&PD[r.pid].dur.includes("min"));
+    const nextPid=d.projectId||(remaining[0]&&remaining[0].pid)||(getPracticeProjects()[0]||{}).pid;
+    if(!d.projectId&&nextPid){d.projectId=nextPid;save();}
+    const p=PD[d.projectId];
+    const isNext=remaining[0]&&remaining[0].pid===d.projectId;
+    const alt=remaining.find(r=>r.pid!==d.projectId);
+    h+=head("Outline Builder",savedBtn);
+    h+=prog(1,"Brief");
+    h+='<div><div class="ob-h">What are you speaking on?</div><div class="ob-sub">The project sets your brief — the outline has to meet it.</div></div>';
+    if(p){
+      h+='<div class="ob-card sel"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px"><span class="ob-kick b">'+(isNext?"Your next project":"Your project")+'</span><span class="ob-chip">'+escHtml(p.dur)+'</span></div>';
+      h+='<div class="ob-t" style="font-size:19px;margin-bottom:10px">'+escHtml(p.t)+'</div>';
+      h+='<div class="ob-kick" style="margin-bottom:3px">Purpose</div><div class="ob-p" style="margin-bottom:9px">'+escHtml(p.p||"")+'</div>';
+      h+='<div class="ob-kick" style="margin-bottom:3px">Objective</div><div class="ob-p">'+escHtml(p.o||"")+'</div></div>';
+    }
+    h+='<div><div class="ob-kick" style="margin-bottom:7px">Your one message <span style="text-transform:none;letter-spacing:0;font-weight:600">· optional</span></div><input class="ob-in" id="ob-msg-in" type="text" placeholder="The one thing they should remember…" value="'+escHtml(d.message||"")+'"></div>';
+    h+='<div class="ob-grow"><div class="ob-kick">Or pick another</div>';
+    if(alt&&PD[alt.pid])h+='<button class="ob-row" data-ob="pick-project" data-pid="'+alt.pid+'"><div class="ob-dot"></div><div style="flex:1;min-width:0"><div class="ob-t">'+escHtml(PD[alt.pid].t)+'</div><small>Level '+alt.lv+' · '+escHtml(PD[alt.pid].dur)+'</small></div></button>';
+    h+='<button class="ob-row" data-ob="projects"><div class="ob-dot"></div><div style="flex:1;min-width:0"><div class="ob-t">Browse all projects</div><small>Any path, any level</small></div>'+I.chev+'</button>';
+    h+='</div>';
+    h+='<button class="ob-cta" data-ob="to-structure"'+(p?'':' disabled style="opacity:.5"')+'>Choose a structure →</button>';
   }
-  h+='</div>';
 
-  // Topic
-  h+='<div class="sd-field">';
-  h+='<div class="sd-label">TOPIC OR ANGLE</div>';
-  h+='<input class="role-ai-input" id="sd-topic" placeholder="e.g. Why I started waking up at 5am, The day I got fired…" value="'+escHtml(V._sdTopic)+'"/>';
-  h+='</div>';
+  // ── 1a' · BROWSE ALL PROJECTS ──
+  else if(ob.screen==="projects"){
+    const list=getPracticeProjects();
+    h+=head("All projects",'','to-project');
+    h+='<input class="ob-in" id="ob-proj-search" type="search" placeholder="Search projects…" autocomplete="off" style="flex:none">';
+    h+='<div class="ob-grow" style="overflow:auto;gap:6px" id="ob-proj-list">';
+    let lv=0;
+    list.forEach(p=>{
+      if(p.level!==lv){lv=p.level;h+='<div class="ob-kick" data-lv-hdr style="margin-top:6px">Level '+lv+'</div>';}
+      h+='<button class="ob-row" style="padding:10px 13px" data-ob="pick-project" data-pid="'+p.pid+'" data-search="'+escHtml(p.title.toLowerCase())+'"><div class="ob-dot'+(d&&d.projectId===p.pid?' on':'')+'">'+(d&&d.projectId===p.pid?I.tick:'')+'</div><div style="flex:1;min-width:0"><div class="ob-t">'+escHtml(p.title)+'</div></div><small style="font-variant-numeric:tabular-nums">'+escHtml(p.dur)+'</small></button>';
+    });
+    h+='</div>';
+  }
 
-  // Key message
-  h+='<div class="sd-field">';
-  h+='<div class="sd-label">KEY MESSAGE <span class="sd-label-note">one thing the audience walks away with</span></div>';
-  h+='<input class="role-ai-input" id="sd-keymsg" placeholder="e.g. Consistency beats talent. Small habits compound…" value="'+escHtml(V._sdKeyMsg)+'"/>';
-  h+='</div>';
+  // ── 1b · OTHER (brief) ──
+  else if(ob.screen==="other"){
+    if(!d.brief){d.brief={kind:"ted",minutes:12,goal:"inform",message:""};save();}
+    const b=d.brief;
+    h+=head("Your speech");
+    h+=prog(1,"Brief");
+    h+='<div class="ob-grow" style="gap:16px">';
+    h+='<div><div class="ob-kick" style="margin-bottom:8px">What is it?</div><div class="ob-seg-wrap">'+OB_TYPES.map(t=>'<button class="ob-opt'+(b.kind===t.id?' on':'')+'" data-ob="set-kind" data-v="'+t.id+'">'+t.label+'</button>').join('')+'</div></div>';
+    h+='<div><div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:6px"><span class="ob-kick">How long?</span><span class="ob-len"><b id="ob-min">'+b.minutes+'</b> min</span></div>';
+    h+='<input class="ob-range" id="ob-range" type="range" min="1" max="60" step="1" value="'+b.minutes+'" aria-label="Speech length in minutes" style="--p:'+((b.minutes-1)/59*100)+'%">';
+    h+='<div class="ob-scale"><span>1</span><span>15</span><span>30</span><span>45</span><span>60</span></div></div>';
+    h+='<div><div class="ob-kick" style="margin-bottom:8px">What should it do?</div><div class="ob-goals">'+OB_GOALS.map(g=>'<button class="ob-goal'+(b.goal===g.id?' on':'')+'" data-ob="set-goal" data-v="'+g.id+'"><b>'+g.label+'</b><span>'+g.sub+'</span></button>').join('')+'</div></div>';
+    h+='<div><div class="ob-kick" style="margin-bottom:8px">Your one message <span style="text-transform:none;letter-spacing:0;font-weight:600">· optional</span></div><input class="ob-in" id="ob-msg-in" type="text" placeholder="The one thing I want them to remember…" value="'+escHtml(d.message||"")+'"></div>';
+    h+='</div>';
+    h+='<button class="ob-cta" data-ob="to-structure">Choose a structure →</button>';
+  }
 
-  // Framework picker — always shown, no AI-decides option
-  h+='<div class="sd-field">';
-  h+='<div class="sd-label">STRUCTURE</div>';
-  h+='<div class="sd-frameworks">';
-  SPEECH_FRAMEWORKS.forEach(f=>{
-    const isSuggested=suggestedFw&&suggestedFw.id===f.id;
-    h+='<button class="sd-framework-btn'+(V._sdFramework===f.id?' active':'')+'" data-sd-fw="'+f.id+'">';
-    h+='<div class="sd-fw-label">'+f.label+(isSuggested?' <span class="sd-fw-badge">Suggested</span>':'')+'</div>';
-    h+='<div class="sd-fw-desc">'+f.desc+'</div>';
-    h+='</button>';
-  });
-  h+='</div>';
-  h+='</div>';
+  // ── 2 · STRUCTURE ──
+  else if(ob.screen==="structure"){
+    const rec=_obRecommended(d);
+    if(!d.frameworkId){d.frameworkId=rec[0];save();}
+    const rest=SPEECH_FRAMEWORKS.filter(f=>!rec.includes(f.id));
+    const chip=d.kind==="pathways"?(PD[d.projectId]?escHtml(PD[d.projectId].t)+' · '+escHtml(PD[d.projectId].dur.replace(' min','')):''):_obGoalLabel(d.brief.goal)+' · '+d.brief.minutes+' min';
+    h+=head("Outline Builder",'<span class="ob-chip n" style="max-width:46%;overflow:hidden;text-overflow:ellipsis">'+chip+'</span>');
+    h+=prog(2,"Structure");
+    h+='<div><div class="ob-h">Pick a structure</div><div class="ob-sub">'+escHtml(_obRecWhy(d))+'</div></div>';
+    h+='<div class="ob-grow" style="overflow:auto">';
+    const card=(f,recd)=>{
+      const on=d.frameworkId===f.id;
+      let c='<button class="ob-card'+(on?' sel':'')+'" style="width:100%;flex:none" data-ob="pick-fw" data-v="'+f.id+'">';
+      c+='<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px"><span class="ob-kick'+(recd?' b':'')+'">'+(recd?'Recommended':'Structure')+'</span><div class="ob-dot'+(on?' on':'')+'">'+(on?I.tick:'')+'</div></div>';
+      c+='<div class="ob-t" style="margin-bottom:4px">'+escHtml(f.label)+'</div><div class="ob-p"'+(on?' style="margin-bottom:10px"':'')+'>'+escHtml(f.desc)+'</div>';
+      if(on)c+='<div style="display:flex;flex-wrap:wrap;gap:5px">'+f.sections.map(s=>'<span class="ob-chip n">'+escHtml(s.label)+'</span>').join('')+'</div>';
+      return c+'</button>';
+    };
+    rec.forEach(id=>{const f=_obFw(id);if(f)h+=card(f,true);});
+    if(ob.showAll){rest.forEach(f=>h+=card(f,false));}
+    else h+='<button class="ob-row" style="margin-top:auto;flex:none" data-ob="more-fw"><div class="ob-ico">'+I.grid+'</div><div style="flex:1;min-width:0"><div class="ob-t">More structures</div><small>'+rest.length+' others — '+escHtml(rest.slice(0,3).map(f=>f.label.split(' (')[0]).join(', '))+'…</small></div>'+I.chev+'</button>';
+    h+='</div>';
+    h+='<button class="ob-cta" data-ob="to-build">Build my outline →</button>';
+  }
 
-  h+='<button class="eh-generate-btn" data-action="sd-build-offline">📋 Build my scaffold</button>';
+  // ── 3 · BUILD ──
+  else if(ob.screen==="build"){
+    const fw=_obFw(d.frameworkId);const secs=fw.sections;const bud=_obBudget(d);
+    if(ob.secIdx==null){ob.secIdx=secs.findIndex(s=>!(d.points[s.id]||"").trim());if(ob.secIdx<0)ob.secIdx=0;}
+    const i=ob.secIdx,sec=secs[i],it=bud.items[i];
+    const done=_obDoneCount(d);
+    h+=head(escHtml(fw.label.split(' (')[0]));
+    h+=prog(3,"Build");
+    h+=msgStrip;
+    h+='<div><div class="ob-lab" style="margin-bottom:6px;justify-content:space-between"><span>Starts at · <b>'+_obFmt(bud.total)+'</b> total</span><span>'+done+' of '+secs.length+' done</span></div>';
+    h+='<div class="ob-budget">'+bud.items.map((b,j)=>{const filled=(d.points[secs[j].id]||"").trim();const cls=j===i?' class="on"':(filled?' class="ok"':'');return '<i'+cls+' style="flex:'+b.len+'" data-ob="goto-sec" data-v="'+j+'">'+(j===i?_obFmt(b.start):(filled?'✓':_obFmt(b.start)))+'</i>';}).join('')+'</div></div>';
+    h+='<div class="ob-card sel ob-grow" style="gap:10px;flex:1 1 auto;overflow:visible">';
+    h+='<div style="display:flex;align-items:center;justify-content:space-between;gap:8px"><div style="min-width:0"><div class="ob-kick b">Section '+(i+1)+' of '+secs.length+'</div><div class="ob-t" style="margin-top:3px">'+escHtml(sec.label)+'</div></div><span class="ob-chip">'+_obFmt(it.len)+(d.kind==="pathways"?' · '+escHtml(sec.target.replace('-','–')):'')+'</span></div>';
+    h+='<div class="ob-p" style="color:var(--ink)">'+escHtml(sec.prompt)+'</div>';
+    if(!aiOn){
+      const starter=sec.starter.replace(/\[key message\]/gi,(d.message||"").trim()||"[key message]");
+      h+='<div style="border-radius:13px;background:var(--card-2);border:1px solid var(--line-2);padding:11px 12px"><div class="ob-kick" style="margin-bottom:5px">Starter line</div><div class="ob-p" style="font-style:italic">'+escHtml(starter)+'</div></div>';
+    }
+    h+='<textarea class="ob-ta" id="ob-point" placeholder="Your point, in your own words…">'+escHtml(d.points[sec.id]||"")+'</textarea>';
+    h+='<div id="ob-ideas"></div>';
+    h+='<div style="display:flex;gap:8px">'+(aiOn?'<button class="ob-ghost" data-ob="suggest">'+I.spark+'Suggest ideas</button>':'')+'<button class="ob-ghost" style="flex:0 0 auto;padding:0 18px'+(aiOn?'':';margin-left:auto')+'" data-ob="next-sec">'+(i<secs.length-1?'Next →':'Done ✓')+'</button></div>';
+    h+='</div>';
+    const rest=secs.map((s,j)=>({s,j})).filter(x=>x.j>i);
+    if(rest.length){h+='<div style="display:flex;flex-direction:column;gap:6px">'+rest.slice(0,2).map(x=>'<button class="ob-row" style="padding:10px 13px" data-ob="goto-sec" data-v="'+x.j+'"><div class="ob-dot'+((d.points[x.s.id]||"").trim()?' ok':'')+'"></div><div style="flex:1;min-width:0" class="ob-t">'+escHtml(x.s.label)+'</div><small style="font-variant-numeric:tabular-nums">'+_obFmt(bud.items[x.j].start)+'</small></button>').join('')+'</div>';}
+    if(!aiOn)h+='<div class="ob-note">'+I.info+'AI is off, so "Suggest ideas" is replaced by the starter line. Everything else works the same.</div>';
+    h+='<button class="ob-cta" data-ob="to-outline">See my outline →</button>';
+  }
 
-  h+='</div>';
+  // ── 4 · OUTLINE ──
+  else if(ob.screen==="outline"){
+    const fw=_obFw(d.frameworkId);const bud=_obBudget(d);const secs=fw.sections;
+    const p=d.kind==="pathways"?PD[d.projectId]:null;
+    const msg=(d.message||"").trim();
+    h+=head("Your outline",'<button class="ob-ib" data-ob="copy" aria-label="Copy outline">'+I.copy+'</button>');
+    h+=prog(4,"Outline");
+    h+='<div class="ob-card sel" style="padding:13px 15px"><div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:8px"><div style="min-width:0"><div class="ob-t">'+escHtml(_obTitle(d))+'</div><div class="ob-p" style="font-size:12.5px;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">'+escHtml(fw.label)+'</div></div><span class="ob-chip">'+(p?_obFmt(bud.total)+' total':_obGoalLabel(d.brief.goal)+' · '+_obFmt(bud.total))+'</span></div>';
+    if(p)h+='<div class="ob-p"><b style="color:var(--ink)">Meets:</b> '+escHtml(p.o||p.p||"")+'</div>';
+    else h+='<div class="ob-p"><b style="color:var(--ink)">'+(msg?'Message':'Goal')+':</b> '+escHtml(msg||_obGoalLabel(d.brief.goal).toLowerCase()+' the audience')+'</div>';
+    h+='</div>';
+    h+='<div class="ob-card ob-grow" style="gap:0;padding:12px 15px;overflow:auto">';
+    bud.items.forEach((it,j)=>{
+      const txt=(d.points[secs[j].id]||"").trim();
+      h+='<div class="ob-sec" data-ob="goto-sec" data-v="'+j+'"><span class="tm">'+_obFmt(it.start)+'</span><span class="nm">'+escHtml(it.label)+'</span><span class="pt"'+(txt?'':' style="color:var(--ink-3);font-style:italic"')+'>'+escHtml(txt||"Not written yet — tap to add")+'</span></div>';
+    });
+    h+='<div class="ob-sec ob-end"><span class="tm">'+_obFmt(bud.total)+'</span><span class="nm">End</span></div>';
+    h+='</div>';
+    if(aiOn&&_obComplete(d)){
+      const r=d._review;
+      if(r&&r.flags){
+        const n=r.flags.length;
+        if(n)h+='<button class="ob-row ob-krow" data-ob="review-open"><span class="ob-kav">K</span><div style="flex:1;min-width:0"><div class="ob-t" style="font-size:14.5px">K flagged '+n+' thing'+(n===1?'':'s')+'</div><small>'+escHtml(r.flags.map(f=>f.tag).join(' · '))+' — tap to review</small></div><span class="ob-chip" style="background:var(--amber-bg);border-color:var(--amber-line);color:var(--amber)">'+n+'</span>'+I.chev+'</button>';
+        else h+='<div class="ob-row" style="cursor:default"><span class="ob-kav">K</span><div style="flex:1;min-width:0"><div class="ob-t" style="font-size:14.5px">K has no flags</div><small>Opening, examples and close all check out.</small></div></div>';
+      }else if(r&&r.error){
+        h+='<button class="ob-row" data-ob="review-run"><span class="ob-kav">K</span><div style="flex:1;min-width:0"><div class="ob-t" style="font-size:14.5px">K couldn\'t review</div><small>'+escHtml(r.error)+' — tap to retry</small></div></button>';
+      }else{
+        h+='<div class="ob-row" id="ob-review-row" style="cursor:default"><span class="ob-kav">K</span><div style="flex:1;min-width:0"><div class="ob-t" style="font-size:14.5px">K is reading your outline</div><small>Checking the opening, examples and close…</small></div></div>';
+      }
+    }
+    h+='<div style="display:flex;gap:8px"><button class="ob-ghost" data-ob="save">'+I.saved+(d.saved?'Saved ✓':'Save')+'</button><button class="ob-cta" style="flex:2;height:46px;border-radius:14px;font-size:15px" data-ob="rehearse">'+I.mic+'Rehearse →</button></div>';
+  }
+
+  // ── 5 · SAVED ──
+  else if(ob.screen==="saved"){
+    const list=(S.outlines||[]).slice().sort((a,b)=>new Date(b.updatedAt)-new Date(a.updatedAt));
+    h+=head("Saved outlines",'','start');
+    if(list.length){
+      h+='<div class="ob-grow" style="overflow:auto">';
+      list.forEach(o=>{
+        const n=_obSections(o).length,k=_obDoneCount(o);
+        h+='<div class="ob-row" style="padding:10px 12px 10px 14px"><button data-ob="open-saved" data-v="'+o.id+'" style="display:flex;align-items:center;gap:12px;flex:1;min-width:0"><div class="ob-ico">'+I.list+'</div><div style="flex:1;min-width:0"><div class="ob-t" style="white-space:normal;text-wrap:pretty">'+escHtml(_obTitle(o))+'</div><small>'+_obFmt(_obTotalSecs(o))+' · '+_obRel(o.updatedAt)+'</small></div><span class="ob-chip'+(k===n?'':' n')+'">'+k+' / '+n+'</span></button><button class="ob-ib" style="width:32px;height:32px;border:0;background:none;color:var(--ink-3)" data-ob="delete-saved" data-v="'+o.id+'" aria-label="Delete"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14"/></svg></button></div>';
+      });
+      h+='</div>';
+      h+='<button class="ob-cta" data-ob="new">+ New outline</button>';
+    }else{
+      h+='<div class="ob-grow" style="align-items:flex-start;justify-content:center;gap:14px"><div class="ob-ico" style="width:56px;height:56px;border-radius:17px">'+I.list.replace('width="18" height="18"','width="26" height="26"')+'</div><div><div class="ob-h">No outlines yet</div><div class="ob-sub" style="max-width:300px">Pick a project, choose a structure, and fill one point per section. About five minutes.</div></div></div>';
+      h+='<button class="ob-cta" data-ob="new">Start my first outline →</button>';
+    }
+  }
+
   h+='</div>';
   app.innerHTML=h;
+  _obWire(app);
+  if(ob.screen==="outline"&&aiOn&&d&&_obComplete(d)&&!d._review)_obRunReview(app);
+}
 
-  app.querySelector('[data-action="sd-back"]').addEventListener("click",()=>{V.view="practice";render();});
-  const pidSel=app.querySelector("#sd-pid");
-  if(pidSel)pidSel.addEventListener("change",()=>{
-    V._sdPid=pidSel.value;
-    // Auto-select best framework for this project — not just a hint
-    if(V._sdPid){
-      const fw=SPEECH_FRAMEWORKS.find(f=>f.best&&f.best.includes(V._sdPid));
-      if(fw)V._sdFramework=fw.id;
-    }
-    render();
-  });
-  const topicEl=app.querySelector("#sd-topic");
-  if(topicEl)topicEl.addEventListener("input",()=>{V._sdTopic=topicEl.value;});
-  const keyMsgEl=app.querySelector("#sd-keymsg");
-  if(keyMsgEl)keyMsgEl.addEventListener("input",()=>{V._sdKeyMsg=keyMsgEl.value;});
-  app.querySelectorAll("[data-sd-fw]").forEach(btn=>{
-    btn.addEventListener("click",()=>{
-      V._sdFramework=btn.dataset.sdFw;
-      app.querySelectorAll("[data-sd-fw]").forEach(b=>b.classList.remove("active"));
-      btn.classList.add("active");
+// ═══ WIRING ═════════════════════════════════════════════════════════════════
+function _obGo(screen,extra){V._ob=Object.assign({screen:screen},extra||{});render();}
+function _obWire(app){
+  const ob=V._ob;const d=_obDraft();
+  const readMsg=()=>{const el=document.getElementById("ob-msg-in");if(el&&d){const v=el.value.trim();if(v!==(d.message||"")){d.message=v;_obTouch();}}};
+  const readPoint=()=>{const ta=document.getElementById("ob-point");if(ta&&d&&ob.screen==="build"){const sec=_obSections(d)[ob.secIdx];if(sec){const v=ta.value;if(v!==(d.points[sec.id]||"")){d.points[sec.id]=v;d.saved=false;_obTouch();}}}};
+  const persistInputs=()=>{readMsg();readPoint();};
+
+  // Live inputs
+  const msgIn=document.getElementById("ob-msg-in");if(msgIn)msgIn.addEventListener("change",readMsg);
+  const ta=document.getElementById("ob-point");if(ta){ta.addEventListener("input",()=>{readPoint();});}
+  const range=document.getElementById("ob-range");
+  if(range){range.addEventListener("input",()=>{const v=+range.value;const o=document.getElementById("ob-min");if(o)o.textContent=v;range.style.setProperty("--p",((v-1)/59*100)+"%");if(d&&d.brief){d.brief.minutes=v;}});range.addEventListener("change",()=>{_obTouch();});}
+  const search=document.getElementById("ob-proj-search");
+  if(search)search.addEventListener("input",()=>{const q=search.value.trim().toLowerCase();app.querySelectorAll('[data-ob="pick-project"]').forEach(b=>{b.style.display=!q||(b.dataset.search||"").includes(q)?"":"none";});app.querySelectorAll('[data-lv-hdr]').forEach(x=>x.style.display=q?"none":"");});
+
+  app.querySelectorAll("[data-ob]").forEach(btn=>{
+    const act=btn.dataset.ob;
+    btn.addEventListener("click",e=>{
+      const v=btn.dataset.v;
+      switch(act){
+        case "exit":{
+          persistInputs();
+          if(V._obReturn){const r=V._obReturn;V._obReturn=null;if(r.view==="project"){V.viewingProject=r.pid;}V.view=r.view;render();return;}
+          if(V.viewingRole){V.view="role";render();return;}
+          V.view="practice";render();return;
+        }
+        case "back":{
+          persistInputs();
+          const map={project:"start",other:"start",structure:d&&d.kind==="pathways"?"project":"other",build:"structure",outline:"build",saved:"start",projects:"project"};
+          if(ob.screen==="build"&&ob.secIdx>0){_obGo("build",{secIdx:ob.secIdx-1});return;}
+          _obGo(map[ob.screen]||"start");return;
+        }
+        case "start":_obGo("start");return;
+        case "to-project":_obGo("project");return;
+        case "saved":persistInputs();_obGo("saved");return;
+        case "new":_obGo("start");return;
+        case "new-pathways":{
+          if(d&&d.kind==="pathways"&&!d.frameworkId){}else _obNewDraft("pathways");
+          if(V._obPid){S.obDraft.projectId=V._obPid;V._obPid=null;save();}
+          _obGo("project");return;
+        }
+        case "new-other":_obNewDraft("other");_obGo("other");return;
+        case "continue":{
+          if(!d)return;
+          _obGo(_obComplete(d)?"outline":"build");return;
+        }
+        case "pick-project":{
+          if(!d)return;
+          if(d.projectId!==v){d.projectId=v;d.frameworkId=null;d.points={};d.saved=false;_obTouch();}
+          _obGo("project");return;
+        }
+        case "projects":persistInputs();_obGo("projects");return;
+        case "set-kind":{d.brief.kind=v;_obTouch();app.querySelectorAll('[data-ob="set-kind"]').forEach(b=>b.classList.toggle("on",b===btn));return;}
+        case "set-goal":{const changed=d.brief.goal!==v;d.brief.goal=v;if(changed){d.frameworkId=null;}_obTouch();app.querySelectorAll('[data-ob="set-goal"]').forEach(b=>b.classList.toggle("on",b===btn));return;}
+        case "to-structure":{persistInputs();if(d.kind==="pathways"&&!d.projectId)return;_obGo("structure");return;}
+        case "more-fw":ob.showAll=true;render();return;
+        case "pick-fw":{
+          if(d.frameworkId!==v){d.frameworkId=v;d.points={};d.saved=false;d._review=null;_obTouch();}
+          render();return;
+        }
+        case "to-build":{if(!d.frameworkId)return;_obGo("build",{secIdx:null});return;}
+        case "goto-sec":{persistInputs();_obGo("build",{secIdx:+v});return;}
+        case "next-sec":{
+          persistInputs();
+          const n=_obSections(d).length;
+          if(ob.secIdx<n-1)_obGo("build",{secIdx:ob.secIdx+1});else _obGo("outline");
+          return;
+        }
+        case "to-outline":persistInputs();_obGo("outline");return;
+        case "suggest":_obSuggest(app,btn);return;
+        case "edit-msg":{
+          persistInputs();
+          const cur=(d.message||"");
+          const nv=prompt("Your one message — the one thing they should remember:",cur);
+          if(nv===null)return;
+          d.message=nv.trim();_obTouch();render();return;
+        }
+        case "copy":{
+          const txt=_obPlainText(d);
+          const done=()=>{btn.innerHTML='<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#5EB975" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>';setTimeout(()=>render(),1200);};
+          if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(txt).then(done,()=>alert(txt));else alert(txt);
+          return;
+        }
+        case "save":{
+          if(!S.outlines)S.outlines=[];
+          d.saved=true;d.updatedAt=new Date().toISOString();
+          const copy=JSON.parse(JSON.stringify(d));delete copy._review;
+          const i=S.outlines.findIndex(o=>o.id===d.id);
+          if(i>=0)S.outlines[i]=copy;else S.outlines.unshift(copy);
+          S.outlines=S.outlines.slice(0,30);save();
+          btn.innerHTML=btn.innerHTML.replace(/Save(d ✓)?$/,'Saved ✓');
+          return;
+        }
+        case "open-saved":{
+          const o=(S.outlines||[]).find(x=>String(x.id)===String(v));if(!o)return;
+          S.obDraft=JSON.parse(JSON.stringify(o));save();
+          _obGo(_obComplete(S.obDraft)?"outline":"build",{secIdx:null});return;
+        }
+        case "delete-saved":{
+          e.stopPropagation();
+          if(!confirm("Delete this outline?"))return;
+          S.outlines=(S.outlines||[]).filter(x=>String(x.id)!==String(v));
+          if(S.obDraft&&String(S.obDraft.id)===String(v))S.obDraft=null;
+          save();render();return;
+        }
+        case "review-open":_obReviewSheet(d);return;
+        case "review-run":d._review=null;render();return;
+        case "rehearse":{
+          persistInputs();
+          if(!S.outlines)S.outlines=[];
+          if(!d.saved){d.saved=true;const copy=JSON.parse(JSON.stringify(d));delete copy._review;const i=S.outlines.findIndex(o=>o.id===d.id);if(i>=0)S.outlines[i]=copy;else S.outlines.unshift(copy);save();}
+          _obOpenCoach(d);return;
+        }
+      }
     });
   });
-
-  // Build offline scaffold
-  const offlineBtn=app.querySelector('[data-action="sd-build-offline"]');
-  if(offlineBtn)offlineBtn.addEventListener("click",()=>{
-    const topic=(topicEl?topicEl.value.trim():V._sdTopic)||"";
-    const keyMsg=(keyMsgEl?keyMsgEl.value.trim():V._sdKeyMsg)||"";
-    if(!topic&&!keyMsg){showToast("Add a topic first","✏️");return;}
-    V._sdTopic=topic;V._sdKeyMsg=keyMsg;
-    V._sdResult=sdBuildOfflineScaffold(topic,keyMsg,V._sdFramework,V._sdPid?PD[V._sdPid]:null,aiOn);
-    render();
-  });
 }
 
-// ── Build the offline scaffold HTML ─────────────────────────────────────────
-function sdBuildOfflineScaffold(topic,keyMsg,fwId,proj,aiOn){
-  const fw=SPEECH_FRAMEWORKS.find(f=>f.id===fwId)||SPEECH_FRAMEWORKS[0];
-  const tip=proj?TIPS[proj.t&&proj.t.toLowerCase()?Object.keys(TIPS).find(k=>PD[k]&&PD[k].t===proj.t):null]:null;
-
-  // Duration from project or default
-  const durLabel=proj?proj.dur:"5–7 min";
-  const wordTarget=proj?_sdWordTarget(proj.dur):{total:"500-700",per:"varies"};
-
-  let h='<div class="sd-result-card">';
-  h+='<div class="sd-result-title">'+escHtml(topic||"My speech")+'</div>';
-  if(proj)h+='<div class="sd-result-project">'+proj.t+' · '+durLabel+'</div>';
-  if(keyMsg)h+='<div class="sd-result-keymsg">💬 '+escHtml(keyMsg)+'</div>';
-  h+='<div class="sd-result-fw-tag">'+fw.label+'</div>';
-
-  // Project coaching from TIPS
-  const projectTip=proj?TIPS[Object.keys(TIPS).find(k=>PD[k]&&PD[k].t===proj.t)]:null;
-  if(proj&&TIPS[V._sdPid]){
-    const t=TIPS[V._sdPid];
-    h+='<div class="sd-coaching-card">';
-    h+='<div class="sd-coaching-hdr">🎯 Project coaching — '+proj.t+'</div>';
-    if(t.tip)h+='<div class="sd-coaching-body">'+t.tip+'</div>';
-    if(t.how)h+='<div class="sd-coaching-body" style="margin-top:6px">'+t.how+'</div>';
-    h+='</div>';
-  }
-
-  // Sections
-  fw.sections.forEach(sec=>{
-    h+='<div class="sd-section-card">';
-    h+='<div class="sd-section-hdr">';
-    h+='<div class="sd-section-name">'+sec.label+'</div>';
-    h+='<div class="sd-section-target">~'+sec.target+'</div>';
-    h+='</div>';
-    // Starter prompt — substitute topic/keymsg placeholders
-    const starter=sec.starter
-      .replace(/\[topic\]/gi,topic||"your topic")
-      .replace(/\[key message\]/gi,keyMsg||"your key message");
-    h+='<div class="sd-section-prompt">'+escHtml(sec.prompt)+'</div>';
-    h+='<div class="sd-section-starter"><span class="sd-starter-label">Starter line:</span> <em>'+escHtml(starter)+'</em></div>';
-    h+='</div>';
-  });
-
-  // Total word target
-  h+='<div class="sd-word-target">📊 Target: ~'+wordTarget+' words total for '+durLabel+'</div>';
-
-  h+='<div class="sd-result-hint">This is your scaffold — fill each section with your stories and examples. The structure does the heavy lifting.</div>';
-
-  // ── AI section — coaching + opening + follow-ups ──
-  if(aiOn){
-    h+='<div class="sd-ai-enhance-wrap" id="sd-ai-wrap">';
-    h+='<div class="sd-ai-enhance-label">✨ Want AI to go deeper on this speech?</div>';
-    h+='<div class="sd-followup-grid">';
-    h+='<button class="sd-followup-btn" data-action="sd-ai-enhance" data-sd-ask="full">📝 Write my opening</button>';
-    h+='<button class="sd-followup-btn" data-action="sd-ai-enhance" data-sd-ask="stories">💡 Story ideas for this topic</button>';
-    h+='<button class="sd-followup-btn" data-action="sd-ai-enhance" data-sd-ask="close">🏁 Help me nail the close</button>';
-    if(proj)h+='<button class="sd-followup-btn" data-action="sd-ai-enhance" data-sd-ask="project">🎯 Project-specific tips</button>';
-    h+='</div>';
-    h+='</div>';
-  }
-
-  h+='</div>';
-  return h;
+function _obPlainText(d){
+  const fw=_obFw(d.frameworkId);const bud=_obBudget(d);const secs=fw?fw.sections:[];
+  let t=_obTitle(d)+" — "+(fw?fw.label:"")+"\n";
+  const p=d.kind==="pathways"?PD[d.projectId]:null;
+  if(p)t+="Meets: "+(p.o||p.p||"")+"\n";
+  if((d.message||"").trim())t+="Message: "+d.message.trim()+"\n";
+  t+="\n";
+  bud.items.forEach((it,j)=>{t+=_obFmt(it.start)+"  "+it.label.toUpperCase()+"\n      "+((d.points[secs[j].id]||"").trim()||"—")+"\n";});
+  t+=_obFmt(bud.total)+"  END\n";
+  return t;
 }
 
-// Word target by duration
-function _sdWordTarget(dur){
-  if(!dur)return "600-800";
-  if(dur.includes("10-12")||dur.includes("10–12"))return "1000-1200";
-  if(dur.includes("8-10")||dur.includes("8–10"))return "800-1000";
-  if(dur.includes("5-7")||dur.includes("5–7"))return "500-700";
-  if(dur.includes("3-5")||dur.includes("3–5"))return "300-500";
-  if(dur.includes("2-3")||dur.includes("2–3"))return "200-300";
-  return "500-700";
-}
-
-// AI enhance — writes opening lines on top of the offline scaffold
-async function sdAIEnhance(app, ask='full'){
-  const fw=SPEECH_FRAMEWORKS.find(f=>f.id===V._sdFramework)||SPEECH_FRAMEWORKS[0];
-  const proj=V._sdPid?PD[V._sdPid]:null;
-  const topic=V._sdTopic||"";
-  const keyMsg=V._sdKeyMsg||"";
-  const tips=proj&&TIPS[V._sdPid]?TIPS[V._sdPid]:null;
-
-  const wrap=app.querySelector('#sd-ai-wrap');
-  if(wrap)wrap.innerHTML='<div class="role-ai-loading" style="padding:14px"><span class="coach-dots"><span>.</span><span>.</span><span>.</span></span><span style="margin-left:10px;font-size:13px;color:var(--text-3)">'+
-    (ask==="full"?"Writing your opening…":ask==="stories"?"Finding story angles…":ask==="close"?"Crafting your close…":"Pulling project tips…")+'</span></div>';
-
-  const context="Framework: "+fw.label+"\nTopic: "+(topic||"unspecified")+"\nKey message: "+(keyMsg||"unspecified")+
-    (proj?"\nProject: "+proj.t+" ("+proj.p+")\nDuration: "+proj.dur:"")+
-    (S.voiceStyle?"\nSpeaker's voice/style: "+S.voiceStyle+"\nWrite in this voice — match their natural style.":"");
-
-  const prompts={
-    full:{
-      sys:"You are K, a speech coach. Write the opening hook and first paragraph for a Toastmasters speech (50-80 words). First person, punchy, starts mid-scene or with a bold statement. No preamble — just the speech text.",
-      msg:context+"\nOpening guidance: "+fw.sections[0].prompt,
-      hdr:"✨ Your opening",
-      hint:"Edit freely — this is a starting point."
-    },
-    stories:{
-      sys:"You are K, a speech coach. Give 3 brief story angles the speaker could use for this topic and key message. Each angle in 2 sentences max. Number them 1-3. No preamble.",
-      msg:context,
-      hdr:"💡 Story angles",
-      hint:"Pick the one that feels most personal — the best stories are true."
-    },
-    close:{
-      sys:"You are K, a speech coach. Write a closing paragraph (40-60 words) that lands the key message and calls back to the opening theme. First person, emotionally resonant. No preamble — just the speech text.",
-      msg:context+"\nClosing guidance: "+fw.sections[fw.sections.length-1].prompt,
-      hdr:"🏁 Your closing",
-      hint:"The best closes mirror something from the opening."
-    },
-    project:{
-      sys:"You are a Toastmasters coach. Give 3 project-specific insights — not generic tips, but the things most people miss about THIS project. Lead each one with the concept (why it matters), then make it concrete. Think of it like a chef explaining why you rest the meat before cutting: the concept unlocks the technique. Number them 1-3. Under 150 words. Honest and direct.",
-      msg:context+(tips?"\nProject coaching notes: "+(tips.tip||"")+" "+(tips.how||"")+"":""),
-      hdr:"🎯 "+( proj?proj.t:"Project")+" tips",
-      hint:"These are specific to this project's evaluation criteria."
-    }
-  };
-
-  const p=prompts[ask]||prompts.full;
-
+// ── Suggest ideas (AI) ──────────────────────────────────────────────────────
+async function _obSuggest(app,btn){
+  const d=_obDraft();const ob=V._ob;if(!d)return;
+  const sec=_obSections(d)[ob.secIdx];if(!sec)return;
+  const box=document.getElementById("ob-ideas");if(!box)return;
+  btn.disabled=true;btn.style.opacity=".6";
+  box.innerHTML='<div class="ob-note" style="border-style:solid">'+'<span class="coach-dots"><span>.</span><span>.</span><span>.</span></span><span style="margin-left:8px">K is thinking…</span></div>';
+  const p=d.kind==="pathways"?PD[d.projectId]:null;
+  const msg=(d.message||"").trim();
+  const ctx=(p?"Speech: Toastmasters Pathways project \""+p.t+"\" ("+p.dur+"). Project objective: "+(p.o||p.p)+"\n":
+    "Speech: "+_obTypeLabel(d.brief.kind)+", "+d.brief.minutes+" min, goal: "+d.brief.goal+".\n")+
+    (msg?"Speaker's one message: \""+msg+"\"\n":"")+
+    "Section: "+sec.label+"\nWhat this section should do: "+sec.prompt+"\n"+
+    (Object.keys(d.points).filter(k=>(d.points[k]||"").trim()).length?"Points already written:\n"+_obSections(d).filter(s=>(d.points[s.id]||"").trim()).map(s=>"- "+s.label+": "+d.points[s.id].trim()).join("\n")+"\n":"");
+  const sys="You are K, a Toastmasters speech coach helping a speaker outline a speech. Suggest 3 short, concrete ideas for the section described — angles, moments or examples the speaker could use, each under 18 words"+(msg?", and each one must support the speaker's message":"")+". Ideas should invite the speaker's own stories; use [brackets] for the specifics only they know. Reply with exactly 3 lines, numbered 1-3, nothing else.";
   try{
-    const text=await callCoach(p.sys,p.msg,{maxTokens:350,forceBase:true,featureId:"sd-draft"});
-
-    // Insert result card just above the AI wrap
-    const resultId="sd-ai-result-"+ask;
-    let existing=document.getElementById(resultId);
-    if(!existing){
-      existing=document.createElement("div");
-      existing.id=resultId;
-      wrap.parentNode.insertBefore(existing,wrap);
-    }
-    existing.innerHTML=
-      '<div class="sd-ai-opening">'+
-      '<div class="sd-ai-opening-hdr">'+p.hdr+'</div>'+
-      '<div class="sd-ai-opening-text">'+escHtml(text.trim())+'</div>'+
-      '<div class="sd-ai-opening-hint">'+p.hint+'</div>'+
-      '</div>';
-
-    // Restore follow-up buttons
-    if(wrap){
-      const aiOn=S.aiConfig&&S.aiConfig.enabled;
-      const hasProj=!!proj;
-      wrap.innerHTML=
-        '<div class="sd-ai-enhance-label">✨ Ask for more</div>'+
-        '<div class="sd-followup-grid">'+
-        '<button class="sd-followup-btn" data-action="sd-ai-enhance" data-sd-ask="full">📝 Write my opening</button>'+
-        '<button class="sd-followup-btn" data-action="sd-ai-enhance" data-sd-ask="stories">💡 Story ideas</button>'+
-        '<button class="sd-followup-btn" data-action="sd-ai-enhance" data-sd-ask="close">🏁 Help with close</button>'+
-        (hasProj?'<button class="sd-followup-btn" data-action="sd-ai-enhance" data-sd-ask="project">🎯 Project tips</button>':'')+
-        '</div>';
-      wrap.querySelectorAll('[data-action="sd-ai-enhance"]').forEach(b=>{
-        b.addEventListener("click",()=>sdAIEnhance(app,b.dataset.sdAsk||'full'));
-      });
-    }
-  }catch(e){
-    if(wrap)wrap.innerHTML=renderAIError(e,"sd-ai-enhance");
+    const res=await callCoach(sys,ctx,{maxTokens:220,featureId:"ob-suggest"});
+    const ideas=res.split("\n").map(l=>l.replace(/^\s*\d+[.)]\s*/,"").trim()).filter(Boolean).slice(0,3);
+    box.innerHTML='<div class="ob-ideas">'+ideas.map(i=>'<button class="ob-idea" data-idea="'+escHtml(i)+'">'+I_spark()+'<span>'+escHtml(i)+'</span></button>').join('')+'</div>';
+    box.querySelectorAll(".ob-idea").forEach(b=>b.addEventListener("click",()=>{
+      const ta=document.getElementById("ob-point");if(!ta)return;
+      const cur=ta.value.trim();ta.value=cur?cur+"\n"+b.dataset.idea:b.dataset.idea;
+      ta.dispatchEvent(new Event("input"));b.classList.add("used");ta.focus();
+    }));
+  }catch(err){
+    box.innerHTML='<div class="ob-note" style="border-style:solid;color:var(--amber)">'+escHtml((err&&err.message)||"Couldn't reach K.")+'</div>';
   }
+  btn.disabled=false;btn.style.opacity="";
 }
+function I_spark(){return '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="color:var(--blue-hi);flex:none;margin-top:2px"><path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z"/></svg>';}
 
-  // ── Offline template ──
-// ═══════════════════════════════════════════════════════════════════════════
-// STANDALONE AI TOOL VIEWS — each AI generator gets its own full screen,
-// not a panel stuffed inside the role page. Matches 5A+ design pattern.
-// ═══════════════════════════════════════════════════════════════════════════
-// Dispatched via V._aiToolId: "topics-gen" | "tmd-script" | "eval-assistant"
-// Returns to V._aiToolReturnRole's role page on back.
+// ── K's review (AI): at most 3 flags, only when the outline is complete ─────
+async function _obRunReview(app){
+  const d=_obDraft();if(!d)return;
+  const snap=_obSnapshot(d);
+  const key=JSON.stringify([snap.frameworkId,snap.message,snap.sections.map(s=>s.text)]);
+  d._review={pending:true,key:key};
+  const p=d.kind==="pathways"?PD[d.projectId]:null;
+  const msg=snap.message;
+  const sys="You are K, a Toastmasters speech coach reviewing a one-line-per-section speech outline before the speaker writes it. Check only these: OPENING — does the first section open on a specific moment, image or question rather than an announcement? EXAMPLE — does every main point have a concrete example, story or evidence, not just a claim? "+(msg?"CLOSE — does the final section return to the speaker's message? ":"")+"TIMING — only if a section plans clearly more than its time allows. Report at most 3 flags, the most important first. Each flag is one line: TAG: advice in under 25 words, naming the section. Use tags exactly: Opening, Example, Close, Timing. If nothing needs flagging reply with exactly: NONE. No preamble, no praise.";
+  const ctx=(p?"Pathways project: "+p.t+" ("+p.dur+"). Objective: "+(p.o||p.p)+"\n":"Speech: "+_obTypeLabel(d.brief.kind)+", "+d.brief.minutes+" min, goal: "+d.brief.goal+".\n")+
+    (msg?"Speaker's message: \""+msg+"\"\n":"")+"Structure: "+snap.frameworkLabel+"\n\nOUTLINE:\n"+
+    snap.sections.map(s=>_obFmt(s.start)+" ("+_obFmt(s.len)+") "+s.label+": "+(s.text||"—")).join("\n");
+  try{
+    const res=await callCoach(sys,ctx,{maxTokens:260,featureId:"ob-review"});
+    const flags=[];
+    if(!/^\s*NONE\b/i.test(res)){
+      res.split("\n").forEach(l=>{const m=l.match(/^\s*[-*\d.)]*\s*(Opening|Example|Close|Timing)\s*[:—-]\s*(.+)$/i);if(m&&flags.length<3)flags.push({tag:m[1][0].toUpperCase()+m[1].slice(1).toLowerCase(),text:m[2].trim()});});
+    }
+    if(_obDraft()===d){d._review={key:key,flags:flags};save();}
+  }catch(err){
+    if(_obDraft()===d)d._review={key:key,error:String((err&&err.message)||"Couldn't reach K.").split("\n")[0].replace(/<[^>]*>/g,"").slice(0,70)};
+  }
+  if(V.view==="speech-draft"&&V._ob&&V._ob.screen==="outline")render();
+}
+function _obReviewSheet(d){
+  const r=d&&d._review;if(!r||!r.flags||!r.flags.length)return;
+  const old=document.getElementById("ob-sheet");if(old)old.remove();
+  const el=document.createElement("div");el.id="ob-sheet";el.className="ob-sheet";
+  el.innerHTML='<div class="ob-sheet-bg"></div><div class="ob-sheet-card"><div class="ob-sheet-grab"></div><div style="display:flex;align-items:center;gap:10px;margin-bottom:12px"><span class="ob-kav">K</span><div class="ob-t" style="font-size:16px">K flagged '+r.flags.length+' thing'+(r.flags.length===1?'':'s')+'</div></div>'+
+    r.flags.map(f=>'<div class="ob-flag"><b>'+escHtml(f.tag)+'</b><span>'+escHtml(f.text)+'</span></div>').join('')+
+    '<button class="ob-ghost" style="margin-top:12px;width:100%" data-close>Got it</button></div>';
+  document.body.appendChild(el);
+  const close=()=>el.remove();
+  el.querySelector(".ob-sheet-bg").addEventListener("click",close);
+  el.querySelector("[data-close]").addEventListener("click",close);
+}
 
 function renderAITool(app){
   const toolId=V._aiToolId;
@@ -13770,7 +14041,9 @@ function renderCoachSessionDetail(app){
       PS._prevFeedback=session.feedback;
       PS._isFollowup=true;
       PS._historyFocus=_extractFocus(session.feedback,'speech');
-      PS.pid=session.pid||null;
+      PS.pid=session.pid||null;PS.freestyle=!session.pid;
+      PS.brief=session.brief||null;PS.customDur=session.brief&&session.brief.minutes?{minutes:session.brief.minutes}:null;
+      PS.outline=session.outline||null;PS._goal=session.goal||null;
       PS._psReturnToProject=session.pid||null;
       PS.phase='ready';
       PS.aiAnalysis=null;
@@ -14350,7 +14623,7 @@ const TOUR_STEPS=[
   {
     selector:'[data-hub="practice"]',
     title:"Practice tools",
-    body:"Table Topics® practice, the Evaluation Helper and the Speech Draft Builder — for rehearsal between meetings."
+    body:"Table Topics® practice, the Evaluation Helper and the Outline Builder — for rehearsal between meetings."
   },
   {
     selector:'[data-hub="path"]',
@@ -15881,6 +16154,36 @@ function _psGetTags(pid){
   return PS_COACHING_TAGS[pid]||{tags:["content","language"],limit:null};
 }
 
+// ── Coach session context helpers ──
+// Duration for the current session: evaluator range, project range, or a
+// custom length from an "Any other speech" outline (green −1 min · red +30 s).
+function _psDur(){
+  if(PS.mode==="evaluator")return {min:2,max:3};
+  if(PS.pid){const p=PD[PS.pid];return p?parseDuration(p.dur):null;}
+  if(PS.customDur&&PS.customDur.minutes){const m=+PS.customDur.minutes;return m>=2?{min:m-1,max:m+0.5,exact:m}:{min:0.5,max:m+0.5,exact:m};}
+  return null;
+}
+function _psDurLabel(){
+  if(PS.mode==="evaluator")return '2–3 min';
+  const p=PS.pid?PD[PS.pid]:null;if(p)return p.dur;
+  if(PS.customDur&&PS.customDur.minutes)return PS.customDur.minutes+' min';
+  return '';
+}
+function _psFmtMin(x){const s=Math.round(x*60);return Math.floor(s/60)+':'+String(s%60).padStart(2,'0');}
+function _psTitle(){
+  const p=PS.pid?PD[PS.pid]:null;if(p)return p.t;
+  if(PS.brief&&PS.brief.kind)return _obTypeLabel(PS.brief.kind); // the length shows in its own pill
+  return "Freestyle";
+}
+function _psNoteText(){
+  if(PS.pid)return _psCoachNote(PS.pid)||'';
+  const msg=(PS.outline&&PS.outline.message)||(PS.brief&&PS.brief.message)||'';
+  if(msg)return 'Land this: '+msg;
+  return 'Just speak — K will give you feedback on what I hear.';
+}
+// Leaving an outline/brief behind when the speaker picks something else.
+function _psClearBrief(){PS.outline=null;PS.customDur=null;PS.brief=null;PS._goal=null;}
+
 function _psCoachNote(pid){
   const notes={
     // ── Level 1 ──
@@ -16030,10 +16333,11 @@ function renderPracticeStudio(app){
   if(PS.phase==="done"){renderPracticeStudioDone(app);return;}
 
   const projects=getPracticeProjects();
-  const current=PS.pid?projects.find(x=>x.pid===PS.pid)||projects[0]:projects[0];
-  if(!PS.pid&&current)PS.pid=current.pid;
+  // Freestyle (no project) sticks only when chosen — otherwise default to the first project.
+  if(!PS.pid&&!PS.freestyle&&projects[0])PS.pid=projects[0].pid;
+  const current=PS.pid?projects.find(x=>x.pid===PS.pid)||null:null;
 
-  const dur=PS.mode==="evaluator"?{min:2,max:3}:(current?parseDuration(current.dur):null);
+  const dur=_psDur();
   const hasRecognition=isSpeechRecognitionSupported();
 
   // ── Pre-render BOTH ready + active panels in the same DOM. ──
@@ -16060,16 +16364,14 @@ function renderPracticeStudio(app){
     ?["Let's see what you've got.","Ready when you are.","Take your time. I'm here."]
     :["Evening session — good on you.","Let's make this one count.","Ready when you are."];
   const greet=greetOptions[Math.floor(Math.random()*greetOptions.length)];
-  const coachNote=PS.pid?_psCoachNote(PS.pid):null;
-
   // Context card: who / what / K's note on one surface
-  const chipDur=PS.mode==="evaluator"?'2–3 min':(current&&current.dur?current.dur:'');
-  const noteText=coachNote||(current?'':'Select a project — K will give you a specific tip before you start.');
+  const chipDur=_psDurLabel();
+  const noteText=(PS.mode==="evaluator"&&!PS.pid)?'Select a project — K will give you a specific tip before you start.':_psNoteText();
   h+='<section class="psr-ctx">';
   h+='<div class="psr-row"><img class="psr-av" src="'+COACH_AVATAR+'" alt="K"><div style="min-width:0">';
   h+='<div class="psr-greet">'+greet+'</div>';
   h+='<div class="psr-working"><span class="psr-kicker">'+(PS.mode==="evaluator"?"Evaluating":"Working on")+'</span>';
-  h+='<button class="psr-chip ps-coach-project-btn" data-action="ps-change-project"><span class="ps-chip-t">'+(current?current.title:(PS.mode==="evaluator"?"Pick project":"Freestyle"))+'</span>'+(chipDur?' <small>· '+chipDur+'</small>':'')+'<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></button>';
+  h+='<button class="psr-chip ps-coach-project-btn" data-action="ps-change-project"><span class="ps-chip-t">'+escHtml(current?current.title:(PS.mode==="evaluator"?"Pick project":_psTitle()))+'</span>'+(chipDur?' <small>· '+chipDur+'</small>':'')+'<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></button>';
   h+='</div></div></div>';
   h+='<div class="psr-note"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z"/></svg><p class="ps-coach-note">'+(noteText||'Just speak — K will give you feedback on what I hear.')+'</p></div>';
   h+='</section>';
@@ -16101,6 +16403,18 @@ function renderPracticeStudio(app){
   if(PS._isFollowup&&PS._prevFeedback){
     h+='<div class="ps-followup-badge" style="margin-bottom:10px">↩ Follow-up — K will compare with your last attempt</div>';
     h+=_renderKFocusCard(PS._prevFeedback,'speech');
+  }
+
+  // Outline handed over from the Outline Builder
+  if(PS.outline&&PS.outline.sections){
+    const o=PS.outline;
+    h+='<button class="psr-outline" data-action="ps-edit-outline" title="K will check the speech against this outline"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 6h13M8 12h13M8 18h9"/><circle cx="3.5" cy="6" r="1"/><circle cx="3.5" cy="12" r="1"/><circle cx="3.5" cy="18" r="1"/></svg><span class="t"><b>Outline</b> '+escHtml((o.frameworkLabel||'').split(' (')[0])+' · '+o.sections.length+' sections</span><span class="e">Edit</span></button>';
+  }
+  // Freestyle with no brief — an optional goal so K knows what to judge against
+  if(!PS.pid&&PS.mode!=="evaluator"&&!PS.outline&&!PS.brief){
+    h+='<div class="psr-goals"><span class="psr-goals-l">Goal</span>';
+    [["inform","Inform"],["persuade","Persuade"],["inspire","Inspire"],["entertain","Entertain"]].forEach(g=>{h+='<button class="psr-goal'+(PS._goal===g[0]?' on':'')+'" data-ps-goal="'+g[0]+'">'+g[1]+'</button>';});
+    h+='</div>';
   }
 
   // B — Project-specific input fields + limitation banners
@@ -16186,7 +16500,7 @@ function renderPracticeStudio(app){
       +(dur?'<circle cx="50" cy="50" r="46" fill="none" stroke="rgba(94,185,117,.55)" stroke-width="3" stroke-dasharray="0 '+gStart.toFixed(1)+' '+gLen.toFixed(1)+' '+C+'"/><circle cx="50" cy="50" r="46" fill="none" stroke="rgba(232,93,93,.6)" stroke-width="3" stroke-dasharray="0 '+rStart.toFixed(1)+' '+(C-rStart).toFixed(1)+' 0"/>':'')
       +'<circle class="psr-progress'+(cls||'')+'" cx="50" cy="50" r="46" fill="none" stroke="#C4AEFF" stroke-width="3" stroke-linecap="round" stroke-dasharray="0 '+C+'" data-total="'+total+'"/></svg>';
     PS._ringTotal=total;
-    const marks=dur?'<div class="psr-marks ps-timer-markers"><span style="color:#5EB975"><i style="background:#5EB975"></i>Green '+dur.min+':00</span><span style="color:#E85D5D"><i style="background:#E85D5D"></i>Red '+dur.max+':00</span></div>':'<div class="psr-marks ps-timer-markers"></div>';
+    const marks=dur?'<div class="psr-marks ps-timer-markers"><span style="color:#5EB975"><i style="background:#5EB975"></i>Green '+_psFmtMin(dur.min)+'</span><span style="color:#E85D5D"><i style="background:#E85D5D"></i>Red '+_psFmtMin(dur.max)+'</span></div>':'<div class="psr-marks ps-timer-markers"></div>';
     h+='<nav class="psr-seg" role="tablist" aria-label="Mode">';
     h+='<button data-seg="record" data-action="ps-mode-record" role="tab"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21"/></svg>Record</button>';
     h+='<button data-seg="paste" data-action="ps-mode-paste" role="tab"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="3" width="8" height="4" rx="1"/><path d="M16 5h2a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h2"/><path d="M8 12h8M8 16h5"/></svg>Paste script</button>';
@@ -16214,17 +16528,17 @@ function renderPracticeStudio(app){
 
   // ─── ACTIVE PANEL ─── (always present, hidden until phase === active)
   const proj=PS.pid?PD[PS.pid]:null;
-  const activeDur=PS.mode==="evaluator"?{min:2,max:3}:(proj?parseDuration(proj.dur):null);
+  const activeDur=_psDur();
   h+='<div class="ps-active-panel">';
   const aTotal=activeDur?(activeDur.max+1)*60:420, aC=289;
-  h+='<header class="psr-head"><h1 class="psr-title">'+(proj?proj.t:"Freestyle")+'</h1>'+(activeDur?'<span class="psr-hist" style="cursor:default">'+(PS.mode==="evaluator"?'2–3 min':proj.dur)+'</span>':'')+'</header>';
+  h+='<header class="psr-head"><h1 class="psr-title">'+escHtml(_psTitle())+'</h1>'+(activeDur?'<span class="psr-hist" style="cursor:default">'+escHtml(_psDurLabel())+'</span>':'')+'</header>';
   h+='<section class="psr-stage"><img class="psr-art" src="/art/coach-ripples.png" alt="" aria-hidden="true" decoding="async">';
   h+='<div class="ps-active-card" id="ps-active-card" style="display:flex;flex-direction:column;align-items:center">';
   h+='<button class="psr-ring" data-action="ps-stop" aria-label="Stop recording"><svg class="track" viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="46" fill="none" stroke="rgba(255,255,255,.07)" stroke-width="3"/>'
     +(activeDur?'<circle cx="50" cy="50" r="46" fill="none" stroke="rgba(94,185,117,.55)" stroke-width="3" stroke-dasharray="0 '+(activeDur.min*60/aTotal*aC).toFixed(1)+' '+((activeDur.max-activeDur.min)*60/aTotal*aC).toFixed(1)+' '+aC+'"/><circle cx="50" cy="50" r="46" fill="none" stroke="rgba(232,93,93,.6)" stroke-width="3" stroke-dasharray="0 '+(activeDur.max*60/aTotal*aC).toFixed(1)+' '+(aC-activeDur.max*60/aTotal*aC).toFixed(1)+' 0"/>':'')
     +'<circle class="psr-progress" id="ps-active-progress" cx="50" cy="50" r="46" fill="none" stroke="#C4AEFF" stroke-width="3" stroke-linecap="round" stroke-dasharray="0 '+aC+'" data-total="'+aTotal+'"/></svg>';
   h+='<span class="psr-center"><span class="psr-rec ps-active-state" id="ps-active-state">● RECORDING</span><span class="psr-clock ps-active-display" id="ps-active-display">0:00</span><span class="psr-mic stop"><svg width="16" height="16" viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12" rx="2" fill="#fff"/></svg></span></span></button>';
-  if(activeDur)h+='<div class="psr-marks"><span style="color:#5EB975"><i style="background:#5EB975"></i>Green '+activeDur.min+':00</span><span style="color:#E85D5D"><i style="background:#E85D5D"></i>Red '+activeDur.max+':00</span></div>';
+  if(activeDur)h+='<div class="psr-marks"><span style="color:#5EB975"><i style="background:#5EB975"></i>Green '+_psFmtMin(activeDur.min)+'</span><span style="color:#E85D5D"><i style="background:#E85D5D"></i>Red '+_psFmtMin(activeDur.max)+'</span></div>';
   h+='<div class="psr-hint">Tap the ring to stop</div>';
   h+='</div>';
   h+='<div class="ps-silence-alert" id="ps-silence-alert" style="display:none;margin-top:12px">⚠️ No audio detected for 10 seconds. Still recording — tap stop when done.</div>';
@@ -16239,6 +16553,10 @@ function renderPracticeStudio(app){
   // ─── Wire handlers (works for both panels — they share the same root) ───
   const psBackBtn=app.querySelector('[data-action="ps-back"]');
   if(psBackBtn)psBackBtn.addEventListener("click",()=>{
+    if(V._psReturnToOutline){
+      V._psReturnToOutline=false;
+      V._ob={screen:"outline"};V.view="speech-draft";render();return;
+    }
     if(V._psReturnToProject){
       V.viewingProject=V._psReturnToProject;
       V._psReturnToProject=null;
@@ -16314,7 +16632,8 @@ function renderPracticeStudio(app){
   app.querySelectorAll("[data-ps-pid]").forEach(btn=>{
     btn.addEventListener("click",()=>{
       const pid=btn.dataset.psPid==="freestyle"?null:btn.dataset.psPid;
-      PS.pid=pid;
+      PS.pid=pid;PS.freestyle=!pid;
+      _psClearBrief();V._psReturnToOutline=false;
       PS._isFollowup=false;PS._prevFeedback=null;PS._prevTranscript=null;PS._historyFocus=null;
       // Auto-select Part A for multi-part projects; clear part state for single-part
       const coachableParts=pid&&PD[pid]&&PD[pid].parts?PD[pid].parts.filter(p=>p.coach!==false):null;
@@ -16331,9 +16650,7 @@ function renderPracticeStudio(app){
       const chipT=projBtn&&projBtn.querySelector('.ps-chip-t');if(chipT)chipT.textContent=p?p.title:"Freestyle";
       // Update coach note
       const noteEl=app.querySelector(".ps-coach-note");
-      if(noteEl){
-        noteEl.textContent=p?_psCoachNote(p.pid):"Just speak — K will give you feedback on what I hear.";
-      }
+      if(noteEl)noteEl.textContent=_psNoteText();
       // Update timer markers
       const markersEl=app.querySelector(".ps-timer-markers");
       if(markersEl){
@@ -16353,6 +16670,13 @@ function renderPracticeStudio(app){
     });
   });
   app.querySelectorAll('[data-action="ps-start"]').forEach(sb=>sb.addEventListener("click",()=>psStart(sb.dataset.timerOnly==="1")));
+  // Freestyle goal chips — in place, no re-render
+  app.querySelectorAll('[data-ps-goal]').forEach(g=>g.addEventListener("click",()=>{
+    PS._goal=PS._goal===g.dataset.psGoal?null:g.dataset.psGoal;
+    app.querySelectorAll('[data-ps-goal]').forEach(x=>x.classList.toggle("on",x.dataset.psGoal===PS._goal));
+  }));
+  const editOutlineBtn=app.querySelector('[data-action="ps-edit-outline"]');
+  if(editOutlineBtn)editOutlineBtn.addEventListener("click",()=>{if(PS.outline)_obOpenFromSnapshot(PS.outline);});
   // Part picker buttons — switch between Part A / Part B
   app.querySelectorAll('[data-ps-part]').forEach(btn=>{
     btn.addEventListener('click',()=>{
@@ -16479,9 +16803,8 @@ function psUpdateActiveDisplay(){
 
   // Phase colour on card
   const card=document.getElementById("ps-active-card");
-  const proj=PS.pid?PD[PS.pid]:null;
-  if(card&&proj){
-    const dur=parseDuration(proj.dur);
+  if(card){
+    const dur=_psDur();
     if(dur){
       card.classList.toggle("phase-green",PS.elapsed>=dur.min*60&&PS.elapsed<dur.max*60);
       card.classList.toggle("phase-red",PS.elapsed>=dur.max*60);
@@ -17459,6 +17782,10 @@ function saveCoachSession(data){
     wpm:data.wpm||0,
     title:data.title||null,
     keyMessage:data.keyMessage||null,
+    // Non-Pathways brief + outline handed over from the Outline Builder
+    brief:data.brief||null,
+    goal:data.goal||null,
+    outline:data.outline||null,
   };
   S.coachHistory.unshift(session);
   S.coachHistory=S.coachHistory.slice(0,50); // keep last 50
@@ -17663,6 +17990,56 @@ function renderStyleQuiz(quizType){
   return h;
 }
 
+// ── Coaching prompt for speeches outside Pathways ──
+// No project objective exists, so the speaker's own brief becomes the
+// objective: the goal they chose (inform / persuade / inspire / entertain),
+// the type of speech, and their one message. Same section format as the
+// Pathways prompt so renderCoachCards can lay it out.
+const PS_GOAL_CHECKS={
+  inform:"GOAL CHECK — INFORM. Could a listener repeat the two or three main points afterwards? Was each point carried by a concrete example, story or comparison rather than only stated? Was there a recap or a clear takeaway at the close? Was it pitched for the room — jargon explained, one idea at a time?",
+  persuade:"GOAL CHECK — PERSUADE. Would this actually move someone? Assess: Ethos — did the speaker earn the right to be believed on this? Pathos — a reason to care? Logos — evidence or reasoning that holds? Call to action — one clear, specific, doable ask? Counter-argument — were the obvious objections acknowledged? A polished speech missing these has not persuaded.",
+  inspire:"GOAL CHECK — INSPIRE. Was there an emotional peak, and did the speech build to it rather than announce it? Did a personal story earn the message? Was there a specific call to action or reflection at the end? What is the one thing the audience carries out of the room — and would they actually carry it?",
+  entertain:"GOAL CHECK — ENTERTAIN. Did the set-ups pay off? Was there rhythm — tight, no padding, callbacks that reward attention? Was there still a point under the fun, so it's a speech and not a routine? Did the close land on the biggest laugh or the warmest line, not a fade-out?"
+};
+const PS_TYPE_CHECKS={
+  ted:"TYPE — TED-style talk: one idea, told through story plus insight, not a list. Flag it if two ideas compete for the spotlight.",
+  work:"TYPE — Work presentation: the bottom line comes first, then the reasons; it ends with a clear next step and who owns it. Flag a buried conclusion.",
+  pitch:"TYPE — Pitch: the ask is clear inside the first thirty seconds and repeated in the last line; the problem is felt before the solution is shown.",
+  toast:"TYPE — Toast or tribute: it's about them, not the speaker; short; one specific story that shows who they are; it ends on the tribute line.",
+  club:"TYPE — Club sharing: personal and honest, with one takeaway members can use at the next meeting."
+};
+function _psOtherSys(goal,kind,hasOutline,outlineSection){
+  const goalCheck=PS_GOAL_CHECKS[goal]||"GOAL CHECK — NO STATED GOAL. Work out from the transcript what the speech was trying to do (inform, persuade, inspire or entertain), name it in one clause, then judge the speech by that standard. Close the section by suggesting they choose a goal before the next run.";
+  const typeCheck=PS_TYPE_CHECKS[kind]||"";
+  return `You are K, a Toastmasters speech coach. Be direct, encouraging, and concise. Every speaker deserves honest feedback and someone who believes in them.
+
+If the transcript is very short — under 30 words, mostly silence, or clearly incomplete — reply with exactly: "No worries, let's give it another go." Nothing else.
+
+This speech is not a Pathways project, so there is no project objective. The speaker's own brief is the objective: the goal they chose, the type of speech, and — if they gave one — the one message they wanted to land. Every speech, whatever its style, exists to put something in the audience's head; judge whether this one did.
+
+COACHING PRIORITY ORDER:
+1. The goal first. ${goalCheck}
+${typeCheck?"2. The type. "+typeCheck+"\n3.":"2."} The basics every speech needs: one clear message, an opening that earns attention, a body the audience can follow, and a close that returns to the message rather than trailing off.
+${typeCheck?"4.":"3."} Find something real to celebrate. Be warm — exclamations welcome! Cheer the instinct, the phrase, the effort.
+${typeCheck?"5.":"4."} Improve against the goal only. Tie feedback to what the goal and type actually ask for, not to general speech quality.
+
+Reply in these sections. No markdown. No preamble.
+
+🎯 GOAL CHECK: [Yes / No / Partial] — TWO SENTENCES MAXIMUM. Sentence 1: verdict and one-line reason. Sentence 2 (optional): the single most important gap or win, tied to the goal. Mandatory.
+
+🗣 WHAT I HEARD: [One sentence: the message you, the listener, took away — in your words, not theirs. If the speaker gave a message, add whether what you heard matched it or drifted, and where.] Mandatory.
+
+✅ WHAT YOU DID WELL: [Something specific. Celebrate the moment, the instinct, the phrase. If they missed the goal, say so with warmth: "Great energy — that story had real heart! Now let's aim it at the goal."] Mandatory.
+
+📈 WHERE TO IMPROVE: [Tied to the goal and the type of speech. One or two specific, actionable things — not "be clearer" but "the persuade goal needs an ask; end on 'sign up before Friday' instead of 'thank you'."] Mandatory.
+${outlineSection}
+💡 ONE PRIORITY: [Optional. Include ONLY if there is something specific and genuinely useful that was NOT already covered — a recurring pattern, a distinctive habit, a transferable strength. One sentence maximum. Otherwise omit this section entirely.]
+
+Time: if a planned length is given, treat the timing verdict as part of the goal — an audience given twelve minutes and kept for seven was short-changed as much as one kept for fifteen.
+
+Verbal distractions: Analyse the transcript for filler words (um, uh, ah, so, like, you know, right, basically, honestly, literally), repetitive sentence starters, and rushed pacing. Only flag patterns that appear 3+ times or noticeably disrupt flow. When flagging, name the exact word or phrase and how often, and suggest a concrete technique: an intentional pause before key points, slower delivery on transitions, breath placement, or a restructured sentence opener. Coach the cause, not just the symptom. Under ${hasOutline?260:220} words total.`;
+}
+
 async function psAnalyzeWithAI(){
   PS.aiLoading=true;
   _psUpdateAnalysisSection();
@@ -17699,7 +18076,7 @@ async function psAnalyzeWithAI(){
   // ── Speaker mode ──
   const proj=PS.pid?PD[PS.pid]:null;
   const tags=_psGetTags(PS.pid||"");
-  const dur=proj?parseDuration(proj.dur):null;
+  const dur=_psDur();
   const mins=(PS.elapsed/60).toFixed(1);
   const wordCount=FD.totalWords||0;
   const wpm=PS.elapsed>0?Math.round(wordCount/(PS.elapsed/60)):0;
@@ -17719,11 +18096,21 @@ async function psAnalyzeWithAI(){
     :"";
 
   let durAssessment="";
-  if(dur){
+  if(dur&&dur.exact){
+    if(PS.elapsed<dur.min*60)durAssessment="UNDER TARGET (came in at "+mins+" min, the speaker planned "+dur.exact+" min)";
+    else if(PS.elapsed>dur.max*60)durAssessment="OVER TARGET (ran "+mins+" min, the speaker planned "+dur.exact+" min)";
+    else durAssessment="ON TARGET ("+mins+" min against a planned "+dur.exact+" min)";
+  }else if(dur){
     if(PS.elapsed<dur.min*60)durAssessment="UNDER TARGET (came in at "+mins+" min, target "+dur.min+"+ min)";
     else if(PS.elapsed>dur.max*60)durAssessment="OVER TARGET (ran "+mins+" min, max "+dur.max+" min)";
     else durAssessment="ON TARGET ("+mins+" min, within "+dur.min+"–"+dur.max+" min window)";
   }
+
+  // Outline handed over from the Outline Builder — K judges execution against the plan
+  const outline=PS.outline&&PS.outline.sections?PS.outline:null;
+  const outlineBlock=outline?"\nTHE SPEAKER'S OUTLINE (planned start times, then the planned point):\n"+
+    outline.sections.map(sc=>_psFmtMin(sc.start/60)+" "+sc.label+" — "+(sc.text||"(left blank)")).join("\n")+"\n"+_psFmtMin(outline.total/60)+" End\n":"";
+  const outlineSection=outline?"\n🗺 AGAINST YOUR OUTLINE: [Which planned sections came through, which were dropped, merged or reordered. Then, estimating from each section's share of the words, where the time went against the planned start times. Two to four sentences. Judge how the plan was executed, not the plan itself.] Mandatory when an outline is provided.\n":"";
 
   const _projectNotes={
     'intro-vocal-body':
@@ -17747,7 +18134,7 @@ async function psAnalyzeWithAI(){
     "COACHING MODE — PART B (revised speech): The ONLY objective is whether the speaker applied the feedback from Part A. OBJECTIVE ACHIEVEMENT must be assessed solely on this — not on general speech quality. If original speech and feedback context are provided above, compare directly. Name what changed, what improved, and what feedback was not yet incorporated.":
     (PS.pid&&_projectNotes[PS.pid])||"";
 
-  const sys=`You are K, a Toastmasters speech coach. Be direct, encouraging, and concise. Every speaker deserves honest feedback and someone who believes in them.
+  const sys=proj?`You are K, a Toastmasters speech coach. Be direct, encouraging, and concise. Every speaker deserves honest feedback and someone who believes in them.
 
 If the transcript is very short — under 30 words, mostly silence, or clearly incomplete — reply with exactly: "No worries, let's give it another go." Nothing else.
 
@@ -17765,9 +18152,11 @@ ${deliveryNote?"\n"+deliveryNote+"\n":""}${partNote?"\n"+partNote+"\n":""}Reply 
 
 📈 WHERE TO IMPROVE: [Tied directly to the project objective. One or two specific, actionable things. What does the objective require, and where did the speech fall short? Be concrete — not "be more personal" but "the objective asks for a personal story; replace the X section with a real moment from your own life."] Mandatory.
 
+${outlineSection}
 💡 ONE PRIORITY: [Optional. Include ONLY if there is something specific and genuinely useful that was NOT already covered above — a recurring pattern, a distinctive habit, a transferable strength. One sentence maximum. If there is nothing new to add beyond the three sections above, omit this section entirely. Do not summarise. Do not repeat. Do not include a generic encouragement.]
 
-Verbal distractions: Analyse the transcript for filler words (um, uh, ah, so, like, you know, right, basically, honestly, literally), repetitive sentence starters, and rushed pacing. Only flag patterns that appear 3+ times or noticeably disrupt flow — not isolated instances. When flagging, be specific: name the exact word or phrase and how often. Suggest concrete techniques: intentional pause before key points, slower delivery on transitions, breath placement, or restructuring the sentence opener. Context matters — fillers clustered at transitions suggest loss of thread; scattered fillers suggest pacing anxiety. Coach the cause, not just the symptom. Under 220 words total.`;
+Verbal distractions: Analyse the transcript for filler words (um, uh, ah, so, like, you know, right, basically, honestly, literally), repetitive sentence starters, and rushed pacing. Only flag patterns that appear 3+ times or noticeably disrupt flow — not isolated instances. When flagging, be specific: name the exact word or phrase and how often. Suggest concrete techniques: intentional pause before key points, slower delivery on transitions, breath placement, or restructuring the sentence opener. Context matters — fillers clustered at transitions suggest loss of thread; scattered fillers suggest pacing anxiety. Coach the cause, not just the symptom. Under ${outline?260:220} words total.`
+  :_psOtherSys(PS.brief?PS.brief.goal:PS._goal,PS.brief?PS.brief.kind:null,!!outline,outlineSection);
 
   const isPsFollowup=!!(PS._isFollowup&&PS._prevFeedback);
   const isPasteMode=!!(PS._pasteMode);
@@ -17778,9 +18167,10 @@ Verbal distractions: Analyse the transcript for filler words (um, uh, ah, so, li
     (proj.parts.filter(p=>p.coach!==false)[PS.part==='a'?0:PS.part==='b'?1:0]||{}).t||'':null;
   const projPurpose=PS.pid==='eval-feedback'?
     (PS.part==='a'?"Deliver any speech — no specific objective. The speech exists to generate feedback for Part B.":
-     PS.part==='b'?"Apply the feedback received after Part A. This is the only objective.":proj.p):proj.p;
-  const msg=(proj?"Project: "+proj.t+"\nProject purpose: "+projPurpose+"\n":
-    "Freestyle practice\n")+
+     PS.part==='b'?"Apply the feedback received after Part A. This is the only objective.":proj.p):(proj?proj.p:"");
+  const briefLine=PS.brief?"Speech: "+PS.brief.label+"\nGoal: "+PS.brief.goal+(PS.brief.message?"\nSpeaker's one message: \""+PS.brief.message+"\"":"")+"\n"
+    :(PS._goal?"Freestyle practice\nGoal the speaker chose: "+PS._goal+"\n":"Freestyle practice — no goal stated\n");
+  const msg=(proj?"Project: "+proj.t+"\nProject purpose: "+projPurpose+"\n"+(outline&&outline.message?"Speaker's one message: \""+outline.message+"\"\n":""):briefLine)+
     (partLabel?"Practicing: "+partLabel+"\n":"")+
     (isPasteMode?"MODE: This is a pasted script, not a recording. Coach content and structure — theme clarity, subtraction, character purpose. Do not comment on delivery.\n":"" )+
     (isPasteMode&&PS._govAdj?"Speaker's governing adjective: \""+PS._govAdj+"\" — evaluate whether the script actually delivers on this word. If it doesn't, that's the primary feedback.\n":"")+
@@ -17792,6 +18182,7 @@ Verbal distractions: Analyse the transcript for filler words (um, uh, ah, so, li
     "Duration: "+mins+" minutes"+(dur?" — "+durAssessment:"")+"\n"+
     "Word count: "+wordCount+" ("+wpm+" wpm)\n"+
     (PS._extraNotes?"\nSpeaker notes: "+PS._extraNotes+"\n":"")+
+    outlineBlock+
     "\nFULL TRANSCRIPT:\n"+(transcript||"(no audio captured)")+"\n"+
     buildHistoryContext(PS.pid)+
     "\nAnalyze the transcript above and give focused coaching."+(isPsFollowup?"\n\nFOLLOW-UP ATTEMPT: The speaker took your coaching and went again. Their previous attempt:\n"+(PS._prevTranscript||"(no transcript)")+"\n\nYour previous coaching:\n"+PS._prevFeedback+"\n\nFor each section of your feedback, explicitly note what changed — better, worse, or unchanged. Acknowledge improvement when it happened. If they addressed your feedback, name it.":"");
@@ -17807,13 +18198,16 @@ Verbal distractions: Analyse the transcript for filler words (um, uh, ah, so, li
     saveCoachSession({
       type:'speech',
       pid:PS.pid||null,
-      projectTitle:_proj?_proj.t:null,
+      projectTitle:_proj?_proj.t:(PS.brief?PS.brief.label:null),
       transcript:(FD.transcript||'').trim(),
       feedback:response,
       elapsed:PS.elapsed,
       wpm:wpm,
       title:PS._titleInput||null,
-      keyMessage:PS._purposeInput||null,
+      keyMessage:PS._purposeInput||(outline&&outline.message)||(PS.brief&&PS.brief.message)||null,
+      brief:PS.brief||null,
+      goal:PS._goal||null,
+      outline:outline||null,
     });
     checkAchievements('speech');
   }catch(err){
@@ -17832,7 +18226,9 @@ function renderCoachCards(raw){
   const stripMd=s=>s.replace(/^\s*#+\s*/,"").replace(/\*\*/g,"").replace(/__/g,"").replace(/^[*_]+|[*_]+$/g,"").trim();
 
   const SECTIONS=[
+    {key:"goal",     emojis:/^🎯\s*GOAL/i,keywords:/^GOAL\s*CHECK/i,                                                              label:"🎯 Goal Check",            cls:"ps-section-blue"},
     {key:"objective",emojis:/^🎯/,    keywords:/OBJECTIVE(\s*(ACHIEVEMENT|CHECK|MET))?/i,                                        label:"🎯 Objective Achievement", cls:"ps-section-blue"},
+    {key:"heard",    emojis:/^🗣/,    keywords:/^WHAT\s*I\s*HEARD/i,                                                             label:"🗣 What I Heard",          cls:"ps-section-blue"},
     {key:"worked",   emojis:/^✅/,    keywords:/WHAT\s*(WORKED|LANDED(\s*WITH\s*THE\s*ROOM)?|LANDED|PLACED\s*YOU|YOU\s*DID\s*WELL)/i, label:"✅ What You Did Well",    cls:"ps-section-green"},
     {key:"improve",  emojis:/^📈/,    keywords:/WHERE\s*TO\s*IMPROVE|WHERE.*IMPROVE|AREAS?\s*TO\s*IMPROVE/i,                  label:"📈 Where to Improve",     cls:"ps-section-red"},
     {key:"theme",    emojis:/^🧭/,    keywords:/THE\s*THEME|GOVERNING\s*ADJ/i,                                                  label:"🧭 The Theme",            cls:"ps-section-blue"},
@@ -17841,6 +18237,7 @@ function renderCoachCards(raw){
     {key:"struct",   emojis:/^🏗/,    keywords:/STRUCTURAL\s*INTEGRITY|STRUCTURE/i,                                               label:"🏗 Structure",            cls:"ps-section-blue"},
     {key:"ballot",   emojis:/^📋/,    keywords:/BALLOT\s*CHECK/i,                                                                 label:"📋 Ballot Check",         cls:"ps-section-blue"},
     {key:"gap",      emojis:/^⚠️/,    keywords:/CONTEST\s*GAP|WHAT\s*TO\s*(FIX|CUT|IMPROVE)|COST\s*YOU/i,                     label:"⚠️ Contest Gap",          cls:"ps-section-red"},
+    {key:"outline",  emojis:/^🗺/,    keywords:/AGAINST\s*(YOUR|THE)\s*OUTLINE/i,                                                label:"🗺 Against Your Outline",  cls:"ps-section-amber"},
     {key:"action",   emojis:/^💡/,    keywords:/TAKEAWAY|ONE\s*(PRIORITY|ACTION|THING)|NEXT\s*(PRACTICE\s*)?TIP|BEFORE\s*NEXT/i, label:"💡 One Priority",      cls:"ps-section-amber"},
   ];
 
@@ -17941,7 +18338,7 @@ function _psUpdateAnalysisSection(){
 
 function renderPracticeStudioDone(app){
   const proj=PS.pid?PD[PS.pid]:null;
-  const dur=proj?parseDuration(proj.dur):null;
+  const dur=_psDur();
   const mins=(PS.elapsed/60).toFixed(1);
   const wordCount=FD.totalWords||0;
   const wpm=PS.elapsed>0?Math.round(wordCount/(PS.elapsed/60)):0;
@@ -17977,7 +18374,8 @@ function renderPracticeStudioDone(app){
   }
   h+='<div class="ps-done-header">';
   h+='<div class="ps-done-icon">✓</div>';
-  h+='<div class="ps-done-title">'+(proj?proj.t:"Freestyle")+'</div>';
+  h+='<div class="ps-done-title">'+escHtml(_psTitle())+'</div>';
+  if(PS.outline&&PS.outline.sections)h+='<button class="ps-done-outline" data-action="ps-edit-outline">Edit outline →</button>';
   h+='</div>';
 
   // Stats grid
@@ -18035,6 +18433,8 @@ function renderPracticeStudioDone(app){
 
   _psUpdateAnalysisSection();
 
+  const _eo=app.querySelector('[data-action="ps-edit-outline"]');
+  if(_eo)_eo.addEventListener("click",()=>{if(PS.outline)_obOpenFromSnapshot(PS.outline);});
   app.querySelector('[data-action="ps-fresh"]').addEventListener("click",()=>{
     PS._prevTranscript="";PS._prevFeedback=null;PS._isFollowup=false;
     PS.phase="ready";PS.aiAnalysis=null;PS._extraNotes=null;
