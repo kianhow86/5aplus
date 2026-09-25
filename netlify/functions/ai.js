@@ -14,7 +14,8 @@
 //   tt-eval    : 15/day  (TT Practice evaluation)
 //   tt-question: 30/day  (TT question generation — quick + cheap)
 //   ps-eval    : 10/day  (AI Studio evaluation)
-//   sd-draft   : 5/day   (Speech Draft Builder)
+//   ob-suggest : 30/day  (Outline Builder — Suggest ideas, one section at a time)
+//   ob-review  : 10/day  (Outline Builder — K's review of a finished outline)
 //   eh-draft   : 8/day   (Eval Helper CRC draft)
 //   tmd-script : 10/day  (TMD Script Generator)
 //   tg-topics  : 10/day  (AI Topics Generator)
@@ -30,7 +31,8 @@ const DAILY_LIMITS = {
   "tt-eval":     15,
   "tt-question": 30,
   "ps-eval":     10,
-  "sd-draft":    5,
+  "ob-suggest":  30,
+  "ob-review":   10,
   "eh-draft":    8,
   "tmd-script":  10,
   "tg-topics":   10,
@@ -59,6 +61,35 @@ function monthKey(token) {
   const d = new Date();
   return `${token}:month:${d.getUTCFullYear()}-${String(d.getUTCMonth()+1).padStart(2,"0")}`;
 }
+// Token-accounting keys. Separate from the call counters above so the
+// rate-limiting logic stays untouched.
+function tokKey(token) {
+  const d = new Date();
+  return `${token}:tok:${d.getUTCFullYear()}-${String(d.getUTCMonth()+1).padStart(2,"0")}`;
+}
+// Site-wide aggregate — the number that actually maps to the monthly bill.
+function tokKeyGlobal() {
+  const d = new Date();
+  return `_all:tok:${d.getUTCFullYear()}-${String(d.getUTCMonth()+1).padStart(2,"0")}`;
+}
+// Per-feature aggregate — shows which features are driving cost.
+function tokKeyFeature(featureId) {
+  const d = new Date();
+  return `_feat:${featureId}:tok:${d.getUTCFullYear()}-${String(d.getUTCMonth()+1).padStart(2,"0")}`;
+}
+
+// Read {in,out,calls}, add the new usage, write it back.
+async function addTokens(store, key, inTok, outTok) {
+  let acc = { in: 0, out: 0, calls: 0 };
+  try {
+    const raw = await store.get(key);
+    if (raw) acc = { ...acc, ...JSON.parse(raw) };
+  } catch { /* missing or malformed — start fresh */ }
+  acc.in    += inTok;
+  acc.out   += outTok;
+  acc.calls += 1;
+  await store.set(key, JSON.stringify(acc));
+}
 
 exports.handler = async (event) => {
   // CORS — allow requests from your Netlify domain + localhost dev
@@ -73,12 +104,58 @@ exports.handler = async (event) => {
   const corsHeaders = {
     "Access-Control-Allow-Origin": corsOrigin,
     "Access-Control-Allow-Headers": "Content-Type, X-Client-Token, X-Feature-Id",
-    "Access-Control-Allow-Methods": "POST, OPTIONS",
+    "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
     "Access-Control-Expose-Headers": "X-Client-Token, X-Usage-Day, X-Usage-Month"
   };
 
   if (event.httpMethod === "OPTIONS") {
     return { statusCode: 204, headers: corsHeaders, body: "" };
+  }
+
+  // ── Owner-only cost dashboard ──
+  // GET /.netlify/functions/ai?stats=<OWNER_KEY> returns this month's token
+  // totals with cost already worked out. Read-only, no effect on the AI path.
+  if (event.httpMethod === "GET" && event.queryStringParameters?.stats) {
+    const ownerKey = process.env.OWNER_KEY;
+    if (!ownerKey || event.queryStringParameters.stats !== ownerKey) {
+      return { statusCode: 404, headers: corsHeaders, body: "Not found" };
+    }
+    try {
+      const s = getStore("tmc-usage");
+      const readAcc = async (k) => {
+        try {
+          const raw = await s.get(k);
+          return raw ? JSON.parse(raw) : { in: 0, out: 0, calls: 0 };
+        } catch { return { in: 0, out: 0, calls: 0 }; }
+      };
+      // Sonnet 4.6 pricing, USD per token
+      const IN_RATE = 3 / 1e6, OUT_RATE = 15 / 1e6;
+      const costOf = (a) => +(a.in * IN_RATE + a.out * OUT_RATE).toFixed(4);
+
+      const total = await readAcc(tokKeyGlobal());
+      const features = {};
+      for (const f of Object.keys(DAILY_LIMITS)) {
+        const a = await readAcc(tokKeyFeature(f));
+        if (a.calls > 0) features[f] = { ...a, costUSD: costOf(a) };
+      }
+      const month = new Date().toISOString().slice(0, 7);
+      return {
+        statusCode: 200,
+        headers: { ...corsHeaders, "content-type": "application/json" },
+        body: JSON.stringify({
+          month,
+          total: { ...total, costUSD: costOf(total) },
+          avgCostPerCall: total.calls ? +(costOf(total) / total.calls).toFixed(5) : 0,
+          byFeature: features
+        }, null, 2)
+      };
+    } catch (err) {
+      return {
+        statusCode: 500,
+        headers: corsHeaders,
+        body: JSON.stringify({ error: "Stats unavailable: " + err.message })
+      };
+    }
   }
 
   if (event.httpMethod !== "POST") {
@@ -311,13 +388,30 @@ exports.handler = async (event) => {
     };
   }
 
+  // ── Pull real token counts out of the Anthropic response ──
+  // These are the actual billed numbers, not estimates from max_tokens.
+  let inTok = 0, outTok = 0;
+  try {
+    const parsed = JSON.parse(responseText);
+    inTok  = parsed?.usage?.input_tokens  || 0;
+    outTok = parsed?.usage?.output_tokens || 0;
+  } catch { /* non-JSON body — leave at 0 */ }
+
+  // Log every call so the numbers are visible in the Netlify function log
+  // even if the blob store is unavailable.
+  console.log(`[tokens] feature=${featureId} in=${inTok} out=${outTok} model=${model || "claude-sonnet-4-6"}`);
+
   // ── Increment usage counters (fire-and-forget, don't block response) ──
   if (store) {
     const dk = dayKey(token);
     const mk = monthKey(token);
     Promise.all([
       store.set(dk, String(dayUsage + 1)),
-      store.set(mk, String(monthUsage + 1))
+      store.set(mk, String(monthUsage + 1)),
+      // Token accounting: per-user, site-wide, and per-feature.
+      addTokens(store, tokKey(token),              inTok, outTok),
+      addTokens(store, tokKeyGlobal(),             inTok, outTok),
+      addTokens(store, tokKeyFeature(featureId),   inTok, outTok)
     ]).catch(err => console.error("Usage increment failed:", err.message));
   }
 
