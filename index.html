@@ -666,11 +666,11 @@ a{color:inherit;text-decoration:none}
 
 /* ═══ Bottom nav — glassy purple pill hub button ═══ */
 /* ── Hub — ported from hub-reference.html (values verbatim; app class names kept) ── */
-:root{--nav-h:76px;--sab:min(env(safe-area-inset-bottom,0px),34px);--hub-green:127,198,106;--hub-teal:95,214,214;--hub-violet:139,111,247;--hub-amber:208,138,69;--hub-blue:91,157,217;--hub-gold:245,200,91;--hub-k:109,182,180}
+:root{--nav-h:52px;--sab:min(env(safe-area-inset-bottom,0px),34px);--nav-sb:max(calc(var(--sab) - 14px),8px);--hub-green:127,198,106;--hub-teal:95,214,214;--hub-violet:139,111,247;--hub-amber:208,138,69;--hub-blue:91,157,217;--hub-gold:245,200,91;--hub-k:109,182,180}
 body.on-hub{overscroll-behavior-y:none}
 body.on-hub.has-bottom-nav{padding-bottom:0}   /* .hub2 already reserves the nav space */
 #app.is-hub{max-width:none;padding:0}
-.hub2{min-height:var(--app-h,100dvh);display:flex;flex-direction:column;max-width:480px;margin:0 auto;padding:calc(env(safe-area-inset-top,0px) + 10px) 14px calc(var(--sab) + 84px);box-sizing:border-box}
+.hub2{min-height:var(--app-h,100dvh);display:flex;flex-direction:column;max-width:480px;margin:0 auto;padding:calc(env(safe-area-inset-top,0px) + 10px) 14px calc(var(--nav-h) + var(--nav-sb) + 10px);box-sizing:border-box}
 .hub2-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;flex-shrink:0}
 .hub2-mark{font-size:10.5px;font-weight:700;letter-spacing:.2em;color:rgba(235,235,245,.62);text-transform:uppercase}
 .hub2-icons{display:flex;gap:8px}
@@ -752,7 +752,7 @@ body.on-hub.has-bottom-nav{padding-bottom:0}   /* .hub2 already reserves the nav
   .pw-tile.grow .pw-push{display:none}
 }
 /* ── Section 15: bottom nav with a fixed height, independent of the viewport ── */
-.bottom-nav{position:fixed;left:0;right:0;bottom:0;z-index:50;height:calc(var(--nav-h) + var(--sab));padding:16px 16px 0;box-sizing:border-box;background:linear-gradient(to top,rgba(10,11,15,0.98) 60%,rgba(10,11,15,0.85));border-top:1px solid rgba(255,255,255,0.06);transform:translateZ(0)}
+.bottom-nav{position:fixed;left:0;right:0;bottom:0;z-index:50;height:calc(var(--nav-h) + var(--nav-sb));padding:8px 16px 0;box-sizing:border-box;background:linear-gradient(to top,rgba(10,11,15,0.97) 55%,rgba(10,11,15,0));border-top:0;transform:translateZ(0)}
 .bottom-nav-inner{height:44px;max-width:720px;margin:0 auto;display:flex;justify-content:center;align-items:center}
 .nav-hub-btn{display:inline-flex;align-items:center;gap:8px;height:44px;padding:0 20px 0 14px;position:relative;background:rgba(139,111,247,0.20);border:1px solid rgba(139,111,247,0.55);color:#fff;border-radius:22px;cursor:pointer;font-family:inherit;font-weight:600;font-size:14px;letter-spacing:-0.005em;box-shadow:0 0 26px rgba(139,111,247,0.42),0 6px 18px rgba(0,0,0,0.45);-webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px);transition:transform .12s ease,background .15s ease}
 .nav-hub-btn::before,.nav-hub-btn::after{display:none}
@@ -761,7 +761,7 @@ body.on-hub.has-bottom-nav{padding-bottom:0}   /* .hub2 already reserves the nav
 .nav-hub-btn.active{border-color:rgba(139,111,247,0.55);box-shadow:0 0 26px rgba(139,111,247,0.42),0 6px 18px rgba(0,0,0,0.45)}
 .nav-hub-btn-icon{width:18px;height:18px;border-radius:0;background:none;border:none;box-shadow:none;display:flex;align-items:center;justify-content:center;color:#fff}
 .nav-hub-btn-icon svg{width:18px;height:18px}
-.has-bottom-nav{padding-bottom:calc(var(--nav-h) + var(--sab))}
+.has-bottom-nav{padding-bottom:calc(var(--nav-h) + var(--nav-sb))}
 
 
 /* ═══ Roles grid (sizing defined in top-level role cube block) ═══ */
@@ -1443,6 +1443,16 @@ body.on-hub.has-bottom-nav{padding-bottom:0}   /* .hub2 already reserves the nav
 /* ── Speech Coach ready/recording — ported from coach-reference.html ──
    Modes switch with data-mode on .ps-view (attribute only, never a re-render). */
 #app.is-psr{padding:0;max-width:none}
+.hist-bar{position:sticky;top:0;z-index:5;display:flex;align-items:center;gap:10px;padding:10px 0;margin-bottom:2px;background:var(--bg)}
+.hist-bar-btn{background:none;border:0;color:var(--accent);font-size:13px;font-weight:700;font-family:inherit;cursor:pointer;padding:0}
+.hist-count{flex:1;text-align:center;font-size:12px;color:var(--text-3)}
+.hist-del{height:34px;padding:0 14px;border-radius:10px;background:rgba(232,93,93,.16);border:1px solid rgba(232,93,93,.45);color:#F08A8A;font-size:13px;font-weight:700;font-family:inherit;cursor:pointer}
+.hist-del[disabled]{opacity:.4;cursor:default}
+.hist-editing .hist-row{display:flex;align-items:flex-start;gap:12px}
+.hist-row.on{border-color:rgba(232,93,93,.45)!important;background:rgba(232,93,93,.06)!important}
+.hist-check{flex:none;width:22px;height:22px;margin-top:1px;border-radius:50%;border:1.5px solid var(--border-strong);display:flex;align-items:center;justify-content:center}
+.hist-row.on .hist-check{background:#E85D5D;border-color:#E85D5D}
+.hist-body{flex:1;min-width:0;display:block}
 .psr-outline{display:flex;align-items:center;gap:8px;width:100%;height:38px;padding:0 12px;border-radius:12px;background:rgba(59,130,246,.08);border:1px solid rgba(59,130,246,.32);color:#8FB8FF;font-family:inherit;cursor:pointer;text-align:left;flex:none}
 .psr-outline .t{flex:1;min-width:0;font-size:13px;color:rgba(235,235,245,.72);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .psr-outline b{font-weight:700;color:#F2F2F4}
@@ -1453,7 +1463,7 @@ body.on-hub.has-bottom-nav{padding-bottom:0}   /* .hub2 already reserves the nav
 .psr-goal.on{background:rgba(139,111,247,.14);border-color:rgba(139,111,247,.4);color:#C4AEFF}
 .ps-done-outline{margin-top:6px;background:none;border:0;color:#8FB8FF;font-size:13px;font-weight:700;font-family:inherit;cursor:pointer;padding:4px 0}
 .ps-view.psr{--pc1:#131519;--pc2:#171A1F;--pl1:rgba(255,255,255,.07);--pl2:rgba(255,255,255,.12);--pi1:#F2F2F4;--pi2:rgba(235,235,245,.72);--pi3:rgba(235,235,245,.46);--pv:#8B6FF7;--pvh:#C4AEFF;--pvb:rgba(139,111,247,.12);--pvl:rgba(139,111,247,.32);
-  min-height:calc(var(--app-h,100dvh) - var(--nav-h) - var(--sab));max-width:480px;margin:0 auto;padding:calc(env(safe-area-inset-top,0px) + 14px) 20px 14px;gap:14px;box-sizing:border-box}
+  min-height:calc(var(--app-h,100dvh) - var(--nav-h) - var(--nav-sb));max-width:480px;margin:0 auto;padding:calc(env(safe-area-inset-top,0px) + 14px) 20px 14px;gap:14px;box-sizing:border-box}
 .psr .ps-ready-panel,.psr .ps-active-panel{flex:1;min-height:0;gap:14px}
 .psr-head{display:flex;align-items:center;gap:12px}
 .psr-iconbtn{width:40px;height:40px;border-radius:50%;background:var(--pc1);border:1px solid var(--pl2);display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--pi1);cursor:pointer;transition:transform .12s,background .12s}
@@ -2206,7 +2216,7 @@ body.on-hub.has-bottom-nav{padding-bottom:0}   /* .hub2 already reserves the nav
 /* ═══ Speech Outline Builder ═══ */
 #app.is-ob{padding:0;max-width:none}
 .ob{--card:#131519;--card-2:#171A1F;--line:rgba(255,255,255,.07);--line-2:rgba(255,255,255,.12);--ink:#F2F2F4;--ink-2:rgba(235,235,245,.72);--ink-3:rgba(235,235,245,.46);--blue:#3B82F6;--blue-hi:#8FB8FF;--blue-bg:rgba(59,130,246,.12);--blue-line:rgba(59,130,246,.32);--amber:#E8B250;--amber-bg:rgba(232,178,80,.1);--amber-line:rgba(232,178,80,.3);--green:#5EB975;
-  display:flex;min-height:calc(var(--app-h,100dvh) - var(--nav-h) - var(--sab));max-width:480px;margin:0 auto;flex-direction:column;gap:12px;padding:calc(env(safe-area-inset-top,0px) + 8px) 20px 10px;box-sizing:border-box;color:var(--ink)}
+  display:flex;min-height:calc(var(--app-h,100dvh) - var(--nav-h) - var(--nav-sb));max-width:480px;margin:0 auto;flex-direction:column;gap:12px;padding:calc(env(safe-area-inset-top,0px) + 8px) 20px 10px;box-sizing:border-box;color:var(--ink)}
 .ob *{box-sizing:border-box}
 .ob :where(button){font:inherit;color:inherit;background:none;border:0;cursor:pointer;text-align:left;padding:0;margin:0;font-family:inherit}
 .ob button:focus-visible,.ob textarea:focus-visible,.ob input:focus-visible{outline:2px solid var(--blue-hi);outline-offset:2px}
@@ -4707,7 +4717,10 @@ const CHANGELOG=[
     'Rehearse → opens Speech Coach with the outline attached; K reports how the delivery matched the plan, section by section',
     'Speech Coach now coaches non-Pathways speeches against your own brief — goal, type of speech and one message — with a new “What I heard” check',
     'Freestyle practice gets an optional goal so K knows what to judge against, and the timer follows the length you set',
-    'Saved outlines keep your progress; unfinished drafts can be continued from the start screen'
+    'Saved outlines keep your progress; unfinished drafts can be continued from the start screen',
+    'Session History: tap Select to pick sessions (or Select all) and delete them in one go',
+    'Slimmer Hub bar at the bottom of the screen, so it no longer covers buttons',
+    'Speech Coach’s Freestyle card is quieter — no placeholder line under your name'
   ]},
   {v:'1.8',date:'Sep 2026',items:[
     'Redesigned hub: your mode leads, cards show real progress and next steps, with new artwork behind each tile',
@@ -13876,11 +13889,22 @@ function renderToS(app){
 // ── Coaching History ──────────────────────────────────────────────────────
 function renderCoachHistory(app){
   const sessions=S.coachHistory||[];
-  let h='<div class="fade-up">';
+  // Select mode: tick sessions and delete them in one go
+  const editing=!!V._histEdit&&sessions.length>0;
+  if(!editing)V._histSel=null;
+  const sel=V._histSel||(V._histSel=new Set());
+  let h='<div class="fade-up'+(editing?' hist-editing':'')+'">';
   h+='<div class="top-bar">';
   h+='<button class="top-bar-btn" data-action="history-back">← Back</button>';
   h+='<div class="top-bar-title">Session History</div>';
+  if(sessions.length)h+='<button class="top-bar-btn" data-action="history-edit">'+(editing?'Done':'Select')+'</button>';
   h+='</div>';
+  if(editing){
+    const all=sel.size===sessions.length;
+    h+='<div class="hist-bar"><button class="hist-bar-btn" data-action="history-all">'+(all?'Clear selection':'Select all')+'</button>';
+    h+='<span class="hist-count">'+sel.size+' selected</span>';
+    h+='<button class="hist-del" data-action="history-delete"'+(sel.size?'':' disabled')+'>Delete'+(sel.size?' '+sel.size:'')+'</button></div>';
+  }
 
   if(!sessions.length){
     h+='<div class="welcome-hero" style="padding:40px 20px;text-align:center">';
@@ -13921,7 +13945,9 @@ function renderCoachHistory(app){
         const accentCol=isContest?'#E5B352':'#A07BC7';
         const feedbackSnippet=s.feedback.replace(/<[^>]+>/g,'').replace(/[🎯✅📈💡]/g,'').slice(0,80).trim();
 
-        h+='<button data-action="open-session" data-session-id="'+s.id+'" style="width:100%;text-align:left;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:13px 14px;margin-bottom:8px;cursor:pointer;font-family:inherit">';
+        const on=editing&&sel.has(s.id);
+        h+='<button data-action="open-session" data-session-id="'+s.id+'" class="hist-row'+(on?' on':'')+'" style="width:100%;text-align:left;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:13px 14px;margin-bottom:8px;cursor:pointer;font-family:inherit">';
+        if(editing)h+='<span class="hist-check" aria-hidden="true">'+(on?'<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>':'')+'</span><span class="hist-body">';
         h+='<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px">';
         h+='<div style="font-size:13px;font-weight:700;color:var(--text);flex:1;padding-right:8px">'+label+'</div>';
         h+='<div style="font-size:10px;color:var(--text-3);flex-shrink:0">'+timeStr+'</div>';
@@ -13932,6 +13958,7 @@ function renderCoachHistory(app){
         if(s.elapsed)h+='<span style="font-size:10px;color:var(--text-4)">'+Math.floor(s.elapsed/60)+':'+(s.elapsed%60<10?'0':'')+Math.floor(s.elapsed%60)+'</span>';
         if(s.wpm)h+='<span style="font-size:10px;color:var(--text-4)">'+s.wpm+' wpm</span>';
         h+='</div>';
+        if(editing)h+='</span>';
         h+='</button>';
       });
     });
@@ -13941,11 +13968,34 @@ function renderCoachHistory(app){
   app.innerHTML=h;
 
   const backBtn=app.querySelector('[data-action="history-back"]');
-  if(backBtn)backBtn.addEventListener('click',()=>{V.view=V._historyReturnView||'hub';render();});
+  if(backBtn)backBtn.addEventListener('click',()=>{V._histEdit=false;V._histSel=null;V.view=V._historyReturnView||'hub';render();});
+
+  const editBtn=app.querySelector('[data-action="history-edit"]');
+  if(editBtn)editBtn.addEventListener('click',()=>{V._histEdit=!V._histEdit;V._histSel=null;render();});
+  const allBtn=app.querySelector('[data-action="history-all"]');
+  if(allBtn)allBtn.addEventListener('click',()=>{
+    if(sel.size===sessions.length)sel.clear();else sessions.forEach(x=>sel.add(x.id));
+    render();
+  });
+  const delBtn=app.querySelector('[data-action="history-delete"]');
+  if(delBtn)delBtn.addEventListener('click',()=>{
+    if(!sel.size)return;
+    if(!confirm('Delete '+sel.size+' session'+(sel.size===1?'':'s')+'? This can\'t be undone.'))return;
+    S.coachHistory=(S.coachHistory||[]).filter(x=>!sel.has(x.id));
+    save();
+    V._histSel=null;
+    if(!S.coachHistory.length)V._histEdit=false;
+    render();
+  });
 
   app.querySelectorAll('[data-action="open-session"]').forEach(btn=>{
     btn.addEventListener('click',()=>{
-      V._coachSessionId=parseInt(btn.dataset.sessionId);
+      const id=parseInt(btn.dataset.sessionId);
+      if(editing){
+        if(sel.has(id))sel.delete(id);else sel.add(id);
+        render();return;
+      }
+      V._coachSessionId=id;
       V.view='coach-session';
       render();
     });
@@ -16179,7 +16229,7 @@ function _psNoteText(){
   if(PS.pid)return _psCoachNote(PS.pid)||'';
   const msg=(PS.outline&&PS.outline.message)||(PS.brief&&PS.brief.message)||'';
   if(msg)return 'Land this: '+msg;
-  return 'Just speak — K will give you feedback on what I hear.';
+  return '';
 }
 // Leaving an outline/brief behind when the speaker picks something else.
 function _psClearBrief(){PS.outline=null;PS.customDur=null;PS.brief=null;PS._goal=null;}
@@ -16319,7 +16369,8 @@ function _psRebuildDropdownList(app,mode,projects){
       if(noteEl){
         noteEl.textContent=mode==="evaluator"
           ?(p?"Evaluating "+p.title+". Record your CRC — K coaches the quality of your evaluation, not the speech.":"Select the project you're evaluating.")
-          :(p?_psCoachNote(p.pid):"Just speak — K will give you feedback on what I hear.");
+          :(p?_psCoachNote(p.pid):"");
+        const nw=noteEl.closest(".psr-note");if(nw)nw.style.display=noteEl.textContent?"":"none";
       }
       dd.style.display="none";
     });
@@ -16373,7 +16424,7 @@ function renderPracticeStudio(app){
   h+='<div class="psr-working"><span class="psr-kicker">'+(PS.mode==="evaluator"?"Evaluating":"Working on")+'</span>';
   h+='<button class="psr-chip ps-coach-project-btn" data-action="ps-change-project"><span class="ps-chip-t">'+escHtml(current?current.title:(PS.mode==="evaluator"?"Pick project":_psTitle()))+'</span>'+(chipDur?' <small>· '+chipDur+'</small>':'')+'<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></button>';
   h+='</div></div></div>';
-  h+='<div class="psr-note"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z"/></svg><p class="ps-coach-note">'+(noteText||'Just speak — K will give you feedback on what I hear.')+'</p></div>';
+  h+='<div class="psr-note"'+(noteText?'':' style="display:none"')+'><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z"/></svg><p class="ps-coach-note">'+escHtml(noteText||'')+'</p></div>';
   h+='</section>';
 
   // Project dropdown — attached to bar, not inside bubble
@@ -16650,7 +16701,7 @@ function renderPracticeStudio(app){
       const chipT=projBtn&&projBtn.querySelector('.ps-chip-t');if(chipT)chipT.textContent=p?p.title:"Freestyle";
       // Update coach note
       const noteEl=app.querySelector(".ps-coach-note");
-      if(noteEl)noteEl.textContent=_psNoteText();
+      if(noteEl){noteEl.textContent=_psNoteText();const nw=noteEl.closest(".psr-note");if(nw)nw.style.display=noteEl.textContent?"":"none";}
       // Update timer markers
       const markersEl=app.querySelector(".ps-timer-markers");
       if(markersEl){
