@@ -2213,6 +2213,81 @@ body.on-hub.has-bottom-nav{padding-bottom:0}   /* .hub2 already reserves the nav
 .eh-draft-text p:last-child{margin:0}
 .eh-draft-hint{font-size:11.5px;color:var(--text-3);margin-top:10px;padding-top:10px;border-top:1px solid rgba(255,255,255,0.06);line-height:1.5;letter-spacing:-0.003em}
 .eh-ai-off-note{font-size:13px;color:var(--text-3);padding:12px 16px;background:var(--surface);border-radius:11px;line-height:1.5;letter-spacing:-0.003em}
+/* ═══ Coaching Notes (Speech Coach results) ═══ */
+#app.is-cn{padding:0;max-width:none}
+.cn{--cn-card:#131519;--cn-card-2:#171A1F;--cn-line:rgba(255,255,255,.07);--cn-line-2:rgba(255,255,255,.12);--cn-ink:#F2F2F4;--cn-ink-2:rgba(235,235,245,.74);--cn-ink-3:rgba(235,235,245,.48);
+  --vio:#8B6FF7;--vio-hi:#C4AEFF;--vio-bg:rgba(139,111,247,.12);--vio-line:rgba(139,111,247,.32);
+  --teal-hi:#9FDCDA;--teal-bg:rgba(109,182,180,.1);--teal-line:rgba(109,182,180,.3);
+  --green-hi:#8FD6A2;--green-bg:rgba(94,185,117,.1);--green-line:rgba(94,185,117,.3);
+  --amber-hi:#F5CE85;--amber-bg:rgba(232,178,80,.1);--amber-line:rgba(232,178,80,.32);
+  --coral-hi:#F5A497;--coral-bg:rgba(238,122,107,.09);--coral-line:rgba(238,122,107,.3);
+  max-width:480px;margin:0 auto;padding:0 20px 20px;color:var(--cn-ink);box-sizing:border-box}
+.cn *{box-sizing:border-box}
+.cn p{margin:0;text-wrap:pretty}
+.cn :where(button){font:inherit;color:inherit;background:none;border:0;cursor:pointer;font-family:inherit;padding:0;margin:0}
+.cn-head{position:sticky;top:0;z-index:5;margin:0 -20px;padding:calc(env(safe-area-inset-top,0px) + 10px) 20px 12px;background:linear-gradient(180deg,var(--bg) 78%,rgba(10,11,15,0));display:flex;align-items:center;gap:12px}
+.cn-ib{width:40px;height:40px;border-radius:50%;background:var(--cn-card);border:1px solid var(--cn-line-2)!important;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--cn-ink);transition:transform .12s}
+.cn-ib:active{transform:scale(.94)}
+.cn-title{flex:1;min-width:0}
+.cn-title b{display:block;font-size:19px;font-weight:800;letter-spacing:-.02em;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cn-title small{display:block;font-size:12.5px;color:var(--cn-ink-3);font-weight:600;margin-top:2px;white-space:nowrap}
+.cn-stack{display:flex;flex-direction:column;gap:12px}
+.cn-card{border-radius:22px;background:var(--cn-card);border:1px solid var(--cn-line);padding:16px}
+.cn-kick{font-size:10.5px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--cn-ink-3);white-space:nowrap}
+.cn-sec-h{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.cn-ico{width:30px;height:30px;border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0;border:1px solid}
+.cn-vio{background:var(--vio-bg);border-color:var(--vio-line);color:var(--vio-hi)}
+.cn-teal{background:var(--teal-bg);border-color:var(--teal-line);color:var(--teal-hi)}
+.cn-green{background:var(--green-bg);border-color:var(--green-line);color:var(--green-hi)}
+.cn-amber{background:var(--amber-bg);border-color:var(--amber-line);color:var(--amber-hi)}
+.cn-coral{background:var(--coral-bg);border-color:var(--coral-line);color:var(--coral-hi)}
+.cn-t-vio{color:var(--vio-hi)}.cn-t-teal{color:var(--teal-hi)}.cn-t-green{color:var(--green-hi)}.cn-t-amber{color:var(--amber-hi)}.cn-t-coral{color:var(--coral-hi)}.cn-t-mute{color:var(--cn-ink-3)}
+.cn-chip{height:26px;padding:0 10px;border-radius:13px;display:inline-flex;align-items:center;font-size:12px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;border:1px solid;white-space:nowrap}
+.cn-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.cn-stat{border-radius:18px;background:var(--cn-card);border:1px solid var(--cn-line);padding:12px 12px 11px;min-width:0}
+.cn-stat b{display:block;font-size:21px;font-weight:800;letter-spacing:-.02em;font-variant-numeric:tabular-nums;line-height:1.1;white-space:nowrap}
+.cn-stat span{display:block;font-size:11.5px;color:var(--cn-ink-3);font-weight:650;margin-top:4px;white-space:nowrap}
+.cn-stat em{display:block;font-style:normal;font-size:11.5px;font-weight:700;margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cn-verdict{background:radial-gradient(120% 90% at 100% 0%,rgba(232,178,80,.12),transparent 60%),var(--cn-card)}
+.cn-verdict.cn-v-green{background:radial-gradient(120% 90% at 100% 0%,rgba(94,185,117,.13),transparent 60%),var(--cn-card)}
+.cn-verdict.cn-v-coral{background:radial-gradient(120% 90% at 100% 0%,rgba(238,122,107,.12),transparent 60%),var(--cn-card)}
+.cn-vrow{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.cn-lead{font-size:18.5px;font-weight:700;line-height:1.4;letter-spacing:-.01em;margin-top:12px!important}
+.cn-gap{font-size:14.5px;line-height:1.55;color:var(--cn-ink-2);margin-top:9px!important}
+.cn-prio{background:radial-gradient(120% 100% at 0% 0%,rgba(139,111,247,.16),transparent 62%),var(--cn-card);border-color:var(--vio-line)}
+.cn-prio p{font-size:15.5px;line-height:1.55;color:var(--cn-ink);margin-bottom:14px!important}
+.cn-btn{height:48px;border-radius:14px;padding:0 18px!important;display:flex;align-items:center;justify-content:center;gap:8px;font-size:15.5px;font-weight:750;width:100%;transition:transform .12s,filter .12s}
+.cn-btn:active{transform:scale(.98);filter:brightness(1.08)}
+.cn-btn-p{background:var(--vio)!important;color:#fff!important}
+.cn-btn-g{background:var(--cn-card-2)!important;border:1px solid var(--cn-line-2)!important;color:var(--cn-ink-2)!important}
+.cn-msg{display:grid;grid-template-columns:auto 1fr;gap:10px 12px;align-items:baseline}
+.cn-msg .cn-kick{font-size:10px}
+.cn-msg p{font-size:14.5px;line-height:1.5}
+.cn-msg p.you{color:var(--cn-ink-2)}
+.cn-msg-note{margin-top:12px!important;padding-top:12px;border-top:1px solid var(--cn-line);font-size:14px;line-height:1.5;color:var(--cn-ink-2)}
+.cn-body{font-size:14.5px;line-height:1.55;color:var(--cn-ink-2)}
+.cn-plain p{font-size:14.5px;line-height:1.55;color:var(--cn-ink-2);margin-bottom:12px!important}
+.cn-plain p:last-child{margin-bottom:0!important}
+.cn-pts{list-style:none;display:flex;flex-direction:column;margin:0;padding:0}
+.cn-pts li{display:grid;grid-template-columns:22px 1fr;gap:10px;padding:11px 0;border-top:1px solid var(--cn-line);font-size:14.5px;line-height:1.55;color:var(--cn-ink-2)}
+.cn-pts li:first-child{border-top:0;padding-top:2px}
+.cn-pts li:last-child{padding-bottom:0}
+.cn-n{width:22px;height:22px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;margin-top:1px;border:0!important}
+.cn-row{display:flex;align-items:center;gap:12px;border-radius:18px;background:var(--cn-card)!important;border:1px solid var(--cn-line)!important;padding:14px 16px!important;width:100%;text-align:left;cursor:pointer;list-style:none;color:var(--cn-ink)}
+.cn-row::-webkit-details-marker{display:none}
+.cn-row b{flex:1;font-size:15px;font-weight:700;white-space:nowrap}
+.cn-row small{font-size:13px;color:var(--cn-ink-3);font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:55%}
+.cn-row:active{transform:scale(.99)}
+.cn-tr[open] .cn-chev{transform:rotate(90deg)}
+.cn-tr-body{margin-top:8px;padding:14px 16px;border-radius:18px;background:var(--cn-card);border:1px solid var(--cn-line);font-size:14px;line-height:1.6;color:var(--cn-ink-2);white-space:pre-wrap;max-height:50vh;overflow:auto}
+.cn-acts{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:4px}
+.cn-follow{border-radius:14px;padding:10px 13px;background:var(--amber-bg);border:1px solid var(--amber-line);color:var(--amber-hi);font-size:13px;font-weight:700;line-height:1.45}
+.cn-follow span{display:block;font-weight:500;color:var(--cn-ink-2);margin-top:3px}
+.cn-ta{width:100%;min-height:84px;margin:12px 0;border-radius:14px;background:var(--bg);border:1px solid var(--cn-line-2);padding:12px;font:inherit;font-size:15px;color:var(--cn-ink);resize:vertical}
+.cn-dots{display:flex;gap:6px;padding:2px 0 2px 40px}
+.cn-dots i{width:7px;height:7px;border-radius:50%;background:var(--vio-hi);opacity:.3;animation:cnDot 1.2s infinite ease-in-out}
+.cn-dots i:nth-child(2){animation-delay:.15s}.cn-dots i:nth-child(3){animation-delay:.3s}
+@keyframes cnDot{0%,80%,100%{opacity:.25;transform:translateY(0)}40%{opacity:1;transform:translateY(-3px)}}
 /* ═══ Speech Outline Builder ═══ */
 #app.is-ob{padding:0;max-width:none}
 .ob{--card:#131519;--card-2:#171A1F;--line:rgba(255,255,255,.07);--line-2:rgba(255,255,255,.12);--ink:#F2F2F4;--ink-2:rgba(235,235,245,.72);--ink-3:rgba(235,235,245,.46);--blue:#3B82F6;--blue-hi:#8FB8FF;--blue-bg:rgba(59,130,246,.12);--blue-line:rgba(59,130,246,.32);--amber:#E8B250;--amber-bg:rgba(232,178,80,.1);--amber-line:rgba(232,178,80,.3);--green:#5EB975;
@@ -4720,7 +4795,11 @@ const CHANGELOG=[
     'Saved outlines keep your progress; unfinished drafts can be continued from the start screen',
     'Session History: tap Select to pick sessions (or Select all) and delete them in one go',
     'Slimmer Hub bar at the bottom of the screen, so it no longer covers buttons',
-    'Speech Coach’s Freestyle card is quieter — no placeholder line under your name'
+    'Speech Coach’s Freestyle card is quieter — no placeholder line under your name',
+    'Coaching Notes redesign: verdict first with a Yes / Partial / No chip, then your one priority with “Rehearse with this focus”, then what K heard, what worked and where to improve',
+    'Pasted scripts show an estimated read time and compare it with your planned length — no more 0:00',
+    'Feedback points no longer break apart in the middle of a quotation',
+    'Recorded sessions show pace as in range, fast or slow; the unreliable filler count is gone'
   ]},
   {v:'1.8',date:'Sep 2026',items:[
     'Redesigned hub: your mode leads, cards show real progress and next steps, with new artwork behind each tile',
@@ -5112,6 +5191,7 @@ function render(){
   app.classList.toggle("is-tts",V.view==="tt-practice"&&TTP.phase==="setup");
   app.classList.toggle("is-psr",V.view==="ai-coach"&&PS.phase!=="done");
   app.classList.toggle("is-ob",V.view==="speech-draft");
+  app.classList.toggle("is-cn",V.view==="ai-coach"&&PS.phase==="done");
   // Safety: if we leave the fullscreen timer, make sure it pauses (battery + wake lock)
   if(V.view!=="timer"&&T.running)pauseTimer();
   // Safety: if we leave the filler detector while it's active, stop it
@@ -16568,7 +16648,7 @@ function renderPracticeStudio(app){
     const _pw=(V._psScript||'').trim().split(/\s+/).filter(Boolean).length;
     h+='<div class="psr-panel" data-panel="paste">';
     h+='<textarea class="psr-paste" id="ps-script-input" placeholder="Paste or type your speech. K reads it for structure, clarity and timing.">'+escHtml(V._psScript||'')+'</textarea>';
-    h+='<div class="psr-paste-meta"><span id="ps-word-count">'+_pw+' words</span><span id="ps-read-time">≈ '+Math.floor(_pw/130)+':'+String(Math.round((_pw/130%1)*60)).padStart(2,'0')+' read</span></div>';
+    h+='<div class="psr-paste-meta"><span id="ps-word-count">'+_pw+' words</span><span id="ps-read-time">≈ '+Math.floor(_pw/140)+':'+String(Math.round((_pw/140%1)*60)).padStart(2,'0')+' read</span></div>';
     h+='<div class="psr-oneword"><label for="ps-governing-adj">In one word — what is it about? <span style="text-transform:none;letter-spacing:0;font-weight:500">optional</span></label><input id="ps-governing-adj" placeholder="e.g. courage, belonging, resilience…" value="'+escHtml(V._psGoverningAdj||'')+'"/></div>';
     h+='</div>';
     h+='</section>';
@@ -16641,7 +16721,7 @@ function renderPracticeStudio(app){
     const w=psScriptInput.value.trim().split(/\s+/).filter(Boolean).length;
     const wc=app.querySelector('#ps-word-count'),rt=app.querySelector('#ps-read-time');
     if(wc)wc.textContent=w+(w===1?' word':' words');
-    if(rt){const s=Math.round(w/130*60);rt.textContent='≈ '+Math.floor(s/60)+':'+String(s%60).padStart(2,'0')+' read';}
+    if(rt){const s=Math.round(w/140*60);rt.textContent='≈ '+Math.floor(s/60)+':'+String(s%60).padStart(2,'0')+' read';}
   });
 
   const psGovAdj=app.querySelector('#ps-governing-adj');
@@ -18269,14 +18349,7 @@ Verbal distractions: Analyse the transcript for filler words (um, uh, ah, so, li
 }
 
 // ── Universal coach feedback renderer — parses any section-based AI response into colour cards ──
-function renderCoachCards(raw){
-  if(!raw)return"";
-  if(raw.startsWith('<div class="ai-error-card">'))return raw;
-
-  const esc=s=>s.replace(/&/g,"&amp;").replace(/</g,"&lt;");
-  const stripMd=s=>s.replace(/^\s*#+\s*/,"").replace(/\*\*/g,"").replace(/__/g,"").replace(/^[*_]+|[*_]+$/g,"").trim();
-
-  const SECTIONS=[
+const COACH_SECTIONS=[
     {key:"goal",     emojis:/^🎯\s*GOAL/i,keywords:/^GOAL\s*CHECK/i,                                                              label:"🎯 Goal Check",            cls:"ps-section-blue"},
     {key:"objective",emojis:/^🎯/,    keywords:/OBJECTIVE(\s*(ACHIEVEMENT|CHECK|MET))?/i,                                        label:"🎯 Objective Achievement", cls:"ps-section-blue"},
     {key:"heard",    emojis:/^🗣/,    keywords:/^WHAT\s*I\s*HEARD/i,                                                             label:"🗣 What I Heard",          cls:"ps-section-blue"},
@@ -18290,7 +18363,16 @@ function renderCoachCards(raw){
     {key:"gap",      emojis:/^⚠️/,    keywords:/CONTEST\s*GAP|WHAT\s*TO\s*(FIX|CUT|IMPROVE)|COST\s*YOU/i,                     label:"⚠️ Contest Gap",          cls:"ps-section-red"},
     {key:"outline",  emojis:/^🗺/,    keywords:/AGAINST\s*(YOUR|THE)\s*OUTLINE/i,                                                label:"🗺 Against Your Outline",  cls:"ps-section-amber"},
     {key:"action",   emojis:/^💡/,    keywords:/TAKEAWAY|ONE\s*(PRIORITY|ACTION|THING)|NEXT\s*(PRACTICE\s*)?TIP|BEFORE\s*NEXT/i, label:"💡 One Priority",      cls:"ps-section-amber"},
-  ];
+];
+
+function renderCoachCards(raw){
+  if(!raw)return"";
+  if(raw.startsWith('<div class="ai-error-card">'))return raw;
+
+  const esc=s=>s.replace(/&/g,"&amp;").replace(/</g,"&lt;");
+  const stripMd=s=>s.replace(/^\s*#+\s*/,"").replace(/\*\*/g,"").replace(/__/g,"").replace(/^[*_]+|[*_]+$/g,"").trim();
+
+  const SECTIONS=COACH_SECTIONS;
 
   const buckets={};
   const labels={};
@@ -18329,18 +18411,8 @@ function renderCoachCards(raw){
       html+='<div class="ps-analysis-section '+sec.cls+'">';
       html+='<div class="ps-analysis-section-hdr">'+esc(labels[sec.key])+'</div>';
       html+='<div class="ps-analysis-section-body">';
-      // Split into sentences, then merge short ones into their predecessor
-      const rawSentences=text.split(/(?<=[.!?])\s+(?=[A-Z“"])/).filter(s=>s.trim().length>4);
-      const sentences=[];
-      rawSentences.forEach(s=>{
-        const wordCount=s.trim().split(/\s+/).length;
-        if(sentences.length>0&&wordCount<8){
-          // Short sentence — stitch onto previous
-          sentences[sentences.length-1]+=' '+s.trim();
-        }else{
-          sentences.push(s.trim());
-        }
-      });
+      // Quote-aware split; short sentences merge into the previous one
+      const sentences=_coachSplitSentences(text);
       if(sentences.length<=1){
         html+=esc(text);
       }else{
@@ -18372,7 +18444,7 @@ function _psUpdateAnalysisSection(){
   const el=document.getElementById("ps-analysis");
   if(!el)return;
   if(PS.aiLoading){
-    el.innerHTML='<div class="ps-analysis-loading"><span class="coach-dots"><span>.</span><span>.</span><span>.</span></span></div>';
+    el.innerHTML=_cnLoadingHtml();
     return;
   }
   if(!PS.aiAnalysis)return;
@@ -18383,132 +18455,271 @@ function _psUpdateAnalysisSection(){
     return;
   }
 
-  const html=renderCoachCards(PS.aiAnalysis);
-  el.innerHTML=html;
+  el.innerHTML=_cnNotesHtml(PS.aiAnalysis);
+  _cnWireActions(el);
+}
+
+// ── Quote-aware sentence splitter (shared by every coach-feedback renderer) ──
+// Splits on . ! ? followed by whitespace — but never inside “…” or "…",
+// so a quoted "…coincidence? I don't think so" stays in one piece.
+// Sentences under 8 words are stitched onto the previous one.
+function _coachSplitSentences(text){
+  const t=String(text||"").trim();
+  if(!t)return [];
+  const out=[];let buf="",inCurly=0,inStraight=false;
+  for(let i=0;i<t.length;i++){
+    const c=t[i];buf+=c;
+    if(c==="“")inCurly++;
+    else if(c==="”")inCurly=Math.max(0,inCurly-1);
+    else if(c==='"')inStraight=!inStraight;
+    const inQuote=inCurly>0||inStraight;
+    if(inQuote)continue;
+    // end of sentence: punctuation (optionally followed by a closing quote/bracket) + whitespace
+    const isEnd=/[.!?]/.test(c)||((c==="”"||c==='"'||c===")")&&/[.!?]/.test(t[i-1]||""));
+    if(isEnd&&/\s/.test(t[i+1]||"")){
+      // don't split if the next real char is lowercase (e.g. "e.g. something")
+      let j=i+1;while(j<t.length&&/\s/.test(t[j]))j++;
+      const nx=t[j]||"";
+      // …nor if the next sentence opens with a quotation: it illustrates the one before it
+      if(nx&&!/[a-z“"]/.test(nx)){out.push(buf.trim());buf="";}
+    }
+  }
+  if(buf.trim())out.push(buf.trim());
+  const merged=[];
+  out.filter(s=>s.length>1).forEach(s=>{
+    if(merged.length&&s.split(/\s+/).length<8)merged[merged.length-1]+=" "+s;
+    else merged.push(s);
+  });
+  return merged;
+}
+function _coachCap(arr,max){return arr.length<=max?arr:[...arr.slice(0,max-1),arr.slice(max-1).join(" ")];}
+
+// Parse a coach response into section buckets using the shared section table.
+function _coachBuckets(raw){
+  const stripMd=s=>s.replace(/^\s*#+\s*/,"").replace(/\*\*/g,"").replace(/__/g,"").replace(/^[*_]+|[*_]+$/g,"").trim();
+  const buckets={},order=[],unmatched=[];let cur=null;
+  String(raw||"").split("\n").forEach(line=>{
+    const t=stripMd(line.trim());if(!t)return;
+    let hit=null;
+    for(const sec of COACH_SECTIONS){if(sec.emojis.test(t)||sec.keywords.test(t)){hit=sec;break;}}
+    if(hit){
+      cur=hit.key;if(!(cur in buckets)){buckets[cur]="";order.push(cur);}
+      const ci=t.indexOf(":");const after=ci>=0?t.slice(ci+1).trim():"";
+      if(after)buckets[cur]+=after+" ";
+    }else if(cur)buckets[cur]+=t+" ";
+    else unmatched.push(t);
+  });
+  Object.keys(buckets).forEach(k=>buckets[k]=buckets[k].trim());
+  return {buckets,order,unmatched};
+}
+
+// ═══ Coaching Notes — the Speech Coach results page ═══════════════════════════
+const CN_ICONS={
+  prio:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.2" fill="currentColor"/></svg>',
+  heard:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8.5a6 6 0 1 1 10.2 4.3c-1.3 1.2-2.2 2-2.2 3.7a2.5 2.5 0 0 1-5 0"/><path d="M9.5 9a2.5 2.5 0 0 1 5 0"/></svg>',
+  worked:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>',
+  improve:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></svg>',
+  outline:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4L3 6.5v13.5l6-2.5 6 2.5 6-2.5V4l-6 2.5z"/><path d="M9 4v13.5M15 6.5V20"/></svg>',
+  note:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z"/></svg>',
+  doc:'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="color:var(--cn-ink-3);flex:none"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h4"/></svg>',
+  list:'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="color:var(--cn-ink-3);flex:none"><path d="M8 6h13M8 12h13M8 18h9"/><circle cx="3.5" cy="6" r="1"/><circle cx="3.5" cy="12" r="1"/><circle cx="3.5" cy="18" r="1"/></svg>',
+  chev:'<svg class="cn-chev" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--cn-ink-3);flex:none"><path d="M9 6l6 6-6 6"/></svg>'
+};
+// Section key → tone + label for the list cards
+const CN_TONES={
+  worked:{tone:"green",label:"What worked",icon:"worked"},
+  improve:{tone:"coral",label:"Where to improve",icon:"improve"},
+  outline:{tone:"amber",label:"Against your outline",icon:"outline"},
+  theme:{tone:"teal",label:"The theme",icon:"note"},
+  thread:{tone:"teal",label:"The thread",icon:"note"},
+  chars:{tone:"amber",label:"Character purpose",icon:"note"},
+  struct:{tone:"teal",label:"Structure",icon:"note"},
+  ballot:{tone:"teal",label:"Ballot check",icon:"note"},
+  gap:{tone:"coral",label:"Contest gap",icon:"improve"}
+};
+function _cnIco(tone,icon){return '<div class="cn-ico cn-'+tone+'">'+CN_ICONS[icon]+'</div>';}
+function _cnList(key,text){
+  const t=CN_TONES[key];if(!t||!text)return "";
+  const pts=_coachCap(_coachSplitSentences(text),3);
+  let h='<section class="cn-card"><div class="cn-sec-h">'+_cnIco(t.tone,t.icon)+'<span class="cn-kick cn-t-'+t.tone+'">'+t.label+'</span></div><ul class="cn-pts">';
+  pts.forEach((p,i)=>{h+='<li><span class="cn-n cn-'+t.tone+'">'+(i+1)+'</span><span>'+escHtml(p)+'</span></li>';});
+  return h+'</ul></section>';
+}
+// The member's own message, if they set one (outline, brief, or stated purpose)
+function _cnMessage(){
+  return (PS.outline&&PS.outline.message)||(PS.brief&&PS.brief.message)||PS._purposeInput||"";
+}
+// Build the analysis cards (verdict → priority → heard → lists). Returns "" if nothing parsed.
+function _cnNotesHtml(raw){
+  if(!raw)return "";
+  if(raw.startsWith('<div class="ai-error-card">'))return raw;
+  const {buckets}=_coachBuckets(raw);
+  const vKey=buckets.goal!=null?"goal":(buckets.objective!=null?"objective":null);
+  const has=k=>buckets[k]!=null&&buckets[k]!=="";
+  if(!vKey&&!has("worked")&&!has("improve")&&!has("heard")){
+    // Short-circuit replies ("No worries, let's give it another go.", project banners) — one plain card
+    const txt=String(raw).replace(/^💡\s*/,"").trim();
+    return '<section class="cn-card cn-plain"><div class="cn-sec-h">'+_cnIco("vio","note")+'<span class="cn-kick cn-t-vio">K says</span></div><p>'+escHtml(txt)+'</p></section>';
+  }
+  let h="";
+  // 1 · verdict
+  if(vKey){
+    let v=buckets[vKey];let chip=null;
+    const m=v.match(/^\[?\s*(Yes|No|Partial)\s*\]?\s*[—–:\-,.]?\s*/i);
+    if(m){chip=m[1][0].toUpperCase()+m[1].slice(1).toLowerCase();v=v.slice(m[0].length);}
+    const s=_coachSplitSentences(v);
+    const lead=s[0]||v, gap=s.slice(1).join(" ");
+    let kick="Objective";
+    if(vKey==="goal"){
+      const g=(PS.brief&&PS.brief.goal)||PS._goal;
+      kick=g?"Goal · "+g[0].toUpperCase()+g.slice(1):"Goal";
+    }
+    const tone=chip==="Yes"?"green":chip==="No"?"coral":"amber";
+    h+='<section class="cn-card cn-verdict cn-v-'+tone+'"><div class="cn-vrow"><span class="cn-kick">'+kick+'</span>'+(chip?'<span class="cn-chip cn-'+tone+'">'+chip+'</span>':'')+'</div>';
+    h+='<p class="cn-lead">'+escHtml(lead)+'</p>'+(gap?'<p class="cn-gap">'+escHtml(gap)+'</p>':'')+'</section>';
+  }
+  // 2 · one priority (promoted)
+  if(has("action")){
+    h+='<section class="cn-card cn-prio"><div class="cn-sec-h">'+_cnIco("vio","prio")+'<span class="cn-kick cn-t-vio">Next rehearsal · one priority</span></div>';
+    h+='<p>'+escHtml(buckets.action)+'</p><button class="cn-btn cn-btn-p" data-action="ps-followup-focus">Rehearse with this focus</button></section>';
+  }
+  // 3 · what I heard
+  if(has("heard")){
+    const msg=_cnMessage();
+    const s=_coachSplitSentences(buckets.heard);
+    h+='<section class="cn-card"><div class="cn-sec-h">'+_cnIco("teal","heard")+'<span class="cn-kick cn-t-teal">What I heard</span></div>';
+    if(msg){
+      h+='<div class="cn-msg"><span class="cn-kick">You</span><p class="you">'+escHtml(msg)+'</p><span class="cn-kick cn-t-teal">K</span><p>'+escHtml(s[0]||buckets.heard)+'</p></div>';
+      if(s.length>1)h+='<p class="cn-msg-note">'+escHtml(s.slice(1).join(" "))+'</p>';
+    }else{
+      h+='<p class="cn-body">'+escHtml(buckets.heard)+'</p>';
+    }
+    h+='</section>';
+  }
+  // 4+ · lists, in a fixed order, then any other known sections
+  ["worked","improve","outline","theme","thread","chars","struct","ballot","gap"].forEach(k=>{if(has(k))h+=_cnList(k,buckets[k]);});
+  return h;
+}
+
+function _cnStatsHtml(){
+  const words=FD.totalWords||0;
+  const dur=_psDur();
+  const fmt=s=>{s=Math.max(0,Math.round(s));return Math.floor(s/60)+":"+String(s%60).padStart(2,"0");};
+  const cell=(b,lbl,em,tone)=>'<div class="cn-stat"><b>'+b+'</b><span>'+lbl+'</span><em class="'+(tone?'cn-t-'+tone:'cn-t-mute')+'">'+em+'</em></div>';
+  let h='<div class="cn-stats">';
+  if(PS._pasteMode){
+    const read=words/140*60;
+    h+=cell("~"+fmt(read),"Read time","at 140 wpm");
+    h+=cell(words.toLocaleString(),"Words","pasted");
+    if(dur){
+      const target=dur.exact?dur.exact*60:null;
+      const label=dur.exact?fmt(target):(_psDurLabel().replace(/\s*min$/,"")+" min");
+      let em="On target",tone="green";
+      if(read<dur.min*60){em="~"+fmt((dur.exact?target:dur.min*60)-read)+" short";tone="amber";}
+      else if(read>dur.max*60){em="~"+fmt(read-(dur.exact?target:dur.max*60))+" over";tone="amber";}
+      h+=cell(label,"Your length",em,tone);
+    }else h+=cell("—","Your length","not set");
+  }else{
+    const el=PS.elapsed||0;
+    let dEm="",dTone=null;
+    if(dur){
+      if(el<dur.min*60){dEm="Under target";dTone="coral";}
+      else if(el>dur.max*60){dEm="Over target";dTone="amber";}
+      else{dEm="On target";dTone="green";}
+    }else dEm="no target";
+    h+=cell(fmt(el),"Duration",dEm,dTone);
+    // Pace needs a real sample — under 30 words or 20 s, don't judge it
+    const wpm=el>=20&&words>=30?Math.round(words/(el/60)):0;
+    if(wpm){
+      const pace=wpm<120?["Slow","amber"]:wpm>160?["Fast","amber"]:["In range","green"];
+      h+=cell(String(wpm),"Words / min",pace[0],pace[1]);
+      h+=cell("~"+words.toLocaleString(),"Words","spoken");
+    }else{
+      h+=cell("—","Words / min",PS.timerOnly?"timer only":(words?"too short":"no audio"));
+      h+=words?cell(String(words),"Words","spoken"):cell("—","Words","not captured");
+    }
+  }
+  return h+'</div>';
 }
 
 function renderPracticeStudioDone(app){
-  const proj=PS.pid?PD[PS.pid]:null;
-  const dur=_psDur();
-  const mins=(PS.elapsed/60).toFixed(1);
-  const wordCount=FD.totalWords||0;
-  const wpm=PS.elapsed>0?Math.round(wordCount/(PS.elapsed/60)):0;
   const aiOn=S.aiConfig&&S.aiConfig.enabled;
   const transcript=(FD.transcript||"").trim();
+  const wordCount=FD.totalWords||0;
+  const title=PS.pid?_psTitle():(PS.brief?_psTitle():"Practice");
+  const back='<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>';
+  const clock='<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/><path d="M12 7v5l3 2"/></svg>';
 
-  // Performance assessment
-  let durAssess="",durClass="";
-  if(dur){
-    if(PS.elapsed<dur.min*60){durAssess="Under target";durClass="red";}
-    else if(PS.elapsed>dur.max*60){durAssess="Over target";durClass="amber";}
-    else{durAssess="On target ✓";durClass="green";}
-  }
-
-  let h='<div class="fade-up ps-view">';
-  h+='<div class="top-bar">';
-  h+='<button class="top-bar-btn" data-action="ps-fresh">↩ Fresh start</button>';
-  h+='<button class="top-bar-btn ps-keepcoach-btn" data-action="ps-followup">↩ Keep coaching</button>';
-  h+='</div>';
-
+  let h='<main class="fade-up cn">';
+  h+='<header class="cn-head"><button class="cn-ib" data-action="ps-fresh" aria-label="Back to Speech Coach">'+back+'</button>';
+  h+='<div class="cn-title"><b>'+escHtml(title)+'</b><small>Coaching notes · '+(PS._pasteMode?'pasted script':'recorded')+'</small></div>';
+  h+='<button class="cn-ib" data-action="open-coach-history" aria-label="Session history">'+clock+'</button></header>';
+  h+='<div class="cn-stack">';
   if(PS._isFollowup&&PS._prevFeedback){
-    h+='<div class="ps-followup-badge" style="margin:12px 0 0">↩ Follow-up — K will compare with your last attempt</div>';
-    const _hf=PS._historyFocus||null;
-    if(_hf){
-      const _ph=PS.pid?PD[PS.pid]:null;
-      h+='<div style="background:rgba(229,179,82,0.12);border:1px solid rgba(229,179,82,0.35);border-left:3px solid #E5B352;border-radius:12px;padding:13px 15px;margin:10px 0">';
-      h+='<div style="font-size:9px;font-weight:700;letter-spacing:0.12em;color:#E5B352;text-transform:uppercase;margin-bottom:5px">';
-      h+=(_ph?'K says — objective focus':'K says — focus on this')+'</div>';
-      if(_ph)h+='<div style="font-size:11px;color:var(--text-3);margin-bottom:4px">'+_ph.t+'</div>';
-      h+='<div style="font-size:13px;color:var(--text-2);line-height:1.55">'+_hf+'</div>';
-      h+='</div>';
-    }
+    h+='<div class="cn-follow">↩ Follow-up — K compares this with your last attempt'+(PS._historyFocus?'<span>Focus: '+escHtml(PS._historyFocus)+'</span>':'')+'</div>';
   }
-  h+='<div class="ps-done-header">';
-  h+='<div class="ps-done-icon">✓</div>';
-  h+='<div class="ps-done-title">'+escHtml(_psTitle())+'</div>';
-  if(PS.outline&&PS.outline.sections)h+='<button class="ps-done-outline" data-action="ps-edit-outline">Edit outline →</button>';
-  h+='</div>';
+  h+=_cnStatsHtml();
 
-  // Stats grid
-  h+='<div class="ps-results-grid">';
-  h+='<div class="ps-result-card">';
-  h+='<div class="ps-result-n '+durClass+'">'+fmtMs(PS.elapsed*1000)+'</div>';
-  h+='<div class="ps-result-lbl">Duration</div>';
-  if(durAssess)h+='<div class="ps-result-sub '+durClass+'">'+durAssess+'</div>';
-  h+='</div>';
-  h+='<div class="ps-result-card">';
-  h+='<div class="ps-result-n">'+wordCount+'</div>';
-  h+='<div class="ps-result-lbl">Words</div>';
-  if(wpm)h+='<div class="ps-result-sub">'+wpm+' wpm</div>';
-  h+='</div>';
-  h+='</div>';
-
-  // Transcript fallback — if thin transcript, prompt user to add context
-  const isShort=wordCount<30;
+  // Thin transcript — ask what they said
+  const isShort=wordCount<30&&!PS._pasteMode;
   if(aiOn&&isShort&&!PS._extraNotes){
-    h+='<div class="ps-transcript-fallback">';
-    h+='<div class="ps-transcript-fallback-label">📝 Transcript was short — add what you said</div>';
-    h+='<textarea class="ps-transcript-fallback-input" id="ps-extra-notes" placeholder="E.g. key points, specific moments, what you were working on…" rows="3"></textarea>';
-    h+='<button class="ps-transcript-fallback-btn" data-action="ps-run-with-notes">✨ Analyse with my notes</button>';
-    h+='</div>';
+    h+='<section class="cn-card cn-fallback"><div class="cn-sec-h">'+_cnIco("amber","note")+'<span class="cn-kick cn-t-amber">Transcript was short</span></div>';
+    h+='<p class="cn-body">Add what you said — key points, moments, what you were working on — and K will coach from that.</p>';
+    h+='<textarea class="cn-ta" id="ps-extra-notes" rows="3" placeholder="E.g. opened with the airport story, three points on…"></textarea>';
+    h+='<button class="cn-btn cn-btn-p" data-action="ps-run-with-notes">Get coaching notes</button></section>';
   }
 
-  // AI Analysis
   if(aiOn){
-    h+='<div class="ps-analysis-card">';
-    h+='<div class="ps-analysis-hdr">✨ Coach Feedback</div>';
-    h+='<div id="ps-analysis">';
-    if(PS.aiLoading){
-      h+='<div class="ps-analysis-loading"><span class="coach-dots"><span>.</span><span>.</span><span>.</span></span></div>';
-    }else if(PS.aiAnalysis){
-      h+='<div class="ps-analysis-rendered"></div>';
-    }else if(!isShort){
-      h+='<div class="ps-analysis-pending">Generating feedback…</div>';
-    }
+    h+='<div id="ps-analysis" class="cn-stack">';
+    if(PS.aiLoading||(!PS.aiAnalysis&&!isShort))h+=_cnLoadingHtml();
+    else if(PS.aiAnalysis)h+=_cnNotesHtml(PS.aiAnalysis);
     h+='</div>';
-    h+='</div>';
+  }else{
+    h+='<section class="cn-card cn-plain"><div class="cn-sec-h">'+_cnIco("vio","note")+'<span class="cn-kick cn-t-vio">Coaching notes are off</span></div><p class="cn-body">Turn on AI in Settings and K will write notes on every session.</p><button class="cn-btn cn-btn-g" data-action="open-ai-settings">Open AI settings</button></section>';
   }
 
-  // Session History link — always visible
-  h+='<button data-action="open-coach-history" style="width:100%;background:none;border:none;padding:10px 0 2px;font-size:12px;color:var(--accent);cursor:pointer;font-family:inherit;text-align:center;opacity:0.8">📚 Session history</button>';
-  // Collapsible transcript
+  if(PS.outline&&PS.outline.sections){
+    h+='<button class="cn-row" data-action="ps-edit-outline">'+CN_ICONS.list+'<b>Your outline</b><small>'+escHtml((PS.outline.frameworkLabel||'').split(' (')[0])+'</small>'+CN_ICONS.chev+'</button>';
+  }
   if(transcript){
-    h+='<details class="ps-transcript-details">';
-    h+='<summary>📄 Show full transcript ('+wordCount+' words)</summary>';
-    h+='<div class="ps-transcript-full">'+escHtml(transcript)+'</div>';
-    h+='</details>';
+    h+='<details class="cn-tr"><summary class="cn-row">'+CN_ICONS.doc+'<b>'+(PS._pasteMode?'Script':'Transcript')+'</b><small>'+wordCount.toLocaleString()+' words</small>'+CN_ICONS.chev+'</summary><div class="cn-tr-body">'+escHtml(transcript)+'</div></details>';
   }
-
-  h+='</div>';
+  h+='<div class="cn-acts"><button class="cn-btn cn-btn-g" data-action="ps-fresh">New speech</button><button class="cn-btn cn-btn-g" data-action="ps-followup">Try again</button></div>';
+  h+='</div></main>';
   app.innerHTML=h;
+  window.scrollTo(0,0);
 
-  _psUpdateAnalysisSection();
-
-  const _eo=app.querySelector('[data-action="ps-edit-outline"]');
-  if(_eo)_eo.addEventListener("click",()=>{if(PS.outline)_obOpenFromSnapshot(PS.outline);});
-  app.querySelector('[data-action="ps-fresh"]').addEventListener("click",()=>{
-    PS._prevTranscript="";PS._prevFeedback=null;PS._isFollowup=false;
-    PS.phase="ready";PS.aiAnalysis=null;PS._extraNotes=null;
-    render();
-  });
-  app.querySelector('[data-action="ps-followup"]').addEventListener("click",()=>{
-    PS._prevTranscript=(FD.transcript||"").trim();
-    PS._prevFeedback=(PS.aiAnalysis||"").replace(/<[^>]+>/g,"").trim();
-    PS._isFollowup=true;
-    PS.phase="ready";PS.aiAnalysis=null;PS._extraNotes=null;
-    render();
-  });
-
+  const eo=app.querySelector('[data-action="ps-edit-outline"]');
+  if(eo)eo.addEventListener("click",()=>{if(PS.outline)_obOpenFromSnapshot(PS.outline);});
+  _cnWireActions(app);
   const runBtn=app.querySelector('[data-action="ps-run-with-notes"]');
   if(runBtn)runBtn.addEventListener("click",()=>{
     const ta=document.getElementById("ps-extra-notes");
     PS._extraNotes=ta?ta.value.trim():"";
-    const fb=app.querySelector(".ps-transcript-fallback");
-    if(fb)fb.remove();
-    const analysisEl=document.getElementById("ps-analysis");
-    if(analysisEl)analysisEl.innerHTML='<div class="ps-analysis-loading"><span class="coach-dots"><span>.</span><span>.</span><span>.</span></span></div>';
+    const fb=app.querySelector(".cn-fallback");if(fb)fb.remove();
+    const el=document.getElementById("ps-analysis");if(el)el.innerHTML=_cnLoadingHtml();
     psAnalyzeWithAI();
   });
+}
+function _cnLoadingHtml(){
+  return '<section class="cn-card cn-loading"><div class="cn-sec-h">'+_cnIco("vio","note")+'<span class="cn-kick cn-t-vio">K is writing your notes</span></div><div class="cn-dots"><i></i><i></i><i></i></div></section>';
+}
+// Buttons that live inside the analysis block are re-wired whenever it re-renders.
+function _cnWireActions(root){
+  root.querySelectorAll('[data-action="ps-fresh"]').forEach(b=>{if(b._cn)return;b._cn=1;b.addEventListener("click",()=>{
+    PS._prevTranscript="";PS._prevFeedback=null;PS._isFollowup=false;PS._historyFocus=null;
+    PS.phase="ready";PS.aiAnalysis=null;PS._extraNotes=null;render();
+  });});
+  const follow=(focus)=>{
+    PS._prevTranscript=(FD.transcript||"").trim();
+    PS._prevFeedback=(PS.aiAnalysis||"").replace(/<[^>]+>/g,"").trim();
+    PS._isFollowup=true;PS._historyFocus=focus||null;
+    PS.phase="ready";PS.aiAnalysis=null;PS._extraNotes=null;render();
+  };
+  root.querySelectorAll('[data-action="ps-followup"]').forEach(b=>{if(b._cn)return;b._cn=1;b.addEventListener("click",()=>follow(null));});
+  root.querySelectorAll('[data-action="ps-followup-focus"]').forEach(b=>{if(b._cn)return;b._cn=1;b.addEventListener("click",()=>{
+    const {buckets}=_coachBuckets(PS.aiAnalysis||"");follow(buckets.action||null);
+  });});
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
