@@ -1477,6 +1477,13 @@ body.on-hub.has-bottom-nav{padding-bottom:0}   /* .hub2 already reserves the nav
 .tts-last-meta span{font-size:11px;font-weight:600;color:rgba(235,235,245,.74);background:rgba(255,255,255,.06);border-radius:10px;padding:3px 8px}
 .tts-last-meta .good{color:#9EE0A6;background:rgba(126,221,160,.12)}
 .tts-last-act{display:flex;gap:8px}
+.tts-last-act[hidden]{display:none}
+.tts-last-top{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:-4px -6px -4px 0}
+.tts-last-x{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:none;border:0;color:rgba(235,235,245,.5);cursor:pointer;flex:none}
+.tts-last-x svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round}
+.tts-last-x:active{background:rgba(255,255,255,.08)}
+.tts-sm-del{background:rgba(232,93,93,.12);border:1px solid rgba(232,93,93,.4);color:#F4A3A3}
+.tts-sm-txt{background:none;border:0;color:rgba(235,235,245,.6);padding:0 8px}
 .tts-sm{height:38px;padding:0 14px;border-radius:12px;font-size:13px;font-weight:700;display:inline-flex;align-items:center;gap:6px;cursor:pointer;font-family:inherit}
 .tts-sm svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
 .tts-sm-v{background:rgba(139,111,247,.18);border:1px solid rgba(139,111,247,.4);color:#fff}
@@ -5119,6 +5126,7 @@ const CHANGELOG=[
     'Slimmer Hub bar at the bottom of the screen, so it no longer covers buttons',
     'Hub tiles each have their own colour now, so you can tell them apart at a glance',
     'Switch between Grow, Practice and Mentor right on the Hub. Only the tiles that change slide over. The mode picker in Settings is gone',
+    'Table Topics: tap ✕ on “Last attempt” to hide it until your next try, or delete that attempt',
     'Settings is now “Behind the app”: who made TMCompanion, why, and how to reach me — with versions and your data below',
     'All Projects on the Hub gets a Browse button; My Mentees gets its own colour',
     'Contests redesigned: the ballot at a glance, K’s take, and one tap into contest killers, the ballot in plain words and why the champions won',
@@ -8980,17 +8988,19 @@ function _ttpRenderSetup(app){
 
   if(isNew){
     h+='<div class="tts-hello"><img src="'+COACH_AVATAR+'" alt="K"><div><b>Your first topic. We\'ll start easy.</b><p>30 seconds is a real answer. Nobody hears it but you, and K only points out what went well and one thing to try.</p></div></div>';
-  }else if(last){
+  }else if(last&&!(S.ttLastHiddenAt&&last.iso&&new Date(last.iso)<=new Date(S.ttLastHiddenAt))){
     const d=_relDays(last.iso);
     const when=d==null?'':(d===0?'TODAY':d===1?'YESTERDAY':d+' DAYS AGO');
     const timing=last.elapsed<60?'Short':last.elapsed>120?'Over':'In time';
     h+='<div class="tts-last">';
-    h+='<div class="tts-last-lbl">Last attempt'+(when?' · '+when:'')+'</div>';
+    h+='<div class="tts-last-top"><div class="tts-last-lbl">Last attempt'+(when?' · '+when:'')+'</div><button class="tts-last-x" data-action="ttp-last-x" aria-label="Hide or delete this attempt"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>';
     h+='<div class="tts-last-q">“'+escHtml(last.topic)+'”</div>';
     h+='<div class="tts-last-meta"><span>'+Math.floor(last.elapsed/60)+':'+String(last.elapsed%60).padStart(2,'0')+'</span>'+(last.wpm>0?'<span>'+last.wpm+' wpm</span>':'')+'<span'+(timing==='In time'?' class="good"':'')+'>'+timing+'</span></div>';
     h+='<div class="tts-last-act"><button class="tts-sm tts-sm-v" data-action="ttp-retry-last"><svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/></svg>Try it again</button>';
     if(last.notes)h+='<button class="tts-sm tts-sm-g" data-action="ttp-see-notes">See notes</button>';
-    h+='</div></div>';
+    h+='</div>';
+    h+='<div class="tts-last-act tts-last-ask" hidden><button class="tts-sm tts-sm-g" data-action="ttp-last-hide">Hide</button><button class="tts-sm tts-sm-del" data-action="ttp-last-del">Delete attempt</button><button class="tts-sm tts-sm-txt" data-action="ttp-last-cancel">Cancel</button></div>';
+    h+='</div>';
   }
 
   const real=TTP.track==="real";
@@ -9145,6 +9155,20 @@ function _ttpRenderSetup(app){
     ttpFetchQuestion(TTP.theme,true);
   });
 
+  // Last attempt: ✕ → Hide (until the next attempt) or Delete this attempt
+  const lastCard=app.querySelector('.tts-last');
+  if(lastCard&&last){
+    const main=lastCard.querySelector('.tts-last-act:not(.tts-last-ask)'),ask=lastCard.querySelector('.tts-last-ask');
+    const toggle=on=>{main.hidden=on;ask.hidden=!on;};
+    lastCard.querySelector('[data-action="ttp-last-x"]').addEventListener('click',()=>toggle(ask.hidden));
+    lastCard.querySelector('[data-action="ttp-last-cancel"]').addEventListener('click',()=>toggle(false));
+    lastCard.querySelector('[data-action="ttp-last-hide"]').addEventListener('click',()=>{S.ttLastHiddenAt=last.iso||new Date().toISOString();save();render();});
+    lastCard.querySelector('[data-action="ttp-last-del"]').addEventListener('click',()=>{
+      const arr=S.sessions&&S.sessions['tt-practice'];
+      if(arr){const i=arr.indexOf(last);if(i>=0)arr.splice(i,1);}
+      S.ttLastHiddenAt=last.iso||new Date().toISOString();save();render();
+    });
+  }
   // Last attempt: retry / notes
   const retry=app.querySelector('[data-action="ttp-retry-last"]');
   if(retry&&last)retry.addEventListener('click',()=>{
