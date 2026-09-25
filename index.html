@@ -5150,6 +5150,8 @@ const CHANGELOG=[
     'Slimmer Hub bar at the bottom of the screen, so it no longer covers buttons',
     'Hub tiles each have their own colour now, so you can tell them apart at a glance',
     'Switch between Grow, Practice and Mentor right on the Hub. Only the tiles that change slide over. The mode picker in Settings is gone',
+    'Real-world practice: K now judges the skill of the answer, not obedience to a template — a well-handled hypothetical or a skilful bridge counts, and attitude red flags come first',
+    'Fixed: Table Topics feedback showed “Objective Achievement” instead of “The Thread”, and stray asterisks in K’s notes',
     'Table Topics: tap ✕ on “Last attempt” to hide it until your next try, or delete that attempt',
     'Settings is now “Behind the app”: who made TMCompanion, why, and how to reach me — with versions and your data below',
     'All Projects on the Hub gets a Browse button',
@@ -9505,16 +9507,21 @@ Under 180 words. Firm and warm.`;
 
   const _rw=TTP.track==="real"&&TT_REAL[TTP.scenario];
   const RW_STANDARD={
-    interview:"INTERVIEW ANSWER. Unlike Table Topics, the speaker must answer the question asked — no pivoting away from it. A strong answer: a direct first sentence, one specific example told as situation → what I did → result, and a close that links back to the role. Flag vague claims (\"I'm a hard worker\") that aren't backed by an example.",
-    pitch:"ELEVATOR PITCH. A strong pitch: a hook in the first sentence, the problem the listener cares about, what's offered, one proof point, and a clear ask at the end. It must fit the time; cutting is a skill here.",
-    intro:"SELF-INTRODUCTION. A strong introduction: name and what you do in one line, one memorable specific detail people can repeat, and a reason for the listener to follow up — pitched to the room described.",
-    tough:"TOUGH QUESTION. A strong reply: stays calm, acknowledges the concern without getting defensive, answers the actual question directly, gives one fact or reason, and ends on a next step. Flag deflection, over-apologising and rambling."
+    interview:"INTERVIEW ANSWER. The interviewer is testing judgement, attitude and how the candidate thinks — the question is how they find out. A real example (situation → what I did → result) is the strongest evidence. A hypothetical is a valid answer when the speaker hasn't lived the situation yet: judge it on its own terms — a brief, unapologetic acknowledgement, a clear principle, sensible steps, and what they'd learn or protect. Never mark an answer down just for being hypothetical; suggest a real or adjacent example (school, club, side project) as the next level up. A skilled bridge or reframe that still gives the interviewer what they need is a strength, not a dodge. Attitude outranks structure: anger, blame, calling a decision disrespectful, or badmouthing a team is the first thing to flag if it appears.",
+    pitch:"ELEVATOR PITCH. A strong pitch: a hook in the first sentence, the problem the listener cares about, what's offered, one proof point, and a clear ask at the end. It must fit the time; cutting is a skill here. Leading with a story or a reframe instead of the product is fine if the ask still lands.",
+    intro:"SELF-INTRODUCTION. A strong introduction: name and what you do in one line, one memorable specific detail people can repeat, and a reason for the listener to follow up — pitched to the room described. Making it about an idea or a story rather than a job title is a strength if it's clear and memorable.",
+    tough:"TOUGH QUESTION. A strong reply stays calm and acknowledges the concern without getting defensive. The speaker doesn't have to answer it head-on: a skilled bridge — acknowledge, satisfy the core of the concern, then move to the ground they want to stand on — is a high-level technique, and should be recognised as one. What to flag is the clumsy version: an obvious dodge that leaves the real concern untouched, over-apologising, defensiveness or rambling. End on a next step."
   };
+
   const sysUsed=_rw?`You are K, a speech coach helping someone practise a real-world speaking situation. Be firm with the diagnosis, warm with the delivery, and make them want to go again.
 
 ${RW_STANDARD[TTP.scenario]}
 
 Time target: ${_ttRealTime(_rw)}. Say whether they landed inside it.
+
+How K judges communication: the goal is not a textbook answer to the literal question. The best communicators make their answer the feature — they reframe, bridge or pivot, and still leave the listener satisfied. Judge the quality and skill of the communication, not obedience to a template. Judge the shape the speaker actually used before comparing it with an ideal one.
+The line is ethics: a bridge or reframe must stay truthful. Coach the skill of steering a conversation, never inventing facts or misleading the listener — if an answer crosses that line, say so plainly.
+Verbal habits worth one line if they recur: "to be honest" (implies the rest wasn't), long thank-you warm-ups before the first real sentence.
 
 If the transcript is very short — under 15 words, mostly silence, or clearly incomplete — reply with exactly: \"No worries, let's give it another go.\" Nothing else.
 
@@ -18811,12 +18818,12 @@ Verbal distractions: Analyse the transcript for filler words (um, uh, ah, so, li
 // ── Universal coach feedback renderer — parses any section-based AI response into colour cards ──
 const COACH_SECTIONS=[
     {key:"goal",     emojis:/^🎯\s*GOAL/i,keywords:/^GOAL\s*CHECK/i,                                                              label:"🎯 Goal Check",            cls:"ps-section-blue"},
+    {key:"thread",   emojis:/^(🧵|🎯\s*THE\s*THREAD)/i,keywords:/^THE\s*THREAD/i,                                          label:"🎯 The Thread",           cls:"ps-section-blue"},
     {key:"objective",emojis:/^🎯/,    keywords:/OBJECTIVE(\s*(ACHIEVEMENT|CHECK|MET))?/i,                                        label:"🎯 Objective Achievement", cls:"ps-section-blue"},
     {key:"heard",    emojis:/^🗣/,    keywords:/^WHAT\s*I\s*HEARD/i,                                                             label:"🗣 What I Heard",          cls:"ps-section-blue"},
     {key:"worked",   emojis:/^✅/,    keywords:/WHAT\s*(WORKED|LANDED(\s*WITH\s*THE\s*ROOM)?|LANDED|PLACED\s*YOU|YOU\s*DID\s*WELL)/i, label:"✅ What You Did Well",    cls:"ps-section-green"},
     {key:"improve",  emojis:/^📈/,    keywords:/WHERE\s*TO\s*IMPROVE|WHERE.*IMPROVE|AREAS?\s*TO\s*IMPROVE/i,                  label:"📈 Where to Improve",     cls:"ps-section-red"},
     {key:"theme",    emojis:/^🧭/,    keywords:/THE\s*THEME|GOVERNING\s*ADJ/i,                                                  label:"🧭 The Theme",            cls:"ps-section-blue"},
-    {key:"thread",   emojis:/^🧵/,    keywords:/THE\s*THREAD/i,                                                                  label:"🧵 The Thread",           cls:"ps-section-blue"},
     {key:"chars",    emojis:/^👤/,    keywords:/CHARACTER\s*PURPOSE/i,                                                            label:"👤 Character Purpose",    cls:"ps-section-amber"},
     {key:"struct",   emojis:/^🏗/,    keywords:/STRUCTURAL\s*INTEGRITY|STRUCTURE/i,                                               label:"🏗 Structure",            cls:"ps-section-blue"},
     {key:"ballot",   emojis:/^📋/,    keywords:/BALLOT\s*CHECK/i,                                                                 label:"📋 Ballot Check",         cls:"ps-section-blue"},
@@ -18831,7 +18838,7 @@ function renderCoachCards(raw){
   if(raw.startsWith('<div class="ai-error-card">'))return raw;
 
   const esc=s=>s.replace(/&/g,"&amp;").replace(/</g,"&lt;");
-  const stripMd=s=>s.replace(/^\s*#+\s*/,"").replace(/\*\*/g,"").replace(/__/g,"").replace(/^[*_]+|[*_]+$/g,"").trim();
+  const stripMd=s=>s.replace(/^\s*#+\s*/,"").replace(/\*+/g,"").replace(/__/g,"").replace(/^_+|_+$/g,"").trim();
 
   const SECTIONS=COACH_SECTIONS;
 
@@ -18957,7 +18964,7 @@ function _coachCap(arr,max){return arr.length<=max?arr:[...arr.slice(0,max-1),ar
 
 // Parse a coach response into section buckets using the shared section table.
 function _coachBuckets(raw){
-  const stripMd=s=>s.replace(/^\s*#+\s*/,"").replace(/\*\*/g,"").replace(/__/g,"").replace(/^[*_]+|[*_]+$/g,"").trim();
+  const stripMd=s=>s.replace(/^\s*#+\s*/,"").replace(/\*+/g,"").replace(/__/g,"").replace(/^_+|_+$/g,"").trim();
   const buckets={},order=[],unmatched=[];let cur=null;
   String(raw||"").split("\n").forEach(line=>{
     const t=stripMd(line.trim());if(!t)return;
