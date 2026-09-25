@@ -2228,6 +2228,256 @@ body.on-hub.has-bottom-nav{padding-bottom:0}   /* .hub2 already reserves the nav
 .eh-draft-text p:last-child{margin:0}
 .eh-draft-hint{font-size:11.5px;color:var(--text-3);margin-top:10px;padding-top:10px;border-top:1px solid rgba(255,255,255,0.06);line-height:1.5;letter-spacing:-0.003em}
 .eh-ai-off-note{font-size:13px;color:var(--text-3);padding:12px 16px;background:var(--surface);border-radius:11px;line-height:1.5;letter-spacing:-0.003em}
+/* ═══ Contests (guide + practice) ═══ */
+#app.is-ct{padding:0;max-width:none}
+.ct{--ct-card:#131519;--ct-card-2:#171A1F;--ct-line:rgba(255,255,255,.07);--ct-line-2:rgba(255,255,255,.12);--ct-ink:#F2F2F4;--ct-ink-2:rgba(235,235,245,.74);--ct-ink-3:rgba(235,235,245,.48);
+  --ct-coral-hi:#F5A497;--ct-coral-bg:rgba(238,122,107,.09);--ct-coral-line:rgba(238,122,107,.3);--ct-blue-hi:#9CC0F5;--ct-blue-bg:rgba(91,157,217,.1);--ct-blue-line:rgba(91,157,217,.3);--ct-gold-hi:#FADB8F;--ct-gold-bg:rgba(245,200,91,.1);--ct-gold-line:rgba(245,200,91,.32);--ct-green-hi:#8FD6A2;--ct-green-bg:rgba(94,185,117,.1);--ct-green-line:rgba(94,185,117,.3);
+  display:flex;flex-direction:column;gap:12px;min-height:calc(var(--app-h,100dvh) - var(--nav-h) - var(--nav-sb));max-width:480px;margin:0 auto;padding:calc(env(safe-area-inset-top,0px) + 8px) 20px 14px;box-sizing:border-box;color:var(--ct-ink)}
+.ct.ct-fit{height:calc(var(--app-h,100dvh) - var(--nav-h) - var(--nav-sb));min-height:0}
+.ct *{box-sizing:border-box}
+.ct p{margin:0;text-wrap:pretty}
+.ct :where(button,input,textarea){font:inherit;color:inherit;background:none;border:0;font-family:inherit;margin:0}
+.ct :where(button){padding:0;cursor:pointer}
+.ct-head{display:flex;align-items:center;gap:12px;flex:none}
+.ct-ib{width:40px;height:40px;border-radius:50%;background:var(--ct-card)!important;border:1px solid var(--ct-line-2)!important;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:transform .12s;color:var(--ct-ink)}
+.ct-ib.sm{width:34px;height:34px}
+.ct-ib:active{transform:scale(.94)}
+.ct-ttl{flex:1;min-width:0}
+.ct-ttl b{display:block;font-size:19px;font-weight:800;letter-spacing:-.02em;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ct-ttl small{display:block;font-size:12.5px;color:var(--ct-ink-3);font-weight:600;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ct-kick{font-size:10.5px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--ct-ink-3);white-space:nowrap}
+.ct-h{font-size:21px;font-weight:800;letter-spacing:-.025em;line-height:1.15}
+.ct-sub{font-size:14px;color:var(--ct-ink-3);margin-top:5px;line-height:1.45}
+.ct-note{font-size:12.5px;color:var(--ct-ink-3);line-height:1.45;margin-top:8px}
+.ct-lv{display:flex;padding:4px;border-radius:14px;background:var(--ct-card);border:1px solid var(--ct-line);flex:none}
+.ct-lv button{flex:1;height:40px;border-radius:10px;font-size:14px;font-weight:750;color:var(--ct-ink-3)}
+.ct-lv button.on{background:var(--ct-card-2);color:var(--ct-ink);box-shadow:inset 0 0 0 1px var(--ct-line-2)}
+.ct-card{border-radius:20px;background:var(--ct-card);border:1px solid var(--ct-line);padding:15px}
+.ct-hero{position:relative;overflow:hidden;border-radius:24px;padding:18px;flex:none;border:1px solid var(--cc-line);background:radial-gradient(120% 100% at 100% 0%,var(--cc-glow),transparent 62%),var(--ct-card)}
+.ct-hero>*:not(.art){position:relative;z-index:1}
+.ct-hero .art{position:absolute;z-index:0;pointer-events:none;width:70%;right:-14%;top:-30%;opacity:.12}
+.ct-hn{font-size:24px;font-weight:800;letter-spacing:-.025em;line-height:1.15;margin:6px 0 14px}
+.ct-hn sup{font-size:.45em;vertical-align:super}
+.ct-ballot{display:flex;gap:3px;height:8px;border-radius:4px;overflow:hidden}
+.ct-bl{display:flex;justify-content:space-between;margin-top:8px;font-size:12.5px;color:var(--ct-ink-3);font-weight:600;white-space:nowrap}
+.ct-bl b{color:var(--ct-ink);font-weight:750}
+.ct-bl.q{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:4px 14px;font-size:12px}
+.ct-bl.q span{display:flex;justify-content:space-between;gap:6px;min-width:0}
+.ct-bl.q b{overflow:hidden;text-overflow:ellipsis}
+.ct-take{display:flex;gap:12px;align-items:flex-start;flex:none}
+.ct-take img{width:40px;height:40px;border-radius:50%;object-fit:cover;flex:none;border:1.5px solid var(--cc-line)}
+.ct-take p{flex:1;font-size:15.5px;line-height:1.5;font-style:italic;color:var(--ct-ink)}
+.ct-lrows{display:flex;flex-direction:column;gap:8px;flex:1;min-height:0}
+.ct-lrow{display:flex;align-items:center;gap:12px;border-radius:18px;background:var(--ct-card)!important;border:1px solid var(--ct-line)!important;padding:14px 15px!important;width:100%;text-align:left;flex:1;min-height:60px;max-height:96px;transition:transform .12s}
+.ct-lrow:active{transform:scale(.99)}
+.ct-lrow .t{font-size:15.5px;font-weight:700}
+.ct-lrow small{display:block;font-size:12.5px;color:var(--ct-ink-3);font-weight:600;margin-top:2px;white-space:nowrap}
+.ct-ico{width:30px;height:30px;border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0;border:1px solid}
+.ct-coral{background:var(--ct-coral-bg);border-color:var(--ct-coral-line);color:var(--ct-coral-hi)}
+.ct-blue{background:var(--ct-blue-bg);border-color:var(--ct-blue-line);color:var(--ct-blue-hi)}
+.ct-gold{background:var(--ct-gold-bg);border-color:var(--ct-gold-line);color:var(--ct-gold-hi)}
+.ct-green{background:var(--ct-green-bg);border-color:var(--ct-green-line);color:var(--ct-green-hi)}
+.ct-cc{background:var(--cc-bg);border-color:var(--cc-line);color:var(--cc-hi)}
+.ct-klist{list-style:none;display:flex;flex-direction:column;margin:0;padding:0}
+.ct-klist li{display:grid;grid-template-columns:26px 1fr;gap:11px;padding:11px 0;border-top:1px solid var(--ct-line);font-size:14.5px;line-height:1.5;color:var(--ct-ink-2)}
+.ct-klist li:first-child{border-top:0;padding-top:0}
+.ct-klist .n{width:26px;height:26px;border-radius:8px;background:var(--ct-coral-bg);color:var(--ct-coral-hi);display:flex;align-items:center;justify-content:center;font-size:12.5px;font-weight:800}
+.ct-qlist .n{background:var(--cc-bg);color:var(--cc-hi)}
+.ct-qlist li{font-size:16px;color:var(--ct-ink);font-weight:600}
+.ct-klist b{color:var(--ct-ink);font-weight:700}
+.ct-scroll{display:flex;flex-direction:column;gap:8px}
+.ct-crit-h{display:flex;justify-content:space-between;align-items:baseline}
+.ct-crit-h b{font-size:15.5px}
+.ct-crit-h span{font-size:13px;font-weight:800;color:var(--cc-hi)}
+.ct-crit-bar{height:4px;border-radius:2px;background:rgba(255,255,255,.08);margin:9px 0 11px}
+.ct-crit-bar i{display:block;height:100%;border-radius:2px;background:var(--cc)}
+.ct-plain{font-size:14.5px;line-height:1.55;color:var(--ct-ink)}
+.ct-desc{font-size:13px;line-height:1.5;color:var(--ct-ink-3);margin-top:8px!important}
+.ct-links{display:flex;flex-wrap:wrap;gap:6px}
+.ct-links a{font-size:12px;font-weight:700;color:var(--cc-hi);border:1px solid var(--cc-line);border-radius:16px;padding:6px 11px;text-decoration:none}
+.ct-champ{display:flex;align-items:center;gap:12px;border-radius:16px;background:var(--ct-card)!important;border:1px solid var(--ct-line)!important;padding:12px 14px!important;width:100%;text-align:left;text-decoration:none;color:var(--ct-ink)}
+.ct-champ .yt{width:36px;height:36px;border-radius:10px;background:var(--ct-gold-bg);border:1px solid var(--ct-gold-line);color:var(--ct-gold-hi);display:flex;align-items:center;justify-content:center;flex:none}
+.ct-champ .t{font-size:15px;font-weight:700}
+.ct-champ small{display:block;font-size:12.5px;color:var(--ct-ink-3);font-weight:600;margin-top:2px}
+.ct-champ p{font-size:13px;color:var(--ct-ink-2);line-height:1.45;margin-top:5px!important}
+.ct-watch{display:inline-flex;align-items:center;gap:7px;margin-top:10px;font-size:13.5px;font-weight:700;color:var(--ct-gold-hi);text-decoration:none}
+.ct-steal{border-color:var(--ct-green-line);background:radial-gradient(120% 100% at 100% 0%,rgba(94,185,117,.1),transparent 62%),var(--ct-card)}
+.ct-card .ct-kick+.ct-plain{margin-top:8px}
+.ct-fld{border-radius:18px;background:var(--ct-card);border:1px solid var(--ct-line);padding:13px 15px;flex:none}
+.ct-fld input{width:100%;font-size:15.5px;margin-top:6px;outline:none;display:block;padding:0}
+.ct-fld input::placeholder{color:var(--ct-ink-3)}
+.ct-fld .ct-fld-2{border-top:1px solid var(--ct-line)!important;padding-top:9px;margin-top:9px}
+.ct-trow{display:flex;justify-content:space-between;align-items:center}
+.ct-tr{font-size:12.5px;font-weight:700;color:var(--ct-ink-2)}
+.ct-tline{position:relative;height:6px;border-radius:3px;background:rgba(255,255,255,.08);margin:12px 0 8px}
+.ct-tline i{position:absolute;top:-4px;width:2px;height:14px;border-radius:1px;margin-left:-1px}
+.ct-tl{display:flex;justify-content:space-between;font-size:12px;font-weight:700;white-space:nowrap}
+.ct-qcard{flex:1;min-height:200px;border-radius:24px;background:var(--ct-card);border:1px solid var(--ct-line);border-left:3px solid var(--cc);padding:20px 18px;display:flex;flex-direction:column;justify-content:center;gap:14px}
+.ct-qrow{display:flex;justify-content:space-between;align-items:center}
+.ct-qcard .q{font-size:23px;font-weight:700;line-height:1.32;letter-spacing:-.015em}
+.ct-qcard .ct-note{margin-top:0;font-size:13px}
+.ct-tier{flex:1;min-height:120px;display:flex;flex-direction:column;justify-content:space-between;gap:10px;border-radius:22px;background:var(--ct-card)!important;border:1px solid var(--ct-line)!important;padding:18px!important;text-align:left;width:100%}
+.ct-tier .t{font-size:19px;font-weight:800;letter-spacing:-.015em}
+.ct-tier p{font-size:14px;line-height:1.5;color:var(--ct-ink-2);margin-top:3px!important}
+.ct-tier-green{border-color:var(--ct-green-line)!important;background:radial-gradient(120% 100% at 100% 0%,rgba(94,185,117,.12),transparent 62%),var(--ct-card)!important}
+.ct-tier-gold{border-color:var(--ct-gold-line)!important;background:radial-gradient(120% 100% at 100% 0%,rgba(245,200,91,.12),transparent 62%),var(--ct-card)!important}
+.ct-tier:disabled{opacity:.7}
+.ct-mic{flex:1;min-height:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:8px 0}
+.ct .ct-mic .ps-mic-btn{width:92px;height:92px;border-radius:50%;border:3px solid var(--cc-line);display:flex;align-items:center;justify-content:center;box-shadow:0 0 34px rgba(var(--cc-rgb),.18);background:transparent;cursor:pointer;margin:0}
+.ct .ct-mic .ps-mic-ring{width:auto;height:auto;border:0;background:none;box-shadow:none;display:flex;align-items:center;justify-content:center;animation:none}
+.ct .ct-mic .ps-mic-ring.active{animation:ctPulse 1.6s infinite}
+@keyframes ctPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
+.ct .ct-mic .ps-mic-icon{font-size:34px;line-height:1;color:var(--ct-ink);font-weight:800}
+.ct-mic-l{font-size:13.5px;font-weight:700;color:var(--ct-ink-2);font-variant-numeric:tabular-nums}
+.ct-ta{width:100%;min-height:160px;border-radius:16px;background:var(--ct-card)!important;border:1px solid var(--ct-line-2)!important;padding:13px!important;font-size:14.5px;line-height:1.55;color:var(--ct-ink);resize:vertical;outline:none;margin-bottom:10px!important}
+.ct-btn{height:50px;border-radius:15px;padding:0 18px!important;display:flex;align-items:center;justify-content:center;gap:8px;font-size:15.5px;font-weight:750;width:100%;flex:none}
+.ct-btn-p{background:var(--cc)!important;color:#15120A!important}
+.ct-btn-g{background:var(--ct-card-2)!important;border:1px solid var(--ct-line-2)!important;color:var(--ct-ink-2)!important}
+@media (max-height:760px){.ct{gap:9px}.ct-hn{font-size:21px;margin:4px 0 8px}.ct-hero{padding:14px}.ct-take p{font-size:14.5px}.ct-lrow{min-height:48px;padding:9px 13px!important}.ct-lrows{gap:7px}.ct-bl.q{gap:2px 12px}.ct-klist li{font-size:13.5px;padding:9px 0}.ct .ct-mic .ps-mic-btn{width:76px;height:76px}.ct-qcard .q{font-size:20px}.ct-tier{min-height:96px;padding:14px!important}.ct-tier .t{font-size:17px}}
+.ct .cn.cn-in{padding:0;margin:0;max-width:none;display:flex;flex-direction:column;gap:12px;min-height:0}
+.ct-ctx,.ct-read{flex:none}
+.ct-rt{font-size:18px;font-weight:750;line-height:1.3;letter-spacing:-.01em;margin-top:6px}
+.ct-meta{font-size:12.5px;color:var(--ct-ink-3);font-weight:600;margin-top:3px}
+.ct-ctx-acts{display:flex;gap:8px;margin-top:12px}
+.ct-ctx-acts .ct-btn{height:42px;font-size:14px;flex:1;text-decoration:none}
+.ct-read p{font-size:15px;line-height:1.65;color:var(--ct-ink-2);margin-top:10px!important}
+.ct-acts{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.ct-acts .ct-btn,.ct>.ct-btn{height:48px}
+/* ═══ Speech Coach project picker (bottom sheet) ═══ */
+body.pk-open .bottom-nav{display:none}
+.pk{position:fixed;inset:0;z-index:300;--pk-card:#131519;--pk-card-2:#171A1F;--pk-line:rgba(255,255,255,.07);--pk-line-2:rgba(255,255,255,.12);--pk-ink:#F2F2F4;--pk-ink-2:rgba(235,235,245,.74);--pk-ink-3:rgba(235,235,245,.48);--pk-vio:#8B6FF7;--pk-vio-hi:#C4AEFF;--pk-vio-bg:rgba(139,111,247,.12);--pk-vio-line:rgba(139,111,247,.34);--pk-blue-hi:#9CC0F5;--pk-blue-bg:rgba(59,130,246,.1);--pk-blue-line:rgba(59,130,246,.3);color:var(--pk-ink)}
+.pk *{box-sizing:border-box}
+.pk :where(button,input){font:inherit;color:inherit;background:none;border:0;font-family:inherit;margin:0;padding:0}
+.pk button{cursor:pointer}
+.pk-scrim{position:absolute;inset:0;background:rgba(5,6,8,.6);animation:pkFade .18s ease}
+.pk-sheet{position:absolute;left:0;right:0;bottom:0;top:calc(env(safe-area-inset-top,0px) + 58px);max-width:480px;margin:0 auto;border-radius:28px 28px 0 0;background:#111317;border:1px solid var(--pk-line-2);border-bottom:0;box-shadow:0 -20px 60px rgba(0,0,0,.5);display:flex;flex-direction:column;gap:12px;padding:10px 20px calc(var(--sab) + 18px);animation:pkUp .22s ease}
+@keyframes pkUp{from{transform:translateY(30px);opacity:0}to{transform:none;opacity:1}}
+@keyframes pkFade{from{opacity:0}to{opacity:1}}
+.pk-grab{width:40px;height:5px;border-radius:3px;background:rgba(255,255,255,.18);margin:0 auto 4px;flex:none}
+.pk-sh{display:flex;align-items:center;justify-content:space-between;flex:none}
+.pk-sh b{font-size:19px;font-weight:800;letter-spacing:-.02em}
+.pk-ib{width:34px;height:34px;border-radius:50%;background:var(--pk-card)!important;border:1px solid var(--pk-line-2)!important;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.pk-lv{display:flex;padding:4px;border-radius:14px;background:var(--pk-card);border:1px solid var(--pk-line);flex:none}
+.pk-lv button{flex:1;height:38px;border-radius:10px;font-size:13.5px;font-weight:750;color:var(--pk-ink-3)}
+.pk-lv button.on{background:var(--pk-card-2);color:var(--pk-ink);box-shadow:inset 0 0 0 1px var(--pk-line-2)}
+.pk-kick{font-size:10.5px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--pk-ink-3);white-space:nowrap}
+.pk-gl{display:block;margin-bottom:8px}
+.pk-ico{width:32px;height:32px;border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0;border:1px solid}
+.pk-vio{background:var(--pk-vio-bg);border-color:var(--pk-vio-line);color:var(--pk-vio-hi)}
+.pk-blue{background:var(--pk-blue-bg);border-color:var(--pk-blue-line);color:var(--pk-blue-hi)}
+.pk-next{display:flex;align-items:center;gap:12px;border-radius:18px;padding:13px 14px!important;border:1px solid var(--pk-vio-line)!important;background:radial-gradient(120% 100% at 100% 0%,rgba(139,111,247,.16),transparent 62%),var(--pk-card)!important;width:100%;text-align:left;flex:none}
+.pk-next .t{font-size:16px;font-weight:750;line-height:1.25}
+.pk-next small,.pk-saved small{display:block;font-size:12.5px;color:var(--pk-ink-3);font-weight:600;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pk-search{height:48px;border-radius:15px;background:var(--pk-card);border:1px solid var(--pk-line-2);display:flex;align-items:center;gap:10px;padding:0 14px;flex:none}
+.pk-search input{flex:1;min-width:0;font-size:15.5px;height:100%;outline:none}
+.pk-search input::placeholder{color:var(--pk-ink-3)}
+.pk-plist{flex:1;min-height:0;overflow:auto;display:flex;flex-direction:column;gap:2px;margin:0 -8px;padding:0 8px}
+.pk-pr{display:flex;align-items:center;gap:10px;border-radius:13px;padding:11px 12px!important;width:100%;text-align:left;flex:none}
+.pk-pr:active{background:var(--pk-card)}
+.pk-pr.on{background:var(--pk-vio-bg)!important;box-shadow:inset 0 0 0 1px var(--pk-vio-line)}
+.pk-pr .t{font-size:15px;font-weight:650;line-height:1.3;text-wrap:pretty}
+.pk-pr.on .t{color:var(--pk-vio-hi);font-weight:750}
+.pk-pr small{display:block;font-size:12.5px;color:var(--pk-ink-3);font-weight:600;margin-top:2px}
+.pk-tg{font-weight:700}.pk-tg.o{color:#F5CE85}.pk-tg.s{color:#F5A497}
+.pk-ck{color:var(--pk-vio-hi);flex:none;display:flex}
+.pk-empty{font-size:14px;color:var(--pk-ink-3);padding:16px 12px}
+.pk-mid{flex:1;min-height:0;overflow:auto;display:flex;flex-direction:column;gap:14px;margin:0 -4px;padding:0 4px 4px}
+.pk-chs{display:flex;flex-wrap:wrap;gap:7px}
+.pk-ch{height:36px;padding:0 13px!important;border-radius:18px;background:var(--pk-card)!important;border:1px solid var(--pk-line-2)!important;font-size:13.5px;font-weight:650;color:var(--pk-ink-2)!important;white-space:nowrap}
+.pk-ch.on{background:var(--pk-vio-bg)!important;border-color:var(--pk-vio-line)!important;color:var(--pk-vio-hi)!important}
+.pk-len{display:flex;align-items:center;gap:12px}
+.pk-len .pk-ib{width:40px;height:40px;font-size:20px;font-weight:600}
+.pk-len b{flex:1;text-align:center;font-size:22px;font-weight:800;font-variant-numeric:tabular-nums}
+.pk-len b small{font-size:13px;color:var(--pk-ink-3);font-weight:650}
+.pk-msg{height:46px;border-radius:14px;background:var(--pk-card)!important;border:1px solid var(--pk-line-2)!important;padding:0 14px!important;width:100%;font-size:15px;outline:none}
+.pk-msg::placeholder{color:var(--pk-ink-3)}
+.pk-saved{display:flex;align-items:center;gap:12px;border-radius:16px;background:var(--pk-card)!important;border:1px solid var(--pk-blue-line)!important;padding:11px 13px!important;width:100%;text-align:left;flex:none}
+.pk-saved .t{font-size:14.5px;font-weight:700}
+.pk-btn{height:52px;border-radius:15px;background:var(--pk-vio)!important;color:#fff!important;font-size:16px;font-weight:750;width:100%;flex:none}
+.pk-btn:active{transform:scale(.98)}
+.pk-free{text-align:center;font-size:13.5px;font-weight:700;color:var(--pk-ink-3);flex:none}
+.pk-free button{color:var(--pk-ink-2);text-decoration:underline;text-underline-offset:3px;font-weight:700}
+@media (max-height:760px){.pk-sheet{gap:9px}.pk-mid{gap:9px}.pk-ch{height:32px;padding:0 11px!important;font-size:12.5px}.pk-pr{padding:9px 12px!important}.pk-len .pk-ib{width:36px;height:36px}}
+/* ═══ Evaluation Helper (reference guide) ═══ */
+#app.is-ev{padding:0;max-width:none}
+.ev{--ev-card:#131519;--ev-card-2:#171A1F;--ev-line:rgba(255,255,255,.07);--ev-line-2:rgba(255,255,255,.12);--ev-ink:#F2F2F4;--ev-ink-2:rgba(235,235,245,.74);--ev-ink-3:rgba(235,235,245,.48);
+  --ev-amb:#F59E0B;--ev-amb-hi:#F8C572;--ev-amb-line:rgba(245,158,11,.3);
+  --ev-green-hi:#8FD6A2;--ev-green-bg:rgba(94,185,117,.1);--ev-green-line:rgba(94,185,117,.3);
+  --ev-coral-hi:#F5A497;--ev-coral-bg:rgba(238,122,107,.09);--ev-coral-line:rgba(238,122,107,.3);--ev-teal-hi:#9FDCDA;
+  display:flex;flex-direction:column;gap:12px;height:calc(var(--app-h,100dvh) - var(--nav-h) - var(--nav-sb));max-width:480px;margin:0 auto;padding:calc(env(safe-area-inset-top,0px) + 8px) 20px 10px;box-sizing:border-box;color:var(--ev-ink)}
+.ev *{box-sizing:border-box}
+.ev p{margin:0;text-wrap:pretty}
+.ev :where(button,input){font:inherit;color:inherit;background:none;border:0;font-family:inherit;padding:0;margin:0}
+.ev button{cursor:pointer}
+.ev-head{display:flex;align-items:center;gap:12px;flex:none}
+.ev-ib{width:40px;height:40px;border-radius:50%;background:var(--ev-card)!important;border:1px solid var(--ev-line-2)!important;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:transform .12s}
+.ev-ib:active{transform:scale(.94)}
+.ev-ttl{flex:1;min-width:0}
+.ev-ttl b{display:block;font-size:19px;font-weight:800;letter-spacing:-.02em;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ev-ttl small{display:block;font-size:12.5px;color:var(--ev-ink-3);font-weight:600;margin-top:2px;white-space:nowrap}
+.ev-h{font-size:24px;font-weight:800;letter-spacing:-.025em;line-height:1.15}
+.ev-sub{font-size:14px;color:var(--ev-ink-3);margin-top:5px;line-height:1.45}
+.ev-kick{font-size:10.5px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--ev-ink-3);white-space:nowrap}
+.ev-card{border-radius:22px;background:var(--ev-card);border:1px solid var(--ev-line);padding:16px}
+.ev-grow{flex:1 1 auto;min-height:0;display:flex;flex-direction:column;justify-content:center;overflow:auto}
+.ev-ico{width:30px;height:30px;border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0;border:1px solid}
+.ev-teal{background:rgba(109,182,180,.1);border-color:rgba(109,182,180,.3);color:var(--ev-teal-hi)}
+.ev-coral{background:var(--ev-coral-bg);border-color:var(--ev-coral-line);color:var(--ev-coral-hi)}
+.ev-green{background:var(--ev-green-bg);border-color:var(--ev-green-line);color:var(--ev-green-hi)}
+.ev-t-green{color:var(--ev-green-hi)}.ev-t-coral{color:var(--ev-coral-hi)}
+.ev-search{height:48px;border-radius:15px;background:var(--ev-card);border:1px solid var(--ev-line-2);display:flex;align-items:center;gap:10px;padding:0 14px;flex:none}
+.ev-search input{flex:1;min-width:0;font-size:15.5px;outline:none;height:100%}
+.ev-search input::placeholder{color:var(--ev-ink-3)}
+.ev-lv{display:flex;padding:4px;border-radius:14px;background:var(--ev-card);border:1px solid var(--ev-line);flex:none}
+.ev-lv button{flex:1;height:36px;border-radius:10px;font-size:13.5px;font-weight:750;color:var(--ev-ink-3)}
+.ev-lv button.on{background:var(--ev-card-2);color:var(--ev-ink);box-shadow:inset 0 0 0 1px var(--ev-line-2)}
+.ev-tabs button{height:40px;font-size:14px}
+.ev-list{display:flex;flex-direction:column;gap:8px;flex:1;min-height:0;overflow:auto;padding-bottom:6px}
+.ev-prow{display:flex;align-items:center;gap:12px;border-radius:16px;background:var(--ev-card)!important;border:1px solid var(--ev-line)!important;padding:13px 14px!important;width:100%;text-align:left;transition:transform .12s;flex:none}
+.ev-prow:active{transform:scale(.99)}
+.ev-t{font-size:15.5px;font-weight:700;line-height:1.25;text-wrap:pretty}
+.ev-prow small{display:flex;flex-wrap:wrap;align-items:center;gap:0 2px;font-size:12.5px;color:var(--ev-ink-3);font-weight:600;margin-top:3px}
+.ev-pc{font-size:10.5px;font-weight:800;letter-spacing:.06em;padding:1px 7px;border-radius:7px;border:1px solid;margin-left:6px}
+.ev-el{color:var(--ev-ink-3);border-color:var(--ev-line-2)}
+.ev-recent{border-color:var(--ev-amb-line)!important;background:radial-gradient(120% 100% at 100% 0%,rgba(245,158,11,.1),transparent 60%),var(--ev-card)!important}
+.ev-empty{font-size:14px;color:var(--ev-ink-3);padding:18px 4px}
+.ev-focus{background:radial-gradient(120% 100% at 100% 0%,rgba(245,158,11,.14),transparent 62%),var(--ev-card);border-color:var(--ev-amb-line);flex:none}
+.ev-q{font-size:19px;font-weight:750;line-height:1.35;letter-spacing:-.01em;margin-top:10px!important}
+.ev-lf{display:grid;grid-template-columns:30px 1fr;gap:12px;padding:13px 0;border-top:1px solid var(--ev-line)}
+.ev-lf:first-child{border-top:0;padding-top:0}
+.ev-lf:last-child{padding-bottom:0}
+.ev-lf p{font-size:14.5px;line-height:1.5;color:var(--ev-ink-2)}
+.ev-lf b{display:block;font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;margin-bottom:4px}
+.ev-kline{display:flex;gap:11px;align-items:flex-start;flex:none;padding:0 2px}
+.ev-kline p{font-size:14px;line-height:1.5;color:var(--ev-ink-2);font-style:italic}
+.ev-kav{width:28px;height:28px;border-radius:50%;background:linear-gradient(140deg,#6DB6B4,#38625f);display:flex;align-items:center;justify-content:center;font-size:12px;color:#0A0B0F;font-weight:800;flex:none}
+.ev-meth{flex:1;min-height:0;display:flex;flex-direction:column;gap:9px;overflow:auto}
+.ev-part{flex:1 0 auto;display:flex;flex-direction:column;justify-content:center;border-radius:20px;background:var(--ev-card);border:1px solid var(--ev-line);padding:13px 15px}
+.ev-hd{display:flex;align-items:center;gap:9px;margin-bottom:7px}
+.ev-letter{width:26px;height:26px;border-radius:8px;font-size:12.5px;font-weight:800}
+.ev-rule{font-size:15px;font-weight:700;line-height:1.35;color:var(--ev-ink);margin-bottom:8px!important}
+.ev-ex{display:flex;flex-direction:column;gap:5px}
+.ev-ex>div{display:grid;grid-template-columns:18px 1fr;gap:8px;align-items:baseline}
+.ev-ex span{font-size:12px;font-weight:900;text-align:center}
+.ev-ex .x span{color:var(--ev-coral-hi)}.ev-ex .v span{color:var(--ev-green-hi)}
+.ev-ex .x p{font-size:13.5px;line-height:1.4;color:var(--ev-ink-3);text-decoration:line-through;text-decoration-color:rgba(238,122,107,.5)}
+.ev-ex .v p{font-size:14px;line-height:1.4;color:var(--ev-ink)}
+.ev-rules{display:flex;gap:6px;flex:none;margin-top:-3px}
+.ev-rules span{flex:1;height:32px;border-radius:10px;background:var(--ev-card);border:1px solid var(--ev-line);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:var(--ev-ink-2);white-space:nowrap;padding:0 6px}
+@media (max-height:760px){
+  .ev{gap:9px}
+  .ev-h{font-size:21px}
+  .ev-card,.ev-part{padding:11px 13px}
+  .ev-q{font-size:17px;margin-top:6px!important}
+  .ev-lf{padding:10px 0}
+  .ev-lf p,.ev-ex .v p{font-size:13.5px}
+  .ev-ex .x p{font-size:12.5px}
+  .ev-rule{font-size:14px;margin-bottom:5px!important}
+  .ev-kline p{font-size:13px}
+  .ev-hd{margin-bottom:5px}
+  .ev-rules span{height:28px;font-size:11.5px}
+}
+@media (max-height:700px){.ev-ex .x{display:none}}
 /* ═══ Coaching Notes (Speech Coach results) ═══ */
 #app.is-cn{padding:0;max-width:none}
 .cn{--cn-card:#131519;--cn-card-2:#171A1F;--cn-line:rgba(255,255,255,.07);--cn-line-2:rgba(255,255,255,.12);--cn-ink:#F2F2F4;--cn-ink-2:rgba(235,235,245,.74);--cn-ink-3:rgba(235,235,245,.48);
@@ -4811,6 +5061,10 @@ const CHANGELOG=[
     'Session History: tap Select to pick sessions (or Select all) and delete them in one go',
     'Slimmer Hub bar at the bottom of the screen, so it no longer covers buttons',
     'Hub tiles each have their own colour now, so you can tell them apart at a glance',
+    'Contests redesigned: the ballot at a glance, K’s take, and one tap into contest killers, the ballot in plain words and why the champions won',
+    'Contest practice shows the full timing — green, amber, red and the disqualification line — before you start',
+    'Speech Coach: tap “Working on” to pick a Pathways project (your next one is on top) or set up any other speech in one sheet',
+    'Evaluation Helper is now a quick in-meeting guide: pick the project, then see what to judge and how to say it — no typing, no waiting',
     'Table Topics® has a new Real world mode: practise interview answers, elevator pitches, introductions and tough questions, each with its own time target and coaching',
     'Speech Coach’s Freestyle card is quieter — no placeholder line under your name',
     'Coaching Notes redesign: verdict first with a Yes / Partial / No chip, then your one priority with “Rehearse with this focus”, then what K heard, what worked and where to improve',
@@ -5209,6 +5463,8 @@ function render(){
   app.classList.toggle("is-psr",V.view==="ai-coach"&&PS.phase!=="done");
   app.classList.toggle("is-ob",V.view==="speech-draft");
   app.classList.toggle("is-cn",V.view==="ai-coach"&&PS.phase==="done");
+  app.classList.toggle("is-ev",V.view==="eval-helper");
+  app.classList.toggle("is-ct",V.view==="contest-detail");
   // Safety: if we leave the fullscreen timer, make sure it pauses (battery + wake lock)
   if(V.view!=="timer"&&T.running)pauseTimer();
   // Safety: if we leave the filler detector while it's active, stop it
@@ -8183,7 +8439,7 @@ function renderPracticeHub(app){
   // Speech Timer moved to Meeting Roles → Timer (live). The tool itself is unchanged.
   h+='<div class="pt-list">';
   h+=toolRow({art:"tt-card.png",tool:"topics",      color:"#8B5CF6", icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.9" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><circle cx="9" cy="10.5" r="0.75" fill="currentColor" stroke="none"/><circle cx="12" cy="10.5" r="0.75" fill="currentColor" stroke="none"/><circle cx="15" cy="10.5" r="0.75" fill="currentColor" stroke="none"/></svg>', name:"Table Topics<sup style=\"font-size:0.5em;vertical-align:super\">®</sup>", desc:"Impromptu prompts — pick a theme and speak", status:_ttStatus, statusMuted:!_ttS.length});
-  h+=toolRow({art:"eval-sheet.png",tool:"eval-helper", color:"#F59E0B", icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.9" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H7a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h5"/><path d="M14 2v5h5"/><path d="M14 2l5 5"/><line x1="9" y1="10.5" x2="12.5" y2="10.5"/><line x1="9" y1="13.5" x2="12.5" y2="13.5"/><circle cx="18.5" cy="18.5" r="3" fill="currentColor" stroke="none"/><path d="M16.5 18.5l1.5 1.5 2.5-2.5" stroke="white" stroke-width="0.8" fill="none"/></svg>', name:"Evaluation Helper",  desc:"AI-drafted CRC feedback for any Pathways speech"});
+  h+=toolRow({art:"eval-sheet.png",tool:"eval-helper", color:"#F59E0B", icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.9" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H7a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h5"/><path d="M14 2v5h5"/><path d="M14 2l5 5"/><line x1="9" y1="10.5" x2="12.5" y2="10.5"/><line x1="9" y1="13.5" x2="12.5" y2="13.5"/><circle cx="18.5" cy="18.5" r="3" fill="currentColor" stroke="none"/><path d="M16.5 18.5l1.5 1.5 2.5-2.5" stroke="white" stroke-width="0.8" fill="none"/></svg>', name:"Evaluation Helper",  desc:"What to judge and how to say it — at the meeting"});
   h+=toolRow({art:"draft-page.png",tool:"speech-draft",color:"#3B82F6", icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.9" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><path d="M13 2v5h7"/><line x1="8" y1="13.5" x2="12" y2="13.5"/><line x1="8" y1="17.5" x2="12" y2="17.5"/><path d="M17.5 4.5l2.5 2.5-7 7-2.5 0.5 0.5-2.5z"/><line x1="17.5" y1="4.5" x2="20" y2="7"/></svg>', name:"Outline Builder",desc:"Pick a structure, fill one point per section, rehearse it"});
   h+='</div>';
   h+='<div class="app-footer">Made by Kian How · This app is independent of Toastmasters International. It is not authorized by, endorsed by, sponsored by, affiliated with, or otherwise approved by Toastmasters International. · <a data-action="whats-new" style="color:var(--accent);cursor:pointer">v'+APP_VERSION+' · What’s new</a> · <a data-action="show-notice" style="color:var(--accent);text-decoration:none;cursor:pointer">User Agreement</a></div>';
@@ -11930,7 +12186,7 @@ function renderSettings(app){
 // ═══════════════════════════════════════════════════════════════════════════
 
 // ═══════════════════════════════════════════════════════════════════════════
-// EVALUATION HELPER — draft CRC feedback for any Pathways speech
+// EVALUATION HELPER — in-meeting reference: what to judge + how to say it (no AI)
 // ═══════════════════════════════════════════════════════════════════════════
 // Evaluating a Toastmaster is a skill. This tool helps by showing you what
 // to look for per-project (based on the project's actual objectives) and
@@ -12029,260 +12285,124 @@ async function _evalPracticeAnalyze(pid,transcript){
 }
 
 function renderEvalHelper(app){
-  const aiOn=S.aiConfig&&S.aiConfig.enabled;
   if(V._evalPid===undefined||V._evalPid===null)V._evalPid="";
-  if(!V._evalNotes)V._evalNotes="";
 
-  // Show all projects across ALL paths — evaluators rarely share the same path as the speaker
+  // Every speech project across ALL paths — evaluators rarely share the speaker's path
   const levelGroups=[];
-  const pidRequired={};  // pid → [pathCodes where required]
-  const pidElective={};  // pid → [pathCodes where elective]
-  const pidColor={};     // pid → first path color (for required)
+  const pidRequired={}, pidElective={}, pidLevel={};
   const allPathCodes=Object.keys(PA).filter(pc=>!(PA[pc]||{}).legacy);
   const totalPaths=allPathCodes.length;
   for(let lv=1;lv<=5;lv++){
-    const seen=new Set();
-    const pids=[];
+    const seen=new Set(), pids=[];
     allPathCodes.forEach(pc=>{
       const g=gP(pc,lv);
-      const col=(PA[pc]||{}).c||"#888";
-      g.r.forEach(pid=>{
-        if(PD[pid]&&PD[pid].dur&&PD[pid].dur.includes("min")){
-          if(!seen.has(pid)){seen.add(pid);pids.push(pid);}
-          (pidRequired[pid]=pidRequired[pid]||[]).push(pc);
-          if(!pidColor[pid])pidColor[pid]=col;
-        }
-      });
-      g.e.forEach(pid=>{
-        if(PD[pid]&&PD[pid].dur&&PD[pid].dur.includes("min")){
-          if(!seen.has(pid)){seen.add(pid);pids.push(pid);}
-          (pidElective[pid]=pidElective[pid]||[]).push(pc);
-          if(!pidColor[pid])pidColor[pid]=col;
-        }
-      });
+      g.r.forEach(pid=>{if(PD[pid]&&PD[pid].dur&&PD[pid].dur.includes("min")){if(!seen.has(pid)){seen.add(pid);pids.push(pid);}(pidRequired[pid]=pidRequired[pid]||[]).push(pc);if(!pidLevel[pid])pidLevel[pid]=lv;}});
+      g.e.forEach(pid=>{if(PD[pid]&&PD[pid].dur&&PD[pid].dur.includes("min")){if(!seen.has(pid)){seen.add(pid);pids.push(pid);}(pidElective[pid]=pidElective[pid]||[]).push(pc);if(!pidLevel[pid])pidLevel[pid]=lv;}});
     });
     if(pids.length)levelGroups.push({level:lv,pids});
   }
-  if(!levelGroups.length)levelGroups.push({level:1,pids:["ice-breaker","writing-speech","intro-vvbl","eval-feedback"]});
-  if(!V._evalOpenLevels)V._evalOpenLevels=new Set([1]);
+  if(!levelGroups.length)levelGroups.push({level:1,pids:["ice-breaker"]});
 
-  const selProj=V._evalPid?PD[V._evalPid]:null;
-  let selLevel=0;
-  if(V._evalPid){
-    for(const lg of levelGroups){if(lg.pids.includes(V._evalPid)){selLevel=lg.level;break;}}
-  }
+  const I={
+    back:'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>',
+    chev:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--ev-ink-3);flex:none"><path d="M9 6l6 6-6 6"/></svg>',
+    search:'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--ev-ink-3);flex:none"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>',
+    eye:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>',
+    flag:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M5 21V4M5 4h11l-2 4 2 4H5"/></svg>'
+  };
+  // Tags: path codes only when NOT in every path; ELECTIVE only when elective
+  const tags=pid=>{
+    const req=pidRequired[pid]||[], el=pidElective[pid]||[];
+    let t='';
+    if(req.length&&req.length<totalPaths)req.forEach(pc=>{const c=(PA[pc]||{}).c||'#888';t+='<span class="ev-pc" style="color:'+c+';border-color:'+c+'66">'+pc+'</span>';});
+    if(!req.length&&el.length)t+='<span class="ev-pc ev-el">ELECTIVE</span>';
+    return t;
+  };
+  const row=(pid,opts)=>{
+    const p=PD[pid];if(!p)return '';
+    opts=opts||{};
+    return '<button class="ev-prow'+(opts.recent?' ev-recent':'')+'" data-eh-pid="'+pid+'" data-search="'+escHtml((p.t||'').toLowerCase())+'"><div style="flex:1;min-width:0">'+(opts.recent?'<div class="ev-kick" style="color:var(--ev-amb-hi);margin-bottom:4px">Last evaluated</div>':'')+'<div class="ev-t">'+escHtml(p.t)+'</div><small>'+escHtml(p.dur)+(opts.showLv&&pidLevel[pid]?' · Level '+pidLevel[pid]:'')+tags(pid)+'</small></div>'+I.chev+'</button>';
+  };
 
-  let h='<div class="fade-up eh-view">';
-  h+='<div class="top-bar">';
-  h+='<button class="top-bar-btn" data-action="eh-back">← Practice</button>';
-  if(selProj)h+='<button class="top-bar-btn" data-action="eh-change" style="color:var(--text-3)">Change</button>';
-  h+='</div>';
-  h+='<div class="kicker">Practice</div>';
-  h+='<h1 class="title">🪞 Evaluation <span class="accent">Helper</span></h1>';
-
-  if(!selProj){
-    h+='<div class="subtitle">Tap the project you\'re evaluating — get specific coaching on what to listen for.</div>';
-    h+='<div class="eh-project-list">';
-    levelGroups.forEach(({level,pids})=>{
-      const isOpen=V._evalOpenLevels.has(level);
-      // Collapsible level header
-      const _lvColors={1:'#6DB6B4',2:'#A07BC7',3:'#5B9DD9',4:'#E5B352',5:'#C9A66B'};
-      const _lvCol=_lvColors[level]||'var(--text-3)';
-      const _lvBg='linear-gradient(90deg,'+_lvCol+'18 0%,'+_lvCol+'06 40%,transparent 70%)';
-      h+='<button class="eh-level-hdr" data-eh-level="'+level+'" style="width:100%;display:flex;justify-content:space-between;align-items:center;background:'+_lvBg+';border:none;cursor:pointer;padding:11px 14px 11px 14px;border-radius:10px;font-family:inherit">';
-      h+='<span>LEVEL <span style="color:'+_lvCol+';font-weight:800">'+level+'</span></span>';
-      h+='<span style="font-size:12px;color:'+_lvCol+';transition:transform .2s;opacity:0.7;'+( isOpen?'transform:rotate(180deg)':'' )+'">▾</span>';
-      h+='</button>';
-      if(isOpen){
-        pids.forEach(pid=>{
-          const p=PD[pid];if(!p)return;
-          const req=pidRequired[pid]||[];
-          const elec=pidElective[pid]||[];
-          const col=pidColor[pid]||"var(--accent)";
-          const isAllPaths=req.length===totalPaths;
-          const hasElective=elec.length>0;
-          h+='<button class="eh-project-btn" data-eh-pid="'+pid+'">';
-          h+='<div class="eh-project-btn-info">';
-          h+='<div class="eh-project-btn-name">'+p.t+'</div>';
-          // Smart tag row
-          h+='<div style="display:flex;flex-wrap:wrap;gap:5px;margin-top:7px">';
-          if(isAllPaths){
-            h+='<span class="eh-tag" style="color:var(--accent);border-color:var(--accent-border);background:var(--accent-soft)">ALL PATHS</span>';
-          }else{
-            req.forEach(pc=>{
-              h+='<span class="eh-tag" style="color:'+col+';border-color:'+col+'66;background:'+col+'18">'+pc+'</span>';
-            });
-          }
-          if(hasElective){
-            h+='<span class="eh-tag" style="color:var(--text-3);border-color:var(--border);background:var(--surface)">ELECTIVE</span>';
-          }
-          h+='</div>';
-          h+='<div class="eh-project-btn-dur" style="margin-top:4px">'+p.dur+'</div>';
-          h+='</div>';
-          h+='<div class="eh-project-btn-arrow">→</div>';
-          h+='</button>';
-        });
-      }
-    });
-    h+='</div>';
-  }else{
-    const etips=EVAL_TIPS&&EVAL_TIPS[V._evalPid];
-
-    // ── Project header card ──
-    h+='<div class="ea-card ea-card-info">';
-    h+='<div class="ea-card-kicker">EVALUATING</div>';
-    h+='<div class="ea-card-title">'+selProj.t+'</div>';
-    h+='<div class="ea-card-meta">'+selProj.dur+(selLevel?' · Level '+selLevel:'')+'</div>';
-    h+='<div class="ea-card-row"><strong>Purpose:</strong> '+selProj.p+'</div>';
-    h+='<div class="ea-card-row"><strong>Overview:</strong> '+(selProj.o||"")+'</div>';
-    h+='</div>';
-
-    // ── Evaluator-specific guidance ──
-    if(etips){
-      if(etips.watch){
-        h+='<div class="ea-card ea-card-amber">';
-        h+='<div class="ea-card-hdr">👀 What to watch for</div>';
-        h+='<div class="ea-card-body">'+escHtml(etips.watch)+'</div>';
-        h+='</div>';
-      }
-      if(etips.flag){
-        h+='<div class="ea-card ea-card-red">';
-        h+='<div class="ea-card-hdr">🚩 Red flag — address this if you see it</div>';
-        h+='<div class="ea-card-body">'+escHtml(etips.flag)+'</div>';
-        h+='</div>';
-      }
-      if(etips.focus){
-        h+='<div class="ea-card ea-card-teal">';
-        h+='<div class="ea-card-hdr">🎯 The single most important criterion</div>';
-        h+='<div class="ea-card-body">'+escHtml(etips.focus)+'</div>';
-        h+='</div>';
-      }
-    }
-
-    
-
-    
-
-    // ── CRC structure (offline guide) ──
-    h+='<div class="ea-card ea-card-blue">';
-    h+='<div class="ea-card-hdr">📋 Your CRC evaluation script</div>';
-    h+='<div class="eh-crc-item"><span class="eh-crc-badge green">C Commend</span><span>What specifically went well for <em>this</em> project objective?</span></div>';
-    h+='<div class="eh-crc-item"><span class="eh-crc-badge amber">R Recommend</span><span>One improvement tied to the project — give a specific technique, not a general tip.</span></div>';
-    h+='<div class="eh-crc-item"><span class="eh-crc-badge green">C Commend</span><span>Encouragement — why this effort matters for their Pathways journey.</span></div>';
-    h+='</div>';
-
-    // ── Notes input ──
-    h+='<div class="eh-notes-wrap">';
-    h+='<div class="eh-picker-label">YOUR NOTES FROM THE SPEECH (optional — helps AI personalise the draft)</div>';
-    h+='<textarea class="eh-notes" id="eh-notes" placeholder="Jot down moments, specific lines, or observations…" rows="4">'+escHtml(V._evalNotes)+'</textarea>';
-    h+='</div>';
-
-    // ── AI button + output area ──
-    if(aiOn){
-      h+='<button class="eh-generate-btn" data-action="eh-generate">✨ Draft my CRC evaluation</button>';
-      h+='<div class="eh-output" id="eh-output" style="display:none"></div>';
+  const listHtml=q=>{
+    let o='';
+    const last=S.lastEvalPid&&PD[S.lastEvalPid]?S.lastEvalPid:null;
+    if(q){
+      const all=[];levelGroups.forEach(g=>g.pids.forEach(pid=>{if(!all.includes(pid))all.push(pid);}));
+      const hits=all.filter(pid=>(PD[pid].t||'').toLowerCase().includes(q));
+      o=hits.length?hits.map(pid=>row(pid,{showLv:true})).join(''):'<div class="ev-empty">No project matches that name.</div>';
     }else{
-      h+='<div class="eh-ai-off-note">Enable AI in ✨ AI Settings to generate a full CRC draft.</div>';
+      if(last)o+=row(last,{recent:true,showLv:true});
+      const g=levelGroups.find(x=>x.level===V._evalLevel)||levelGroups[0];
+      g.pids.filter(pid=>pid!==last).forEach(pid=>{o+=row(pid);});
     }
-
+    return o;
+  };
+  const wireRows=root=>root.querySelectorAll("[data-eh-pid]").forEach(b=>b.addEventListener("click",()=>{
+    V._evalPid=b.dataset.ehPid;V._evalTab='judge';V._evalQuery='';
+    S.lastEvalPid=V._evalPid;V._evalLevel=pidLevel[V._evalPid]||V._evalLevel;save();
+    render();
+  }));
+  const sel=V._evalPid?PD[V._evalPid]:null;
+  let h='<div class="fade-up ev">';
+  if(!sel){
+    // ── 1 · PICK ──
+    const last=S.lastEvalPid&&PD[S.lastEvalPid]?S.lastEvalPid:null;
+    if(!V._evalLevel)V._evalLevel=(last&&pidLevel[last])||1;
+    const q=(V._evalQuery||'').trim().toLowerCase();
+    h+='<header class="ev-head"><button class="ev-ib" data-action="eh-back" aria-label="Back">'+I.back+'</button><div class="ev-ttl"><b>Evaluation Helper</b></div></header>';
+    h+='<div><div class="ev-h">What’s the project?</div><div class="ev-sub">Check the agenda for the project name.</div></div>';
+    h+='<label class="ev-search">'+I.search+'<input id="ev-q" type="search" placeholder="Search projects" autocomplete="off" value="'+escHtml(V._evalQuery||'')+'"></label>';
+    h+='<div class="ev-lv" id="ev-lv"'+(q?' style="display:none"':'')+'>'+levelGroups.map(g=>'<button type="button" data-ev-level="'+g.level+'" class="'+(g.level===V._evalLevel?'on':'')+'">'+(g.level===V._evalLevel?'Level ':'')+g.level+'</button>').join('')+'</div>';
+    h+='<div class="ev-list" id="ev-list">'+listHtml(q)+'</div>';
+  }else{
+    // ── 2 · GUIDE ──
+    const tab=V._evalTab||'judge';
+    const lv=pidLevel[V._evalPid];
+    h+='<header class="ev-head"><button class="ev-ib" data-action="eh-change" aria-label="Back to projects">'+I.back+'</button><div class="ev-ttl"><b>'+escHtml(sel.t)+'</b><small>'+(lv?'Level '+lv+' · ':'')+escHtml(sel.dur)+'</small></div></header>';
+    h+='<div class="ev-lv ev-tabs" role="tablist"><button type="button" data-ev-tab="judge" class="'+(tab==='judge'?'on':'')+'">What to judge</button><button type="button" data-ev-tab="say" class="'+(tab==='say'?'on':'')+'">How to say it</button></div>';
+    if(tab==='judge'){
+      const et=EVAL_TIPS&&EVAL_TIPS[V._evalPid];
+      const strip=s=>String(s||'').replace(/<[^>]+>/g,'').trim();
+      // No EVAL_TIPS entry: first sentence of the project's coaching tip is the test (kept short on purpose)
+      let test=et&&et.focus?et.focus:'';
+      if(!test){const how=strip(TIPS&&TIPS[V._evalPid]&&TIPS[V._evalPid].how);test=(how.match(/^[^.!?]+[.!?]/)||[how])[0]||sel.p||'';}
+      const listen=et&&et.watch?et.watch:(sel.o||'');
+      const flag=et&&et.flag?et.flag:'';
+      h+='<section class="ev-card ev-focus"><div class="ev-kick" style="color:var(--ev-amb-hi)">The one test</div><p class="ev-q">'+escHtml(test)+'</p></section>';
+      h+='<section class="ev-card ev-grow">';
+      h+='<div class="ev-lf"><div class="ev-ico ev-teal">'+I.eye+'</div><div><b style="color:var(--ev-teal-hi)">Listen for</b><p>'+escHtml(listen)+'</p></div></div>';
+      if(flag)h+='<div class="ev-lf"><div class="ev-ico ev-coral">'+I.flag+'</div><div><b style="color:var(--ev-coral-hi)">Red flag</b><p>'+escHtml(flag)+'</p></div></div>';
+      h+='</section>';
+      h+='<div class="ev-kline"><span class="ev-kav">K</span><p>Judge the project, not the performance. Nail that and you\'re already ahead of most evaluators.</p></div>';
+    }else{
+      const part=(letter,tone,label,rule,bad,good)=>'<div class="ev-part"><div class="ev-hd"><div class="ev-ico ev-'+tone+' ev-letter">'+letter+'</div><span class="ev-kick ev-t-'+tone+'">'+label+'</span></div><p class="ev-rule">'+rule+'</p><div class="ev-ex"><div class="x"><span>✕</span><p>'+bad+'</p></div><div class="v"><span>✓</span><p>'+good+'</p></div></div></div>';
+      h+='<div class="ev-meth">';
+      h+=part('C','green','Commend','Start with a moment, not a compliment.','“Great eye contact.”','“When you paused before that last line, the whole room leaned in.”');
+      h+=part('R','coral','Recommend','One thing. And tell them how to fix it.','“Work on your structure.”','“Your middle point got lost. Next time, give it one story and cut the rest.”');
+      h+=part('C','green','Commend','Send them off wanting to speak again.','“Well done, keep it up.”','“That opening? Most people take years to find that.”');
+      h+='</div>';
+      h+='<div class="ev-rules"><span>2–3 minutes</span><span>Talk to them, not the room</span></div>';
+      h+='<div class="ev-rules"><span>Say “I noticed”, not “you should”</span></div>';
+    }
   }
   h+='</div>';
   app.innerHTML=h;
 
-  app.querySelector('[data-action="eh-back"]').addEventListener("click",()=>{V.view="practice";V._evalPid="";V._evalNotes="";render();});
-  const changeBtn=app.querySelector('[data-action="eh-change"]');
-  if(changeBtn)changeBtn.addEventListener("click",()=>{V._evalPid="";render();});
-  app.querySelectorAll("[data-eh-level]").forEach(btn=>{
-    btn.addEventListener("click",()=>{
-      const lv=parseInt(btn.dataset.ehLevel);
-      if(V._evalOpenLevels.has(lv))V._evalOpenLevels.delete(lv);
-      else V._evalOpenLevels.add(lv);
-      render();
-    });
-  });
-  app.querySelectorAll("[data-eh-pid]").forEach(btn=>{
-    btn.addEventListener("click",()=>{V._evalPid=btn.dataset.ehPid;V._evalNotes="";render();});
-  });
-  const notesEl=app.querySelector("#eh-notes");
-  if(notesEl)notesEl.addEventListener("input",()=>{V._evalNotes=notesEl.value;});
-  const genBtn=app.querySelector('[data-action="eh-generate"]');
-  if(genBtn)genBtn.addEventListener("click",async()=>{
-    const proj=PD[V._evalPid];if(!proj)return;
-    const notes=notesEl?notesEl.value.trim():V._evalNotes||"";
-    const out=app.querySelector("#eh-output");
-    out.style.display="block";
-    out.innerHTML='<div class="role-ai-loading" style="padding:18px"><span class="coach-dots"><span>.</span><span>.</span><span>.</span></span></div>';
-    try{
-      const tips=TIPS&&TIPS[V._evalPid];
-      const sys=`You are a Toastmasters evaluator writing a spoken CRC evaluation. Core principle: evaluate the objective, not just the speech. Most evaluators miss this — they praise delivery when the project was about research, or comment on structure when it was a vocal variety exercise.
-
-Your job: be the coach who tells them the one thing that will actually move them forward. Like a music teacher who says "you're rushing the chorus because you're nervous — slow down at the part that matters most" rather than "good effort."
-
-Reply ONLY in this format. Begin with "✅ COMMEND:" — no preamble:
-
-✅ COMMEND: Specific praise directly tied to what this project asked them to do. Name the moment.
-
-🎯 RECOMMEND: One improvement — concept first (why it matters), then what to try. Not a technique list. One thing.
-
-✅ COMMEND CLOSE: Genuine encouragement grounded in what you actually saw. Not a template close.
-
-Under 180 words. Spoken, natural language.`;
-      const msg="Project: "+proj.t+" ("+proj.dur+")\nPurpose: "+proj.p+"\n"+
-        (tips&&tips.how?"Key objective: "+tips.how.replace(/<[^>]+>/g,"")+"\n":"")+
-        (notes?"Speaker observations: "+notes+"\n":"(No notes — write for typical delivery)\n");
-      const text=await callCoach(sys,msg,{maxTokens:500,featureId:'eh-draft'});
-
-      // Robust parser — strip markdown, lenient label matching
-      const clean=text.replace(/\*\*/g,"").replace(/__/g,"").replace(/```/g,"");
-      const labelPatterns={
-        commend:/^(✅\s*)?COMMEND\s*[:\-—]\s*(?!CLOSE)/i,
-        recommend:/^(🎯\s*)?RECOMMEND\s*[:\-—]\s*/i,
-        close:/^(✅\s*)?(COMMEND\s*CLOSE|CLOSE)\s*[:\-—]\s*/i
-      };
-      const sections={commend:"",recommend:"",close:""};
-      const unmatched=[];
-      let cur=null;
-      clean.split("\n").forEach(line=>{
-        const t=line.trim();if(!t)return;
-        let matched=false;
-        // Check 'close' first since it contains 'COMMEND'
-        if(labelPatterns.close.test(t)){
-          cur="close";const c=t.replace(labelPatterns.close,"").trim();
-          if(c)sections.close+=c+" ";matched=true;
-        }else if(labelPatterns.commend.test(t)){
-          cur="commend";const c=t.replace(labelPatterns.commend,"").trim();
-          if(c)sections.commend+=c+" ";matched=true;
-        }else if(labelPatterns.recommend.test(t)){
-          cur="recommend";const c=t.replace(labelPatterns.recommend,"").trim();
-          if(c)sections.recommend+=c+" ";matched=true;
-        }
-        if(!matched){
-          if(cur)sections[cur]+=t+" ";
-          else unmatched.push(t);
-        }
-      });
-
-      let draftHtml='<div class="eh-draft"><div class="eh-draft-label">CRC DRAFT — '+proj.t+'</div>';
-      let hasContent=false;
-      if(sections.commend.trim()){
-        hasContent=true;
-        draftHtml+='<div class="ea-card ea-card-green"><div class="ea-card-hdr">✅ Commend (open)</div><div class="ea-card-body">'+escHtml(sections.commend.trim())+'</div></div>';
-      }
-      if(sections.recommend.trim()){
-        hasContent=true;
-        draftHtml+='<div class="ea-card ea-card-amber"><div class="ea-card-hdr">🎯 Recommend</div><div class="ea-card-body">'+escHtml(sections.recommend.trim())+'</div></div>';
-      }
-      if(sections.close.trim()){
-        hasContent=true;
-        draftHtml+='<div class="ea-card ea-card-green"><div class="ea-card-hdr">✅ Commend (close)</div><div class="ea-card-body">'+escHtml(sections.close.trim())+'</div></div>';
-      }
-      if(!hasContent){
-        // Fallback — render raw response so user gets something
-        draftHtml+='<div class="ea-card ea-card-blue"><div class="ea-card-hdr">📝 CRC draft</div><div class="ea-card-body" style="white-space:pre-wrap">'+escHtml(clean.trim())+'</div></div>';
-      }
-      draftHtml+='<div class="eh-draft-hint">Add specific names and moments before delivering. Speak from memory.</div></div>';
-      out.innerHTML=draftHtml;
-    }catch(e){out.innerHTML=renderAIError(e,"eh-generate");}
+  const back=app.querySelector('[data-action="eh-back"]');
+  if(back)back.addEventListener("click",()=>{V._evalPid="";V._evalQuery="";V.view=V.viewingRole?"role":"practice";render();});
+  const change=app.querySelector('[data-action="eh-change"]');
+  if(change)change.addEventListener("click",()=>{V._evalPid="";render();});
+  app.querySelectorAll("[data-ev-level]").forEach(b=>b.addEventListener("click",()=>{V._evalLevel=+b.dataset.evLevel;render();}));
+  app.querySelectorAll("[data-ev-tab]").forEach(b=>b.addEventListener("click",()=>{V._evalTab=b.dataset.evTab;render();}));
+  wireRows(app);
+  // Search — update only the list so the keyboard stays up
+  const qi=app.querySelector('#ev-q');
+  if(qi)qi.addEventListener("input",()=>{
+    V._evalQuery=qi.value;
+    const q=qi.value.trim().toLowerCase();
+    const list=document.getElementById('ev-list');if(list){list.innerHTML=listHtml(q);wireRows(list);}
+    const lvEl=document.getElementById('ev-lv');if(lvEl)lvEl.style.display=q?'none':'';
   });
 }
 
@@ -15529,151 +15649,142 @@ function _wireCoachTakeActions(app,c){
 }
 
 // ═══ RENDER: CONTEST DETAIL ═══
+// ── Contest practice helpers (timing card + mic) ──
+function _ctTiming(c){
+  const mn=c.time.min,mx=c.time.max,span=mx-mn,lo=mn-span/2,hi=mx+span/2;
+  const pos=t=>((t-lo)/(hi-lo)*100).toFixed(1)+'%';
+  const f=t=>{const s=Math.round(t*60);return Math.floor(s/60)+':'+String(s%60).padStart(2,'0');};
+  const mid=(mn+mx)/2;
+  let marks='';
+  if(mn-0.5>lo)marks+='<i style="left:'+pos(mn-0.5)+';background:#EE7A6B"></i>';
+  marks+='<i style="left:'+pos(mn)+';background:#5EB975"></i><i style="left:'+pos(mid)+';background:#E8B250"></i><i style="left:'+pos(mx)+';background:#EE7A6B"></i>';
+  if(mx+0.5<hi)marks+='<i style="left:'+pos(mx+0.5)+';background:#EE7A6B"></i>';
+  return '<div class="ct-fld"><div class="ct-trow"><span class="ct-kick">Contest timing</span><span class="ct-tr">'+mn+'–'+mx+' min</span></div>'
+    +'<div class="ct-tline">'+marks+'</div>'
+    +'<div class="ct-tl"><span style="color:#8FD6A2">Green '+f(mn)+'</span><span style="color:#F5CE85">Amber '+f(mid)+'</span><span style="color:#F5A497">Red '+f(mx)+'</span></div>'
+    +'<div class="ct-note">Under '+f(Math.max(0,mn-0.5))+' or over '+f(mx+0.5)+' is disqualified.</div></div>';
+}
+function _ctCtx(kick,title,meta,extra){
+  return '<section class="ct-card ct-ctx"><div class="ct-kick" style="color:var(--cc-hi)">'+kick+'</div><div class="ct-rt">'+title+'</div>'+(meta?'<div class="ct-meta">'+meta+'</div>':'')+(extra||'')+'</section>';
+}
+function _ctMic(hidden){
+  return '<div class="ct-mic ps-mic-wrap"'+(hidden?' style="display:none"':'')+'><div class="ps-mic-btn" id="contest-mic-btn" data-action="contest-mic"><div class="ps-mic-ring"><div class="ps-mic-icon">🎙️</div></div></div><div class="ct-mic-l"><span id="contest-timer-state">Tap to start</span> · <span id="contest-timer-display">0:00</span></div></div>';
+}
+
 function renderContestDetail(app){
   const c=CONTEST_DATA[V._contestId];
   if(!c){V.view="contests";render();return;}
   const aiOn=S.aiConfig&&S.aiConfig.enabled;
   const state=V._contestState||"guide";
 
-  let h='<div class="fade-up">';
-  h+='<div class="top-bar">';
-  h+='<button class="top-bar-btn" data-action="contest-back">← Contests</button>';
-  h+='</div>';
+  // ── Per-contest look ──
+  const CT_LOOK={
+    international:{kick:'Flagship',art:'contest-spotlight.png',artStyle:'',cc:'#F5C85B',rgb:'245,200,91',hi:'#FADB8F'},
+    tabletopics:{kick:'Impromptu',art:'tt-card.png',artStyle:'width:62%;right:-10%;top:-18%',cc:'#89C46A',rgb:'137,196,106',hi:'#B5DE9C'},
+    evaluation:{kick:'Analysis',art:'eval-sheet.png',artStyle:'width:58%;right:-8%;top:-16%',cc:'#3B82F6',rgb:'59,130,246',hi:'#9CC0F5'}
+  };
+  const L=CT_LOOK[c.id]||CT_LOOK.international;
+  const ccVars='--cc:'+L.cc+';--cc-hi:'+L.hi+';--cc-bg:rgba('+L.rgb+',.1);--cc-line:rgba('+L.rgb+',.32);--cc-glow:rgba('+L.rgb+',.14);--cc-rgb:'+L.rgb;
+  const cName=String(c.name||'').replace(/\s*Contest$/,'').replace(/®/,'<sup>®</sup>');
+  const CI={
+    back:'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>',
+    chev:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--ct-ink-3);flex:none"><path d="M9 6l6 6-6 6"/></svg>',
+    redo:'<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-3-6.7L21 8"/><path d="M21 3v5h-5"/></svg>',
+    warn:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l9.5 17h-19z"/><path d="M12 10v4M12 17.5v.01"/></svg>',
+    doc:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></svg>',
+    cup:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4h10v5a5 5 0 0 1-10 0z"/><path d="M7 6H4v1a3 3 0 0 0 3 3M17 6h3v1a3 3 0 0 1-3 3M12 14v4M8 21h8"/></svg>',
+    q:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="M9.5 9a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .8-1 1.5M12 15v.01"/></svg>',
+    vid:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="M10 9.5v5l4.5-2.5z" fill="currentColor"/></svg>',
+    play:'<svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.5v13l11-6.5z"/></svg>'
+  };
+  const sub=V._contestSub||null;
+  const firstBold=t=>{const s=String(t||'');const m=s.match(/^(.+?[.!?])(\s|$)/);return m?'<b>'+m[1]+'</b>'+s.slice(m[1].length):'<b>'+s+'</b>';};
+  const third=c.id==='international'?{k:'champs',t:'Why they won',s:(c.champAnalysis||[]).length+' world champions',ico:'cup',tone:'blue'}
+    :c.id==='tabletopics'?{k:'topics',t:'Practice questions',s:'5 contest-style questions',ico:'q',tone:'blue'}
+    :{k:'watch',t:'Watch these first',s:EVAL_CONTEST_SPEECHES.length+' world champion speeches',ico:'vid',tone:'gold'};
+  const killNoun=c.id==='tabletopics'?'answers':c.id==='evaluation'?'evaluations':'speeches';
 
-  // Header
-  h+='<div class="contest-detail-hero" style="--cc:'+c.color+'">';
-  h+='<div class="contest-detail-emoji">'+c.emoji+'</div>';
-  h+='<div>';
-  h+='<div class="contest-detail-name">'+c.name+' Contest</div>';
-  h+='<div class="contest-detail-time">⏱ '+c.time.min+'–'+c.time.max+' minutes</div>';
-  h+='</div>';
-  h+='</div>';
+  let h='<div class="fade-up ct'+(state==='guide'&&!sub?' ct-fit':'')+'" style="'+ccVars+'">';
 
-  // Tab switcher
-  h+='<div class="contest-tabs">';
-  ['guide','practice'].forEach(tab=>{
-    const labels={guide:'📖 Guide',practice:'🎙 Practice'};
-    h+='<button class="contest-tab'+(state===tab?' active':'')+'" data-contest-tab="'+tab+'">'+labels[tab]+'</button>';
-  });
-  h+='</div>';
+  // ── SUB-PAGES (one topic each) ──
+  if(sub){
+    const subTitle={killers:'Contest killers',ballot:'The ballot, in plain words',champs:'Why they won',champ:'Why they won',topics:'Practice questions',watch:'Watch these first'}[sub]||'';
+    const subSmall=sub==='champs'||sub==='champ'?'World Championship of Public Speaking':String(c.name||'').replace(/®/,'®');
+    h+='<header class="ct-head"><button class="ct-ib" data-action="contest-sub-back" aria-label="Back">'+CI.back+'</button><div class="ct-ttl"><b>'+subTitle+'</b><small>'+escHtml(subSmall)+'</small></div></header>';
+    if(sub==='killers'){
+      h+='<ol class="ct-klist">'+c.killsIt.map((k,i)=>'<li><span class="n">'+(i+1)+'</span><span>'+firstBold(k)+'</span></li>').join('')+'</ol>';
+    }else if(sub==='ballot'){
+      h+='<div class="ct-scroll">';
+      c.criteria.forEach(cr=>{
+        h+='<section class="ct-card ct-crit"><div class="ct-crit-h"><b>'+cr.label+'</b><span>'+cr.pct+'%</span></div><div class="ct-crit-bar"><i style="width:'+cr.pct+'%"></i></div>';
+        if(cr.plain)h+='<p class="ct-plain">'+cr.plain+'</p>';
+        if(cr.desc)h+='<p class="ct-desc">'+cr.desc+'</p>';
+        h+='</section>';
+      });
+      const links=[],seen=new Set();c.criteria.forEach(x=>(x.links||[]).forEach(lk=>{if(!seen.has(lk.url)){seen.add(lk.url);links.push(lk);}}));
+      if(links.length)h+='<div class="ct-kick" style="margin:6px 2px 8px">Resources</div><div class="ct-links">'+links.map(lk=>'<a href="'+lk.url+'" target="_blank" rel="noopener">'+lk.label+' ↗</a>').join('')+'</div>';
+      h+='</div>';
+    }else if(sub==='champs'){
+      h+='<div class="ct-sub">Watch one, then read why it worked — and what to steal.</div><div class="ct-scroll">';
+      (c.champAnalysis||[]).forEach((ch,i)=>{
+        const m=String(ch.title).match(/^(.*?)\s+—\s+(.*)$/);const who=m?m[1]:ch.title;let rest=m?m[2]:'';
+        const y=(rest.match(/\((\d{4})\)/)||[])[1]||'';rest=rest.replace(/\s*\(\d{4}\)\s*/,'').trim();
+        h+='<button class="ct-champ" data-champ="'+i+'"><div class="yt">'+CI.play+'</div><div style="flex:1;min-width:0"><div class="t">'+escHtml(who)+'</div><small>'+[rest,y].filter(Boolean).join(' · ')+'</small></div>'+CI.chev+'</button>';
+      });
+      h+='</div>';
+    }else if(sub==='champ'){
+      const ch=(c.champAnalysis||[])[V._contestChamp||0]||{};
+      h+='<div class="ct-scroll">';
+      h+='<section class="ct-card"><div class="ct-kick" style="color:var(--cc-hi)">'+escHtml(String(ch.title||''))+'</div>'+(ch.url?'<a class="ct-watch" href="'+ch.url+'" target="_blank" rel="noopener">'+CI.play+'Watch on YouTube</a>':'')+'</section>';
+      h+='<section class="ct-card"><div class="ct-kick">The speech</div><p class="ct-plain">'+(ch.content||'')+'</p></section>';
+      h+='<section class="ct-card"><div class="ct-kick">Why they really won</div><p class="ct-plain">'+(ch.subjective||'')+'</p></section>';
+      if(ch.steal)h+='<section class="ct-card ct-steal"><div class="ct-kick" style="color:#8FD6A2">Steal this now</div><p class="ct-plain">'+ch.steal+'</p></section>';
+      h+='</div>';
+    }else if(sub==='topics'){
+      if(!V._ctTopics)V._ctTopics=TT_CONTEST_TOPICS.slice().sort(()=>Math.random()-0.5).slice(0,5);
+      h+='<div class="ct-sub">Say each one out loud. No prep — that\'s the contest.</div>';
+      h+='<ol class="ct-klist ct-qlist">'+V._ctTopics.map((q,i)=>'<li><span class="n">'+(i+1)+'</span><span>'+escHtml(q)+'</span></li>').join('')+'</ol>';
+      h+='<button class="ct-btn ct-btn-g" data-action="ct-topics-refresh">'+CI.redo+' Different questions</button>';
+    }else if(sub==='watch'){
+      h+='<div class="ct-scroll">';
+      EVAL_CONTEST_SPEECHES.forEach(s=>{
+        h+='<a class="ct-champ" href="'+s.url+'" target="_blank" rel="noopener"><div class="yt">'+CI.play+'</div><div style="flex:1;min-width:0"><div class="t">'+escHtml(s.title)+'</div><small>'+escHtml(s.speaker+' · '+s.level)+'</small><p>'+escHtml(s.note||'')+'</p></div></a>';
+      });
+      h+='</div>';
+    }
+    h+='</div>';
+    app.innerHTML=h;
+    window.scrollTo(0,0);
+    app.querySelector('[data-action="contest-sub-back"]').addEventListener('click',()=>{V._contestSub=sub==='champ'?'champs':null;render();});
+    app.querySelectorAll('[data-champ]').forEach(b=>b.addEventListener('click',()=>{V._contestChamp=+b.dataset.champ;V._contestSub='champ';render();}));
+    const rf=app.querySelector('[data-action="ct-topics-refresh"]');
+    if(rf)rf.addEventListener('click',()=>{V._ctTopics=null;render();});
+    return;
+  }
+
+  h+='<header class="ct-head"><button class="ct-ib" data-action="contest-back" aria-label="Back">'+CI.back+'</button><div class="ct-ttl"><b>Contests</b></div></header>';
+  h+='<div class="ct-lv ct-tabs" role="tablist"><button data-contest-tab="guide" class="'+(state==='guide'?'on':'')+'">Guide</button><button data-contest-tab="practice" class="'+(state==='practice'?'on':'')+'">Practice</button></div>';
 
   if(state==="guide"){
-
-    // ── COACH'S TAKE — hero element ─────────────────────────────────────────
-    const takeIdx=V._coachTakeIdx||0;
+    const quad=c.criteria.length>3;
+    const alphas=[1,.55,.28,.16];const alphas4=[1,.62,.4,.24];
+    h+='<section class="ct-hero"><img class="art" src="/art/'+L.art+'" alt="" aria-hidden="true" decoding="async"'+(L.artStyle?' style="'+L.artStyle+'"':'')+'>';
+    h+='<div class="ct-kick" style="color:var(--cc-hi)">'+L.kick+' · '+c.time.min+'–'+c.time.max+' min</div>';
+    h+='<div class="ct-hn">'+cName+'</div>';
+    h+='<div class="ct-ballot">'+c.criteria.map((cr,i)=>'<div style="flex:'+cr.pct+';background:rgba('+L.rgb+','+(quad?alphas4:alphas)[i]+')"></div>').join('')+'</div>';
+    h+='<div class="ct-bl'+(quad?' q':'')+'">'+c.criteria.map(cr=>'<span><b>'+cr.label+'</b> '+cr.pct+'%</span>').join('')+'</div>';
+    h+='</section>';
     const takes=c.coachTakes||[];
-    const currentTake=V._coachTakeAI||(takes[takeIdx%takes.length]||"");
-    h+='<div class="guide-coach-hero">';
-    h+='<div class="guide-coach-hero-top">';
-    h+='<div class="contest-coach-avatar" style="width:42px;height:42px;flex-shrink:0"><img src="'+COACH_AVATAR+'" alt="K"/></div>';
-    h+='<div class="guide-coach-hero-name">Coaching Notes</div>';
+    const take=takes[(V._coachTakeIdx||0)%Math.max(1,takes.length)]||'';
+    h+='<div class="ct-take"><img src="'+COACH_AVATAR+'" alt="K"><p id="coach-take-text">'+take+'</p><button class="ct-ib sm" data-action="coach-take-next" aria-label="Different take">'+CI.redo+'</button></div>';
+    const row=(k,ico,tone,t,s)=>'<button class="ct-lrow" data-ct-sub="'+k+'"><div class="ct-ico ct-'+tone+'">'+CI[ico]+'</div><div style="flex:1;min-width:0"><div class="t">'+t+'</div><small>'+s+'</small></div>'+CI.chev+'</button>';
+    h+='<div class="ct-lrows">';
+    h+=row('killers','warn','coral','Contest killers',c.killsIt.length+' ways '+killNoun+' lose');
+    h+=row('ballot','doc','cc','The ballot, in plain words','What judges actually score');
+    h+=row(third.k,third.ico,third.tone,third.t,third.s);
     h+='</div>';
-    h+='<div class="guide-coach-hero-text" id="coach-take-text">'+currentTake+'</div>';
-    h+='<div class="guide-coach-actions">';
-    h+='<button class="coach-take-btn" data-action="coach-take-next">↻ Different take</button>';
-    if(S.aiConfig&&S.aiConfig.enabled){
-      h+='<button class="coach-take-btn ai" data-action="coach-take-ai">'+(V._coachTakeAILoading?'…':'✨ New note')+'</button>';
-    }
-    h+='</div>';
-    h+='</div>';
-
-    // ── GO DEEPER ─────────────────────────────────────────────────────────────
-    const deepOpen=V._contestDeepOpen===true;
-            // ── Three independent dropdowns — content always rendered, toggled inline ──
-
-    function pill(id, icon, label, color, content){
-      return '<div style="margin-bottom:8px">'
-        +'<button class="guide-deep-hdr contest-pill-btn" data-pill="'+id+'" style="background:'+color+'14;border-color:'+color+'44;margin-bottom:0">'
-        +'<span style="color:'+color+'">'+icon+' '+label+'</span>'
-        +'<span class="pill-chev" style="font-size:11px;color:'+color+';opacity:0.7;transition:transform .25s">▼</span>'
-        +'</button>'
-        +'<div class="pill-body" style="display:none">'+content+'</div>'
-        +'</div>';
-    }
-
-    // Build Contest Killers content
-    let killsHtml='<div class="contest-kills" style="margin-top:8px">';
-    c.killsIt.forEach(k=>{ killsHtml+='<div class="contest-kill-item"><span class="contest-kill-icon">⚠️</span><span>'+k+'</span></div>'; });
-    killsHtml+='</div>';
-    h+=pill('killers','⚠️','Contest killers','#E05252',killsHtml);
-
-    // Build Ballot Breakdown content
-    let ballotHtml='<div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px;margin-top:8px">';
-    c.criteria.forEach((cr,ci)=>{
-      const isLast=ci===c.criteria.length-1;
-      ballotHtml+='<div style="margin-bottom:'+(isLast?'0':'16px')+';padding-bottom:'+(isLast?'0':'16px')+';'+(isLast?'':'border-bottom:1px solid var(--border)')+'">';
-      ballotHtml+='<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">';
-      ballotHtml+='<div style="font-size:13px;font-weight:800;color:var(--text)">'+cr.label+'</div>';
-      ballotHtml+='<div style="font-size:12px;font-weight:700;color:'+c.color+'">'+cr.pct+'%</div>';
-      ballotHtml+='</div>';
-      ballotHtml+='<div style="height:3px;background:var(--border);border-radius:2px;margin-bottom:10px"><div style="height:3px;width:'+cr.pct+'%;background:'+c.color+';border-radius:2px"></div></div>';
-      if(cr.plain) ballotHtml+='<div style="font-size:13px;color:var(--text-primary);line-height:1.6">'+cr.plain+'</div>';
-      ballotHtml+='</div>';
-    });
-    const allLinks=[];const seenUrls=new Set();
-    c.criteria.forEach(x=>{if(x.links)x.links.forEach(lk=>{if(!seenUrls.has(lk.url)){seenUrls.add(lk.url);allLinks.push(lk);}});});
-    if(allLinks.length){
-      ballotHtml+='<div style="font-size:11px;font-weight:700;color:var(--text-secondary);text-transform:uppercase;letter-spacing:0.06em;margin:14px 0 8px">Resources</div>';
-      ballotHtml+='<div style="display:flex;flex-wrap:wrap;gap:6px">';
-      allLinks.forEach(lk=>{ ballotHtml+='<a href="'+lk.url+'" target="_blank" rel="noopener" style="display:inline-block;font-size:11px;font-weight:600;color:'+c.color+';border:1px solid '+c.color+'44;border-radius:20px;padding:4px 10px;text-decoration:none;background:'+c.color+'11">'+lk.label+'</a>'; });
-      ballotHtml+='</div>';
-    }
-    ballotHtml+='</div>';
-    h+=pill('ballot','📋','The ballot breakdown',c.color,ballotHtml);
-
-    // Why They Won (International only)
-    if(c.id==="international"&&c.champAnalysis){
-      let champsHtml='<div style="display:flex;flex-direction:column;gap:8px;margin-top:8px">';
-      c.champAnalysis.forEach((ch,ci)=>{
-        const uid='champ-'+ci;
-        champsHtml+='<div class="contest-champ-card" style="padding:0;overflow:hidden">';
-        champsHtml+='<div data-toggle="'+uid+'" style="display:flex;align-items:center;justify-content:space-between;cursor:pointer;padding:14px;user-select:none">';
-        champsHtml+='<div style="font-size:var(--fs-sm);font-weight:800;color:var(--text);letter-spacing:-0.008em">'+ch.title+'</div>';
-        champsHtml+='<span id="chev-'+uid+'" style="font-size:11px;color:var(--text-secondary);flex-shrink:0;margin-left:8px;transition:transform .25s">▼</span>';
-        champsHtml+='</div>';
-        champsHtml+='<div id="'+uid+'" style="display:none;padding:0 14px 14px">';
-        if(ch.url){champsHtml+='<a href="'+ch.url+'" target="_blank" rel="noopener" style="display:inline-block;font-size:11px;font-weight:700;color:#5B9DD9;text-decoration:none;margin-bottom:10px;letter-spacing:0.02em">▶ Watch on YouTube →</a>';}
-        champsHtml+='<div class="contest-champ-section-label">The speech</div>';
-        champsHtml+='<div class="contest-champ-text">'+ch.content+'</div>';
-        champsHtml+='<div class="contest-champ-section-label" style="margin-top:8px">Why they really won</div>';
-        champsHtml+='<div class="contest-champ-text contest-champ-subjective">'+ch.subjective+'</div>';
-        if(ch.steal){
-          champsHtml+='<div class="contest-champ-steal">';
-          champsHtml+='<div class="contest-champ-section-label" style="color:#5EB975;margin-top:8px">🟢 Steal this now</div>';
-          champsHtml+='<div class="contest-champ-text" style="color:var(--text)">'+ch.steal+'</div>';
-          champsHtml+='</div>';
-        }
-        champsHtml+='</div></div>';
-      });
-      champsHtml+='</div>';
-      h+=pill('champs','🏆','Why they won','#C9963A',champsHtml);
-    }
-
-    // Practice questions (TT only)
-    if(c.id==="tabletopics"){
-      const randTopics=TT_CONTEST_TOPICS.slice().sort(()=>Math.random()-0.5).slice(0,5);
-      let topicsHtml='<div class="contest-tt-topics" style="margin-top:8px">';
-      randTopics.forEach(q=>{topicsHtml+='<div class="contest-tt-topic">'+q+'</div>';});
-      topicsHtml+='<button class="contest-tt-refresh" data-action="contest-tt-refresh">↻ Different questions</button>';
-      topicsHtml+='</div>';
-      h+=pill('topics','🎯','Practice questions','#5EB975',topicsHtml);
-    }
-
-    // Watch these first (Evaluation only)
-    if(c.id==="evaluation"){
-      let evalHtml='<div class="contest-eval-speeches" style="margin-top:8px">';
-      EVAL_CONTEST_SPEECHES.forEach(s=>{
-        evalHtml+='<a class="contest-eval-speech" href="'+s.url+'" target="_blank" rel="noopener">';
-        evalHtml+='<div class="contest-eval-speech-top"><div class="contest-eval-speech-title">'+s.title+'</div>';
-        evalHtml+='<div class="contest-eval-speech-meta">'+s.speaker+' · '+s.level+'</div></div>';
-        evalHtml+='<div class="contest-eval-speech-note">'+s.note+'</div>';
-        evalHtml+='<div class="contest-eval-speech-arrow">Watch ↗</div></a>';
-      });
-      evalHtml+='</div>';
-      h+=pill('eval','🎬','Watch these first','#5B9DD9',evalHtml);
-    }
-
   }else{
+
     // Practice tab — recording + AI
     const CD=V._contestData||{};
 
@@ -15683,39 +15794,21 @@ function renderContestDetail(app){
         V._contestTTQ=TT_CONTEST_TOPICS[Math.floor(Math.random()*TT_CONTEST_TOPICS.length)];
       }
       if(!CD.phase||CD.phase==="ready"){
-        h+='<div class="contest-tt-question-card">';
-        h+='<div class="contest-tt-question-label">YOUR QUESTION</div>';
-        h+='<div class="contest-tt-question-text" id="contest-tt-q">'+escHtml(V._contestTTQ)+'</div>';
-        h+='<button class="contest-tt-shuffle" data-action="contest-tt-shuffle">🎲 Different question</button>';
-        h+='</div>';
-        h+='<div class="contest-tt-prep">You have <strong>0 seconds prep</strong> — contest rules. Read the question, tap mic, answer.</div>';
-        h+='<div class="ps-timer-card" id="contest-timer-card">';
-        h+='<div class="ps-timer-state" id="contest-timer-state">READY</div>';
-        h+='<div class="ps-timer-display" id="contest-timer-display">0:00</div>';
-        h+='<div class="ps-timer-markers">';
-        h+='<div class="ps-marker green">● 1:00</div>';
-        h+='<div class="ps-marker red">● 2:00</div>';
-        h+='</div>';
-        h+='<div class="ps-timer-hint">Tap mic · answer the question · tap stop</div>';
-        h+='</div>';
-        h+='<div class="ps-mic-wrap">';
-        h+='<div class="ps-mic-btn" id="contest-mic-btn" data-action="contest-mic"><div class="ps-mic-ring"><div class="ps-mic-icon">🎙️</div></div></div>';
-        h+='<div class="ps-mic-label">Tap to start</div>';
-        h+='</div>';
+        h+='<div class="ct-qcard"><div class="ct-qrow"><span class="ct-kick" style="color:var(--cc-hi)">Your question</span><button class="ct-ib sm" data-action="contest-tt-shuffle" aria-label="Different question"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-3-6.7L21 8"/><path d="M21 3v5h-5"/></svg></button></div>';
+        h+='<p class="q" id="contest-tt-q">'+escHtml(V._contestTTQ)+'</p>';
+        h+='<div class="ct-note">No prep time — contest rules. Read it, tap the mic, answer.</div></div>';
+        h+=_ctTiming(c)+_ctMic(false);
         if(!aiOn)h+='<div class="ttp-ai-off-note">Connect AI in ✨ AI Settings for contest-level coaching.</div>';
       }else if(CD.phase==="done"){
         // Show question above results
-        h+='<div class="contest-tt-question-card" style="margin-bottom:14px">';
-        h+='<div class="contest-tt-question-label">YOU ANSWERED</div>';
-        h+='<div class="contest-tt-question-text">'+escHtml(V._contestTTQ)+'</div>';
-        h+='</div>';
+        h+=_ctCtx('You answered',escHtml(V._contestTTQ),'','');
         if(CD.loading){
-          h+='<div class="role-ai-loading" style="padding:32px;text-align:center"><span class="coach-dots"><span>.</span><span>.</span><span>.</span></span><div style="margin-top:12px;font-size:13px;color:var(--text-3)">Evaluating against the contest ballot…</div></div>';
+          h+='<div class="cn cn-in">'+_cnLoadingHtml()+'</div>';
         }else if(CD.result){
-          h+='<div class="contest-result fade-up">'+renderCoachCards(CD.result)+'</div>';
+          h+='<div class="cn cn-in fade-up">'+_cnNotesHtml(CD.result,{contest:true})+'</div>';
           const contestKey=V._contestSpeechTitle||(c.id+'-'+c.name);
           h+=renderSessionHistory(contestKey,c.color);
-          h+='<button class="ttp-random-btn" style="width:100%;margin-top:16px" data-action="contest-again">🎙 Try another question</button>';
+          h+='<button class="ct-btn ct-btn-g" data-action="contest-again">Try another question</button>';
         }else if(CD.error){
           h+=renderAIError(CD.error,()=>{V._contestData={...V._contestData,error:null,loading:true};render();_contestRunEval(c,CD.transcript);});
         }
@@ -15726,28 +15819,11 @@ function renderContestDetail(app){
 
       if(!evalSpeech&&!genSpeech){
         // ── Two-tile picker ──
-        h+='<div class="contest-eval-intro">';
-        h+='<div class="contest-eval-intro-sub">Pick a speech, prepare your evaluation, then record your CRC. I\'ll coach the quality of your evaluation — not the speech.</div>';
-        h+='</div>';
-
-        h+='<div class="eval-tier-tiles">';
-
-        // Normal tile
         const genLoading=V._contestGenLoading==="normal";
-        h+='<button class="eval-tier-tile" data-gen-level="normal" style="--tc:#5EB975">';
-        h+='<div class="eval-tier-tile-icon">🎯</div>';
-        h+='<div class="eval-tier-tile-name">Practice</div>';
-        h+='<div class="eval-tier-tile-desc">'+(genLoading?'<span class="coach-dots"><span>.</span><span>.</span><span>.</span></span>':'AI generates a realistic speech for you to evaluate')+'</div>';
-        h+='</button>';
-
-        // Expert tile
-        h+='<button class="eval-tier-tile" data-tier="expert" style="--tc:#C9963A">';
-        h+='<div class="eval-tier-tile-icon">🏆</div>';
-        h+='<div class="eval-tier-tile-name">World Champions</div>';
-        h+='<div class="eval-tier-tile-desc">Evaluate speeches that won at the highest level</div>';
-        h+='</button>';
-
-        h+='</div>';
+        h+='<div><div class="ct-h">Pick a speech to evaluate</div><div class="ct-sub">K coaches your evaluation — not the speech.</div></div>';
+        h+='<button class="ct-tier ct-tier-green" data-gen-level="normal"'+(genLoading?' disabled':'')+'><div class="ct-ico ct-green"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h4"/></svg></div><div><div class="t">'+(genLoading?'K is writing a speech…':'Practice speech')+'</div><p>K writes a realistic club speech. Read it, then deliver your evaluation.</p></div></button>';
+        h+='<button class="ct-tier ct-tier-gold'+(V._contestEvalTier==="expert"?' on':'')+'" data-tier="expert"><div class="ct-ico ct-gold"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4h10v5a5 5 0 0 1-10 0z"/><path d="M7 6H4v1a3 3 0 0 0 3 3M17 6h3v1a3 3 0 0 1-3 3M12 14v4M8 21h8"/></svg></div><div><div class="t">World champions</div><p>Watch a winning speech on YouTube, then evaluate it.</p></div></button>';
+        if(V._contestEvalTier!=="expert")h+=_ctTiming(c);
 
         // Expert list — shown when expert tile tapped
         if(V._contestEvalTier==="expert"){
@@ -15770,98 +15846,37 @@ function renderContestDetail(app){
 
       }else if(genSpeech&&(!CD.phase||CD.phase==="ready")){
         // ── Normal tier: show generated speech to read ──
-        h+='<div class="contest-gen-speech-card">';
-        h+='<div class="contest-gen-speech-header">';
-        h+='<div class="contest-gen-speech-level">'+genSpeech.level+'</div>';
-        h+='<div class="contest-gen-speech-title">"'+genSpeech.title+'"</div>';
-        h+='<div class="contest-gen-speech-note">Read this speech fully. Then tap the mic and deliver your evaluation.</div>';
-        h+='</div>';
-        h+='<div class="contest-gen-speech-body">';
-        // Format into paragraphs
-        const paras=genSpeech.text.split(/\n+/).filter(p=>p.trim());
-        paras.forEach(p=>{
-          h+='<p class="contest-gen-para">'+escHtml(p.trim())+'</p>';
-        });
-        h+='</div>';
-        h+='<button class="contest-gen-new" data-action="contest-gen-new">↻ Generate different speech</button>';
-        h+='</div>';
-
-        // Timer + mic
-        h+='<div class="ps-coach-bar" style="margin:14px 0 10px">';
-        h+='<div class="ps-coach-avatar-sm"><img src="'+COACH_AVATAR+'" alt="K"/></div>';
-        h+='<div class="ps-coach-bar-body"><div class="ps-coach-bar-greet">Ready when you are.</div>';
-        h+='<div style="font-size:12px;color:var(--text-3);margin-top:2px">I know what\'s in this speech — I\'ll catch exactly what was missed.</div>';
-        h+='</div></div>';
-        h+='<div class="ps-timer-card" id="contest-timer-card">';
-        h+='<div class="ps-timer-state" id="contest-timer-state">READY</div>';
-        h+='<div class="ps-timer-display" id="contest-timer-display">0:00</div>';
-        h+='<div class="ps-timer-markers"><div class="ps-marker green">● 2:00</div><div class="ps-marker red">● 3:00</div></div>';
-        h+='<div class="ps-timer-hint">Tap mic · deliver your CRC · tap stop</div>';
-        h+='</div>';
-        h+='<div class="ps-mic-wrap">';
-        h+='<div class="ps-mic-btn" id="contest-mic-btn" data-action="contest-mic"><div class="ps-mic-ring"><div class="ps-mic-icon">🎙️</div></div></div>';
-        h+='<div class="ps-mic-label">Tap to start</div>';
-        h+='</div>';
+        h+='<section class="ct-card ct-read"><div class="ct-kick" style="color:var(--cc-hi)">Practice speech · read it first</div><div class="ct-rt">“'+escHtml(genSpeech.title)+'”</div>';
+        genSpeech.text.split(/\n+/).filter(p=>p.trim()).forEach(p=>{h+='<p>'+escHtml(p.trim())+'</p>';});
+        h+='<div class="ct-note">K knows this speech — it will catch exactly what your evaluation missed.</div>';
+        h+='<button class="ct-btn ct-btn-g" data-action="contest-gen-new" style="margin-top:12px">Different speech</button></section>';
+        h+=_ctTiming(c)+_ctMic(false);
 
       }else if(genSpeech&&CD.phase==="done"){
         // Done state for AI-generated speech evaluation
-        h+='<div class="contest-eval-context" style="margin-bottom:14px">';
-        h+='<div class="contest-eval-context-label">EVALUATED</div>';
-        h+='<div class="contest-eval-context-title">"'+genSpeech.title+'"</div>';
-        h+='<div class="contest-eval-context-meta">AI Practice Speech · 5–7 min</div>';
-        h+='</div>';
+        h+=_ctCtx('Evaluated','“'+escHtml(genSpeech.title)+'”','Practice speech','');
         if(CD.loading){
-          h+='<div class="role-ai-loading" style="padding:32px;text-align:center"><span class="coach-dots"><span>.</span><span>.</span><span>.</span></span><div style="margin-top:12px;font-size:13px;color:var(--text-3)">K is evaluating your evaluation…</div></div>';
+          h+='<div class="cn cn-in">'+_cnLoadingHtml()+'</div>';
         }else if(CD.result){
-          h+='<div class="contest-result fade-up">'+renderCoachCards(CD.result)+'</div>';
-          h+='<button class="ttp-random-btn" style="width:100%;margin-top:16px" data-action="contest-again">🎙 Try another speech</button>';
+          h+='<div class="cn cn-in fade-up">'+_cnNotesHtml(CD.result,{contest:true})+'</div>';
+          h+='<button class="ct-btn ct-btn-g" data-action="contest-again">Try another speech</button>';
         }else if(CD.error){
           h+=renderAIError(CD.error,()=>{V._contestData={...V._contestData,error:null,loading:true};render();_contestRunEval(c,CD.transcript);});
         }
       }else if(evalSpeech){
         // Recording UI — speech context shown above
         if(!CD.phase||CD.phase==="ready"){
-          h+='<div class="contest-eval-context">';
-          h+='<div class="contest-eval-context-label">EVALUATING</div>';
-          h+='<div class="contest-eval-context-title">'+evalSpeech.title+'</div>';
-          h+='<div class="contest-eval-context-meta">'+evalSpeech.speaker+' · '+evalSpeech.duration+'</div>';
-          h+='<div class="contest-eval-context-actions">';
-          h+='<a href="'+evalSpeech.url+'" target="_blank" rel="noopener" class="contest-eval-watch-link">▶ Rewatch</a>';
-          h+='<button class="contest-eval-change-btn" data-action="contest-eval-change">Change speech</button>';
-          h+='</div>';
-          h+='</div>';
+          h+=_ctCtx('Evaluating',escHtml(evalSpeech.title),escHtml(evalSpeech.speaker+' · '+evalSpeech.duration),'<div class="ct-ctx-acts"><a class="ct-btn ct-btn-g" href="'+evalSpeech.url+'" target="_blank" rel="noopener">▶ Rewatch</a><button class="ct-btn ct-btn-g" data-action="contest-eval-change">Change</button></div><div class="ct-note">K coaches the quality of your evaluation — not the speech.</div>');
 
-          h+='<div class="ps-coach-bar" style="margin-bottom:12px">';
-          h+='<div class="ps-coach-avatar-sm"><img src="'+COACH_AVATAR+'" alt="K"/></div>';
-          h+='<div class="ps-coach-bar-body">';
-          h+='<div class="ps-coach-bar-greet">Ready when you are.</div>';
-          h+='<div style="font-size:12px;color:var(--text-3);margin-top:2px">I\'ll coach the quality of your evaluation — not the speech itself.</div>';
-          h+='</div></div>';
-
-          h+='<div class="ps-timer-card" id="contest-timer-card">';
-          h+='<div class="ps-timer-state" id="contest-timer-state">READY</div>';
-          h+='<div class="ps-timer-display" id="contest-timer-display">0:00</div>';
-          h+='<div class="ps-timer-markers">';
-          h+='<div class="ps-marker green">● 2:00</div>';
-          h+='<div class="ps-marker red">● 3:00</div>';
-          h+='</div>';
-          h+='<div class="ps-timer-hint">Tap mic · deliver your CRC · tap stop</div>';
-          h+='</div>';
-          h+='<div class="ps-mic-wrap">';
-          h+='<div class="ps-mic-btn" id="contest-mic-btn" data-action="contest-mic"><div class="ps-mic-ring"><div class="ps-mic-icon">🎙️</div></div></div>';
-          h+='<div class="ps-mic-label">Tap to start</div>';
-          h+='</div>';
+          h+=_ctTiming(c)+_ctMic(false);
           if(!aiOn)h+='<div class="ttp-ai-off-note">Connect AI in ✨ AI Settings for evaluation coaching.</div>';
         }else if(CD.phase==="done"){
-          h+='<div class="contest-eval-context" style="margin-bottom:14px">';
-          h+='<div class="contest-eval-context-label">EVALUATED</div>';
-          h+='<div class="contest-eval-context-title">'+evalSpeech.title+'</div>';
-          h+='</div>';
+          h+=_ctCtx('Evaluated',escHtml(evalSpeech.title),escHtml(evalSpeech.speaker),'');
           if(CD.loading){
-            h+='<div class="role-ai-loading" style="padding:32px;text-align:center"><span class="coach-dots"><span>.</span><span>.</span><span>.</span></span><div style="margin-top:12px;font-size:13px;color:var(--text-3)">K is evaluating…</div></div>';
+            h+='<div class="cn cn-in">'+_cnLoadingHtml()+'</div>';
           }else if(CD.result){
-            h+='<div class="contest-result fade-up">'+renderCoachCards(CD.result)+'</div>';
-            h+='<button class="ttp-random-btn" style="width:100%;margin-top:16px" data-action="contest-again">🎙 Try another speech</button>';
+            h+='<div class="cn cn-in fade-up">'+_cnNotesHtml(CD.result,{contest:true})+'</div>';
+            h+='<button class="ct-btn ct-btn-g" data-action="contest-again">Try another speech</button>';
           }else if(CD.error){
             h+=renderAIError(CD.error,()=>{V._contestData={...V._contestData,error:null,loading:true};render();_contestRunEval(c,CD.transcript);});
           }
@@ -15872,12 +15887,9 @@ function renderContestDetail(app){
       // International Speech — title + key message input
       if(!CD.phase||CD.phase==="ready"){
         if(c.id==="international"){
-          h+='<div class="ps-input-card" style="margin-bottom:12px">';
-          h+='<div class="ps-input-label">Speech title & key message</div>';
-          h+='<div class="ps-input-hint">Optional but powerful — K will coach whether your speech actually delivered on what you set out to say.</div>';
-          h+='<input class="ps-input-field" id="contest-speech-title" placeholder="Title e.g. The Last Goodbye" style="margin-bottom:8px" value="'+escHtml(V._contestSpeechTitle||"")+'"/>';
-          h+='<textarea class="ps-input-field" id="contest-key-msg" placeholder="Key message e.g. The things we leave unsaid cost us more than the things we say wrong." rows="2">'+escHtml(V._contestKeyMsg||'')+'</textarea>';
-          h+='</div>';
+          h+='<div class="ct-fld"><span class="ct-kick">Your speech <span style="text-transform:none;letter-spacing:0;font-weight:600">· optional</span></span>';
+          h+='<input id="contest-speech-title" placeholder="Title" value="'+escHtml(V._contestSpeechTitle||"")+'">';
+          h+='<input id="contest-key-msg" class="ct-fld-2" placeholder="Your one message" value="'+escHtml(V._contestKeyMsg||"")+'"></div>';
 
           // K focus card — shown when coming from session history follow-up
           if(V._contestIsFollowup&&V._contestPrevFeedback){
@@ -15887,44 +15899,24 @@ function renderContestDetail(app){
 
           // ── Record / Paste Script toggle ──
           const scriptMode=V._contestScriptMode||'record';
-          h+='<div style="display:flex;gap:6px;margin-bottom:12px">';
-          h+='<button class="contest-mode-tab'+(scriptMode==='record'?' active':'')+'" data-action="contest-mode-record">🎙 Record</button>';
-          h+='<button class="contest-mode-tab'+(scriptMode==='paste'?' active':'')+'" data-action="contest-mode-paste">📋 Paste script</button>';
-          h+='</div>';
-          h+='<button data-action="open-coach-history" style="width:100%;background:none;border:none;padding:4px 0 10px;font-size:12px;color:var(--accent);cursor:pointer;font-family:inherit;opacity:0.75">📚 Session history</button>';
+          h+='<div class="ct-lv"><button class="'+(scriptMode==='record'?'on':'')+'" data-action="contest-mode-record">Record</button><button class="'+(scriptMode==='paste'?'on':'')+'" data-action="contest-mode-paste">Paste script</button></div>';
           h+='<div id="contest-paste-panel" style="display:'+(scriptMode==='paste'?'block':'none')+';margin-bottom:12px">';
-          h+='<textarea class="ps-input-field" id="contest-script-input" placeholder="Paste your speech script here..." rows="8" style="font-size:13px;line-height:1.6">'+escHtml(V._contestScript||'')+'</textarea>';
-          h+='<button class="modal-cta" id="contest-script-submit" style="margin-top:8px;background:linear-gradient(135deg,'+c.color+','+c.color+'99)">Analyse script →</button>';
+          h+='<textarea class="ct-ta" id="contest-script-input" placeholder="Paste your speech script here..." rows="8">'+escHtml(V._contestScript||'')+'</textarea>';
+          h+='<button class="ct-btn ct-btn-p" id="contest-script-submit">Get coaching notes</button>';
           h+='</div>';
         }
-        h+='<div class="ps-timer-card" id="contest-timer-card"'+(V._contestScriptMode==='paste'?' style="display:none"':'')+'>'; 
-        h+='<div class="ps-timer-state" id="contest-timer-state">READY</div>';
-        h+='<div class="ps-timer-display" id="contest-timer-display">0:00</div>';
-        h+='<div class="ps-timer-markers">';
-        h+='<div class="ps-marker green">● '+c.time.min+':00</div>';
-        h+='<div class="ps-marker red">● '+c.time.max+':00</div>';
-        h+='</div>';
-        h+='<div class="ps-timer-hint">Tap the mic to start recording</div>';
-        h+='</div>';
-        if(V._contestScriptMode!=='paste'){
-        h+='<div class="ps-mic-wrap">';
-        h+='<div class="ps-mic-btn" id="contest-mic-btn" data-action="contest-mic"><div class="ps-mic-ring"><div class="ps-mic-icon">🎙️</div></div></div>';
-        h+='<div class="ps-mic-label">Tap to start</div>';
-        h+='</div>';
-        }
+        h+='<div id="contest-timer-card"'+(V._contestScriptMode==='paste'?' style="display:none"':'')+'>'+_ctTiming(c)+'</div>';
+        h+=_ctMic(V._contestScriptMode==='paste');
         if(!aiOn)h+='<div class="ttp-ai-off-note">Connect AI in ✨ AI Settings for contest-specific feedback.</div>';
       }else if(CD.phase==="done"){
         if(CD.loading){
-          h+='<div class="role-ai-loading" style="padding:32px;text-align:center"><span class="coach-dots"><span>.</span><span>.</span><span>.</span></span><div style="margin-top:12px;font-size:13px;color:var(--text-3)">Reviewing against the contest ballot…</div></div>';
+          h+='<div class="cn cn-in">'+_cnLoadingHtml()+'</div>';
         }else if(CD.result){
           if(V._contestIsFollowup&&V._contestPrevFeedback){
             h+='<div class="ps-followup-badge" style="margin-bottom:8px">↩ Follow-up — K will compare with your previous attempt</div>';
           }
-          h+='<div class="contest-result fade-up">'+renderCoachCards(CD.result)+'</div>';
-          h+='<button data-action="open-coach-history" style="width:100%;background:none;border:none;padding:10px 0 2px;font-size:12px;color:var(--accent);cursor:pointer;font-family:inherit;text-align:center;opacity:0.8">📚 Session history</button>';
-          h+='<div class="contest-again-row">';
-          h+='<button class="ttp-random-btn" data-action="contest-fresh">↩ Fresh start</button>';
-          h+='<button class="ttp-random-btn ps-keepcoach-btn" data-action="contest-followup">↩ Keep coaching</button>';
+          h+='<div class="cn cn-in fade-up">'+_cnNotesHtml(CD.result,{contest:true})+'</div>';
+          h+='<div class="ct-acts"><button class="ct-btn ct-btn-g" data-action="contest-fresh">New speech</button><button class="ct-btn ct-btn-g" data-action="contest-followup">Try again</button>';
           h+='</div>';
         }else if(CD.error){
           h+=renderAIError(CD.error,()=>{V._contestData={...V._contestData,error:null,loading:true};render();_contestRunEval(c,CD.transcript);});
@@ -15952,7 +15944,9 @@ function renderContestDetail(app){
   });
 
   // Back
-  app.querySelector('[data-action="contest-back"]').addEventListener("click",()=>{V.view="contests";V._contestData={};render();});
+  const _cb=app.querySelector('[data-action="contest-back"]');
+  if(_cb)_cb.addEventListener("click",()=>{V.view="contests";V._contestData={};V._contestSub=null;render();});
+  app.querySelectorAll('[data-ct-sub]').forEach(b=>b.addEventListener('click',()=>{V._contestSub=b.dataset.ctSub;if(V._contestSub==='topics')V._ctTopics=null;render();}));
 
   // Eval contest — pick speech
   app.querySelectorAll("[data-eval-speech]").forEach(btn=>{
@@ -16093,12 +16087,12 @@ function renderContestDetail(app){
   const recBtn=app.querySelector('[data-action="contest-mode-record"]');
   const pasteBtn=app.querySelector('[data-action="contest-mode-paste"]');
   const contestPastePanel=app.querySelector('#contest-paste-panel');
-  const contestMic=app.querySelector('.ps-mic-wrap');
+  const contestMic=app.querySelector('.ct-mic');
   const contestTimerCard=app.querySelector('#contest-timer-card');
   function setContestMode(mode){
     V._contestScriptMode=mode;
-    if(recBtn)recBtn.classList.toggle('active',mode==='record');
-    if(pasteBtn)pasteBtn.classList.toggle('active',mode==='paste');
+    if(recBtn){recBtn.classList.toggle('active',mode==='record');recBtn.classList.toggle('on',mode==='record');}
+    if(pasteBtn){pasteBtn.classList.toggle('active',mode==='paste');pasteBtn.classList.toggle('on',mode==='paste');}
     if(contestPastePanel)contestPastePanel.style.display=mode==='paste'?'block':'none';
     if(contestMic)contestMic.style.display=mode==='paste'?'none':'';
     if(contestTimerCard)contestTimerCard.style.display=mode==='paste'?'none':'';
@@ -16147,6 +16141,15 @@ function renderContestDetail(app){
       V._contestEvalSpeech=null; // back to picker
     }
     render();
+  });
+  const cFocus=app.querySelector('[data-action="contest-followup-focus"]');
+  if(cFocus)cFocus.addEventListener("click",()=>{
+    const _CD=V._contestData||{};
+    V._contestPrevTranscript=_CD.transcript||"";
+    V._contestPrevFeedback=(_CD.result||"").replace(/<[^>]+>/g,"").trim();
+    V._contestIsFollowup=true;
+    V._contestHistoryFocus=_coachBuckets(_CD.result||"").buckets.action||null;
+    V._contestData={};window.scrollTo(0,0);render();
   });
   const cFreshBtn=app.querySelector('[data-action="contest-fresh"]');
   if(cFreshBtn)cFreshBtn.addEventListener("click",()=>{
@@ -16630,6 +16633,93 @@ function _psRebuildDropdownList(app,mode,projects){
   });
 }
 
+// ═══ Speech Coach — "What are you practising?" bottom sheet ═══
+// Replaces the inline project dropdown (speaker mode). Evaluator mode keeps the old list.
+function _psOpenPicker(){
+  const old=document.getElementById('ps-sheet');if(old)old.remove();
+  if(!V._pkTab)V._pkTab=(PS.pid||!PS.brief)?'path':'other';
+  const projects=getPracticeProjects();
+  const byLv={};projects.forEach(p=>{(byLv[p.level]=byLv[p.level]||[]).push(p);});
+  const levels=Object.keys(byLv).map(Number).sort((a,b)=>a-b);
+  const find=pid=>projects.find(p=>p.pid===pid);
+  const rem=S.path?_remainingProjects(S.path).filter(r=>find(r.pid)):[];
+  const next=rem.length?find(rem[0].pid):null;
+  if(!V._pkLevel)V._pkLevel=(PS.pid&&find(PS.pid)&&find(PS.pid).level)||(next&&next.level)||levels[0]||1;
+  const b=Object.assign({kind:'ted',goal:'inform',minutes:12,message:''},V._pkBrief||{},PS.brief?{kind:PS.brief.kind,goal:PS.brief.goal,minutes:PS.brief.minutes||(PS.customDur&&PS.customDur.minutes)||12,message:PS.brief.message||''}:{});
+  V._pkBrief=b;
+  const tick='<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>';
+  const limit=pid=>{const t=_psGetTags(pid).limit;return t==='delivery'?' · <span class="pk-tg o">Needs an observer</span>':t==='context'?' · <span class="pk-tg s">Needs setup</span>':t==='all'?' · <span class="pk-tg s">Not for AI coaching</span>':'';};
+  const row=p=>'<button class="pk-pr'+(p.pid===PS.pid?' on':'')+'" data-pk-pid="'+p.pid+'" data-search="'+escHtml(p.title.toLowerCase())+'"><div style="flex:1;min-width:0"><div class="t">'+escHtml(p.title)+'</div><small>'+escHtml(p.dur)+(V._pkQ?' · Level '+p.level:'')+limit(p.pid)+'</small></div>'+(p.pid===PS.pid?'<span class="pk-ck">'+tick+'</span>':'')+'</button>';
+  const listHtml=()=>{
+    const q=(V._pkQ||'').trim().toLowerCase();
+    const rows=q?projects.filter(p=>p.title.toLowerCase().includes(q)):(byLv[V._pkLevel]||[]);
+    return rows.length?rows.map(row).join(''):'<div class="pk-empty">No project matches that name.</div>';
+  };
+  const lastOutline=(S.outlines||[]).filter(o=>o.kind==='other'&&o.frameworkId).sort((a,c)=>new Date(c.updatedAt)-new Date(a.updatedAt))[0];
+
+  let h='<div class="pk-scrim" data-pk-close></div><div class="pk-sheet" role="dialog" aria-label="What are you practising?">';
+  h+='<div class="pk-grab"></div>';
+  h+='<div class="pk-sh"><b>What are you practising?</b><button class="pk-ib" data-pk-close aria-label="Close"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>';
+  h+='<div class="pk-lv"><button data-pk-tab="path" class="'+(V._pkTab==='path'?'on':'')+'">Pathways project</button><button data-pk-tab="other" class="'+(V._pkTab==='other'?'on':'')+'">Any other speech</button></div>';
+  if(V._pkTab==='path'){
+    if(next)h+='<button class="pk-next" data-pk-pid="'+next.pid+'"><div class="pk-ico pk-vio"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 20h4v-4h4v-4h4V8h4V4"/></svg></div><div style="flex:1;min-width:0"><div class="pk-kick" style="color:var(--pk-vio-hi);margin-bottom:3px">Up next on your path</div><div class="t">'+escHtml(next.title)+'</div><small>Level '+next.level+' · '+escHtml(next.dur)+'</small></div></button>';
+    h+='<label class="pk-search"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--pk-ink-3);flex:none"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><input id="pk-q" type="search" placeholder="Search all projects" autocomplete="off" value="'+escHtml(V._pkQ||'')+'"></label>';
+    h+='<div class="pk-lv" id="pk-lv"'+(V._pkQ?' style="display:none"':'')+'>'+levels.map(l=>'<button data-pk-level="'+l+'" class="'+(l===V._pkLevel?'on':'')+'">'+(l===V._pkLevel?'Level ':'')+l+'</button>').join('')+'</div>';
+    h+='<div class="pk-plist" id="pk-list">'+listHtml()+'</div>';
+  }else{
+    h+='<div class="pk-mid">';
+    if(lastOutline){
+      const bud=_obBudget(lastOutline);
+      h+='<button class="pk-saved" data-pk-outline="'+lastOutline.id+'"><div class="pk-ico pk-blue"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M4 12h10M4 18h13"/></svg></div><div style="flex:1;min-width:0"><div class="t">Rehearse a saved outline</div><small>'+escHtml(_obTitle(lastOutline))+' · '+_obFmt(bud.total)+' · '+_obRel(lastOutline.updatedAt)+'</small></div><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--pk-ink-3);flex:none"><path d="M9 6l6 6-6 6"/></svg></button>';
+    }
+    h+='<div><span class="pk-kick pk-gl">What is it?</span><div class="pk-chs">'+OB_TYPES.map(t=>'<button class="pk-ch'+(b.kind===t.id?' on':'')+'" data-pk-kind="'+t.id+'">'+t.label+'</button>').join('')+'</div></div>';
+    h+='<div><span class="pk-kick pk-gl">Your goal</span><div class="pk-chs">'+OB_GOALS.map(g=>'<button class="pk-ch'+(b.goal===g.id?' on':'')+'" data-pk-goal="'+g.id+'">'+g.label+'</button>').join('')+'</div></div>';
+    h+='<div><span class="pk-kick pk-gl">Length</span><div class="pk-len"><button class="pk-ib" data-pk-len="-1" aria-label="Shorter">−</button><b><span id="pk-min">'+b.minutes+'</span> <small>min</small></b><button class="pk-ib" data-pk-len="1" aria-label="Longer">+</button></div></div>';
+    h+='<div><span class="pk-kick pk-gl">Your one message <span style="text-transform:none;letter-spacing:0;font-weight:600">· optional</span></span><input class="pk-msg" id="pk-msg" placeholder="The one thing they should remember" value="'+escHtml(b.message||'')+'"></div>';
+    h+='</div>';
+    h+='<button class="pk-btn" data-pk-go>Practise this speech</button>';
+    h+='<div class="pk-free">No brief? <button data-pk-free>Just freestyle</button></div>';
+  }
+  h+='</div>';
+  const el=document.createElement('div');el.id='ps-sheet';el.className='pk';el.innerHTML=h;
+  document.body.appendChild(el);document.body.classList.add('pk-open');
+
+  const close=()=>{el.remove();document.body.classList.remove('pk-open');V._pkQ='';};
+  const done=()=>{close();PS._isFollowup=false;PS._prevFeedback=null;PS._prevTranscript=null;PS._historyFocus=null;V._psReturnToOutline=false;render();};
+  el.querySelectorAll('[data-pk-close]').forEach(x=>x.addEventListener('click',close));
+  el.querySelectorAll('[data-pk-tab]').forEach(x=>x.addEventListener('click',()=>{V._pkTab=x.dataset.pkTab;_psOpenPicker();}));
+  el.querySelectorAll('[data-pk-level]').forEach(x=>x.addEventListener('click',()=>{V._pkLevel=+x.dataset.pkLevel;_psOpenPicker();}));
+  const pick=pid=>{
+    PS.mode="speaker";PS.pid=pid;PS.freestyle=false;_psClearBrief();
+    const cp=PD[pid]&&PD[pid].parts?PD[pid].parts.filter(p=>p.coach!==false):null;
+    PS.part=(cp&&cp.length>1)?'a':null;PS._origScript=null;PS._feedbackInput=null;
+    done();
+  };
+  const wire=root=>root.querySelectorAll('[data-pk-pid]').forEach(x=>x.addEventListener('click',()=>pick(x.dataset.pkPid)));
+  wire(el);
+  const q=el.querySelector('#pk-q');
+  if(q)q.addEventListener('input',()=>{V._pkQ=q.value;const l=el.querySelector('#pk-list');l.innerHTML=listHtml();wire(l);const lv=el.querySelector('#pk-lv');if(lv)lv.style.display=q.value.trim()?'none':'';});
+  // Any other speech
+  el.querySelectorAll('[data-pk-kind]').forEach(x=>x.addEventListener('click',()=>{b.kind=x.dataset.pkKind;el.querySelectorAll('[data-pk-kind]').forEach(y=>y.classList.toggle('on',y===x));}));
+  el.querySelectorAll('[data-pk-goal]').forEach(x=>x.addEventListener('click',()=>{b.goal=x.dataset.pkGoal;el.querySelectorAll('[data-pk-goal]').forEach(y=>y.classList.toggle('on',y===x));}));
+  el.querySelectorAll('[data-pk-len]').forEach(x=>x.addEventListener('click',()=>{b.minutes=Math.max(1,Math.min(60,b.minutes+ +x.dataset.pkLen));el.querySelector('#pk-min').textContent=b.minutes;}));
+  const msg=el.querySelector('#pk-msg');if(msg)msg.addEventListener('input',()=>{b.message=msg.value;});
+  const go=el.querySelector('[data-pk-go]');
+  if(go)go.addEventListener('click',()=>{
+    PS.mode="speaker";PS.pid=null;PS.freestyle=true;PS.part=null;PS.outline=null;PS._goal=null;
+    PS.customDur={minutes:b.minutes};
+    PS.brief={kind:b.kind,goal:b.goal,minutes:b.minutes,message:(b.message||'').trim(),label:_obTypeLabel(b.kind)+' · '+b.minutes+' min'};
+    done();
+  });
+  const fr=el.querySelector('[data-pk-free]');
+  if(fr)fr.addEventListener('click',()=>{PS.mode="speaker";PS.pid=null;PS.freestyle=true;PS.part=null;_psClearBrief();done();});
+  const so=el.querySelector('[data-pk-outline]');
+  if(so)so.addEventListener('click',()=>{
+    const o=(S.outlines||[]).find(x=>String(x.id)===so.dataset.pkOutline);if(!o)return;
+    close();S.obDraft=JSON.parse(JSON.stringify(o));save();_obOpenCoach(S.obDraft);
+  });
+}
+
 function renderPracticeStudio(app){
   const aiOn=S.aiConfig&&S.aiConfig.enabled;
 
@@ -16925,6 +17015,7 @@ function renderPracticeStudio(app){
   });
   const changeBtn=app.querySelector('[data-action="ps-change-project"]');
   if(changeBtn)changeBtn.addEventListener("click",()=>{
+    if(PS.mode!=="evaluator"){_psOpenPicker();return;}
     const dd=document.getElementById("ps-project-dropdown");
     if(dd){
       const open=dd.style.display==="none";
@@ -18723,13 +18814,14 @@ function _cnMessage(){
   return (PS.outline&&PS.outline.message)||(PS.brief&&PS.brief.message)||PS._purposeInput||"";
 }
 // Build the analysis cards (verdict → priority → heard → lists). Returns "" if nothing parsed.
-function _cnNotesHtml(raw){
+function _cnNotesHtml(raw,opts){
+  opts=opts||{};
   if(!raw)return "";
   if(raw.startsWith('<div class="ai-error-card">'))return raw;
   const {buckets}=_coachBuckets(raw);
   const vKey=buckets.goal!=null?"goal":(buckets.objective!=null?"objective":null);
   const has=k=>buckets[k]!=null&&buckets[k]!=="";
-  if(!vKey&&!has("worked")&&!has("improve")&&!has("heard")){
+  if(!vKey&&!has("worked")&&!has("improve")&&!has("heard")&&!has("ballot")&&!has("gap")){
     // Short-circuit replies ("No worries, let's give it another go.", project banners) — one plain card
     const txt=String(raw).replace(/^💡\s*/,"").trim();
     return '<section class="cn-card cn-plain"><div class="cn-sec-h">'+_cnIco("vio","note")+'<span class="cn-kick cn-t-vio">K says</span></div><p>'+escHtml(txt)+'</p></section>';
@@ -18751,10 +18843,12 @@ function _cnNotesHtml(raw){
     h+='<section class="cn-card cn-verdict cn-v-'+tone+'"><div class="cn-vrow"><span class="cn-kick">'+kick+'</span>'+(chip?'<span class="cn-chip cn-'+tone+'">'+chip+'</span>':'')+'</div>';
     h+='<p class="cn-lead">'+escHtml(lead)+'</p>'+(gap?'<p class="cn-gap">'+escHtml(gap)+'</p>':'')+'</section>';
   }
+  // Contest: the ballot check leads (it is the verdict for contest feedback)
+  if(opts.contest&&has("ballot"))h+=_cnList("ballot",buckets.ballot);
   // 2 · one priority (promoted)
   if(has("action")){
     h+='<section class="cn-card cn-prio"><div class="cn-sec-h">'+_cnIco("vio","prio")+'<span class="cn-kick cn-t-vio">Next rehearsal · one priority</span></div>';
-    h+='<p>'+escHtml(buckets.action)+'</p><button class="cn-btn cn-btn-p" data-action="ps-followup-focus">Rehearse with this focus</button></section>';
+    h+='<p>'+escHtml(buckets.action)+'</p><button class="cn-btn cn-btn-p" data-action="'+(opts.contest?'contest-followup-focus':'ps-followup-focus')+'">'+(opts.contest?'Go again with this focus':'Rehearse with this focus')+'</button></section>';
   }
   // 3 · what I heard
   if(has("heard")){
@@ -18770,7 +18864,7 @@ function _cnNotesHtml(raw){
     h+='</section>';
   }
   // 4+ · lists, in a fixed order, then any other known sections
-  ["worked","improve","outline","theme","thread","chars","struct","ballot","gap"].forEach(k=>{if(has(k))h+=_cnList(k,buckets[k]);});
+  ["worked","improve","outline","theme","thread","chars","struct","ballot","gap"].forEach(k=>{if(has(k)&&!(opts.contest&&k==="ballot"))h+=_cnList(k,buckets[k]);});
   return h;
 }
 
