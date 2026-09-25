@@ -653,6 +653,8 @@ a{color:inherit;text-decoration:none}
 /* Animations */
 #app{transition:opacity .12s ease}
 .fade-up{animation:fadeUp .5s cubic-bezier(.22,.61,.36,1) both}
+button,a,[role="button"],label,summary{-webkit-tap-highlight-color:transparent}
+#app.no-anim .fade-up{animation:none}
 .path-card:nth-child(1){animation-delay:.05s}
 .path-card:nth-child(2){animation-delay:.1s}
 .path-card:nth-child(3){animation-delay:.15s}
@@ -2351,6 +2353,7 @@ body.pk-open .bottom-nav{display:none}
 .pk button{cursor:pointer}
 .pk-scrim{position:absolute;inset:0;background:rgba(5,6,8,.6);animation:pkFade .18s ease}
 .pk-sheet{position:absolute;left:0;right:0;bottom:0;top:calc(env(safe-area-inset-top,0px) + 58px);max-width:480px;margin:0 auto;border-radius:28px 28px 0 0;background:#111317;border:1px solid var(--pk-line-2);border-bottom:0;box-shadow:0 -20px 60px rgba(0,0,0,.5);display:flex;flex-direction:column;gap:12px;padding:10px 20px calc(var(--sab) + 18px);animation:pkUp .22s ease}
+.pk-static .pk-scrim,.pk-static .pk-sheet{animation:none}
 @keyframes pkUp{from{transform:translateY(30px);opacity:0}to{transform:none;opacity:1}}
 @keyframes pkFade{from{opacity:0}to{opacity:1}}
 .pk-grab{width:40px;height:5px;border-radius:3px;background:rgba(255,255,255,.18);margin:0 auto 4px;flex:none}
@@ -2389,6 +2392,16 @@ body.pk-open .bottom-nav{display:none}
 .pk-len .pk-ib{width:40px;height:40px;font-size:20px;font-weight:600}
 .pk-len b{flex:1;text-align:center;font-size:22px;font-weight:800;font-variant-numeric:tabular-nums}
 .pk-len b small{font-size:13px;color:var(--pk-ink-3);font-weight:650}
+.pk-lenh{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:2px}
+.pk-lenh b{font-size:24px;font-weight:800;font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+.pk-lenh b small{font-size:13px;color:var(--pk-ink-3);font-weight:650}
+.pk-range{-webkit-appearance:none;appearance:none;width:100%;height:36px;background:transparent;cursor:pointer;margin:0;outline:none}
+.pk-range::-webkit-slider-runnable-track{height:6px;border-radius:3px;background:linear-gradient(90deg,var(--pk-vio) var(--p,19%),var(--pk-line-2) var(--p,19%))}
+.pk-range::-moz-range-track{height:6px;border-radius:3px;background:var(--pk-line-2)}
+.pk-range::-moz-range-progress{height:6px;border-radius:3px;background:var(--pk-vio)}
+.pk-range::-webkit-slider-thumb{-webkit-appearance:none;width:28px;height:28px;margin-top:-11px;border-radius:50%;background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.4)}
+.pk-range::-moz-range-thumb{width:28px;height:28px;border:0;border-radius:50%;background:#fff}
+.pk-scale{display:flex;justify-content:space-between;font-size:11px;color:var(--pk-ink-3);font-variant-numeric:tabular-nums;padding:0 4px}
 .pk-msg{height:46px;border-radius:14px;background:var(--pk-card)!important;border:1px solid var(--pk-line-2)!important;padding:0 14px!important;width:100%;font-size:15px;outline:none}
 .pk-msg::placeholder{color:var(--pk-ink-3)}
 .pk-saved{display:flex;align-items:center;gap:12px;border-radius:16px;background:var(--pk-card)!important;border:1px solid var(--pk-blue-line)!important;padding:11px 13px!important;width:100%;text-align:left;flex:none}
@@ -5063,6 +5076,7 @@ const CHANGELOG=[
     'Hub tiles each have their own colour now, so you can tell them apart at a glance',
     'Contests redesigned: the ballot at a glance, K’s take, and one tap into contest killers, the ballot in plain words and why the champions won',
     'Contest practice shows the full timing — green, amber, red and the disqualification line — before you start',
+    'No more flicker when switching tabs, levels and options — screens only animate when you actually move to a new one',
     'Speech Coach: tap “Working on” to pick a Pathways project (your next one is on top) or set up any other speech in one sheet',
     'Evaluation Helper is now a quick in-meeting guide: pick the project, then see what to judge and how to say it — no typing, no waiting',
     'Table Topics® has a new Real world mode: practise interview answers, elevator pitches, introductions and tough questions, each with its own time target and coaching',
@@ -5453,8 +5467,26 @@ const PATH_GLYPHS={
 // RENDER — router
 // ═══════════════════════════════════════════════════════════════════════════
 
+// Screen key: a change here is a real navigation (animate in, scroll to top).
+// Tabs, level pickers, toggles and chips inside the same screen re-render
+// without the entrance animation or a scroll jump — no flicker.
+function _screenKey(){
+  const v=V.view;
+  if(v==="ai-coach")return v+"|"+(PS.phase==="done"?"done":"studio");
+  if(v==="tt-practice")return v+"|"+TTP.phase;
+  if(v==="speech-draft")return v+"|"+(V._ob&&V._ob.screen||"");
+  if(v==="contest-detail")return v+"|"+V._contestId+"|"+(V._contestSub||"")+"|"+(V._contestChamp||0);
+  if(v==="eval-helper")return v+"|"+(V._evalPid||"");
+  if(v==="project")return v+"|"+(V.viewingProject||"");
+  if(v==="role")return v+"|"+(V.viewingRole||"");
+  if(v==="coach-session")return v+"|"+(V._coachSessionId||"");
+  return v;
+}
 function render(){
   const app=document.getElementById("app");
+  const _sk=_screenKey(), _same=render._lastKey===_sk;
+  render._lastKey=_sk;
+  app.classList.toggle("no-anim",_same);
   // Hub is a fixed one-viewport layout; every other view scrolls normally.
   app.classList.toggle("is-hub",V.view==="hub");
   document.body.classList.toggle("on-hub",V.view==="hub");
@@ -5530,7 +5562,7 @@ function render(){
   else if(V.view==="filler"){V.view="practice";render();} // Filler Detector retired
   else if(V.view==="browser"){renderPathBrowser(app);}
   else{renderHub(app);} // unknown view -> hub
-  try{window.scrollTo(0,0);document.documentElement.scrollTop=0;document.body.scrollTop=0;}catch{}
+  if(!_same){try{window.scrollTo(0,0);document.documentElement.scrollTop=0;document.body.scrollTop=0;}catch{}}
   if(V.view==="hub"){requestAnimationFrame(()=>{try{window.scrollTo(0,0);}catch{}});}
   // ── Deep-link hash sync ──
   // Keep the URL hash in step with the current top-level view so each
@@ -5688,7 +5720,7 @@ function renderHub(app){
   function ptile(cfg){
     if(cfg.strip){
       let s='<button class="pw-tile pw-strip" data-hub="'+cfg.hub+'">';
-      s+='<img class="art art-contest" src="/art/contest-spotlight.png" alt="" aria-hidden="true" decoding="async">';
+      s+='<img class="art art-contest" src="/art/contest-spotlight.png" alt="" aria-hidden="true" decoding="sync">';
       s+='<div class="pw-glyph" style="color:'+cfg.ic+'">'+cfg.glyph+'</div>';
       s+='<div class="pw-bot"><div class="pw-name">'+cfg.name+'</div><div class="pw-sub">'+cfg.sub+'</div></div>';
       s+='<span class="pw-badge">'+cfg.badge+'</span></button>';
@@ -5696,7 +5728,7 @@ function renderHub(app){
     }
     const col=COL[cfg.wash]; const [pos,wa]=POS[col].split('|'); const [wx,wy]=pos.split(' ');
     let s='<button class="pw-tile'+(cfg.tall?' grow':'')+(cfg.lead?' is-lead':'')+'" data-hub="'+cfg.hub+'" style="--c:var(--hub-'+col+');--wx:'+wx+';--wy:'+wy+';--wa:'+wa+'">';
-    if(cfg.art)s+='<img class="art art-'+cfg.art+'" src="/art/'+ART[cfg.art]+'" alt="" aria-hidden="true" decoding="async">';
+    if(cfg.art)s+='<img class="art art-'+cfg.art+'" src="/art/'+ART[cfg.art]+'" alt="" aria-hidden="true" decoding="sync">';
     s+='<div class="pw-top"><div class="pw-glyph" style="color:'+cfg.ic+'">'+cfg.glyph+'</div>'+(cfg.lead?'<span class="pw-focus">Your focus</span>':'')+'</div>';
     s+='<div class="pw-name">'+cfg.name+'</div>';
     if(cfg.tall){
@@ -7414,7 +7446,7 @@ function renderBottomNav(){
   // drop a first-time user into the app without agreeing to the terms (and
   // without seeing TI's required independence statement acknowledged).
   if(V.view==="notice"||V.view==="welcome"){
-    root.innerHTML="";
+    root.innerHTML="";root._navHtml="";
     document.body.classList.remove("has-bottom-nav");
     return;
   }
@@ -7428,6 +7460,10 @@ function renderBottomNav(){
   h+='<span>Hub</span>';
   h+='</button>';
   h+='</div></div>';
+  // Same markup as last time? Leave the pill alone — rebuilding its blurred
+  // background on every render made it blink on iPhone.
+  if(root._navHtml===h&&root.firstChild)return;
+  root._navHtml=h;
   root.innerHTML=h;
 
   root.querySelector('[data-nav="hub"]').addEventListener("click",()=>{
@@ -8429,7 +8465,7 @@ function renderPracticeHub(app){
   function toolRow(cfg){
     const c=cfg.color;
     let s='<button class="pt-row" data-tool="'+cfg.tool+'" style="border:1px solid '+hexToRgba(c,0.26)+';border-left:3px solid '+hexToRgba(c,0.6)+';background:linear-gradient(100deg,'+hexToRgba(c,0.12)+','+hexToRgba(c,0.02)+' 60%,transparent)">';
-    if(cfg.art)s+='<img class="pt-art" src="/art/'+cfg.art+'" alt="" aria-hidden="true" decoding="async">';
+    if(cfg.art)s+='<img class="pt-art" src="/art/'+cfg.art+'" alt="" aria-hidden="true" decoding="sync">';
     s+='<div class="pt-ico" style="background:'+hexToRgba(c,0.12)+';color:'+c+'">'+cfg.icon+'</div>';
     s+='<div class="pt-body"><div class="pt-name">'+cfg.name+'</div><div class="pt-desc">'+cfg.desc+'</div>';
     if(cfg.status)s+='<div class="pt-status" style="color:'+(cfg.statusMuted?'var(--text-3)':c)+'">'+cfg.status+'</div>';
@@ -12778,8 +12814,8 @@ function renderSpeechDraft(app){
     h+=head("Outline Builder",savedBtn,"exit");
     h+='<div class="ob-h" style="margin-top:6px">What are you preparing?</div>';
     h+='<div class="ob-grow" style="gap:12px">';
-    h+='<button class="ob-tile ob-tile-path" data-ob="new-pathways"><img class="art" src="/art/outline-pathways.jpg" alt="" aria-hidden="true" decoding="async"><div class="ob-ico" style="width:52px;height:52px;border-radius:16px"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 20h4v-4h4v-4h4V8h4V4"/><path d="M19 4h2v2"/></svg></div><div><div class="ob-t" style="font-size:21px;margin-bottom:5px">Pathways project</div><div class="ob-p">Built on your project\'s brief and time.</div></div></button>';
-    h+='<button class="ob-tile ob-tile-other" data-ob="new-other"><img class="art" src="/art/outline-other.jpg" alt="" aria-hidden="true" decoding="async"><div class="ob-ico" style="width:52px;height:52px;border-radius:16px;background:rgba(232,178,80,.1);border-color:rgba(232,178,80,.3);color:#F5C88A">'+I.mic.replace('width="17" height="17"','width="26" height="26"').replace('stroke-width="2"','stroke-width="1.75"')+'</div><div><div class="ob-t" style="font-size:21px;margin-bottom:5px">Any other speech</div><div class="ob-p">Talks, pitches, toasts — any length.</div></div></button>';
+    h+='<button class="ob-tile ob-tile-path" data-ob="new-pathways"><img class="art" src="/art/outline-pathways.jpg" alt="" aria-hidden="true" decoding="sync"><div class="ob-ico" style="width:52px;height:52px;border-radius:16px"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 20h4v-4h4v-4h4V8h4V4"/><path d="M19 4h2v2"/></svg></div><div><div class="ob-t" style="font-size:21px;margin-bottom:5px">Pathways project</div><div class="ob-p">Built on your project\'s brief and time.</div></div></button>';
+    h+='<button class="ob-tile ob-tile-other" data-ob="new-other"><img class="art" src="/art/outline-other.jpg" alt="" aria-hidden="true" decoding="sync"><div class="ob-ico" style="width:52px;height:52px;border-radius:16px;background:rgba(232,178,80,.1);border-color:rgba(232,178,80,.3);color:#F5C88A">'+I.mic.replace('width="17" height="17"','width="26" height="26"').replace('stroke-width="2"','stroke-width="1.75"')+'</div><div><div class="ob-t" style="font-size:21px;margin-bottom:5px">Any other speech</div><div class="ob-p">Talks, pitches, toasts — any length.</div></div></button>';
     h+='</div>';
     if(d&&d.frameworkId&&!_obComplete(d)){
       h+='<button class="ob-row" data-ob="continue"><div class="ob-ico" style="width:34px;height:34px;border-radius:10px">'+I.resume+'</div><div style="flex:1;min-width:0"><div class="ob-t" style="font-size:14.5px">Continue '+escHtml(_obTitle(d))+'</div><small>'+_obDoneCount(d)+' of '+_obSections(d).length+' sections · '+_obRel(d.updatedAt)+'</small></div>'+I.chev+'</button>';
@@ -15768,7 +15804,7 @@ function renderContestDetail(app){
   if(state==="guide"){
     const quad=c.criteria.length>3;
     const alphas=[1,.55,.28,.16];const alphas4=[1,.62,.4,.24];
-    h+='<section class="ct-hero"><img class="art" src="/art/'+L.art+'" alt="" aria-hidden="true" decoding="async"'+(L.artStyle?' style="'+L.artStyle+'"':'')+'>';
+    h+='<section class="ct-hero"><img class="art" src="/art/'+L.art+'" alt="" aria-hidden="true" decoding="sync"'+(L.artStyle?' style="'+L.artStyle+'"':'')+'>';
     h+='<div class="ct-kick" style="color:var(--cc-hi)">'+L.kick+' · '+c.time.min+'–'+c.time.max+' min</div>';
     h+='<div class="ct-hn">'+cName+'</div>';
     h+='<div class="ct-ballot">'+c.criteria.map((cr,i)=>'<div style="flex:'+cr.pct+';background:rgba('+L.rgb+','+(quad?alphas4:alphas)[i]+')"></div>').join('')+'</div>';
@@ -16046,13 +16082,7 @@ function renderContestDetail(app){
     btn.addEventListener("click",()=>{
       V._contestState=btn.dataset.contestTab;
       V._contestCriteriaOpen=null;
-      window.scrollTo(0,0);
-      const app=document.getElementById('app');
-      if(app)app.style.opacity='0';
-      requestAnimationFrame(()=>{
-        render();
-        requestAnimationFrame(()=>{if(app)app.style.opacity='1';});
-      });
+      render();
     });
   });
 
@@ -16636,7 +16666,7 @@ function _psRebuildDropdownList(app,mode,projects){
 // ═══ Speech Coach — "What are you practising?" bottom sheet ═══
 // Replaces the inline project dropdown (speaker mode). Evaluator mode keeps the old list.
 function _psOpenPicker(){
-  const old=document.getElementById('ps-sheet');if(old)old.remove();
+  const old=document.getElementById('ps-sheet');const _rebuild=!!old;if(old)old.remove();
   if(!V._pkTab)V._pkTab=(PS.pid||!PS.brief)?'path':'other';
   const projects=getPracticeProjects();
   const byLv={};projects.forEach(p=>{(byLv[p.level]=byLv[p.level]||[]).push(p);});
@@ -16674,14 +16704,16 @@ function _psOpenPicker(){
     }
     h+='<div><span class="pk-kick pk-gl">What is it?</span><div class="pk-chs">'+OB_TYPES.map(t=>'<button class="pk-ch'+(b.kind===t.id?' on':'')+'" data-pk-kind="'+t.id+'">'+t.label+'</button>').join('')+'</div></div>';
     h+='<div><span class="pk-kick pk-gl">Your goal</span><div class="pk-chs">'+OB_GOALS.map(g=>'<button class="pk-ch'+(b.goal===g.id?' on':'')+'" data-pk-goal="'+g.id+'">'+g.label+'</button>').join('')+'</div></div>';
-    h+='<div><span class="pk-kick pk-gl">Length</span><div class="pk-len"><button class="pk-ib" data-pk-len="-1" aria-label="Shorter">−</button><b><span id="pk-min">'+b.minutes+'</span> <small>min</small></b><button class="pk-ib" data-pk-len="1" aria-label="Longer">+</button></div></div>';
+    h+='<div><div class="pk-lenh"><span class="pk-kick">Length</span><b><span id="pk-min">'+b.minutes+'</span> <small>min</small></b></div>';
+    h+='<input class="pk-range" id="pk-range" type="range" min="1" max="60" step="1" value="'+b.minutes+'" aria-label="Speech length in minutes" style="--p:'+((b.minutes-1)/59*100)+'%">';
+    h+='<div class="pk-scale"><span>1</span><span>15</span><span>30</span><span>45</span><span>60</span></div></div>';
     h+='<div><span class="pk-kick pk-gl">Your one message <span style="text-transform:none;letter-spacing:0;font-weight:600">· optional</span></span><input class="pk-msg" id="pk-msg" placeholder="The one thing they should remember" value="'+escHtml(b.message||'')+'"></div>';
     h+='</div>';
     h+='<button class="pk-btn" data-pk-go>Practise this speech</button>';
     h+='<div class="pk-free">No brief? <button data-pk-free>Just freestyle</button></div>';
   }
   h+='</div>';
-  const el=document.createElement('div');el.id='ps-sheet';el.className='pk';el.innerHTML=h;
+  const el=document.createElement('div');el.id='ps-sheet';el.className='pk'+(_rebuild?' pk-static':'');el.innerHTML=h;
   document.body.appendChild(el);document.body.classList.add('pk-open');
 
   const close=()=>{el.remove();document.body.classList.remove('pk-open');V._pkQ='';};
@@ -16702,7 +16734,8 @@ function _psOpenPicker(){
   // Any other speech
   el.querySelectorAll('[data-pk-kind]').forEach(x=>x.addEventListener('click',()=>{b.kind=x.dataset.pkKind;el.querySelectorAll('[data-pk-kind]').forEach(y=>y.classList.toggle('on',y===x));}));
   el.querySelectorAll('[data-pk-goal]').forEach(x=>x.addEventListener('click',()=>{b.goal=x.dataset.pkGoal;el.querySelectorAll('[data-pk-goal]').forEach(y=>y.classList.toggle('on',y===x));}));
-  el.querySelectorAll('[data-pk-len]').forEach(x=>x.addEventListener('click',()=>{b.minutes=Math.max(1,Math.min(60,b.minutes+ +x.dataset.pkLen));el.querySelector('#pk-min').textContent=b.minutes;}));
+  const rg=el.querySelector('#pk-range');
+  if(rg)rg.addEventListener('input',()=>{b.minutes=+rg.value;el.querySelector('#pk-min').textContent=b.minutes;rg.style.setProperty('--p',((b.minutes-1)/59*100)+'%');});
   const msg=el.querySelector('#pk-msg');if(msg)msg.addEventListener('input',()=>{b.message=msg.value;});
   const go=el.querySelector('[data-pk-go]');
   if(go)go.addEventListener('click',()=>{
@@ -16899,7 +16932,7 @@ function renderPracticeStudio(app){
     h+='<button data-seg="record" data-action="ps-mode-record" role="tab"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21"/></svg>Record</button>';
     h+='<button data-seg="paste" data-action="ps-mode-paste" role="tab"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="3" width="8" height="4" rx="1"/><path d="M16 5h2a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h2"/><path d="M8 12h8M8 16h5"/></svg>Paste script</button>';
     h+='</nav>';
-    h+='<section class="psr-stage"><img class="psr-art" src="/art/coach-ripples.png" alt="" aria-hidden="true" decoding="async">';
+    h+='<section class="psr-stage"><img class="psr-art" src="/art/coach-ripples.png" alt="" aria-hidden="true" decoding="sync">';
     // RECORD — the timer ring is the start button
     h+='<div class="psr-panel" data-panel="record">';
     h+='<button class="psr-ring" data-action="ps-start"'+(!hasRecognition?' data-timer-only="1"':'')+' aria-label="Start recording">'+track()+'<span class="psr-center"><span class="psr-state">READY</span><span class="psr-clock">0:00</span><span class="psr-mic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21"/></svg></span></span></button>';
@@ -16926,7 +16959,7 @@ function renderPracticeStudio(app){
   h+='<div class="ps-active-panel">';
   const aTotal=activeDur?(activeDur.max+1)*60:420, aC=289;
   h+='<header class="psr-head"><h1 class="psr-title">'+escHtml(_psTitle())+'</h1>'+(activeDur?'<span class="psr-hist" style="cursor:default">'+escHtml(_psDurLabel())+'</span>':'')+'</header>';
-  h+='<section class="psr-stage"><img class="psr-art" src="/art/coach-ripples.png" alt="" aria-hidden="true" decoding="async">';
+  h+='<section class="psr-stage"><img class="psr-art" src="/art/coach-ripples.png" alt="" aria-hidden="true" decoding="sync">';
   h+='<div class="ps-active-card" id="ps-active-card" style="display:flex;flex-direction:column;align-items:center">';
   h+='<button class="psr-ring" data-action="ps-stop" aria-label="Stop recording"><svg class="track" viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="46" fill="none" stroke="rgba(255,255,255,.07)" stroke-width="3"/>'
     +(activeDur?'<circle cx="50" cy="50" r="46" fill="none" stroke="rgba(94,185,117,.55)" stroke-width="3" stroke-dasharray="0 '+(activeDur.min*60/aTotal*aC).toFixed(1)+' '+((activeDur.max-activeDur.min)*60/aTotal*aC).toFixed(1)+' '+aC+'"/><circle cx="50" cy="50" r="46" fill="none" stroke="rgba(232,93,93,.6)" stroke-width="3" stroke-dasharray="0 '+(activeDur.max*60/aTotal*aC).toFixed(1)+' '+(aC-activeDur.max*60/aTotal*aC).toFixed(1)+' 0"/>':'')
