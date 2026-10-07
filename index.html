@@ -2473,6 +2473,18 @@ body.pk-open .bottom-nav{display:none}
 .pk-range::-moz-range-progress{height:6px;border-radius:3px;background:var(--pk-vio)}
 .pk-range::-webkit-slider-thumb{-webkit-appearance:none;width:28px;height:28px;margin-top:-11px;border-radius:50%;background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.4)}
 .pk-range::-moz-range-thumb{width:28px;height:28px;border:0;border-radius:50%;background:#fff}
+.psr-long{color:#C4AEFF;line-height:1.4;text-align:center;max-width:300px}
+.len-more-btn{background:none;border:0;padding:0 0 0 8px;font:inherit;font-size:11.5px;font-weight:700;letter-spacing:0;text-transform:none;color:rgba(235,235,245,.55);text-decoration:underline;text-underline-offset:3px;cursor:pointer;vertical-align:baseline}
+.len-in[hidden],#pk-min[hidden],#ob-min[hidden]{display:none!important}
+.len-in{width:76px;height:38px;border-radius:10px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.2);color:#F2F2F4;font:inherit;font-size:22px;font-weight:800;text-align:center;outline:none;-moz-appearance:textfield;vertical-align:middle}
+.len-in::-webkit-outer-spin-button,.len-in::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+.pk-cards{display:flex;align-items:center;gap:8px;margin-top:10px;flex-wrap:wrap}
+.pk-cards .pk-kick{flex:1;min-width:0;white-space:nowrap;overflow:hidden}
+.pk-card{display:flex;align-items:center;gap:6px;font-size:12.5px;font-weight:700;color:var(--pk-ink-2)}
+.pk-card i{width:10px;height:14px;border-radius:2px;display:inline-block}
+.pk-card.g i{background:#5EB975}.pk-card.r i{background:#E85D5D}
+.pk-card input{width:58px;height:34px;border-radius:10px;background:var(--pk-card)!important;border:1px solid var(--pk-line-2)!important;color:var(--pk-ink);font:inherit;font-size:14px;font-weight:700;text-align:center;outline:none;font-variant-numeric:tabular-nums}
+.pk-card input.bad{border-color:#E85D5D!important}
 .pk-scale{display:flex;justify-content:space-between;font-size:11px;color:var(--pk-ink-3);font-variant-numeric:tabular-nums;padding:0 4px}
 .pk-msg{height:46px;border-radius:14px;background:var(--pk-card)!important;border:1px solid var(--pk-line-2)!important;padding:0 14px!important;width:100%;font-size:15px;outline:none}
 .pk-msg::placeholder{color:var(--pk-ink-3)}
@@ -5150,6 +5162,9 @@ const CHANGELOG=[
     'Slimmer Hub bar at the bottom of the screen, so it no longer covers buttons',
     'Hub tiles each have their own colour now, so you can tell them apart at a glance',
     'Switch between Grow, Practice and Mentor right on the Hub. Only the tiles that change slide over. The mode picker in Settings is gone',
+    'Any other speech: set your own green and red timing cards (they start a minute early and 30 seconds over your length)',
+    'Planning a workshop or keynote? Tap “Over an hour?” next to Length to set up to 4 hours. Long scripts get coached on their arc and sections',
+    'Speak, paste and get coached in your own language — 中文, 粵語, 日本語, 한국어, Bahasa and more. The app stays in English; set it in AI settings (Auto matches what you say). K writes like a native coach, not a translation, and judges fillers, pace and rhetoric by that language’s own standards',
     'Real-world practice: K now judges the skill of the answer, not obedience to a template — a well-handled hypothetical or a skilful bridge counts, and attitude red flags come first',
     'Fixed: Table Topics feedback showed “Objective Achievement” instead of “The Thread”, and stray asterisks in K’s notes',
     'Table Topics: tap ✕ on “Last attempt” to hide it until your next try, or delete that attempt',
@@ -8899,9 +8914,9 @@ async function ttpFetchQuestion(theme,useAI){
       let raw=await callCoach(sys,msg,{maxTokens:80,forceBase:true,featureId:'tt-question'});
       raw=raw.replace(/```/g,"").replace(/\*\*/g,"").replace(/__/g,"").replace(/---+/g," ").trim();
       const cleanText=raw.split("\n").map(l=>l.trim()).filter(l=>l&&!/^#/.test(l)&&!/^(discussion\s*questions?|table\s*topics?|theme|format|difficulty|level|here are)/i.test(l)).join(" ");
-      const qMatch=cleanText.match(/[A-Z][^?!.]*\?/);
+      const qMatch=_CJK_TEST.test(cleanText)?cleanText.match(/[^？?！!。]*[？?]/):cleanText.match(/[A-Z][^?!.]*\?/);
       let q=(qMatch?qMatch[0]:cleanText).trim().replace(/^[\d]+[.)]\s*/,"").replace(/^[\-•*]\s*/,"").replace(/^["']|["']$/g,"").trim();
-      if(q.length>=15&&q.length<=300&&q.includes("?")){TTP.question=q;TTP.questionSource="ai";}
+      if(q.length>=6&&q.length<=300&&/[?？]/.test(q)){TTP.question=q;TTP.questionSource="ai";}
       else{TTP.question=ttpOfflineQuestion(theme,TTP.style);TTP.questionSource="bank";}
     }catch(e){TTP.question=ttpOfflineQuestion(theme,TTP.style);TTP.questionSource="bank";}
     TTP.questionLoading=false;
@@ -9321,12 +9336,12 @@ async function ttpStart(){
   if(SR&&stream){
     try{
       const rec=new SR();
-      rec.continuous=true;rec.interimResults=false;rec.lang="en-US";
+      rec.continuous=true;rec.interimResults=false;rec.lang=_recLang();
       rec.onresult=(e)=>{
         TTP.lastResultAt=Date.now();TTP.micGranted=true;
         for(let i=e.resultIndex;i<e.results.length;i++){
           const txt=(e.results[i][0].transcript||"").trim();
-          if(txt){TTP.transcript+=(TTP.transcript?" ":"")+txt;TTP.totalWords+=txt.split(/\s+/).filter(Boolean).length;_ttpUpdateActive();}
+          if(txt){TTP.transcript+=(TTP.transcript?" ":"")+txt;TTP.totalWords+=_wc(txt);_ttpUpdateActive();}
         }
       };
       rec.onerror=(ev)=>{if(ev.error==="not-allowed"||ev.error==="service-not-allowed")TTP.micGranted=false;};
@@ -9414,7 +9429,7 @@ async function ttpTranscribeAndAnalyze(){
         const data=await res.json();
         if(data.transcript&&data.transcript.length>5){
           TTP.transcript=data.transcript;
-          TTP.totalWords=data.transcript.split(/\s+/).filter(Boolean).length;
+          TTP.totalWords=_wc(data.transcript);
         }
       }
     }catch(e){console.warn("Whisper fallback failed:",e);}
@@ -10295,7 +10310,7 @@ function fdStartRecognition(){
   // iOS Safari may still timeout — we restart on onend just in case.
   rec.continuous=true;
   rec.interimResults=true;
-  rec.lang="en-US";
+  rec.lang=_recLang();
 
   rec.onstart=()=>{
     FD.isListening=true;
@@ -10438,7 +10453,9 @@ function fdAnalyze(text){
 
   // Word count (rough)
   const words=normalised.trim().split(/\s+/).filter(w=>w.length>0);
-  FD.totalWords+=words.length;
+  FD.totalWords+=_wc(text);
+  // Chinese fillers — no spaces, so count occurrences
+  if(_CJK_TEST.test(text)){FILLER_ZH.forEach(f=>{const n=text.split(f).length-1;if(n)FD.fillerCounts[f]=(FD.fillerCounts[f]||0)+n;});}
 
   // Single-word fillers
   for(const w of words){
@@ -12037,8 +12054,56 @@ function renderPathfinderProgram(app){
 // callCoach() returns the assistant's text response as a Promise<string>.
 // Throws on misconfig or API errors — callers should try/catch.
 
+// ═══ Coaching language — UI stays English; what you say and what K writes can be any language ═══
+const COACH_LANGS=[
+  {id:"auto",label:"Auto — match what I say",rec:null},
+  {id:"en",label:"English",name:"English",rec:"en-US"},
+  {id:"zh",label:"中文（普通话）",name:"Simplified Chinese (Mandarin)",rec:"zh-CN"},
+  {id:"zh-TW",label:"中文（繁體）",name:"Traditional Chinese",rec:"zh-TW"},
+  {id:"yue",label:"粵語",name:"Cantonese (written in Traditional Chinese)",rec:"yue-Hant-HK"},
+  {id:"ja",label:"日本語",name:"Japanese",rec:"ja-JP"},
+  {id:"ko",label:"한국어",name:"Korean",rec:"ko-KR"},
+  {id:"ms",label:"Bahasa Melayu",name:"Malay",rec:"ms-MY"},
+  {id:"id",label:"Bahasa Indonesia",name:"Indonesian",rec:"id-ID"},
+  {id:"es",label:"Español",name:"Spanish",rec:"es-ES"},
+  {id:"fr",label:"Français",name:"French",rec:"fr-FR"},
+  {id:"de",label:"Deutsch",name:"German",rec:"de-DE"}
+];
+function _coachLang(){return COACH_LANGS.find(l=>l.id===(S.coachLang||"auto"))||COACH_LANGS[0];}
+// Speech recognition needs a fixed language; Auto follows the phone's language
+function _recLang(){const l=_coachLang();return l.rec||(navigator.language||"en-US");}
+// Per-language coaching notes: K's method is the same everywhere; the norms it judges by are local
+const COACH_LANG_NOTES={
+  zh:"MANDARIN NORMS: Fillers to listen for are 嗯、呃、啊、那个、就是、然后、对吧、其实 (and 这个 used as a pause) — not English ones. Natural pace is roughly 200–260 characters a minute; any word count or wpm you are given for Chinese is an estimated English-word equivalent (about 0.6 per character), so judge pace by the character norm. 排比 (parallel structure), a well-placed 成语 or 俗语, and 对仗 are legitimate tools — praise them when they land, flag them only when they are stacked for show or used as filler. Watch for 书面语 read aloud (too written to be heard) and for openings that bury the point under 客套话. Use the Toastmasters terms Chinese-speaking members use: 即兴演讲 (Table Topics), 点评 (evaluation), 备稿演讲 (prepared speech), 时间官 (Timer), 哼哈官 (Ah-Counter), 语法官 (Grammarian).",
+  "zh-TW":"MANDARIN NORMS (Traditional script): fillers 嗯、呃、那個、就是、然後、對吧、其實; natural pace about 200–260 characters a minute (word counts given are English-word estimates, about 0.6 per character). 排比, 成語 and 對仗 are legitimate tools — praise them when they land. Watch for 書面語 read aloud. Toastmasters terms: 即席演講 (Table Topics), 講評 (evaluation), 時間官, 啊哼官, 語法官.",
+  yue:"CANTONESE NORMS: write in natural spoken Cantonese (粵語口語, e.g. 係、唔、咁、啲、嘅) as a Hong Kong coach would say it, not in formal written Chinese. Fillers: 嗯、呃、即係、咁樣、跟住、其實、啫. Natural pace about 220–280 characters a minute (word counts given are English-word estimates). Toastmasters terms: 即席演講 (Table Topics), 講評 (evaluation).",
+  ja:"JAPANESE NORMS: fillers えー、あの、その、えっと、まあ. Natural pace about 300–350 kana-equivalent characters a minute; word counts given are English-word estimates. Use plain, warm です/ます coaching, not stiff written Japanese.",
+  ko:"KOREAN NORMS: fillers 음、어、그、이제、약간、뭐. Use warm, natural spoken 해요체 coaching."
+};
+function _coachLangLine(){
+  const l=_coachLang();
+  const keep=" Keep every section label, tag, keyword and format the instructions specify (emoji, English label words, NONE, JSON keys) exactly as given — only the content is in that language. Quote the speaker's own words in the language they used.";
+  const native=" Write as a native-speaking coach would actually say it out loud — natural spoken phrasing, that language's own idioms and examples. Never translate English idioms, metaphors or sample lines word for word; find the native equivalent or say it plainly. The coaching method stays the same in every language, but judge fillers, pace and rhetoric by what good speaking sounds like in the speaker's language, not by English norms.";
+  if(l.id==="auto"){
+    return "\n\nLANGUAGE: Reply in the language the speaker used in their transcript, script or notes (if mixed, the main one). If there is no speaker text to go by, reply in English."+keep+native+
+      "\nIf the speaker used Chinese: "+COACH_LANG_NOTES.zh;
+  }
+  const note=COACH_LANG_NOTES[l.id]||"";
+  return "\n\nLANGUAGE: Write all of your reply in "+l.name+", whatever language the speaker used."+keep+(l.id==="en"?"":native)+(note?"\n"+note:"");
+}
+// Word count that works for Chinese/Japanese: each ideograph or kana ≈ 0.6 of an English word
+const _CJK_RE=/[぀-ヿ㐀-䶿一-鿿豈-﫿]/g;
+const _CJK_TEST=/[\u3040-\u30ff\u3400-\u4dbf\u4e00-\u9fff\uf900-\ufaff]/;
+function _wc(text){
+  const t=String(text||"");
+  const cjk=(t.match(_CJK_RE)||[]).length;
+  const rest=t.replace(_CJK_RE," ").split(/\s+/).filter(w=>/[\p{L}\p{N}]/u.test(w)).length;
+  return rest+Math.round(cjk*0.6);
+}
+const FILLER_ZH=["嗯","呃","那个","就是说","然后呢","对吧"];
 async function callCoach(systemPrompt,userMessage,opts){
   opts=opts||{};
+  if(!opts.noLang)systemPrompt=String(systemPrompt||"")+_coachLangLine();
   const cfg=S.aiConfig||{};
   if(!cfg.enabled){
     throw new Error("AI features are disabled. Enable them in Settings.");
@@ -12950,8 +13015,8 @@ function renderSpeechDraft(app){
     h+=prog(1,"Brief");
     h+='<div class="ob-grow" style="gap:16px">';
     h+='<div><div class="ob-kick" style="margin-bottom:8px">What is it?</div><div class="ob-seg-wrap">'+OB_TYPES.map(t=>'<button class="ob-opt'+(b.kind===t.id?' on':'')+'" data-ob="set-kind" data-v="'+t.id+'">'+t.label+'</button>').join('')+'</div></div>';
-    h+='<div><div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:6px"><span class="ob-kick">How long?</span><span class="ob-len"><b id="ob-min">'+b.minutes+'</b> min</span></div>';
-    h+='<input class="ob-range" id="ob-range" type="range" min="1" max="60" step="1" value="'+b.minutes+'" aria-label="Speech length in minutes" style="--p:'+((b.minutes-1)/59*100)+'%">';
+    h+='<div><div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:6px"><span class="ob-kick">How long? '+_lenLinkHtml(b.minutes)+'</span><span class="ob-len"><b id="ob-min">'+b.minutes+'</b>'+_lenInHtml(b.minutes)+' min</span></div>';
+    h+='<input class="ob-range" id="ob-range" type="range" min="1" max="60" step="1" value="'+Math.min(60,b.minutes)+'" aria-label="Speech length in minutes" style="--p:'+((Math.min(60,b.minutes)-1)/59*100)+'%">';
     h+='<div class="ob-scale"><span>1</span><span>15</span><span>30</span><span>45</span><span>60</span></div></div>';
     h+='<div><div class="ob-kick" style="margin-bottom:8px">What should it do?</div><div class="ob-goals">'+OB_GOALS.map(g=>'<button class="ob-goal'+(b.goal===g.id?' on':'')+'" data-ob="set-goal" data-v="'+g.id+'"><b>'+g.label+'</b><span>'+g.sub+'</span></button>').join('')+'</div></div>';
     h+='<div><div class="ob-kick" style="margin-bottom:8px">Your one message <span style="text-transform:none;letter-spacing:0;font-weight:600">· optional</span></div><input class="ob-in" id="ob-msg-in" type="text" placeholder="The one thing I want them to remember…" value="'+escHtml(d.message||"")+'"></div>';
@@ -13081,7 +13146,8 @@ function _obWire(app){
   const msgIn=document.getElementById("ob-msg-in");if(msgIn)msgIn.addEventListener("change",readMsg);
   const ta=document.getElementById("ob-point");if(ta){ta.addEventListener("input",()=>{readPoint();});}
   const range=document.getElementById("ob-range");
-  if(range){range.addEventListener("input",()=>{const v=+range.value;const o=document.getElementById("ob-min");if(o)o.textContent=v;range.style.setProperty("--p",((v-1)/59*100)+"%");if(d&&d.brief){d.brief.minutes=v;}});range.addEventListener("change",()=>{_obTouch();});}
+  if(range){range.addEventListener("input",()=>{const v=+range.value;const o=document.getElementById("ob-min");if(o)o.textContent=v;range.style.setProperty("--p",((v-1)/59*100)+"%");if(d&&d.brief){d.brief.minutes=v;}});range.addEventListener("change",()=>{_obTouch();});
+    _wireLenMore(app,range,document.getElementById("ob-min"),v=>{if(d&&d.brief){d.brief.minutes=v;_obTouch();}const o=document.getElementById("ob-min");if(o)o.textContent=v;});}
   const search=document.getElementById("ob-proj-search");
   if(search)search.addEventListener("input",()=>{const q=search.value.trim().toLowerCase();app.querySelectorAll('[data-ob="pick-project"]').forEach(b=>{b.style.display=!q||(b.dataset.search||"").includes(q)?"":"none";});app.querySelectorAll('[data-lv-hdr]').forEach(x=>x.style.display=q?"none":"");});
 
@@ -13857,6 +13923,14 @@ function renderAISettings(app){
   h+='</div>';
   h+='</div>';
 
+  // ── Coaching language ──
+  h+='<div class="settings-card">';
+  h+='<div class="settings-section-label">Coaching language</div>';
+  h+='<div class="settings-row-hint" style="margin-bottom:10px">The app stays in English. Speak, paste and get K\'s notes in your language.</div>';
+  h+='<select id="coach-lang" class="settings-select" style="width:100%;height:46px;border-radius:12px;background:var(--bg);border:1px solid var(--border);color:var(--text);font:inherit;font-size:15px;padding:0 12px">'+COACH_LANGS.map(l=>'<option value="'+l.id+'"'+((S.coachLang||'auto')===l.id?' selected':'')+'>'+escHtml(l.label)+'</option>').join('')+'</select>';
+  h+='<div class="settings-row-hint" style="margin-top:8px">Auto: K replies in the language you speak or write. Live captions follow your phone’s language; pick one to set them directly.</div>';
+  h+='</div>';
+
   // ── Connection test — prominent, always visible ──
   h+='<div class="settings-card" id="ai-test-card">';
   h+='<div class="settings-section-label">Connection status</div>';
@@ -13875,6 +13949,8 @@ function renderAISettings(app){
   });
 
   // Master toggle
+  const langSel=app.querySelector('#coach-lang');
+  if(langSel)langSel.addEventListener('change',()=>{S.coachLang=langSel.value;save();});
   app.querySelector("[data-ai-toggle]").addEventListener("change",e=>{
     S.aiConfig.enabled=e.target.checked;
     save();
@@ -14539,7 +14615,7 @@ function renderCoachSessionDetail(app){
 
   // Transcript
   if(session.transcript){
-    const wc=session.transcript.split(/\s+/).filter(Boolean).length;
+    const wc=_wc(session.transcript);
     h+='<details style="margin-bottom:14px">';
     h+='<summary style="font-size:12px;color:var(--text-3);cursor:pointer;padding:8px 0;list-style:none">📄 Show transcript ('+wc+' words)</summary>';
     h+='<div style="font-size:12px;color:var(--text-2);line-height:1.7;margin-top:8px;padding:12px;background:var(--surface);border-radius:10px;border:1px solid var(--border)">'+escHtml(session.transcript)+'</div>';
@@ -14582,7 +14658,7 @@ function renderCoachSessionDetail(app){
       PS._isFollowup=true;
       PS._historyFocus=_extractFocus(session.feedback,'speech');
       PS.pid=session.pid||null;PS.freestyle=!session.pid;
-      PS.brief=session.brief||null;PS.customDur=session.brief&&session.brief.minutes?{minutes:session.brief.minutes}:null;
+      PS.brief=session.brief||null;PS.customDur=session.brief&&session.brief.minutes?Object.assign({minutes:session.brief.minutes},session.brief.green!=null?{green:session.brief.green,red:session.brief.red}:{}):null;
       PS.outline=session.outline||null;PS._goal=session.goal||null;
       PS.notesText=session.notes||null;
       PS._psReturnToProject=session.pid||null;
@@ -16418,7 +16494,7 @@ async function _contestRunEval(c,transcript){
     V._contestData={...cData,loading:false,result:res};
     // Save session
     const elapsed=cData.elapsed||0;
-    const words=(transcript||'').split(/\s+/).filter(Boolean).length;
+    const words=_wc(transcript);
     const wpm=elapsed>0?Math.round(words/(elapsed/60)):0;
     const summaryMatch=res.replace(/<[^>]+>/g,'').match(/[^.!?]+[.!?]/);
     const summary=summaryMatch?summaryMatch[0].trim().slice(0,80):'';
@@ -16578,9 +16654,14 @@ function _psGetTags(pid){
 function _psDur(){
   if(PS.mode==="evaluator")return {min:2,max:3};
   if(PS.pid){const p=PD[PS.pid];return p?parseDuration(p.dur):null;}
-  if(PS.customDur&&PS.customDur.minutes){const m=+PS.customDur.minutes;return m>=2?{min:m-1,max:m+0.5,exact:m}:{min:0.5,max:m+0.5,exact:m};}
+  if(PS.customDur&&PS.customDur.minutes){const m=+PS.customDur.minutes,c=PS.customDur;
+    if(c.green!=null&&c.red!=null&&c.red>c.green)return {min:c.green,max:c.red,exact:m};
+    return _psDefaultCards(m);}
   return null;
 }
+// Default timing cards for a speech of m minutes: green a minute early, red 30 s over
+function _psDefaultCards(m){return m>=2?{min:m-1,max:m+0.5,exact:m}:{min:0.5,max:m+0.5,exact:m};}
+function _psParseMS(s){s=String(s||'').trim();const t=s.match(/^(\d{1,3})(?::([0-5]?\d))?$/);if(!t)return null;return +t[1]+(t[2]?+t[2]/60:0);}
 function _psDurLabel(){
   if(PS.mode==="evaluator")return '2–3 min';
   const p=PS.pid?PD[PS.pid]:null;if(p)return p.dur;
@@ -16610,12 +16691,12 @@ function _psDetectStage(text){
   const t=String(text||"").trim();if(!t)return "script";
   const lines=_psLines(t);
   const bullet=/^([-*•·▪◦–—>]|\d+[.)]|[a-zA-Z][.)])\s*/;
-  const shortish=lines.filter(l=>bullet.test(l)||l.split(/\s+/).length<=10).length;
+  const shortish=lines.filter(l=>bullet.test(l)||_wc(l)<=10).length;
   if(lines.length>=3&&shortish/lines.length>=0.6)return "outline";
   const dur=_psDur();
   if(dur){
     const mid=dur.exact||(dur.min+dur.max)/2;
-    const words=t.split(/\s+/).filter(Boolean).length;
+    const words=_wc(t);
     if(words<mid*140*0.6)return "draft";
   }
   return "script";
@@ -16784,6 +16865,26 @@ function _psRebuildDropdownList(app,mode,projects){
   });
 }
 
+// ═══ Length slider: 1–60 min, plus a typed length for longer talks (workshops, keynotes) ═══
+const LEN_MAX=240;
+// Link sits next to the "Length" label; when used, the big number becomes a number field
+function _lenLinkHtml(minutes){return '<button type="button" class="len-more-btn">'+(minutes>60?'Under an hour':'Over an hour?')+'</button>';}
+function _lenInHtml(minutes){return '<input class="len-in" type="number" inputmode="numeric" min="61" max="'+LEN_MAX+'" value="'+(minutes>60?minutes:90)+'" aria-label="Length in minutes"'+(minutes>60?'':' hidden')+'>';}
+// num = the big number element; set(v) stores the value. The link toggles between the slider and a typed length over 60.
+function _wireLenMore(root,range,num,set){
+  const btn=root.querySelector('.len-more-btn'),inp=root.querySelector('.len-in');if(!btn||!inp||!range)return;
+  let back=60; // slider value to return to
+  const long=on=>{btn.textContent=on?'Under an hour':'Over an hour?';num.hidden=on;inp.hidden=!on;};
+  if(!inp.hidden)num.hidden=true;
+  const apply=()=>{let v=Math.round(+inp.value||0);if(v<61)return;v=Math.min(LEN_MAX,v);set(v);range.value=60;range.style.setProperty('--p','100%');};
+  btn.addEventListener('click',()=>{
+    if(inp.hidden){back=+range.value;long(true);inp.focus();inp.select();apply();}
+    else{long(false);range.value=back;range.style.setProperty('--p',((back-1)/59*100)+'%');num.textContent=back;set(back);}
+  });
+  inp.addEventListener('input',apply);
+  inp.addEventListener('change',()=>{if((+inp.value||0)<61)inp.value=61;if(+inp.value>LEN_MAX)inp.value=LEN_MAX;apply();});
+  range.addEventListener('input',()=>{long(false);num.textContent=range.value;});
+}
 // ═══ Speech Coach — "What are you practising?" bottom sheet ═══
 // Replaces the inline project dropdown (speaker mode). Evaluator mode keeps the old list.
 function _psOpenPicker(){
@@ -16796,7 +16897,7 @@ function _psOpenPicker(){
   const rem=S.path?_remainingProjects(S.path).filter(r=>find(r.pid)):[];
   const next=rem.length?find(rem[0].pid):null;
   if(!V._pkLevel)V._pkLevel=(PS.pid&&find(PS.pid)&&find(PS.pid).level)||(next&&next.level)||levels[0]||1;
-  const b=Object.assign({kind:'ted',goal:'inform',minutes:12,message:''},V._pkBrief||{},PS.brief?{kind:PS.brief.kind,goal:PS.brief.goal,minutes:PS.brief.minutes||(PS.customDur&&PS.customDur.minutes)||12,message:PS.brief.message||''}:{});
+  const b=Object.assign({kind:'ted',goal:'inform',minutes:12,message:''},V._pkBrief||{},PS.brief?{kind:PS.brief.kind,goal:PS.brief.goal,minutes:PS.brief.minutes||(PS.customDur&&PS.customDur.minutes)||12,message:PS.brief.message||'',green:PS.customDur&&PS.customDur.green!=null?PS.customDur.green:null,red:PS.customDur&&PS.customDur.red!=null?PS.customDur.red:null}:{});
   V._pkBrief=b;
   const tick='<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>';
   const limit=pid=>{const t=_psGetTags(pid).limit;return t==='delivery'?' · <span class="pk-tg o">Needs an observer</span>':t==='context'?' · <span class="pk-tg s">Needs setup</span>':t==='all'?' · <span class="pk-tg s">Not for AI coaching</span>':'';};
@@ -16825,9 +16926,12 @@ function _psOpenPicker(){
     }
     h+='<div><span class="pk-kick pk-gl">What is it?</span><div class="pk-chs">'+OB_TYPES.map(t=>'<button class="pk-ch'+(b.kind===t.id?' on':'')+'" data-pk-kind="'+t.id+'">'+t.label+'</button>').join('')+'</div></div>';
     h+='<div><span class="pk-kick pk-gl">Your goal</span><div class="pk-chs">'+OB_GOALS.map(g=>'<button class="pk-ch'+(b.goal===g.id?' on':'')+'" data-pk-goal="'+g.id+'">'+g.label+'</button>').join('')+'</div></div>';
-    h+='<div><div class="pk-lenh"><span class="pk-kick">Length</span><b><span id="pk-min">'+b.minutes+'</span> <small>min</small></b></div>';
-    h+='<input class="pk-range" id="pk-range" type="range" min="1" max="60" step="1" value="'+b.minutes+'" aria-label="Speech length in minutes" style="--p:'+((b.minutes-1)/59*100)+'%">';
-    h+='<div class="pk-scale"><span>1</span><span>15</span><span>30</span><span>45</span><span>60</span></div></div>';
+    h+='<div><div class="pk-lenh"><span class="pk-kick">Length '+_lenLinkHtml(b.minutes)+'</span><b><span id="pk-min">'+b.minutes+'</span>'+_lenInHtml(b.minutes)+' <small>min</small></b></div>';
+    h+='<input class="pk-range" id="pk-range" type="range" min="1" max="60" step="1" value="'+Math.min(60,b.minutes)+'" aria-label="Speech length in minutes" style="--p:'+((Math.min(60,b.minutes)-1)/59*100)+'%">';
+    h+='<div class="pk-scale"><span>1</span><span>15</span><span>30</span><span>45</span><span>60</span></div>';
+    const _cd=(b.green!=null&&b.red!=null)?{min:b.green,max:b.red}:_psDefaultCards(b.minutes);
+    h+='<div class="pk-cards"><span class="pk-kick">Cards</span><label class="pk-card g"><i></i>Green <input id="pk-green" inputmode="numeric" value="'+_psFmtMin(_cd.min)+'" aria-label="Green card at (m:ss)"></label><label class="pk-card r"><i></i>Red <input id="pk-red" inputmode="numeric" value="'+_psFmtMin(_cd.max)+'" aria-label="Red card at (m:ss)"></label></div>';
+    h+='</div>';
     h+='<div><span class="pk-kick pk-gl">Your one message <span style="text-transform:none;letter-spacing:0;font-weight:600">· optional</span></span><input class="pk-msg" id="pk-msg" placeholder="The one thing they should remember" value="'+escHtml(b.message||'')+'"></div>';
     h+='</div>';
     h+='<button class="pk-btn" data-pk-go>Practise this speech</button>';
@@ -16857,12 +16961,22 @@ function _psOpenPicker(){
   el.querySelectorAll('[data-pk-goal]').forEach(x=>x.addEventListener('click',()=>{b.goal=x.dataset.pkGoal;el.querySelectorAll('[data-pk-goal]').forEach(y=>y.classList.toggle('on',y===x));}));
   const rg=el.querySelector('#pk-range');
   if(rg)rg.addEventListener('input',()=>{b.minutes=+rg.value;el.querySelector('#pk-min').textContent=b.minutes;rg.style.setProperty('--p',((b.minutes-1)/59*100)+'%');});
+  const gIn=el.querySelector('#pk-green'),rIn=el.querySelector('#pk-red');
+  const syncCards=()=>{if(b.green!=null)return;const c=_psDefaultCards(b.minutes);if(gIn)gIn.value=_psFmtMin(c.min);if(rIn)rIn.value=_psFmtMin(c.max);};
+  if(rg)rg.addEventListener('input',syncCards);
+  _wireLenMore(el,rg,el.querySelector('#pk-min'),v=>{b.minutes=v;el.querySelector('#pk-min').textContent=v;syncCards();});
+  // Editing a card makes both cards yours; they stop following the length
+  const readCards=()=>{if(!gIn||!rIn)return;const g=_psParseMS(gIn.value),r=_psParseMS(rIn.value);if(g!=null&&r!=null&&r>g){const dc=_psDefaultCards(b.minutes),same=Math.abs(g-dc.min)<0.01&&Math.abs(r-dc.max)<0.01;b.green=same?null:g;b.red=same?null:r;gIn.value=_psFmtMin(g);rIn.value=_psFmtMin(r);gIn.classList.remove('bad');rIn.classList.remove('bad');}else{(g==null?gIn:rIn).classList.add('bad');}};
+  [gIn,rIn].forEach(x=>{if(!x)return;x.addEventListener('focus',()=>x.select());x.addEventListener('change',readCards);});
   const msg=el.querySelector('#pk-msg');if(msg)msg.addEventListener('input',()=>{b.message=msg.value;});
   const go=el.querySelector('[data-pk-go]');
   if(go)go.addEventListener('click',()=>{
     PS.mode="speaker";PS.pid=null;PS.freestyle=true;PS.part=null;PS.outline=null;PS._goal=null;
+    readCards();
     PS.customDur={minutes:b.minutes};
+    if(b.green!=null&&b.red!=null&&b.red>b.green){PS.customDur.green=b.green;PS.customDur.red=b.red;}
     PS.brief={kind:b.kind,goal:b.goal,minutes:b.minutes,message:(b.message||'').trim(),label:_obTypeLabel(b.kind)+' · '+b.minutes+' min'};
+    if(PS.customDur.green!=null){PS.brief.green=PS.customDur.green;PS.brief.red=PS.customDur.red;}
     done();
   });
   const fr=el.querySelector('[data-pk-free]');
@@ -17063,11 +17177,12 @@ function renderPracticeStudio(app){
     h+='<div class="psr-panel" data-panel="record">';
     h+='<button class="psr-ring" data-action="ps-start"'+(!hasRecognition?' data-timer-only="1"':'')+' aria-label="Start recording">'+track()+'<span class="psr-center"><span class="psr-state">READY</span><span class="psr-clock">0:00</span><span class="psr-mic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21"/></svg></span></span></button>';
     h+=marks;
-    h+='<div class="psr-hint">Tap the ring to start · tap again to stop</div>';
+    const _longMin=(PS.brief&&PS.brief.minutes)||(PS.customDur&&PS.customDur.minutes)||0;
+    h+=_longMin>20?'<div class="psr-hint psr-long">Long talk? Rehearse one section at a time, or paste the script.</div>':'<div class="psr-hint">Tap the ring to start · tap again to stop</div>';
     if(!hasRecognition)h+='<div class="psr-hint">Filler detection not supported in this browser. Timer will still run.</div>';
     h+='</div>';
     // PASTE
-    const _pw=(V._psScript||'').trim().split(/\s+/).filter(Boolean).length;
+    const _pw=_wc(V._psScript);
     h+='<div class="psr-panel" data-panel="paste">';
     const _stg=_psStageNow();
     h+='<div class="psr-stg" id="ps-stage" role="radiogroup" aria-label="What are you pasting?"><span class="psr-stg-l">This is my</span>'+PS_STAGES.map(s=>'<button type="button" role="radio" data-ps-stage="'+s[0]+'" class="'+(_stg===s[0]?'on':'')+'" aria-checked="'+(_stg===s[0])+'">'+s[1]+'</button>').join('')+'</div>';
@@ -17143,7 +17258,7 @@ function renderPracticeStudio(app){
   const psScriptInput=app.querySelector('#ps-script-input');
   const psPasteMeta=()=>{
     const txt=V._psScript||'';
-    const w=txt.trim().split(/\s+/).filter(Boolean).length;
+    const w=_wc(txt);
     const stg=_psStageNow();
     const wc=app.querySelector('#ps-word-count'),rt=app.querySelector('#ps-read-time');
     if(wc)wc.textContent=w+(w===1?' word':' words');
@@ -17183,7 +17298,7 @@ function renderPracticeStudio(app){
     PS._stage=_psStageNow();
     PS._govAdj=V._psGoverningAdj||'';
     FD.transcript=script;
-    FD.totalWords=script.split(/\s+/).filter(Boolean).length;
+    FD.totalWords=_wc(script);
     render();
     await psAnalyzeWithAI();
   });
@@ -17313,7 +17428,7 @@ function psStart(timerOnly){
         if(SR){
           try{
             const rec=new SR();
-            rec.continuous=true;rec.interimResults=false;rec.lang="en-US";
+            rec.continuous=true;rec.interimResults=false;rec.lang=_recLang();
             rec.onresult=(e)=>{
               PS.lastResultAt=Date.now();PS.micGranted=true;
               for(let i=e.resultIndex;i<e.results.length;i++){
@@ -18641,7 +18756,7 @@ async function psAnalyzeWithAI(){
         if(data.transcript&&data.transcript.length>10){
           transcript=data.transcript;
           FD.transcript=transcript;
-          FD.totalWords=transcript.split(/\s+/).filter(Boolean).length;
+          FD.totalWords=_wc(transcript);
         }
         // Save returned token
         const retToken=res.headers.get("x-client-token");
@@ -18742,6 +18857,9 @@ ${outlineSection||notesSection}
 Verbal distractions: Analyse the transcript for filler words (um, uh, ah, so, like, you know, right, basically, honestly, literally), repetitive sentence starters, and rushed pacing. Only flag patterns that appear 3+ times or noticeably disrupt flow — not isolated instances. When flagging, be specific: name the exact word or phrase and how often. Suggest concrete techniques: intentional pause before key points, slower delivery on transitions, breath placement, or restructuring the sentence opener. Context matters — fillers clustered at transitions suggest loss of thread; scattered fillers suggest pacing anxiety. Coach the cause, not just the symptom. Under ${outline?260:220} words total.`
   :_psOtherSys(PS.brief?PS.brief.goal:PS._goal,PS.brief?PS.brief.kind:null,!!(outline||notes),outlineSection||notesSection);
   let sysUsed=sys;
+  // Long scripts (a workshop or keynote pasted in) get more room for notes
+  const _long=wordCount>3000;
+  if(_long)sysUsed=sysUsed.replace(/Under (\d+) words total\./,(m,n)=>"Under "+(+n+120)+" words total. This is a long talk: coach its arc and sections, not line by line.");
   if(stage){
     // Nothing is spoken in paste mode — drop the filler/pacing brief
     sysUsed=sysUsed.replace(/Verbal distractions:[\s\S]*?(Under \d+ words total\.)/,"$1");
@@ -18784,7 +18902,7 @@ Verbal distractions: Analyse the transcript for filler words (um, uh, ah, so, li
     "\nAnalyze the transcript above and give focused coaching."+(isPsFollowup?"\n\nFOLLOW-UP ATTEMPT: The speaker took your coaching and went again. Their previous attempt:\n"+(PS._prevTranscript||"(no transcript)")+"\n\nYour previous coaching:\n"+PS._prevFeedback+"\n\nFor each section of your feedback, explicitly note what changed — better, worse, or unchanged. Acknowledge improvement when it happened. If they addressed your feedback, name it.":"");
 
   try{
-    const response=await callCoach(sysUsed,msg,{maxTokens:800,featureId:'ps-eval'});
+    const response=await callCoach(sysUsed,msg,{maxTokens:_long?1200:800,featureId:'ps-eval'});
     PS.aiAnalysis=response;
     const summaryMatch=response.replace(/<[^>]+>/g,'').match(/[^.!?]+[.!?]/);
     const summary=summaryMatch?summaryMatch[0].trim().slice(0,80):'';
@@ -18937,11 +19055,13 @@ function _coachSplitSentences(text){
   const out=[];let buf="",inCurly=0,inStraight=false;
   for(let i=0;i<t.length;i++){
     const c=t[i];buf+=c;
-    if(c==="“")inCurly++;
-    else if(c==="”")inCurly=Math.max(0,inCurly-1);
+    if(c==="“"||c==="「")inCurly++;
+    else if(c==="”"||c==="」")inCurly=Math.max(0,inCurly-1);
     else if(c==='"')inStraight=!inStraight;
     const inQuote=inCurly>0||inStraight;
     if(inQuote)continue;
+    // Chinese/Japanese full stops end a sentence with no space after them
+    if(/[。！？]/.test(c)||((c==="”"||c==="」")&&/[。！？]/.test(t[i-1]||""))){if(!/[”」]/.test(t[i+1]||"")){out.push(buf.trim());buf="";}continue;}
     // end of sentence: punctuation (optionally followed by a closing quote/bracket) + whitespace
     const isEnd=/[.!?]/.test(c)||((c==="”"||c==='"'||c===")")&&/[.!?]/.test(t[i-1]||""));
     if(isEnd&&/\s/.test(t[i+1]||"")){
@@ -18955,7 +19075,7 @@ function _coachSplitSentences(text){
   if(buf.trim())out.push(buf.trim());
   const merged=[];
   out.filter(s=>s.length>1).forEach(s=>{
-    if(merged.length&&s.split(/\s+/).length<8)merged[merged.length-1]+=" "+s;
+    if(merged.length&&_wc(s)<8)merged[merged.length-1]+=(_CJK_TEST.test(s)?"":" ")+s;
     else merged.push(s);
   });
   return merged;
