@@ -5142,9 +5142,17 @@ if(window.visualViewport){
 window.addEventListener('load',()=>{setTimeout(()=>{try{window.scrollTo(0,1);window.scrollTo(0,0);}catch{}setAppHeight();},50);});
 
 // Single source of truth for the version shown in the app. Bump here only.
-const APP_VERSION='1.9';
+const APP_VERSION='1.9.1';
 // What's new — newest first. Plain language, a few lines per version.
 const CHANGELOG=[
+  {v:'1.9.1',date:'Oct 2026',items:[
+    'Speak, paste and get coached in your own language — 中文, 粵語, 日本語, 한국어, Bahasa, Español and more. The app stays in English; choose your language in AI settings (Auto matches what you say)',
+    'K coaches like a native speaker, not a translation, and judges fillers, pace and rhetoric by your language’s own standards — 嗯、那个、然后 for Mandarin, characters per minute, 排比 and 成语 as tools',
+    'Table Topics in your language: topics, Random and Real-world scenarios come out in the language you chose',
+    'Live captions, word counts and pace now work for Chinese and Japanese',
+    'Planning a workshop or keynote? Tap “Over an hour?” next to Length to set up to 4 hours. Long pasted scripts get coached on their arc and sections',
+    'Any other speech: set your own green and red timing cards (by default a minute early and 30 seconds over your length)'
+  ]},
   {v:'1.9',date:'Sep 2026',items:[
     'New Outline Builder replaces the Speech Draft Builder: pick a Pathways project or describe any other speech, choose a structure, and write one point per section — timed to your speech',
     'Outlines show when each section starts, so you can see where your time goes before you rehearse',
@@ -5162,9 +5170,6 @@ const CHANGELOG=[
     'Slimmer Hub bar at the bottom of the screen, so it no longer covers buttons',
     'Hub tiles each have their own colour now, so you can tell them apart at a glance',
     'Switch between Grow, Practice and Mentor right on the Hub. Only the tiles that change slide over. The mode picker in Settings is gone',
-    'Any other speech: set your own green and red timing cards (they start a minute early and 30 seconds over your length)',
-    'Planning a workshop or keynote? Tap “Over an hour?” next to Length to set up to 4 hours. Long scripts get coached on their arc and sections',
-    'Speak, paste and get coached in your own language — 中文, 粵語, 日本語, 한국어, Bahasa and more. The app stays in English; set it in AI settings (Auto matches what you say). K writes like a native coach, not a translation, and judges fillers, pace and rhetoric by that language’s own standards',
     'Real-world practice: K now judges the skill of the answer, not obedience to a template — a well-handled hypothetical or a skilful bridge counts, and attitude red flags come first',
     'Fixed: Table Topics feedback showed “Objective Achievement” instead of “The Thread”, and stray asterisks in K’s notes',
     'Table Topics: tap ✕ on “Last attempt” to hide it until your next try, or delete that attempt',
@@ -8894,7 +8899,10 @@ function _ttMarkSeen(q){
   l.push(q); while(l.length>240)l.shift(); save();
 }
 // One entry point for "give me a question" — used by Random, Generate and New topic.
+// A chosen non-English language needs K to write the topic — the offline bank is English only
+function _ttLangNeedsAI(){const l=(S.coachLang||'auto');return l!=='auto'&&l!=='en'&&!!(S.aiConfig&&S.aiConfig.enabled)&&navigator.onLine!==false;}
 async function ttpFetchQuestion(theme,useAI){
+  if(!useAI&&_ttLangNeedsAI())useAI=true;
   if(TTP.track==="real")return ttpFetchReal(useAI);
   if(useAI){
     TTP.questionLoading=true; render();
@@ -8958,14 +8966,14 @@ async function ttpFetchReal(useAI){
         intro:"A one-line situation where the speaker must introduce themselves: where they are and who they're talking to.",
         tough:"A pointed, slightly uncomfortable question someone might ask in a meeting, review or Q&A. Quote it directly."
       }[TTP.scenario];
-      const sys="You write practice prompts for impromptu speaking. "+brief+" One sentence, under 22 words, plain everyday English. No preamble.";
+      const sys="You write practice prompts for impromptu speaking. "+brief+" One sentence, under 22 words, plain everyday language. No preamble.";
       let msg="[Seed: "+Math.random().toString(36).slice(2,8)+"]"+(ctx?"\nThe speaker's role or situation: "+ctx+" — tailor the prompt to it.":"\nKeep it general enough for anyone.");
       if(seen.length)msg+="\n\nDo not reuse or lightly reword any of these:\n- "+seen.join("\n- ");
       msg+="\n\nReply with the one prompt only.";
       let raw=await callCoach(sys,msg,{maxTokens:90,forceBase:true,featureId:'tt-question'});
       let q=raw.replace(/```/g,"").replace(/\*\*/g,"").split("\n").map(l=>l.trim()).filter(Boolean)[0]||"";
       q=q.replace(/^[\d]+[.)]\s*/,"").replace(/^[\-•*]\s*/,"").trim();
-      if(q.length>=12&&q.length<=240){TTP.question=q;TTP.questionSource="ai";}
+      if(q.length>=6&&q.length<=240){TTP.question=q;TTP.questionSource="ai";}
       else{TTP.question=ttpOfflineReal(TTP.scenario);TTP.questionSource="bank";}
     }catch(e){TTP.question=ttpOfflineReal(TTP.scenario);TTP.questionSource="bank";}
     TTP.questionLoading=false;
