@@ -828,6 +828,18 @@ body.on-hub.has-bottom-nav{padding-bottom:0}   /* .hub2 already reserves the nav
 .nav-hub-btn.active{border-color:rgba(139,111,247,0.55);box-shadow:0 0 26px rgba(139,111,247,0.42),0 6px 18px rgba(0,0,0,0.45)}
 .nav-hub-btn-icon{width:18px;height:18px;border-radius:0;background:none;border:none;box-shadow:none;display:flex;align-items:center;justify-content:center;color:#fff}
 .nav-hub-btn-icon svg{width:18px;height:18px}
+
+/* ── Mode accent: everything on the Hub (and the Hub pill) follows the mode. Contests stays gold. ── */
+body{--acc:184,64,112;--acc-hi:#F0A9C9}
+body[data-mode="grow"]{--acc:112,196,142;--acc-hi:#A9E4BE}
+body[data-mode="mentor"]{--acc:104,138,246;--acc-hi:#B3C3FF}
+.nav-hub-btn{background:rgba(var(--acc),.2);border-color:rgba(var(--acc),.55);box-shadow:0 0 26px rgba(var(--acc),.42),0 6px 18px rgba(0,0,0,.45)}
+.nav-hub-btn:hover{border-color:rgba(var(--acc),.7)}
+.nav-hub-btn:active{background:rgba(var(--acc),.28)}
+.nav-hub-btn.active{border-color:rgba(var(--acc),.55);box-shadow:0 0 26px rgba(var(--acc),.42),0 6px 18px rgba(0,0,0,.45)}
+.hub2 .smart-panel.k-card{--hub-k:var(--cr),var(--cg),var(--cb)}
+.hub2 .k-label{color:var(--mhi)}
+.hub2 .k-cta{background:var(--mcta);color:var(--mink)}
 .has-bottom-nav{padding-bottom:calc(var(--nav-h) + var(--nav-sb))}
 
 
@@ -5165,9 +5177,16 @@ if(window.visualViewport){
 window.addEventListener('load',()=>{setTimeout(()=>{try{window.scrollTo(0,1);window.scrollTo(0,0);}catch{}setAppHeight();},50);});
 
 // Single source of truth for the version shown in the app. Bump here only.
-const APP_VERSION='1.9.2';
+const APP_VERSION='1.9.3';
 // What's new — newest first. Plain language, a few lines per version.
 const CHANGELOG=[
+  {v:'1.9.3',date:'Oct 2026',items:[
+    'K remembers you. K says now follows up on the one priority from your last speech, notices patterns in your practice, and checks in when you have been away',
+    'On other days, K gives you one fresh thought in his own voice, with a one-tap way to act on it',
+    'The Hub takes on your mode’s colour: green for Grow, berry for Practice, blue for Mentor. Contests stays gold',
+    'Mentor practice: “What does good mentoring sound like?” is now a full guide, with what to avoid and what to try for each habit',
+    'Real-world practice has two new situations: Small talk (keep a conversation going, 20–45 sec) and Speaking up in meetings (be useful fast, 30–90 sec)'
+  ]},
   {v:'1.9.2',date:'Oct 2026',items:[
     'Each mode now shows what that person actually uses. Grow: Pathways, Speech Coach, Practice Tools, Meeting Roles, Contests. Practice: Speech Coach, Table Topics, Outline Builder, Meeting Roles, Real-world practice. Mentor: Mentees, Mentor practice, Meeting Roles, All Projects',
     'Topic of the day: one Table Topics question for everyone, on your Hub, with a technique to try on it. Answer it and see your streak',
@@ -5617,6 +5636,9 @@ function _screenKey(){
 }
 function render(){
   const app=document.getElementById("app");
+  // The mode's colour is the app's accent (Hub pill, K's card)
+  const _pm=S.persona==='mentor'||S.persona==='grow'?S.persona:'practice';
+  if(document.body.dataset.mode!==_pm)document.body.dataset.mode=_pm;
   const _sk=_screenKey(), _same=render._lastKey===_sk;
   render._lastKey=_sk;
   app.classList.toggle("no-anim",_same);
@@ -5882,12 +5904,8 @@ function renderHub(app){
 
   // ── K's directive: headline + supporting line + button ──
   let _kHead,_kSub,_kCta,_kAction;
-  if(!p){
-    _kHead='Find your path.';_kSub='Personalised coaching for every speech.';_kCta='Choose a path';_kAction='path';
-  }else{
-    const _d=_getKDirective();
-    if(_d){const m=_d.msg.match(/^(.+?[.!?])\s+(.+)$/);_kHead=m?m[1]:_d.msg;_kSub=m?m[2]:'';_kCta=_d.cta;_kAction=_d.action;}
-  }
+  const _d=_getKDirective();
+  if(_d){const m=_d.msg.match(/^(.+?[.!?…])\s+(.+)$/);_kHead=escHtml(m?m[1]:_d.msg);_kSub=m?escHtml(m[2]):'';_kCta=escHtml(_d.cta);_kAction=_d.action;setTimeout(()=>_kTakeRefresh(_d),0);}
   if(_kHead){
     h+='<div class="smart-panel k-card" id="goal-panel" data-action="directive-tap">';
     h+='<div class="k-row"><div class="k-av"><img src="'+COACH_AVATAR+'" alt="K"/></div><div class="k-body">';
@@ -6007,7 +6025,7 @@ function renderHub(app){
   const T_OUTLINE=()=>({hub:"outline",wash:"outline",art:"outline",glyph:HUB_ICONS.outline,name:"Outline Builder",sub:_obN?_obN+(_obN===1?' saved outline':' saved outlines'):'Plan any speech, timed'});
   const T_EVAL=()=>({hub:"eval",wash:"eval",art:"eval",glyph:HUB_ICONS.eval,name:"Evaluation Helper",sub:'What to judge, how to say it'});
   const T_EVPRAC=()=>({hub:"eval-practice",wash:"eval",art:"eval",glyph:HUB_ICONS.eval,name:"Mentor practice",sub:"Mentee conversations · evaluations"});
-  const T_REAL=()=>({hub:"real",strip:true,modeStrip:true,glyph:HUB_ICONS.real,name:"Real-world practice",sub:"Interviews, pitches, introductions",badge:'4 types'});
+  const T_REAL=()=>({hub:"real",strip:true,modeStrip:true,glyph:HUB_ICONS.real,name:"Real-world practice",sub:"Interviews, small talk, meetings",badge:'6 types'});
   const LAYOUT={
     grow:    {left:[T_PATH(true),   T_ROLES()],right:[T_PRACTICE(), T_COACH(false)],strip:T_CONTESTS()},
     practice:{left:[T_COACH(true),  T_ROLES()],right:[T_OUTLINE(),  T_TT(true)],    strip:T_REAL()},
@@ -6087,6 +6105,7 @@ function renderHub(app){
     if(directiveBtn)directiveBtn.addEventListener('click',e=>{
       e.stopPropagation();
       const action=directiveBtn.dataset.directiveAction;
+      const _g=_kGo(action);if(_g===false)return;if(_g===true){render();return;}
       if(action==='mentees'){V.view='mentees';V._menteeEditing=null;V._menteeNudge=null;}
       else if(action==='topics'){V.view='tt-practice';TTP.track='tt';TTP.phase='setup';}
       else if(action==='ai-coach'){if(PS.mode==="evaluator"){PS.mode="speaker";PS.pid=null;}V.view='ai-coach';}
@@ -8964,6 +8983,8 @@ const TT_REAL={
     "Introduce yourself to your neighbours at a building gathering.",
     "Introduce yourself as the speaker before your talk begins.",
     "Introduce yourself to a new manager in under a minute."]},
+  smalltalk:{name:"Small talk",sub:"Keep it going",secs:[20,45],prompts:["At a networking event, a stranger says: “So how do you know the host?”", "A colleague you barely know, in the lift: “Busy week?”", "At a wedding dinner, the person next to you asks: “Are you with the bride or the groom?”", "A client, before the meeting starts: “Did you find the place okay?”", "At a conference coffee break: “What did you think of that last talk?”", "A neighbour in the hallway: “Haven’t seen you around much lately!”", "Your boss’s boss, at the team dinner: “So what’s keeping you busy these days?”", "A parent at school pickup: “Which class is yours in?”", "Someone at a party: “So, what do you do?”", "On a video call, waiting for the others: “Where are you dialling in from?”", "A guest at your club meeting: “Is this your first time here too?”", "A new colleague on Friday afternoon: “Any plans for the weekend?”"]},
+  meeting:{name:"Speaking up",sub:"In meetings",secs:[30,90],prompts:["Your manager turns to you: “You’ve been quiet. What do you think?”", "Give a 30-second update on your project at the weekly team meeting.", "The team is about to agree on a plan you think has a gap. Speak up.", "The discussion has gone in circles for twenty minutes. Sum it up and suggest a next step.", "You’re asked for your view on something outside your expertise.", "Two colleagues disagree, and the chair asks you to weigh in.", "The chair asks: “Anything else before we close?” You have an idea. Propose it.", "You need more time on a deadline. Raise it in the meeting.", "A senior leader asks the team for honest feedback. Nobody speaks. Go first.", "Disagree with your manager’s proposal, politely, in front of the team.", "Someone just presented your idea as theirs. Respond in the meeting.", "Close the meeting: recap what was decided and who does what."]},
   tough:{name:"Tough question",sub:"Stay composed",secs:[45,90],prompts:[
     "“Your project is two weeks late. What happened?”",
     "A client says: “Your price is too high.” Respond.",
@@ -9083,6 +9104,37 @@ async function _mpFetchScenario(){
 function _mpOpenSample(id){
   TTP.sample=id;const s=_mpSample();TTP.question=s.title;TTP.questionSource="sample";TTP._promptN=1;TTP.phase="question";render();
 }
+const MENTOR_GUIDE=[
+  {icon:"👂",title:"Hear them first",
+   body:"Before you advise, show them you heard. Name what happened, or how it felt, in their words. Advice only lands once someone feels understood.",
+   bad:"“OK, so here’s what you should do next time…”",
+   good:"“Sounds like the blank felt a lot longer to you than it did to us. What happened right before it?”"},
+  {icon:"❓",title:"Ask before you tell",
+   body:"One real question beats three answers. An answer lets them stop thinking; a question makes them start. The answer they find themselves is the one they keep.",
+   bad:"“You need to practise more, slow down, and cut your second point.”",
+   good:"“If you could redo one minute of that speech, which minute would it be?”"},
+  {icon:"🤲",title:"Leave it with them",
+   body:"Guide, don’t rescue. Rewriting their speech or taking the role for them feels generous, but it takes the growth with it. The work stays theirs.",
+   bad:"“Send me your draft tonight, I’ll fix the opening for you.”",
+   good:"“Write two openings and read me both. Which one sounds more like you?”"},
+  {icon:"🪞",title:"Be honest",
+   body:"Kind is not the same as comfortable. Be firm on the diagnosis and warm in the delivery. If you only say what’s nice, they walk into the same wall next time.",
+   bad:"“Honestly it was great, don’t worry about it.”",
+   good:"“The story was strong, but I lost your point in the middle. Let’s find it together.”"},
+  {icon:"👣",title:"End on one small step",
+   body:"Close with one thing they can do this week. Not a list. Small enough that they’ll actually do it, specific enough that you can ask about it next time.",
+   bad:"“Just keep practising and you’ll get there.”",
+   good:"“Before Thursday, say your opening out loud three times. Tell me how the third one felt.”"}
+];
+function _mpMentorGuide(){
+  let h='<details class="tts-tips"><summary><span class="tts-ti"><svg viewBox="0 0 24 24"><path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 0 0-3.5 10.9c.6.4.9 1 .9 1.7V16h5.2v-.4c0-.7.3-1.3.9-1.7A6 6 0 0 0 12 3z"/></svg></span><span class="tts-tq">What does good mentoring sound like?</span><svg class="tts-chev" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></summary><div class="tts-body">';
+  h+='<div class="tg-guide-intro">Good mentoring isn\'t about having the answers. It\'s about helping them find theirs. Think of it like accompanying a soloist: you set the key and keep the time, and the melody stays theirs.</div>';
+  MENTOR_GUIDE.forEach(t=>{
+    h+='<div class="tg-pattern"><div class="tg-pattern-name">'+t.icon+' '+t.title+'</div><div class="tg-guide-tip-body">'+t.body+'</div>';
+    h+='<div class="tg-pattern-row" style="margin-top:8px"><div class="tg-pattern-col bad"><div class="tg-pattern-tag">❌ Avoid</div><div class="tg-pattern-q">'+escHtml(t.bad)+'</div></div><div class="tg-pattern-col good"><div class="tg-pattern-tag">✅ Try this</div><div class="tg-pattern-q">'+escHtml(t.good)+'</div></div></div></div>';
+  });
+  return h+'</div></details>';
+}
 function _ttpRenderMentorSetup(app){
   const ev=TTP.track==='evalspeech';
   const ARR='<svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
@@ -9095,7 +9147,7 @@ function _ttpRenderMentorSetup(app){
     Object.keys(MENTOR_SCEN).forEach(k=>{const sc=MENTOR_SCEN[k];h+='<button type="button" data-mscen="'+k+'" aria-pressed="'+(TTP.scenario===k)+'"><span>'+sc.name+'</span><small>'+sc.sub+'</small></button>';});
     h+='</div><div class="tts-real-time"><svg viewBox="0 0 24 24"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2M10 2h4"/></svg>Respond as you would in person · 1–2 min</div>';
     h+='<div class="tts-actions"><button class="tts-btn tts-primary" data-action="mp-get"'+(TTP.questionLoading?' disabled':'')+'>'+(TTP.questionLoading?'Setting the scene…':'Get a scenario'+ARR)+'</button></div></section>';
-    h+='<details class="tts-tips"><summary><span class="tts-tq">What does good mentoring sound like?</span></summary><div class="tts-body"><ul class="mp-tips"><li><b>Hear them first.</b> Name the feeling or the situation before you advise.</li><li><b>Ask before you tell.</b> One real question beats three answers.</li><li><b>Leave it with them.</b> Guide; don’t rescue or do it for them.</li><li><b>Be honest.</b> Kind is not the same as comfortable.</li><li><b>End on one small step</b> they can take this week.</li></ul></div></details>';
+    h+=_mpMentorGuide();
   }else{
     h+='<section class="tts-card"><div class="tts-lbl">Pick a speech</div><div class="mp-samples">';
     EVAL_SAMPLES.forEach(s=>{const p=PD[s.pid];h+='<button type="button" class="mp-sample" data-msample="'+s.id+'"><div><b>'+escHtml(s.title)+'</b><small>'+escHtml(s.speaker)+' · '+escHtml(p?p.t:'')+'</small></div><svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></button>';});
@@ -9135,6 +9187,8 @@ async function ttpFetchReal(useAI){
         interview:"A realistic job-interview question an interviewer would actually ask. Behavioural (\"Tell me about a time…\") or motivational.",
         pitch:"A one-line elevator-pitch situation: who the speaker is talking to, and what they must sell in under a minute.",
         intro:"A one-line situation where the speaker must introduce themselves: where they are and who they're talking to.",
+        smalltalk:"One line someone says to the speaker to open or continue small talk — at an event, at work, with a neighbour or a stranger. Give the setting in a few words, then quote what they say.",
+        meeting:"A moment in a work meeting where the speaker needs to speak up: give a view, an update, disagree, sum up or raise a problem. Describe the moment in one sentence.",
         tough:"A pointed, slightly uncomfortable question someone might ask in a meeting, review or Q&A. Quote it directly."
       }[TTP.scenario];
       const sys="You write practice prompts for impromptu speaking. "+brief+" One sentence, under 22 words, plain everyday language. No preamble.";
@@ -9212,7 +9266,7 @@ function _ttpRenderSetup(app){
   h+='<button class="back" data-action="ttp-back"><svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>'+(V._fromHub?'Hub':'Practice')+'</button>';
 
   h+='<div class="tts-hero"><div class="tts-ico">'+(real?HUB_ICONS.real:'<svg viewBox="0 0 24 24"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20.5l1.4-4.6A8 8 0 1 1 21 12z"/><path d="M9 10.5a3 3 0 1 1 3.9 2.9c-.6.2-.9.7-.9 1.3v.3"/><path d="M12 17.6v.1"/></svg>')+'</div>';
-  h+='<div><div class="tts-h1">'+(real?'Real-world practice':'Table Topics<sup>®</sup>')+'</div><div class="tts-lede">'+(real?'Interviews, pitches, introductions and tough questions. Practise before it counts.':'Get a topic. Think on your feet. Get coached.')+'</div></div></div>';
+  h+='<div><div class="tts-h1">'+(real?'Real-world practice':'Table Topics<sup>®</sup>')+'</div><div class="tts-lede">'+(real?'Interviews, pitches, small talk, meetings and tough questions. Practise before it counts.':'Get a topic. Think on your feet. Get coached.')+'</div></div></div>';
 
   if(isNew&&!real){
     h+='<div class="tts-hello"><img src="'+COACH_AVATAR+'" alt="K"><div><b>Your first topic. We\'ll start easy.</b><p>30 seconds is a real answer. Nobody hears it but you, and K only points out what went well and one thing to try.</p></div></div>';
@@ -9270,13 +9324,13 @@ function _ttpRenderSetup(app){
   }
 
   if(real){
-    h+='<details class="tts-tips"><summary><span class="tts-tq">What makes a strong answer?</span></summary><div class="tts-body"><ul class="mp-tips"><li><b>Answer in your first sentence,</b> then support it.</li><li><b>One real example</b> beats three claims.</li><li><b>Bridge, don’t dodge.</b> Acknowledge the question, satisfy its core, then steer to your ground.</li><li><b>Mind your attitude.</b> Calm and curious lands better than clever.</li><li><b>Land on a next step</b> or a line they’ll remember.</li></ul></div></details>';
+    h+='<details class="tts-tips"><summary><span class="tts-tq">What makes a strong response?</span></summary><div class="tts-body"><ul class="mp-tips"><li><b>Answer in your first sentence,</b> then support it.</li><li><b>One real example</b> beats three claims.</li><li><b>Bridge, don’t dodge.</b> Acknowledge the question, satisfy its core, then steer to your ground.</li><li><b>Mind your attitude.</b> Calm and curious lands better than clever.</li><li><b>Land on a next step</b> or a line they’ll remember.</li><li><b>In small talk, hand it back.</b> A short answer, one detail they can pick up, then a question about them.</li></ul></div></details>';
   }else{
   // ── Tips: container restyled; the app's existing guide content is kept verbatim ──
   h+='<details class="tts-tips" id="ttp-answer-guide"'+(V._ttpAnswerGuideOpen?' open':'')+'>';
-  h+='<summary><span class="tts-ti"><svg viewBox="0 0 24 24"><path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 0 0-3.5 10.9c.6.4.9 1 .9 1.7V16h5.2v-.4c0-.7.3-1.3.9-1.7A6 6 0 0 0 12 3z"/></svg></span><span class="tts-tq">What makes a great answer?</span><svg class="tts-chev" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></summary>';
+  h+='<summary><span class="tts-ti"><svg viewBox="0 0 24 24"><path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 0 0-3.5 10.9c.6.4.9 1 .9 1.7V16h5.2v-.4c0-.7.3-1.3.9-1.7A6 6 0 0 0 12 3z"/></svg></span><span class="tts-tq">What makes a great response?</span><svg class="tts-chev" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></summary>';
   h+='<div class="tts-body">';
-  h+='<div class="tg-guide-intro">A great TT answer isn\'t about knowing the answer — it\'s about committing to one. Think of it like jazz improvisation: the musician doesn\'t wait for the perfect note. They start, and the structure carries them.</div>';
+  h+='<div class="tg-guide-intro">A great TT response isn\'t about knowing the answer — it\'s about committing to one. Think of it like jazz improvisation: the musician doesn\'t wait for the perfect note. They start, and the structure carries them.</div>';
 
   const answerTips=[
     {
@@ -9721,6 +9775,8 @@ Under 180 words. Firm and warm.`;
     interview:"INTERVIEW ANSWER. The interviewer is testing judgement, attitude and how the candidate thinks — the question is how they find out. A real example (situation → what I did → result) is the strongest evidence. A hypothetical is a valid answer when the speaker hasn't lived the situation yet: judge it on its own terms — a brief, unapologetic acknowledgement, a clear principle, sensible steps, and what they'd learn or protect. Never mark an answer down just for being hypothetical; suggest a real or adjacent example (school, club, side project) as the next level up. A skilled bridge or reframe that still gives the interviewer what they need is a strength, not a dodge. Attitude outranks structure: anger, blame, calling a decision disrespectful, or badmouthing a team is the first thing to flag if it appears.",
     pitch:"ELEVATOR PITCH. A strong pitch: a hook in the first sentence, the problem the listener cares about, what's offered, one proof point, and a clear ask at the end. It must fit the time; cutting is a skill here. Leading with a story or a reframe instead of the product is fine if the ask still lands.",
     intro:"SELF-INTRODUCTION. A strong introduction: name and what you do in one line, one memorable specific detail people can repeat, and a reason for the listener to follow up — pitched to the room described. Making it about an idea or a story rather than a job title is a strength if it's clear and memorable.",
+    smalltalk:"SMALL TALK. The goal is to keep a conversation alive and put the other person at ease, not to give a speech. A strong reply answers briefly and genuinely, adds one detail the other person can pick up (a hook), and hands the conversation back, usually with a question about them. Warmth and curiosity outrank cleverness. Brevity is the skill here: a long, polished monologue is a weakness even if it's well structured, so flag it. Also flag one-word dead ends, firing a list of interview-style questions, and turning it into a pitch. Judge it as one turn in a conversation, not as a speech: do not expect an opening hook, a structure or a closing line. In ONE THING, the better line should be short enough to say in one breath.",
+    meeting:"SPEAKING UP IN A MEETING. Colleagues are busy; the speaker earns attention by being useful fast. A strong contribution puts the point or recommendation in the first sentence, gives one reason or piece of evidence, and says what should happen next (a decision, a next step, an owner). Disagreeing is welcome when it's about the idea, not the person, and offers an alternative. Summing up or proposing a next step when the room is stuck is a leadership move: recognise it. Flag long context before the point, hedging that hides the view (\"I'm not sure, maybe, just a thought\"), apologising for speaking, and carrying on after the point has landed.",
     tough:"TOUGH QUESTION. A strong reply stays calm and acknowledges the concern without getting defensive. The speaker doesn't have to answer it head-on: a skilled bridge — acknowledge, satisfy the core of the concern, then move to the ground they want to stand on — is a high-level technique, and should be recognised as one. What to flag is the clumsy version: an obvious dodge that leaves the real concern untouched, over-apologising, defensiveness or rambling. End on a next step."
   };
 
@@ -18527,72 +18583,84 @@ function renderMentees(app){
 
 
 // K directive engine
+// ═══ K says — a coach who remembers you. Never repeats a tile. ═══
+// Order: 1) unfinished business  2) a pattern across sessions  3) a comeback nudge  4) today's insight (K's bank, personalised by AI once a day)
+const K_BANK={"grow": [{"t": "Your next project isn't a box to tick. Pick the version of it that scares you a little — that's the one that moves you.", "a": "path", "c": "Open my path"}, {"t": "Electives aren't filler. Choose the one you'd normally avoid — comfort zones don't grow by themselves.", "a": "path", "c": "See my electives"}, {"t": "Tell your evaluator what you're working on before you speak. A targeted evaluation is worth three general ones.", "a": "path", "c": "Open my next project"}, {"t": "Write for the ear, not the eye. If a sentence needs a second reading, it needs a rewrite.", "a": "coach", "c": "Paste your draft"}, {"t": "Every speech needs one line the audience could repeat on the way home. If you can't name yours, start there.", "a": "outline", "c": "Find your message"}, {"t": "Rehearse out loud, not in your head. Your head is a generous audience — a room isn't.", "a": "coach", "c": "Rehearse now"}, {"t": "The Ice Breaker isn't your CV. Pick one moment that explains you, and let the rest go.", "a": "outline", "c": "Plan it"}, {"t": "Take a meeting role you've never done. You learn a club from the inside by running a piece of it.", "a": "roles", "c": "See the roles"}, {"t": "Evaluating is speaking with a deadline: two minutes, one point that matters. It's the fastest way to sharpen your own ear.", "a": "eval-helper", "c": "Open Evaluation Helper"}, {"t": "Your opening has about ten seconds to earn the next ten. Cut the warm-up and start with something happening.", "a": "coach", "c": "Test your opening"}, {"t": "Time one full run before the meeting. Most speeches that run over were never timed start to finish.", "a": "coach", "c": "Time a full run"}, {"t": "A level isn't finished when the projects are ticked. It's finished when you can feel the difference — notice what's easier now.", "a": "path", "c": "Look back at my path"}, {"t": "Ask for the feedback you're afraid of. 'Where did I lose you?' is a braver question than 'How was it?'", "a": "outline", "c": "Plan your next speech"}, {"t": "Don't save your best story for a better speech. Use it now — you'll find another.", "a": "outline", "c": "Build it in"}, {"t": "A pause isn't empty. Two seconds of silence before your key line tells the room: this matters.", "a": "tt", "c": "Try it on today's topic"}, {"t": "Subtraction is a skill. Before your next speech, cut one point you love — the rest will land harder.", "a": "outline", "c": "Open your outline"}, {"t": "Contests aren't just for winners. One month of preparing for one teaches more than a year of comfortable speeches.", "a": "contests", "c": "Explore contests"}, {"t": "Plan in sections, not sentences. If you know where you're going, the words find their way.", "a": "outline", "c": "Plan by section"}, {"t": "Speak to one person at a time, not 'the audience'. Finish a thought with one pair of eyes, then move on.", "a": "coach", "c": "Rehearse with it"}, {"t": "Your path is a map, not a cage. If a project fits something real in your life — a work talk, a toast — use it.", "a": "path", "c": "Open my path"}, {"t": "End on your strongest line, then stop. 'Thank you' is optional; trailing off isn't.", "a": "coach", "c": "Rehearse your close"}, {"t": "Table Topics is the gym; prepared speeches are the match. Two minutes a day keeps your instincts sharp.", "a": "tt", "c": "Answer today's topic"}, {"t": "Before you write, tell your speech to a friend out loud. That version is usually more honest than the draft.", "a": "coach", "c": "Record it"}, {"t": "One story, fully lived, beats three examples rushed. Slow down inside the moment.", "a": "outline", "c": "Find your one story"}, {"t": "Volunteer for the role nobody wants this week. That's how a club remembers you — and how you get braver.", "a": "roles", "c": "See the roles"}, {"t": "Nervous is excitement without a plan. Know your first line cold and the rest will follow.", "a": "coach", "c": "Nail your first line"}, {"t": "A speech that tries to say everything says nothing. What's the one thing?", "a": "outline", "c": "Find it"}, {"t": "Read your last evaluation again before you write the next speech. Then fix one thing on purpose.", "a": "coach", "c": "Open Speech Coach"}, {"t": "Your audience doesn't need you to be perfect. They need you to mean it.", "a": "coach", "c": "Rehearse now"}, {"t": "Dare to step out of the comfort zone box. Pick the project, the role or the topic you'd normally skip.", "a": "path", "c": "Choose the brave one"}], "practice": [{"t": "Two minutes a day beats one perfect speech a month. Today's topic is waiting.", "a": "tt", "c": "Answer today's topic"}, {"t": "The question is a door, not a destination. Answer what's underneath it.", "a": "tt", "c": "Try it today"}, {"t": "Start with a moment, not a summary. 'Last Tuesday at 7 a.m.…' beats 'I'd like to talk about…'", "a": "tt", "c": "Try it today"}, {"t": "One idea, fully committed to, lands harder than five clever ones half-explored.", "a": "tt", "c": "Commit to one"}, {"t": "Interviews reward specifics. One real example with a result beats any adjective you could use about yourself.", "a": "real", "c": "Practise an interview"}, {"t": "An elevator pitch is a conversation starter, not a brochure. End on something they'll want to ask about.", "a": "real", "c": "Practise a pitch"}, {"t": "When a question feels unfair, acknowledge it first. Calm earns you the right to steer.", "a": "real", "c": "Practise a tough question"}, {"t": "Introduce yourself with one detail people can repeat. Nobody remembers 'I work in finance'.", "a": "real", "c": "Practise your intro"}, {"t": "Record yourself and listen back once. The gap between how you think you sound and how you sound is where the work is.", "a": "coach", "c": "Record two minutes"}, {"t": "Fillers aren't a crime — they're you thinking out loud. Replace one with a breath today.", "a": "tt", "c": "Try it today"}, {"t": "Speak slower than feels comfortable. What feels slow to you sounds confident to them.", "a": "tt", "c": "Try it today"}, {"t": "Plan your next talk in three beats: where they are, where you'll take them, what changes.", "a": "outline", "c": "Plan it"}, {"t": "Bridging isn't dodging. Satisfy the core of the question, then move to the ground you want to stand on — honestly.", "a": "real", "c": "Practise a tough question"}, {"t": "End where you started. Echo your opening and even a two-minute answer feels complete.", "a": "tt", "c": "Try it today"}, {"t": "Don't memorise the words; memorise the order of ideas. You'll sound like yourself, not a recording.", "a": "outline", "c": "Map your ideas"}, {"t": "Make it about them at least once. One question to the room turns a speech into a conversation.", "a": "tt", "c": "Try it today"}, {"t": "Rehearse the first thirty seconds more than anything else. That's where they decide whether to listen.", "a": "coach", "c": "Rehearse your opening"}, {"t": "Your strongest material is usually the thing you almost didn't say. Say it.", "a": "tt", "c": "Answer today's topic"}, {"t": "Cut the warm-up. 'So, um, thank you for the question' is time you never get back.", "a": "tt", "c": "Start strong today"}, {"t": "Read your draft out loud. If you run out of breath, the sentence is too long.", "a": "coach", "c": "Paste your draft"}, {"t": "A great answer has a spine: point, example, point again. Everything else is decoration.", "a": "tt", "c": "Build one today"}, {"t": "Practise under a little pressure. A timer turns a rehearsal into a performance.", "a": "tt", "c": "Answer against the clock"}, {"t": "Humour works best when it's true. Notice something real — don't borrow a joke.", "a": "tt", "c": "Try it today"}, {"t": "Lost your thread? Say your one message out loud and carry on. They won't notice; you'll recover.", "a": "tt", "c": "Practise recovering"}, {"t": "Say less, mean more. Every sentence you cut makes the rest louder.", "a": "coach", "c": "Trim a script"}, {"t": "Preparing for something real? Rehearse the question you're dreading first.", "a": "real", "c": "Start with the hard one"}, {"t": "Outline before you script. A plan you can see is a talk you can steer.", "a": "outline", "c": "Open Outline Builder"}, {"t": "The pause is the most underused tool in speaking. Use one on purpose today.", "a": "tt", "c": "Try it today"}, {"t": "Confidence isn't the absence of nerves. It's doing it anyway, again, until the nerves get bored.", "a": "tt", "c": "Go again today"}, {"t": "Dare to step out of the comfort zone box. Pick the scenario you'd rather avoid.", "a": "real", "c": "Pick the hard one"}, {"t": "Small talk isn't small. Answer, add one detail, then hand it back with a question. That's the whole skill.", "a": "real", "c": "Practise small talk"}, {"t": "In meetings, lead with your point. Context can come second — most rooms stop listening before it ends.", "a": "real", "c": "Practise speaking up"}], "mentor": [{"t": "Ask 'what did you notice?' before you give feedback. People act on what they discover, not on what they're told.", "a": "mentor-conv", "c": "Practise a conversation"}, {"t": "Your job isn't to make their speech good. It's to make them better at making speeches.", "a": "mentor-conv", "c": "Practise a conversation"}, {"t": "Check in before they disappear. A short message after a tough speech beats a long one six weeks later.", "a": "mentees", "c": "Open My Mentees"}, {"t": "Say no to writing their speech — and say why. Then help them find the first line themselves.", "a": "mentor-conv", "c": "Practise this one"}, {"t": "One recommendation, not five. A mentee can fix one thing at a time; give them the one that matters.", "a": "mentor-eval", "c": "Evaluate a speech"}, {"t": "Praise specifically or not at all. 'Good job' teaches nothing; 'that pause before the punchline' teaches everything.", "a": "mentor-eval", "c": "Evaluate a speech"}, {"t": "Match their goal, not yours. If they joined for work presentations, link every project to one.", "a": "mentees", "c": "Open My Mentees"}, {"t": "Silence is a mentoring tool. Ask a question, then wait longer than feels comfortable.", "a": "mentor-conv", "c": "Practise a conversation"}, {"t": "Know the project before they speak. Look up what it actually asks for, so your feedback lands on target.", "a": "all-projects", "c": "Look up a project"}, {"t": "When a mentee wants to quit, don't argue. Ask what happened, then shrink the next step.", "a": "mentor-conv", "c": "Practise this one"}, {"t": "Encourage the role they keep avoiding. Growth hides in whatever they say 'next time' to.", "a": "mentees", "c": "Open My Mentees"}, {"t": "Lead by example. Give your own speeches and take your own risks — they're watching how you handle it.", "a": "mentor-eval", "c": "Sharpen your ear"}, {"t": "A good evaluation leaves the speaker wanting to speak again. If yours doesn't, start over.", "a": "mentor-eval", "c": "Evaluate a speech"}, {"t": "Hold standards kindly. 'You can do better than this, and here's how' is respect, not criticism.", "a": "mentor-conv", "c": "Practise a conversation"}, {"t": "Celebrate the first time they do something, not just the best time.", "a": "mentees", "c": "Open My Mentees"}, {"t": "Don't fix everything at once. Mentoring is a long game — pick this month's one thing.", "a": "mentees", "c": "Open My Mentees"}, {"t": "If they're lost on Pathways, open the path together. Confusion shrinks when someone sits beside you.", "a": "all-projects", "c": "Open All Projects"}, {"t": "Ask about their life outside the club. The best speech topics are hiding there.", "a": "mentor-conv", "c": "Practise a conversation"}, {"t": "Three evaluators saying the same thing is a gift. Help them see the pattern, not the pain.", "a": "mentor-conv", "c": "Practise this one"}, {"t": "Practise evaluating even when you're not on the agenda. Your ear sharpens every time.", "a": "mentor-eval", "c": "Evaluate a speech"}, {"t": "They'll remember how you made them feel after their worst speech. Make that conversation count.", "a": "mentor-conv", "c": "Practise a conversation"}, {"t": "Be specific about the next step: a project, a date, a role. Vague support feels like no support.", "a": "mentees", "c": "Open My Mentees"}, {"t": "Contest season is mentoring season. Help one mentee prepare, even if they don't win.", "a": "contests", "c": "Explore contests"}, {"t": "Don't compare them with other members. Compare them with who they were three speeches ago.", "a": "mentees", "c": "Open My Mentees"}, {"t": "When a mentee argues with feedback, get curious, not defensive. 'What did you want to happen?' opens the door.", "a": "mentor-conv", "c": "Practise this one"}, {"t": "Plan the term together. Six months on a page turns 'someday' into 'next Tuesday'.", "a": "mentees", "c": "Open My Mentees"}, {"t": "Evaluate the project, not the person. The objective is your compass.", "a": "mentor-eval", "c": "Evaluate a speech"}, {"t": "Good mentors make themselves less necessary over time. Hand over one decision this week.", "a": "mentor-conv", "c": "Practise a conversation"}, {"t": "Name what they did, then what it did: 'You paused — and the room leaned in.'", "a": "mentor-eval", "c": "Evaluate a speech"}, {"t": "Dare to step out of the comfort zone box — and invite them to step out with you.", "a": "mentor-conv", "c": "Practise a conversation"}]};
+function _kDayIdx(n){const d=new Date();const k=d.getFullYear()*372+d.getMonth()*31+d.getDate();return ((k*2654435761)>>>0)%n;}
+function _kOneThing(notes){const t=String(notes||'').replace(/<[^>]+>/g,'');const m=t.match(/💡\s*(?:ONE THING|ONE PRIORITY)\s*:\s*([\s\S]+)$/i);if(!m)return null;return m[1].split(/\n/)[0].replace(/\*+/g,'').trim();}
+function _kShort(t,n){t=String(t||'').replace(/\s+/g,' ').trim();return t.length>n?t.slice(0,n-3).replace(/\s+\S*$/,'')+'…':t;}
 function _getKDirective(){
-  const persona=S.persona||'grow';
-  const now=Date.now();
-  const dayMs=86400000;
-
-  const daysSince=(session)=>{
-    if(!session)return 999;
-    const d=session.iso?new Date(session.iso):new Date(session.date+', '+new Date().getFullYear());
-    const diff=Math.floor((now-d.getTime())/dayMs);
-    return isNaN(diff)||diff<0?999:diff;
-  };
-
-  const candidates=[];
-
-  if(persona==='mentor'){
-    if(!S.mentees||S.mentees.length===0)
-      return{msg:"Add your first mentee to start tracking their progress.",cta:"Open My Mentees",action:"mentees"};
-    const inactive=S.mentees.filter(m=>_menteeInactive(m));
-    if(inactive.length>0)
-      candidates.push({msg:inactive[0].name+" hasn't been active in over 30 days. Time to reach out.",cta:"Send a nudge",action:"mentees"});
-    const noPlan=S.mentees.find(m=>!m.termPlan);
-    if(noPlan)
-      candidates.push({msg:"Generate a term plan for "+noPlan.name+" — map out their next 6 months.",cta:"Build the plan",action:"mentees"});
-    candidates.push({msg:"Check in on your mentees and see who needs attention this week.",cta:"Open My Mentees",action:"mentees"});
-    candidates.push({msg:"Pre-meeting prep: get K to generate an observation checklist for all your mentees.",cta:"Open My Mentees",action:"mentees"});
-  }else if(persona==='practice'){
-    // K follows up on the One Priority from your last Speech Coach session (Table Topics has its own tile)
+  const mode=S.persona==='mentor'||S.persona==='grow'?S.persona:'practice';
+  const now=Date.now(),day=864e5;
+  const ago=iso=>{const t=iso?new Date(iso).getTime():NaN;return isNaN(t)?999:Math.floor((now-t)/day);};
+  const sess=S.sessions||{};
+  // 1 · Unfinished business
+  if(mode!=='mentor'){
     const last=(S.coachHistory||[]).find(s=>s.type==='speech'&&s.feedback);
     const focus=last?_extractFocus(last.feedback,'speech'):null;
-    if(last&&focus&&daysSince({iso:last.date})<=21){
-      const f=focus.replace(/\s+/g,' ').trim();
-      return{msg:"Pick up where you left off. "+(f.length>120?f.slice(0,117).replace(/\s+\S*$/,'')+'…':f),cta:"Rehearse with this focus",action:"coach-followup"};
-    }
-    if(!last)return{msg:"Record two minutes on anything. I'll tell you the one thing to fix first.",cta:"Open Speech Coach",action:"ai-coach"};
-    const ttSessions=(S.sessions&&S.sessions['tt-practice'])||[];
-    const lastTT=ttSessions.length?ttSessions[0]:null;
-    const dTT=daysSince(lastTT);
-    if(dTT>7)candidates.push({msg:"You haven't done Table Topics in "+(lastTT?dTT+" days":"a while")+". Record one answer right now.",cta:"Start Table Topics",action:"topics"});
-    const allSessions=S.sessions?Object.values(S.sessions).flat():[];
-    if(allSessions.length<3)candidates.push({msg:"Practice out loud — record a 2-minute speech and hear what K says.",cta:"Open Speech Coach",action:"ai-coach"});
-    candidates.push({msg:"Keep your speaking muscles sharp. A quick Table Topics session takes 5 minutes.",cta:"Start now",action:"topics"});
-    candidates.push({msg:"Run a full rehearsal with the speech timer. Time it once, start to finish.",cta:"Open Timer",action:"timer"});
+    if(last&&focus&&ago(last.date)<=10)return{kind:'personal',msg:"Pick up where you left off. "+_kShort(focus,120),cta:"Rehearse with this focus",action:"coach-followup"};
   }else{
-    const path=S.path?PA[S.path]:null;
-    const doneCount=S.done?Object.keys(S.done).length:0;
-    const allSessions=S.sessions?Object.values(S.sessions).flat():[];
-    const lastSession=allSessions.length?allSessions[0]:null;
-    const dLast=daysSince(lastSession);
-
-    if(!S.path)
-      return{msg:"Pick your Pathways path to get personalised coaching for every speech.",cta:"Choose a path",action:"path"};
-    if(doneCount===0)
-      return{msg:"You're on "+path?.n+". Your first project is waiting — practice your Ice Breaker today.",cta:"Practice now",action:"ai-coach"};
-    if(dLast>10)
-      candidates.push({msg:"It's been "+(lastSession?dLast+" days":"a while")+" since your last practice. One session today.",cta:"Open Speech Coach",action:"ai-coach"});
-    if(allSessions.filter(s=>s.fillers>5).length>=2)
-      candidates.push({msg:"Your fillers keep showing up. 5 minutes of Table Topics will sharpen your instincts.",cta:"Do it now",action:"topics"});
-    candidates.push({msg:"What's your next project? Paste the script and get K's coaching before you step up.",cta:"Open Speech Coach",action:"ai-coach"});
-    candidates.push({msg:"A strong evaluator is worth more to a club than a good speaker. Practice this week.",cta:"Evaluation Helper",action:"eval-helper"});
-    candidates.push({msg:"Table Topics is where most people improve fastest. One answer, right now.",cta:"Start Table Topics",action:"topics"});
-    candidates.push({msg:"Check your Pathways progress — what's the next project you want to tackle?",cta:"Open My Pathways",action:"path"});
+    const mp=(sess['mentor-practice']||[]).find(s=>s.notes);
+    const one=mp?_kOneThing(mp.notes):null;
+    if(mp&&one&&ago(mp.iso)<=7)return{kind:'personal',msg:"One thing from your last practice. "+_kShort(one,110),cta:"Try another",action:mp.track==='evalspeech'?'mentor-eval':'mentor-conv'};
   }
-
-  if(!candidates.length)return null;
-  const dayOfYear=Math.floor((now-new Date(new Date().getFullYear(),0,0).getTime())/dayMs);
-  return candidates[dayOfYear%candidates.length];
+  // 2 · Patterns across sessions
+  if(mode!=='mentor'){
+    const tt=(sess['tt-practice']||[]).filter(s=>s.elapsed>0).slice(0,3);
+    if(tt.length===3&&tt.every(s=>s.elapsed<60)&&ago(tt[0].iso)<=14)return{kind:'personal',msg:"Your last three Table Topics ran under a minute. Today, take your time and land it around 1:30.",cta:"Answer today's topic",action:"tt"};
+    const sp=Object.keys(sess).filter(k=>!/^(tt-practice|real-practice|mentor-practice)$/.test(k)).flatMap(k=>sess[k]).filter(s=>s&&s.iso&&typeof s.fillers==='number'&&s.elapsed>30).sort((a,b)=>new Date(a.iso)-new Date(b.iso));
+    if(sp.length>=6){const avg=a=>a.reduce((n,s)=>n+s.fillers,0)/a.length;const f=avg(sp.slice(0,3)),l=avg(sp.slice(-3));
+      if(f>=3&&l<=f*0.6)return{kind:'personal',msg:"Your fillers are dropping — from about "+Math.round(f)+" a speech to "+Math.round(l)+". The pauses are working; keep trusting them.",cta:"Keep it going",action:"coach"};}
+  }
+  // 3 · Comeback
+  const isos=Object.values(sess).flat().map(s=>s&&s.iso).concat((S.coachHistory||[]).map(s=>s.date)).filter(Boolean);
+  if(isos.length){const latest=isos.map(x=>new Date(x).getTime()).filter(x=>!isNaN(x)).sort((a,b)=>b-a)[0];const d=Math.floor((now-latest)/day);
+    if(d>=7)return{kind:'personal',msg:d+" days quiet. "+(mode==='mentor'?"One conversation, two minutes — keep your ear sharp.":"Two minutes, one topic — that's all it takes to start again."),cta:mode==='mentor'?"Practise a conversation":"Answer today's topic",action:mode==='mentor'?'mentor-conv':'tt'};}
+  // 4 · Today's insight
+  const arr=K_BANK[mode],i=_kDayIdx(arr.length),it=arr[i];
+  const c=S.kTake,today=new Date().toDateString();
+  const txt=c&&c.day===today&&c.mode===mode&&c.i===i&&c.lang===(S.coachLang||'auto')?c.text:it.t;
+  return{kind:'insight',msg:txt,cta:it.c,action:it.a,_i:i,_mode:mode};
+}
+// Once a day, K makes today's insight personal. No statistics, studies or quotes; same idea, same action.
+async function _kTakeRefresh(d){
+  if(!d||d.kind!=='insight'||!(S.aiConfig&&S.aiConfig.enabled)||navigator.onLine===false)return;
+  const today=new Date().toDateString(),lang=S.coachLang||'auto';
+  const c=S.kTake;if(c&&c.day===today&&c.mode===d._mode&&c.i===d._i&&c.lang===lang)return;
+  if(_kTakeRefresh._busy)return;_kTakeRefresh._busy=true;
+  try{
+    const it=K_BANK[d._mode][d._i];
+    const last=(S.coachHistory||[])[0];
+    const ctx=['Mode: '+d._mode,
+      d._mode!=='mentor'?"Today's Table Topics question: "+_ttDaily():'',
+      last&&last.projectTitle?'Their last speech: '+last.projectTitle:'',
+      S.path&&PA[S.path]?'Their Pathways path: '+PA[S.path].n:''].filter(Boolean).join('\n');
+    const sys="You are K — Kian How's voice as a speaking coach: direct, warm, a little playful, never preachy. You write the one line K says on the app's home screen today. Take today's insight and make it land for this person today — keep the same idea and the same action. At most two short sentences, under 40 words. No statistics, numbers, studies, research claims or quotes that are not already in the insight. No greetings, no emojis. Reply with the line only.";
+    const raw=await callCoach(sys,"Today's insight: "+it.t+"\nThe button under it: "+it.c+"\n\n"+ctx,{maxTokens:120,forceBase:true,featureId:'focus-brief'});
+    let t=String(raw||'').replace(/^["“]|["”]$/g,'').replace(/\s+/g,' ').trim();
+    if(t.length>=12&&t.length<=260){S.kTake={day:today,mode:d._mode,i:d._i,lang,text:t};save();if(V.view==='hub')render();}
+  }catch(e){}
+  _kTakeRefresh._busy=false;
+}
+// Where K's button goes
+function _kGo(action){
+  const toTT=track=>{V._fromHub=true;V.view='tt-practice';TTP.track=track;TTP.phase='setup';};
+  switch(action){
+    case 'tt':if(!_ttDailyDone()){_openTTDaily();return false;}toTT('tt');break;
+    case 'real':toTT('real');break;
+    case 'mentor-conv':toTT('mentor');break;
+    case 'mentor-eval':toTT('evalspeech');break;
+    case 'outline':V._obReturn={view:'hub'};V.view='speech-draft';break;
+    case 'roles':V.view='roles';break;
+    case 'path':{const any=Object.keys(S.pathArchive||{}).some(k=>pathHasActivity(S.pathArchive[k]));V.view=(S.path||any)?'my-paths':'picker';break;}
+    case 'mentees':V.view='mentees';V._menteeEditing=null;V._menteeNudge=null;break;
+    case 'all-projects':V.view='all-projects';break;
+    case 'contests':V.view='contests';break;
+    case 'eval-helper':V._fromHub=true;V.view='eval-helper';break;
+    case 'coach':case 'ai-coach':if(PS.mode==='evaluator'){PS.mode='speaker';PS.pid=null;}V.view='ai-coach';break;
+    default:return null;
+  }
+  return true;
 }
 
 // ── Convert buildProgram week output → mentee term plan month format ──────
