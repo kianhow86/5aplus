@@ -763,6 +763,7 @@ body.on-hub.has-bottom-nav{padding-bottom:0}   /* .hub2 already reserves the nav
 .mp-speech p{margin:0 0 10px}
 .mp-cue{font-style:italic;color:#C4AEFF;opacity:.85;font-size:13.5px}
 .ttq-t.mp-scen{font-size:19px;line-height:1.4}
+.ttq-card>:first-child{margin-top:auto}.ttq-card>:last-child{margin-bottom:auto}
 .mp-samples{display:flex;flex-direction:column;gap:8px}
 .mp-sample{display:flex;align-items:center;gap:10px;width:100%;text-align:left;padding:12px 14px;border-radius:14px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);color:#F2F2F4;font:inherit;cursor:pointer}
 .mp-sample>div{flex:1;min-width:0}.mp-sample b{display:block;font-size:15px}.mp-sample small{display:block;font-size:12.5px;color:rgba(235,235,245,.6);margin-top:2px}
@@ -3185,7 +3186,7 @@ body.pk-open .bottom-nav{display:none}
 .ttq-ctx{display:flex;align-items:center;justify-content:space-between;margin:2px 0 12px}
 .ttq-chip{display:inline-flex;align-items:center;font-size:11px;font-weight:700;color:#C4B5FD;background:rgba(139,92,246,0.14);border:1px solid rgba(139,92,246,0.35);border-radius:20px;padding:4px 10px;max-width:70%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .ttq-n{font-size:11px;font-weight:600;color:var(--text-3)}
-.ttq-card{flex:1;min-height:0;display:flex;flex-direction:column;justify-content:center;background:var(--surface);border:1px solid var(--border);border-left:3px solid #8B5CF6;border-radius:15px;padding:22px 20px;margin-bottom:14px}
+.ttq-card{flex:1;min-height:0;display:flex;flex-direction:column;justify-content:flex-start;overflow-y:auto;background:var(--surface);border:1px solid var(--border);border-left:3px solid #8B5CF6;border-radius:15px;padding:22px 20px;margin-bottom:14px}
 .ttq-k{font-size:9px;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-3);margin-bottom:12px}
 .ttq-t{font-size:24px;font-weight:700;line-height:1.28;letter-spacing:-0.015em;color:var(--text);text-wrap:pretty;overflow-wrap:anywhere}
 .ttq-hint{font-size:12px;color:var(--text-3);margin-top:16px}
@@ -5185,7 +5186,8 @@ const CHANGELOG=[
     'On other days, K gives you one fresh thought in his own voice, with a one-tap way to act on it',
     'The Hub takes on your mode’s colour: green for Grow, berry for Practice, blue for Mentor. Contests stays gold',
     'Mentor practice: “What does good mentoring sound like?” is now a full guide, with what to avoid and what to try for each habit',
-    'Real-world practice has two new situations: Small talk (keep a conversation going, 20–45 sec) and Speaking up in meetings (be useful fast, 30–90 sec)'
+    'Real-world practice has two new situations: Small talk (keep a conversation going, 20–45 sec) and Speaking up in meetings (be useful fast, 30–90 sec)',
+    'Fixed: in Chinese and other languages, a mentee scenario could come back as a long model answer instead of the scenario itself'
   ]},
   {v:'1.9.2',date:'Oct 2026',items:[
     'Each mode now shows what that person actually uses. Grow: Pathways, Speech Coach, Practice Tools, Meeting Roles, Contests. Practice: Speech Coach, Table Topics, Outline Builder, Meeting Roles, Real-world practice. Mentor: Mentees, Mentor practice, Meeting Roles, All Projects',
@@ -5844,9 +5846,8 @@ async function _ttDailyLocalise(){
   if(c&&c.day===day&&c.lang===l&&c.en===en)return;
   if(_ttDailyLocalise._busy)return;_ttDailyLocalise._busy=true;
   try{
-    const raw=await callCoach("You adapt Table Topics questions for speakers of other languages. Rewrite the question so a native speaker would naturally ask it — same idea, natural phrasing, not a literal translation. Reply with the one question only.",'Question: "'+en+'"',{maxTokens:80,forceBase:true,featureId:'tt-question'});
-    const q=String(raw||'').replace(/```/g,'').split('\n').map(s=>s.trim()).filter(Boolean)[0]||'';
-    if(q.length>=4&&q.length<=200){S.ttDailyLoc={day,lang:l,en,q:q.replace(/^["“]|["”]$/g,'')};save();if(V.view==='hub')render();}
+    const q=await _locPrompt(en,'Table Topics question')||'';
+    if(q){S.ttDailyLoc={day,lang:l,en,q:q.replace(/^["“]|["”]$/g,'')};save();if(V.view==='hub')render();}
   }catch(e){}
   _ttDailyLocalise._busy=false;
 }
@@ -9087,6 +9088,23 @@ function _ttTiming(){
 }
 // Speech text with [delivery cues] styled
 function _mpSpeechHtml(t){return escHtml(t).split(/\n\n+/).map(par=>'<p>'+par.replace(/\[([^\]]+)\]/g,'<i class="mp-cue">[$1]</i>')+'</p>').join('');}
+// Rewrite a short prompt (scenario, question) into the chosen language. It must stay a prompt:
+// the model is told not to answer it, and anything that looks like an answer is rejected.
+async function _locPrompt(text,kind){
+  const l=_coachLang();if(!l||l.id==='auto'||l.id==='en')return null;
+  const ends=x=>(String(x).match(/[.!?。！？]/g)||[]).length;
+  const sys="You rewrite short "+kind+" prompts for a practice app into "+l.name+". Write it the way a native speaker would naturally say it: same situation, same people, same quoted words in spirit, not a literal translation. You are only rewriting the prompt. Do NOT answer it, respond to it, advise, coach, role-play or add anything. Keep it as short as the original: one or two sentences. Plain text only: no title, no markdown, no lists, no quotation of these instructions.";
+  for(let i=0;i<2;i++){
+    try{
+      const raw=await callCoach(sys,"PROMPT TO REWRITE (do not respond to it):\n"+text+"\n\nReply with the rewritten prompt only, in "+l.name+".",{maxTokens:90,forceBase:true,noLang:true,featureId:'tt-question'});
+      let t=String(raw||'').replace(/```/g,'').replace(/\*\*|__|^#+\s*|^>\s*/gm,'').replace(/^-{3,}$/gm,'').split(/\n\s*\n/)[0].replace(/\s*\n\s*/g,' ').trim();
+      t=t.replace(/^(PROMPT|Rewritten prompt|改写后?的?(提示|情景|场景)?)[:：]\s*/i,'').trim();
+      const ok=t.length>=4&&t.length<=text.length*1.5+20&&ends(t)<=ends(text)+2&&!/^(PROMPT TO REWRITE)/i.test(t);
+      if(ok)return t;
+    }catch(e){return null;}
+  }
+  return null;
+}
 async function _mpFetchScenario(){
   const sc=_mpScen();const seen=new Set(_ttSeenList());
   let fresh=sc.prompts.filter(q=>!seen.has(q));if(!fresh.length)fresh=sc.prompts.slice();
@@ -9095,8 +9113,7 @@ async function _mpFetchScenario(){
   // In a chosen language, K restates the scenario natively
   if(_ttLangNeedsAI()){
     TTP.questionLoading=true;render();
-    try{const raw=await callCoach("Rewrite this mentoring scenario so a native speaker would naturally say it. Same situation, natural phrasing, not a literal translation. Reply with the scenario only.",q,{maxTokens:160,forceBase:true,featureId:'tt-question'});
-      const t=String(raw||'').trim();if(t.length>=6&&t.length<=400)q=t;}catch(e){}
+    const t=await _locPrompt(q,'mentoring-scenario');if(t)q=t;
     TTP.questionLoading=false;
   }
   TTP.question=q;TTP._promptN=(TTP._promptN||0)+1;TTP.phase="question";render();
