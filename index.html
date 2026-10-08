@@ -753,6 +753,29 @@ body.on-hub.has-bottom-nav{padding-bottom:0}   /* .hub2 already reserves the nav
 .hub2 .pw-tile:not(.pw-strip) .pw-pill{background:rgba(255,255,255,.06);color:var(--mhi);box-shadow:inset 0 0 0 1px rgba(255,255,255,.14)}
 .hub2 .pw-tile.t-lead .pw-pill{background:var(--mcta);color:var(--mink);box-shadow:none}
 .art-mask{background:rgb(var(--c));aspect-ratio:1/1;-webkit-mask-size:contain;mask-size:contain;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
+.art-mask.art-tt,.art-mask.art-outline,.art-mask.art-eval{aspect-ratio:1024/439;width:150%;right:-62%;top:-4%;opacity:.22}
+.pw-sub-small{display:none}
+.pw-name sup{font-size:.5em;vertical-align:super;font-weight:700}
+.pw-tile[data-hub=tt].grow>.pw-sub:has(.pw-sub-small){margin:0}
+.pw-try{font-size:11.5px;font-weight:700;color:var(--mhi);margin-top:5px;line-height:1.35}
+.mp-speech-card{max-height:none}
+.mp-speech{margin-top:8px;max-height:46vh;overflow:auto;font-size:15px;line-height:1.6;color:#E9E9EE;padding-right:4px;-webkit-overflow-scrolling:touch}
+.mp-speech p{margin:0 0 10px}
+.mp-cue{font-style:italic;color:#C4AEFF;opacity:.85;font-size:13.5px}
+.ttq-t.mp-scen{font-size:19px;line-height:1.4}
+.mp-samples{display:flex;flex-direction:column;gap:8px}
+.mp-sample{display:flex;align-items:center;gap:10px;width:100%;text-align:left;padding:12px 14px;border-radius:14px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);color:#F2F2F4;font:inherit;cursor:pointer}
+.mp-sample>div{flex:1;min-width:0}.mp-sample b{display:block;font-size:15px}.mp-sample small{display:block;font-size:12.5px;color:rgba(235,235,245,.6);margin-top:2px}
+.mp-sample svg{width:16px;height:16px;fill:none;stroke:rgba(235,235,245,.5);stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.mp-tips{margin:0;padding-left:18px;font-size:14px;line-height:1.55;color:rgba(235,235,245,.8)}.mp-tips li{margin-bottom:6px}.mp-tips b{color:#F2F2F4}
+.ttq-try{margin-top:12px;padding:10px 12px;border-radius:12px;background:rgba(139,111,247,.1);border:1px solid rgba(139,111,247,.28);font-size:14px;font-weight:600;color:#E6DEFF;line-height:1.4}
+.ttq-try b{display:block;font-size:10.5px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:#C4AEFF;margin-bottom:3px}
+@media (max-height:700px){.pw-sub-big{display:none}.pw-sub-small{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}}
+.pw-sub-q{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.pw-fh.pw-q{-webkit-line-clamp:4;font-weight:700}
+.hub2 .pw-strip-mode{--c:var(--cr),var(--cg),var(--cb);background:radial-gradient(70% 140% at 30% 0%,rgba(var(--c),.16),transparent 64%),linear-gradient(180deg,#17181B,#121315);border-color:rgba(var(--c),.3)}
+.hub2 .pw-strip-mode .pw-glyph{color:var(--mhi)}
+.hub2 .pw-strip-mode .pw-badge{color:var(--mhi);border-color:rgba(var(--c),.4);background:rgba(var(--c),.1)}
 .t-tall .art-mask{filter:opacity(.5)}
 .t-short .art-mask{background:rgb(235,235,245);filter:opacity(.35)}
 /* Hub mode switch — GROW · PRACTICE · MENTOR */
@@ -5142,9 +5165,17 @@ if(window.visualViewport){
 window.addEventListener('load',()=>{setTimeout(()=>{try{window.scrollTo(0,1);window.scrollTo(0,0);}catch{}setAppHeight();},50);});
 
 // Single source of truth for the version shown in the app. Bump here only.
-const APP_VERSION='1.9.1';
+const APP_VERSION='1.9.2';
 // What's new — newest first. Plain language, a few lines per version.
 const CHANGELOG=[
+  {v:'1.9.2',date:'Oct 2026',items:[
+    'Each mode now shows what that person actually uses. Grow: Pathways, Speech Coach, Practice Tools, Meeting Roles, Contests. Practice: Speech Coach, Table Topics, Outline Builder, Meeting Roles, Real-world practice. Mentor: Mentees, Mentor practice, Meeting Roles, All Projects',
+    'Topic of the day: one Table Topics question for everyone, on your Hub, with a technique to try on it. Answer it and see your streak',
+    'In Practice mode, K follows up on the one priority from your last speech so you can rehearse just that',
+    'New Mentor practice: respond to 42 real mentee situations, or evaluate 12 sample speeches. K coaches how you mentored, and whether your evaluation caught what mattered',
+    'Real-world practice is now its own screen, on the Hub in Practice mode — interviews, pitches, introductions and tough questions, each with its own timing. Table Topics is purely Table Topics again',
+    'Today’s topic and mentee scenarios come in your chosen language'
+  ]},
   {v:'1.9.1',date:'Oct 2026',items:[
     'Speak, paste and get coached in your own language — 中文, 粵語, 日本語, 한국어, Bahasa, Español and more. The app stays in English; choose your language in AI settings (Auto matches what you say)',
     'K coaches like a native speaker, not a translation, and judges fillers, pace and rhetoric by your language’s own standards — 嗯、那个、然后 for Mandarin, characters per minute, 排比 and 成语 as tools',
@@ -5737,6 +5768,10 @@ function applyHashRoute(){
 // and the hairline _practiceSVG/_menteesSVG). All currentColor, so the icon,
 // its glow and its tint always match. See .ic-glow.
 const HUB_ICONS={
+  tt:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20.5l1.4-4.6A8 8 0 1 1 21 12z"/><path d="M9.5 10a2.5 2.5 0 1 1 3.3 2.4c-.5.2-.8.6-.8 1.1v.3"/><path d="M12 16.8v.1"/></svg>',
+  outline:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M8 6h13M8 12h13M8 18h9"/><circle cx="3.5" cy="6" r="1"/><circle cx="3.5" cy="12" r="1"/><circle cx="3.5" cy="18" r="1"/></svg>',
+  eval:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4V3h6v1"/><path d="M8.5 12.5l2.2 2.2 4.8-4.8"/></svg>',
+  real:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"/><path d="M3 13h18"/></svg>',
   path:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 5h11"/><path d="M3 12h15"/><path d="M3 19h8"/></svg>',
   roles:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="5" r="2.5"/><circle cx="5.5" cy="10" r="2.5"/><circle cx="18.5" cy="10" r="2.5"/><circle cx="8" cy="18" r="2.5"/><circle cx="16" cy="18" r="2.5"/></svg>',
   practice:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="5.5" r="2.8"/><path d="M7 14c0-2.8 2.2-4.5 5-4.5s5 1.7 5 4.5"/><path d="M5 14h14l-1.5 6h-11z"/></svg>',
@@ -5768,6 +5803,55 @@ function _relDays(iso){
 }
 function _relLabel(d){return d===0?'today':d===1?'yesterday':d+' days ago';}
 
+// ═══ Table Topics — topic of the day: same question all day, from the built-in bank ═══
+function _ttDayHash(){const d=new Date();let x=d.getFullYear()*10000+(d.getMonth()+1)*100+d.getDate();x=((x>>>16)^x)*0x45d9f3b;x=((x>>>16)^x)*0x45d9f3b;x=(x>>>16)^x;return Math.abs(x);}
+function _ttDailyEn(){
+  const pool=[];TOPICS_THEMES.forEach(th=>pool.push(...(th.prompts||[])));
+  if(!pool.length)return "What is one lesson that has shaped who you are today?";
+  return pool[_ttDayHash()%pool.length];
+}
+// In a chosen language, K rewrites the day's question natively once a day; English until it arrives
+function _ttDaily(){
+  const l=S.coachLang||'auto',c=S.ttDailyLoc;
+  if(l!=='auto'&&l!=='en'&&c&&c.day===new Date().toDateString()&&c.lang===l&&c.en===_ttDailyEn())return c.q;
+  return _ttDailyEn();
+}
+async function _ttDailyLocalise(){
+  const l=S.coachLang||'auto';if(l==='auto'||l==='en'||!(S.aiConfig&&S.aiConfig.enabled)||navigator.onLine===false)return;
+  const en=_ttDailyEn(),day=new Date().toDateString(),c=S.ttDailyLoc;
+  if(c&&c.day===day&&c.lang===l&&c.en===en)return;
+  if(_ttDailyLocalise._busy)return;_ttDailyLocalise._busy=true;
+  try{
+    const raw=await callCoach("You adapt Table Topics questions for speakers of other languages. Rewrite the question so a native speaker would naturally ask it — same idea, natural phrasing, not a literal translation. Reply with the one question only.",'Question: "'+en+'"',{maxTokens:80,forceBase:true,featureId:'tt-question'});
+    const q=String(raw||'').replace(/```/g,'').split('\n').map(s=>s.trim()).filter(Boolean)[0]||'';
+    if(q.length>=4&&q.length<=200){S.ttDailyLoc={day,lang:l,en,q:q.replace(/^["“]|["”]$/g,'')};save();if(V.view==='hub')render();}
+  }catch(e){}
+  _ttDailyLocalise._busy=false;
+}
+// One technique a day to try on today's topic — K checks for it in the notes
+const TT_TECHNIQUES=[
+  {short:"Open with a moment, not an opinion",k:"open with a specific moment (a time, a place, a scene) before giving any opinion"},
+  {short:"Pause before your key line",k:"take a deliberate pause just before the most important line"},
+  {short:"One story, one point",k:"tell one story that makes one point — no second example, no list"},
+  {short:"End by calling back to your opening",k:"end by returning to the image or line they opened with"},
+  {short:"Pivot to what you really want to say",k:"bridge from the literal question to a point they genuinely care about, while still satisfying the question"},
+  {short:"Make it about the audience",k:"turn the answer outward at least once — ask the room something or connect it to their lives"},
+  {short:"Cut the warm-up",k:"start with a real sentence immediately — no 'thank you for the question', no 'so, um'"}
+];
+function _ttTechnique(){return TT_TECHNIQUES[(_ttDayHash()>>>3)%TT_TECHNIQUES.length];}
+function _ttDailyDone(){
+  const q=_ttDaily(),today=new Date().toDateString();
+  return ((S.sessions&&S.sessions['tt-practice'])||[]).find(s=>s.topic===q&&s.iso&&new Date(s.iso).toDateString()===today)||null;
+}
+function _ttStreak(){
+  const days=new Set(((S.sessions&&S.sessions['tt-practice'])||[]).filter(s=>s.iso).map(s=>new Date(s.iso).toDateString()));
+  let n=0;const d=new Date();if(!days.has(d.toDateString()))d.setDate(d.getDate()-1);
+  while(days.has(d.toDateString())){n++;d.setDate(d.getDate()-1);}
+  return n;
+}
+function _openTTDaily(){
+  V._fromHub=true;V.view="tt-practice";TTP.track="tt";TTP.question=_ttDaily();TTP.questionSource="daily";TTP.technique=_ttTechnique();TTP._promptN=1;TTP.phase="question";render();
+}
 const HUB_PRACTICE='burgundy'; // 'burgundy' | 'teal'
 function renderHub(app){
   const p=S.path?PA[S.path]:null;
@@ -5819,14 +5903,14 @@ function renderHub(app){
     [["grow","Grow","140,214,166"],["practice","Practice",HUB_PRACTICE==="teal"?"120,210,222":"232,128,174"],["mentor","Mentor","150,172,255"]].map(m=>'<button type="button" role="radio" data-hub-mode="'+m[0]+'" style="--m:'+m[2]+'" class="'+(m[0]===_pmode?'on':'')+'" aria-checked="'+(m[0]===_pmode)+'">'+m[1]+'</button>').join('')+'</div></div>';
 
   // ── Cards: two stretched columns; only tall cards grow, into .pw-push ──
-  const COL={path:"green",practice:"rose",coach:"violet",roles:"amber",allProjects:"blue",mentees:"peri"};
-  const ART={path:"pathways-ribbon.png",coach:"coach-ripples.png",practice:"practice-glass-rose.png",roles:"roles-ring.png",projects:"projects-grid.png",mentees:"mentees-orbs.png"};
+  const COL={path:"green",practice:"rose",coach:"violet",roles:"amber",allProjects:"blue",mentees:"peri",tt:"rose",outline:"blue",eval:"amber"};
+  const ART={path:"pathways-ribbon.png",coach:"coach-ripples.png",practice:"practice-glass-rose.png",roles:"roles-ring.png",projects:"projects-grid.png",mentees:"mentees-orbs.png",tt:"tt-card.png",outline:"draft-page.png",eval:"eval-sheet.png"};
   const POS={peri:"80% 20%|.3",green:"90% 78%|.3",rose:"90% 70%|.3",teal:"90% 70%|.3",violet:"85% 82%|.32",amber:"70% 18%|.3",blue:"85% 80%|.3"};
   function ptile(cfg){
     if(cfg.strip){
-      let s='<button class="pw-tile pw-strip" data-hub="'+cfg.hub+'">';
-      s+='<img class="art art-contest" src="/art/contest-spotlight.png" alt="" aria-hidden="true" decoding="sync">';
-      s+='<div class="pw-glyph" style="color:'+cfg.ic+'">'+cfg.glyph+'</div>';
+      let s='<button class="pw-tile pw-strip'+(cfg.modeStrip?' pw-strip-mode':'')+'" data-hub="'+cfg.hub+'" data-slot="strip">';
+      if(!cfg.modeStrip)s+='<img class="art art-contest" src="/art/contest-spotlight.png" alt="" aria-hidden="true" decoding="sync">';
+      s+='<div class="pw-glyph"'+(cfg.modeStrip?'':' style="color:'+cfg.ic+'"')+'>'+cfg.glyph+'</div>';
       s+='<div class="pw-bot"><div class="pw-name">'+cfg.name+'</div><div class="pw-sub">'+cfg.sub+'</div></div>';
       s+='<span class="pw-badge">'+cfg.badge+'</span></button>';
       return s;
@@ -5842,7 +5926,7 @@ function renderHub(app){
       s+='<div class="pw-push"></div>';
       s+='<div class="pw-facts"><div class="pw-dv"></div>'+cfg.facts+'</div>';
     }else{
-      s+='<div class="pw-row"><span class="pw-sub">'+cfg.sub+'</span>'+CHEV+'</div>';
+      s+='<div class="pw-row"><span class="pw-sub'+(cfg.subCls?' '+cfg.subCls:'')+'">'+cfg.sub+'</span>'+CHEV+'</div>';
     }
     return s+'</button>';
   }
@@ -5912,17 +5996,29 @@ function renderHub(app){
   const T_ALLPROJ=()=>({hub:"all-projects",tall:true,wash:"allProjects",art:"projects",ic:"#A9C8FF",glyph:HUB_ICONS.allProjects,name:"All Projects",sub:"Browse every Pathways project",facts:'<div class="pw-fh">'+Object.keys(PA).length+' paths · 5 levels each</div><div class="pw-f2">Browse by level or path</div>'+_pill('all-projects','Browse','cta-blue')});
   const T_MENTEES=lead=>({hub:"mentees",tall:true,lead,wash:"mentees",art:"mentees",ic:"#B6C9FF",glyph:HUB_ICONS.mentees,name:"My Mentees",sub:"Track progress. Send encouragement.",facts:menteeFacts()});
   const T_CONTESTS=()=>({hub:"contests",strip:true,ic:"#F5C85B",glyph:HUB_ICONS.contest,name:"Contests",sub:"Challenge yourself. Celebrate wins.",badge:Object.keys(CONTEST_DATA).length+' types'});
+  // Table Topics: today's question, or done-today with time + streak
+  _ttDailyLocalise();
+  const _ttQ=_ttDaily(),_ttDone=_ttDailyDone(),_ttRun=_ttStreak();
+  const _ttDoneTxt=_ttDone?'✓ Done today · '+_mmss(_ttDone.elapsed||0)+(_ttRun>1?' · '+_ttRun+' days running':''):'';
+  const T_TT=tall=>tall?{hub:"tt",tall:true,wash:"tt",art:"tt",glyph:HUB_ICONS.tt,name:"Table Topics<sup>®</sup>",sub:'<span class="pw-sub-small">'+(_ttDone?_ttDoneTxt:'“'+escHtml(_ttQ)+'”')+'</span>',
+      facts:'<div class="pw-fk">'+(_ttDone?'Today’s topic · done':'Today’s topic')+'</div><div class="pw-fh pw-q">“'+escHtml(_ttQ)+'”</div>'+(_ttDone?'':'<div class="pw-try">Try: '+escHtml(_ttTechnique().short)+'</div>')+(_ttDone?'<div class="pw-f2">'+_ttDoneTxt+'</div>'+_pill('tt-new','Another topic','cta-violet'):_pill('tt-daily','Answer it','cta-violet'))}
+    :{hub:"tt",wash:"tt",art:"tt",glyph:HUB_ICONS.tt,name:"Table Topics<sup>®</sup>",sub:_ttDone?_ttDoneTxt:'Today: “'+escHtml(_ttQ)+'”',subCls:'pw-sub-q'};
+  const _obN=(S.outlines||[]).length;
+  const T_OUTLINE=()=>({hub:"outline",wash:"outline",art:"outline",glyph:HUB_ICONS.outline,name:"Outline Builder",sub:_obN?_obN+(_obN===1?' saved outline':' saved outlines'):'Plan any speech, timed'});
+  const T_EVAL=()=>({hub:"eval",wash:"eval",art:"eval",glyph:HUB_ICONS.eval,name:"Evaluation Helper",sub:'What to judge, how to say it'});
+  const T_EVPRAC=()=>({hub:"eval-practice",wash:"eval",art:"eval",glyph:HUB_ICONS.eval,name:"Mentor practice",sub:"Mentee conversations · evaluations"});
+  const T_REAL=()=>({hub:"real",strip:true,modeStrip:true,glyph:HUB_ICONS.real,name:"Real-world practice",sub:"Interviews, pitches, introductions",badge:'4 types'});
   const LAYOUT={
-    grow:    {left:[T_PATH(true),   T_ROLES()],right:[T_PRACTICE(),T_COACH(false)]},
-    practice:{left:[T_COACH(true),  T_ROLES()],right:[T_PRACTICE(),T_ALLPROJ()]},
-    mentor:  {left:[T_MENTEES(true),T_ROLES()],right:[T_PRACTICE(),T_COACH(false)]}
+    grow:    {left:[T_PATH(true),   T_ROLES()],right:[T_PRACTICE(), T_COACH(false)],strip:T_CONTESTS()},
+    practice:{left:[T_COACH(true),  T_ROLES()],right:[T_OUTLINE(),  T_TT(true)],    strip:T_REAL()},
+    mentor:  {left:[T_MENTEES(true),T_ROLES()],right:[T_EVPRAC(),   T_ALLPROJ()],   strip:null}
   };
   const L=LAYOUT[S.persona]||LAYOUT.practice;
-  L.left[0].slot='lead';L.right[1].slot='tall';
+  L.left[0].slot='lead';L.left[1].slot='s2';L.right[0].slot='s1';L.right[1].slot='tall';
   h+='<div class="hub-pin"><div class="hub-cols">';
   h+='<div class="hub-col">'+L.left.map(ptile).join('')+'</div>';
   h+='<div class="hub-col">'+L.right.map(ptile).join('')+'</div>';
-  h+='</div>'+ptile(T_CONTESTS())+'</div>';
+  h+='</div>'+(L.strip?ptile(L.strip):'')+'</div>';
   h+='</div>';
   app.innerHTML=h;
 
@@ -5930,12 +6026,14 @@ function renderHub(app){
   app.querySelectorAll('[data-pill]').forEach(pl=>pl.addEventListener('click',e=>{
     e.stopPropagation();
     const k=pl.dataset.pill;
-    if(k==='coach'){V.view='ai-coach';}
+    if(k==='coach'){if(PS.mode==="evaluator"){PS.mode="speaker";PS.pid=null;}V.view='ai-coach';}
     else if(k==='path'){V.view='quiz-intro';}
     else if(k==='path-continue'){if(_nextPid){V.view='project';V.viewingProject=_nextPid;}else{V.view='browser';}}
     else if(k==='path-open'){V.view='browser';}
     else if(k==='mentees'){V.view='mentees';V._menteeEditing=null;V._menteeNudge=null;}
     else if(k==='all-projects'){V.view='all-projects';}
+    else if(k==='tt-daily'){_openTTDaily();return;}
+    else if(k==='tt-new'){V._fromHub=true;V.view='tt-practice';TTP.track='tt';TTP.phase='setup';}
     render();
   }));
 
@@ -5955,7 +6053,7 @@ function renderHub(app){
     _modesEl.querySelectorAll('[data-hub-mode]').forEach(b=>b.addEventListener('click',async()=>{
       const mode=b.dataset.hubMode;if(mode===_pmode||V._hubSwitching)return;
       const nl=LAYOUT[mode];
-      const changed=[['lead',L.left[0].hub,nl.left[0].hub],['tall',L.right[1].hub,nl.right[1].hub]].filter(x=>x[1]!==x[2]).map(x=>x[0]);
+      const changed=[['lead',L.left[0].hub,nl.left[0].hub],['s2',L.left[1].hub,nl.left[1].hub],['s1',L.right[0].hub,nl.right[0].hub],['tall',L.right[1].hub,nl.right[1].hub],['strip',L.strip&&L.strip.hub,nl.strip&&nl.strip.hub]].filter(x=>x[1]!==x[2]).map(x=>x[0]);
       const dir=Math.sign(ORDER.indexOf(mode)-ORDER.indexOf(_pmode))||1;
       S.persona=mode;S.mode=mode==='grow'?'path':'alacarte';save();
       const reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion:reduce)').matches;
@@ -5990,8 +6088,15 @@ function renderHub(app){
       e.stopPropagation();
       const action=directiveBtn.dataset.directiveAction;
       if(action==='mentees'){V.view='mentees';V._menteeEditing=null;V._menteeNudge=null;}
-      else if(action==='topics'){V.view='tt-practice';TTP.phase='setup';}
-      else if(action==='ai-coach'){V.view='ai-coach';}
+      else if(action==='topics'){V.view='tt-practice';TTP.track='tt';TTP.phase='setup';}
+      else if(action==='ai-coach'){if(PS.mode==="evaluator"){PS.mode="speaker";PS.pid=null;}V.view='ai-coach';}
+      else if(action==='coach-followup'){
+        const s=(S.coachHistory||[]).find(x=>x.type==='speech'&&x.feedback);
+        if(s){PS.mode="speaker";PS._prevTranscript=s.transcript;PS._prevFeedback=s.feedback;PS._isFollowup=true;PS._historyFocus=_extractFocus(s.feedback,'speech');
+          PS.pid=s.pid||null;PS.freestyle=!s.pid;PS.brief=s.brief||null;PS.customDur=s.brief&&s.brief.minutes?Object.assign({minutes:s.brief.minutes},s.brief.green!=null?{green:s.brief.green,red:s.brief.red}:{}):null;
+          PS.outline=s.outline||null;PS._goal=s.goal||null;PS.notesText=s.notes||null;PS.phase='ready';PS.aiAnalysis=null;PS._extraNotes=null;}
+        V.view='ai-coach';
+      }
       else if(action==='path'){V.view='pathfinder-intro';}
       else if(action==='practice'){V.view='practice';}
       else if(action==='eval-helper'){V.view='eval-helper';}
@@ -6018,9 +6123,14 @@ function renderHub(app){
       else if(target==="pathfinder"){V.view="pathfinder-intro";}
       else if(target==="mentees"){V.view="mentees";}
       else if(target==="all-projects"){V.view="all-projects";}
-      else if(target==="ai-coach"){V.view="ai-coach";}
+      else if(target==="ai-coach"){if(PS.mode==="evaluator"){PS.mode="speaker";PS.pid=null;}V.view="ai-coach";}
       else if(target==="quiz"){V.view="quiz-intro";}
       else if(target==="contests"){V.view="contests";}
+      else if(target==="tt"){if(_ttDailyDone()){V._fromHub=true;V.view="tt-practice";TTP.track="tt";TTP.phase="setup";}else{_openTTDaily();return;}}
+      else if(target==="real"){V._fromHub=true;V.view="tt-practice";TTP.track="real";TTP.phase="setup";}
+      else if(target==="outline"){V._obReturn={view:"hub"};V.view="speech-draft";}
+      else if(target==="eval"){V._fromHub=true;V.view="eval-helper";}
+      else if(target==="eval-practice"){V._fromHub=true;V.view="tt-practice";if(TTP.track!=='evalspeech')TTP.track='mentor';TTP.phase="setup";}
       render();
     });
   });
@@ -6070,7 +6180,7 @@ function renderHub(app){
       else if(action==="roles"){V.view="roles";}
       else if(action==="pathfinder"){V.view="pathfinder-intro";}
       else if(action==="timer"){V.view="timer-select";T.returnTo="practice";}
-      else if(action==="topics"){V.view="tt-practice";TTP.phase="setup";}
+      else if(action==="topics"){V.view="tt-practice";TTP.track='tt';TTP.phase="setup";}
       else if(action==="filler"){V.view="filler";FD.phase="idle";}
       else if(action==="wod"){V.view="wod";wodBuildQueue();}
       render();
@@ -7810,7 +7920,7 @@ function renderRoleDetail(app,roleId){
   const fb=app.querySelector('[data-action="open-filler"]');
   if(fb)fb.addEventListener("click",()=>{V.view="filler";FD.phase="idle";render();});
   const tob=app.querySelector('[data-action="open-topics"]');
-  if(tob)tob.addEventListener("click",()=>{V.view="tt-practice";TTP.phase="setup";render();});
+  if(tob)tob.addEventListener("click",()=>{V.view="tt-practice";TTP.track='tt';TTP.phase="setup";render();});
   const wb=app.querySelector('[data-action="open-wod"]');
   if(wb)wb.addEventListener("click",()=>{V.view="wod";wodBuildQueue();render();});
 
@@ -8590,6 +8700,7 @@ function updateTimerDisplay(){
 
 // ───── Render: Practice hub ─────
 function renderPracticeHub(app){
+  V._fromHub=false;
   // Last-done status: only Table Topics® logs sessions today, so only it gets a line.
   const _ttS=(S.sessions&&S.sessions['tt-practice'])||[];
   let _ttStatus='Not tried yet';
@@ -8642,7 +8753,7 @@ function renderPracticeHub(app){
   });
   app.querySelectorAll('[data-tool="topics"]').forEach(el=>{
     el.addEventListener("click",()=>{
-      V.view="tt-practice";
+      V.view="tt-practice";TTP.track='tt';
       TTP.phase="setup";
       render();
     });
@@ -8903,6 +9014,8 @@ function _ttMarkSeen(q){
 function _ttLangNeedsAI(){const l=(S.coachLang||'auto');return l!=='auto'&&l!=='en'&&!!(S.aiConfig&&S.aiConfig.enabled)&&navigator.onLine!==false;}
 async function ttpFetchQuestion(theme,useAI){
   if(!useAI&&_ttLangNeedsAI())useAI=true;
+  if(TTP.track==="mentor")return _mpFetchScenario();
+  if(TTP.track==="evalspeech"){const i=EVAL_SAMPLES.findIndex(s=>s.id===TTP.sample);return _mpOpenSample(EVAL_SAMPLES[(i+1)%EVAL_SAMPLES.length].id);}
   if(TTP.track==="real")return ttpFetchReal(useAI);
   if(useAI){
     TTP.questionLoading=true; render();
@@ -8939,6 +9052,64 @@ async function ttpFetchQuestion(theme,useAI){
 }
 
 // Real-world scenario prompt — AI when on (tailored to the member's role), bank otherwise
+// ═══ Mentor practice — mentee conversations + sample speeches to evaluate ═══
+const MENTOR_SCEN={"confidence": {"name": "Confidence", "sub": "After a tough moment", "secs": [60, 120], "prompts": ["After their Ice Breaker, your mentee messages you: “I completely froze halfway. Everyone saw. I don't think Toastmasters is for me.”", "Your mentee says: “Everyone else in the club is so polished. I'll never sound like them.”", "Your mentee won Best Table Topics last week, but tells you: “It was luck. I don't actually know what I'm doing.”", "Your mentee asks: “I get so nervous my hands shake. Can I just read my whole speech from the paper?”", "Your mentee says: “I'm the oldest member in the club. Everyone else is so young and confident.”", "Your mentee says: “English isn't my first language. I'm worried people can't understand me.”", "The night before their first contest, your mentee says: “What if I forget everything in front of the whole district?”"]}, "shortcuts": {"name": "Shortcuts", "sub": "Wants the easy way", "secs": [60, 120], "prompts": ["Your mentee asks: “Can you just write my speech for me? You're so much better at this.”", "Your mentee says: “Level 1 is too basic for me. Can I skip ahead to the harder projects?”", "Your mentee has given one speech and says: “I want to enter the International Speech Contest next month. Can you get me ready?”", "Your mentee asks: “Can I just use an AI-written script? Nobody will know.”", "Your mentee asks: “My last speech went really well. Can I give the same one again for my next project?”", "Your mentee says: “I just want to finish the levels fast. Can I do two speeches every meeting?”", "Your mentee says: “I memorised a TED talk and changed some of the words. It's basically my speech, right?”"]}, "feedback": {"name": "Feedback", "sub": "Hurt or stuck", "secs": [60, 120], "prompts": ["Your mentee says: “My evaluator was so harsh, and the whole club heard it. I'm still upset.”", "Your mentee says: “Everyone says I say ‘um’ too much, but I really don't hear it. I think they're exaggerating.”", "Your mentee says: “Three evaluators gave me the same comment. I'm starting to think I just can't fix it.”", "After meetings, your mentee keeps going up to their evaluator to explain what they ‘really meant’. You decide to talk to them about it.", "Your mentee says: “My evaluator only said nice things. I don't think they were really listening.”", "Your mentee says: “Two evaluators told me completely opposite things. Who am I supposed to believe?”", "Your mentee asks: “Can I skip the evaluation for my next speech? I just want to get through it.”"]}, "momentum": {"name": "Momentum", "sub": "Losing steam", "secs": [60, 120], "prompts": ["Your mentee says: “I've postponed my speech three times now. Work is crazy right now.”", "Your mentee hasn't come to a meeting in six weeks. They finally reply: “Sorry, been busy. I'll come back when things calm down.”", "Your mentee messages the night before the meeting: “I signed up for General Evaluator but I'm not prepared. Can you take it for me?”", "Your mentee says: “Honestly, I don't see the point of Pathways anymore. I just come for the people.”", "Your mentee says: “I finished Level 2 and I just… stopped. I don't feel like starting Level 3.”", "Your mentee says: “I keep signing up for roles and cancelling the day before. I feel terrible about it.”", "Your mentee says: “Online meetings are so boring. I'm thinking of just joining with my camera off.”"]}, "direction": {"name": "Direction", "sub": "Not sure what's next", "secs": [60, 120], "prompts": ["Your mentee says: “Pathways is so confusing. I honestly don't know what I'm supposed to do next.”", "Your mentee says: “I think I picked the wrong path. Is it too late to switch?”", "Your mentee asks: “I joined to speak better at work, not just at the club. Is any of this actually helping?”", "Your mentee asks: “The club wants me to be VP Education. Am I ready for that?”", "Your mentee asks: “Should I start a second path, or focus on finishing this one first?”", "Your mentee says: “Everyone keeps telling me to enter contests. I don't want to compete. Is that okay?”", "Your mentee says: “I've been a member for five years. What's even left for me here?”"]}, "club": {"name": "Club life", "sub": "Roles and people", "secs": [60, 120], "prompts": ["Your mentee says: “Table Topics terrifies me. Can I just ask the Topicsmaster never to call on me?”", "Your mentee says: “I was Timer last week and I completely messed it up. I'm embarrassed to go back.”", "Your mentee says: “It feels like the same five people always get the good roles.”", "Your mentee says: “A member made a joke about my accent during the break, and everyone laughed.”", "Your mentee asks: “Can I just give speeches and never take meeting roles?”", "Your mentee says: “One member's Table Topics answers always run way over, and nobody stops him. It's annoying everyone.”", "Your mentee says: “I want to run for club president, but I've only been a member for four months.”"]}};
+const EVAL_SAMPLES=[{"id": "s-ice", "pid": "ice-breaker", "speaker": "Maya", "title": "Three Cities", "text": "Good evening, everyone. Um, so, my name is Maya and I've lived in three cities. Kuala Lumpur, Melbourne, and now Shanghai.\n\nI was born in KL. My grandmother lived with us, and every Sunday she made dumplings. Not normal dumplings. She folded each one with exactly eighteen pleats, and if you made seventeen, she unfolded it and made you start again. [laughter] I was seven. I made a lot of seventeens.\n\nUm, then I went to Melbourne for university. I studied architecture. It was, um, very cold, which nobody tells you about Australia. I learned to drink flat whites and to apologise to people who bump into me. [laughter]\n\nAfter graduating I worked for a firm that, um, designed hospitals. I liked it because buildings can make people feel safe. Or not safe. A hospital corridor that's too long makes a frightened person more frightened. I think about that a lot.\n\nTwo years ago my company moved me to Shanghai. I didn't speak much Chinese. I still don't, really. [laughter] I joined Toastmasters because I present to clients, and, um, my manager said my slides were good but I wasn't.\n\nSo, um, yeah. I like hiking, I have a cat called Pleat — after my grandmother's dumplings — and, um, I hope to get better at speaking. I think that's my time. Thank you.", "key": {"strengths": "Vivid, specific details (eighteen pleats; the long hospital corridor that frightens people) and natural humour that earned real laughs.", "main": "The ending fizzles — 'So, um, yeah… I think that's my time.' There is no conclusion and no message. The Ice Breaker is about basic speech structure, and the dumpling/pleat thread is a ready-made frame she could open and close with.", "minor": "Fillers ('um', 'so') cluster at every transition — a sign she isn't sure what comes next, which a clearer structure would also fix."}}, {"id": "s-ice2", "pid": "ice-breaker", "speaker": "Kenji", "title": "A Software Engineer Walks In", "text": "Good evening. Before I start, I'm sorry — I'm not a good speaker, so please be patient with me. [laughter]\n\nMy name is Kenji. I'm thirty-four. I was born in Osaka and moved to Shanghai six years ago for work. I'm a software engineer at a logistics company. Basically, I make sure your packages know where they're going. Most of the time. [laughter]\n\nI have one sister. She is a nurse in Osaka, and much braver than me. My parents run a small noodle shop, which they have run for thirty years. They still open at six every morning.\n\nMy hobbies are running, photography and cooking. I run about twenty kilometres a week. I like to photograph old buildings, especially the ones that are about to be demolished. I think somebody should remember them. My cooking is not as good as my parents', but I am improving.\n\nWhy did I join Toastmasters? In my job I have to explain technical things to people who are not technical. Last year I presented to our directors and nobody understood it. One director fell asleep. [laughter] Not a short sleep. A real sleep. [laughter]\n\nSo I am here to learn. In the future I would like to lead a team, and a leader must be able to speak.\n\nThat's all about me. Thank you for listening.", "key": {"strengths": "Honest, specific details that are genuinely interesting — packages that 'know where they're going', photographing buildings before they're demolished so someone remembers them, the director who fell asleep.", "main": "It's a list — age, job, family, hobbies, reason for joining — with no thread running through it. The best material (photographing what's about to disappear, parents opening at six for thirty years) could have become one idea the whole speech is built around. The Ice Breaker is about structure: an opening, a body and a conclusion that belong together.", "minor": "The opening apology ('I'm not a good speaker') and the closing 'That's all about me' weaken both first and last impressions."}}, {"id": "s-purpose", "pid": "writing-purpose", "speaker": "Lina", "title": "Sleep", "text": "How many hours did you sleep last night? [pause] If your answer was 'not enough', you're in good company.\n\nTonight I want to talk about sleep. Sleep happens in cycles of about ninety minutes. Each cycle has light sleep, deep sleep and REM sleep, which is when we dream. Deep sleep repairs the body. REM sleep helps us process memories and emotions. Adults need seven to nine hours, which is about five cycles.\n\nThat's why I think companies should stop sending emails after 9 p.m. Some countries, like France, already have a 'right to disconnect' law. If your boss emails you at midnight, you check it, your brain wakes up, and there goes a cycle. Companies are stealing our sleep.\n\nThree years ago I worked at a startup where we slept four hours a night. I was proud of it. I thought tired meant committed. Then one morning I fell asleep at a red light. Nothing happened, thank God. But I sold my car the next month.\n\nSo here are some tips. Keep your bedroom cool. No screens an hour before bed. Go to bed at the same time every night, even on weekends. And if you can't sleep after twenty minutes, get up and read something boring. [laughter] My company's annual report works very well. [laughter]\n\nSleep well, everyone. Thank you.", "key": {"strengths": "A strong opening question; the red-light story is the most powerful moment in the speech; practical, memorable tips with a good laugh at the end.", "main": "Three purposes compete. It starts to inform (sleep cycles), switches to persuade (ban emails after 9 p.m.), then becomes a list of tips — and never says which one it's for. The red-light story, the strongest material, is wasted in the middle. This project is about choosing one clear purpose and organising everything around it.", "minor": "'Sleep well, everyone' closes politely but doesn't land a single message, because the speech never chose one."}}, {"id": "s-persuade", "pid": "persuade-speak", "speaker": "Priya", "title": "Phones Out of Meetings", "text": "Raise your hand if you checked your phone in your last meeting. [pause] Keep it up if you can tell me exactly what was said while you were looking at it. [laughter]\n\nHere's the problem. Researchers say it takes over twenty minutes to fully refocus after a distraction. Twenty minutes. So a one-hour meeting with three phone checks is basically a meeting you didn't attend.\n\nYou should put your phone away in every meeting. Face down isn't enough — out of sight. You should close your laptop unless you're presenting. You should stop telling yourself you can multitask, because you can't. Nobody can. You're not the exception.\n\nI tried this for one month. No phone in any meeting. Three things happened. My meetings got shorter, because I asked better questions. My team started doing it too, without me asking. And I stopped saying 'sorry, can you repeat that?' — which, it turns out, I said a lot. [laughter]\n\nSo here's my challenge. For the next week, every meeting you attend: phone in your bag. Not on the table. In the bag. Just one week. Then decide for yourself.\n\nYour attention is the most valuable thing you bring to a room. Don't give it away to a notification. Thank you.", "key": {"strengths": "The hands-up opening pulls the audience in; her one-month personal experiment is concrete proof; the call to action is specific and small (one week, phone in the bag).", "main": "She never addresses the obvious objection — people who are on call, parents, genuinely urgent messages. Everyone in the room who thought 'but I can't' stays unpersuaded. Persuasion needs the strongest counter-argument acknowledged and answered.", "minor": "Three 'you should's in a row turn the middle into a lecture, and the twenty-minute statistic has no source."}}, {"id": "s-research", "pid": "research-present", "speaker": "Wei", "title": "Why We Procrastinate", "text": "Procrastination is not a time-management problem. It's an emotion-management problem. That's the conclusion of Dr Tim Pychyl, who has studied procrastination for over twenty years.\n\nAround twenty percent of adults are chronic procrastinators. Students procrastinate on about a third of their daily activities. A 2007 analysis by Piers Steel reviewed more than six hundred studies. Procrastinators report higher stress and more illness. They also earn less, according to one study. And procrastination increases with phone use, according to another study. There's also temporal motivation theory, which says motivation equals expectancy times value, divided by impulsiveness times delay. [silence]\n\nHere's how I think about it. Imagine a task is a cold swimming pool. Procrastination isn't laziness — it's standing at the edge because you don't want to feel the cold. The water doesn't get warmer while you wait. You just get colder standing there.\n\nSo what helps? Research suggests three things. Make the first step tiny — just open the document. Forgive yourself for last time, because self-forgiveness reduces future procrastination. And, um, remove distractions.\n\nSo next time you're avoiding something, ask: what feeling am I avoiding? Then jump in the pool. Thank you.", "key": {"strengths": "Credible, named sources (Pychyl, Steel) and a strong opening claim; the cold-swimming-pool analogy is where the speech finally clicks.", "main": "The second paragraph is a data dump — six statistics and a formula in a row with no 'so what' for any of them, and the room goes silent. Researching and Presenting is about organising research for listeners: pick two findings and explain why each matters.", "minor": "The three closing tips are introduced with 'research suggests' but, unlike the opening, have no sources — the research is heaviest where it's needed least."}}, {"id": "s-story", "pid": "story", "speaker": "Ana", "title": "The Red Bicycle", "text": "When I was eight, my father bought me a red bicycle from a market in Manila. It wasn't new. The paint was chipped on the left pedal, the bell was rusty and sounded like a sick duck [laughter], and the seat had a crack held together with blue tape. I loved it more than anything I owned.\n\nOur street was narrow, with a bakery on one corner — you could smell pandesal at six in the morning — and Mrs Reyes's dog, Bruno, who chased anything with wheels. Every afternoon my father came home from the shipyard, still smelling of oil, and held the back of my seat while I wobbled down the street, Bruno barking behind us.\n\nOne day he let go and I rode to the end of the street by myself.\n\nSo the lesson of this story is that sometimes the people who love us have to let go so that we can grow. My father knew I was ready before I did. And I think that's true in life too — with our children, with our teams at work, with our friends. We have to trust them. We have to let go. Letting go is a form of love. Even if it's scary, even if they might fall, we have to let go.\n\nI still have the bell. Thank you.", "key": {"strengths": "Rich sensory detail (the sick-duck bell, blue tape, pandesal at six in the morning, oil from the shipyard) and the bell callback in the last line.", "main": "The heart of the story — the moment he lets go — is a single sentence with no tension and no feeling. Then the lesson is explained four different ways. Storytelling should slow down and live inside that moment (what did she see, hear, feel when she realised he wasn't holding on?) and trust the audience to feel the lesson.", "minor": "Bruno the dog is set up but never pays off — he could have been chasing her on the day she rode alone."}}, {"id": "s-inspire", "pid": "inspire", "speaker": "Tom", "title": "Start Before You're Ready", "text": "Friends, how many of you have a dream you've been putting off? [pause] I see you. [laughter]\n\nFive years ago I was an accountant who wanted to be a chef. Every night I watched cooking videos, and every morning I went back to my spreadsheets. I told myself I'd start when I was ready. When I had savings. When the timing was right.\n\nThen my friend Leo, who always wanted to start a band, passed away at thirty-four. He never played a single show.\n\nThat week I signed up for a night class. I burned my first soufflé. And my second. And my third. [laughter] But a year later, I was working weekends in a restaurant kitchen.\n\nAnd it's not just me! Think of Colonel Sanders, who started KFC in his sixties. Think of J.K. Rowling, rejected by twelve publishers. Never give up! Follow your dreams! The sky's the limit!\n\nLife is short. Leo taught me that. Your dream is waiting for you. So go out there and chase it! Thank you!", "key": {"strengths": "The Leo moment is genuine and is the emotional peak of the speech; the burnt soufflés are honest, self-deprecating humour.", "main": "It ends in clichés ('Never give up! Follow your dreams! The sky's the limit!') with no specific ask. Inspiring an audience means moving them to do something — one small, concrete action this week, like booking one class or telling one person their dream.", "minor": "Colonel Sanders and J.K. Rowling are borrowed examples that dilute his own, much stronger story — cut them and stay with Leo."}}, {"id": "s-desc", "pid": "desc-lang", "speaker": "Raj", "title": "Monsoon", "text": "I want to take you to my hometown in Kerala during the monsoon.\n\nIt is a very beautiful place. The scenery is amazing, with lots of green everywhere, and the rain is very heavy. It is really breathtaking. Everybody should see it once in their life.\n\nWhen the monsoon arrives, the sky changes. It becomes very dark and very dramatic. Then the rain comes. It is so loud. The roads become rivers and the children play in the water. It is very nice to watch.\n\nMy grandmother's house has a red tiled roof. When the rain hits those tiles, it sounds like a thousand fingers drumming on a table that can't make up its mind. [laughter] I used to fall asleep to that sound.\n\nThe food during monsoon is also amazing. My mother makes very delicious snacks, banana fritters, and we drink hot tea. It is the best feeling in the world.\n\nIn the evening, when the rain stops for a moment, the whole village smells of wet earth and woodsmoke, and the frogs start their orchestra — every one of them a soloist who never learned to listen. [laughter]\n\nI have lived in Shanghai for nine years now. Sometimes when it rains here, I close my eyes and I am back there. It's a really amazing feeling.\n\nSo if you ever get the chance, go to Kerala in the monsoon. You will not regret it. Thank you.", "key": {"strengths": "Three genuinely vivid images: rain on the tiles like 'a thousand fingers drumming on a table that can't make up its mind', wet earth and woodsmoke, and the frogs as soloists who never learned to listen.", "main": "Most of the speech uses words that paint nothing — 'very beautiful', 'amazing' (four times), 'breathtaking', 'very nice', 'delicious', 'the best feeling in the world'. This project is about descriptive language: every one of those could be replaced with a specific sensory detail like the tile line.", "minor": "The ending turns into a travel recommendation instead of staying with the most personal image — closing his eyes in the Shanghai rain is the real ending."}}, {"id": "s-humor", "pid": "engage-humor", "speaker": "Sofia", "title": "My Mother's Group Chat", "text": "My mother joined WhatsApp in 2019. Our family has not known peace since. [laughter]\n\nShe sends a good-morning message every day. Not a text. A picture. A sunrise, a teacup, and a kitten wearing sunglasses. [laughter] Every day a different kitten. I don't know where she finds them. I think she has a supplier. [laughter]\n\nThen there are the health warnings. Last week she sent: 'Do not drink cold water after eating, it turns food into stones.' It's funny because, obviously, cold water does not turn food into stones — that's not how the stomach works. [silence]\n\nWhen my brother didn't reply for two hours, she sent a voice message to the group asking if anyone had checked whether he was alive. He was in a meeting. He was alive. [laughter] Now he replies within ten minutes, every time. Even at weddings. [laughter]\n\nMy favourite is when she replies to a message from three days ago. We'll be planning dinner, and suddenly: 'Yes, I agree.' Agree with what? It's funny because she's answering something completely different. [silence]\n\nBut honestly, I love it. When I moved abroad, that group chat was how I knew she was okay, and how she knew I was okay. The kittens are her way of saying 'I'm thinking of you.'\n\nSo call your parents. Thank you.", "key": {"strengths": "Specific, observed details (the kitten 'supplier', the brother who now replies even at weddings) and a real turn at the end — the kittens are her way of saying 'I'm thinking of you'.", "main": "Twice she explains her own punchline ('It's funny because…') and both times the laugh dies. Engaging an audience with humour means trusting them to get it: deliver the line, stop, and let it land.", "minor": "'So call your parents' is tacked on. The kitten line is the real message — ending there would be stronger."}}, {"id": "s-proposal", "pid": "present-prop", "speaker": "David", "title": "Nobody Sits at the Back", "text": "Fellow Toastmasters, I have a proposal for our club.\n\nLast year, twenty-two new members joined. Today, nine of them are still here. More than half of our new members leave within a year. When I asked a few of them why, the answers were similar: 'I didn't know anyone.' 'I didn't know what to do next.' 'I felt lost.'\n\nI remember feeling the same. For my first three meetings I sat at the back, and nobody spoke to me until the break. If Grace hadn't asked me to be Timer, I don't think I would have come back.\n\nSo my proposal is that we do something like a buddy system. Something where new members have someone to help them. It could be mentors, or a buddy, or maybe a WhatsApp group for new members. We could also have some kind of welcome event. There are many possibilities and we can discuss them.\n\nThe benefits are clear. New members will feel welcome. They will give their Ice Breaker sooner. They will stay longer. And the club will be stronger, because the more members we keep, the more people we have for roles, and the better our meetings become.\n\nOther clubs in our district have done similar things, and it worked very well for them.\n\nI hope you will support this idea. Together we can make our club a place where nobody sits at the back alone. Thank you.", "key": {"strengths": "A concrete problem with numbers (22 joined, 9 stayed), real quotes from members who left, and a personal story (Grace asking him to be Timer) that makes it matter.", "main": "There is no actual proposal — 'something like a buddy system… or a WhatsApp group… or an event'. No who, what or when, no first step, and no decision asked of the club. Presenting a proposal means one specific plan and a clear ask (for example: 'approve a buddy for every new member from next month — I'll coordinate it').", "minor": "'Other clubs… it worked very well' is vague evidence with no names or numbers."}}, {"id": "s-change", "pid": "comm-change", "speaker": "Helen", "title": "Our New Meeting Format", "text": "Good evening, everyone. I want to update you on an important change.\n\nFrom next month, our club will move to a hybrid format. Every second meeting will be online only, and the other meetings will be in person with an online option.\n\nHere is why. Our venue has raised its rent by forty percent. Attendance on rainy nights has dropped to about twelve people. And three of our members now live outside the city. A hybrid modality allows us to reduce costs, increase accessibility and maintain synchronous engagement across locations.\n\nThe executive committee discussed this over three meetings and voted five to one in favour.\n\nPractically, this is what happens. Online meetings will use Tencent Meeting. The link will be posted in the group chat by Tuesday. Roles will work the same way. The Timer will use the chat to show cards. Table Topics will run as normal, with the speaker unmuting.\n\nWe will review the format in six months, based on attendance and member feedback.\n\nI know change can be difficult, but I believe this is the right decision for the future of the club. If you have any questions, please contact any member of the executive committee.\n\nThank you.", "key": {"strengths": "Clear reasons backed by numbers (rent up 40%, about twelve people on rainy nights, three members out of town), practical details (platform, link by Tuesday, how the Timer works) and a review point in six months.", "main": "It speaks to the decision, not to the people. Members who will lose something — those who love meeting in person, or aren't comfortable with technology — get one sentence ('I know change can be difficult') before she moves on. Communicating change means naming what people lose and offering support, such as a tech buddy or a practice online session.", "minor": "Jargon ('hybrid modality… synchronous engagement') in an otherwise plain speech, and 'contact any member of the committee' is vague — name one person."}}, {"id": "s-culture", "pid": "cross-cultural", "speaker": "Xiaoyu", "title": "Not Good at Maths", "text": "When I studied in Canada, the first question my classmates asked me was, 'Can you help me with my maths homework?' [laughter] I'm terrible at maths. I studied literature.\n\nThere are many stereotypes about Chinese people. We're all good at maths. We all play piano. We all eat dumplings every day. We all know kung fu. [laughter] For the record: no piano, some dumplings, and the only kung fu I know is from movies.\n\nSome stereotypes are funny. When my landlord found out I was from China, he asked if I could fix his laptop, because 'you guys are good with technology'. I couldn't. I called my cousin. [laughter]\n\nPeople also think Chinese people are shy and quiet. In my first year I didn't speak much in class, so my professors probably thought, 'Ah, typical.' But in my school in Chengdu we never discussed in class. The teacher talked and we listened. Speaking up felt rude.\n\nOn the other hand, Westerners always want to talk about themselves. In Canada everyone had an opinion about everything, even when they knew nothing about the topic. [laughter]\n\nIn the end I made many good friends. They learned I'm not good at maths, and I learned how to argue with a professor. [laughter]\n\nSo my message is: don't judge people by stereotypes. Everyone is different. Thank you.", "key": {"strengths": "Specific, funny examples (maths homework for a literature student, fixing the landlord's laptop) and one genuinely insightful moment — in Chengdu speaking up felt rude, so her silence looked like shyness.", "main": "It stays on the surface, a list of jokes, and never says how the stereotypes affected her — which is what this project asks for. The classroom silence is where to go deeper: what did it cost her, how did it feel to be read as 'typical'?", "minor": "'Westerners always want to talk about themselves' swaps in a new stereotype and undercuts her own message."}}];
+function _mpScen(){return TTP.track==='mentor'?(MENTOR_SCEN[TTP.scenario]||MENTOR_SCEN.confidence):null;}
+function _mpSample(){return TTP.track==='evalspeech'?(EVAL_SAMPLES.find(s=>s.id===TTP.sample)||EVAL_SAMPLES[0]):null;}
+// Green / amber / red seconds for the current practice
+function _ttTiming(){
+  if(TTP.track==='evalspeech')return [120,150,180];
+  const sc=TTP.track==='real'?TT_REAL[TTP.scenario]:_mpScen();
+  if(sc&&sc.secs)return [sc.secs[0],Math.round((sc.secs[0]+sc.secs[1])/2),sc.secs[1]];
+  return [60,90,120];
+}
+// Speech text with [delivery cues] styled
+function _mpSpeechHtml(t){return escHtml(t).split(/\n\n+/).map(par=>'<p>'+par.replace(/\[([^\]]+)\]/g,'<i class="mp-cue">[$1]</i>')+'</p>').join('');}
+async function _mpFetchScenario(){
+  const sc=_mpScen();const seen=new Set(_ttSeenList());
+  let fresh=sc.prompts.filter(q=>!seen.has(q));if(!fresh.length)fresh=sc.prompts.slice();
+  let q=fresh[Math.floor(Math.random()*fresh.length)];
+  _ttMarkSeen(q);TTP.questionSource="bank";
+  // In a chosen language, K restates the scenario natively
+  if(_ttLangNeedsAI()){
+    TTP.questionLoading=true;render();
+    try{const raw=await callCoach("Rewrite this mentoring scenario so a native speaker would naturally say it. Same situation, natural phrasing, not a literal translation. Reply with the scenario only.",q,{maxTokens:160,forceBase:true,featureId:'tt-question'});
+      const t=String(raw||'').trim();if(t.length>=6&&t.length<=400)q=t;}catch(e){}
+    TTP.questionLoading=false;
+  }
+  TTP.question=q;TTP._promptN=(TTP._promptN||0)+1;TTP.phase="question";render();
+}
+function _mpOpenSample(id){
+  TTP.sample=id;const s=_mpSample();TTP.question=s.title;TTP.questionSource="sample";TTP._promptN=1;TTP.phase="question";render();
+}
+function _ttpRenderMentorSetup(app){
+  const ev=TTP.track==='evalspeech';
+  const ARR='<svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
+  let h='<div class="fade-up ttp-view tts">';
+  h+='<button class="back" data-action="mp-back"><svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>Hub</button>';
+  h+='<div class="tts-hero"><div class="tts-ico">'+HUB_ICONS.eval+'</div><div><div class="tts-h1">Mentor practice</div><div class="tts-lede">Practise the conversations and evaluations mentors face. K coaches how you handled it.</div></div></div>';
+  h+='<div class="tts-track" role="tablist" aria-label="Practice type"><button type="button" data-mtrack="mentor" aria-pressed="'+(!ev)+'">Mentee conversations</button><button type="button" data-mtrack="evalspeech" aria-pressed="'+ev+'">Evaluate a speech</button></div>';
+  if(!ev){
+    h+='<section class="tts-card tts-real"><div class="tts-lbl">Situation</div><div class="tts-seg tts-seg-real" style="margin-top:0">';
+    Object.keys(MENTOR_SCEN).forEach(k=>{const sc=MENTOR_SCEN[k];h+='<button type="button" data-mscen="'+k+'" aria-pressed="'+(TTP.scenario===k)+'"><span>'+sc.name+'</span><small>'+sc.sub+'</small></button>';});
+    h+='</div><div class="tts-real-time"><svg viewBox="0 0 24 24"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2M10 2h4"/></svg>Respond as you would in person · 1–2 min</div>';
+    h+='<div class="tts-actions"><button class="tts-btn tts-primary" data-action="mp-get"'+(TTP.questionLoading?' disabled':'')+'>'+(TTP.questionLoading?'Setting the scene…':'Get a scenario'+ARR)+'</button></div></section>';
+    h+='<details class="tts-tips"><summary><span class="tts-tq">What does good mentoring sound like?</span></summary><div class="tts-body"><ul class="mp-tips"><li><b>Hear them first.</b> Name the feeling or the situation before you advise.</li><li><b>Ask before you tell.</b> One real question beats three answers.</li><li><b>Leave it with them.</b> Guide; don’t rescue or do it for them.</li><li><b>Be honest.</b> Kind is not the same as comfortable.</li><li><b>End on one small step</b> they can take this week.</li></ul></div></details>';
+  }else{
+    h+='<section class="tts-card"><div class="tts-lbl">Pick a speech</div><div class="mp-samples">';
+    EVAL_SAMPLES.forEach(s=>{const p=PD[s.pid];h+='<button type="button" class="mp-sample" data-msample="'+s.id+'"><div><b>'+escHtml(s.title)+'</b><small>'+escHtml(s.speaker)+' · '+escHtml(p?p.t:'')+'</small></div><svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></button>';});
+    h+='</div><div class="tts-real-time"><svg viewBox="0 0 24 24"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2M10 2h4"/></svg>Read it, then give your evaluation · 2–3 min</div></section>';
+    h+='<details class="tts-tips"><summary><span class="tts-tq">What makes a great evaluation?</span></summary><div class="tts-body"><ul class="mp-tips"><li><b>Open with a moment,</b> not a compliment.</li><li><b>Judge the project,</b> not just the performance.</li><li><b>One recommendation that matters most,</b> and how to fix it.</li><li><b>Talk to the speaker.</b> “I noticed”, not “you should”.</li><li><b>Send them off</b> wanting to speak again.</li></ul></div></details>';
+  }
+  h+='</div>';
+  app.innerHTML=h;
+  app.querySelector('[data-action="mp-back"]').addEventListener('click',()=>{TTP.track='tt';V._fromHub=false;V.view='hub';render();});
+  app.querySelectorAll('[data-mtrack]').forEach(b=>b.addEventListener('click',()=>{TTP.track=b.dataset.mtrack;render();}));
+  app.querySelectorAll('[data-mscen]').forEach(b=>b.addEventListener('click',()=>{TTP.scenario=b.dataset.mscen;app.querySelectorAll('[data-mscen]').forEach(x=>x.setAttribute('aria-pressed',String(x===b)));}));
+  const g=app.querySelector('[data-action="mp-get"]');if(g)g.addEventListener('click',()=>{TTP._promptN=0;_mpFetchScenario();});
+  app.querySelectorAll('[data-msample]').forEach(b=>b.addEventListener('click',()=>_mpOpenSample(b.dataset.msample)));
+}
 function _ttRealTime(sc){
   const [a,b]=sc.secs;
   if(a%60===0&&b%60===0)return (a/60)+'–'+(b/60)+' min';
@@ -9026,26 +9197,30 @@ function renderTTPractice(app){
 
 // ── SETUP ──────────────────────────────────────────────────────────────────
 function _ttpRenderSetup(app){
+  if(TTP.track==='mentor'||TTP.track==='evalspeech'){if(TTP.track==='mentor'&&!MENTOR_SCEN[TTP.scenario])TTP.scenario='confidence';return _ttpRenderMentorSetup(app);}
   const aiOn=S.aiConfig&&S.aiConfig.enabled;
   if(!TTP.style)TTP.style='story';
-  const ttS=(S.sessions&&S.sessions['tt-practice'])||[];
+  const real=TTP.track==="real";
+  const _hk=real?'real-practice':'tt-practice',_hideKey=real?'realLastHiddenAt':'ttLastHiddenAt';
+  const ttS=(S.sessions&&S.sessions[_hk])||[];
   const last=ttS.find(s=>s.topic);          // newest session that stored a topic
   const isNew=ttS.length===0;
   const newish=ttS.length<3;                 // newcomer extras
   const ARR='<svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
 
   let h='<div class="fade-up ttp-view tts">';
-  h+='<button class="back" data-action="ttp-back"><svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>Practice</button>';
+  h+='<button class="back" data-action="ttp-back"><svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>'+(V._fromHub?'Hub':'Practice')+'</button>';
 
-  h+='<div class="tts-hero"><div class="tts-ico"><svg viewBox="0 0 24 24"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20.5l1.4-4.6A8 8 0 1 1 21 12z"/><path d="M9 10.5a3 3 0 1 1 3.9 2.9c-.6.2-.9.7-.9 1.3v.3"/><path d="M12 17.6v.1"/></svg></div>';
-  h+='<div><div class="tts-h1">Table Topics<sup>®</sup></div><div class="tts-lede">Get a topic. Think on your feet. Get coached.</div></div></div>';
+  h+='<div class="tts-hero"><div class="tts-ico">'+(real?HUB_ICONS.real:'<svg viewBox="0 0 24 24"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20.5l1.4-4.6A8 8 0 1 1 21 12z"/><path d="M9 10.5a3 3 0 1 1 3.9 2.9c-.6.2-.9.7-.9 1.3v.3"/><path d="M12 17.6v.1"/></svg>')+'</div>';
+  h+='<div><div class="tts-h1">'+(real?'Real-world practice':'Table Topics<sup>®</sup>')+'</div><div class="tts-lede">'+(real?'Interviews, pitches, introductions and tough questions. Practise before it counts.':'Get a topic. Think on your feet. Get coached.')+'</div></div></div>';
 
-  if(isNew){
+  if(isNew&&!real){
     h+='<div class="tts-hello"><img src="'+COACH_AVATAR+'" alt="K"><div><b>Your first topic. We\'ll start easy.</b><p>30 seconds is a real answer. Nobody hears it but you, and K only points out what went well and one thing to try.</p></div></div>';
-  }else if(last&&!(S.ttLastHiddenAt&&last.iso&&new Date(last.iso)<=new Date(S.ttLastHiddenAt))){
+  }else if(last&&!(S[_hideKey]&&last.iso&&new Date(last.iso)<=new Date(S[_hideKey]))){
     const d=_relDays(last.iso);
     const when=d==null?'':(d===0?'TODAY':d===1?'YESTERDAY':d+' DAYS AGO');
-    const timing=last.elapsed<60?'Short':last.elapsed>120?'Over':'In time';
+    const _lt=real&&TT_REAL[last.scenario]?TT_REAL[last.scenario].secs:[60,120];
+    const timing=last.elapsed<_lt[0]?'Short':last.elapsed>_lt[1]?'Over':'In time';
     h+='<div class="tts-last">';
     h+='<div class="tts-last-top"><div class="tts-last-lbl">Last attempt'+(when?' · '+when:'')+'</div><button class="tts-last-x" data-action="ttp-last-x" aria-label="Hide or delete this attempt"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>';
     h+='<div class="tts-last-q">“'+escHtml(last.topic)+'”</div>';
@@ -9057,8 +9232,6 @@ function _ttpRenderSetup(app){
     h+='</div>';
   }
 
-  const real=TTP.track==="real";
-  h+='<div class="tts-track" role="tablist" aria-label="Practice type"><button type="button" data-track="tt" aria-pressed="'+(!real)+'">Table Topics<sup>®</sup></button><button type="button" data-track="real" aria-pressed="'+real+'">Real world</button></div>';
   h+='<section class="tts-card'+(real?' tts-real':'')+'">';
   if(real){
     h+='<div class="tts-lbl">Scenario</div>';
@@ -9087,15 +9260,18 @@ function _ttpRenderSetup(app){
   h+='<button class="tts-btn tts-ghost" data-action="ttp-random" aria-label="Random topic"'+(busy?' disabled':'')+'><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="4"/><circle cx="8.5" cy="8.5" r="1" fill="currentColor"/><circle cx="15.5" cy="15.5" r="1" fill="currentColor"/><circle cx="15.5" cy="8.5" r="1" fill="currentColor"/><circle cx="8.5" cy="15.5" r="1" fill="currentColor"/><circle cx="12" cy="12" r="1" fill="currentColor"/></svg>Random</button>';
   h+='<button class="tts-btn tts-primary" data-action="'+(aiOn?'ttp-generate':'ttp-random')+'"'+(busy?' disabled':'')+'>'+(busy?(real?'Setting the scene…':'Finding a topic…'):(real?'Get a scenario':'Get a topic')+ARR)+'</button>';
   h+='</div>';
-  if(newish)h+='<div class="tts-reassure"><svg viewBox="0 0 24 24"><rect x="4" y="10" width="16" height="11" rx="2.5"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>Practice stays on this phone. You can re-record as often as you like.</div>';
+  if(newish&&!real)h+='<div class="tts-reassure"><svg viewBox="0 0 24 24"><rect x="4" y="10" width="16" height="11" rx="2.5"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>Practice stays on this phone. You can re-record as often as you like.</div>';
   h+='</section>';
 
   if(!aiOn)h+='<div class="ttp-ai-off-note">Add your AI key in ✨ AI Settings for AI-generated topics and coaching. Offline topics still available.</div>';
 
-  if(newish){
+  if(newish&&!real){
     h+='<div class="tts-steps"><div class="tts-step"><b>1</b><span>Read it</span><small>A few seconds to think</small></div><div class="tts-step"><b>2</b><span>Speak</span><small>Aim for 1–2 minutes</small></div><div class="tts-step"><b>3</b><span>Get notes</span><small>K reviews your answer</small></div></div>';
   }
 
+  if(real){
+    h+='<details class="tts-tips"><summary><span class="tts-tq">What makes a strong answer?</span></summary><div class="tts-body"><ul class="mp-tips"><li><b>Answer in your first sentence,</b> then support it.</li><li><b>One real example</b> beats three claims.</li><li><b>Bridge, don’t dodge.</b> Acknowledge the question, satisfy its core, then steer to your ground.</li><li><b>Mind your attitude.</b> Calm and curious lands better than clever.</li><li><b>Land on a next step</b> or a line they’ll remember.</li></ul></div></details>';
+  }else{
   // ── Tips: container restyled; the app's existing guide content is kept verbatim ──
   h+='<details class="tts-tips" id="ttp-answer-guide"'+(V._ttpAnswerGuideOpen?' open':'')+'>';
   h+='<summary><span class="tts-ti"><svg viewBox="0 0 24 24"><path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 0 0-3.5 10.9c.6.4.9 1 .9 1.7V16h5.2v-.4c0-.7.3-1.3.9-1.7A6 6 0 0 0 12 3z"/></svg></span><span class="tts-tq">What makes a great answer?</span><svg class="tts-chev" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></summary>';
@@ -9161,11 +9337,12 @@ function _ttpRenderSetup(app){
 
   h+='</div>'; // /tts-body
   h+='</details>';
+  }
 
   h+='</div>';
   app.innerHTML=h;
 
-  app.querySelector('[data-action="ttp-back"]').addEventListener("click",()=>{V.view="practice";render();});
+  app.querySelector('[data-action="ttp-back"]').addEventListener("click",()=>{V.view=V._fromHub?"hub":"practice";V._fromHub=false;render();});
   const guide=document.getElementById("ttp-answer-guide");
   if(guide)guide.addEventListener("toggle",()=>{V._ttpAnswerGuideOpen=guide.open;});
 
@@ -9216,11 +9393,11 @@ function _ttpRenderSetup(app){
     const toggle=on=>{main.hidden=on;ask.hidden=!on;};
     lastCard.querySelector('[data-action="ttp-last-x"]').addEventListener('click',()=>toggle(ask.hidden));
     lastCard.querySelector('[data-action="ttp-last-cancel"]').addEventListener('click',()=>toggle(false));
-    lastCard.querySelector('[data-action="ttp-last-hide"]').addEventListener('click',()=>{S.ttLastHiddenAt=last.iso||new Date().toISOString();save();render();});
+    lastCard.querySelector('[data-action="ttp-last-hide"]').addEventListener('click',()=>{S[_hideKey]=last.iso||new Date().toISOString();save();render();});
     lastCard.querySelector('[data-action="ttp-last-del"]').addEventListener('click',()=>{
-      const arr=S.sessions&&S.sessions['tt-practice'];
+      const arr=S.sessions&&S.sessions[_hk];
       if(arr){const i=arr.indexOf(last);if(i>=0)arr.splice(i,1);}
-      S.ttLastHiddenAt=last.iso||new Date().toISOString();save();render();
+      S[_hideKey]=last.iso||new Date().toISOString();save();render();
     });
   }
   // Last attempt: retry / notes
@@ -9247,26 +9424,34 @@ function _ttpRenderQuestion(app){
 
   // ── QUESTION PANEL (shown initially) — Ship 6 layout ──
   const _real=TTP.track==="real"&&TT_REAL[TTP.scenario];
-  const themeLabel=_real?escHtml(_real.name):(TTP.theme?('Theme · '+escHtml(TTP.theme)):'Theme · Open');
-  const srcLabel=TTP.questionSource==="repeat"?"Second try":TTP.questionSource==="ai"?"AI":"Bank";
+  const _mt=_mpScen(),_es=_mpSample(),_tm=_ttTiming();
+  const themeLabel=_es?escHtml((PD[_es.pid]||{}).t||'Evaluation'):_mt?escHtml(_mt.name):_real?escHtml(_real.name):(TTP.theme?('Theme · '+escHtml(TTP.theme)):'Theme · Open');
+  const srcLabel=TTP.questionSource==="daily"?"Today’s topic":TTP.questionSource==="repeat"?"Second try":TTP.questionSource==="ai"?"AI":"Bank";
   h+='<div class="ttp-q-panel">';
-  h+='<div class="scr-head" style="margin-bottom:10px"><button class="circ-back" data-action="ttp-restart" aria-label="Back"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button><h1 class="scr-title">Table Topics<sup style="font-size:0.5em;vertical-align:super">®</sup></h1></div>';
-  h+='<div class="ttq-ctx"><span class="ttq-chip">'+themeLabel+'</span><span class="ttq-n">'+(TTP.questionSource==="repeat"?srcLabel:'Prompt '+(TTP._promptN||1)+' · '+srcLabel)+'</span></div>';
-  h+='<div class="ttq-card'+(_real?' ttq-real':'')+'"><div class="ttq-k">'+(_real?'Your scenario':'Your topic')+'</div><div class="ttq-t">'+escHtml(TTP.question)+'</div><div class="ttq-hint">Aim for '+(_real?_ttRealTime(_real):'1–2 minutes')+'.</div></div>';
-  h+='<button class="ttq-start" data-action="ttp-start">Start speaking →</button>';
-  h+='<button class="ttq-new" data-action="ttp-new"'+(TTP.questionLoading?' disabled':'')+'>'+(TTP.questionLoading?'Finding a topic…':(_real?'New scenario':'New topic'))+'</button>';
+  h+='<div class="scr-head" style="margin-bottom:10px"><button class="circ-back" data-action="ttp-restart" aria-label="Back"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button><h1 class="scr-title">'+((_mt||_es)?'Mentor practice':_real?'Real-world practice':'Table Topics<sup style="font-size:0.5em;vertical-align:super">®</sup>')+'</h1></div>';
+  h+='<div class="ttq-ctx"><span class="ttq-chip">'+themeLabel+'</span><span class="ttq-n">'+((_mt||_es)?'Mentor practice':TTP.questionSource==="repeat"?srcLabel:'Prompt '+(TTP._promptN||1)+' · '+srcLabel)+'</span></div>';
+  if(_es){
+    h+='<div class="ttq-card ttq-real mp-speech-card"><div class="ttq-k">'+escHtml(_es.speaker)+' · “'+escHtml(_es.title)+'”</div><div class="mp-speech">'+_mpSpeechHtml(_es.text)+'</div><div class="ttq-hint">Read it as if you heard it — [brackets] show how the room reacted. Then give your evaluation · aim for 2–3 min.</div></div>';
+  }else if(_mt){
+    h+='<div class="ttq-card ttq-real"><div class="ttq-k">Your mentee</div><div class="ttq-t mp-scen">'+escHtml(TTP.question)+'</div><div class="ttq-hint">Respond as you would in person · aim for 1–2 min.</div></div>';
+  }else{
+  h+='<div class="ttq-card'+(_real?' ttq-real':'')+'"><div class="ttq-k">'+(_real?'Your scenario':'Your topic')+'</div><div class="ttq-t">'+escHtml(TTP.question)+'</div><div class="ttq-hint">Aim for '+(_real?_ttRealTime(_real):'1–2 minutes')+'.</div>'+(TTP.questionSource==='daily'&&TTP.technique?'<div class="ttq-try"><b>Try today</b>'+escHtml(TTP.technique.short)+'</div>':'')+'</div>';
+  }
+  h+='<button class="ttq-start" data-action="ttp-start">'+(_es?'Start my evaluation →':_mt?'Start responding →':'Start speaking →')+'</button>';
+  h+='<button class="ttq-new" data-action="ttp-new"'+(TTP.questionLoading?' disabled':'')+'>'+(TTP.questionLoading?'Finding a topic…':(_es?'Another speech':(_real||_mt)?'New scenario':'New topic'))+'</button>';
   h+='</div>'; // /ttp-q-panel
 
   // ── ACTIVE PANEL (hidden until ttpStart swaps state) ──
   h+='<div class="ttp-a-panel">';
-  h+='<div class="ttp-active-question">'+escHtml(TTP.question)+'</div>';
+  h+='<div class="ttp-active-question">'+escHtml(_es?'Evaluating '+_es.speaker+' · “'+_es.title+'”':TTP.question)+'</div>';
   h+='<div class="ttp-active-card" id="ttp-active-card">';
   h+='<div class="ps-active-state">● RECORDING</div>';
   h+='<div class="ps-active-display" id="ttp-active-display">0:00</div>';
   h+='<div class="ttp-active-markers">';
-  h+='<span class="ps-marker green">🟢 1:00</span>';
-  h+='<span class="ps-marker" style="color:#E8B250">🟡 1:30</span>';
-  h+='<span class="ps-marker red">🔴 2:00</span>';
+  const _f=s=>Math.floor(s/60)+':'+String(s%60).padStart(2,'0');
+  h+='<span class="ps-marker green">🟢 '+_f(_tm[0])+'</span>';
+  h+='<span class="ps-marker" style="color:#E8B250">🟡 '+_f(_tm[1])+'</span>';
+  h+='<span class="ps-marker red">🔴 '+_f(_tm[2])+'</span>';
   h+='</div>';
   h+='</div>';
   h+='<div class="ps-active-stats"><div class="ps-stat-chip"><span class="ps-stat-n" id="ttp-active-words">0</span><span class="ps-stat-lbl">Words</span></div></div>';
@@ -9371,9 +9556,10 @@ function _ttpUpdateActive(){
   // Phase colour
   const card=document.getElementById("ttp-active-card");
   if(card){
-    card.classList.toggle("phase-green",TTP.elapsed>=60&&TTP.elapsed<90);
-    card.classList.toggle("phase-amber",TTP.elapsed>=90&&TTP.elapsed<120);
-    card.classList.toggle("phase-red",TTP.elapsed>=120);
+    const _tm=_ttTiming();
+    card.classList.toggle("phase-green",TTP.elapsed>=_tm[0]&&TTP.elapsed<_tm[1]);
+    card.classList.toggle("phase-amber",TTP.elapsed>=_tm[1]&&TTP.elapsed<_tm[2]);
+    card.classList.toggle("phase-red",TTP.elapsed>=_tm[2]);
   }
 
   // Bell chimes
@@ -9450,16 +9636,18 @@ async function ttpTranscribeAndAnalyze(){
 function _ttpRenderDone(app){
   const aiOn=S.aiConfig&&S.aiConfig.enabled;
   const wpm=TTP.elapsed>0?Math.round(TTP.totalWords/(TTP.elapsed/60)):0;
-  let durClass=TTP.elapsed<60?"red":TTP.elapsed<=120?"green":"amber";
-  let durNote=TTP.elapsed<60?"Under time":"On time ✓";if(TTP.elapsed>120)durNote="Over time";
+  const _tmD=_ttTiming();
+  let durClass=TTP.elapsed<_tmD[0]?"red":TTP.elapsed<=_tmD[2]?"green":"amber";
+  let durNote=TTP.elapsed<_tmD[0]?"Under time":"On time ✓";if(TTP.elapsed>_tmD[2])durNote="Over time";
 
   let h='<div class="fade-up ttp-view">';
   h+='<div class="top-bar">';
   h+='<button class="top-bar-btn" data-action="ttp-again">Try again</button>';
-  h+='<button class="top-bar-btn" data-action="ttp-new">New question</button>';
+  const _dEs=_mpSample(),_dMt=_mpScen();
+  h+='<button class="top-bar-btn" data-action="ttp-new">'+(_dEs?'Another speech':_dMt?'New scenario':'New question')+'</button>';
   h+='</div>';
 
-  h+='<div class="ttp-done-question">'+escHtml(TTP.question)+'</div>';
+  h+='<div class="ttp-done-question">'+escHtml(_dEs?'Your evaluation of '+_dEs.speaker+' · “'+_dEs.title+'”':TTP.question)+'</div>';
 
   h+='<div class="ps-results-grid">';
   h+='<div class="ps-result-card"><div class="ps-result-n '+durClass+'">'+fmtMs(TTP.elapsed*1000)+'</div><div class="ps-result-lbl">Duration</div><div class="ps-result-sub '+durClass+'">'+durNote+'</div></div>';
@@ -9556,15 +9744,41 @@ Reply in EXACTLY these four sections — use these exact labels, no others:
 💡 ONE THING: The single change that would make the biggest difference in the real situation. Give a better line they could actually say.
 
 Under 180 words. Firm and warm.`:sys;
-  const msg=(_rw?'Scenario: '+_rw.name+'\nPrompt: "'+TTP.question+'"'+(TTP.context?'\nSpeaker\'s role or situation: '+TTP.context:''):'Question: "'+TTP.question+'"')+'\n\nTranscript:\n'+(TTP.transcript||"(no audio captured)")+
+  const _mt=_mpScen(),_es=_mpSample();
+  const MP_SECTIONS=`Reply in EXACTLY these four sections — use these exact labels, no others:
+
+✅ WHAT WORKED: One specific thing they did well. Quote their words.
+🎯 THE THREAD: The verdict on the job itself (see the standard above). Plain and honest.
+🏗 STRUCTURE: One observation about the shape of what they said and the timing.
+💡 ONE THING: The single change that would make the biggest difference. Give a better line they could say, framed as an example.
+
+If the transcript is very short — under 15 words, mostly silence, or clearly incomplete — reply with exactly: "No worries, let's give it another go." Nothing else.
+Under 200 words. Firm and warm.`;
+  const MP_MENTOR=`You are K, a coach for Toastmasters mentors. The speaker is a mentor responding out loud to their mentee. Judge the mentoring, not the speaking polish.
+
+A strong response: acknowledges the feeling or situation before advising; asks at least one real question instead of assuming; keeps ownership with the mentee — guides, doesn't rescue or do it for them; stays honest and holds standards (e.g. won't write their speech, and explains why) without lecturing; ends with one small, concrete next step for this week; leaves the mentee encouraged. Flag: lecturing, fixing everything at once, dismissing feelings ("don't worry about it"), taking over, comparing them with others, false reassurance. One to two minutes is right — a mentor who talks for three has stopped listening.
+In THE THREAD, say whether the mentee would feel heard AND leave with direction.
+
+`+MP_SECTIONS;
+  const MP_EVAL=`You are K, a Toastmasters evaluation coach. The speaker read a sample speech (below; bracketed notes show how the audience reacted) and recorded their spoken evaluation of it. Judge the evaluation. The speech was given as text, so do not expect comments on voice or body language — judge content, structure, language and how well they evaluated against the project.
+
+Use the ANSWER KEY to judge what they noticed, but never paste it back as a list. A strong evaluation: opens with a specific moment from the speech, not a generic compliment; ties points to the project objective; names real strengths specifically; makes the most important recommendation — ideally the key's main issue — with a how-to; keeps to two or three points; speaks to the speaker ("I noticed…", not "you should…"); ends so the speaker wants to come back; lands in 2–3 minutes.
+In THE THREAD, say plainly whether they caught the main issue. If they missed it, name it in one sentence and why it mattered most for this project. Credit a different point if it is genuinely as important.
+
+`+MP_SECTIONS;
+  const _tech=!_rw&&TTP.questionSource==='daily'&&TTP.technique?TTP.technique:null;
+  const msg=(_rw?'Scenario: '+_rw.name+'\nPrompt: "'+TTP.question+'"'+(TTP.context?'\nSpeaker\'s role or situation: '+TTP.context:''):'Question: "'+TTP.question+'"'+(_tech?'\nTechnique the speaker was trying today: '+_tech.k+'. In STRUCTURE, say plainly whether they used it and how well.':''))+'\n\nTranscript:\n'+(TTP.transcript||"(no audio captured)")+
     '\n\nDuration: '+fmtMs(TTP.elapsed*1000)+' ('+TTP.totalWords+' words)';
 
   try{
-    const text=await callCoach(sysUsed,msg,{maxTokens:400,featureId:'tt-eval'});
+    let sysF=sysUsed,msgF=msg;
+    if(_mt){sysF=MP_MENTOR;msgF='Situation: '+_mt.name+'\nThe mentee: '+TTP.question+'\n\nThe mentor\'s spoken response (transcript):\n'+(TTP.transcript||'(no audio captured)')+'\n\nDuration: '+fmtMs(TTP.elapsed*1000)+' ('+TTP.totalWords+' words)';}
+    if(_es){const pj=PD[_es.pid]||{};sysF=MP_EVAL;msgF='Project: '+(pj.t||'')+' — '+(pj.p||'')+'\nSpeaker: '+_es.speaker+', “'+_es.title+'”\n\nSAMPLE SPEECH:\n'+_es.text+'\n\nANSWER KEY (for you only):\nStrengths: '+_es.key.strengths+'\nMain issue: '+_es.key.main+'\nSmaller issue: '+_es.key.minor+'\n\nTHE EVALUATOR\'S SPOKEN EVALUATION (transcript):\n'+(TTP.transcript||'(no audio captured)')+'\n\nDuration: '+fmtMs(TTP.elapsed*1000)+' ('+TTP.totalWords+' words)';}
+    const text=await callCoach(sysF,msgF,{maxTokens:_es?520:400,featureId:'tt-eval'});
     TTP.aiResult=text;
   }catch(e){TTP.aiResult=renderAIError(e,"ttp-retry-eval");}
   // Save session + check achievements outside try — fires regardless of AI outcome
-  const ttKey='tt-practice';
+  const ttKey=(_mt||_es)?'mentor-practice':_rw?'real-practice':'tt-practice';
   const ttWpm=TTP.elapsed>0?Math.round(TTP.totalWords/(TTP.elapsed/60)):0;
   const ttSummaryMatch=(TTP.aiResult||'').replace(/<[^>]+>/g,'').match(/[^.!?]+[.!?]/);
   const ttSummary=ttSummaryMatch?ttSummaryMatch[0].trim().slice(0,80):'';
@@ -12001,7 +12215,7 @@ function renderPathfinderProgram(app){
     a.addEventListener("click",()=>{
       const tool=a.dataset.pfTool;
       V._practiceReturnTo="pathfinder";
-      if(tool==="topics"){V.view="tt-practice";TTP.phase="setup";}
+      if(tool==="topics"){V.view="tt-practice";TTP.track='tt';TTP.phase="setup";}
       else if(tool==="filler"){V.view="filler";FD&&(FD.phase="idle");}
       else if(tool==="timer"){V.view="timer";}
       render();
@@ -12091,13 +12305,14 @@ const COACH_LANG_NOTES={
 function _coachLangLine(){
   const l=_coachLang();
   const keep=" Keep every section label, tag, keyword and format the instructions specify (emoji, English label words, NONE, JSON keys) exactly as given — only the content is in that language. Quote the speaker's own words in the language they used.";
+  const len=" Word limits in these instructions are for English; in Chinese or Japanese allow about 1.6 characters per word. Always finish your last sentence.";
   const native=" Write as a native-speaking coach would actually say it out loud — natural spoken phrasing, that language's own idioms and examples. Never translate English idioms, metaphors or sample lines word for word; find the native equivalent or say it plainly. The coaching method stays the same in every language, but judge fillers, pace and rhetoric by what good speaking sounds like in the speaker's language, not by English norms.";
   if(l.id==="auto"){
-    return "\n\nLANGUAGE: Reply in the language the speaker used in their transcript, script or notes (if mixed, the main one). If there is no speaker text to go by, reply in English."+keep+native+
+    return "\n\nLANGUAGE: Reply in the language the speaker used in their transcript, script or notes (if mixed, the main one). If there is no speaker text to go by, reply in English."+keep+native+len+
       "\nIf the speaker used Chinese: "+COACH_LANG_NOTES.zh;
   }
   const note=COACH_LANG_NOTES[l.id]||"";
-  return "\n\nLANGUAGE: Write all of your reply in "+l.name+", whatever language the speaker used."+keep+(l.id==="en"?"":native)+(note?"\n"+note:"");
+  return "\n\nLANGUAGE: Write all of your reply in "+l.name+", whatever language the speaker used."+keep+(l.id==="en"?"":native+len)+(note?"\n"+note:"");
 }
 // Word count that works for Chinese/Japanese: each ideograph or kana ≈ 0.6 of an English word
 const _CJK_RE=/[぀-ヿ㐀-䶿一-鿿豈-﫿]/g;
@@ -12121,7 +12336,9 @@ async function callCoach(systemPrompt,userMessage,opts){
   // in which case respect the configured model choice.
   // Direct (own API key) mode: use whatever the user picked.
   let model="claude-sonnet-4-6";
-  const maxTokens=opts.maxTokens||1024;
+  // Chinese/Japanese/Korean take roughly twice the tokens per idea — give the reply room so it never stops mid-sentence
+  const _cjkOut=/^(zh|zh-TW|yue|ja|ko)$/.test(S.coachLang||'')||(S.coachLang||'auto')==='auto'&&/[\u3040-\u30ff\u3400-\u9fff\uac00-\ud7af]/.test(String(userMessage||''));
+  const maxTokens=Math.round((opts.maxTokens||1024)*(_cjkOut?2.2:1));
 
   if(cfg.mode==="direct"){
     model=opts.model||(cfg.model||"claude-sonnet-4-6");
@@ -12260,7 +12477,6 @@ function renderSettings(app){
   h+='<section class="ab-card">';
   h+='<div class="ab-head"><img class="ab-av" src="'+COACH_AVATAR+'" alt="Kian How"><div><b>Kian How</b><small>Creative systems designer · DTM</small></div></div>';
   h+='<p>I turn real-world friction into tools. TMCompanion is my DTM project, built for the part of speaking nobody sees: rehearsing alone. K is the coach I wanted in those moments.</p>';
-  h+='<p class="ab-line">I never put myself inside one box.</p>';
   h+='<div class="ab-contact">';
   h+='<a class="ab-link" href="mailto:kian@kianhow.com"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg><span>kian@kianhow.com</span></a>';
   h+='<a class="ab-link" href="https://kianhow.com" target="_blank" rel="noopener"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg><span>kianhow.com</span></a>';
@@ -12580,9 +12796,9 @@ function renderEvalHelper(app){
   app.innerHTML=h;
 
   const back=app.querySelector('[data-action="eh-back"]');
-  if(back)back.addEventListener("click",()=>{V._evalPid="";V._evalQuery="";V.view=V.viewingRole?"role":"practice";render();});
+  if(back)back.addEventListener("click",()=>{V._evalPid="";V._evalQuery="";if(V._evalReturnCoach){V._evalReturnCoach=false;V.view="ai-coach";render();return;}V.view=V.viewingRole?"role":(V._fromHub?"hub":"practice");V._fromHub=false;render();});
   const change=app.querySelector('[data-action="eh-change"]');
-  if(change)change.addEventListener("click",()=>{V._evalPid="";render();});
+  if(change)change.addEventListener("click",()=>{if(V._evalReturnCoach){V._evalReturnCoach=false;V._evalPid="";V.view="ai-coach";render();return;}V._evalPid="";render();});
   app.querySelectorAll("[data-ev-level]").forEach(b=>b.addEventListener("click",()=>{V._evalLevel=+b.dataset.evLevel;render();}));
   app.querySelectorAll("[data-ev-tab]").forEach(b=>b.addEventListener("click",()=>{V._evalTab=b.dataset.evTab;render();}));
   wireRows(app);
@@ -17085,6 +17301,10 @@ function renderPracticeStudio(app){
     const np=PS.notesText?_psPoints(PS.notesText):0;
     h+='<button class="psr-outline psr-notes'+(np?' set':'')+'" data-action="ps-notes"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 6h13M8 12h13M8 18h9"/><circle cx="3.5" cy="6" r="1"/><circle cx="3.5" cy="12" r="1"/><circle cx="3.5" cy="18" r="1"/></svg>'+(np?'<span class="t"><b>Your notes</b> · '+np+(np===1?' point':' points')+'</span><span class="e">Edit</span>':'<span class="t">Speaking from notes?</span><span class="e">Add them</span>')+'</button>';
   }
+  // Evaluator mode: the Evaluation Helper guide for this project is one tap away
+  if(PS.mode==="evaluator"){
+    h+='<button class="psr-outline psr-notes'+(PS.pid?' set':'')+'" data-action="ps-eval-guide"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4V3h6v1"/><path d="M8.5 12.5l2.2 2.2 4.8-4.8"/></svg><span class="t">'+(PS.pid?'What to judge in this project':'What to judge · how to say it')+'</span><span class="e">Guide</span></button>';
+  }
   // Freestyle with no brief — an optional goal so K knows what to judge against
   if(!PS.pid&&PS.mode!=="evaluator"&&!PS.outline&&!PS.brief){
     h+='<div class="psr-goals"><span class="psr-goals-l">Goal</span>';
@@ -17280,6 +17500,8 @@ function renderPracticeStudio(app){
     V._psStage=(s===_psDetectStage(V._psScript||''))?null:s;
     psPasteMeta();
   }));
+  const evGuide=app.querySelector('[data-action="ps-eval-guide"]');
+  if(evGuide)evGuide.addEventListener('click',()=>{V._evalPid=PS.pid||"";V._evalTab='judge';V._evalReturnCoach=true;V.view="eval-helper";render();});
   const psNotesBtn=app.querySelector('[data-action="ps-notes"]');
   if(psNotesBtn)psNotesBtn.addEventListener('click',_psOpenNotes);
 
@@ -18331,6 +18553,14 @@ function _getKDirective(){
     candidates.push({msg:"Check in on your mentees and see who needs attention this week.",cta:"Open My Mentees",action:"mentees"});
     candidates.push({msg:"Pre-meeting prep: get K to generate an observation checklist for all your mentees.",cta:"Open My Mentees",action:"mentees"});
   }else if(persona==='practice'){
+    // K follows up on the One Priority from your last Speech Coach session (Table Topics has its own tile)
+    const last=(S.coachHistory||[]).find(s=>s.type==='speech'&&s.feedback);
+    const focus=last?_extractFocus(last.feedback,'speech'):null;
+    if(last&&focus&&daysSince({iso:last.date})<=21){
+      const f=focus.replace(/\s+/g,' ').trim();
+      return{msg:"Pick up where you left off. "+(f.length>120?f.slice(0,117).replace(/\s+\S*$/,'')+'…':f),cta:"Rehearse with this focus",action:"coach-followup"};
+    }
+    if(!last)return{msg:"Record two minutes on anything. I'll tell you the one thing to fix first.",cta:"Open Speech Coach",action:"ai-coach"};
     const ttSessions=(S.sessions&&S.sessions['tt-practice'])||[];
     const lastTT=ttSessions.length?ttSessions[0]:null;
     const dTT=daysSince(lastTT);
@@ -18964,7 +19194,7 @@ function renderCoachCards(raw){
   if(raw.startsWith('<div class="ai-error-card">'))return raw;
 
   const esc=s=>s.replace(/&/g,"&amp;").replace(/</g,"&lt;");
-  const stripMd=s=>s.replace(/^\s*#+\s*/,"").replace(/\*+/g,"").replace(/__/g,"").replace(/^_+|_+$/g,"").trim();
+  const stripMd=s=>s.replace(/^\s*#+\s*/,"").replace(/\*+/g,"").replace(/(^|[：:]\s*)>\s*/g,"$1").replace(/__/g,"").replace(/^_+|_+$/g,"").trim();
 
   const SECTIONS=COACH_SECTIONS;
 
@@ -19092,7 +19322,7 @@ function _coachCap(arr,max){return arr.length<=max?arr:[...arr.slice(0,max-1),ar
 
 // Parse a coach response into section buckets using the shared section table.
 function _coachBuckets(raw){
-  const stripMd=s=>s.replace(/^\s*#+\s*/,"").replace(/\*+/g,"").replace(/__/g,"").replace(/^_+|_+$/g,"").trim();
+  const stripMd=s=>s.replace(/^\s*#+\s*/,"").replace(/\*+/g,"").replace(/(^|[：:]\s*)>\s*/g,"$1").replace(/__/g,"").replace(/^_+|_+$/g,"").trim();
   const buckets={},order=[],unmatched=[];let cur=null;
   String(raw||"").split("\n").forEach(line=>{
     const t=stripMd(line.trim());if(!t)return;
