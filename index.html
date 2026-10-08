@@ -3194,6 +3194,23 @@ body.pk-open .bottom-nav{display:none}
 .ttq-start:active{transform:scale(0.99)}
 .ttq-new{display:block;width:100%;padding:13px;border-radius:14px;background:var(--surface);border:1px solid var(--border);color:var(--text-2);font-size:13.5px;font-weight:700;cursor:pointer;font-family:inherit}
 .ttq-new:disabled{opacity:.5}
+.rw-fu-seg{display:flex;gap:4px;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:12px;padding:3px;margin-bottom:7px}
+.rw-fu-seg button{flex:1;padding:9px 0;border-radius:9px;font:inherit;font-weight:700;font-size:13.5px;color:var(--text-2);background:none;border:0;cursor:pointer}
+.rw-fu-seg button[aria-pressed="true"]{background:rgba(255,255,255,.1);color:var(--text)}
+.rw-fu-sub{font-size:12px;color:var(--text-3);margin-bottom:14px;line-height:1.4}
+.rw-prog{display:flex;gap:5px;margin:0 0 12px}.rw-prog i{flex:1;height:4px;border-radius:3px;background:rgba(255,255,255,.1)}.rw-prog i.d{background:#A9C4FF}.rw-prog i.c{background:linear-gradient(90deg,#A9C4FF 50%,rgba(255,255,255,.1) 50%)}
+.ttq-card.rw-thread{gap:9px;padding:16px 14px}.rw-thread>:last-child{margin-bottom:0}
+.rw-b{border-radius:14px;padding:9px 12px;font-size:14px;line-height:1.45;max-width:92%;overflow-wrap:anywhere}
+.rw-them{background:rgba(255,255,255,.05);border:1px solid var(--border);align-self:flex-start;border-top-left-radius:4px;color:var(--text-2)}
+.rw-me{background:rgba(78,123,234,.14);border:1px solid rgba(78,123,234,.35);align-self:flex-end;border-top-right-radius:4px;color:#D5DEF7}
+.rw-clip{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.rw-me small{display:block;font-size:11px;color:var(--text-3);margin-top:3px}
+.rw-them.rw-now{font-size:18px;font-weight:700;color:var(--text);border-color:rgba(255,255,255,.18);padding:12px 14px;line-height:1.35}
+.rw-typing{display:flex;gap:5px;padding:14px 16px}.rw-typing i{width:7px;height:7px;border-radius:50%;background:var(--text-3);animation:rwdot 1s infinite}.rw-typing i:nth-child(2){animation-delay:.15s}.rw-typing i:nth-child(3){animation-delay:.3s}
+@keyframes rwdot{0%,100%{opacity:.25}50%{opacity:1}}
+.rw-turns{display:flex;flex-wrap:wrap;gap:6px;margin:12px 0 2px}.rw-turns span{font-size:12px;font-weight:700;padding:4px 10px;border-radius:99px;border:1px solid var(--border);color:var(--text-2)}.rw-turns span.ok{color:#6FD08C;border-color:rgba(111,208,140,.35)}
+.rw-convo{display:flex;flex-direction:column;gap:8px;padding:10px 2px}
+.rw-retry{display:block;width:100%;margin-top:12px;padding:12px;border-radius:14px;background:var(--surface);border:1px solid var(--border);color:var(--text);font:inherit;font-weight:700;font-size:13.5px;cursor:pointer}
 @media (max-height:700px){.ttq-t{font-size:21px}.ttq-card{padding:18px 16px}}
 .ttp-hero{text-align:center;padding:8px 0 4px}
 .ttp-hero-icon{font-size:40px;margin-bottom:6px}
@@ -5187,7 +5204,9 @@ const CHANGELOG=[
     'The Hub takes on your mode’s colour: green for Grow, berry for Practice, blue for Mentor. Contests stays gold',
     'Mentor practice: “What does good mentoring sound like?” is now a full guide, with what to avoid and what to try for each habit',
     'Real-world practice has two new situations: Small talk (keep a conversation going, 20–45 sec) and Speaking up in meetings (be useful fast, 30–90 sec)',
-    'Fixed: in Chinese and other languages, a mentee scenario could come back as a long model answer instead of the scenario itself'
+    'Fixed: in Chinese and other languages, a mentee scenario could come back as a long model answer instead of the scenario itself',
+    'Fixed: Outline Builder kept going back to your next project when you picked a different one',
+    'Real-world practice now talks back. After you answer, the other person asks one or two follow-ups based on what you actually said, like a real interviewer, investor or colleague would. K then coaches the whole conversation, including how you held up under the follow-up. Choose None, 1 or 2 on the setup screen'
   ]},
   {v:'1.9.2',date:'Oct 2026',items:[
     'Each mode now shows what that person actually uses. Grow: Pathways, Speech Coach, Practice Tools, Meeting Roles, Contests. Practice: Speech Coach, Table Topics, Outline Builder, Meeting Roles, Real-world practice. Mentor: Mentees, Mentor practice, Meeting Roles, All Projects',
@@ -9034,8 +9053,97 @@ function _ttMarkSeen(q){
 // One entry point for "give me a question" — used by Random, Generate and New topic.
 // A chosen non-English language needs K to write the topic — the offline bank is English only
 function _ttLangNeedsAI(){const l=(S.coachLang||'auto');return l!=='auto'&&l!=='en'&&!!(S.aiConfig&&S.aiConfig.enabled)&&navigator.onLine!==false;}
+// ── Real-world follow-ups: the other person reacts to what you said ──
+const RW_ROLE={interview:"The interviewer",pitch:"Your listener",intro:"The person you meet",smalltalk:"The other person",meeting:"Your colleagues",tough:"The person asking"};
+const RW_FU_PERSONA={
+  interview:"You are the interviewer. Probe like a good interviewer: ask for a specific example, the speaker's own part (not the team's), the result, what they'd do differently, or why it matters for the role.",
+  pitch:"You are the person being pitched (whoever the scenario names: investor, client, recruiter, manager, friend). React like a real listener: how is it different, what does it cost, who already uses it, why you, what do you need from me.",
+  intro:"You are someone the speaker has just met in that setting. React with genuine curiosity to something they said, the way a real person would, and ask to hear more.",
+  smalltalk:"You are the other person in this small talk. Keep it light and friendly. Pick up the detail the speaker offered. You may share a tiny bit about yourself before asking, like real small talk.",
+  meeting:"You are a colleague or the chair in this meeting. Respond like a busy, fair colleague: push back on the idea, or ask what it costs, who owns it, the risk, or the timeline.",
+  tough:"You are the person who asked the tough question. You are not fully satisfied. Press on the part they avoided or challenge one claim they made. Firm and direct, never abusive."
+};
+const RW_FU_BANK={
+  interview:["Can you give me a specific example of that?","What was your part in it, specifically?","What would you do differently next time?","How did you know it worked?","Why does that matter for this role?"],
+  pitch:["How is that different from what's already out there?","What would it cost me?","Who's already using it?","Why you, though?","What exactly do you need from me?"],
+  intro:["Oh, interesting. How did you get into that?","What does that look like day to day?","What brings you here today?","Who would you most like to meet here?"],
+  smalltalk:["Oh really? How did that happen?","Ha, nice. So what keeps you busy these days?","How long have you been doing that?","That's fun. Any plans for the weekend?"],
+  meeting:["What would that cost us?","Who would own that?","What's the risk if we don't do it?","Can you be more specific?","How soon could we start?"],
+  tough:["That doesn't really answer my question.","So whose responsibility was it?","How do I know it won't happen again?","Can you give me a straight answer?"]
+};
+function _rwFuSetting(){const n=S.rwFollowups;return n===0||n===1||n===2?n:1;}
+function _rwFuN(){return TTP.track==='real'?_rwFuSetting():0;}
+function _rwFuSecs(k){return k==='smalltalk'?[20,45]:[30,60];}
+function _rwTimeText(){const sc=TT_REAL[TTP.scenario]||TT_REAL.interview,n=_rwFuSetting();return 'Aim for '+_ttRealTime(sc)+(n?' · then '+_ttRealTime({secs:_rwFuSecs(TTP.scenario)})+' per follow-up':'');}
+function _rwFuSubText(){const n=_rwFuSetting();return n?(RW_ROLE[TTP.scenario]||'The other person')+' follows up on what you actually say, like they would in the room.':'One answer, then K’s notes.';}
+function _rwResetConvo(){TTP.convo=[];TTP.fuQ=null;TTP.fuLoading=false;}
+function _rwBankFu(){
+  const b=RW_FU_BANK[TTP.scenario]||RW_FU_BANK.interview,used=new Set((TTP.convo||[]).map(t=>t.q));
+  const f=b.filter(q=>!used.has(q));const pool=f.length?f:b;return pool[Math.floor(Math.random()*pool.length)];
+}
+async function _rwFollowup(){
+  const aiOn=!!(S.aiConfig&&S.aiConfig.enabled)&&navigator.onLine!==false;
+  const last=(TTP.convo||[])[TTP.convo.length-1]||{};
+  if(aiOn&&(last.words||0)>=6){
+    const l=_coachLang();
+    const langLine=l.id==='auto'?"Reply in the same language the speaker used.":"Reply in "+l.name+", the way a native speaker would naturally say it.";
+    const sc=TT_REAL[TTP.scenario]||TT_REAL.interview;
+    const sys="You play the other person in a speaking-practice role-play. "+(RW_FU_PERSONA[TTP.scenario]||RW_FU_PERSONA.interview)+"\nYou have just heard the speaker. Ask ONE natural follow-up, the one a real person in your seat would ask next. Pull one thread from what they actually said: something vague, a claim worth testing, a missing example or result"+(TTP.scenario==='smalltalk'?", or the detail they offered you":"")+". Do not repeat a question already asked.\nStay in character. Never coach, praise, evaluate or explain anything. Spoken style, one or two short sentences, under 30 words. "+langLine+" Reply with only what you say: no name, no label, no quotation marks.";
+    let msg="Situation: "+sc.name+"\nOpening prompt: "+TTP.question+(TTP.context?"\nThe speaker's role or situation: "+TTP.context:"")+"\n\nSo far:\n";
+    TTP.convo.forEach((t,i)=>{msg+=(i?"You asked: ":"Prompt: ")+t.q+"\nThe speaker said: "+(t.a||"(nothing caught)")+"\n";});
+    msg+="\nYour follow-up:";
+    for(let i=0;i<2;i++){
+      try{
+        const raw=await callCoach(sys,msg,{maxTokens:90,forceBase:true,noLang:true,featureId:'tt-question'});
+        let t=String(raw||'').replace(/```/g,'').replace(/\*\*|__/g,'').split(/\n\s*\n/)[0].replace(/\s*\n\s*/g,' ').trim();
+        t=t.replace(/^(?:interviewer|investor|colleague|chair|you|them|me|面试官|对方)\s*[:：]\s*/i,'').replace(/^["“'「『]+|["”'」』]+$/g,'').trim();
+        const ends=(t.match(/[.!?。！？]/g)||[]).length;
+        if(t.length>=4&&t.length<=240&&ends<=3&&!/✅|🎯|💡|🏗|ONE THING|THE THREAD|WHAT WORKED/i.test(t))return t;
+      }catch(e){break;}
+    }
+  }
+  let q=_rwBankFu();
+  if(aiOn&&_ttLangNeedsAI()){const t=await _locPrompt(q,'follow-up question');if(t)q=t;}
+  return q;
+}
+async function _rwAfterTurn(){
+  const aiOn=!!(S.aiConfig&&S.aiConfig.enabled);
+  TTP.convo=TTP.convo||[];
+  const curQ=TTP.fuQ||TTP.question;
+  const more=TTP.convo.length+1<=_rwFuN()&&TTP.elapsed>5;
+  const turn={q:curQ,a:TTP.transcript||'',elapsed:TTP.elapsed,words:TTP.totalWords};
+  TTP.convo.push(turn);
+  if(more){TTP.fuQ=null;TTP.fuLoading=true;TTP.phase='question';render();}
+  if(aiOn){await _ttpWhisper();turn.a=TTP.transcript||'';turn.words=TTP.totalWords;}
+  if(!more)return _rwFinish();
+  const t0=Date.now();let q=null;
+  try{q=await _rwFollowup();}catch(e){}
+  const wait=1300-(Date.now()-t0);if(wait>0)await new Promise(r=>setTimeout(r,wait));
+  TTP.fuQ=q||_rwBankFu();TTP.fuLoading=false;
+  if(TTP.phase==='question'&&TTP.track==='real')render();
+}
+function _rwFinish(){
+  const c=TTP.convo||[];TTP.fuQ=null;TTP.fuLoading=false;
+  if(c.length){TTP.elapsed=c.reduce((a,t)=>a+t.elapsed,0);TTP.totalWords=c.reduce((a,t)=>a+t.words,0);TTP.transcript=c.map(t=>t.a).filter(Boolean).join(' ');}
+  TTP.phase='done';TTP.aiResult=null;render();
+  if(S.aiConfig&&S.aiConfig.enabled&&TTP.elapsed>5)ttpAnalyze();
+}
+function _rwConvoSys(s,rw){
+  const n=TTP.convo.length-1,pl=n>1?'s':'';
+  return s.replace(/Time target: [^\n]*/,'Time target: '+_ttRealTime(rw)+' for the first answer, '+_ttRealTime({secs:_rwFuSecs(TTP.scenario)})+' for each follow-up. Say briefly whether they kept to it.')
+    .replace('Reply in EXACTLY these four sections','This was a conversation, not a single answer: after the first answer, the other person asked '+n+' follow-up question'+pl+' based on what the speaker said. Judge the whole exchange. A strong speaker answers what was actually asked, stays consistent with what they said before, keeps their thread, gets sharper rather than longer, and stays calm when pressed.\n\nReply in EXACTLY these five sections')
+    .replace('💡 ONE THING:','↪ UNDER FOLLOW-UP: How they handled the follow-up'+pl+': did they answer what was actually asked, stay consistent, keep their thread, stay calm? One or two sentences; quote them if it helps.\n💡 ONE THING:')
+    .replace('Give a better line they could actually say.','Give a better line they could actually say, for whichever moment mattered most.')
+    .replace('Under 180 words','Under 230 words').replace('under 15 words,','under 15 words in total,');
+}
+function _rwConvoMsg(rw){
+  let m='Scenario: '+rw.name+(TTP.context?'\nSpeaker\'s role or situation: '+TTP.context:'')+'\n\nTHE CONVERSATION:\n';
+  TTP.convo.forEach((t,i)=>{m+=(i?'The other person (follow-up '+i+')':'The opening prompt')+': "'+t.q+'"\nThe speaker ('+fmtMs(t.elapsed*1000)+', '+t.words+' words): '+(t.a||'(no audio captured)')+'\n\n';});
+  return m.trim();
+}
 async function ttpFetchQuestion(theme,useAI){
   if(!useAI&&_ttLangNeedsAI())useAI=true;
+  _rwResetConvo();
   if(TTP.track==="mentor")return _mpFetchScenario();
   if(TTP.track==="evalspeech"){const i=EVAL_SAMPLES.findIndex(s=>s.id===TTP.sample);return _mpOpenSample(EVAL_SAMPLES[(i+1)%EVAL_SAMPLES.length].id);}
   if(TTP.track==="real")return ttpFetchReal(useAI);
@@ -9082,6 +9190,7 @@ function _mpSample(){return TTP.track==='evalspeech'?(EVAL_SAMPLES.find(s=>s.id=
 // Green / amber / red seconds for the current practice
 function _ttTiming(){
   if(TTP.track==='evalspeech')return [120,150,180];
+  if(TTP.track==='real'&&TTP.convo&&TTP.convo.length&&TTP.fuQ){const f=_rwFuSecs(TTP.scenario);return [f[0],Math.round((f[0]+f[1])/2),f[1]];}
   const sc=TTP.track==='real'?TT_REAL[TTP.scenario]:_mpScen();
   if(sc&&sc.secs)return [sc.secs[0],Math.round((sc.secs[0]+sc.secs[1])/2),sc.secs[1]];
   return [60,90,120];
@@ -9194,6 +9303,7 @@ function ttpOfflineReal(key){
   return fresh[Math.floor(Math.random()*fresh.length)];
 }
 async function ttpFetchReal(useAI){
+  _rwResetConvo();
   const sc=TT_REAL[TTP.scenario]||TT_REAL.interview;
   const ctx=(TTP.context||"").trim();
   if(useAI){
@@ -9272,6 +9382,7 @@ function _ttpRenderSetup(app){
   const aiOn=S.aiConfig&&S.aiConfig.enabled;
   if(!TTP.style)TTP.style='story';
   const real=TTP.track==="real";
+  _rwResetConvo();
   const _hk=real?'real-practice':'tt-practice',_hideKey=real?'realLastHiddenAt':'ttLastHiddenAt';
   const ttS=(S.sessions&&S.sessions[_hk])||[];
   const last=ttS.find(s=>s.topic);          // newest session that stored a topic
@@ -9312,8 +9423,11 @@ function _ttpRenderSetup(app){
     h+='<div class="tts-lbl">Your role or situation <i>optional</i></div>';
     h+='<label class="tts-field"><svg viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="13" rx="2.5"/><path d="M9 7V5.5A1.5 1.5 0 0 1 10.5 4h3A1.5 1.5 0 0 1 15 5.5V7"/></svg>';
     h+='<input id="ttp-context" type="text" placeholder="e.g. Product manager, job at a bank…" autocomplete="off" value="'+escHtml(TTP.context||'')+'"></label>';
-    const sc=TT_REAL[TTP.scenario]||TT_REAL.interview;
-    h+='<div class="tts-real-time"><svg viewBox="0 0 24 24"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2M10 2h4"/></svg>Aim for '+_ttRealTime(sc)+'</div>';
+    const _fn=_rwFuSetting();
+    h+='<div class="tts-lbl" style="margin-top:14px">Follow-ups</div>';
+    h+='<div class="rw-fu-seg" id="rw-fu-seg" role="group" aria-label="Follow-ups">'+[0,1,2].map(n=>'<button type="button" data-fu="'+n+'" aria-pressed="'+(_fn===n)+'">'+(n?n:'None')+'</button>').join('')+'</div>';
+    h+='<div class="rw-fu-sub" id="rw-fu-sub">'+escHtml(_rwFuSubText())+'</div>';
+    h+='<div class="tts-real-time"><svg viewBox="0 0 24 24"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2M10 2h4"/></svg><span id="rw-time">'+escHtml(_rwTimeText())+'</span></div>';
   }else{
   h+='<div class="tts-lbl">Meeting theme <i>optional</i></div>';
   h+='<label class="tts-field"><svg viewBox="0 0 24 24"><path d="M20.6 13.4 13.4 20.6a2 2 0 0 1-2.8 0L3 13V3h10l7.6 7.6a2 2 0 0 1 0 2.8z"/><circle cx="7.5" cy="7.5" r="1.3"/></svg>';
@@ -9430,7 +9544,14 @@ function _ttpRenderSetup(app){
   app.querySelectorAll('#ttp-real-seg [data-scenario]').forEach(b=>b.addEventListener('click',()=>{
     TTP.scenario=b.dataset.scenario;
     app.querySelectorAll('#ttp-real-seg [data-scenario]').forEach(x=>x.setAttribute('aria-pressed',String(x===b)));
-    const t=app.querySelector('.tts-real-time');if(t)t.lastChild.textContent='Aim for '+_ttRealTime(TT_REAL[TTP.scenario]);
+    const t=app.querySelector('#rw-time');if(t)t.textContent=_rwTimeText();
+    const fs=app.querySelector('#rw-fu-sub');if(fs)fs.textContent=_rwFuSubText();
+  }));
+  app.querySelectorAll('#rw-fu-seg [data-fu]').forEach(b=>b.addEventListener('click',()=>{
+    S.rwFollowups=+b.dataset.fu;save();
+    app.querySelectorAll('#rw-fu-seg [data-fu]').forEach(x=>x.setAttribute('aria-pressed',String(x===b)));
+    const t=app.querySelector('#rw-time');if(t)t.textContent=_rwTimeText();
+    const fs=app.querySelector('#rw-fu-sub');if(fs)fs.textContent=_rwFuSubText();
   }));
   const ctxInput=app.querySelector('#ttp-context');
   if(ctxInput)ctxInput.addEventListener('input',()=>{TTP.context=ctxInput.value;});
@@ -9500,21 +9621,35 @@ function _ttpRenderQuestion(app){
   const srcLabel=TTP.questionSource==="daily"?"Today’s topic":TTP.questionSource==="repeat"?"Second try":TTP.questionSource==="ai"?"AI":"Bank";
   h+='<div class="ttp-q-panel">';
   h+='<div class="scr-head" style="margin-bottom:10px"><button class="circ-back" data-action="ttp-restart" aria-label="Back"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button><h1 class="scr-title">'+((_mt||_es)?'Mentor practice':_real?'Real-world practice':'Table Topics<sup style="font-size:0.5em;vertical-align:super">®</sup>')+'</h1></div>';
-  h+='<div class="ttq-ctx"><span class="ttq-chip">'+themeLabel+'</span><span class="ttq-n">'+((_mt||_es)?'Mentor practice':TTP.questionSource==="repeat"?srcLabel:'Prompt '+(TTP._promptN||1)+' · '+srcLabel)+'</span></div>';
-  if(_es){
+  const _fuN=_real?_rwFuN():0,_inFu=_real&&TTP.convo&&TTP.convo.length>0;
+  const _rwProg=()=>{let b='';for(let i=0;i<=_fuN;i++){const k=TTP.convo?TTP.convo.length:0;b+='<i class="'+(i<k?'d':i===k?'c':'')+'"></i>';}return '<div class="rw-prog">'+b+'</div>';};
+  h+='<div class="ttq-ctx"><span class="ttq-chip">'+themeLabel+'</span><span class="ttq-n">'+(_inFu?'Follow-up '+TTP.convo.length+' of '+_fuN:(_real&&_fuN)?'Question · then '+_fuN+' follow-up'+(_fuN>1?'s':''):(_mt||_es)?'Mentor practice':TTP.questionSource==="repeat"?srcLabel:'Prompt '+(TTP._promptN||1)+' · '+srcLabel)+'</span></div>';
+  if(_real&&_fuN)h+=_rwProg();
+  if(_inFu){
+    const snip=t=>(t.a||'').trim()||'(no words caught)';
+    h+='<div class="ttq-card ttq-real rw-thread" id="rw-thread">';
+    TTP.convo.forEach(t=>{h+='<div class="rw-b rw-them">'+escHtml(t.q)+'</div><div class="rw-b rw-me"><span class="rw-clip">'+escHtml(snip(t))+'</span><small>You · '+fmtMs(t.elapsed*1000)+'</small></div>';});
+    h+=TTP.fuLoading||!TTP.fuQ?'<div class="rw-b rw-them rw-typing" aria-label="'+escHtml(RW_ROLE[TTP.scenario]||'They')+' is thinking"><i></i><i></i><i></i></div>':'<div class="rw-b rw-them rw-now">'+escHtml(TTP.fuQ)+'</div>';
+    h+='</div>';
+    h+='<div class="ttq-hint" style="margin:-4px 2px 12px">Keep it tighter · aim for '+_ttRealTime({secs:_rwFuSecs(TTP.scenario)})+'.</div>';
+    h+='<button class="ttq-start" data-action="ttp-start"'+(TTP.fuLoading||!TTP.fuQ?' disabled style="opacity:.45"':'')+'>Start answering →</button>';
+    h+='<button class="ttq-new" data-action="rw-end">End here · get K’s notes</button>';
+  }else if(_es){
     h+='<div class="ttq-card ttq-real mp-speech-card"><div class="ttq-k">'+escHtml(_es.speaker)+' · “'+escHtml(_es.title)+'”</div><div class="mp-speech">'+_mpSpeechHtml(_es.text)+'</div><div class="ttq-hint">Read it as if you heard it — [brackets] show how the room reacted. Then give your evaluation · aim for 2–3 min.</div></div>';
   }else if(_mt){
     h+='<div class="ttq-card ttq-real"><div class="ttq-k">Your mentee</div><div class="ttq-t mp-scen">'+escHtml(TTP.question)+'</div><div class="ttq-hint">Respond as you would in person · aim for 1–2 min.</div></div>';
   }else{
   h+='<div class="ttq-card'+(_real?' ttq-real':'')+'"><div class="ttq-k">'+(_real?'Your scenario':'Your topic')+'</div><div class="ttq-t">'+escHtml(TTP.question)+'</div><div class="ttq-hint">Aim for '+(_real?_ttRealTime(_real):'1–2 minutes')+'.</div>'+(TTP.questionSource==='daily'&&TTP.technique?'<div class="ttq-try"><b>Try today</b>'+escHtml(TTP.technique.short)+'</div>':'')+'</div>';
   }
-  h+='<button class="ttq-start" data-action="ttp-start">'+(_es?'Start my evaluation →':_mt?'Start responding →':'Start speaking →')+'</button>';
+  if(!_inFu){
+  h+='<button class="ttq-start" data-action="ttp-start">'+(_es?'Start my evaluation →':_mt?'Start responding →':_real?'Start answering →':'Start speaking →')+'</button>';
   h+='<button class="ttq-new" data-action="ttp-new"'+(TTP.questionLoading?' disabled':'')+'>'+(TTP.questionLoading?'Finding a topic…':(_es?'Another speech':(_real||_mt)?'New scenario':'New topic'))+'</button>';
+  }
   h+='</div>'; // /ttp-q-panel
 
   // ── ACTIVE PANEL (hidden until ttpStart swaps state) ──
   h+='<div class="ttp-a-panel">';
-  h+='<div class="ttp-active-question">'+escHtml(_es?'Evaluating '+_es.speaker+' · “'+_es.title+'”':TTP.question)+'</div>';
+  h+='<div class="ttp-active-question">'+escHtml(_es?'Evaluating '+_es.speaker+' · “'+_es.title+'”':(TTP.fuQ||TTP.question))+'</div>';
   h+='<div class="ttp-active-card" id="ttp-active-card">';
   h+='<div class="ps-active-state">● RECORDING</div>';
   h+='<div class="ps-active-display" id="ttp-active-display">0:00</div>';
@@ -9541,8 +9676,10 @@ function _ttpRenderQuestion(app){
   app.innerHTML=h;
 
   app.querySelector('[data-action="ttp-restart"]').addEventListener("click",()=>{
-    TTP.phase="setup";TTP.question="";TTP.aiResult=null;render();
+    _rwResetConvo();TTP.phase="setup";TTP.question="";TTP.aiResult=null;render();
   });
+  const rwEnd=app.querySelector('[data-action="rw-end"]');if(rwEnd)rwEnd.addEventListener("click",()=>_rwFinish());
+  const thr=app.querySelector('#rw-thread');if(thr)thr.scrollTop=thr.scrollHeight;
   app.querySelector('[data-action="ttp-start"]').addEventListener("click",()=>ttpStart());
   app.querySelector('[data-action="ttp-stop"]').addEventListener("click",()=>ttpStop());
   const nb=app.querySelector('[data-action="ttp-new"]');
@@ -9659,6 +9796,7 @@ function ttpStop(){
   const finishStop=()=>{
     if(TTP.micStream){TTP.micStream.getTracks().forEach(t=>{try{t.stop();}catch(e){}});TTP.micStream=null;}
     TTP.mediaRecorder=null;
+    if(_rwFuN()>0){_rwAfterTurn();return;}
     TTP.phase="done";
     render();
     if(S.aiConfig&&S.aiConfig.enabled&&TTP.elapsed>5){
@@ -9675,6 +9813,11 @@ function ttpStop(){
 }
 
 async function ttpTranscribeAndAnalyze(){
+  await _ttpWhisper();
+  ttpAnalyze();
+}
+// If live captions caught little, send the recording to Whisper
+async function _ttpWhisper(){
   const blob=(TTP.audioChunks&&TTP.audioChunks.length>0)?new Blob(TTP.audioChunks,{type:TTP.audioBlobType||"audio/webm"}):null;
 
   if(blob&&blob.size>5000&&(!TTP.transcript||TTP.transcript.length<20)){
@@ -9699,8 +9842,6 @@ async function ttpTranscribeAndAnalyze(){
       }
     }catch(e){console.warn("Whisper fallback failed:",e);}
   }
-
-  ttpAnalyze();
 }
 
 // ── DONE + EVALUATION ───────────────────────────────────────────────────────
@@ -9710,12 +9851,13 @@ function _ttpRenderDone(app){
   const _tmD=_ttTiming();
   let durClass=TTP.elapsed<_tmD[0]?"red":TTP.elapsed<=_tmD[2]?"green":"amber";
   let durNote=TTP.elapsed<_tmD[0]?"Under time":"On time ✓";if(TTP.elapsed>_tmD[2])durNote="Over time";
+  if(TTP.track==='real'&&TTP.convo&&TTP.convo.length>1){durClass="";durNote="Whole conversation";}
 
   let h='<div class="fade-up ttp-view">';
   h+='<div class="top-bar">';
   h+='<button class="top-bar-btn" data-action="ttp-again">Try again</button>';
   const _dEs=_mpSample(),_dMt=_mpScen();
-  h+='<button class="top-bar-btn" data-action="ttp-new">'+(_dEs?'Another speech':_dMt?'New scenario':'New question')+'</button>';
+  h+='<button class="top-bar-btn" data-action="ttp-new">'+(_dEs?'Another speech':(_dMt||TTP.track==='real')?'New scenario':'New question')+'</button>';
   h+='</div>';
 
   h+='<div class="ttp-done-question">'+escHtml(_dEs?'Your evaluation of '+_dEs.speaker+' · “'+_dEs.title+'”':TTP.question)+'</div>';
@@ -9724,6 +9866,11 @@ function _ttpRenderDone(app){
   h+='<div class="ps-result-card"><div class="ps-result-n '+durClass+'">'+fmtMs(TTP.elapsed*1000)+'</div><div class="ps-result-lbl">Duration</div><div class="ps-result-sub '+durClass+'">'+durNote+'</div></div>';
   h+='<div class="ps-result-card"><div class="ps-result-n">'+TTP.totalWords+'</div><div class="ps-result-lbl">Words</div>'+(wpm?'<div class="ps-result-sub">'+wpm+' wpm</div>':'')+'</div>';
   h+='</div>';
+  const _cvD=TTP.track==='real'&&TTP.convo&&TTP.convo.length>1?TTP.convo:null;
+  if(_cvD){
+    const fs=_rwFuSecs(TTP.scenario),ms=(TT_REAL[TTP.scenario]||TT_REAL.interview).secs;
+    h+='<div class="rw-turns">'+_cvD.map((t,i)=>{const r=i?fs:ms,ok=t.elapsed>=r[0]&&t.elapsed<=r[1]+15;return '<span class="'+(ok?'ok':'')+'">'+(i?'Follow-up '+i:'Answer')+' '+fmtMs(t.elapsed*1000)+(ok?' ✓':'')+'</span>';}).join('')+'</div>';
+  }
 
   if(aiOn){
     h+='<div class="ps-analysis-card">';
@@ -9741,7 +9888,12 @@ function _ttpRenderDone(app){
     h+='</div></div>';
   }
 
-  if(TTP.transcript){
+  if(_cvD){
+    h+='<button class="rw-retry" data-action="rw-retry-fu">↻ Try the last follow-up again</button>';
+    h+='<details class="ps-transcript-details"><summary>💬 Show the conversation ('+TTP.totalWords+' words)</summary><div class="rw-convo">';
+    _cvD.forEach(t=>{h+='<div class="rw-b rw-them">'+escHtml(t.q)+'</div><div class="rw-b rw-me">'+escHtml(t.a||'(no words caught)')+'<small>You · '+fmtMs(t.elapsed*1000)+'</small></div>';});
+    h+='</div></details>';
+  }else if(TTP.transcript){
     h+='<details class="ps-transcript-details"><summary>📄 Show transcript ('+TTP.totalWords+' words)</summary>';
     h+='<div class="ps-transcript-full">'+escHtml(TTP.transcript)+'</div></details>';
   }
@@ -9750,8 +9902,10 @@ function _ttpRenderDone(app){
   app.innerHTML=h;
 
   app.querySelector('[data-action="ttp-again"]').addEventListener("click",()=>{
-    TTP.phase="question";TTP.elapsed=0;TTP.transcript="";TTP.totalWords=0;TTP.aiResult=null;render();
+    _rwResetConvo();TTP.phase="question";TTP.elapsed=0;TTP.transcript="";TTP.totalWords=0;TTP.aiResult=null;render();
   });
+  const rf=app.querySelector('[data-action="rw-retry-fu"]');
+  if(rf)rf.addEventListener("click",()=>{const last=TTP.convo.pop();TTP.fuQ=last.q;TTP.fuLoading=false;TTP.aiResult=null;TTP.phase="question";render();});
   app.querySelector('[data-action="ttp-new"]').addEventListener("click",()=>{
     TTP.phase="setup";TTP.question="";TTP.aiResult=null;render();
   });
@@ -9845,9 +9999,11 @@ In THE THREAD, say plainly whether they caught the main issue. If they missed it
 
   try{
     let sysF=sysUsed,msgF=msg;
+    const _cv=_rw&&TTP.convo&&TTP.convo.length>1;
+    if(_cv){sysF=_rwConvoSys(sysUsed,_rw);msgF=_rwConvoMsg(_rw);}
     if(_mt){sysF=MP_MENTOR;msgF='Situation: '+_mt.name+'\nThe mentee: '+TTP.question+'\n\nThe mentor\'s spoken response (transcript):\n'+(TTP.transcript||'(no audio captured)')+'\n\nDuration: '+fmtMs(TTP.elapsed*1000)+' ('+TTP.totalWords+' words)';}
     if(_es){const pj=PD[_es.pid]||{};sysF=MP_EVAL;msgF='Project: '+(pj.t||'')+' — '+(pj.p||'')+'\nSpeaker: '+_es.speaker+', “'+_es.title+'”\n\nSAMPLE SPEECH:\n'+_es.text+'\n\nANSWER KEY (for you only):\nStrengths: '+_es.key.strengths+'\nMain issue: '+_es.key.main+'\nSmaller issue: '+_es.key.minor+'\n\nTHE EVALUATOR\'S SPOKEN EVALUATION (transcript):\n'+(TTP.transcript||'(no audio captured)')+'\n\nDuration: '+fmtMs(TTP.elapsed*1000)+' ('+TTP.totalWords+' words)';}
-    const text=await callCoach(sysF,msgF,{maxTokens:_es?520:400,featureId:'tt-eval'});
+    const text=await callCoach(sysF,msgF,{maxTokens:_es?520:_cv?480:400,featureId:'tt-eval'});
     TTP.aiResult=text;
   }catch(e){TTP.aiResult=renderAIError(e,"ttp-retry-eval");}
   // Save session + check achievements outside try — fires regardless of AI outcome
@@ -9856,7 +10012,8 @@ In THE THREAD, say plainly whether they caught the main issue. If they missed it
   const ttSummaryMatch=(TTP.aiResult||'').replace(/<[^>]+>/g,'').match(/[^.!?]+[.!?]/);
   const ttSummary=ttSummaryMatch?ttSummaryMatch[0].trim().slice(0,80):'';
   const _notesOk=typeof TTP.aiResult==='string'&&!/data-action="ttp-retry-eval"/.test(TTP.aiResult);
-  saveSession(ttKey,TTP.elapsed,ttWpm,0,ttSummary,{topic:TTP.question,style:TTP.style,theme:TTP.theme||'',track:TTP.track||'tt',scenario:TTP.track==='real'?TTP.scenario:null,notes:_notesOk?TTP.aiResult:''});
+  const _cvS=_rw&&TTP.convo&&TTP.convo.length>1?TTP.convo:null;
+  saveSession(ttKey,_cvS?_cvS[0].elapsed:TTP.elapsed,ttWpm,0,ttSummary,{followups:_cvS?_cvS.length-1:0,topic:TTP.question,style:TTP.style,theme:TTP.theme||'',track:TTP.track||'tt',scenario:TTP.track==='real'?TTP.scenario:null,notes:_notesOk?TTP.aiResult:''});
   checkAchievements('tt');
   TTP.aiLoading=false;
   const el2=document.getElementById("ttp-analysis");
@@ -13481,7 +13638,8 @@ function _obWire(app){
         }
         case "pick-project":{
           if(!d)return;
-          if(d.projectId!==v){d.projectId=v;d.frameworkId=null;d.points={};d.saved=false;_obTouch();}
+          const pid=btn.dataset.pid||v;if(!pid||!PD[pid])return;
+          if(d.projectId!==pid){d.projectId=pid;d.frameworkId=null;d.points={};d.saved=false;_obTouch();}
           _obGo("project");return;
         }
         case "projects":persistInputs();_obGo("projects");return;
@@ -19267,6 +19425,7 @@ const COACH_SECTIONS=[
     {key:"theme",    emojis:/^🧭/,    keywords:/THE\s*THEME|GOVERNING\s*ADJ/i,                                                  label:"🧭 The Theme",            cls:"ps-section-blue"},
     {key:"chars",    emojis:/^👤/,    keywords:/CHARACTER\s*PURPOSE/i,                                                            label:"👤 Character Purpose",    cls:"ps-section-amber"},
     {key:"struct",   emojis:/^🏗/,    keywords:/STRUCTURAL\s*INTEGRITY|STRUCTURE/i,                                               label:"🏗 Structure",            cls:"ps-section-blue"},
+    {key:"fu",       emojis:/^↪/,     keywords:/^UNDER\s*FOLLOW/i,                                                               label:"↪ Under Follow-up",       cls:"ps-section-amber"},
     {key:"ballot",   emojis:/^📋/,    keywords:/BALLOT\s*CHECK/i,                                                                 label:"📋 Ballot Check",         cls:"ps-section-blue"},
     {key:"gap",      emojis:/^⚠️/,    keywords:/CONTEST\s*GAP|WHAT\s*TO\s*(FIX|CUT|IMPROVE)|COST\s*YOU/i,                     label:"⚠️ Contest Gap",          cls:"ps-section-red"},
     {key:"notes",    emojis:/^🗺\s*AGAINST\s*(YOUR|THE)\s*NOTES/i,keywords:/^AGAINST\s*(YOUR|THE)\s*NOTES/i,                          label:"🗺 Against Your Notes",    cls:"ps-section-amber"},
