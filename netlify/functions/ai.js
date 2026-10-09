@@ -20,6 +20,7 @@
 //   tmd-script : 10/day  (TMD Script Generator)
 //   tg-topics  : 10/day  (AI Topics Generator)
 //   wod        : 10/day  (Word of the Day)
+//   nb-note    : 6/day   (K's notebook progress note — about one per 5 sessions)
 //   default    : 20/day  (any other feature)
 //
 // Monthly global limit: 150 AI calls per token.
@@ -37,6 +38,7 @@ const DAILY_LIMITS = {
   "tmd-script":  10,
   "tg-topics":   10,
   "wod":         10,
+  "nb-note":     6,
   "default":     20
 };
 
