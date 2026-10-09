@@ -3529,6 +3529,177 @@ html[data-theme="dark"] .t1-hero{background:linear-gradient(180deg,color-mix(in 
 .t1-k p{flex:1;min-width:0;overflow:hidden;font-size:12.5px;line-height:1.35;color:var(--ink-2);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;text-align:left}
 .t1-k p b{color:var(--ink);font-weight:600}
 .t1-k svg{width:16px;height:16px;stroke-width:2.2;color:var(--ink-2)}
+/* ═══ K's notebook + Settings (T1 tokens, light + dark) ═══ */
+#app.is-t1pg{max-width:none;padding:0}
+html[data-theme="dark"] .t1.nbx,html[data-theme="dark"] .t1.stx{--ink-3:rgba(235,235,245,.56)}
+html[data-theme="light"] #app.is-t1pg{background:#EEF1F4}
+.t1.nbx,.t1.stx{height:auto;min-height:var(--app-h,100dvh);padding-bottom:calc(var(--nav-h) + var(--nav-sb) + 28px)}
+.t1 .t1-nb{position:relative;color:#6447D6}
+html[data-theme="dark"] .t1 .t1-nb{color:#B9A6F5}
+.t1-nb .nb-dot{position:absolute;top:5px;right:5px;width:8px;height:8px;border-radius:50%;background:#F0645A;box-shadow:0 0 0 2px var(--icon-btn-bg)}
+.t1 .nb-top{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.t1 .nb-back,.t1 .nb-more{width:34px;height:34px;border-radius:11px;background:var(--icon-btn-bg);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;color:var(--ink-2);flex-shrink:0}
+.t1 .nb-back svg,.t1 .nb-more svg{width:16px;height:16px;stroke-width:2}
+.t1 .nb-title{flex:1;min-width:0}.t1 .nb-title h1{margin:0;font-size:22px;font-weight:800;letter-spacing:-.02em;line-height:1.15}
+.t1 .nb-title small{font-size:11.5px;color:var(--ink-3);font-weight:600}
+.t1 .nb-read{border-radius:20px;padding:15px;background:var(--hero-bg);color:var(--hero-ink);margin-bottom:12px;--h:#C4AEFF}
+html[data-theme="dark"] .t1 .nb-read{background:linear-gradient(180deg,color-mix(in srgb,var(--h) 9%,transparent),var(--hero-bg) 75%);border:1px solid color-mix(in srgb,var(--h) 22%,transparent)}
+.t1 .nb-kick{font-size:10px;font-weight:800;letter-spacing:.12em;color:var(--h);display:flex;justify-content:space-between;gap:8px;margin-bottom:11px}
+.t1 .nb-kick span{color:var(--hero-ink-2);letter-spacing:0;font-weight:600;font-size:11px}
+.t1 .nb-habits{display:flex;flex-direction:column;gap:7px;margin-bottom:12px}
+.t1 .nb-hab{display:flex;align-items:center;gap:10px;padding:9px 11px;border-radius:12px;background:rgba(255,255,255,.06);border:1px solid var(--hero-line)}
+.t1 .nb-hab b{flex:1;font-size:13.5px;min-width:0}
+.t1 .nb-trend{font-size:10.5px;font-weight:800;padding:3px 8px;border-radius:20px;white-space:nowrap}
+.t1 .nb-up{background:rgba(127,224,140,.16);color:#8FE09C}.t1 .nb-flat{background:rgba(237,177,118,.16);color:#EDB176}.t1 .nb-new{background:rgba(196,174,255,.16);color:#C4AEFF}
+.t1 .nb-note{display:flex;gap:10px;align-items:flex-start}
+.t1 .nb-habits+.nb-note{padding-top:12px;border-top:1px solid var(--hero-line)}
+.t1 .nb-note p{font-size:12.5px;line-height:1.5;color:var(--hero-ink-2);margin:0}.t1 .nb-note p b{color:var(--hero-ink);font-weight:700}
+.t1 .nb-dots{display:flex;gap:5px;margin-top:12px;padding-left:34px}.t1 .nb-dots i{width:22px;height:5px;border-radius:3px;background:var(--hero-track)}.t1 .nb-dots i.on{background:var(--h)}
+.t1 .nb-off-p{font-size:12.5px;line-height:1.5;color:var(--hero-ink-2);margin:0 0 12px}
+.t1 .nb-on{background:var(--h);color:#120C24;font-weight:800;font-size:13px;padding:8px 14px;border-radius:10px}
+.t1 .nb-tabs{display:flex;gap:6px;overflow-x:auto;margin:0 -18px 12px;padding:0 18px;scrollbar-width:none;flex-shrink:0}
+.t1 .nb-tabs::-webkit-scrollbar{display:none}
+.t1 .nb-tab{flex-shrink:0;font-size:12.5px;font-weight:700;padding:7px 12px;border-radius:20px;border:1px solid var(--line);color:var(--ink-2);background:var(--card);white-space:nowrap}
+.t1 .nb-tab.on{background:var(--seg-on);color:var(--seg-on-ink);border-color:transparent}
+.t1 .nb-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px}
+.t1 .nb-stat{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:10px 11px;box-shadow:var(--shadow)}
+.t1 .nb-stat b{display:block;font-size:19px;font-weight:800;letter-spacing:-.02em}
+.t1 .nb-stat span{font-size:10.5px;color:var(--ink-3);font-weight:600}
+.t1 .nb-sec{font-size:10px;font-weight:800;letter-spacing:.12em;color:var(--ink-3);margin:4px 2px 8px}
+.t1 .nb-list{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:2px 12px;box-shadow:var(--shadow);margin-bottom:12px}
+.t1 .nb-row{display:flex;gap:11px;align-items:center;padding:10px 0;width:100%}
+.t1 .nb-row+.nb-row{border-top:1px solid var(--line)}
+.t1 .nb-ic{width:32px;height:32px;border-radius:10px;flex-shrink:0;display:flex;align-items:center;justify-content:center;background:color-mix(in srgb,var(--c) var(--ico-tint),transparent);color:var(--c)}
+.t1 .nb-ic svg{width:15px;height:15px;stroke-width:2}
+.t1 .nb-rt{flex:1;min-width:0}.t1 .nb-rt b{display:block;font-size:13.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.t1 .nb-rt span{display:block;font-size:11.5px;color:var(--ink-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.t1 .nb-rd{font-size:10.5px;color:var(--ink-3);font-weight:600;text-align:right;flex-shrink:0}
+.t1 .nb-card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:13px;margin-bottom:12px;box-shadow:var(--shadow)}
+.t1 .nb-ch{display:flex;justify-content:space-between;align-items:baseline;gap:8px;margin-bottom:8px}
+.t1 .nb-ch b{font-size:13px}.t1 .nb-ch span{font-size:11px;color:var(--ink-3);font-weight:600}
+.t1 .nb-chart{width:100%;height:96px;display:block;color:var(--ink-3)}
+.t1 .nb-band{fill:rgba(46,158,91,.10);stroke:none}html[data-theme="dark"] .t1 .nb-band{fill:rgba(127,224,140,.12)}
+.t1 .nb-line{fill:none;stroke:var(--c,#C4AEFF);stroke-width:2.5;stroke-linejoin:round;stroke-linecap:round}
+.t1 .nb-pt{fill:var(--c,#C4AEFF)}
+.t1 .nb-ax{font-size:9px;fill:currentColor}
+.t1 .nb-bar{display:flex;align-items:center;gap:8px;font-size:12px;margin-top:7px}
+.t1 .nb-bar em{font-style:normal;flex:1;min-width:0;color:var(--ink-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.t1 .nb-bar i{height:7px;border-radius:4px;background:var(--c,#C4AEFF);flex-shrink:0}
+.t1 .nb-bar small{color:var(--ink-3);font-weight:700;width:14px;text-align:right}
+.t1 .nb-empty{background:var(--card);border:1px dashed var(--line);border-radius:16px;padding:22px 16px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:6px}
+.t1 .nb-empty b{font-size:14.5px}.t1 .nb-empty span{font-size:12.5px;color:var(--ink-2);max-width:260px;line-height:1.45}
+.t1 .nb-go{margin-top:8px;display:flex;align-items:center;gap:6px;background:var(--seg-on);color:var(--seg-on-ink);font-weight:800;font-size:13px;padding:9px 14px;border-radius:11px}
+.t1 .nb-go svg{width:14px;height:14px;stroke-width:2.4}
+.t1 .nb-showmore{width:100%;text-align:center;font-size:13px;font-weight:700;color:var(--ink-2);padding:10px;border-radius:12px;border:1px solid var(--line);background:var(--card)}
+/* "Saved to your notebook" line under results */
+.nb-saved{display:flex;align-items:center;gap:8px;margin:12px 0 4px;padding:10px 12px;border-radius:12px;background:var(--surface);border:1px solid var(--border);font-size:12.5px;color:var(--text-3);cursor:pointer;width:100%;font-family:inherit;text-align:left}
+.nb-saved b{color:var(--text);font-weight:700}
+.nb-saved svg{width:15px;height:15px;flex-shrink:0;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.nb-saved span{flex:1}
+
+/* ═══ Settings — collapsible pills ═══ */
+.t1 .st-top{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.t1 .st-top h1{margin:0;font-size:24px;font-weight:800;letter-spacing:-.02em;flex:1}
+.t1 .st-me{display:flex;align-items:center;gap:11px;padding:10px 12px;border-radius:16px;background:var(--card);border:1px solid var(--line);box-shadow:var(--shadow);margin-bottom:12px;width:100%}
+.t1 .st-me img{width:38px;height:38px;border-radius:50%;object-fit:cover;flex-shrink:0}
+.t1 .st-me .st-me-t{flex:1;min-width:0}.t1 .st-me b{display:block;font-size:14.5px}.t1 .st-me .st-me-t span{font-size:11.5px;color:var(--ink-3);font-weight:600}
+.t1 .st-ver{font-size:10.5px;font-weight:800;padding:4px 9px;border-radius:20px;background:color-mix(in srgb,#8B6CF0 14%,transparent);color:#6447D6;flex-shrink:0}
+html[data-theme="dark"] .t1 .st-ver{color:#C4AEFF}
+.t1 .st-pills{display:flex;flex-direction:column;gap:9px}
+.t1 .st-p{border-radius:18px;background:var(--card);border:1px solid var(--line);box-shadow:var(--shadow);overflow:hidden;transition:border-color .2s}
+.t1 .st-ph{display:flex;align-items:center;gap:11px;padding:12px 13px;width:100%}
+.t1 .st-ic{width:32px;height:32px;border-radius:10px;flex-shrink:0;display:flex;align-items:center;justify-content:center;background:color-mix(in srgb,var(--c) var(--ico-tint),transparent);color:var(--c)}
+.t1 .st-ic svg{width:16px;height:16px;stroke-width:2}
+.t1 .st-ic.st-ic-av{background:none;overflow:hidden;border-radius:50%}.t1 .st-ic-av img{width:100%;height:100%;object-fit:cover;display:block}
+.t1 .st-pt{flex:1;min-width:0}.t1 .st-pt b{display:block;font-size:14.5px}
+.t1 .st-pt span{display:block;font-size:11.5px;color:var(--ink-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.t1 .st-chev{width:16px;height:16px;stroke-width:2;color:var(--ink-3);transition:transform .2s}
+.t1 .st-p.open .st-ph .st-chev{transform:rotate(90deg)}
+.t1 .st-p.open{border-color:color-mix(in srgb,var(--c) 38%,transparent)}
+.t1 .st-body{padding:0 13px 4px}
+.t1 .st-row{display:flex;align-items:center;gap:10px;padding:11px 0;border-top:1px solid var(--line);width:100%;position:relative}
+.t1 .st-row .l{flex:1;min-width:0}.t1 .st-row .l b{display:block;font-size:13.5px;font-weight:600}.t1 .st-row .l span{display:block;font-size:11px;color:var(--ink-3);line-height:1.35}
+.t1 .st-val{font-size:12.5px;color:var(--ink-2);font-weight:600;display:flex;align-items:center;gap:4px;flex-shrink:0;max-width:52%;white-space:nowrap;overflow:hidden}
+.t1 .st-val svg{width:13px;height:13px;stroke-width:2}
+.t1 .st-row select{position:absolute;inset:0;opacity:0;width:100%;height:100%;font-size:16px;cursor:pointer}
+.t1 .st-tog{width:44px;height:26px;border-radius:13px;background:var(--seg-bg);border:1px solid var(--line);position:relative;flex-shrink:0;transition:background .2s}
+.t1 .st-tog:after{content:"";position:absolute;left:2px;top:2px;width:20px;height:20px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.25);transition:transform .2s}
+.t1 .st-tog.on{background:#34C759;border-color:#34C759}.t1 .st-tog.on:after{transform:translateX(18px)}
+.t1 .st-seg{display:flex;background:var(--seg-bg);border:1px solid var(--line);border-radius:11px;padding:3px;width:100%}
+.t1 .st-seg button{flex:1;text-align:center;font-size:12px;font-weight:600;padding:6px 0;border-radius:8px;color:var(--ink-2)}
+.t1 .st-seg button[aria-pressed="true"]{background:var(--seg-on);color:var(--seg-on-ink);font-weight:700}
+.t1 .st-st{font-size:11px;font-weight:700;display:flex;align-items:center;gap:5px;flex-shrink:0}
+.t1 .st-st:before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor}
+.t1 .st-ok{color:#1F7A45}html[data-theme="dark"] .t1 .st-ok{color:#7FE09C}
+.t1 .st-warn{color:#B9770E}html[data-theme="dark"] .t1 .st-warn{color:#F5C85B}
+.t1 .st-bad{color:#D9534F}html[data-theme="dark"] .t1 .st-bad{color:#FF8A80}
+.t1 .st-meter{height:5px;border-radius:3px;background:var(--line);margin-top:6px;overflow:hidden}.t1 .st-meter i{display:block;height:100%;background:var(--c);border-radius:3px}
+.t1 .st-danger .l b{color:#C0392B}html[data-theme="dark"] .t1 .st-danger .l b{color:#FF8A80}
+.t1 .st-about p{font-size:12.5px;line-height:1.55;color:var(--ink-2);margin:0;padding:11px 0;border-top:1px solid var(--line)}
+.t1 .st-about a{color:inherit;font-weight:700}
+.t1 .st-links{display:flex;gap:8px;padding:0 0 11px}
+.t1 .st-links a{flex:1;display:flex;align-items:center;justify-content:center;gap:6px;font-size:12px;font-weight:700;color:var(--ink);text-decoration:none;padding:8px;border-radius:10px;border:1px solid var(--line);background:var(--bg);min-width:0;white-space:nowrap;overflow:hidden}
+.t1 .st-links svg{width:14px;height:14px;stroke-width:1.8;flex-shrink:0}
+.t1 .st-legal{font-size:11px!important;color:var(--ink-3)!important}
+.t1 .st-foot{text-align:center;font-size:10.5px;color:var(--ink-3);margin-top:14px;line-height:1.5}
+.t1 .st-sub{font-size:12.5px;color:var(--ink-2);line-height:1.5;margin:-4px 2px 14px}
+.t1 .st-card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:2px 13px;box-shadow:var(--shadow);margin-bottom:12px}
+.t1 .st-card .st-row:first-child{border-top:0}
+.t1 .st-h{font-size:10px;font-weight:800;letter-spacing:.12em;color:var(--ink-3);margin:6px 2px 8px}
+.t1 .st-msg{font-size:12px;font-weight:600;color:var(--ink-2);text-align:center;margin:-4px 0 12px;min-height:16px}
+.t1 .c-coach{--c:#6447D6}.t1 .c-look{--c:#1F7FA8}.t1 .c-data{--c:#C2681B}.t1 .c-about{--c:#5F6876}
+html[data-theme="dark"] .t1 .c-coach{--c:#C4AEFF} html[data-theme="dark"] .t1 .c-look{--c:#8FD3F0} html[data-theme="dark"] .t1 .c-data{--c:#EDB176} html[data-theme="dark"] .t1 .c-about{--c:#B4BAC6}
+/* ═══ Sync screen ═══ */
+.t1.syx{max-width:780px}
+.t1 .sy-two{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:12px;margin-bottom:12px}
+.t1 .sy-two .sy-card{margin-bottom:0}
+.t1 .sy-status{display:flex;align-items:center;gap:11px;padding:12px 14px;border-radius:16px;background:var(--card);border:1px solid var(--line);box-shadow:var(--shadow);margin-bottom:12px}
+.t1 .sy-status .dot{width:9px;height:9px;border-radius:50%;background:#34C759;flex-shrink:0;box-shadow:0 0 0 4px rgba(52,199,89,.15)}
+.t1 .sy-status.sy-warn .dot{background:#E8A33A;box-shadow:0 0 0 4px rgba(232,163,58,.15)}
+.t1 .sy-status.sy-bad .dot{background:#E5534B;box-shadow:0 0 0 4px rgba(229,83,75,.15)}
+.t1 .sy-status>div{flex:1;min-width:0}
+.t1 .sy-status b{display:block;font-size:14px}.t1 .sy-status span{font-size:11.5px;color:var(--ink-2)}
+.t1 .sy-now{width:34px;height:34px;border-radius:11px;border:1px solid var(--line);background:var(--bg);display:flex;align-items:center;justify-content:center;color:var(--ink-2);flex-shrink:0}
+.t1 .sy-now svg{width:15px;height:15px;stroke-width:2}
+.t1 .sy-card{background:var(--card);border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow);padding:16px;margin-bottom:12px;text-align:center}
+.t1 .sy-k{font-size:10px;font-weight:800;letter-spacing:.12em;color:var(--ink-3);margin-bottom:12px;text-align:left}
+.t1 .sy-p{font-size:13px;line-height:1.5;color:var(--ink-2);text-align:left;margin:0 0 14px}
+.t1 .sy-qr{width:186px;height:186px;margin:0 auto;padding:12px;background:#fff;border-radius:16px;border:1px solid rgba(0,0,0,.06)}
+.t1 .sy-qr svg{width:100%;height:100%;display:block}
+.t1 .sy-qr svg,.t1 .sy-qr svg path{stroke:none!important}.t1 .sy-qr svg path{fill:#000!important}
+.t1 .sy-or{font-size:11.5px;color:var(--ink-3);font-weight:600;margin:12px 0 6px}
+.t1 .sy-code{font:800 21px/1.2 ui-monospace,"SF Mono",Menlo,Consolas,monospace;letter-spacing:.06em;color:var(--ink);user-select:all;-webkit-user-select:all}
+.t1 .sy-btns{display:flex;gap:8px;margin-top:14px}
+.t1 .sy-btn{flex:1;display:flex;align-items:center;justify-content:center;gap:7px;padding:11px 14px;border-radius:12px;font-size:13.5px;font-weight:800;background:var(--seg-on);color:var(--seg-on-ink);text-align:center}
+.t1 .sy-btn[disabled]{opacity:.6}
+.t1 .sy-btn.ghost{flex:0 0 46px;padding:11px 0;background:var(--bg);color:var(--ink);border:1px solid var(--line)}
+.t1 .sy-btn.sy-wide{width:100%}
+.t1 .sy-btn svg{width:15px;height:15px;stroke-width:2}
+.t1 .sy-lock{display:flex;gap:10px;align-items:flex-start;font-size:12px;line-height:1.5;color:var(--ink-2);padding:12px 14px;border-radius:14px;background:color-mix(in srgb,#2F9E8F 8%,var(--card));border:1px solid color-mix(in srgb,#2F9E8F 22%,transparent);margin-bottom:12px;text-align:left}
+.t1 .sy-lock svg{width:16px;height:16px;stroke-width:2;color:#1F8577;flex-shrink:0;margin-top:1px}
+html[data-theme="dark"] .t1 .sy-lock svg{color:#7FE0D0}
+.t1 .sy-lock b{color:var(--ink)}
+.t1 .sy-off{width:100%;text-align:center;font-size:13px;font-weight:700;color:var(--ink-2);padding:11px;border-radius:12px;border:1px solid var(--line);background:var(--card);margin-bottom:8px}
+.t1 .sy-del{width:100%;text-align:center;font-size:12.5px;font-weight:700;color:#C0392B;padding:8px}
+html[data-theme="dark"] .t1 .sy-del{color:#FF8A80}
+.t1 .sy-in{display:flex;gap:8px;margin-top:14px}
+.t1 .sy-in input{flex:1;min-width:0;height:46px;border-radius:12px;border:1.5px solid color-mix(in srgb,#6447D6 40%,var(--line));background:var(--bg);color:var(--ink);font:700 16px ui-monospace,"SF Mono",Menlo,Consolas,monospace;letter-spacing:.04em;padding:0 12px;outline:none}
+.t1 .sy-in input:focus{border-color:#6447D6}
+html[data-theme="dark"] .t1 .sy-in input:focus{border-color:#B9A6F5}
+.t1 .sy-in .sy-btn{flex:0 0 auto;padding:0 18px}
+.t1 .sy-err{font-size:12.5px;color:#C0392B;text-align:left;margin-top:10px;line-height:1.4}
+html[data-theme="dark"] .t1 .sy-err{color:#FF8A80}
+.t1 .sy-steps{text-align:left;display:flex;flex-direction:column;gap:10px}
+.t1 .sy-step{display:flex;gap:10px;align-items:flex-start;font-size:12.5px;color:var(--ink-2);line-height:1.45}
+.t1 .sy-step i{font-style:normal;width:20px;height:20px;border-radius:50%;background:var(--seg-bg);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;color:var(--ink);flex-shrink:0}
+.t1 .sy-step b{color:var(--ink)}
+.t1 .sy-row-ic{width:30px;height:30px;border-radius:9px;display:flex;align-items:center;justify-content:center;background:color-mix(in srgb,#2F9E8F 14%,transparent);color:#1F8577;flex-shrink:0}
+html[data-theme="dark"] .t1 .sy-row-ic{color:#7FE0D0}
+.t1 .sy-row-ic svg{width:16px;height:16px;stroke-width:2}
+.t1 .st-row .l .sy-new{display:inline-block;font-size:9.5px;font-weight:800;letter-spacing:.08em;color:#18705F;border:1px solid currentColor;border-radius:6px;padding:0 5px;margin-left:6px;vertical-align:1px}
+html[data-theme="dark"] .t1 .st-row .l .sy-new{color:#7FE0D0}
+.t1 .st-st.st-off{color:var(--ink-3)}
+
 .t1-grid{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:10px;flex:1;min-height:0;margin-bottom:84px}
 .t1-grid.t1-compact{grid-template-rows:auto auto;flex:0 0 auto}
 .t1 .t1-tile{display:flex;flex-direction:column;min-width:0;min-height:0;overflow:hidden;padding:14px;border-radius:18px;
@@ -3700,7 +3871,7 @@ html[data-theme="light"] .nav-hub-btn,html[data-theme="light"] .nav-hub-btn.acti
       if(ch>=24&&hsl[2]>.25&&hsl[2]<=.74)return true;}
     return false;
   }
-  var SKIP=/nav-hub-btn|bottom-nav|lt-keep|\.t1\b|#app\.is-hub/;
+  var SKIP=/nav-hub-btn|bottom-nav|lt-keep|\.t1\b|#app\.is-hub|#app\.is-t1pg/;
   function lightSel(sel){
     return sel.split(",").map(function(x){x=x.trim();
       if(/^:root\b/.test(x))return 'html[data-theme="light"]'+x.slice(5);
@@ -5527,9 +5698,22 @@ if(window.visualViewport){
 window.addEventListener('load',()=>{setTimeout(()=>{try{window.scrollTo(0,1);window.scrollTo(0,0);}catch{}setAppHeight();},50);});
 
 // Single source of truth for the version shown in the app. Bump here only.
-const APP_VERSION='2.0';
+const APP_VERSION='2.2';
 // What's new — newest first. Plain language, a few lines per version.
 const CHANGELOG=[
+  {v:'2.2',date:'Oct 2026',items:[
+    'Sync across devices. Use K’s notebook on your phone and your computer: turn it on in Settings → Your data → Sync, then scan the QR code, open the sync link or type the code on your other device',
+    'No account needed. Your notebook is encrypted on your device before it’s sent, so the copy stored online can’t be read, not even by me',
+    'Stop syncing on one device any time, or delete the synced copy for all of them'
+  ]},
+  {v:'2.1',date:'Oct 2026',items:[
+    'K’s notebook. Every session K coaches, from speeches and Table Topics to real-world, mentoring and evaluations, is saved with the one thing to work on next. Open it from the notebook icon at the top of the Hub',
+    'K remembers. Next time you practise, K notices what improved and what keeps coming back. Turn it off in Settings → Coaching',
+    'Every few sessions K writes a short progress note: the two habits worth your attention, and whether they’re getting better',
+    'See your trends: on-time rate, average length, pace and what K flags most, for each kind of practice',
+    'Settings is tidier: four sections you open when you need them. AI settings now live under Coaching',
+    'Back up your notebook to a file and restore it on another phone, from Settings → Your data'
+  ]},
   {v:'2.0',date:'Oct 2026',items:[
     'A new light look. The app follows your phone’s light or dark mode; choose Light or Dark in Settings → Appearance to fix it',
     'A new Hub. Pick your mode at the top; your main thing leads (your path, Speech Coach or your mentees); K speaks in one line; and every card has shortcuts that take you straight in: Timer, Today’s topic, Interviews and more',
@@ -5722,7 +5906,7 @@ function load(){
   }catch(e){console.warn("load failed",e);}
 }
 function save(){
-  try{localStorage.setItem(STORAGE_KEY,JSON.stringify(S));return true;}
+  try{localStorage.setItem(STORAGE_KEY,JSON.stringify(S));if(S.sync&&typeof _sySoon==='function')_sySoon();return true;}
   catch(e){console.warn("save failed",e);return false;}
 }
 
@@ -6004,6 +6188,7 @@ function render(){
   app.classList.toggle("no-anim",_same);
   // Hub is a fixed one-viewport layout; every other view scrolls normally.
   app.classList.toggle("is-hub",V.view==="hub");
+  app.classList.toggle("is-t1pg",V.view==="notebook"||V.view==="coach-history"||V.view==="settings"||V.view==="sync");
   document.body.classList.toggle("on-hub",V.view==="hub");
   app.classList.toggle("is-tt",V.view==="tt-practice"&&TTP.phase==="question");
   app.classList.toggle("is-tts",V.view==="tt-practice"&&TTP.phase==="setup");
@@ -6036,7 +6221,9 @@ function render(){
   }
   if(view!=="wod"&&V._wodLoading)V._wodLoading=false;
 
+  if(_syPending)_syMaybeJoinLink();
   if(V.view==="hub"){renderHub(app);}
+  else if(V.view==="sync"){renderSync(app);}
   else if(V.view==="picker"){renderPathPicker(app);}
   else if(V.view==="quiz-intro"){renderQuizIntro(app);}
   else if(V.view==="quiz-q"){renderQuizQuestion(app);}
@@ -6056,7 +6243,9 @@ function render(){
   else if(V.view==="speech-draft"){renderSpeechDraft(app);}
   else if(V.view==="my-paths"){renderMyPaths(app);}
   else if(V.view==="notice"){renderNotice(app);}
-  else if(V.view==="coach-history"){renderCoachHistory(app);}
+  else if(V.view==="coach-history"||V.view==="notebook"){if(V.view==="coach-history"){V.view="notebook";V.nbTab=V.nbTab||"speech";}renderNotebook(app);}
+  else if(V.view==="nb-entry"){renderNbEntry(app);}
+  else if(V.view==="settings-reset"){renderSettingsReset(app);}
   else if(V.view==="coach-session"){renderCoachSessionDetail(app);}
   else if(V.view==="tos"){renderToS(app);}
   else if(V.view==="welcome"){renderWelcome(app);}
@@ -6302,7 +6491,8 @@ function _t1Go(k,arg){
     case 'mentee-nudge':V.view='mentees';V._menteeEditing=null;V._menteeNudge=arg;V._nudgeResult=null;V._nudgeLoading=false;V._nudgeType=0;break;
     case 'path-next':if(arg){V.view='project';V.viewingProject=arg;}else V.view='browser';break;
     case 'path-choose':V.view='quiz-intro';break;
-    case 'settings':V.view='settings';break;
+    case 'settings':V.view='settings';V._setReturn=null;break;
+    case 'notebook':V.view='notebook';V._nbReturn='hub';V.nbTab='all';break;
     case 'ai-settings':V.view='ai-settings';break;
     default:return false;
   }
@@ -6402,8 +6592,8 @@ function renderHub(app){
   let h='<main class="t1 fade-up" data-lt-keep>';
   h+='<header class="t1-head"><div class="t1-mark">SPEAK · LEAD · GROW</div><div class="t1-head-btns">'+
     '<button class="t1-ibtn t1-heart" data-action="open-donate" aria-label="Support TMCompanion">'+_t1sv('heart')+'</button>'+
-    '<button class="t1-ibtn t1-spark" data-go="ai-settings" aria-label="AI settings">'+_t1sv('spark')+'</button>'+
-    '<button class="t1-ibtn t1-gear" data-go="settings" aria-label="About and settings">'+_t1sv('gear')+'</button></div></header>';
+    '<button class="t1-ibtn t1-nb" data-go="notebook" aria-label="K\'s notebook'+(S.nb&&S.nb.unseen?' — new note':'')+'"><svg viewBox="0 0 24 24">'+NB_IC.book+'</svg>'+(S.nb&&S.nb.unseen?'<span class="nb-dot"></span>':'')+'</button>'+
+    '<button class="t1-ibtn t1-gear" data-go="settings" aria-label="Settings">'+_t1sv('gear')+'</button></div></header>';
   h+='<nav class="t1-seg" role="tablist" aria-label="Mode"><span class="t1-ind" style="transform:translateX('+(MODES.indexOf(mode)*100)+'%)"></span>'+
     MODES.map(m=>'<button type="button" role="tab" data-hub-mode="'+m+'" aria-selected="'+(m===mode)+'" class="'+(m===mode?'on':'')+'">'+m[0].toUpperCase()+m.slice(1)+'</button>').join('')+'</nav>';
   h+='<div class="t1-body" id="t1-body">'+_t1Body(mode)+'</div></main>';
@@ -10466,11 +10656,12 @@ function _ttpRenderDone(app){
 }
 
 function _ttpRenderAnalysis(text){
-  return renderCoachCards(text);
+  const e=TTP._nbId&&S.nb&&S.nb.entries.find(x=>x.id===TTP._nbId);
+  return renderCoachCards(text)+(e?'<button type="button" class="nb-saved" data-action="nb-open-cat" data-cat="'+e.cat+'"><svg viewBox="0 0 24 24">'+NB_IC.book+'</svg><span><b>Saved to K’s notebook.</b> '+(_nbOn()?'K will remember this next time.':'Memory is off, so K won’t bring it up.')+'</span>'+_t1sv('chev')+'</button>':'');
 }
 
 async function ttpAnalyze(){
-  TTP.aiLoading=true;
+  TTP.aiLoading=true;TTP._nbId=null;
   const el=document.getElementById("ttp-analysis");
   if(el)el.innerHTML='<div class="ps-analysis-loading"><span class="coach-dots"><span>.</span><span>.</span><span>.</span></span></div>';
 
@@ -10557,6 +10748,7 @@ In THE THREAD, say plainly whether they caught the main issue. If they missed it
     if(_cv){sysF=_rwConvoSys(sysUsed,_rw);msgF=_rwConvoMsg(_rw);}
     if(_mt){sysF=MP_MENTOR;msgF='Situation: '+_mt.name+'\nThe mentee: '+TTP.question+'\n\nThe mentor\'s spoken response (transcript):\n'+(TTP.transcript||'(no audio captured)')+'\n\nDuration: '+fmtMs(TTP.elapsed*1000)+' ('+TTP.totalWords+' words)';}
     if(_es){const pj=PD[_es.pid]||{};sysF=MP_EVAL;msgF='Project: '+(pj.t||'')+' — '+(pj.p||'')+'\nSpeaker: '+_es.speaker+', “'+_es.title+'”\n\nSAMPLE SPEECH:\n'+_es.text+'\n\nANSWER KEY (for you only):\nStrengths: '+_es.key.strengths+'\nMain issue: '+_es.key.main+'\nSmaller issue: '+_es.key.minor+'\n\nTHE EVALUATOR\'S SPOKEN EVALUATION (transcript):\n'+(TTP.transcript||'(no audio captured)')+'\n\nDuration: '+fmtMs(TTP.elapsed*1000)+' ('+TTP.totalWords+' words)';}
+    msgF+=nbContext(_es?'eval':_mt?'mentor':_rw?'real':'tt');
     const text=await callCoach(sysF,msgF,{maxTokens:_es?520:_cv?480:400,featureId:'tt-eval'});
     TTP.aiResult=text;
   }catch(e){TTP.aiResult=renderAIError(e,"ttp-retry-eval");}
@@ -10568,6 +10760,13 @@ In THE THREAD, say plainly whether they caught the main issue. If they missed it
   const _notesOk=typeof TTP.aiResult==='string'&&!/data-action="ttp-retry-eval"/.test(TTP.aiResult);
   const _cvS=_rw&&TTP.convo&&TTP.convo.length>1?TTP.convo:null;
   saveSession(ttKey,_cvS?_cvS[0].elapsed:TTP.elapsed,ttWpm,0,ttSummary,{followups:_cvS?_cvS.length-1:0,topic:TTP.question,style:TTP.style,theme:TTP.theme||'',track:TTP.track||'tt',scenario:TTP.track==='real'?TTP.scenario:null,notes:_notesOk?TTP.aiResult:''});
+  if(_notesOk&&TTP.aiResult){try{
+    const _cat=_es?'eval':_mt?'mentor':_rw?'real':'tt';
+    const _tw=_es?[120,180]:_mt?(_mt.secs||[60,120]):_rw?_rw.secs:[60,120];
+    TTP._nbId=(nbAdd({cat:_cat,title:_es?_es.speaker+', “'+_es.title+'”':TTP.question,sub:_es?'Evaluation':_mt?_mt.name:_rw?_rw.name:'',
+      elapsed:_cvS?_cvS[0].elapsed:TTP.elapsed,words:TTP.totalWords,wpm:ttWpm,tmin:_tw[0],tmax:_tw[1],fol:_cvS?_cvS.length-1:0,
+      fb:TTP.aiResult,tr:_cvS?_cvS.map(t=>'Q: '+t.q+'\nYou: '+(t.a||'')).join('\n\n'):TTP.transcript})||{}).id||null;
+  }catch(e){}}
   checkAchievements('tt');
   TTP.aiLoading=false;
   const el2=document.getElementById("ttp-analysis");
@@ -13249,136 +13448,6 @@ async function callCoach(systemPrompt,userMessage,opts){
 // app-wide settings that don't involve AI: mode toggle, onboarding reset,
 // data wipe. Kept deliberately short — user shouldn't have to scroll.
 
-function renderSettings(app){
-  let h='<div class="fade-up">';
-  h+='<div class="top-bar">';
-  h+='<button class="top-bar-btn" data-action="settings-back">← Back</button>';
-  h+='</div>';
-  h+='<div class="kicker">Settings</div>';
-  h+='<h1 class="title">About <span class="accent">the app</span></h1>';
-
-  // ── About: who made it, why, how to reach me ──
-  h+='<section class="ab-card">';
-  h+='<div class="ab-head"><img class="ab-av" src="'+COACH_AVATAR+'" alt="Kian How"><div><b>Kian How</b><small>Creative systems designer · DTM</small></div></div>';
-  h+='<p>I turn real-world friction into tools. TMCompanion is my DTM project, built for the part of speaking nobody sees: rehearsing alone. K is the coach I wanted in those moments.</p>';
-  h+='<div class="ab-contact">';
-  h+='<a class="ab-link" href="mailto:kian@kianhow.com"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg><span>kian@kianhow.com</span></a>';
-  h+='<a class="ab-link" href="https://kianhow.com" target="_blank" rel="noopener"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg><span>kianhow.com</span></a>';
-  h+='</div></section>';
-
-  // ── Independence disclaimer ──
-  h+='<div class="settings-section-header" style="margin-top:22px">Independent app</div>';
-  h+='<div class="ab-legal"><p>TMCompanion is independent of Toastmasters International. It is not authorized by, endorsed by, sponsored by, affiliated with, or otherwise approved by Toastmasters International.</p><p>Toastmasters International, Pathways and Table Topics are trademarks of Toastmasters International, used here only to describe what the app helps you practise.</p><p>'+'<a data-action="show-notice" style="color:var(--accent);text-decoration:none;cursor:pointer">User Agreement</a>'+'</p></div>';
-  // ── Appearance ──
-  const _thp=S.theme||window.__themePref&&window.__themePref()||'system';
-  h+='<div class="settings-section-header" style="margin-top:22px">Appearance</div>';
-  h+='<div class="ap-seg" role="group" aria-label="Appearance">'+[['light','Light'],['dark','Dark'],['system','Match phone']].map(([k,l])=>'<button type="button" data-theme-pick="'+k+'" aria-pressed="'+(_thp===k)+'">'+l+'</button>').join('')+'</div>';
-  // ── Versions ──
-  h+='<div class="settings-section-header" style="margin-top:22px">Versions</div>';
-  h+='<button class="list-row" data-action="whats-new" style="width:100%;text-align:left;display:flex;align-items:center;gap:12px;padding:14px 16px;border-radius:14px;background:var(--surface);border:1px solid var(--border);font-family:inherit;cursor:pointer">';
-  h+='<span style="flex:1;min-width:0"><span style="display:block;font-size:15px;font-weight:700;color:var(--text)">TMCompanion v'+APP_VERSION+'</span><span style="display:block;font-size:12.5px;color:var(--text-3);margin-top:2px">What’s new in this version</span></span><span style="color:var(--text-3);font-size:17px">›</span></button>';
-
-  // ── Data ──
-  h+='<div class="settings-section-header" style="margin-top:22px">Your data</div>';
-  h+='<div class="settings-card">';
-  h+='<div class="settings-row-hint" style="margin-bottom:14px">Everything is stored locally in this browser. These buttons let you selectively reset parts without nuking the whole app.</div>';
-  if(S.path&&PA[S.path]){
-    h+='<button class="wipe-btn tier1" data-action="wipe-current-path">';
-    h+='<span class="wipe-btn-title">Reset current path</span>';
-    h+='<span class="wipe-btn-desc">Clears progress for '+PA[S.path].n+' only. Other paths untouched.</span>';
-    h+='</button>';
-  }
-  const archivedCount=Object.keys(S.pathArchive||{}).filter(c=>pathHasActivity(S.pathArchive[c])).length+(S.path?1:0);
-  if(archivedCount>0){
-    h+='<button class="wipe-btn tier2" data-action="wipe-all-paths">';
-    h+='<span class="wipe-btn-title">Reset all paths</span>';
-    h+='<span class="wipe-btn-desc">Clears progress across every enrolled path ('+archivedCount+' total). Keeps app settings.</span>';
-    h+='</button>';
-  }
-  h+='<button class="wipe-btn tier3" data-action="wipe-everything">';
-  h+='<span class="wipe-btn-title">Wipe everything</span>';
-  h+='<span class="wipe-btn-desc">Factory reset. Clears all paths, programs, AI config, notes — everything. Re-runs welcome flow.</span>';
-  h+='</button>';
-  h+='</div>';
-
-
-  app.innerHTML=h;
-
-  app.querySelectorAll('[data-theme-pick]').forEach(b=>b.addEventListener("click",()=>{S.theme=b.dataset.themePick;save();if(window.__applyTheme)window.__applyTheme(S.theme);render();}));
-  app.querySelector('[data-action="settings-back"]').addEventListener("click",()=>{
-    V.view="hub";render();
-  });
-  // Voice style
-  const voiceField=app.querySelector('#settings-voice');
-  const voiceSaved=app.querySelector('#voice-saved');
-  let voiceTimer=null;
-  if(voiceField)voiceField.addEventListener('input',()=>{
-    S.voiceStyle=voiceField.value;
-    clearTimeout(voiceTimer);
-    voiceTimer=setTimeout(()=>{
-      save();
-      if(voiceSaved){voiceSaved.style.opacity='1';setTimeout(()=>{voiceSaved.style.opacity='0';},1500);}
-    },600);
-  });
-
-  // Redo onboarding
-  const redoBtn=app.querySelector('[data-action="redo-onboarding"]');
-  if(redoBtn)redoBtn.addEventListener("click",()=>{
-    if(!confirm("Restart the welcome flow? Your progress and data stay — this just lets you re-choose your app mode."))return;
-    S.persona=null;
-    S.mode="";
-    save();
-    V.view="welcome";
-    render();
-  });
-  // Redo tour
-  const redoTourBtn=app.querySelector('[data-action="redo-tour"]');
-  if(redoTourBtn)redoTourBtn.addEventListener("click",()=>{
-    S.tourSeen=false;
-    save();
-    V.view="hub";
-    render();
-    // Small delay so hub is in DOM before we overlay
-    setTimeout(startTour,80);
-  });
-  // Wipe handlers
-  const w1=app.querySelector('[data-action="wipe-current-path"]');
-  if(w1)w1.addEventListener("click",()=>{
-    if(!S.path)return;
-    const name=PA[S.path]?PA[S.path].n:"current path";
-    if(!confirm("⚠️ Reset ALL progress on "+name+"?\n\nThis clears completed projects, notes, photos, and level submissions for this path only. Cannot be undone."))return;
-    S.done={};
-    S.partsDone={};
-    S.notes={};
-    S.photos={};
-    S.levelSubmitted={};
-    save();
-    render();
-  });
-  const w2=app.querySelector('[data-action="wipe-all-paths"]');
-  if(w2)w2.addEventListener("click",()=>{
-    if(!confirm("⚠️⚠️ Reset progress on ALL paths?\n\nClears every enrolled path. App settings (mode, AI config, onboarding) stay. Cannot be undone."))return;
-    S.done={};
-    S.partsDone={};
-    S.notes={};
-    S.photos={};
-    S.levelSubmitted={};
-    S.pathArchive={};
-    S.path="";
-    save();
-    V.view="hub";
-    render();
-  });
-  const w3=app.querySelector('[data-action="wipe-everything"]');
-  if(w3)w3.addEventListener("click",()=>{
-    if(!confirm("⚠️⚠️⚠️ Wipe EVERYTHING?\n\nFactory reset. All paths, Pathfinder program, AI config, and preferences gone. Re-runs welcome flow. Cannot be undone."))return;
-    if(!confirm("Really sure? Last chance."))return;
-    try{localStorage.removeItem(STORAGE_KEY);}catch(e){}
-    // Reset in-memory state to defaults + reload
-    location.reload();
-  });
-}
-
 // ═══════════════════════════════════════════════════════════════════════════
 // AI SETTINGS — rendered at V.view === "ai-settings"
 // ═══════════════════════════════════════════════════════════════════════════
@@ -14901,7 +14970,7 @@ function renderAISettings(app){
   h+='<div class="top-bar">';
   h+='<button class="top-bar-btn" data-action="settings-back">← Back</button>';
   h+='</div>';
-  h+='<div class="kicker">AI Settings</div>';
+  h+='<div class="kicker">Settings · Coaching</div>';
   h+='<h1 class="title">AI <span class="accent">features</span></h1>';
   h+='<div class="subtitle">AI features use Anthropic\'s Claude. Enabled by default. Disable if you prefer a fully offline experience.</div>';
 
@@ -14940,14 +15009,6 @@ function renderAISettings(app){
   h+='</div>';
   h+='</div>';
 
-  // ── Coaching language ──
-  h+='<div class="settings-card">';
-  h+='<div class="settings-section-label">Coaching language</div>';
-  h+='<div class="settings-row-hint" style="margin-bottom:10px">The app stays in English. Speak, paste and get K\'s notes in your language.</div>';
-  h+='<select id="coach-lang" class="settings-select" style="width:100%;height:46px;border-radius:12px;background:var(--bg);border:1px solid var(--border);color:var(--text);font:inherit;font-size:15px;padding:0 12px">'+COACH_LANGS.map(l=>'<option value="'+l.id+'"'+((S.coachLang||'auto')===l.id?' selected':'')+'>'+escHtml(l.label)+'</option>').join('')+'</select>';
-  h+='<div class="settings-row-hint" style="margin-top:8px">Auto: K replies in the language you speak or write. Live captions follow your phone’s language; pick one to set them directly.</div>';
-  h+='</div>';
-
   // ── Connection test — prominent, always visible ──
   h+='<div class="settings-card" id="ai-test-card">';
   h+='<div class="settings-section-label">Connection status</div>';
@@ -14962,7 +15023,7 @@ function renderAISettings(app){
   app.innerHTML=h;
 
   app.querySelector('[data-action="settings-back"]').addEventListener("click",()=>{
-    V.view="hub";render();
+    V._setOpen='coach';V.view="settings";render();
   });
 
   // Master toggle
@@ -15435,7 +15496,7 @@ function renderToS(app){
   const sections=[
     ['1. What this app is','TMCompanion is a free, independent practice companion for Toastmasters members. This app is independent of Toastmasters International. It is not authorized by, endorsed by, sponsored by, affiliated with, or otherwise approved by Toastmasters International.'],
     ['2. No warranty','This app is provided as-is. AI coaching outputs are for practice purposes only and may not always be accurate. Use your own judgment. The developer makes no guarantees about the accuracy, reliability, or suitability of any content generated by the app.'],
-    ['3. Your data','Speech audio and transcripts are processed by OpenAI and Anthropic via their APIs for transcription and coaching. We encourage users to review their respective privacy policies for full details. All other data — your progress, notes, and plans — is stored locally on your device and never transmitted to any server.'],
+    ['3. Your data','Speech audio and transcripts are processed by OpenAI and Anthropic via their APIs for transcription and coaching. We encourage users to review their respective privacy policies for full details. All other data — your progress, notes, and plans — is stored locally on your device and is not sent to any server unless you turn on sync. If you turn on Sync across devices, your coaching notebook and practice history are encrypted on your device with your sync code and kept in that encrypted form on the app’s server so your other devices can fetch it; the server can’t read it, and you can delete it any time in Settings → Your data → Sync.'],
     ['4. Age requirement','This app is intended for users 18 and older, consistent with Toastmasters International&#39;s minimum membership age.'],
     ['5. Limitation of liability','The developer is not liable for any loss, damage, or consequence arising from your use of this app, including but not limited to data loss from clearing your browser cache, reliance on AI coaching outputs, or service interruption.'],
     ['6. Changes and availability','This app is a personal project. The developer reserves the right to modify, suspend, or discontinue the app at any time without notice.'],
@@ -15587,7 +15648,7 @@ function renderCoachHistory(app){
 function renderCoachSessionDetail(app){
   const sessions=S.coachHistory||[];
   const session=sessions.find(s=>s.id===V._coachSessionId);
-  if(!session){V.view='coach-history';render();return;}
+  if(!session){V.view='notebook';render();return;}
 
   const isContest=session.type==='contest';
   const accentCol=isContest?'#E5B352':'#A07BC7';
@@ -15599,7 +15660,7 @@ function renderCoachSessionDetail(app){
 
   let h='<div class="fade-up">';
   h+='<div class="top-bar">';
-  h+='<button class="top-bar-btn" data-action="session-back">← History</button>';
+  h+='<button class="top-bar-btn" data-action="session-back">← Notebook</button>';
   h+='</div>';
 
   // Header
@@ -15651,7 +15712,7 @@ function renderCoachSessionDetail(app){
   h+='</div>';
   app.innerHTML=h;
 
-  app.querySelector('[data-action="session-back"]').addEventListener('click',()=>{V.view='coach-history';render();});
+  app.querySelector('[data-action="session-back"]').addEventListener('click',()=>{V.view='notebook';render();setTimeout(()=>window.scrollTo(0,V._nbScroll||0),0);});
 
   app.querySelector('[data-action="session-followup"]').addEventListener('click',()=>{
     if(isContest){
@@ -15689,8 +15750,9 @@ function renderCoachSessionDetail(app){
   app.querySelector('[data-action="session-delete"]').addEventListener('click',()=>{
     if(!confirm('Delete this session?'))return;
     S.coachHistory=(S.coachHistory||[]).filter(s=>s.id!==session.id);
+    if(S.nb&&S.nb.entries){S.nb.entries=S.nb.entries.filter(e=>e.ch!==session.id);(S.nb.delCh||(S.nb.delCh=[])).push(session.id);}
     save();
-    V.view='coach-history';
+    V.view='notebook';
     render();
   });
 }
@@ -15917,7 +15979,7 @@ function renderNotice(app){
     ['<svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 2 13.5 9.5 21 11 13.5 12.5 12 20 10.5 12.5 3 11 10.5 9.5Z" fill="#A78BFA"/></svg>',
      'AI coaching here is a starting point, not the final word, and it\'s for practice only. Use it to prepare, use your own judgment, and bring what you learn back to your club.'],
     ['<svg width="16" height="16" viewBox="0 0 24 24" fill="none"><rect x="4" y="10" width="16" height="11" rx="2.5" stroke="#6DB6B4" stroke-width="1.8"/><path d="M8 10V7a4 4 0 0 1 8 0v3" stroke="#6DB6B4" stroke-width="1.8"/></svg>',
-     'AI features send audio and transcripts to OpenAI and Anthropic for processing. We encourage you to review their privacy policies for full details. Everything else — your progress, notes, and plans — stays on your device only.'],
+     'AI features send audio and transcripts to OpenAI and Anthropic for processing. We encourage you to review their privacy policies for full details. Everything else — your progress, notes, and plans — stays on your device, unless you turn on Sync across devices, which stores an encrypted copy that only your devices can read.'],
     ['<svg width="16" height="16" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="#9FB0C4" stroke-width="1.8"/><path d="M12 8v.01M12 11v5" stroke="#9FB0C4" stroke-width="1.8" stroke-linecap="round"/></svg>',
      'For users 18 and older. This app is independent of Toastmasters International. It is not authorized by, endorsed by, sponsored by, affiliated with, or otherwise approved by Toastmasters International.']
   ];
@@ -15937,7 +15999,7 @@ function renderNotice(app){
   const tosSections=[
     ['1. What this app is','TMCompanion is a free, independent practice companion for Toastmasters members. This app is independent of Toastmasters International. It is not authorized by, endorsed by, sponsored by, affiliated with, or otherwise approved by Toastmasters International.'],
     ['2. No warranty','This app is provided as-is. AI coaching outputs are for practice purposes only and may not always be accurate. Use your own judgment. The developer makes no guarantees about the accuracy, reliability, or suitability of any content generated by the app.'],
-    ['3. Your data','Speech audio and transcripts are processed by OpenAI and Anthropic via their APIs for transcription and coaching. We encourage users to review their respective privacy policies for full details. All other data — your progress, notes, and plans — is stored locally on your device and never transmitted to any server.'],
+    ['3. Your data','Speech audio and transcripts are processed by OpenAI and Anthropic via their APIs for transcription and coaching. We encourage users to review their respective privacy policies for full details. All other data — your progress, notes, and plans — is stored locally on your device and is not sent to any server unless you turn on sync. If you turn on Sync across devices, your coaching notebook and practice history are encrypted on your device with your sync code and kept in that encrypted form on the app’s server so your other devices can fetch it; the server can’t read it, and you can delete it any time in Settings → Your data → Sync.'],
     ['4. Age requirement','This app is intended for users 18 and older, consistent with Toastmasters International\' s minimum membership age.'],
     ['5. Limitation of liability','The developer is not liable for any loss, damage, or consequence arising from your use of this app, including but not limited to data loss from clearing your browser cache, reliance on AI coaching outputs, or service interruption.'],
     ['6. Changes and availability','This app is a personal project. The developer reserves the right to modify, suspend, or discontinue the app at any time without notice.'],
@@ -17503,7 +17565,7 @@ async function _contestRunEval(c,transcript){
   const followupCtx=isIntl&&V._contestIsFollowup&&V._contestPrevFeedback
     ?'\n\nFOLLOW-UP ATTEMPT: The speaker took your coaching and went again with the same speech. Previous attempt transcript:\n'+(V._contestPrevTranscript||'(no transcript)')+'\n\nYour previous coaching:\n'+V._contestPrevFeedback+'\n\nFor each section, explicitly note what changed — better, worse, or unchanged. Acknowledge improvement when it happened. If they addressed your feedback, name it.'
     :'';
-  const userMsgWithHistory=userMsg+(historyCtx?'\n'+historyCtx:'')+followupCtx;
+  const userMsgWithHistory=userMsg+(historyCtx?'\n'+historyCtx:'')+nbContext('speech')+followupCtx;
 
   try{
     const res=await callCoach(sys+champPrinciples,userMsgWithHistory,{featureId:"ps-eval"});
@@ -18031,7 +18093,7 @@ function renderPracticeStudio(app){
   h+='<header class="psr-head">';
   h+='<button class="psr-iconbtn" data-action="ps-back" aria-label="Back"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button>';
   h+='<h1 class="psr-title">Speech Coach</h1>';
-  h+='<button class="psr-hist" data-action="open-coach-history"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/><path d="M12 7v5l3 2"/></svg>History</button>';
+  h+='<button class="psr-hist" data-action="open-coach-history"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/><path d="M12 7v5l3 2"/></svg>Notebook</button>';
   h+='</header>';
 
   // Coach greeting — compact: avatar + greeting + project pill on one line
@@ -19330,6 +19392,9 @@ function _getKDirective(){
   const now=Date.now(),day=864e5;
   const ago=iso=>{const t=iso?new Date(iso).getTime():NaN;return isNaN(t)?999:Math.floor((now-t)/day);};
   const sess=S.sessions||{};
+  // 00 · K wrote a new progress note
+  if(S.nb&&S.nb.unseen&&S.nb.notes&&S.nb.notes[0]&&_nbOn()){const n=S.nb.notes[0];const m=String(n.note||'').match(/^(.+?[.!?…。！？])(\s|$)/);
+    return{kind:'personal',msg:'New note from K: '+_kShort(m?m[1]:n.note,110).replace(/…$/,'.'),cta:'Read it',action:'notebook'};}
   // 0 · A mentee has gone quiet (21+ days) — name them
   if(mode==='mentor'){
     const q=(S.mentees||[]).map(m=>({m,d:_menteeDays(m)})).filter(x=>x.d!=null&&x.d>=21).sort((a,b)=>b.d-a.d)[0];
@@ -19394,6 +19459,7 @@ function _kGo(action){
     case 'mentor-conv':toTT('mentor');break;
     case 'mentor-eval':toTT('evalspeech');break;
     case 'outline':V._obReturn={view:'hub'};V.view='speech-draft';break;
+    case 'notebook':V._nbReturn='hub';V.nbTab='all';V.view='notebook';break;
     case 'roles':V.view='roles';break;
     case 'path':{const any=Object.keys(S.pathArchive||{}).some(k=>pathHasActivity(S.pathArchive[k]));V.view=(S.path||any)?'my-paths':'picker';break;}
     case 'mentees':V.view='mentees';V._menteeEditing=null;V._menteeNudge=null;break;
@@ -19477,6 +19543,810 @@ function _buildMenteePlanFromAnswers(m,answers,lastPid){
 function checkAchievements(type){
   // stub — achievements feature not yet implemented
 }
+// ═══════════════════════════════════════════════════════════════════════════
+// K'S NOTEBOOK — on-device coaching memory
+// One entry per coached session across every kind of practice. K reads the
+// recent ones back into its prompts, writes a short progress note every few
+// sessions, and the notebook screen shows the habits, trends and timeline.
+// Speech and contest entries point at S.coachHistory (which keeps the full
+// transcript); everything else keeps its own notes here.
+// ═══════════════════════════════════════════════════════════════════════════
+const NB_CATS=[['all','All'],['speech','Speeches'],['tt','Table Topics'],['real','Real-world'],['mentor','Mentor'],['eval','Evaluations']];
+const NB_CAT_NAME={speech:'Speeches',tt:'Table Topics',real:'Real-world',mentor:'Mentor',eval:'Evaluations'};
+const NB_CAT_ONE={speech:'speech',tt:'Table Topics',real:'real-world',mentor:'mentoring',eval:'evaluation'};
+const NB_CAT_COL={speech:'coach',tt:'tt',real:'real',mentor:'mprac',eval:'proj'};
+const NB_CAT_ICO={speech:'coach',tt:'tt',real:'real',mentor:'mprac',eval:'proj'};
+const NB_MAX=150;          // entries kept
+const NB_FIRST_NOTE=3;     // K's first progress note after this many sessions
+const NB_NOTE_EVERY=5;     // …then every this many
+// Habits K flags, matched against K's "one thing" for each session.
+const NB_TAGS=[
+  ['question','Drifting off the question',/\b(the question|on the question|literal|what (?:was|they) asked|asked about|answer(?:ed)? (?:the|their))\b|wander|tangent|drift/i],
+  ['thread','One clear point',/\b(one (?:idea|point|message|thread)|governing|too many|commit to|focus on one|main point|key message)\b/i],
+  ['opening','Opening',/\b(open(?:ing|er)?|first (?:line|sentence|words)|hook|start with|starts? by)\b/i],
+  ['ending','Ending that lands',/\b(end(?:ing)?|clos(?:e|ing)|final (?:line|words)|last line|land(?:s|ed)? it|trail(?:s|ed)? off|call to action)\b/i],
+  ['specific','Specific examples',/\b(specific|example|story|number|concrete|detail|evidence|proof|show,? don)\b/i],
+  ['pace','Pace & pauses',/\b(pace|pause|slow(?:er)? down|rush(?:ed|ing)?|breath|speed|too fast)\b/i],
+  ['filler','Filler words',/\b(filler|um+|uh+|you know|kind of|sort of)\b/i],
+  ['time','Timing',/\b(time limit|over time|too long|too short|cut (?:it|the)|minutes?|seconds?|run(?:s|ning)? over|shorter|tighter)\b/i],
+  ['ask','The ask / next step',/\b(next step|the ask|ask for|clear ask|recommend(?:ation)?|decision|owner)\b/i],
+  ['listen','Listening first',/\b(acknowledg|feeling|listen|ask (?:them|a question|what)|question (?:first|before)|before (?:you )?advis)/i],
+  ['own','Letting them own it',/\b(rescue|take over|ownership|do it for|fix (?:it|everything) for|guide)\b/i],
+  ['warmth','Warmth & rapport',/\b(warm(?:th|er)?|rapport|smile|connect|curious|curiosity)\b/i]
+];
+const NB_TAG_NAME=Object.fromEntries(NB_TAGS.map(t=>[t[0],t[1]]));
+
+function _nb(){
+  if(!S.nb||!Array.isArray(S.nb.entries))S.nb={entries:[],notes:[],unseen:false,mig:0};
+  if(!Array.isArray(S.nb.notes))S.nb.notes=[];
+  if(!S.nb.mig)_nbMigrate();
+  return S.nb;
+}
+function _nbOn(){return S.kMemory!==false;}
+function _nbClean(t){return String(t||'').replace(/<[^>]+>/g,' ').replace(/\*+/g,'');}
+// One section's first line from K's notes (labels stay English in every language)
+function _nbSec(fb,re){
+  const t=_nbClean(fb);const m=t.match(re);if(!m)return '';
+  return m[1].split(/\n/)[0].replace(/\s+/g,' ').trim();
+}
+function _nbFix(fb){
+  return _nbSec(fb,/(?:💡\s*)?(?:ONE THING|ONE PRIORITY|ONE ACTION)\s*[:：]\s*([\s\S]+)/i);
+}
+function _nbWorked(fb){
+  return _nbSec(fb,/(?:✅\s*)?(?:WHAT WORKED|WHAT YOU DID WELL|WHAT LANDED)\s*[:：]\s*([\s\S]+)/i);
+}
+function _nbTags(fix){
+  if(!fix)return [];
+  return NB_TAGS.filter(t=>t[2].test(fix)).slice(0,2).map(t=>t[0]);
+}
+function _nbRetry(fb){return /^\s*No worries, let'?s give it another go/i.test(_nbClean(fb));}
+function _nbId(){return Date.now().toString(36)+Math.random().toString(36).slice(2,6);}
+
+// Add a session. e: {cat,title,sub,elapsed,words,wpm,tmin,tmax,fb,tr,ch,fol,iso}
+function nbAdd(e){
+  if(!e||!e.cat)return null;
+  const nb=_nb();
+  const fb=e.fb||'';
+  if(fb&&_nbRetry(fb))return null; // "let's give it another go" — nothing to remember
+  const fix=_nbFix(fb),worked=_nbWorked(fb);
+  const en={id:e.id||_nbId(),iso:e.iso||new Date().toISOString(),cat:e.cat,
+    title:String(e.title||'').slice(0,160),sub:String(e.sub||'').slice(0,60),
+    elapsed:Math.round(e.elapsed||0),words:e.words||0,wpm:e.wpm||0,
+    tmin:e.tmin||0,tmax:e.tmax||0,fol:e.fol||0,
+    fix:fix.slice(0,260),worked:worked.slice(0,220),tags:_nbTags(fix)};
+  if(e.ch)en.ch=e.ch;else{en.fb=String(fb).slice(0,4000);if(e.tr)en.tr=String(e.tr).slice(0,3000);}
+  nb.entries.unshift(en);
+  nb.entries.sort((a,b)=>new Date(b.iso)-new Date(a.iso));
+  if(nb.entries.length>NB_MAX)nb.entries.length=NB_MAX;
+  save();
+  if(!e._noNote)setTimeout(()=>_nbMaybeNote(),400);
+  return en;
+}
+// First run: build the notebook from the history the app already kept.
+function _nbMigrate(){
+  const nb=S.nb;nb.mig=1;
+  const sess=S.sessions||{};
+  const add=x=>{try{nbAdd(Object.assign({_noNote:true},x));}catch(err){}};
+  (sess['tt-practice']||[]).forEach(s=>{if(s.notes)add({iso:s.iso,cat:'tt',title:s.topic||'Table Topics',elapsed:s.elapsed,wpm:s.wpm,tmin:60,tmax:120,fb:s.notes});});
+  (sess['real-practice']||[]).forEach(s=>{if(!s.notes)return;const sc=TT_REAL[s.scenario];
+    add({iso:s.iso,cat:'real',title:s.topic||'',sub:sc?sc.name:'Real-world',elapsed:s.elapsed,wpm:s.wpm,tmin:sc?sc.secs[0]:0,tmax:sc?sc.secs[1]:0,fol:s.followups||0,fb:s.notes});});
+  (sess['mentor-practice']||[]).forEach(s=>{if(!s.notes)return;const ev=s.track==='evalspeech';
+    add({iso:s.iso,cat:ev?'eval':'mentor',title:s.topic||'',sub:ev?'Evaluation':'Mentee conversation',elapsed:s.elapsed,wpm:s.wpm,tmin:ev?120:60,tmax:ev?180:120,fb:s.notes});});
+  (S.coachHistory||[]).forEach(s=>{if(!s.feedback)return;
+    add({iso:s.date,cat:'speech',title:s.type==='contest'?((s.contestName||'Contest')+(s.speechTitle?' · “'+s.speechTitle+'”':'')):(s.projectTitle||s.title||'Freestyle'),
+      sub:s.type==='contest'?'Contest':(s.stage?'Script feedback':'Rehearsal'),elapsed:s.elapsed,wpm:s.wpm,ch:s.id,fb:s.feedback});});
+  save();
+}
+// Live entries (speech entries whose full session was deleted drop out)
+function _nbEntries(cat){
+  const nb=_nb();
+  const ids=new Set((S.coachHistory||[]).map(s=>s.id));
+  return nb.entries.filter(e=>(!e.ch||ids.has(e.ch))&&(!cat||cat==='all'||e.cat===cat));
+}
+function _nbFb(e){
+  if(e.ch){const s=(S.coachHistory||[]).find(x=>x.id===e.ch);return s?s.feedback:'';}
+  return e.fb||'';
+}
+function _nbOnTime(e){
+  if(!e.tmax||!e.elapsed)return null;
+  return e.elapsed>=(e.tmin||0)&&e.elapsed<=e.tmax;
+}
+function _nbRel(iso){
+  const d=new Date(iso);if(isNaN(d))return '';
+  const t0=new Date();t0.setHours(0,0,0,0);
+  const d0=new Date(d);d0.setHours(0,0,0,0);
+  const n=Math.round((t0-d0)/864e5);
+  if(n<=0)return 'Today';if(n===1)return 'Yesterday';
+  if(n<7)return d.toLocaleDateString('en-US',{weekday:'short'});
+  return d.toLocaleDateString('en-US',{month:'short',day:'numeric'});
+}
+function _nbAgo(iso){
+  const n=Math.max(0,Math.round((Date.now()-new Date(iso))/864e5));
+  return n===0?'today':n===1?'yesterday':n+' days ago';
+}
+function _nbStreak(){
+  const days=new Set(_nbEntries().map(e=>new Date(e.iso).toDateString()));
+  let n=0;const d=new Date();
+  if(!days.has(d.toDateString()))d.setDate(d.getDate()-1); // today not done yet doesn't break it
+  while(days.has(d.toDateString())){n++;d.setDate(d.getDate()-1);}
+  return n;
+}
+function _nbNote(){const n=_nb().notes;return n&&n[0]||null;}
+
+// ── What K reads before coaching ───────────────────────────────────────────
+function nbContext(cat,opts){
+  if(!_nbOn())return '';
+  opts=opts||{};
+  const recent=_nbEntries(cat).filter(e=>e.fix&&(!opts.skipPid||!e.title||e.title!==opts.skipPid)).slice(0,3);
+  const note=_nbNote();
+  if(!recent.length&&!(note&&note.habits&&note.habits.length))return '';
+  const lines=['','','YOUR NOTEBOOK ON THIS SPEAKER (what you noted in past sessions — use it, never recite it):'];
+  if(note&&note.habits&&note.habits.length)lines.push('Habits you are tracking with them: '+note.habits.map(h=>h.name+(h.trend==='up'?' (improving)':h.trend==='flat'?' (still working on it)':'')).join('; ')+'.');
+  if(recent.length){
+    lines.push('Their last '+(recent.length===1?'':recent.length+' ')+NB_CAT_ONE[cat]+' session'+(recent.length===1?'':'s')+':');
+    recent.forEach(e=>{
+      const ot=_nbOnTime(e);
+      lines.push('- '+_nbAgo(e.iso)+(e.elapsed?', '+fmtMs(e.elapsed*1000)+(ot===null?'':ot?' (on time)':e.elapsed>e.tmax?' (over time)':' (under time)'):'')+' — your one thing: "'+_kShort(e.fix,170)+'"');
+    });
+  }
+  lines.push('If today shows progress on something you flagged before, say so in one short clause inside the section where it fits. If the same issue is back, name it as a pattern ("second time in a row"). Only mention history when it is genuinely relevant. Never invent past sessions, never add a section, and stay within the word limit.');
+  return lines.join('\n');
+}
+
+// ── K's progress note (one small AI call every few sessions) ──────────────
+async function _nbMaybeNote(force){
+  if(!_nbOn()||!(S.aiConfig&&S.aiConfig.enabled)||navigator.onLine===false)return;
+  if(_nbMaybeNote._busy)return;
+  const nb=_nb(),all=_nbEntries().filter(e=>e.fix||e.worked);
+  const last=nb.notes[0];
+  const since=last?all.filter(e=>new Date(e.iso)>new Date(last.iso)).length:all.length;
+  if(!force&&(last?since<NB_NOTE_EVERY:all.length<NB_FIRST_NOTE))return;
+  if(!all.length)return;
+  _nbMaybeNote._busy=true;
+  try{
+    const list=all.slice(0,10).map(e=>{const ot=_nbOnTime(e);
+      return '- '+_nbAgo(e.iso)+' · '+NB_CAT_NAME[e.cat]+(e.sub?' ('+e.sub+')':'')+(e.elapsed?' · '+fmtMs(e.elapsed*1000)+(ot===null?'':ot?' on time':' off target'):'')+
+        (e.worked?'\n  worked: '+_kShort(e.worked,150):'')+(e.fix?'\n  one thing: '+_kShort(e.fix,170):'');}).join('\n');
+    const prev=last&&last.habits?'\nHabits you named last time: '+last.habits.map(h=>h.name).join('; ')+'\nYour last note: '+last.note:'';
+    const sys="You are K — Kian How's voice as a speaking coach: direct, warm, specific, never preachy. You keep a notebook on one speaker. Read their recent sessions (newest first) and write the note you'd leave in it.\n"+
+      "Name at most two habits that keep coming up — the ones most worth their attention now. A habit name is 2–5 plain words (\"Endings that land\", \"Pace when nervous\", \"Asking before advising\"). For each, judge the trend from the sessions: \"up\" if it is clearly getting better, \"flat\" if it keeps coming back, \"new\" if it only just showed up. Keep a habit from last time if it still applies, so progress is visible.\n"+
+      "Then the note: two or three short sentences, talking to them. Lead with real progress when there is any, quoting the specific change. Then the one thing to keep working on, made doable. No greetings, no lists, no sign-off.\n"+
+      "Reply with JSON only, no other text: {\"habits\":[{\"name\":\"…\",\"trend\":\"up|flat|new\"}],\"note\":\"…\"}";
+    const raw=await callCoach(sys,'SESSIONS:\n'+list+prev,{maxTokens:380,featureId:'nb-note'});
+    const j=JSON.parse(String(raw).slice(String(raw).indexOf('{'),String(raw).lastIndexOf('}')+1));
+    if(!j||!j.note)throw new Error('no note');
+    const habits=(Array.isArray(j.habits)?j.habits:[]).filter(h=>h&&h.name).slice(0,2).map(h=>({name:String(h.name).slice(0,48),trend:/^(up|flat|new)$/.test(h.trend)?h.trend:'new'}));
+    nb.notes.unshift({iso:new Date().toISOString(),habits,note:String(j.note).slice(0,600),n:all.length});
+    nb.notes=nb.notes.slice(0,12);
+    nb.unseen=true;
+    save();
+    if(V.view==='hub'||V.view==='notebook')render();
+  }catch(err){/* quietly try again after the next session */}
+  _nbMaybeNote._busy=false;
+}
+
+// ── Export / import / clear ────────────────────────────────────────────────
+function nbExport(){
+  const data={app:'TMCompanion',kind:'notebook',v:1,exported:new Date().toISOString(),nb:_nb(),coachHistory:S.coachHistory||[]};
+  const blob=new Blob([JSON.stringify(data)],{type:'application/json'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);
+  a.download='tmcompanion-notebook-'+new Date().toISOString().slice(0,10)+'.json';
+  document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove();},500);
+}
+function nbImport(file,done){
+  const r=new FileReader();
+  r.onload=()=>{
+    try{
+      const d=JSON.parse(r.result);
+      if(!d||d.kind!=='notebook'||!d.nb||!Array.isArray(d.nb.entries))throw new Error('bad');
+      const nb=_nb();
+      const have=new Set(nb.entries.map(e=>e.id));
+      let added=0;
+      d.nb.entries.forEach(e=>{if(e&&e.id&&e.cat&&!have.has(e.id)){nb.entries.push(e);added++;}});
+      nb.entries.sort((a,b)=>new Date(b.iso)-new Date(a.iso));
+      if(nb.entries.length>NB_MAX)nb.entries.length=NB_MAX;
+      const notes=(d.nb.notes||[]).filter(n=>n&&n.iso&&!nb.notes.some(x=>x.iso===n.iso));
+      nb.notes=nb.notes.concat(notes).sort((a,b)=>new Date(b.iso)-new Date(a.iso)).slice(0,12);
+      const ch=S.coachHistory||(S.coachHistory=[]);const chIds=new Set(ch.map(s=>s.id));
+      (d.coachHistory||[]).forEach(s=>{if(s&&s.id&&!chIds.has(s.id))ch.push(s);});
+      ch.sort((a,b)=>new Date(b.date)-new Date(a.date));S.coachHistory=ch.slice(0,50);
+      save();done(null,added);
+    }catch(err){done(err);}
+  };
+  r.onerror=()=>done(r.error||new Error('read'));
+  r.readAsText(file);
+}
+function nbClear(){
+  const o=S.nb||{};
+  S.nb={entries:[],notes:[],unseen:false,mig:1,clearedAt:new Date().toISOString(),del:o.del||[],delCh:o.delCh||[]};
+  S.coachHistory=[];
+  ['tt-practice','real-practice','mentor-practice'].forEach(k=>{if(S.sessions)delete S.sessions[k];});
+  save();
+}
+
+// ── Screens ────────────────────────────────────────────────────────────────
+function _nbSv(p){return '<svg viewBox="0 0 24 24">'+p+'</svg>';}
+const NB_IC={back:'<path d="m15 18-6-6 6-6"/>',more:'<circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/>',
+  book:'<path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/><path d="M9 7h7"/><path d="M9 11h5"/>'};
+function _nbRow(e){
+  const c=NB_CAT_COL[e.cat]||'coach';
+  const t=e.cat==='tt'?'“'+e.title+'”':e.cat==='speech'?e.title:(e.sub||NB_CAT_NAME[e.cat]);
+  const line=e.fix||e.worked||e.title;
+  return '<button type="button" class="nb-row t1-c-'+c+'" data-nb-open="'+escHtml(e.id)+'"><div class="nb-ic">'+_t1sv(NB_CAT_ICO[e.cat]||'coach')+'</div><div class="nb-rt"><b>'+escHtml(_kShort(t,60))+'</b><span>'+escHtml(_kShort(line,90))+'</span></div><div class="nb-rd">'+_nbRel(e.iso)+'</div></button>';
+}
+function _nbChart(list){
+  const pts=list.filter(e=>e.tmax&&e.elapsed).slice(0,10).reverse();
+  if(pts.length<2)return '';
+  // Each answer is placed against its own target, so mixed targets still compare.
+  const W=300,H=96,top=22,band=44,n=pts.length;
+  const y=e=>{const lo=e.tmin||0,hi=e.tmax,r=(e.elapsed-lo)/Math.max(1,hi-lo);return Math.max(6,Math.min(H-6,top+band-r*band));};
+  const xy=pts.map((e,i)=>[Math.round(10+i*(W-48)/(n-1)),Math.round(y(e))]);
+  const same=pts.every(e=>e.tmin===pts[0].tmin&&e.tmax===pts[0].tmax);
+  const lbl=same?'Target '+fmtMs(pts[0].tmin*1000)+' – '+fmtMs(pts[0].tmax*1000):'Each against its target';
+  let s='<div class="nb-card"><div class="nb-ch"><b>Your last '+n+'</b><span>'+lbl+'</span></div>';
+  s+='<svg class="nb-chart" viewBox="0 0 '+W+' '+H+'" aria-hidden="true"><rect x="0" y="'+top+'" width="'+W+'" height="'+band+'" rx="6" class="nb-band"/>';
+  s+='<polyline points="'+xy.map(p=>p.join(',')).join(' ')+'" class="nb-line"/>';
+  s+=xy.map(p=>'<circle cx="'+p[0]+'" cy="'+p[1]+'" r="3.5" class="nb-pt"/>').join('');
+  if(same)s+='<text x="'+(W-4)+'" y="'+(top-4)+'" text-anchor="end" class="nb-ax">'+fmtMs(pts[0].tmax*1000)+'</text><text x="'+(W-4)+'" y="'+(top+band+12)+'" text-anchor="end" class="nb-ax">'+fmtMs((pts[0].tmin||0)*1000)+'</text>';
+  else s+='<text x="'+(W-4)+'" y="'+(top-4)+'" text-anchor="end" class="nb-ax">over</text><text x="'+(W-4)+'" y="'+(top+band+12)+'" text-anchor="end" class="nb-ax">under</text>';
+  return s+'</svg></div>';
+}
+function _nbFlags(list){
+  const cnt={};list.slice(0,10).forEach(e=>(e.tags||[]).forEach(t=>cnt[t]=(cnt[t]||0)+1));
+  const top=Object.entries(cnt).sort((a,b)=>b[1]-a[1]).slice(0,3);
+  if(!top.length||top[0][1]<2)return '';
+  const max=top[0][1];
+  return '<div class="nb-card"><div class="nb-ch"><b>What K flags most</b><span>Last '+Math.min(10,list.length)+'</span></div>'+
+    top.map(([t,n],i)=>'<div class="nb-bar"><em>'+escHtml(NB_TAG_NAME[t])+'</em><i style="width:'+Math.round(24+64*n/max)+'px;opacity:'+(1-i*.22)+'"></i><small>'+n+'</small></div>').join('')+'</div>';
+}
+function _nbStats(cat,list){
+  const timed=list.filter(e=>e.tmax&&e.elapsed).slice(0,10);
+  const st=(b,l)=>'<div class="nb-stat"><b>'+b+'</b><span>'+l+'</span></div>';
+  if(cat==='all'){
+    const wk=list.filter(e=>Date.now()-new Date(e.iso)<7*864e5).length;
+    const sk=_nbStreak();
+    return '<div class="nb-stats">'+st(list.length,'Sessions')+st(sk,sk===1?'Day streak':'Day streak')+st(wk,'This week')+'</div>';
+  }
+  const on=timed.filter(e=>_nbOnTime(e)).length;
+  const withT=list.filter(e=>e.elapsed).slice(0,10);
+  const avg=withT.length?fmtMs(Math.round(withT.reduce((n,e)=>n+e.elapsed,0)/withT.length)*1000):'—';
+  const wl=list.filter(e=>e.wpm>40&&e.wpm<260).slice(0,10);
+  const wpm=wl.length?Math.round(wl.reduce((n,e)=>n+e.wpm,0)/wl.length):'—';
+  const third=(cat==='mentor'||cat==='eval')?st(list.length,'Sessions'):st(wpm,'Words / min');
+  return '<div class="nb-stats">'+st(timed.length?on+'/'+timed.length:'—','On time')+st(avg,'Average')+third+'</div>';
+}
+const NB_START={speech:['Rehearse a speech','coach-rec'],tt:['Answer a Table Topic','tt'],real:['Try a real-world situation','real'],mentor:['Practise a mentee conversation','mprac','mentor'],eval:['Practise an evaluation','mprac','evalspeech']};
+function renderNotebook(app){
+  const nb=_nb();
+  const tab=NB_CAT_NAME[V.nbTab]?V.nbTab:'all';
+  if(nb.unseen&&nb.notes.length){nb.unseen=false;save();}
+  const all=_nbEntries();
+  const list=tab==='all'?all:all.filter(e=>e.cat===tab);
+  const first=all.length?all[all.length-1]:null;
+  let h='<div class="t1 nbx">';
+  h+='<div class="nb-top"><button type="button" class="nb-back" data-action="nb-back" aria-label="Back">'+_nbSv(NB_IC.back)+'</button><div class="nb-title"><h1>K\'s notebook</h1><small>'+
+    (all.length?all.length+' session'+(all.length===1?'':'s')+' since '+new Date(first.iso).toLocaleDateString('en-US',{day:'numeric',month:'short'}):'Nothing here yet')+'</small></div>'+
+    '<button type="button" class="nb-more" data-action="nb-settings" aria-label="Notebook settings">'+_nbSv(NB_IC.more)+'</button></div>';
+  // K's read
+  const note=_nbNote();
+  if(!_nbOn()){
+    h+='<div class="nb-read nb-read-off"><div class="nb-kick">K ISN’T REMEMBERING SESSIONS</div><p class="nb-off-p">Turn memory on and K will track your habits and pick up where you left off.</p><button type="button" class="nb-on" data-action="nb-turn-on">Turn on</button></div>';
+  }else if(note){
+    h+='<div class="nb-read"><div class="nb-kick">WHAT WE’RE WORKING ON<span>'+(_nbRel(note.iso)==='Today'?'Updated today':'Updated '+_nbRel(note.iso))+'</span></div>';
+    if(note.habits&&note.habits.length)h+='<div class="nb-habits">'+note.habits.map(x=>'<div class="nb-hab"><b>'+escHtml(x.name)+'</b><span class="nb-trend nb-'+x.trend+'">'+(x.trend==='up'?'↑ Improving':x.trend==='flat'?'→ Keep at it':'New')+'</span></div>').join('')+'</div>';
+    h+='<div class="nb-note"><span class="t1-kav"><img src="'+COACH_AVATAR+'" alt="K"></span><p>'+escHtml(note.note)+'</p></div></div>';
+  }else{
+    const need=Math.max(0,NB_FIRST_NOTE-all.filter(e=>e.fix||e.worked).length);
+    h+='<div class="nb-read"><div class="nb-kick">K’S FIRST READ</div><div class="nb-note"><span class="t1-kav"><img src="'+COACH_AVATAR+'" alt="K"></span><p>'+
+      (need>0?'After '+NB_FIRST_NOTE+' coached sessions I’ll write down the habits worth your attention. <b>'+need+' to go.</b>':
+        (S.aiConfig&&S.aiConfig.enabled?'Writing your first note… it’ll be here after your next session if not now.':'Turn on AI in Settings and I’ll write your first note.'))+'</p></div>'+
+      (need>0?'<div class="nb-dots">'+Array.from({length:NB_FIRST_NOTE},(_,i)=>'<i class="'+(i<NB_FIRST_NOTE-need?'on':'')+'"></i>').join('')+'</div>':'')+'</div>';
+    if(need===0)setTimeout(()=>_nbMaybeNote(true),300);
+  }
+  h+='<div class="nb-tabs" role="tablist">'+NB_CATS.map(([k,l])=>'<button type="button" role="tab" class="nb-tab'+(k===tab?' on':'')+'" data-nb-tab="'+k+'" aria-selected="'+(k===tab)+'">'+l+'</button>').join('')+'</div>';
+  if(!list.length){
+    const st=NB_START[tab];
+    h+='<div class="nb-empty"><b>'+(tab==='all'?'Your notebook is empty':'No '+NB_CAT_NAME[tab]+' sessions yet')+'</b><span>Every session K coaches lands here, with the one thing to work on next.</span>'+
+      (st?'<button type="button" class="nb-go" data-nb-start="'+st[1]+'" data-nb-arg="'+(st[2]||'')+'">'+st[0]+' '+_t1sv('arrow')+'</button>':'')+'</div>';
+  }else{
+    h+=_nbStats(tab,list);
+    if(tab!=='all')h+='<div class="t1-c-'+NB_CAT_COL[tab]+'">'+_nbChart(list)+_nbFlags(list)+'</div>';
+    const lim=V._nbMore?120:tab==='all'?20:15;
+    const wk=list.filter(e=>Date.now()-new Date(e.iso)<7*864e5),older=list.filter(e=>Date.now()-new Date(e.iso)>=7*864e5);
+    let shown=0;
+    [['THIS WEEK',wk],[wk.length?'EARLIER':'SESSIONS',older]].forEach(([lab,arr])=>{
+      if(!arr.length||shown>=lim)return;
+      const part=arr.slice(0,lim-shown);shown+=part.length;
+      h+='<div class="nb-sec">'+lab+'</div><div class="nb-list">'+part.map(_nbRow).join('')+'</div>';
+    });
+    if(list.length>shown)h+='<button type="button" class="nb-showmore" data-action="nb-more">Show all '+list.length+'</button>';
+  }
+  h+='</div>';
+  app.innerHTML=h;
+  app.querySelector('[data-action="nb-back"]').addEventListener('click',()=>{V._nbMore=false;V.view=V._nbReturn&&V._nbReturn!=='notebook'?V._nbReturn:'hub';render();});
+  app.querySelector('[data-action="nb-settings"]').addEventListener('click',()=>{V._setOpen='data';V._setReturn='notebook';V.view='settings';render();});
+  const on=app.querySelector('[data-action="nb-turn-on"]');if(on)on.addEventListener('click',()=>{S.kMemory=true;save();render();});
+  app.querySelectorAll('[data-nb-tab]').forEach(b=>b.addEventListener('click',()=>{V.nbTab=b.dataset.nbTab;V._nbMore=false;render();window.scrollTo(0,0);}));
+  app.querySelectorAll('[data-nb-open]').forEach(b=>b.addEventListener('click',()=>{
+    const e=_nb().entries.find(x=>x.id===b.dataset.nbOpen);if(!e)return;
+    if(e.ch){V._coachSessionId=e.ch;V._sessionFromNb=true;V.view='coach-session';}
+    else{V._nbEntry=e.id;V.view='nb-entry';}
+    V._nbScroll=window.scrollY;render();window.scrollTo(0,0);
+  }));
+  const more=app.querySelector('[data-action="nb-more"]');if(more)more.addEventListener('click',()=>{V._nbMore=true;render();});
+  app.querySelectorAll('[data-nb-start]').forEach(b=>b.addEventListener('click',()=>{if(_t1Go(b.dataset.nbStart,b.dataset.nbArg||undefined)!==false)render();}));
+}
+function renderNbEntry(app){
+  const e=_nb().entries.find(x=>x.id===V._nbEntry);
+  if(!e){V.view='notebook';render();return;}
+  const fb=_nbFb(e),ot=_nbOnTime(e);
+  const col={tt:'#F6A8C8',real:'#7FE0E0',mentor:'#B6C9FF',eval:'#9FC7EC',speech:'#C4AEFF'}[e.cat]||'#C4AEFF';
+  const d=new Date(e.iso);
+  let h='<div class="fade-up">';
+  h+='<div class="top-bar"><button class="top-bar-btn" data-action="nbe-back">← Notebook</button></div>';
+  h+='<div class="kicker" style="color:'+col+'">'+escHtml(NB_CAT_NAME[e.cat]+(e.sub&&e.cat!=='tt'?' · '+e.sub:''))+'</div>';
+  h+='<div style="font-size:19px;font-weight:800;line-height:1.3;color:var(--text);margin:4px 0 6px">'+escHtml(e.cat==='tt'||e.cat==='real'||e.cat==='mentor'?'“'+e.title+'”':e.title)+'</div>';
+  h+='<div style="font-size:12.5px;color:var(--text-3);margin-bottom:16px">'+d.toLocaleDateString('en-US',{weekday:'short',month:'long',day:'numeric'})+' · '+d.toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'})+'</div>';
+  const chips=[];
+  if(e.elapsed)chips.push(['Length',fmtMs(e.elapsed*1000)+(ot===null?'':ot?' ✓':'')]);
+  if(e.tmax)chips.push(['Target',fmtMs((e.tmin||0)*1000)+'–'+fmtMs(e.tmax*1000)]);
+  if(e.wpm)chips.push(['Pace',e.wpm+' wpm']);
+  if(e.fol)chips.push(['Follow-ups',e.fol]);
+  if(chips.length)h+='<div style="display:flex;gap:8px;margin-bottom:18px">'+chips.map(c=>'<div style="flex:1;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:10px 8px;text-align:center"><div style="font-size:15px;font-weight:800;color:var(--text)">'+c[1]+'</div><div style="font-size:10.5px;color:var(--text-3);margin-top:2px">'+c[0]+'</div></div>').join('')+'</div>';
+  h+='<div style="font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-3);margin-bottom:8px">K’s notes</div>';
+  h+=fb?renderCoachCards(fb):'<div style="color:var(--text-3);font-size:13px">No notes saved for this session.</div>';
+  if(e.tr)h+='<details class="ps-transcript-details" style="margin-top:14px"><summary>📄 Show what you said</summary><div class="ps-transcript-full">'+escHtml(e.tr)+'</div></details>';
+  const go=e.cat==='real'?'Practise this situation again':e.cat==='mentor'?'Another mentee conversation':e.cat==='eval'?'Practise another evaluation':'Answer another topic';
+  h+='<div style="display:flex;gap:10px;margin-top:20px"><button data-action="nbe-again" style="flex:1;padding:13px;background:'+col+';border:none;border-radius:12px;font-size:14px;font-weight:700;color:#0C0D0F;cursor:pointer;font-family:inherit">'+go+'</button>';
+  h+='<button data-action="nbe-delete" style="padding:13px 16px;background:var(--surface);border:1px solid var(--border);border-radius:12px;font-size:13px;color:var(--text-3);cursor:pointer;font-family:inherit">Delete</button></div>';
+  h+='</div>';
+  app.innerHTML=h;
+  const back=()=>{V.view='notebook';render();setTimeout(()=>window.scrollTo(0,V._nbScroll||0),0);};
+  app.querySelector('[data-action="nbe-back"]').addEventListener('click',back);
+  app.querySelector('[data-action="nbe-again"]').addEventListener('click',()=>{
+    let r;
+    if(e.cat==='real')r=_t1Go('real',Object.keys(TT_REAL).find(x=>TT_REAL[x].name===e.sub));
+    else if(e.cat==='mentor')r=_t1Go('mprac','mentor');
+    else if(e.cat==='eval')r=_t1Go('mprac','evalspeech');
+    else r=_t1Go('tt');
+    if(r!==false)render();
+  });
+  app.querySelector('[data-action="nbe-delete"]').addEventListener('click',()=>{
+    if(!confirm('Delete this session from your notebook?'))return;
+    const nb=_nb();nb.entries=nb.entries.filter(x=>x.id!==e.id);(nb.del||(nb.del=[])).push(e.id);save();back();
+  });
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// SETTINGS — four collapsible pills (Coaching · Appearance · Your data · About).
+// Each closed pill shows its current setting; one opens at a time.
+// ═══════════════════════════════════════════════════════════════════════════
+const ST_IC={
+  coach:'<path d="M12 3l1.9 5.8L20 11l-6.1 2.2L12 19l-1.9-5.8L4 11l6.1-2.2z"/>',
+  look:'<circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 0 0 18z" fill="currentColor"/>',
+  data:'<ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v14c0 1.7 3.6 3 8 3s8-1.3 8-3V5"/><path d="M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/>',
+  about:'<circle cx="12" cy="12" r="9"/><path d="M12 16v-4"/><path d="M12 8h.01"/>',
+  chev:'<path d="m9 18 6-6-6-6"/>',back:'<path d="m15 18-6-6 6-6"/>',
+  mail:'<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/>',
+  web:'<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/>'
+};
+function _stSv(k,cls){return '<svg viewBox="0 0 24 24"'+(cls?' class="'+cls+'"':'')+'>'+ST_IC[k]+'</svg>';}
+function _stAI(){
+  const cfg=S.aiConfig||{};
+  let day=0,lim=20;
+  try{day=parseInt(localStorage.getItem("tmc-usage-day")||"0",10);lim=parseInt(localStorage.getItem("tmc-limit-day")||"20",10);}catch(e){}
+  const pct=Math.min(100,Math.round(day/Math.max(1,lim)*100));
+  if(!cfg.enabled)return{st:'bad',lab:'Off',sum:'AI off',line:'Coaching notes are off',pct:0};
+  if(navigator.onLine===false)return{st:'bad',lab:'Offline',sum:'Offline',line:'No connection right now',pct};
+  const usage=cfg.mode==='direct'?'Your own API key':day+' of '+lim+' today';
+  if(pct>=90)return{st:'warn',lab:'Near limit',sum:'AI near today’s limit',line:usage,pct};
+  return{st:'ok',lab:'On',sum:'AI on',line:usage,pct};
+}
+function renderSettings(app){
+  const open=V._setOpen||null;
+  const lang=_coachLang();
+  const langShort=lang.id==='auto'?'Auto':lang.label.replace(/（.*?）|\(.*?\)/g,'').trim();
+  const ai=_stAI();
+  const mem=_nbOn();
+  const _thp=S.theme||window.__themePref&&window.__themePref()||'system';
+  const themeName={light:'Light',dark:'Dark',system:'Match phone'}[_thp]||'Match phone';
+  const nbN=_nbEntries().length;
+  const pill=(key,cls,ic,title,sum,body)=>{
+    const o=open===key;
+    return '<div class="st-p '+cls+(o?' open':'')+'" data-pill="'+key+'"><button type="button" class="st-ph" data-st-toggle="'+key+'" aria-expanded="'+o+'"><div class="st-ic'+(ic==='about'?' st-ic-av':'')+'">'+(ic==='about'?'<img src="'+COACH_AVATAR+'" alt="">':_stSv(ic))+'</div><div class="st-pt"><b>'+title+'</b><span>'+sum+'</span></div>'+_stSv('chev','st-chev')+'</button>'+(o?'<div class="st-body">'+body+'</div>':'')+'</div>';
+  };
+  const row=(l,s,r,attrs,cls)=>'<button type="button" class="st-row'+(cls?' '+cls:'')+'"'+(attrs||'')+'><div class="l"><b>'+l+'</b>'+(s?'<span>'+s+'</span>':'')+'</div>'+(r||'')+'</button>';
+  const val=t=>'<span class="st-val">'+t+_stSv('chev')+'</span>';
+
+  const COACH=
+    '<div class="st-row"><div class="l"><b>Coaching language</b><span>The app stays in English. K listens and replies in this.</span></div>'+val(escHtml(langShort))+
+      '<select id="st-lang" aria-label="Coaching language">'+COACH_LANGS.map(l=>'<option value="'+l.id+'"'+(l.id===lang.id?' selected':'')+'>'+escHtml(l.label)+'</option>').join('')+'</select></div>'+
+    row('K remembers past sessions','Tracks your habits in K’s notebook and picks up where you left off','<span class="st-tog'+(mem?' on':'')+'" role="switch" aria-checked="'+mem+'"></span>',' data-action="st-mem"')+
+    '<button type="button" class="st-row" data-action="st-ai"><div class="l"><b>AI</b><span>'+ai.line+'</span>'+(ai.pct&&ai.st!=='bad'?'<div class="st-meter"><i style="width:'+Math.max(4,ai.pct)+'%"></i></div>':'')+'</div><span class="st-st st-'+ai.st+'">'+ai.lab+'</span>'+_stSv('chev','st-chev')+'</button>';
+  const LOOK='<div class="st-row"><div class="st-seg" role="group" aria-label="Appearance">'+[['light','Light'],['dark','Dark'],['system','Match phone']].map(([k,l])=>'<button type="button" data-theme-pick="'+k+'" aria-pressed="'+(_thp===k)+'">'+l+'</button>').join('')+'</div></div>';
+  const sy=_syStatus();
+  const DATA=
+    '<button type="button" class="st-row" data-action="st-sync"><div class="sy-row-ic">'+_sySv('sync')+'</div><div class="l"><b>Sync across devices'+(sy.on?'':'<span class="sy-new">NEW</span>')+'</b><span>'+escHtml(sy.line)+'</span></div><span class="st-st st-'+sy.st+'">'+sy.lab+'</span>'+_stSv('chev','st-chev')+'</button>'+
+    row('Back up notebook',nbN?nbN+' session'+(nbN===1?'':'s')+' · saves a file you can keep':'Nothing to back up yet','',' data-action="st-export"'+(nbN?'':' disabled'))+
+    row('Restore a backup','Adds sessions from a notebook file','',' data-action="st-import"')+
+    row('Clear notebook','K forgets every coached session','',' data-action="st-clear"')+
+    row('Reset & delete','Reset paths or wipe everything',_stSv('chev','st-chev'),' data-action="st-reset"','st-danger')+
+    '<input type="file" id="st-file" accept="application/json,.json" hidden>';
+  const ABOUT='<div class="st-about">'+
+    '<p>I turn real-world friction into tools. TMCompanion is my DTM project, built for the part of speaking nobody sees: rehearsing alone. K is the coach I wanted in those moments.</p>'+
+    '<div class="st-links"><a href="mailto:kian@kianhow.com">'+_stSv('mail')+'<span>Email me</span></a><a href="https://kianhow.com" target="_blank" rel="noopener">'+_stSv('web')+'<span>kianhow.com</span></a></div>'+
+    '</div>'+
+    row('What’s new','TMCompanion v'+APP_VERSION,_stSv('chev','st-chev'),' data-action="whats-new"')+
+    row('User Agreement','',_stSv('chev','st-chev'),' data-action="show-notice"')+
+    '<div class="st-about"><p class="st-legal">TMCompanion is independent of Toastmasters International. It is not authorized by, endorsed by, sponsored by, affiliated with, or otherwise approved by Toastmasters International. Toastmasters International, Pathways and Table Topics are trademarks of Toastmasters International, used here only to describe what the app helps you practise.</p></div>';
+
+  let h='<div class="t1 stx">';
+  h+='<div class="st-top"><button type="button" class="nb-back" data-action="settings-back" aria-label="Back">'+_stSv('back')+'</button><h1>Settings</h1></div>';
+  h+='<div class="st-pills">';
+  h+=pill('about','c-about','about','About','Kian How · DTM · v'+APP_VERSION,ABOUT);
+  h+=pill('coach','c-coach','coach','Coaching',escHtml(langShort)+' · '+(mem?'Remembers past sessions':'Memory off')+' · '+ai.sum,COACH);
+  h+=pill('look','c-look','look','Appearance',themeName,LOOK);
+  h+=pill('data','c-data','data','Your data',(sy.on?'Sync '+sy.lab.toLowerCase()+' · ':'')+'Notebook · resets',DATA);
+  h+='</div><div class="st-foot">Everything stays on this device. Data leaves it only when you use an AI feature, or encrypted when you turn on sync.<br>Not affiliated with Toastmasters International</div>';
+  h+='</div>';
+  app.innerHTML=h;
+
+  const q=s=>app.querySelector(s);
+  q('[data-action="settings-back"]').addEventListener('click',()=>{const r=V._setReturn;V._setReturn=null;V._setOpen=null;V.view=r||'hub';render();});
+  app.querySelectorAll('[data-st-toggle]').forEach(b=>b.addEventListener('click',()=>{
+    const k=b.dataset.stToggle;V._setOpen=V._setOpen===k?null:k;render();
+    if(V._setOpen){const el=app.querySelector('[data-pill="'+V._setOpen+'"]');if(el&&el.getBoundingClientRect().bottom>window.innerHeight)el.scrollIntoView({block:'nearest',behavior:'smooth'});}
+  }));
+  const ls=q('#st-lang');if(ls)ls.addEventListener('change',()=>{S.coachLang=ls.value;save();render();});
+  const mm=q('[data-action="st-mem"]');if(mm)mm.addEventListener('click',()=>{S.kMemory=!_nbOn();save();render();});
+  const aa=q('[data-action="st-ai"]');if(aa)aa.addEventListener('click',()=>{V.view='ai-settings';render();window.scrollTo(0,0);});
+  app.querySelectorAll('[data-theme-pick]').forEach(b=>b.addEventListener('click',()=>{S.theme=b.dataset.themePick;save();if(window.__applyTheme)window.__applyTheme(S.theme);render();}));
+  const ex=q('[data-action="st-export"]');if(ex)ex.addEventListener('click',()=>nbExport());
+  const fi=q('#st-file'),im=q('[data-action="st-import"]');
+  if(im&&fi){im.addEventListener('click',()=>fi.click());fi.addEventListener('change',()=>{
+    const f=fi.files&&fi.files[0];if(!f)return;
+    nbImport(f,(err,n)=>{if(err){alert("That file isn't a TMCompanion notebook backup.");return;}alert(n?'Restored '+n+' session'+(n===1?'':'s')+'.':'Nothing new in that backup — your notebook already has everything in it.');render();});
+  });}
+  const cl=q('[data-action="st-clear"]');if(cl)cl.addEventListener('click',()=>{
+    if(!confirm("Clear K's notebook?\n\nK forgets every coached session, progress note and habit, on this device. Your paths and settings stay. Back up first if you might want it later."))return;
+    nbClear();render();
+  });
+  const sb=q('[data-action="st-sync"]');if(sb)sb.addEventListener('click',()=>{V._syErr=null;V.view='sync';render();window.scrollTo(0,0);if(S.sync)syncNow();});
+  const rs=q('[data-action="st-reset"]');if(rs)rs.addEventListener('click',()=>{V.view='settings-reset';render();window.scrollTo(0,0);});
+}
+
+// Reset & delete — the destructive options, one step away from Settings
+function renderSettingsReset(app){
+  let h='<div class="fade-up">';
+  h+='<div class="top-bar"><button class="top-bar-btn" data-action="reset-back">← Settings</button></div>';
+  h+='<div class="kicker">Settings</div>';
+  h+='<h1 class="title">Reset <span class="accent">& delete</span></h1>';
+  h+='<div class="settings-card">';
+  h+='<div class="settings-row-hint" style="margin-bottom:14px">Everything is stored locally in this browser. Reset parts of it without losing the rest.</div>';
+  if(S.path&&PA[S.path]){
+    h+='<button class="wipe-btn tier1" data-action="wipe-current-path"><span class="wipe-btn-title">Reset current path</span><span class="wipe-btn-desc">Clears progress for '+PA[S.path].n+' only. Other paths untouched.</span></button>';
+  }
+  const archivedCount=Object.keys(S.pathArchive||{}).filter(c=>pathHasActivity(S.pathArchive[c])).length+(S.path?1:0);
+  if(archivedCount>0){
+    h+='<button class="wipe-btn tier2" data-action="wipe-all-paths"><span class="wipe-btn-title">Reset all paths</span><span class="wipe-btn-desc">Clears progress across every enrolled path ('+archivedCount+' total). Keeps app settings and your notebook.</span></button>';
+  }
+  h+='<button class="wipe-btn tier3" data-action="wipe-everything"><span class="wipe-btn-title">Wipe everything</span><span class="wipe-btn-desc">Factory reset. Clears all paths, programs, AI config, notes and K’s notebook — everything. Re-runs welcome flow.</span></button>';
+  h+='</div></div>';
+  app.innerHTML=h;
+  app.querySelector('[data-action="reset-back"]').addEventListener('click',()=>{V._setOpen='data';V.view='settings';render();});
+  const w1=app.querySelector('[data-action="wipe-current-path"]');
+  if(w1)w1.addEventListener("click",()=>{
+    if(!S.path)return;
+    const name=PA[S.path]?PA[S.path].n:"current path";
+    if(!confirm("⚠️ Reset ALL progress on "+name+"?\n\nThis clears completed projects, notes, photos, and level submissions for this path only. Cannot be undone."))return;
+    S.done={};S.partsDone={};S.notes={};S.photos={};S.levelSubmitted={};
+    save();render();
+  });
+  const w2=app.querySelector('[data-action="wipe-all-paths"]');
+  if(w2)w2.addEventListener("click",()=>{
+    if(!confirm("⚠️⚠️ Reset progress on ALL paths?\n\nClears every enrolled path. App settings (mode, AI config, onboarding) stay. Cannot be undone."))return;
+    S.done={};S.partsDone={};S.notes={};S.photos={};S.levelSubmitted={};S.pathArchive={};S.path="";
+    save();V.view="hub";render();
+  });
+  const w3=app.querySelector('[data-action="wipe-everything"]');
+  if(w3)w3.addEventListener("click",()=>{
+    if(!confirm("⚠️⚠️⚠️ Wipe EVERYTHING?\n\nFactory reset. All paths, Pathfinder program, AI config, K's notebook and preferences gone. Re-runs welcome flow. Cannot be undone."))return;
+    if(!confirm("Really sure? Last chance."))return;
+    try{localStorage.removeItem(STORAGE_KEY);}catch(e){}
+    location.reload();
+  });
+}
+
+// QR Code Generator for JavaScript — Copyright (c) 2009 Kazuhiko Arase — MIT license (qrcode-generator 2.0.4)
+const _QR=function(){var t=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],f={},c=function(t,r){o=function(t){for(var r=new Array(t),e=0;e<t;e+=1){r[e]=new Array(t);for(var n=0;n<t;n+=1)r[e][n]=null}return r}(i=4*e+17),l(0,0),l(i-7,0),l(0,i-7),s(),h(),d(t,r),e>=7&&v(t),null==a&&(a=p(e,n,u)),w(a,r)},l=function(t,r){for(var e=-1;e<=7;e+=1)if(!(t+e<=-1||i<=t+e))for(var n=-1;n<=7;n+=1)r+n<=-1||i<=r+n||(o[t+e][r+n]=0<=e&&e<=6&&(0==n||6==n)||0<=n&&n<=6&&(0==e||6==e)||2<=e&&e<=4&&2<=n&&n<=4)},h=function(){for(var t=8;t<i-8;t+=1)null==o[t][6]&&(o[t][6]=t%2==0);for(var r=8;r<i-8;r+=1)null==o[6][r]&&(o[6][r]=r%2==0)},s=function(){for(var t=B.getPatternPosition(e),r=0;r<t.length;r+=1)for(var n=0;n<t.length;n+=1){var i=t[r],a=t[n];if(null==o[i][a])for(var u=-2;u<=2;u+=1)for(var f=-2;f<=2;f+=1)o[i+u][a+f]=-2==u||2==u||-2==f||2==f||0==u&&0==f}},v=function(t){for(var r=B.getBCHTypeNumber(e),n=0;n<18;n+=1){var a=!t&&1==(r>>n&1);o[Math.floor(n/3)][n%3+i-8-3]=a}for(n=0;n<18;n+=1){a=!t&&1==(r>>n&1);o[n%3+i-8-3][Math.floor(n/3)]=a}},d=function(t,r){for(var e=n<<3|r,a=B.getBCHTypeInfo(e),u=0;u<15;u+=1){var f=!t&&1==(a>>u&1);u<6?o[u][8]=f:u<8?o[u+1][8]=f:o[i-15+u][8]=f}for(u=0;u<15;u+=1){f=!t&&1==(a>>u&1);u<8?o[8][i-u-1]=f:u<9?o[8][15-u-1+1]=f:o[8][15-u-1]=f}o[i-8][8]=!t},w=function(t,r){for(var e=-1,n=i-1,a=7,u=0,f=B.getMaskFunction(r),c=i-1;c>0;c-=2)for(6==c&&(c-=1);;){for(var g=0;g<2;g+=1)if(null==o[n][c-g]){var l=!1;u<t.length&&(l=1==(t[u]>>>a&1)),f(n,c-g)&&(l=!l),o[n][c-g]=l,-1==(a-=1)&&(u+=1,a=7)}if((n+=e)<0||i<=n){n-=e,e=-e;break}}},p=function(t,r,e){for(var n=A.getRSBlocks(t,r),o=b(),i=0;i<e.length;i+=1){var a=e[i];o.put(a.getMode(),4),o.put(a.getLength(),B.getLengthInBits(a.getMode(),t)),a.write(o)}var u=0;for(i=0;i<n.length;i+=1)u+=n[i].dataCount;if(o.getLengthInBits()>8*u)throw"code length overflow. ("+o.getLengthInBits()+">"+8*u+")";for(o.getLengthInBits()+4<=8*u&&o.put(0,4);o.getLengthInBits()%8!=0;)o.putBit(!1);for(;!(o.getLengthInBits()>=8*u||(o.put(236,8),o.getLengthInBits()>=8*u));)o.put(17,8);return function(t,r){for(var e=0,n=0,o=0,i=new Array(r.length),a=new Array(r.length),u=0;u<r.length;u+=1){var f=r[u].dataCount,c=r[u].totalCount-f;n=Math.max(n,f),o=Math.max(o,c),i[u]=new Array(f);for(var g=0;g<i[u].length;g+=1)i[u][g]=255&t.getBuffer()[g+e];e+=f;var l=B.getErrorCorrectPolynomial(c),h=k(i[u],l.getLength()-1).mod(l);for(a[u]=new Array(l.getLength()-1),g=0;g<a[u].length;g+=1){var s=g+h.getLength()-a[u].length;a[u][g]=s>=0?h.getAt(s):0}}var v=0;for(g=0;g<r.length;g+=1)v+=r[g].totalCount;var d=new Array(v),w=0;for(g=0;g<n;g+=1)for(u=0;u<r.length;u+=1)g<i[u].length&&(d[w]=i[u][g],w+=1);for(g=0;g<o;g+=1)for(u=0;u<r.length;u+=1)g<a[u].length&&(d[w]=a[u][g],w+=1);return d}(o,n)};f.addData=function(t,r){var e=null;switch(r=r||"Byte"){case"Numeric":e=M(t);break;case"Alphanumeric":e=x(t);break;case"Byte":e=m(t);break;case"Kanji":e=L(t);break;default:throw"mode:"+r}u.push(e),a=null},f.isDark=function(t,r){if(t<0||i<=t||r<0||i<=r)throw t+","+r;return o[t][r]},f.getModuleCount=function(){return i},f.make=function(){if(e<1){for(var t=1;t<40;t++){for(var r=A.getRSBlocks(t,n),o=b(),i=0;i<u.length;i++){var a=u[i];o.put(a.getMode(),4),o.put(a.getLength(),B.getLengthInBits(a.getMode(),t)),a.write(o)}var g=0;for(i=0;i<r.length;i++)g+=r[i].dataCount;if(o.getLengthInBits()<=8*g)break}e=t}c(!1,function(){for(var t=0,r=0,e=0;e<8;e+=1){c(!0,e);var n=B.getLostPoint(f);(0==e||t>n)&&(t=n,r=e)}return r}())},f.createTableTag=function(t,r){t=t||2;var e="";e+='<table style="',e+=" border-width: 0px; border-style: none;",e+=" border-collapse: collapse;",e+=" padding: 0px; margin: "+(r=void 0===r?4*t:r)+"px;",e+='">',e+="<tbody>";for(var n=0;n<f.getModuleCount();n+=1){e+="<tr>";for(var o=0;o<f.getModuleCount();o+=1)e+='<td style="',e+=" border-width: 0px; border-style: none;",e+=" border-collapse: collapse;",e+=" padding: 0px; margin: 0px;",e+=" width: "+t+"px;",e+=" height: "+t+"px;",e+=" background-color: ",e+=f.isDark(n,o)?"#000000":"#ffffff",e+=";",e+='"/>';e+="</tr>"}return e+="</tbody>",e+="</table>"},f.createSvgTag=function(t,r,e,n){var o={};"object"==typeof arguments[0]&&(t=(o=arguments[0]).cellSize,r=o.margin,e=o.alt,n=o.title),t=t||2,r=void 0===r?4*t:r,(e="string"==typeof e?{text:e}:e||{}).text=e.text||null,e.id=e.text?e.id||"qrcode-description":null,(n="string"==typeof n?{text:n}:n||{}).text=n.text||null,n.id=n.text?n.id||"qrcode-title":null;var i,a,u,c,g=f.getModuleCount()*t+2*r,l="";for(c="l"+t+",0 0,"+t+" -"+t+",0 0,-"+t+"z ",l+='<svg version="1.1" xmlns="http://www.w3.org/2000/svg"',l+=o.scalable?"":' width="'+g+'px" height="'+g+'px"',l+=' viewBox="0 0 '+g+" "+g+'" ',l+=' preserveAspectRatio="xMinYMin meet"',l+=n.text||e.text?' role="img" aria-labelledby="'+y([n.id,e.id].join(" ").trim())+'"':"",l+=">",l+=n.text?'<title id="'+y(n.id)+'">'+y(n.text)+"</title>":"",l+=e.text?'<description id="'+y(e.id)+'">'+y(e.text)+"</description>":"",l+='<rect width="100%" height="100%" fill="white" cx="0" cy="0"/>',l+='<path d="',a=0;a<f.getModuleCount();a+=1)for(u=a*t+r,i=0;i<f.getModuleCount();i+=1)f.isDark(a,i)&&(l+="M"+(i*t+r)+","+u+c);return l+='" stroke="transparent" fill="black"/>',l+="</svg>"},f.createDataURL=function(t,r){t=t||2,r=void 0===r?4*t:r;var e=f.getModuleCount()*t+2*r,n=r,o=e-r;return I(e,e,function(r,e){if(n<=r&&r<o&&n<=e&&e<o){var i=Math.floor((r-n)/t),a=Math.floor((e-n)/t);return f.isDark(a,i)?0:1}return 1})},f.createImgTag=function(t,r,e){t=t||2,r=void 0===r?4*t:r;var n=f.getModuleCount()*t+2*r,o="";return o+="<img",o+=' src="',o+=f.createDataURL(t,r),o+='"',o+=' width="',o+=n,o+='"',o+=' height="',o+=n,o+='"',e&&(o+=' alt="',o+=y(e),o+='"'),o+="/>"};var y=function(t){for(var r="",e=0;e<t.length;e+=1){var n=t.charAt(e);switch(n){case"<":r+="&lt;";break;case">":r+="&gt;";break;case"&":r+="&amp;";break;case'"':r+="&quot;";break;default:r+=n}}return r};return f.createASCII=function(t,r){if((t=t||1)<2)return function(t){t=void 0===t?2:t;var r,e,n,o,i,a=1*f.getModuleCount()+2*t,u=t,c=a-t,g={"██":"█","█ ":"▀"," █":"▄","  ":" "},l={"██":"▀","█ ":"▀"," █":" ","  ":" "},h="";for(r=0;r<a;r+=2){for(n=Math.floor((r-u)/1),o=Math.floor((r+1-u)/1),e=0;e<a;e+=1)i="█",u<=e&&e<c&&u<=r&&r<c&&f.isDark(n,Math.floor((e-u)/1))&&(i=" "),u<=e&&e<c&&u<=r+1&&r+1<c&&f.isDark(o,Math.floor((e-u)/1))?i+=" ":i+="█",h+=t<1&&r+1>=c?l[i]:g[i];h+="\n"}return a%2&&t>0?h.substring(0,h.length-a-1)+Array(a+1).join("▀"):h.substring(0,h.length-1)}(r);t-=1,r=void 0===r?2*t:r;var e,n,o,i,a=f.getModuleCount()*t+2*r,u=r,c=a-r,g=Array(t+1).join("██"),l=Array(t+1).join("  "),h="",s="";for(e=0;e<a;e+=1){for(o=Math.floor((e-u)/t),s="",n=0;n<a;n+=1)i=1,u<=n&&n<c&&u<=e&&e<c&&f.isDark(o,Math.floor((n-u)/t))&&(i=0),s+=i?g:l;for(o=0;o<t;o+=1)h+=s+"\n"}return h.substring(0,h.length-1)},f.renderTo2dContext=function(t,r){r=r||2;for(var e=f.getModuleCount(),n=0;n<e;n++)for(var o=0;o<e;o++)t.fillStyle=f.isDark(n,o)?"black":"white",t.fillRect(o*r,n*r,r,r)},f};t.stringToBytes=(t.stringToBytesFuncs={default:function(t){for(var r=[],e=0;e<t.length;e+=1){var n=t.charCodeAt(e);r.push(255&n)}return r}}).default,t.createStringToBytes=function(t,r){var e=function(){for(var e=S(t),n=function(){var t=e.read();if(-1==t)throw"eof";return t},o=0,i={};;){var a=e.read();if(-1==a)break;var u=n(),f=n()<<8|n();i[String.fromCharCode(a<<8|u)]=f,o+=1}if(o!=r)throw o+" != "+r;return i}(),n="?".charCodeAt(0);return function(t){for(var r=[],o=0;o<t.length;o+=1){var i=t.charCodeAt(o);if(i<128)r.push(i);else{var a=e[t.charAt(o)];"number"==typeof a?(255&a)==a?r.push(a):(r.push(a>>>8),r.push(255&a)):r.push(n)}}return r}};var r,e,n,o,i,a=1,u=2,f=4,c=8,g={L:1,M:0,Q:3,H:2},l=0,h=1,s=2,v=3,d=4,w=5,p=6,y=7,B=(r=[[],[6,18],[6,22],[6,26],[6,30],[6,34],[6,22,38],[6,24,42],[6,26,46],[6,28,50],[6,30,54],[6,32,58],[6,34,62],[6,26,46,66],[6,26,48,70],[6,26,50,74],[6,30,54,78],[6,30,56,82],[6,30,58,86],[6,34,62,90],[6,28,50,72,94],[6,26,50,74,98],[6,30,54,78,102],[6,28,54,80,106],[6,32,58,84,110],[6,30,58,86,114],[6,34,62,90,118],[6,26,50,74,98,122],[6,30,54,78,102,126],[6,26,52,78,104,130],[6,30,56,82,108,134],[6,34,60,86,112,138],[6,30,58,86,114,142],[6,34,62,90,118,146],[6,30,54,78,102,126,150],[6,24,50,76,102,128,154],[6,28,54,80,106,132,158],[6,32,58,84,110,136,162],[6,26,54,82,110,138,166],[6,30,58,86,114,142,170]],e=1335,n=7973,i=function(t){for(var r=0;0!=t;)r+=1,t>>>=1;return r},(o={}).getBCHTypeInfo=function(t){for(var r=t<<10;i(r)-i(e)>=0;)r^=e<<i(r)-i(e);return 21522^(t<<10|r)},o.getBCHTypeNumber=function(t){for(var r=t<<12;i(r)-i(n)>=0;)r^=n<<i(r)-i(n);return t<<12|r},o.getPatternPosition=function(t){return r[t-1]},o.getMaskFunction=function(t){switch(t){case l:return function(t,r){return(t+r)%2==0};case h:return function(t,r){return t%2==0};case s:return function(t,r){return r%3==0};case v:return function(t,r){return(t+r)%3==0};case d:return function(t,r){return(Math.floor(t/2)+Math.floor(r/3))%2==0};case w:return function(t,r){return t*r%2+t*r%3==0};case p:return function(t,r){return(t*r%2+t*r%3)%2==0};case y:return function(t,r){return(t*r%3+(t+r)%2)%2==0};default:throw"bad maskPattern:"+t}},o.getErrorCorrectPolynomial=function(t){for(var r=k([1],0),e=0;e<t;e+=1)r=r.multiply(k([1,C.gexp(e)],0));return r},o.getLengthInBits=function(t,r){if(1<=r&&r<10)switch(t){case a:return 10;case u:return 9;case f:case c:return 8;default:throw"mode:"+t}else if(r<27)switch(t){case a:return 12;case u:return 11;case f:return 16;case c:return 10;default:throw"mode:"+t}else{if(!(r<41))throw"type:"+r;switch(t){case a:return 14;case u:return 13;case f:return 16;case c:return 12;default:throw"mode:"+t}}},o.getLostPoint=function(t){for(var r=t.getModuleCount(),e=0,n=0;n<r;n+=1)for(var o=0;o<r;o+=1){for(var i=0,a=t.isDark(n,o),u=-1;u<=1;u+=1)if(!(n+u<0||r<=n+u))for(var f=-1;f<=1;f+=1)o+f<0||r<=o+f||0==u&&0==f||a==t.isDark(n+u,o+f)&&(i+=1);i>5&&(e+=3+i-5)}for(n=0;n<r-1;n+=1)for(o=0;o<r-1;o+=1){var c=0;t.isDark(n,o)&&(c+=1),t.isDark(n+1,o)&&(c+=1),t.isDark(n,o+1)&&(c+=1),t.isDark(n+1,o+1)&&(c+=1),0!=c&&4!=c||(e+=3)}for(n=0;n<r;n+=1)for(o=0;o<r-6;o+=1)t.isDark(n,o)&&!t.isDark(n,o+1)&&t.isDark(n,o+2)&&t.isDark(n,o+3)&&t.isDark(n,o+4)&&!t.isDark(n,o+5)&&t.isDark(n,o+6)&&(e+=40);for(o=0;o<r;o+=1)for(n=0;n<r-6;n+=1)t.isDark(n,o)&&!t.isDark(n+1,o)&&t.isDark(n+2,o)&&t.isDark(n+3,o)&&t.isDark(n+4,o)&&!t.isDark(n+5,o)&&t.isDark(n+6,o)&&(e+=40);var g=0;for(o=0;o<r;o+=1)for(n=0;n<r;n+=1)t.isDark(n,o)&&(g+=1);return e+=Math.abs(100*g/r/r-50)/5*10},o),C=function(){for(var t=new Array(256),r=new Array(256),e=0;e<8;e+=1)t[e]=1<<e;for(e=8;e<256;e+=1)t[e]=t[e-4]^t[e-5]^t[e-6]^t[e-8];for(e=0;e<255;e+=1)r[t[e]]=e;var n={glog:function(t){if(t<1)throw"glog("+t+")";return r[t]},gexp:function(r){for(;r<0;)r+=255;for(;r>=256;)r-=255;return t[r]}};return n}();function k(t,r){if(void 0===t.length)throw t.length+"/"+r;var e=function(){for(var e=0;e<t.length&&0==t[e];)e+=1;for(var n=new Array(t.length-e+r),o=0;o<t.length-e;o+=1)n[o]=t[o+e];return n}(),n={getAt:function(t){return e[t]},getLength:function(){return e.length},multiply:function(t){for(var r=new Array(n.getLength()+t.getLength()-1),e=0;e<n.getLength();e+=1)for(var o=0;o<t.getLength();o+=1)r[e+o]^=C.gexp(C.glog(n.getAt(e))+C.glog(t.getAt(o)));return k(r,0)},mod:function(t){if(n.getLength()-t.getLength()<0)return n;for(var r=C.glog(n.getAt(0))-C.glog(t.getAt(0)),e=new Array(n.getLength()),o=0;o<n.getLength();o+=1)e[o]=n.getAt(o);for(o=0;o<t.getLength();o+=1)e[o]^=C.gexp(C.glog(t.getAt(o))+r);return k(e,0).mod(t)}};return n}var A=function(){var t=[[1,26,19],[1,26,16],[1,26,13],[1,26,9],[1,44,34],[1,44,28],[1,44,22],[1,44,16],[1,70,55],[1,70,44],[2,35,17],[2,35,13],[1,100,80],[2,50,32],[2,50,24],[4,25,9],[1,134,108],[2,67,43],[2,33,15,2,34,16],[2,33,11,2,34,12],[2,86,68],[4,43,27],[4,43,19],[4,43,15],[2,98,78],[4,49,31],[2,32,14,4,33,15],[4,39,13,1,40,14],[2,121,97],[2,60,38,2,61,39],[4,40,18,2,41,19],[4,40,14,2,41,15],[2,146,116],[3,58,36,2,59,37],[4,36,16,4,37,17],[4,36,12,4,37,13],[2,86,68,2,87,69],[4,69,43,1,70,44],[6,43,19,2,44,20],[6,43,15,2,44,16],[4,101,81],[1,80,50,4,81,51],[4,50,22,4,51,23],[3,36,12,8,37,13],[2,116,92,2,117,93],[6,58,36,2,59,37],[4,46,20,6,47,21],[7,42,14,4,43,15],[4,133,107],[8,59,37,1,60,38],[8,44,20,4,45,21],[12,33,11,4,34,12],[3,145,115,1,146,116],[4,64,40,5,65,41],[11,36,16,5,37,17],[11,36,12,5,37,13],[5,109,87,1,110,88],[5,65,41,5,66,42],[5,54,24,7,55,25],[11,36,12,7,37,13],[5,122,98,1,123,99],[7,73,45,3,74,46],[15,43,19,2,44,20],[3,45,15,13,46,16],[1,135,107,5,136,108],[10,74,46,1,75,47],[1,50,22,15,51,23],[2,42,14,17,43,15],[5,150,120,1,151,121],[9,69,43,4,70,44],[17,50,22,1,51,23],[2,42,14,19,43,15],[3,141,113,4,142,114],[3,70,44,11,71,45],[17,47,21,4,48,22],[9,39,13,16,40,14],[3,135,107,5,136,108],[3,67,41,13,68,42],[15,54,24,5,55,25],[15,43,15,10,44,16],[4,144,116,4,145,117],[17,68,42],[17,50,22,6,51,23],[19,46,16,6,47,17],[2,139,111,7,140,112],[17,74,46],[7,54,24,16,55,25],[34,37,13],[4,151,121,5,152,122],[4,75,47,14,76,48],[11,54,24,14,55,25],[16,45,15,14,46,16],[6,147,117,4,148,118],[6,73,45,14,74,46],[11,54,24,16,55,25],[30,46,16,2,47,17],[8,132,106,4,133,107],[8,75,47,13,76,48],[7,54,24,22,55,25],[22,45,15,13,46,16],[10,142,114,2,143,115],[19,74,46,4,75,47],[28,50,22,6,51,23],[33,46,16,4,47,17],[8,152,122,4,153,123],[22,73,45,3,74,46],[8,53,23,26,54,24],[12,45,15,28,46,16],[3,147,117,10,148,118],[3,73,45,23,74,46],[4,54,24,31,55,25],[11,45,15,31,46,16],[7,146,116,7,147,117],[21,73,45,7,74,46],[1,53,23,37,54,24],[19,45,15,26,46,16],[5,145,115,10,146,116],[19,75,47,10,76,48],[15,54,24,25,55,25],[23,45,15,25,46,16],[13,145,115,3,146,116],[2,74,46,29,75,47],[42,54,24,1,55,25],[23,45,15,28,46,16],[17,145,115],[10,74,46,23,75,47],[10,54,24,35,55,25],[19,45,15,35,46,16],[17,145,115,1,146,116],[14,74,46,21,75,47],[29,54,24,19,55,25],[11,45,15,46,46,16],[13,145,115,6,146,116],[14,74,46,23,75,47],[44,54,24,7,55,25],[59,46,16,1,47,17],[12,151,121,7,152,122],[12,75,47,26,76,48],[39,54,24,14,55,25],[22,45,15,41,46,16],[6,151,121,14,152,122],[6,75,47,34,76,48],[46,54,24,10,55,25],[2,45,15,64,46,16],[17,152,122,4,153,123],[29,74,46,14,75,47],[49,54,24,10,55,25],[24,45,15,46,46,16],[4,152,122,18,153,123],[13,74,46,32,75,47],[48,54,24,14,55,25],[42,45,15,32,46,16],[20,147,117,4,148,118],[40,75,47,7,76,48],[43,54,24,22,55,25],[10,45,15,67,46,16],[19,148,118,6,149,119],[18,75,47,31,76,48],[34,54,24,34,55,25],[20,45,15,61,46,16]],r=function(t,r){var e={};return e.totalCount=t,e.dataCount=r,e},e={};return e.getRSBlocks=function(e,n){var o=function(r,e){switch(e){case g.L:return t[4*(r-1)+0];case g.M:return t[4*(r-1)+1];case g.Q:return t[4*(r-1)+2];case g.H:return t[4*(r-1)+3];default:return}}(e,n);if(void 0===o)throw"bad rs block @ typeNumber:"+e+"/errorCorrectionLevel:"+n;for(var i=o.length/3,a=[],u=0;u<i;u+=1)for(var f=o[3*u+0],c=o[3*u+1],l=o[3*u+2],h=0;h<f;h+=1)a.push(r(c,l));return a},e}(),b=function(){var t=[],r=0,e={getBuffer:function(){return t},getAt:function(r){var e=Math.floor(r/8);return 1==(t[e]>>>7-r%8&1)},put:function(t,r){for(var n=0;n<r;n+=1)e.putBit(1==(t>>>r-n-1&1))},getLengthInBits:function(){return r},putBit:function(e){var n=Math.floor(r/8);t.length<=n&&t.push(0),e&&(t[n]|=128>>>r%8),r+=1}};return e},M=function(t){var r=a,e=t,n={getMode:function(){return r},getLength:function(t){return e.length},write:function(t){for(var r=e,n=0;n+2<r.length;)t.put(o(r.substring(n,n+3)),10),n+=3;n<r.length&&(r.length-n==1?t.put(o(r.substring(n,n+1)),4):r.length-n==2&&t.put(o(r.substring(n,n+2)),7))}},o=function(t){for(var r=0,e=0;e<t.length;e+=1)r=10*r+i(t.charAt(e));return r},i=function(t){if("0"<=t&&t<="9")return t.charCodeAt(0)-"0".charCodeAt(0);throw"illegal char :"+t};return n},x=function(t){var r=u,e=t,n={getMode:function(){return r},getLength:function(t){return e.length},write:function(t){for(var r=e,n=0;n+1<r.length;)t.put(45*o(r.charAt(n))+o(r.charAt(n+1)),11),n+=2;n<r.length&&t.put(o(r.charAt(n)),6)}},o=function(t){if("0"<=t&&t<="9")return t.charCodeAt(0)-"0".charCodeAt(0);if("A"<=t&&t<="Z")return t.charCodeAt(0)-"A".charCodeAt(0)+10;switch(t){case" ":return 36;case"$":return 37;case"%":return 38;case"*":return 39;case"+":return 40;case"-":return 41;case".":return 42;case"/":return 43;case":":return 44;default:throw"illegal char :"+t}};return n},m=function(r){var e=f,n=t.stringToBytes(r),o={getMode:function(){return e},getLength:function(t){return n.length},write:function(t){for(var r=0;r<n.length;r+=1)t.put(n[r],8)}};return o},L=function(r){var e=c,n=t.stringToBytesFuncs.SJIS;if(!n)throw"sjis not supported.";!function(){var t=n("友");if(2!=t.length||38726!=(t[0]<<8|t[1]))throw"sjis not supported."}();var o=n(r),i={getMode:function(){return e},getLength:function(t){return~~(o.length/2)},write:function(t){for(var r=o,e=0;e+1<r.length;){var n=(255&r[e])<<8|255&r[e+1];if(33088<=n&&n<=40956)n-=33088;else{if(!(57408<=n&&n<=60351))throw"illegal char at "+(e+1)+"/"+n;n-=49472}n=192*(n>>>8&255)+(255&n),t.put(n,13),e+=2}if(e<r.length)throw"illegal char at "+(e+1)}};return i},D=function(){var t=[],r={writeByte:function(r){t.push(255&r)},writeShort:function(t){r.writeByte(t),r.writeByte(t>>>8)},writeBytes:function(t,e,n){e=e||0,n=n||t.length;for(var o=0;o<n;o+=1)r.writeByte(t[o+e])},writeString:function(t){for(var e=0;e<t.length;e+=1)r.writeByte(t.charCodeAt(e))},toByteArray:function(){return t},toString:function(){var r="";r+="[";for(var e=0;e<t.length;e+=1)e>0&&(r+=","),r+=t[e];return r+="]"}};return r},S=function(t){var r=t,e=0,n=0,o=0,i={read:function(){for(;o<8;){if(e>=r.length){if(0==o)return-1;throw"unexpected end of file./"+o}var t=r.charAt(e);if(e+=1,"="==t)return o=0,-1;t.match(/^\s$/)||(n=n<<6|a(t.charCodeAt(0)),o+=6)}var i=n>>>o-8&255;return o-=8,i}},a=function(t){if(65<=t&&t<=90)return t-65;if(97<=t&&t<=122)return t-97+26;if(48<=t&&t<=57)return t-48+52;if(43==t)return 62;if(47==t)return 63;throw"c:"+t};return i},I=function(t,r,e){for(var n=function(t,r){var e=t,n=r,o=new Array(t*r),i={setPixel:function(t,r,n){o[r*e+t]=n},write:function(t){t.writeString("GIF87a"),t.writeShort(e),t.writeShort(n),t.writeByte(128),t.writeByte(0),t.writeByte(0),t.writeByte(0),t.writeByte(0),t.writeByte(0),t.writeByte(255),t.writeByte(255),t.writeByte(255),t.writeString(","),t.writeShort(0),t.writeShort(0),t.writeShort(e),t.writeShort(n),t.writeByte(0);var r=a(2);t.writeByte(2);for(var o=0;r.length-o>255;)t.writeByte(255),t.writeBytes(r,o,255),o+=255;t.writeByte(r.length-o),t.writeBytes(r,o,r.length-o),t.writeByte(0),t.writeString(";")}},a=function(t){for(var r=1<<t,e=1+(1<<t),n=t+1,i=u(),a=0;a<r;a+=1)i.add(String.fromCharCode(a));i.add(String.fromCharCode(r)),i.add(String.fromCharCode(e));var f,c,g,l=D(),h=(f=l,c=0,g=0,{write:function(t,r){if(t>>>r!=0)throw"length over";for(;c+r>=8;)f.writeByte(255&(t<<c|g)),r-=8-c,t>>>=8-c,g=0,c=0;g|=t<<c,c+=r},flush:function(){c>0&&f.writeByte(g)}});h.write(r,n);var s=0,v=String.fromCharCode(o[s]);for(s+=1;s<o.length;){var d=String.fromCharCode(o[s]);s+=1,i.contains(v+d)?v+=d:(h.write(i.indexOf(v),n),i.size()<4095&&(i.size()==1<<n&&(n+=1),i.add(v+d)),v=d)}return h.write(i.indexOf(v),n),h.write(e,n),h.flush(),l.toByteArray()},u=function(){var t={},r=0,e={add:function(n){if(e.contains(n))throw"dup key:"+n;t[n]=r,r+=1},size:function(){return r},indexOf:function(r){return t[r]},contains:function(r){return void 0!==t[r]}};return e};return i}(t,r),o=0;o<r;o+=1)for(var i=0;i<t;i+=1)n.setPixel(i,o,e(i,o));var a=D();n.write(a);for(var u=function(){var t=0,r=0,e=0,n="",o={},i=function(t){n+=String.fromCharCode(a(63&t))},a=function(t){if(t<0);else{if(t<26)return 65+t;if(t<52)return t-26+97;if(t<62)return t-52+48;if(62==t)return 43;if(63==t)return 47}throw"n:"+t};return o.writeByte=function(n){for(t=t<<8|255&n,r+=8,e+=1;r>=6;)i(t>>>r-6),r-=6},o.flush=function(){if(r>0&&(i(t<<6-r),t=0,r=0),e%3!=0)for(var o=3-e%3,a=0;a<o;a+=1)n+="="},o.toString=function(){return n},o}(),f=a.toByteArray(),c=0;c<f.length;c+=1)u.writeByte(f[c]);return u.flush(),"data:image/gif;base64,"+u};return t}();return t.stringToBytesFuncs["UTF-8"]=function(t){return function(t){for(var r=[],e=0;e<t.length;e++){var n=t.charCodeAt(e);n<128?r.push(n):n<2048?r.push(192|n>>6,128|63&n):n<55296||n>=57344?r.push(224|n>>12,128|n>>6&63,128|63&n):(e++,n=65536+((1023&n)<<10|1023&t.charCodeAt(e)),r.push(240|n>>18,128|n>>12&63,128|n>>6&63,128|63&n))}return r}(t)},t}();
+// ═══════════════════════════════════════════════════════════════════════════
+// SYNC ACROSS DEVICES — one notebook on phone and computer, no accounts.
+// A 16-character sync code is the only key. The notebook is encrypted on the
+// device (AES-GCM, key from PBKDF2 of the code) before it leaves; the server
+// stores scrambled data under SHA-256(code) and can't read it.
+// Synced: K's notebook, Speech Coach history, Table Topics / Real-world /
+// Mentor practice history. Deletions travel as tombstones; "Clear notebook"
+// travels as a cut-off date.
+// ═══════════════════════════════════════════════════════════════════════════
+const SY_FN='/.netlify/functions/sync';
+const SY_ALPH='23456789ABCDEFGHJKMNPQRSTVWXYZ';   // no 0/O, 1/I/L, U
+const SY_KEYS=['tt-practice','real-practice','mentor-practice'];
+// A link like …/#sync=KX7Q-4MRV-29TP-HNWE — read it before the router clears the hash
+let _syPending=(function(){
+  try{const m=(location.hash||'').match(/sync=([A-Za-z0-9-]{16,24})/);
+    if(m){history.replaceState(null,'',location.pathname+location.search);return m[1];}}catch(e){}
+  return null;})();
+
+function _syGenCode(){
+  const b=new Uint8Array(16);crypto.getRandomValues(b);
+  let s='';for(let i=0;i<16;i++)s+=SY_ALPH[b[i]%SY_ALPH.length];
+  return s.match(/.{4}/g).join('-');
+}
+function _syNorm(c){
+  const s=String(c||'').toUpperCase().replace(/O/g,'0').replace(/[IL]/g,'1').replace(/[^0-9A-Z]/g,'');
+  if(s.length!==16||[...s].some(ch=>!SY_ALPH.includes(ch)))return null;
+  return s.match(/.{4}/g).join('-');
+}
+function _syLink(code){return location.origin+location.pathname+'#sync='+code;}
+function _syDevice(){
+  const u=navigator.userAgent||'';
+  if(/iPad/.test(u))return 'iPad';if(/iPhone/.test(u))return 'iPhone';if(/Android/.test(u))return /Mobile/.test(u)?'Android phone':'Android tablet';
+  if(/Macintosh/.test(u))return navigator.maxTouchPoints>1?'iPad':'Mac';if(/Windows/.test(u))return 'Windows PC';return 'Computer';
+}
+function _syIsPhone(){return /iPhone|Android.+Mobile/.test(navigator.userAgent||'');}
+const _syB64=b=>{let s='';const a=new Uint8Array(b);for(let i=0;i<a.length;i+=8192)s+=String.fromCharCode.apply(null,a.subarray(i,i+8192));return btoa(s);};
+const _syUnB64=s=>{const b=atob(s),a=new Uint8Array(b.length);for(let i=0;i<b.length;i++)a[i]=b.charCodeAt(i);return a;};
+const _syKeyCache={};
+async function _syKeys(code){
+  if(_syKeyCache[code])return _syKeyCache[code];
+  const enc=new TextEncoder();
+  const h=await crypto.subtle.digest('SHA-256',enc.encode('tmc-sync-id|'+code));
+  const id=[...new Uint8Array(h)].map(x=>x.toString(16).padStart(2,'0')).join('');
+  const base=await crypto.subtle.importKey('raw',enc.encode(code),'PBKDF2',false,['deriveKey']);
+  const key=await crypto.subtle.deriveKey({name:'PBKDF2',salt:enc.encode('tmc-sync-key-v1'),iterations:150000,hash:'SHA-256'},base,{name:'AES-GCM',length:256},false,['encrypt','decrypt']);
+  return _syKeyCache[code]={id,key};
+}
+async function _syZip(bytes,dir){
+  if(typeof CompressionStream==='undefined')return null;
+  const s=new Blob([bytes]).stream().pipeThrough(dir?new CompressionStream('gzip'):new DecompressionStream('gzip'));
+  return new Uint8Array(await new Response(s).arrayBuffer());
+}
+async function _syEncrypt(key,obj){
+  let bytes=new TextEncoder().encode(JSON.stringify(obj)),z=0;
+  try{const c=await _syZip(bytes,true);if(c){bytes=c;z=1;}}catch(e){}
+  const iv=crypto.getRandomValues(new Uint8Array(12));
+  const ct=await crypto.subtle.encrypt({name:'AES-GCM',iv},key,bytes);
+  const out=new Uint8Array(13+ct.byteLength);out[0]=z;out.set(iv,1);out.set(new Uint8Array(ct),13);
+  return _syB64(out);
+}
+async function _syDecrypt(key,b64){
+  const a=_syUnB64(b64);
+  let bytes=new Uint8Array(await crypto.subtle.decrypt({name:'AES-GCM',iv:a.subarray(1,13)},key,a.subarray(13)));
+  if(a[0]===1)bytes=await _syZip(bytes,false);
+  return JSON.parse(new TextDecoder().decode(bytes));
+}
+async function _syFetch(method,qs,body){
+  const r=await fetch(SY_FN+(qs?'?'+qs:''),{method,headers:body?{'content-type':'application/json'}:{},body:body?JSON.stringify(body):undefined,cache:'no-store'});
+  let j=null;try{j=await r.json();}catch(e){}
+  return {status:r.status,j:j||{}};
+}
+
+// What travels
+function _syPayload(){
+  const nb=_nb();
+  const sess={};SY_KEYS.forEach(k=>{if(S.sessions&&S.sessions[k])sess[k]=S.sessions[k];});
+  const dev=Object.assign({},(S.sync&&S.sync.devs)||{});
+  if(S.sync)dev[S.sync.dev]={name:_syDevice(),last:new Date().toISOString()};
+  return {v:1,nb:{entries:nb.entries,notes:nb.notes,del:nb.del||[],delCh:nb.delCh||[],clearedAt:nb.clearedAt||''},ch:S.coachHistory||[],sess,dev};
+}
+function _sySig(){
+  const nb=_nb(),ch=S.coachHistory||[];
+  const ss=SY_KEYS.map(k=>((S.sessions||{})[k]||[]).map(x=>x.iso).join(',')).join('|');
+  return [nb.entries.map(e=>e.id).join(','),nb.notes.map(n=>n.iso).join(','),(nb.del||[]).length,(nb.delCh||[]).length,nb.clearedAt||'',ch.map(c=>c.id).join(','),ss].join('#');
+}
+// Combine what's here with what came down. Nothing is lost unless deleted.
+function _syMerge(r){
+  if(!r||!r.nb)return false;
+  const before=_sySig();
+  const nb=_nb();
+  const clr=[nb.clearedAt||'',r.nb.clearedAt||''].sort().pop();
+  const after=iso=>!clr||String(iso||'')>clr;
+  const del=new Set([...(nb.del||[]),...(r.nb.del||[])]);
+  const delCh=new Set([...(nb.delCh||[]),...(r.nb.delCh||[])]);
+  const byId=new Map();
+  (r.nb.entries||[]).forEach(e=>{if(e&&e.id)byId.set(e.id,e);});
+  nb.entries.forEach(e=>byId.set(e.id,e));
+  nb.entries=[...byId.values()].filter(e=>!del.has(e.id)&&!(e.ch&&delCh.has(e.ch))&&after(e.iso))
+    .sort((a,b)=>new Date(b.iso)-new Date(a.iso)).slice(0,NB_MAX);
+  const newestHere=nb.notes[0]&&nb.notes[0].iso||'';
+  const notes=new Map();(r.nb.notes||[]).concat(nb.notes).forEach(n=>{if(n&&n.iso)notes.set(n.iso,n);});
+  nb.notes=[...notes.values()].filter(n=>after(n.iso)).sort((a,b)=>new Date(b.iso)-new Date(a.iso)).slice(0,12);
+  if(nb.notes[0]&&nb.notes[0].iso>newestHere&&newestHere)nb.unseen=true;
+  nb.del=[...del].slice(-500);nb.delCh=[...delCh].slice(-500);nb.clearedAt=clr;
+  const ch=new Map();(r.ch||[]).concat(S.coachHistory||[]).forEach(s=>{if(s&&s.id!=null)ch.set(s.id,s);});
+  S.coachHistory=[...ch.values()].filter(s=>!delCh.has(s.id)&&after(s.date)).sort((a,b)=>new Date(b.date)-new Date(a.date)).slice(0,50);
+  if(!S.sessions)S.sessions={};
+  SY_KEYS.forEach(k=>{
+    const m=new Map();((r.sess||{})[k]||[]).concat(S.sessions[k]||[]).forEach(s=>{if(s&&s.iso)m.set(s.iso,s);});
+    const arr=[...m.values()].filter(s=>after(s.iso)).sort((a,b)=>new Date(b.iso)-new Date(a.iso)).slice(0,10);
+    if(arr.length)S.sessions[k]=arr;else delete S.sessions[k];
+  });
+  if(S.sync){const d=Object.assign({},S.sync.devs||{},r.dev||{});S.sync.devs=d;}
+  return _sySig()!==before;
+}
+
+// One round: pull, merge, push if anything is new. Retries when another device wins the race.
+async function syncNow(opts){
+  opts=opts||{};
+  if(!S.sync||!S.sync.code||S.sync.gone)return;
+  if(syncNow._busy){syncNow._again=true;return;}
+  if(navigator.onLine===false){S.sync.err='offline';return;}
+  syncNow._busy=true;
+  const viewBefore=V.view;
+  let changed=false;
+  try{
+    const {id,key}=await _syKeys(S.sync.code);
+    for(let attempt=0;attempt<4;attempt++){
+      const g=await _syFetch('GET','id='+id+(S.sync.rev&&!opts.full?'&have='+S.sync.rev:''));
+      let rev=0;
+      if(g.status===200){
+        rev=g.j.rev;
+        if(!g.j.same){changed=_syMerge(await _syDecrypt(key,g.j.data))||changed;}
+      }else if(g.status===404){
+        if(S.sync.rev>0){S.sync.gone=true;S.sync.err=null;save();break;} // the synced copy was deleted
+      }else throw new Error('get '+g.status);
+      const sig=_sySig();
+      if(rev&&rev===S.sync.rev&&sig===S.sync.sig&&!opts.push){S.sync.at=new Date().toISOString();break;}
+      const p=await _syFetch('POST','',{id,base:rev,data:await _syEncrypt(key,_syPayload())});
+      if(p.status===200){S.sync.rev=p.j.rev;S.sync.sig=sig;S.sync.at=new Date().toISOString();S.sync.err=null;
+        if(S.sync.devs)S.sync.devs[S.sync.dev]={name:_syDevice(),last:S.sync.at};break;}
+      if(p.status!==409)throw new Error('post '+p.status);
+      S.sync.rev=0; // someone synced first: pull theirs, merge, try again
+    }
+    S.sync.err=null;
+  }catch(e){
+    S.sync.err=/OperationError|decrypt/i.test(String(e&&e.name)+String(e&&e.message))?'key':(navigator.onLine===false?'offline':'server');
+  }
+  save();
+  syncNow._busy=false;
+  if(changed&&V.view===viewBefore&&/^(hub|notebook|sync|settings)$/.test(V.view))render();
+  else if(V.view==='sync')render();
+  if(syncNow._again){syncNow._again=false;setTimeout(()=>syncNow(),300);}
+}
+// Push soon after anything synced changes (called from save)
+function _sySoon(){
+  if(!S.sync||!S.sync.code||S.sync.gone||syncNow._busy)return;
+  clearTimeout(_sySoon._t);
+  _sySoon._t=setTimeout(()=>{if(S.sync&&_sySig()!==S.sync.sig)syncNow();},4000);
+}
+async function syncStart(){
+  if(!window.crypto||!crypto.subtle){V._syErr='Sync needs a secure (https) connection.';return;}
+  const code=_syGenCode();
+  S.sync={code,dev:_nbId(),rev:0,devs:{},at:null,err:null};
+  save();
+  await syncNow({push:true});
+}
+async function syncJoin(raw){
+  if(!window.crypto||!crypto.subtle)return 'Sync needs a secure (https) connection.';
+  const code=_syNorm(raw);
+  if(!code)return 'That code doesn’t look right. It has 16 letters and numbers.';
+  try{
+    const {id,key}=await _syKeys(code);
+    const g=await _syFetch('GET','id='+id);
+    if(g.status===404)return 'No synced notebook uses that code. Check it, or start syncing on your other device first.';
+    if(g.status!==200)return 'Can’t reach sync right now. Try again in a moment.';
+    let data;try{data=await _syDecrypt(key,g.j.data);}catch(e){return 'That code doesn’t open this notebook. Check it and try again.';}
+    S.sync={code,dev:(S.sync&&S.sync.dev)||_nbId(),rev:0,devs:{},at:null,err:null};
+    _syMerge(data);S.sync.rev=g.j.rev;save();
+    await syncNow({push:true});
+    return null;
+  }catch(e){return 'Can’t reach sync right now. Try again in a moment.';}
+}
+async function syncDeleteCloud(){
+  try{const {id}=await _syKeys(S.sync.code);const r=await _syFetch('DELETE','id='+id);if(r.status!==200)return false;}catch(e){return false;}
+  S.sync=null;save();return true;
+}
+function _syAgo(iso){
+  if(!iso)return 'not yet';const s=Math.round((Date.now()-new Date(iso))/1000);
+  if(s<45)return 'just now';if(s<3600)return Math.round(s/60)+' min ago';if(s<86400)return Math.round(s/3600)+' h ago';return _nbRel(iso);
+}
+function _syStatus(){
+  const y=S.sync;
+  if(!y)return {on:false,st:'off',lab:'Off',line:'Use your notebook on your phone and computer'};
+  if(y.gone)return {on:true,st:'bad',lab:'Stopped',line:'The synced copy was deleted on another device'};
+  if(y.err==='key')return {on:true,st:'bad',lab:'Problem',line:'This code no longer opens the synced notebook'};
+  if(y.err==='offline')return {on:true,st:'warn',lab:'Offline',line:'Will sync when you’re back online'};
+  if(y.err)return {on:true,st:'warn',lab:'Retrying',line:'Can’t reach sync right now'};
+  const others=Object.keys(y.devs||{}).filter(k=>k!==y.dev).length;
+  return {on:true,st:'ok',lab:'On',line:'This '+(_syIsPhone()?'phone':'device')+(others?' + '+others+' other'+(others===1?'':'s'):'')+' · synced '+_syAgo(y.at)};
+}
+function _syQR(text){
+  try{const q=_QR(0,'M');q.addData(text);q.make();
+    const n=q.getModuleCount();let d='';
+    for(let r=0;r<n;r++)for(let c=0;c<n;c++)if(q.isDark(r,c))d+='M'+c+' '+r+'h1v1h-1z';
+    return '<svg viewBox="0 0 '+n+' '+n+'" shape-rendering="crispEdges" aria-label="Sync QR code"><path d="'+d+'" fill="#000"/></svg>';
+  }catch(e){return '';}
+}
+
+// ── The Sync screen ────────────────────────────────────────────────────────
+const SY_IC={sync:'<path d="M21 12a9 9 0 0 1-15.5 6.2L3 16"/><path d="M3 21v-5h5"/><path d="M3 12a9 9 0 0 1 15.5-6.2L21 8"/><path d="M21 3v5h-5"/>',
+  lock:'<rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/>',
+  link:'<path d="M10 13a5 5 0 0 0 7.07 0l3-3a5 5 0 0 0-7.07-7.07l-1.5 1.5"/><path d="M14 11a5 5 0 0 0-7.07 0l-3 3a5 5 0 0 0 7.07 7.07l1.5-1.5"/>',
+  share:'<path d="M4 12v7a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-7"/><path d="m16 6-4-4-4 4"/><path d="M12 2v13"/>'};
+function _sySv(k){return '<svg viewBox="0 0 24 24">'+SY_IC[k]+'</svg>';}
+function renderSync(app){
+  const y=S.sync,st=_syStatus();
+  const LOCK='<div class="sy-lock">'+_sySv('lock')+'<div><b>Encrypted on this device.</b> Only scrambled data leaves it; not even Kian can read your notebook. Keep the code private: anyone with it can open your notebook.</div></div>';
+  let h='<div class="t1 stx syx">';
+  h+='<div class="st-top"><button type="button" class="nb-back" data-action="sy-back" aria-label="Back">'+_stSv('back')+'</button><h1>Sync</h1></div>';
+  if(!y){
+    const join='<div class="sy-card"><div class="sy-k">ALREADY SYNCING ON ANOTHER DEVICE?</div><div class="sy-steps">'+
+      '<div class="sy-step"><i>1</i><span>On that device, open <b>Settings → Your data → Sync</b>.</span></div>'+
+      '<div class="sy-step"><i>2</i><span>'+(_syIsPhone()?'Scan its QR code with your camera, open the sync link you sent yourself, or type the code:':'Open the sync link you sent yourself (WeChat File Transfer works), or type the code:')+'</span></div></div>'+
+      '<div class="sy-in"><input id="sy-code" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="XXXX-XXXX-XXXX-XXXX" value="'+escHtml(V._syJoinCode||'')+'" aria-label="Sync code"><button type="button" class="sy-btn" data-action="sy-join"'+(V._syBusy?' disabled':'')+'>'+(V._syBusy==='join'?'Joining…':'Join')+'</button></div>'+
+      (V._syErr?'<div class="sy-err">'+escHtml(V._syErr)+'</div>':'')+'</div>';
+    const start='<div class="sy-card"><div class="sy-k">START SYNCING HERE</div><p class="sy-p">Turn on sync and you’ll get a code to add your other devices. Your notebook, Speech Coach history and practice history come with you.</p>'+
+      '<button type="button" class="sy-btn sy-wide" data-action="sy-start"'+(V._syBusy?' disabled':'')+'>'+_sySv('sync')+(V._syBusy==='start'?'Turning on…':'Turn on sync')+'</button></div>';
+    h+=(V._syJoinCode?'<div class="sy-two">'+join+start+'</div>':'<div class="sy-two">'+start+join+'</div>')+LOCK;
+  }else{
+    h+='<div class="sy-status sy-'+st.st+'"><span class="dot"></span><div><b>'+(st.st==='ok'?'Sync is on':st.lab==='Stopped'?'Sync stopped':'Sync · '+st.lab)+'</b><span>'+escHtml(st.line)+'</span></div>'+(st.st!=='bad'?'<button type="button" class="sy-now" data-action="sy-now" aria-label="Sync now">'+_sySv('sync')+'</button>':'')+'</div>';
+    if(y.gone||y.err==='key'){
+      h+='<div class="sy-card"><p class="sy-p">'+(y.gone?'Another device deleted the synced copy, so this one stopped. Everything on this device is still here.':'The synced notebook can’t be opened with this code any more.')+'</p><button type="button" class="sy-btn sy-wide" data-action="sy-restart">Start syncing again with a new code</button></div>';
+      h+='<button type="button" class="sy-off" data-action="sy-stop">Turn off sync on this device</button>';
+    }else{
+      const link=_syLink(y.code);
+      h+='<div class="sy-card"><div class="sy-k">ADD ANOTHER DEVICE</div><div class="sy-qr" data-lt-keep>'+_syQR(link)+'</div><div class="sy-or">Scan with the other device’s camera, or type this code</div><div class="sy-code">'+y.code+'</div>'+
+        '<div class="sy-btns"><button type="button" class="sy-btn" data-action="sy-copy">'+_sySv('link')+(V._syCopied?'Link copied':'Copy sync link')+'</button>'+(navigator.share?'<button type="button" class="sy-btn ghost" data-action="sy-share" aria-label="Share sync link">'+_sySv('share')+'</button>':'')+'</div></div>';
+      h+=LOCK;
+      h+='<button type="button" class="sy-off" data-action="sy-stop">Stop syncing on this '+(_syIsPhone()?'phone':'device')+'</button>';
+      h+='<button type="button" class="sy-del" data-action="sy-delete">Delete the synced copy</button>';
+    }
+  }
+  h+='</div>';
+  app.innerHTML=h;
+  const q=s=>app.querySelector(s),on=(s,f)=>{const el=q(s);if(el)el.addEventListener('click',f);};
+  on('[data-action="sy-back"]',()=>{V._syErr=null;V._syJoinCode=null;V._setOpen='data';V.view='settings';render();});
+  on('[data-action="sy-start"]',async()=>{V._syBusy='start';render();await syncStart();V._syBusy=null;render();});
+  const doJoin=async()=>{const v=(q('#sy-code')||{}).value||'';V._syJoinCode=v;V._syBusy='join';V._syErr=null;render();
+    const err=await syncJoin(v);V._syBusy=null;V._syErr=err;if(!err)V._syJoinCode=null;render();};
+  on('[data-action="sy-join"]',doJoin);
+  const inp=q('#sy-code');if(inp){inp.addEventListener('keydown',e=>{if(e.key==='Enter')doJoin();});
+    inp.addEventListener('input',()=>{const n=inp.value.toUpperCase().replace(/[^0-9A-Z]/g,'').slice(0,16);const f=n.match(/.{1,4}/g);inp.value=f?f.join('-'):'';});}
+  on('[data-action="sy-now"]',()=>{syncNow({full:true});});
+  on('[data-action="sy-copy"]',async()=>{const l=_syLink(S.sync.code);
+    try{await navigator.clipboard.writeText(l);}catch(e){const t=document.createElement('textarea');t.value=l;document.body.appendChild(t);t.select();try{document.execCommand('copy');}catch(_){}t.remove();}
+    V._syCopied=true;render();setTimeout(()=>{V._syCopied=false;if(V.view==='sync')render();},2200);});
+  on('[data-action="sy-share"]',()=>{navigator.share({title:'TMCompanion sync link',text:'Open this on your other device to sync K’s notebook:',url:_syLink(S.sync.code)}).catch(()=>{});});
+  on('[data-action="sy-stop"]',()=>{if(!confirm('Stop syncing on this device?\n\nEverything stays on this device, and your other devices keep syncing with each other.'))return;S.sync=null;save();render();});
+  on('[data-action="sy-restart"]',async()=>{S.sync=null;save();V._syBusy='start';render();await syncStart();V._syBusy=null;render();});
+  on('[data-action="sy-delete"]',async()=>{
+    if(!confirm('Delete the synced copy?\n\nThe encrypted copy stored online is deleted and every device stops syncing. Each device keeps what it already has.'))return;
+    const ok=await syncDeleteCloud();if(!ok)alert('Couldn’t reach sync to delete it. Try again when you’re online.');render();});
+}
+// Start-up: sync on open and whenever the app comes back to the front
+function _syInit(){
+  if(S.sync&&S.sync.code)setTimeout(()=>syncNow(),1200);
+  document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible'&&S.sync)syncNow();});
+  window.addEventListener('online',()=>{if(S.sync)syncNow();});
+  window.addEventListener('hashchange',()=>{
+    const m=(location.hash||'').match(/sync=([A-Za-z0-9-]{16,24})/);
+    if(!m)return;
+    try{history.replaceState(null,'',location.pathname+location.search);}catch(e){}
+    _syPending=m[1];render();
+  });
+}
+// A sync link was opened: show the join screen once the member is past the first-run notice
+function _syMaybeJoinLink(){
+  if(!_syPending||V.view==='notice'||V.view==='welcome'||V.view==='tos')return false;
+  const code=_syNorm(_syPending);_syPending=null;
+  if(!code)return false;
+  if(S.sync&&S.sync.code===code){V.view='sync';return true;}
+  if(S.sync&&!confirm('This device already syncs with another notebook. Switch to the one in this link?\n\nNothing on this device is lost; it’s combined with that notebook.'))return false;
+  if(S.sync)S.sync=null;
+  V._syJoinCode=code;V._syErr=null;V.view='sync';
+  return true;
+}
+
 function saveSession(key, elapsed, wpm, fillers, summary, extra){
   if(!key)return;
   if(!S.sessions)S.sessions={};
@@ -19524,6 +20394,13 @@ function saveCoachSession(data){
   S.coachHistory.unshift(session);
   S.coachHistory=S.coachHistory.slice(0,50); // keep last 50
   save();
+  try{
+    const isC=session.type==='contest';
+    nbAdd({cat:'speech',ch:session.id,iso:session.date,fb:session.feedback,
+      title:isC?((session.contestName||'Contest')+(session.speechTitle?' · “'+session.speechTitle+'”':'')):(session.projectTitle||session.title||'Freestyle'),
+      sub:isC?'Contest':(data.stage?'Script feedback':'Rehearsal'),elapsed:data.stage?0:session.elapsed,wpm:data.stage?0:session.wpm,tmin:data.tmin||0,tmax:data.tmax||0});
+  }catch(e){}
+  return session.id;
 }
 
 function buildHistoryContext(key){
@@ -19947,7 +20824,7 @@ Verbal distractions: Analyse the transcript for filler words (um, uh, ah, so, li
     (PS._extraNotes?"\nSpeaker notes: "+PS._extraNotes+"\n":"")+
     outlineBlock+notesBlock+
     "\n"+(stage==="outline"?"THE OUTLINE":stage==="draft"?"THE DRAFT":stage?"THE SCRIPT":"FULL TRANSCRIPT")+":\n"+(transcript||"(no audio captured)")+"\n"+
-    buildHistoryContext(PS.pid)+
+    buildHistoryContext(PS.pid)+nbContext('speech')+
     "\nAnalyze the transcript above and give focused coaching."+(isPsFollowup?"\n\nFOLLOW-UP ATTEMPT: The speaker took your coaching and went again. Their previous attempt:\n"+(PS._prevTranscript||"(no transcript)")+"\n\nYour previous coaching:\n"+PS._prevFeedback+"\n\nFor each section of your feedback, explicitly note what changed — better, worse, or unchanged. Acknowledge improvement when it happened. If they addressed your feedback, name it.":"");
 
   try{
@@ -19973,6 +20850,7 @@ Verbal distractions: Analyse the transcript for filler words (um, uh, ah, so, li
       outline:outline||null,
       stage:stage||null,
       notes:notes||null,
+      tmin:!stage&&dur&&PS.elapsed?Math.round(dur.min*60):0,tmax:!stage&&dur&&PS.elapsed?Math.round(dur.max*60):0,
     });
     checkAchievements('speech');
   }catch(err){
@@ -20301,7 +21179,7 @@ function renderPracticeStudioDone(app){
   let h='<main class="fade-up cn">';
   h+='<header class="cn-head"><button class="cn-ib" data-action="ps-fresh" aria-label="Back to Speech Coach">'+back+'</button>';
   h+='<div class="cn-title"><b>'+escHtml(title)+'</b><small>Coaching notes · '+(PS._pasteMode?({outline:'outline',draft:'rough draft'}[PS._stage]||'pasted script'):(PS.notesText&&!(PS.outline&&PS.outline.sections)?'recorded from notes':'recorded'))+'</small></div>';
-  h+='<button class="cn-ib" data-action="open-coach-history" aria-label="Session history">'+clock+'</button></header>';
+  h+='<button class="cn-ib" data-action="open-coach-history" aria-label="K\'s notebook">'+clock+'</button></header>';
   h+='<div class="cn-stack">';
   if(PS._isFollowup&&PS._prevFeedback){
     h+='<div class="cn-follow">↩ Follow-up — K compares this with your last attempt'+(PS._historyFocus?'<span>Focus: '+escHtml(PS._historyFocus)+'</span>':'')+'</div>';
@@ -20391,6 +21269,7 @@ function _cnWireActions(root){
 load();
 resolveInitialView();
 render();
+try{_syInit();}catch(e){}
 
 // ── Deep-link: respond to hash changes (browser back/forward, or a link
 // tapped while the app is already open). Only acts on known hashes and only
@@ -20456,10 +21335,12 @@ document.addEventListener("click",e=>{
         if(_kBtn){_kBtn.textContent='✨ Ask K for a fresh brief';_kBtn.disabled=false;}
       });
   }else if(action==="open-coach-history"){
-    V._historyReturnView=V.view;
-    V.view="coach-history";render();
+    V._nbReturn=V.view;V.nbTab='speech';
+    V.view="notebook";render();window.scrollTo(0,0);
+  }else if(action==="nb-open-cat"){
+    V._nbReturn=V.view;V.nbTab=btn.dataset.cat||'all';V.view="notebook";render();window.scrollTo(0,0);
   }else if(action==="open-ai-settings"){
-    V.view="ai-settings";render();
+    V.view="ai-settings";render();window.scrollTo(0,0);
   }else if(action==="open-donate"){
     renderDonateModal();
   }else if(action==="ttp-retry-eval"){
