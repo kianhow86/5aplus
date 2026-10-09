@@ -20192,7 +20192,7 @@ async function syncNow(opts){
       if(g.status===200){
         rev=g.j.rev;
         if(!g.j.same){changed=_syMerge(await _syDecrypt(key,g.j.data))||changed;}
-      }else if(g.status===404){
+      }else if(g.status===404&&g.j.error==='not_found'){
         if(S.sync.rev>0){S.sync.gone=true;S.sync.err=null;save();break;} // the synced copy was deleted
       }else throw new Error('get '+g.status);
       const sig=_sySig();
@@ -20203,8 +20203,9 @@ async function syncNow(opts){
       if(p.status!==409)throw new Error('post '+p.status);
       S.sync.rev=0; // someone synced first: pull theirs, merge, try again
     }
-    S.sync.err=null;
+    S.sync.err=null;S.sync.errCode=null;
   }catch(e){
+    S.sync.errCode=String(e&&e.message||'').replace(/^(get|post) /,'').slice(0,12);
     S.sync.err=/OperationError|decrypt/i.test(String(e&&e.name)+String(e&&e.message))?'key':(navigator.onLine===false?'offline':'server');
   }
   save();
@@ -20233,8 +20234,8 @@ async function syncJoin(raw){
   try{
     const {id,key}=await _syKeys(code);
     const g=await _syFetch('GET','id='+id);
-    if(g.status===404)return 'No synced notebook uses that code. Check it, or start syncing on your other device first.';
-    if(g.status!==200)return 'Can’t reach sync right now. Try again in a moment.';
+    if(g.status===404&&g.j.error==='not_found')return 'No synced notebook uses that code. Check it, or start syncing on your other device first.';
+    if(g.status!==200)return 'Can’t reach sync right now ('+g.status+'). Try again in a moment.';
     let data;try{data=await _syDecrypt(key,g.j.data);}catch(e){return 'That code doesn’t open this notebook. Check it and try again.';}
     S.sync={code,dev:(S.sync&&S.sync.dev)||_nbId(),rev:0,devs:{},at:null,err:null};
     _syMerge(data);S.sync.rev=g.j.rev;save();
@@ -20256,7 +20257,7 @@ function _syStatus(){
   if(y.gone)return {on:true,st:'bad',lab:'Stopped',line:'The synced copy was deleted on another device'};
   if(y.err==='key')return {on:true,st:'bad',lab:'Problem',line:'This code no longer opens the synced notebook'};
   if(y.err==='offline')return {on:true,st:'warn',lab:'Offline',line:'Will sync when you’re back online'};
-  if(y.err)return {on:true,st:'warn',lab:'Retrying',line:'Can’t reach sync right now'};
+  if(y.err)return {on:true,st:'warn',lab:'Retrying',line:'Can’t reach sync right now'+(y.errCode?' ('+y.errCode+')':'')};
   const others=Object.keys(y.devs||{}).filter(k=>k!==y.dev).length;
   return {on:true,st:'ok',lab:'On',line:'This '+(_syIsPhone()?'phone':'device')+(others?' + '+others+' other'+(others===1?'':'s'):'')+' · synced '+_syAgo(y.at)};
 }
