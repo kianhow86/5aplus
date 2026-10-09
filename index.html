@@ -3194,6 +3194,21 @@ body.pk-open .bottom-nav{display:none}
 .ttq-start:active{transform:scale(0.99)}
 .ttq-new{display:block;width:100%;padding:13px;border-radius:14px;background:var(--surface);border:1px solid var(--border);color:var(--text-2);font-size:13.5px;font-weight:700;cursor:pointer;font-family:inherit}
 .ttq-new:disabled{opacity:.5}
+.mp-daily{background:linear-gradient(180deg,rgba(104,138,246,.12),rgba(104,138,246,.03));border:1px solid rgba(104,138,246,.3);border-radius:18px;padding:14px 15px;margin:0 0 14px}
+.mp-daily-top{display:flex;justify-content:space-between;align-items:baseline;gap:8px;margin-bottom:7px}
+.mp-daily-k{font-size:10.5px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:#B3C3FF}
+.mp-daily-c{font-size:11px;font-weight:700;color:var(--text-3)}
+.mp-daily-q{margin:0 0 12px;font-size:15.5px;font-weight:700;line-height:1.38;color:var(--text);text-wrap:pretty}
+.mp-daily-foot{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.mp-daily-s{font-size:12px;color:var(--text-2)}
+.mp-daily-btn{display:inline-flex;align-items:center;gap:6px;flex-shrink:0;padding:9px 14px;border-radius:12px;border:0;background:#B3C3FF;color:#0E1638;font:inherit;font-size:13.5px;font-weight:800;cursor:pointer}
+.mp-daily-btn svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+.ab-legal{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:13px 15px;font-size:12.5px;line-height:1.55;color:var(--text-2)}
+.ab-legal p{margin:0 0 8px}.ab-legal p:last-child{margin:0}
+.ab-legal a{color:var(--accent);font-weight:600}
+.ap-seg{display:flex;gap:4px;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:3px}
+.ap-seg button{flex:1;padding:10px 0;border-radius:9px;font:inherit;font-weight:700;font-size:13.5px;color:var(--text-2);background:none;border:0;cursor:pointer}
+.ap-seg button[aria-pressed="true"]{background:var(--surface-3);color:var(--text)}
 .rw-fu-seg{display:flex;gap:4px;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:12px;padding:3px;margin-bottom:7px}
 .rw-fu-seg button{flex:1;padding:9px 0;border-radius:9px;font:inherit;font-weight:700;font-size:13.5px;color:var(--text-2);background:none;border:0;cursor:pointer}
 .rw-fu-seg button[aria-pressed="true"]{background:rgba(255,255,255,.1);color:var(--text)}
@@ -3431,7 +3446,324 @@ body.pk-open .bottom-nav{display:none}
 .fd-action-primary{background:var(--blue);color:#fff;box-shadow:none}
 .fd-action-secondary{background:rgba(255,255,255,0.06);color:var(--text-muted);border:1px solid rgba(255,255,255,0.1)}
 .fd-report-actions button:active{transform:scale(0.98)}
+/* ═══ HUB (T1) — ported from hub-reference.html; t1- prefix, designer's light + dark tokens ═══ */
+html[data-theme="light"] .t1{color-scheme:light;
+  --bg:#EEF1F4; --ink:#141A21; --ink-2:#4E5866; --ink-3:#5F6876;
+  --card:#FFFFFF; --line:rgba(20,26,33,.08); --shadow:0 1px 2px rgba(20,26,33,.05),0 4px 14px rgba(20,26,33,.04);
+  --seg-bg:#E1E5EA; --seg-on:#141A21; --seg-on-ink:#fff;
+  --k-bg:#E3E8EE; --k-line:rgba(20,26,33,.06);
+  --hero-bg:#141A21; --hero-ink:#fff; --hero-ink-2:rgba(255,255,255,.62); --hero-line:rgba(255,255,255,.12); --hero-track:rgba(255,255,255,.14);
+  --wash:7%; --ico-tint:9%; --row-tint:5%; --icon-btn-bg:#FFFFFF}
+html[data-theme="dark"] .t1{color-scheme:dark;
+  --bg:#0B0C10; --ink:rgba(255,255,255,.95); --ink-2:rgba(235,235,245,.58); --ink-3:rgba(235,235,245,.42);
+  --card:#14171B; --line:rgba(255,255,255,.07); --shadow:none;
+  --seg-bg:#15171C; --seg-on:#24272E; --seg-on-ink:#fff;
+  --k-bg:#111317; --k-line:rgba(255,255,255,.06);
+  --hero-bg:#14171B; --hero-ink:rgba(255,255,255,.95); --hero-ink-2:rgba(235,235,245,.58); --hero-line:rgba(255,255,255,.07); --hero-track:rgba(255,255,255,.08);
+  --wash:12%; --ico-tint:13%; --row-tint:8%; --icon-btn-bg:#14171B}
+.t1-c-roles{--c:#C2681B} .t1-c-practice{--c:#C2457A} .t1-c-coach{--c:#6447D6} .t1-c-contests{--c:#A6800A}
+.t1-c-outline{--c:#1F7FA8} .t1-c-tt{--c:#C2457A} .t1-c-real{--c:#0E8C8C} .t1-c-mprac{--c:#4C5FD6} .t1-c-proj{--c:#2F6FB0}
+html[data-theme="dark"] .t1-c-roles{--c:#EDB176} html[data-theme="dark"] .t1-c-practice{--c:#F6A8C8} html[data-theme="dark"] .t1-c-coach{--c:#C4AEFF}
+html[data-theme="dark"] .t1-c-contests{--c:#F5C85B} html[data-theme="dark"] .t1-c-outline{--c:#8FD3F0} html[data-theme="dark"] .t1-c-tt{--c:#F6A8C8}
+html[data-theme="dark"] .t1-c-real{--c:#7FE0E0} html[data-theme="dark"] .t1-c-mprac{--c:#B6C9FF} html[data-theme="dark"] .t1-c-proj{--c:#9FC7EC}
+.t1-h-path{--h:#9FE08A;--h-ink:#0E1410} .t1-h-coach{--h:#C4AEFF;--h-ink:#120C24} .t1-h-mentees{--h:#B6C9FF;--h-ink:#0E1430}
+html[data-theme="dark"] .t1-h-path{--h:#A9D98E}
+html[data-theme="light"] #app.is-hub{background:#EEF1F4}
+.t1{height:var(--app-h,100dvh);max-width:480px;margin:0 auto;display:flex;flex-direction:column;padding:calc(env(safe-area-inset-top,0px) + 14px) 18px 0;box-sizing:border-box;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text",system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+.t1 *{box-sizing:border-box}
+.t1 button{font:inherit;color:inherit;background:none;border:0;text-align:left;cursor:pointer;margin:0;padding:0}
+.t1 svg{flex-shrink:0;fill:none;stroke:currentColor;stroke-linecap:round;stroke-linejoin:round}
+.t1 sup{font-size:.55em}
+.t1 h2,.t1 p{margin:0}
+.t1-body{display:flex;flex-direction:column;flex:1;min-height:0}
+.t1-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-shrink:0}
+.t1-mark{font-size:11px;font-weight:800;letter-spacing:.16em;color:var(--ink-3)}
+.t1-head-btns{display:flex;gap:6px}
+.t1 .t1-ibtn{width:34px;height:34px;border-radius:11px;background:var(--icon-btn-bg);border:1px solid var(--line);display:flex;align-items:center;justify-content:center}
+.t1-ibtn svg{width:16px;height:16px;stroke-width:1.8}
+.t1 .t1-heart{color:#C85454}.t1 .t1-spark{color:#6447D6}.t1 .t1-gear{color:var(--ink-2)}
+html[data-theme="dark"] .t1 .t1-spark{color:#B9A6F5}
+.t1-seg{position:relative;display:flex;background:var(--seg-bg);border:1px solid var(--line);border-radius:12px;padding:3px;margin-bottom:12px;flex-shrink:0}
+.t1-ind{position:absolute;top:3px;bottom:3px;left:3px;width:calc((100% - 6px)/3);border-radius:9px;background:var(--seg-on);transition:transform .28s cubic-bezier(.2,.8,.2,1)}
+.t1 .t1-seg button{position:relative;z-index:1;flex:1;text-align:center;padding:7px 0;font-size:12.5px;font-weight:600;color:var(--ink-3);transition:color .2s}
+.t1 .t1-seg button.on{color:var(--seg-on-ink);font-weight:700}
+html[data-theme="light"] .t1 .t1-seg button:not(.on){color:var(--ink-2)}
+.t1-hero{border-radius:20px;padding:16px;margin-bottom:10px;flex-shrink:0;background:var(--hero-bg);color:var(--hero-ink)}
+html[data-theme="dark"] .t1-hero{background:linear-gradient(180deg,color-mix(in srgb,var(--h) 8%,transparent) 0%,var(--hero-bg) 70%);border:1px solid color-mix(in srgb,var(--h) 22%,transparent)}
+.t1-hero.t1-fill{flex:1;min-height:0;display:flex;flex-direction:column}
+.t1-hero-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:10px}
+.t1-kick{font-size:10px;font-weight:800;letter-spacing:.12em;color:var(--h)}
+.t1-meta{font-size:11px;font-weight:600;color:var(--hero-ink-2)}
+.t1-hero h2{font-size:22px;font-weight:800;letter-spacing:-.02em;line-height:1.1;margin-bottom:12px}
+.t1-hero .t1-lede{font-size:12.5px;color:var(--hero-ink-2);margin:-6px 0 14px}
+.t1-levels{display:grid;grid-template-columns:repeat(5,1fr);gap:4px;margin-bottom:14px}
+.t1-levels i{height:5px;border-radius:3px;background:var(--hero-track)}
+.t1-levels i.on{background:var(--h)}
+.t1-hero-foot{display:flex;align-items:center;gap:12px;padding-top:12px;border-top:1px solid var(--hero-line)}
+.t1-hero-foot .t1-lbl{font-size:11px;color:var(--hero-ink-2);margin-bottom:2px}
+.t1-hero-foot .t1-val{font-size:15px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.t1-hero-foot .t1-val span{font-weight:500;color:var(--hero-ink-2)}
+.t1 .t1-btn-h{display:flex;align-items:center;justify-content:center;gap:6px;background:var(--h);color:var(--h-ink);padding:9px 14px;border-radius:11px;font-size:13.5px;font-weight:800;flex-shrink:0}
+.t1-btn-h svg{width:14px;height:14px;stroke-width:2.4}
+.t1 .t1-btn-ghost{display:flex;align-items:center;justify-content:center;gap:7px;background:rgba(255,255,255,.07);border:1px solid var(--hero-line);padding:10px;border-radius:11px;font-size:13.5px;font-weight:700;color:var(--hero-ink)}
+.t1-btn-row{display:flex;gap:8px;padding-top:12px;border-top:1px solid var(--hero-line)}
+.t1-btn-row>*{flex:1}
+.t1-btn-row svg{width:15px;height:15px;stroke-width:2.1}
+.t1 .t1-mrow{display:flex;align-items:center;gap:10px;padding:8px 0;width:100%}
+.t1-mrow+.t1-mrow{border-top:1px solid var(--hero-line)}
+.t1-av{flex-shrink:0;width:28px;height:28px;border-radius:50%;background:color-mix(in srgb,var(--h) 15%,transparent);color:var(--h);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800}
+.t1-mrow .t1-who{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.t1-mrow .t1-who b{font-size:13.5px}.t1-mrow .t1-who span{font-size:11.5px;color:var(--hero-ink-2)}
+.t1-mrow svg{width:14px;height:14px;stroke-width:2;color:var(--hero-ink-2)}
+.t1-nudge{font-size:10.5px;font-weight:800;color:#0E1410;background:#EDB176;padding:4px 9px;border-radius:20px}
+.t1 .t1-add{margin-top:auto;display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:12px;border:1px dashed color-mix(in srgb,var(--h) 40%,transparent);color:var(--h);font-size:13px;font-weight:700;width:100%}
+.t1-add .t1-plus{width:28px;height:28px;border-radius:50%;background:color-mix(in srgb,var(--h) 14%,transparent);display:flex;align-items:center;justify-content:center;font-size:17px;line-height:1}
+.t1-benefits{display:flex;flex-direction:column;gap:7px;padding-top:11px;border-top:1px solid var(--hero-line)}
+.t1-benefits div{display:flex;align-items:center;gap:9px;font-size:12px;white-space:nowrap}
+.t1-benefits span{flex-shrink:0;width:22px;height:22px;border-radius:7px;background:color-mix(in srgb,var(--h) 12%,transparent);color:var(--h);display:flex;align-items:center;justify-content:center}
+.t1-benefits svg{width:12px;height:12px;stroke-width:2}
+.t1 .t1-btn-wide{margin-top:auto;width:100%;justify-content:center;padding:10px;font-size:13px}
+.t1 .t1-k{width:100%;display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:14px;background:var(--k-bg);border:1px solid var(--k-line);margin-bottom:10px;flex-shrink:0}
+.t1-kav{flex-shrink:0;width:24px;height:24px;border-radius:50%;overflow:hidden;background:linear-gradient(140deg,#6DB6B4,#3B6766)}
+.t1-kav img{width:100%;height:100%;object-fit:cover;display:block}
+.t1-k p{flex:1;min-width:0;overflow:hidden;font-size:12.5px;line-height:1.35;color:var(--ink-2);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;text-align:left}
+.t1-k p b{color:var(--ink);font-weight:600}
+.t1-k svg{width:16px;height:16px;stroke-width:2.2;color:var(--ink-2)}
+.t1-grid{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:10px;flex:1;min-height:0;margin-bottom:84px}
+.t1-grid.t1-compact{grid-template-rows:auto auto;flex:0 0 auto}
+.t1 .t1-tile{display:flex;flex-direction:column;min-width:0;min-height:0;overflow:hidden;padding:14px;border-radius:18px;
+  background:radial-gradient(120% 90% at 100% 0%,color-mix(in srgb,var(--c) var(--wash),transparent) 0%,transparent 55%),var(--card);
+  border:1px solid var(--line);box-shadow:var(--shadow);transition:transform .12s;cursor:pointer;color:var(--ink)}
+.t1-tile:active{transform:scale(.985)}
+.t1-ico{flex-shrink:0;width:34px;height:34px;border-radius:10px;background:color-mix(in srgb,var(--c) var(--ico-tint),transparent);color:var(--c);display:flex;align-items:center;justify-content:center}
+.t1-ico svg{width:17px;height:17px;stroke-width:1.8}
+.t1-tile-head{display:flex;flex-direction:column;align-items:flex-start;gap:8px;margin-bottom:10px}
+.t1-tile-name{font-size:15px;font-weight:700;white-space:nowrap}
+.t1-rows{display:flex;flex-direction:column;gap:5px;margin-top:auto}
+.t1 .t1-row{display:flex;align-items:center;justify-content:space-between;gap:6px;padding:7px 9px;border-radius:9px;background:color-mix(in srgb,var(--c) var(--row-tint),transparent);font-size:12.5px;font-weight:600;white-space:nowrap;width:100%}
+.t1-row span{overflow:hidden;text-overflow:ellipsis}
+.t1-row svg{width:13px;height:13px;stroke-width:2.2;color:var(--c)}
+.t1 .t1-more{font-size:11px;font-weight:600;color:var(--ink-3);padding:2px 9px 0}
+.t1 .t1-tile.t1-wide{grid-column:1/3;flex-direction:row;align-items:center;gap:12px;padding:12px 14px;border-radius:16px}
+.t1-tile.t1-wide .t1-txt{flex:1;min-width:0}.t1-tile.t1-wide .t1-sub{font-size:11.5px;color:var(--ink-2);white-space:nowrap;margin-top:2px}
+.t1-tile.t1-wide>svg{width:16px;height:16px;stroke-width:2;color:var(--ink-3)}
+@media (max-height:700px){
+  .t1-hero{padding:13px}.t1-hero h2{font-size:19px;margin-bottom:9px}.t1-levels{margin-bottom:10px}.t1-hero-foot{padding-top:9px}
+  .t1 .t1-tile{padding:11px}
+  .t1-tile-head{flex-direction:row;align-items:center;gap:8px;margin-bottom:7px}
+  .t1-ico{width:28px;height:28px;border-radius:9px}.t1-ico svg{width:15px;height:15px}
+  .t1-tile-name{font-size:13px;letter-spacing:-.02em}
+  .t1-tile-head{gap:7px}
+  .t1 .t1-row{padding:6px 8px;font-size:12px}
+  .t1-rows{gap:4px}
+  .t1-grid{margin-bottom:76px}
+  .t1-benefits{display:none}
+  .t1 .t1-mrow{padding:6px 0}
+}
+@media (max-width:370px){.t1{padding-left:14px;padding-right:14px}.t1 .t1-tile{padding:11px}.t1 .t1-row{padding:6px 7px;font-size:11.5px}.t1-hero-foot .t1-val{font-size:14px}.t1 .t1-btn-h{padding:9px 11px}}
+/* Hub pill: dark in both themes (T1) */
+.nav-hub-btn,.nav-hub-btn.active{height:40px;padding:0 20px;gap:7px;border-radius:24px;background:#1C1E24;border:1px solid rgba(255,255,255,.07);box-shadow:none;color:#fff;font-size:13.5px;font-weight:700}
+.nav-hub-btn:active{background:#24272E}
+.nav-hub-btn-icon{color:#B9A6F5}
 </style>
+<style id="lt-hand">
+/* Light theme — hand-tuned on top of the generated palette */
+html[data-theme="light"]{color-scheme:light}
+html[data-theme="light"] body{background:#F3F4F7}
+html[data-theme="light"] .art,html[data-theme="light"] img.art,html[data-theme="light"] img[class*="-art"],html[data-theme="light"] img[class*="art-"]{display:none!important}
+html[data-theme="light"] .modal-backdrop{background:rgba(20,26,33,.38)}
+html[data-theme="light"] .modal-card{background:#fff;border-radius:22px;padding:24px 20px;box-shadow:0 10px 40px rgba(20,26,33,.18)}
+html[data-theme="light"] .toggle-slider::before{background:#fff;box-shadow:0 1px 3px rgba(20,26,33,.25)}
+/* Hub: mode colours deepened for white cards; CTAs carry white text */
+html[data-theme="light"] .hub2[data-mode="grow"]{--cr:47;--cg:138;--cb:76;--mhi:#237A46;--mcta:#2F8A4C;--mink:#fff}
+html[data-theme="light"] .hub2[data-mode="practice"][data-pc="burgundy"]{--cr:176;--cg:58;--cb:106;--mhi:#A3305C;--mcta:#B03A6A;--mink:#fff}
+html[data-theme="light"] .hub2[data-mode="practice"][data-pc="teal"]{--cr:47;--cg:138;--cb:134;--mhi:#23706D;--mcta:#2F8A86;--mink:#fff}
+html[data-theme="light"] .hub2[data-mode="mentor"]{--cr:59;--cg:95;--cb:214;--mhi:#2F55C8;--mcta:#3B5FD6;--mink:#fff}
+/* Bottom zone: light fade; the Hub pill stays a dark pill */
+html[data-theme="light"] .bottom-nav{background:linear-gradient(to top,rgba(243,244,247,.97) 55%,rgba(243,244,247,0))}
+html[data-theme="light"] .hub2[data-mode="grow"]{--mcta:#237A46}
+html[data-theme="light"] .contest-card-arrow{opacity:.75}
+html[data-theme="light"] .nav-hub-btn,html[data-theme="light"] .nav-hub-btn.active{background:#141A21;border-color:rgba(20,26,33,.08);box-shadow:0 4px 14px rgba(20,26,33,.18);color:#fff}
+</style>
+<script>
+/* ── Theme: light (default) · dark · match phone ─────────────────────────────
+   Light is generated from the dark design: every colour is re-mapped by its role
+   (text, background, line, shadow) onto the light palette. Stylesheet rules get a
+   light twin under html[data-theme="light"]; inline styles are re-mapped as the
+   DOM changes. Hand-tuned rules (#lt-hand) sit on top. */
+(function(){
+  var KEY="tmc-companion-v1",D=document.documentElement;
+  function pref(){try{var t=localStorage.getItem("tmc-theme");if(t)return t;var s=JSON.parse(localStorage.getItem(KEY)||"{}");return s.theme||"system";}catch(e){return "system";}}
+  var mq=window.matchMedia?matchMedia("(prefers-color-scheme: dark)"):null;
+  function resolve(p){return p==="system"?(mq&&mq.matches?"dark":"light"):(p==="dark"?"dark":"light");}
+  function setMeta(t){
+    var m=document.querySelector('meta[name="theme-color"]');if(m)m.setAttribute("content",t==="light"?"#F3F4F7":"#0A0B0F");
+    var a=document.querySelector('meta[name="apple-mobile-web-app-status-bar-style"]');if(a)a.setAttribute("content",t==="light"?"default":"black-translucent");
+  }
+  var cur=null;
+  function apply(p){
+    var t=resolve(p||pref());if(t===cur)return;cur=t;D.setAttribute("data-theme",t);setMeta(t);
+    if(t==="light"&&document.body)mapTree(document.body);
+  }
+  window.__themePref=pref;
+  window.__applyTheme=function(p){try{localStorage.setItem("tmc-theme",p);}catch(e){}cur=null;apply(p);};
+  if(mq){var on=function(){if(pref()==="system"){cur=null;apply("system");if(window.render)try{window.render();}catch(e){}}};mq.addEventListener?mq.addEventListener("change",on):mq.addListener(on);}
+
+  // ── colour maths ──
+  var NAMED={white:[255,255,255,1],black:[0,0,0,1]};
+  function parse(s){
+    s=s.trim().toLowerCase();if(NAMED[s])return NAMED[s].slice();
+    var m;
+    if(s[0]==="#"){var h=s.slice(1);if(h.length===3||h.length===4)h=h.split("").map(function(c){return c+c;}).join("");
+      if(h.length===6||h.length===8)return [parseInt(h.slice(0,2),16),parseInt(h.slice(2,4),16),parseInt(h.slice(4,6),16),h.length===8?parseInt(h.slice(6,8),16)/255:1];return null;}
+    if((m=s.match(/^rgba?\(\s*([\d.]+)[,\s]+([\d.]+)[,\s]+([\d.]+)(?:\s*[,/]\s*([\d.]+%?))?\s*\)$/))){var a=m[4]==null?1:(m[4].slice(-1)==="%"?parseFloat(m[4])/100:parseFloat(m[4]));return [+m[1],+m[2],+m[3],a];}
+    return null;
+  }
+  function rgb2hsl(r,g,b){r/=255;g/=255;b/=255;var mx=Math.max(r,g,b),mn=Math.min(r,g,b),l=(mx+mn)/2,h=0,s=0;
+    if(mx!==mn){var d=mx-mn;s=l>.5?d/(2-mx-mn):d/(mx+mn);h=mx===r?(g-b)/d+(g<b?6:0):mx===g?(b-r)/d+2:(r-g)/d+4;h/=6;}return [h,s,l];}
+  function hsl2rgb(h,s,l){function f(p,q,t){if(t<0)t+=1;if(t>1)t-=1;if(t<1/6)return p+(q-p)*6*t;if(t<1/2)return q;if(t<2/3)return p+(q-p)*(2/3-t)*6;return p;}
+    if(s===0)return [l*255,l*255,l*255];var q=l<.5?l*(1+s):l+s-l*s,p=2*l-q;return [f(p,q,h+1/3)*255,f(p,q,h)*255,f(p,q,h-1/3)*255];}
+  function lum(r,g,b){function c(v){v/=255;return v<=.03928?v/12.92:Math.pow((v+.055)/1.055,2.4);}return .2126*c(r)+.7152*c(g)+.0722*c(b);}
+  function contrastW(r,g,b){return 1.05/(lum(r,g,b)+.05);}
+  function out(c){var r=Math.round(c[0]),g=Math.round(c[1]),b=Math.round(c[2]),a=Math.round(c[3]*1000)/1000;return a>=1?"rgb("+r+","+g+","+b+")":"rgba("+r+","+g+","+b+","+a+")";}
+  var INK=[21,23,28],SL=[20,26,33];
+  // an accent dark enough to read on white (ratio >= min)
+  function deep(h,s,min,lmax){var l=lmax||.5;s=Math.min(Math.max(s,.35),.66);var c;for(;l>.12;l-=.015){c=hsl2rgb(h,s,l);if(contrastW(c[0],c[1],c[2])>=min)break;}return c;}
+  function map(col,ctx,solidBg){
+    var r=col[0],g=col[1],b=col[2],a=col[3];if(a===0)return col;
+    var hsl=rgb2hsl(r,g,b),h=hsl[0],s=hsl[1],l=hsl[2],chroma=Math.max(r,g,b)-Math.min(r,g,b);
+    var neutral=chroma<24||s<.1;
+    if(!neutral&&h>=.455&&h<=.53){h=252/360;s=Math.max(s,.58);}   // the app's teal accent reads as violet in light
+    var icon=ctx==="icon";if(icon){ctx=(neutral&&l>=.5&&a<.35)?"line":"text";}
+    if(neutral){
+      var light=l>=.5;
+      if(ctx==="text"){
+        if(light){if(solidBg)return col;return INK.concat([a<.25?.6:Math.min(1,Math.max(.68,.3+a*.75))]);}
+        return [255,255,255,a];                       // dark text sat on a light/pastel chip → light
+      }
+      if(ctx==="bg"){
+        if(light){if(a>=.85)return [21,23,28,a];if(a<=.05)return [255,255,255,1];if(a<=.1)return SL.concat([.045]);return SL.concat([Math.min(a*.55,.2)]);}
+        if(a<1){return a>=.45?SL.concat([a*.55]):SL.concat([a*.18]);}
+        if(l<.05)return [243,244,247,1];if(l<.14)return [255,255,255,1];if(l<.25)return [240,242,245,1];
+        var v=(1-l)*255;return [v,v,v,1];
+      }
+      if(ctx==="line"){return SL.concat([Math.min(Math.max(a*(light?1.25:.4),.08),.3)]);}
+      if(ctx==="shadow"){if(light)return col;return SL.concat([Math.min(a*.25,.14)]);}
+      return col;
+    }
+    // saturated colours keep their hue
+    if(ctx==="text"){
+      if(l<.25){if(solidBg)return [255,255,255,a];var t=hsl2rgb(h,Math.min(s,.8),.94);return [t[0],t[1],t[2],a];}
+      var d=deep(h,s,icon?3.2:5.2,.5);return [d[0],d[1],d[2],icon?a:Math.max(a,.92)];
+    }
+    if(ctx==="bg"){
+      if(a<.5){var d2=deep(h,s,3,.55);return [d2[0],d2[1],d2[2],Math.max(a*.8,.04)];}
+      if(l<=.3){var t2=hsl2rgb(h,Math.min(s,.7),.95);return [t2[0],t2[1],t2[2],a];}
+      var d3=deep(h,s,4.6,Math.min(l,.56));return [d3[0],d3[1],d3[2],a];
+    }
+    if(ctx==="line"){var d4=deep(h,s,2.4,.6);return [d4[0],d4[1],d4[2],Math.min(Math.max(a,.22),1)];}
+    if(ctx==="shadow"){var d5=deep(h,s,2.4,.6);return [d5[0],d5[1],d5[2],Math.min(a*.35,.18)];}
+    return col;
+  }
+  var TOK=/#[0-9a-fA-F]{3,8}\b|rgba?\([^()]*\)|\bwhite\b|\bblack\b/g;
+  var memo={};
+  function mapValue(v,ctx,solidBg){
+    if(!v||v.indexOf("var(")>=0&&!TOK.test(v)){TOK.lastIndex=0;return v;}TOK.lastIndex=0;
+    var k=ctx+(solidBg?"!":"")+"|"+v;if(memo[k]!=null)return memo[k];
+    var o=v.replace(TOK,function(t){if(/var\(/.test(t))return t;var c=parse(t);return c?out(map(c,ctx,solidBg)):t;});
+    return memo[k]=o;
+  }
+  function ctxOf(p,val){
+    if(p==="fill"||p==="stroke")return "icon";
+    if(p==="color"||p==="caret-color"||p==="accent-color"||p==="-webkit-text-fill-color"||p==="text-decoration-color"||p==="stop-color")return "text";
+    if(p.indexOf("background")===0)return "bg";
+    if(p.indexOf("border")===0||p.indexOf("outline")===0||p==="column-rule-color")return "line";
+    if(p==="box-shadow"||p==="text-shadow"||p==="filter"||p==="-webkit-filter")return "shadow";
+    if(p.indexOf("--")===0){
+      if(/bg|surface|card|fill|field|wash|tint|hero|seg|pill|panel|ground|soft/i.test(p))return "bg";
+      if(/line|border|stroke|rule|ring/i.test(p))return "line";
+      if(/shadow|glow/i.test(p))return "shadow";
+      if(/text|ink|fg|ph\b|label|t2|t3/i.test(p))return "text";
+      var c=parse((val.match(TOK)||[""])[0]);TOK.lastIndex=0;
+      if(c){var n=Math.max(c[0],c[1],c[2])-Math.min(c[0],c[1],c[2])<24;if(n){var lt=rgb2hsl(c[0],c[1],c[2])[2]>.5;if(lt)return c[3]>=.3?"text":"line";return "bg";}return c[3]<.5?"bg":"text";}
+      return "text";
+    }
+    return null;
+  }
+  // custom properties holding a bare "R,G,B" triplet (used as rgba(var(--x),a))
+  function mapTriplet(v){var m=v.trim().match(/^(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})$/);if(!m)return null;
+    var c=map([+m[1],+m[2],+m[3],1],"text",false);return Math.round(c[0])+","+Math.round(c[1])+","+Math.round(c[2]);}
+  function solidBgOf(decls){ // does this declaration block paint a solid, saturated/inked background?
+    var bg=decls["background-color"]||decls["background"]||decls["background-image"]||"";
+    if(/^var\(--(pv|vb|v|acc|accent|mcta|blue|vio|cc|pc|c)\b/.test(bg.trim()))return true;var m=bg.match(TOK);TOK.lastIndex=0;if(!m)return false;
+    for(var i=0;i<m.length;i++){var c=parse(m[i]);if(!c||c[3]<.6)continue;var hsl=rgb2hsl(c[0],c[1],c[2]),ch=Math.max(c[0],c[1],c[2])-Math.min(c[0],c[1],c[2]);
+      if(ch>=24&&hsl[2]>.25&&hsl[2]<=.74)return true;}
+    return false;
+  }
+  var SKIP=/nav-hub-btn|bottom-nav|lt-keep|\.t1\b|#app\.is-hub/;
+  function lightSel(sel){
+    return sel.split(",").map(function(x){x=x.trim();
+      if(/^:root\b/.test(x))return 'html[data-theme="light"]'+x.slice(5);
+      if(/^html\b/.test(x))return 'html[data-theme="light"]'+x.slice(4);
+      return 'html[data-theme="light"] '+x;}).join(",");
+  }
+  function declsText(t){var o={};t.split(/;(?![^(]*\))/).forEach(function(x){var i=x.indexOf(":");if(i<0)return;var p=x.slice(0,i).trim();if(!p)return;if(p.indexOf("--")!==0)p=p.toLowerCase();o[p]=x.slice(i+1).trim();});return o;}
+  function declsOf(st){var o={};for(var i=0;i<st.length;i++){var p=st[i];o[p]=st.getPropertyValue(p);}return o;}
+  function ruleText(rule){
+    if(rule.type===1){
+      if(SKIP.test(rule.selectorText))return "";
+      var d=declsText(rule.style.cssText),sb=solidBgOf(d),body="";
+      for(var p in d){var v=d[p],imp=/!\s*important\s*$/i.test(v);if(imp)v=v.replace(/\s*!\s*important\s*$/i,"");var ctx=ctxOf(p,v),nv=null;if(!ctx)continue;
+        if(p.indexOf("--")===0){var tr=mapTriplet(v);if(tr)nv=tr;}
+        if(nv==null){TOK.lastIndex=0;var has=TOK.test(v);TOK.lastIndex=0;nv=has?mapValue(v,ctx,ctx==="text"&&sb):v;}
+        body+=p+":"+nv+(imp?" !important":"")+";";}
+      if(body&&!d["box-shadow"]&&(d["border-radius"]||d["border"])&&/(?:^|[;:\s])background(?:-color)?:rgb\(255,255,255\)/.test(body)&&!/::?(before|after)|input|select|textarea|seg|tab|pill|chip|btn|button/i.test(rule.selectorText))body+="box-shadow:0 1px 2px rgba(20,26,33,.05),0 4px 14px rgba(20,26,33,.045);";
+      return body?lightSel(rule.selectorText)+"{"+body+"}":"";
+    }
+    if(rule.type===4||rule.type===12){var inner="";for(var j=0;j<rule.cssRules.length;j++)inner+=ruleText(rule.cssRules[j]);
+      return inner?(rule.type===4?"@media "+(rule.conditionText||rule.media.mediaText):"@supports "+rule.conditionText)+"{"+inner+"}":"";}
+    return "";
+  }
+  function buildSheet(){
+    var css="";for(var i=0;i<document.styleSheets.length;i++){var sh=document.styleSheets[i];if(sh.ownerNode&&/^lt-/.test(sh.ownerNode.id||""))continue;
+      var rules;try{rules=sh.cssRules;}catch(e){continue;}for(var j=0;j<rules.length;j++)css+=ruleText(rules[j]);}
+    var el=document.createElement("style");el.id="lt-auto";el.textContent=css;
+    var hand=document.getElementById("lt-hand");if(hand)hand.parentNode.insertBefore(el,hand);else document.head.appendChild(el);
+  }
+  // ── inline styles and SVG paint attributes ──
+  var istMemo={};
+  function mapStyleStr(s){
+    if(istMemo[s]!=null)return istMemo[s];
+    if(!/#|rgb|white|black|--/.test(s))return istMemo[s]=s;
+    var parts=s.split(/;(?![^(]*\))/),d={},order=[];
+    parts.forEach(function(x){var i=x.indexOf(":");if(i<0)return;var p=x.slice(0,i).trim().toLowerCase(),v=x.slice(i+1).trim();if(!p)return;d[p]=v;order.push(p);});
+    var sb=solidBgOf(d),o=order.map(function(p){var v=d[p],ctx=ctxOf(p,v);if(!ctx)return p+":"+v;
+      if(p.indexOf("--")===0){var tr=mapTriplet(v);if(tr)return p+":"+tr;}
+      return p+":"+mapValue(v,ctx,ctx==="text"&&sb);}).join(";");
+    return istMemo[s]=o;
+  }
+  function mapEl(el){
+    if(el.nodeType!==1)return;
+    if(el.closest&&el.closest(".nav-hub-btn,.bottom-nav,[data-lt-keep]"))return;
+    var s=el.getAttribute("style");
+    if(s&&el.__lt!==s){var n=mapStyleStr(s);el.__lt=n;el.__lto=s;if(n!==s)el.setAttribute("style",n);}
+    if(el.namespaceURI==="http://www.w3.org/2000/svg"){
+      ["fill","stroke","stop-color"].forEach(function(a){var v=el.getAttribute(a);if(v&&el["__lt"+a]!==v&&/^(#|rgb|white|black)/i.test(v)){var n=mapValue(v,a==="stop-color"?"text":"icon",false);el["__lt"+a]=n;if(n!==v)el.setAttribute(a,n);}});
+    }
+  }
+  function mapTree(root){if(!root)return;mapEl(root);var all=root.querySelectorAll?root.querySelectorAll("[style],svg [fill],svg [stroke],svg[fill],svg[stroke],stop"):[];for(var i=0;i<all.length;i++)mapEl(all[i]);}
+  var mo=new MutationObserver(function(list){
+    if(cur!=="light")return;
+    for(var i=0;i<list.length;i++){var m=list[i];
+      if(m.type==="childList"){for(var j=0;j<m.addedNodes.length;j++)mapTree(m.addedNodes[j]);}
+      else mapEl(m.target);}
+  });
+  mo.observe(D,{childList:true,subtree:true,attributes:true,attributeFilter:["style","fill","stroke"]});
+  window.__ltMapTree=mapTree;window.__ltMapValue=mapValue;
+  apply();
+  buildSheet();
+})();
+</script>
 </head>
 <body>
 <div class="glow glow-1"></div>
@@ -5195,18 +5527,25 @@ if(window.visualViewport){
 window.addEventListener('load',()=>{setTimeout(()=>{try{window.scrollTo(0,1);window.scrollTo(0,0);}catch{}setAppHeight();},50);});
 
 // Single source of truth for the version shown in the app. Bump here only.
-const APP_VERSION='1.9.3';
+const APP_VERSION='2.0';
 // What's new — newest first. Plain language, a few lines per version.
 const CHANGELOG=[
+  {v:'2.0',date:'Oct 2026',items:[
+    'A new light look. The app follows your phone’s light or dark mode; choose Light or Dark in Settings → Appearance to fix it',
+    'A new Hub. Pick your mode at the top; your main thing leads (your path, Speech Coach or your mentees); K speaks in one line; and every card has shortcuts that take you straight in: Timer, Today’s topic, Interviews and more',
+    'In Mentor mode, K tells you when a mentee has gone quiet for three weeks, and one tap opens a nudge for them',
+    'Mentor practice has 120 mentee situations now, almost three times as many, so they repeat far less',
+    'Situation of the day: one mentee moment for every mentor, on the Hub and at the top of Mentor practice. Respond, see your streak, and come back tomorrow for a new one',
+    'About now states clearly that TMCompanion is independent of Toastmasters International'
+  ]},
   {v:'1.9.3',date:'Oct 2026',items:[
+    'Real-world practice now talks back. After you answer, the other person asks one or two follow-ups based on what you actually said, like a real interviewer, investor or colleague would. K then coaches the whole conversation, including how you held up under the follow-up. Choose None, 1 or 2 on the setup screen',
     'K remembers you. K says now follows up on the one priority from your last speech, notices patterns in your practice, and checks in when you have been away',
     'On other days, K gives you one fresh thought in his own voice, with a one-tap way to act on it',
-    'The Hub takes on your mode’s colour: green for Grow, berry for Practice, blue for Mentor. Contests stays gold',
-    'Mentor practice: “What does good mentoring sound like?” is now a full guide, with what to avoid and what to try for each habit',
     'Real-world practice has two new situations: Small talk (keep a conversation going, 20–45 sec) and Speaking up in meetings (be useful fast, 30–90 sec)',
+    'Mentor practice: “What does good mentoring sound like?” is now a full guide, with what to avoid and what to try for each habit',
     'Fixed: in Chinese and other languages, a mentee scenario could come back as a long model answer instead of the scenario itself',
-    'Fixed: Outline Builder kept going back to your next project when you picked a different one',
-    'Real-world practice now talks back. After you answer, the other person asks one or two follow-ups based on what you actually said, like a real interviewer, investor or colleague would. K then coaches the whole conversation, including how you held up under the follow-up. Choose None, 1 or 2 on the setup screen'
+    'Fixed: Outline Builder kept going back to your next project when you picked a different one'
   ]},
   {v:'1.9.2',date:'Oct 2026',items:[
     'Each mode now shows what that person actually uses. Grow: Pathways, Speech Coach, Practice Tools, Meeting Roles, Contests. Practice: Speech Coach, Table Topics, Outline Builder, Meeting Roles, Real-world practice. Mentor: Mentees, Mentor practice, Meeting Roles, All Projects',
@@ -5848,6 +6187,37 @@ function _relLabel(d){return d===0?'today':d===1?'yesterday':d+' days ago';}
 
 // ═══ Table Topics — topic of the day: same question all day, from the built-in bank ═══
 function _ttDayHash(){const d=new Date();let x=d.getFullYear()*10000+(d.getMonth()+1)*100+d.getDate();x=((x>>>16)^x)*0x45d9f3b;x=((x>>>16)^x)*0x45d9f3b;x=(x>>>16)^x;return Math.abs(x);}
+// ── Mentor practice: Situation of the day (same for everyone; native rewrite once a day) ──
+function _mpDailyEn(){
+  const pool=[];Object.keys(MENTOR_SCEN).forEach(k=>MENTOR_SCEN[k].prompts.forEach(q=>pool.push({k,q})));
+  return pool[(_ttDayHash()*7+3)%pool.length];
+}
+function _mpDaily(){
+  const en=_mpDailyEn(),l=S.coachLang||'auto',c=S.mpDailyLoc;
+  if(l!=='auto'&&l!=='en'&&c&&c.day===new Date().toDateString()&&c.lang===l&&c.en===en.q)return {k:en.k,q:c.q,en:en.q};
+  return {k:en.k,q:en.q,en:en.q};
+}
+async function _mpDailyLocalise(){
+  const l=S.coachLang||'auto';if(l==='auto'||l==='en'||!(S.aiConfig&&S.aiConfig.enabled)||navigator.onLine===false)return;
+  const en=_mpDailyEn().q,day=new Date().toDateString(),c=S.mpDailyLoc;
+  if(c&&c.day===day&&c.lang===l&&c.en===en)return;
+  if(_mpDailyLocalise._busy)return;_mpDailyLocalise._busy=true;
+  try{const q=await _locPrompt(en,'mentoring-scenario');if(q){S.mpDailyLoc={day,lang:l,en,q};save();if(V.view==='hub'||V.view==='tt-practice')render();}}catch(e){}
+  _mpDailyLocalise._busy=false;
+}
+function _mpDailyDone(){
+  const d=_mpDaily(),today=new Date().toDateString();
+  return ((S.sessions&&S.sessions['mentor-practice'])||[]).find(s=>(s.topic===d.q||s.topic===d.en)&&s.iso&&new Date(s.iso).toDateString()===today)||null;
+}
+function _mpStreak(){
+  const days=new Set(((S.sessions&&S.sessions['mentor-practice'])||[]).filter(s=>s.iso).map(s=>new Date(s.iso).toDateString()));
+  let n=0;const d=new Date();if(!days.has(d.toDateString()))d.setDate(d.getDate()-1);
+  while(days.has(d.toDateString())){n++;d.setDate(d.getDate()-1);}
+  return n;
+}
+function _openMPDaily(){
+  const d=_mpDaily();V._fromHub=true;V.view="tt-practice";TTP.track="mentor";TTP.scenario=d.k;TTP.question=d.q;TTP.questionSource="daily";TTP._promptN=1;TTP.phase="question";render();
+}
 function _ttDailyEn(){
   const pool=[];TOPICS_THEMES.forEach(th=>pool.push(...(th.prompts||[])));
   if(!pool.length)return "What is one lesson that has shaped who you are today?";
@@ -5895,7 +6265,185 @@ function _openTTDaily(){
   V._fromHub=true;V.view="tt-practice";TTP.track="tt";TTP.question=_ttDaily();TTP.questionSource="daily";TTP.technique=_ttTechnique();TTP._promptN=1;TTP.phase="question";render();
 }
 const HUB_PRACTICE='burgundy'; // 'burgundy' | 'teal'
+// ═══ HUB (T1 design) — mode switch · hero · K line · tile grid. Fits one screen. ═══
+const T1_IC={heart:'<path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>',spark:'<path d="M12 3l1.9 5.8L20 11l-6.1 2.2L12 19l-1.9-5.8L4 11l6.1-2.2z"/>',gear:'<line x1="21" x2="14" y1="4" y2="4"/><line x1="10" x2="3" y1="4" y2="4"/><line x1="21" x2="12" y1="12" y2="12"/><line x1="8" x2="3" y1="12" y2="12"/><line x1="21" x2="16" y1="20" y2="20"/><line x1="12" x2="3" y1="20" y2="20"/><line x1="14" x2="14" y1="2" y2="6"/><line x1="8" x2="8" y1="10" y2="14"/><line x1="16" x2="16" y1="18" y2="22"/>',arrow:'<path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>',chev:'<path d="m9 18 6-6-6-6"/>',roles:'<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>',practice:'<circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/>',coach:'<path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" x2="12" y1="19" y2="22"/>',contests:'<path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/><path d="M12 15v4"/>',hub:'<rect width="7" height="7" x="3" y="3" rx="1.5"/><rect width="7" height="7" x="14" y="3" rx="1.5"/><rect width="7" height="7" x="14" y="14" rx="1.5"/><rect width="7" height="7" x="3" y="14" rx="1.5"/>',paste:'<rect width="8" height="4" x="8" y="2" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/>',outline:'<path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 13H8"/><path d="M16 13h-2"/><path d="M10 17H8"/><path d="M16 17h-2"/>',tt:'<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>',real:'<rect width="20" height="14" x="2" y="7" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>',mprac:'<path d="M14 9a2 2 0 0 1-2 2H6l-4 4V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2z"/><path d="M18 9h2a2 2 0 0 1 2 2v11l-4-4h-6a2 2 0 0 1-2-2v-1"/>',proj:'<path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>',b1:'<polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/>',b2:'<path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/>',b3:'<rect width="18" height="18" x="3" y="4" rx="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/>'};
+const _t1sv=k=>'<svg viewBox="0 0 24 24">'+T1_IC[k]+'</svg>';
+// Mentee "lastActive" is stored like "Oct 9" (no year): read it as the most recent such date
+function _menteeDays(m){
+  if(!m||!m.lastActive)return null;let d=new Date(m.lastActive);
+  if(!/\d{4}/.test(String(m.lastActive))){const y=new Date().getFullYear();d=new Date(m.lastActive+' '+y);if(d.getTime()>Date.now()+864e5)d=new Date(m.lastActive+' '+(y-1));}
+  if(isNaN(d))return null;return Math.max(0,Math.floor((Date.now()-d.getTime())/864e5));
+}
+// Every hub destination in one place (tiles, rows, hero buttons, K line)
+function _t1Go(k,arg){
+  const tt=(track,scen)=>{V._fromHub=true;V.view='tt-practice';TTP.track=track;TTP.phase='setup';if(scen)TTP.scenario=scen;};
+  const coach=mode=>{if(PS.mode==="evaluator"){PS.mode="speaker";PS.pid=null;}V._psScriptMode=mode;PS._pasteMode=mode==='paste';V.view='ai-coach';};
+  switch(k){
+    case 'roles':V.view='roles';break;
+    case 'timer':V.viewingRole=null;T.returnTo='hub';V.view='timer-select';break;
+    case 'role':V.viewingRole=arg;V.view='role';break;
+    case 'practice':V.view='practice';break;
+    case 'tt':tt('tt');break;
+    case 'tt-daily':if(_ttDailyDone()){tt('tt');break;}_openTTDaily();return false;
+    case 'tt-theme':V.view='topics-select';break;
+    case 'eval':V._fromHub=true;V.view='eval-helper';break;
+    case 'coach-rec':coach('record');break;
+    case 'coach-paste':coach('paste');break;
+    case 'contests':V.view='contests';break;
+    case 'contest':V._contestId=arg;V._contestData={};V.view='contest-detail';break;
+    case 'ob-new':V._obReturn={view:'hub'};V._ob={screen:'start'};V.view='speech-draft';break;
+    case 'ob-saved':V._obReturn={view:'hub'};V._ob={screen:'saved'};V.view='speech-draft';break;
+    case 'real':tt('real',arg);break;
+    case 'mprac':tt(arg||'mentor');break;
+    case 'mp-daily':_openMPDaily();return false;
+    case 'all-projects':V.view='all-projects';break;
+    case 'mentees':V.view='mentees';V._menteeEditing=null;V._menteeNudge=null;break;
+    case 'mentee-add':V.view='mentees';V._menteeNudge=null;V._menteeEditing='new';break;
+    case 'mentee-nudge':V.view='mentees';V._menteeEditing=null;V._menteeNudge=arg;V._nudgeResult=null;V._nudgeLoading=false;V._nudgeType=0;break;
+    case 'path-next':if(arg){V.view='project';V.viewingProject=arg;}else V.view='browser';break;
+    case 'path-choose':V.view='quiz-intro';break;
+    case 'settings':V.view='settings';break;
+    case 'ai-settings':V.view='ai-settings';break;
+    default:return false;
+  }
+  return true;
+}
+// K's directive actions (shared with the old hub's K card)
+function _hubDirectiveGo(action){
+  if(/^nudge:/.test(action||'')){_t1Go('mentee-nudge',action.slice(6));render();return;}
+  const _g=_kGo(action);if(_g===false)return;if(_g===true){render();return;}
+  if(action==='mentees'){V.view='mentees';V._menteeEditing=null;V._menteeNudge=null;}
+  else if(action==='topics'){V.view='tt-practice';TTP.track='tt';TTP.phase='setup';}
+  else if(action==='ai-coach'){if(PS.mode==="evaluator"){PS.mode="speaker";PS.pid=null;}V.view='ai-coach';}
+  else if(action==='coach-followup'){
+    const s=(S.coachHistory||[]).find(x=>x.type==='speech'&&x.feedback);
+    if(s){PS.mode="speaker";PS._prevTranscript=s.transcript;PS._prevFeedback=s.feedback;PS._isFollowup=true;PS._historyFocus=_extractFocus(s.feedback,'speech');
+      PS.pid=s.pid||null;PS.freestyle=!s.pid;PS.brief=s.brief||null;PS.customDur=s.brief&&s.brief.minutes?Object.assign({minutes:s.brief.minutes},s.brief.green!=null?{green:s.brief.green,red:s.brief.red}:{}):null;
+      PS.outline=s.outline||null;PS._goal=s.goal||null;PS.notesText=s.notes||null;PS.phase='ready';PS.aiAnalysis=null;PS._extraNotes=null;}
+    V.view='ai-coach';
+  }
+  else if(action==='path'){V.view='pathfinder-intro';}
+  else if(action==='practice'){V.view='practice';}
+  else if(action==='eval-helper'){V.view='eval-helper';}
+  else if(action==='contests'){V.view='contests';}
+  else if(action==='filler'){V.view='filler';}
+  else if(action==='timer'){V.viewingRole=null;V.view='timer-select';T.returnTo='roles';}
+  render();
+}
+function _t1Body(mode){
+  const TT='Table Topics<sup>®</sup>';
+  const row=(label,go,arg)=>'<button type="button" class="t1-row" data-go="'+go+'"'+(arg?' data-arg="'+arg+'"':'')+'><span>'+label+'</span>'+_t1sv('chev')+'</button>';
+  const tile=(c,ico,name,go,rows,more,moreGo)=>'<div class="t1-tile t1-c-'+c+'" role="button" tabindex="0" data-go="'+go+'" data-k="tile-'+c+'"><div class="t1-tile-head"><div class="t1-ico">'+_t1sv(ico)+'</div><div class="t1-tile-name">'+name+'</div></div><div class="t1-rows">'+rows.join('')+(more?'<button type="button" class="t1-more" data-go="'+(moreGo||go)+'">+'+more+' more</button>':'')+'</div></div>';
+  const roleIds=(typeof ROLES!=='undefined'?ROLES.map(r=>r.id):[]);
+  const ROLESTILE=tile('roles','roles','Meeting Roles','roles',[row('Timer','timer'),row('Ah-Counter','role','ah')],Math.max(0,roleIds.length-2),'roles');
+  const ctKeys=Object.keys(CONTEST_DATA||{});
+  // K line: first sentence of K's message + bold CTA
+  let kline='';const d=_getKDirective();
+  if(d){const m=String(d.msg||'').match(/^(.+?[.!?…])(\s|$)/);const head=m?m[1]:String(d.msg||'');
+    kline='<button type="button" class="t1-k" data-k="k" data-directive-action="'+escHtml(d.action||'')+'"><span class="t1-kav"><img src="'+COACH_AVATAR+'" alt="K"></span><p>'+escHtml(head)+' <b>'+escHtml(d.cta||'')+'</b></p>'+_t1sv('chev')+'</button>';
+    setTimeout(()=>_kTakeRefresh(d),0);}
+  let hero='',grid='';
+  if(mode==='grow'){
+    const p=S.path?PA[S.path]:null;
+    if(p){
+      let lvDone=0,curLv=null,dn=0,tot=0,all=0,allD=0;
+      for(let lv=1;lv<=5;lv++){const g=gP(S.path,lv);const t=g.r.length+g.en+eduReqTotal(lv);
+        const k=g.r.filter(x=>S.done[x]).length+Math.min(g.en,g.e.filter(x=>S.done[x]).length)+Math.min(eduReqTotal(lv),eduReqDone(S.path,lv));
+        all+=t;allD+=k;if(k>=t)lvDone++;else if(curLv===null)curLv=lv;}
+      const pct=all?Math.round(allD/all*100):0;
+      const rem=_remainingProjects(S.path);const nx=rem.length&&PD[rem[0].pid]?rem[0].pid:null;
+      hero='<section class="t1-hero t1-h-path" data-k="hero-grow"><div class="t1-hero-top"><span class="t1-kick">YOUR PATH</span><span class="t1-meta">'+(curLv?'Level '+curLv+' of 5 · '+pct+'%':'All 5 levels · 100%')+'</span></div>'+
+        '<h2>'+escHtml(p.n)+'</h2><div class="t1-levels">'+[1,2,3,4,5].map(i=>'<i'+(i<=lvDone?' class="on"':'')+'></i>').join('')+'</div>'+
+        '<div class="t1-hero-foot"><div style="flex:1;min-width:0"><div class="t1-lbl">'+(nx?'Next project':'Path complete')+'</div><div class="t1-val">'+(nx?escHtml(PD[nx].t)+' <span>· '+escHtml(PD[nx].dur||'')+'</span>':'Every level done')+'</div></div>'+
+        '<button type="button" class="t1-btn-h" data-go="path-next"'+(nx?' data-arg="'+nx+'"':'')+'>'+(nx?'Continue':'Open')+_t1sv('arrow')+'</button></div></section>';
+    }else{
+      hero='<section class="t1-hero t1-h-path" data-k="hero-grow0"><div class="t1-hero-top"><span class="t1-kick">YOUR PATH</span><span class="t1-meta">Not chosen yet</span></div>'+
+        '<h2>Find your path.</h2><p class="t1-lede">Personalised coaching for every speech.</p><div class="t1-levels">'+'<i></i>'.repeat(5)+'</div>'+
+        '<div class="t1-hero-foot"><div style="flex:1;min-width:0"><div class="t1-lbl">11 paths</div><div class="t1-val">A short quiz finds yours</div></div><button type="button" class="t1-btn-h" data-go="path-choose">Choose a path'+_t1sv('arrow')+'</button></div></section>';
+    }
+    grid='<div class="t1-grid">'+ROLESTILE+tile('practice','practice','Practice Tools','practice',[row(TT,'tt'),row('Evaluation','eval')],1,'practice')+
+      tile('coach','coach','Speech Coach','coach-rec',[row('Record','coach-rec'),row('Paste script','coach-paste')])+
+      tile('contests','contests','Contests','contests',[row('International','contest','international'),row(TT,'contest','tabletopics')],Math.max(0,ctKeys.length-2),'contests')+'</div>';
+  }else if(mode==='practice'){
+    const ch=S.coachHistory||[];const last=ch[0]&&(ch[0].iso||ch[0].date);const dd=last?_relDays(last):null;
+    hero='<section class="t1-hero t1-h-coach" data-k="hero-practice"><div class="t1-hero-top"><span class="t1-kick">SPEECH COACH</span>'+(dd!=null?'<span class="t1-meta">Last session '+(dd===0?'today':dd===1?'yesterday':dd+' days ago')+'</span>':'')+'</div>'+
+      '<h2>Rehearse any speech</h2><p class="t1-lede">Record or paste a script for coaching notes.</p>'+
+      '<div class="t1-btn-row"><button type="button" class="t1-btn-h" data-go="coach-rec">'+_t1sv('coach')+'Record</button><button type="button" class="t1-btn-ghost" data-go="coach-paste">'+_t1sv('paste')+'Paste script</button></div></section>';
+    const nSaved=(S.outlines||[]).filter(o=>o.saved!==false).length;
+    const rk=Object.keys(TT_REAL);
+    grid='<div class="t1-grid">'+ROLESTILE+tile('outline','outline','Outline Builder','ob-new',[row('New outline','ob-new'),row('Saved · '+nSaved,'ob-saved')])+
+      tile('tt','tt',TT,'tt',[row('Today’s topic','tt-daily'),row('Pick a theme','tt-theme')])+
+      tile('real','real','Real-world','real',[row('Interviews','real','interview'),row('Small talk','real','smalltalk')],Math.max(0,rk.length-2),'real')+'</div>';
+  }else{
+    const ms=S.mentees||[];
+    if(ms.length){
+      const withD=ms.map(m=>({m,d:_menteeDays(m)}));
+      const active=withD.filter(x=>x.d==null||x.d<21).length;
+      const order=withD.slice().sort((a,b)=>((b.d!=null&&b.d>=21)-(a.d!=null&&a.d>=21))||((b.d||0)-(a.d||0))).slice(0,3);
+      hero='<section class="t1-hero t1-h-mentees t1-fill" data-k="hero-mentor"><div class="t1-hero-top" style="margin-bottom:8px"><span class="t1-kick">MY MENTEES</span><span class="t1-meta">'+ms.length+(ms.length===1?' mentee':' mentees')+' · '+active+' active</span></div>'+
+        order.map(({m,d})=>{const quiet=d!=null&&d>=21;const sp=(m.speeches||[]).length;
+          const sub=quiet?'quiet for '+Math.floor(d/7)+' weeks':[m.level?'Level '+m.level:'',sp+(sp===1?' speech':' speeches')].filter(Boolean).join(' · ');
+          return '<button type="button" class="t1-mrow" data-go="'+(quiet?'mentee-nudge':'mentees')+'" data-arg="'+escHtml(m.id||'')+'"><span class="t1-av">'+escHtml(((m.name||'?').trim()[0]||'?').toUpperCase())+'</span><span class="t1-who"><b>'+escHtml(m.name||'Mentee')+'</b> <span>· '+escHtml(sub)+'</span></span>'+(quiet?'<span class="t1-nudge">Nudge</span>':_t1sv('chev'))+'</button>';}).join('')+
+        '<button type="button" class="t1-add" data-go="mentee-add"><span class="t1-plus">+</span>Add mentee</button></section>';
+    }else{
+      hero='<section class="t1-hero t1-h-mentees t1-fill" data-k="hero-mentor0"><div class="t1-hero-top"><span class="t1-kick">MY MENTEES</span><span class="t1-meta">None yet</span></div>'+
+        '<h2 style="font-size:18px;margin-bottom:4px">Mentor someone in your club</h2><p class="t1-lede" style="margin:0 0 12px;font-size:12px">Add a mentee and K helps you keep track.</p>'+
+        '<div class="t1-benefits"><div><span>'+_t1sv('b1')+'</span>See their Pathways progress</div><div><span>'+_t1sv('b2')+'</span>Get a nudge when they go quiet</div><div><span>'+_t1sv('b3')+'</span>Plan your next check-in</div></div>'+
+        '<button type="button" class="t1-btn-h t1-btn-wide" style="margin-top:14px" data-go="mentee-add">+ Add your first mentee</button></section>';
+    }
+    grid='<div class="t1-grid t1-compact">'+ROLESTILE+tile('mprac','mprac','Mentor practice','mprac',[row('Today’s pick','mp-daily'),row('Evaluations','mprac','evalspeech')])+
+      '<button type="button" class="t1-tile t1-wide t1-c-proj" data-go="all-projects" data-k="tile-proj"><div class="t1-ico">'+_t1sv('proj')+'</div><div class="t1-txt"><div class="t1-tile-name">All Projects</div><div class="t1-sub">Browse every Pathways project</div></div>'+_t1sv('chev')+'</button></div>';
+  }
+  return hero+kline+grid;
+}
 function renderHub(app){
+  const MODES=['grow','practice','mentor'];
+  const mode=MODES.includes(S.persona)?S.persona:'practice';
+  let h='<main class="t1 fade-up" data-lt-keep>';
+  h+='<header class="t1-head"><div class="t1-mark">SPEAK · LEAD · GROW</div><div class="t1-head-btns">'+
+    '<button class="t1-ibtn t1-heart" data-action="open-donate" aria-label="Support TMCompanion">'+_t1sv('heart')+'</button>'+
+    '<button class="t1-ibtn t1-spark" data-go="ai-settings" aria-label="AI settings">'+_t1sv('spark')+'</button>'+
+    '<button class="t1-ibtn t1-gear" data-go="settings" aria-label="About and settings">'+_t1sv('gear')+'</button></div></header>';
+  h+='<nav class="t1-seg" role="tablist" aria-label="Mode"><span class="t1-ind" style="transform:translateX('+(MODES.indexOf(mode)*100)+'%)"></span>'+
+    MODES.map(m=>'<button type="button" role="tab" data-hub-mode="'+m+'" aria-selected="'+(m===mode)+'" class="'+(m===mode?'on':'')+'">'+m[0].toUpperCase()+m.slice(1)+'</button>').join('')+'</nav>';
+  h+='<div class="t1-body" id="t1-body">'+_t1Body(mode)+'</div></main>';
+  app.innerHTML=h;
+  _t1Wire(app);
+  const seg=app.querySelector('.t1-seg');
+  seg.querySelectorAll('[data-hub-mode]').forEach(b=>b.addEventListener('click',async()=>{
+    const to=b.dataset.hubMode,from=S.persona;if(to===from||V._hubSwitching)return;
+    const dir=Math.sign(MODES.indexOf(to)-MODES.indexOf(from))||1;
+    S.persona=to;S.mode=to==='grow'?'path':'alacarte';save();
+    document.body.dataset.mode=to;
+    seg.querySelector('.t1-ind').style.transform='translateX('+(MODES.indexOf(to)*100)+'%)';
+    seg.querySelectorAll('[data-hub-mode]').forEach(x=>{const on=x===b;x.classList.toggle('on',on);x.setAttribute('aria-selected',on);});
+    const body=app.querySelector('#t1-body');
+    const tmp=document.createElement('div');tmp.innerHTML=_t1Body(to);
+    const reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion:reduce)').matches;
+    // Only blocks whose content changes animate (Meeting Roles stays put)
+    const keyed=el=>[...el.querySelectorAll('[data-k]')].filter(x=>!x.parentElement.closest('[data-k]'));
+    const oldK=keyed(body).map(x=>x.dataset.k+'|'+x.outerHTML),newK=keyed(tmp).map(x=>x.dataset.k+'|'+x.outerHTML);
+    const out=keyed(body).filter((x,i)=>oldK[i]!==newK[i]);
+    if(!reduce&&Element.prototype.animate){V._hubSwitching=true;
+      try{await Promise.all(out.map(el=>el.animate([{opacity:1,transform:'none'},{opacity:0,transform:'translateX('+(-dir*22)+'px)'}],{duration:140,easing:'ease-in',fill:'forwards'}).finished));}catch(e){}
+      V._hubSwitching=false;}
+    if(V.view!=='hub')return;
+    body.innerHTML=tmp.innerHTML;_t1Wire(app,true);
+    if(!reduce&&Element.prototype.animate)keyed(body).forEach((el,i)=>{if(oldK[i]!==newK[i])el.animate([{opacity:0,transform:'translateX('+(dir*22)+'px)'},{opacity:1,transform:'none'}],{duration:240,easing:'cubic-bezier(.2,.8,.2,1)',fill:'backwards'});});
+  }));
+}
+function _t1Wire(app,bodyOnly){
+  const scope=bodyOnly?app.querySelector('#t1-body'):app;
+  scope.querySelectorAll('[data-go]').forEach(el=>{
+    const fire=e=>{e.stopPropagation();if(_t1Go(el.dataset.go,el.dataset.arg))render();};
+    el.addEventListener('click',fire);
+    if(el.getAttribute('role')==='button')el.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();fire(e);}});
+  });
+  const k=scope.querySelector('.t1-k');
+  if(k)k.addEventListener('click',()=>_hubDirectiveGo(k.dataset.directiveAction));
+}
+
+function renderHubV2(app){ // previous hub, kept for reference — not routed
   const p=S.path?PA[S.path]:null;
 
   // Totals for hero progress bar
@@ -6450,7 +6998,6 @@ function renderPathPicker(app){
   h+='<button class="quiz-prompt-btn" data-action="open-quiz">🧭 &nbsp; Not sure which one? Take the fun quiz</button>';
   h+='</div>';
 
-  h+='<div class="app-footer">Made by Kian How · This app is independent of Toastmasters International. It is not authorized by, endorsed by, sponsored by, affiliated with, or otherwise approved by Toastmasters International. · <a data-action="whats-new" style="color:var(--accent);cursor:pointer">v'+APP_VERSION+' · What’s new</a> · <a data-action="show-notice" style="color:var(--accent);text-decoration:none;cursor:pointer">User Agreement</a></div>';
   h+='</div>';
   app.innerHTML=h;
   _wirePathsSeg(app);
@@ -6869,7 +7416,6 @@ function renderPathBrowser(app){
   // Keeping it in the tree lets us toggle visibility without re-rendering.
   h+='<div class="path-complete-banner'+(pct>=100?'':' hidden')+'"><strong>🎉 Path complete!</strong><div style="font-size:13px;color:var(--text-muted);line-height:1.5">Next step: DTM. Keep going.</div></div>';
 
-  h+='<div class="app-footer">Made by Kian How · This app is independent of Toastmasters International. It is not authorized by, endorsed by, sponsored by, affiliated with, or otherwise approved by Toastmasters International. · <a data-action="whats-new" style="color:var(--accent);cursor:pointer">v'+APP_VERSION+' · What’s new</a> · <a data-action="show-notice" style="color:var(--accent);text-decoration:none;cursor:pointer">User Agreement</a></div>';
   h+='</div>';
   app.innerHTML=h;
 
@@ -7746,7 +8292,7 @@ function renderBottomNav(){
   const onHome=(V.view==="hub");
   let h='<div class="bottom-nav"><div class="bottom-nav-inner">';
   h+='<button class="nav-hub-btn'+(onHome?' active':'')+'" data-nav="hub">';
-  h+='<span class="nav-hub-btn-icon"><svg width="18" height="18" viewBox="0 0 20 20" fill="none"><path d="M10 2C10 2 10.6 6.8 12.2 8.4C13.8 10 18 10 18 10C18 10 13.8 10 12.2 11.6C10.6 13.2 10 18 10 18C10 18 9.4 13.2 7.8 11.6C6.2 10 2 10 2 10C2 10 6.2 10 7.8 8.4C9.4 6.8 10 2 10 2Z" fill="currentColor"/></svg></span>';
+  h+='<span class="nav-hub-btn-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="7" height="7" x="3" y="3" rx="1.5"/><rect width="7" height="7" x="14" y="3" rx="1.5"/><rect width="7" height="7" x="14" y="14" rx="1.5"/><rect width="7" height="7" x="3" y="14" rx="1.5"/></svg></span>';
   h+='<span>Hub</span>';
   h+='</button>';
   h+='</div></div>';
@@ -8769,7 +9315,6 @@ function renderPracticeHub(app){
   h+=toolRow({art:"eval-sheet.png",tool:"eval-helper", color:"#F59E0B", icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.9" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H7a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h5"/><path d="M14 2v5h5"/><path d="M14 2l5 5"/><line x1="9" y1="10.5" x2="12.5" y2="10.5"/><line x1="9" y1="13.5" x2="12.5" y2="13.5"/><circle cx="18.5" cy="18.5" r="3" fill="currentColor" stroke="none"/><path d="M16.5 18.5l1.5 1.5 2.5-2.5" stroke="white" stroke-width="0.8" fill="none"/></svg>', name:"Evaluation Helper",  desc:"What to judge and how to say it — at the meeting"});
   h+=toolRow({art:"draft-page.png",tool:"speech-draft",color:"#3B82F6", icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.9" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><path d="M13 2v5h7"/><line x1="8" y1="13.5" x2="12" y2="13.5"/><line x1="8" y1="17.5" x2="12" y2="17.5"/><path d="M17.5 4.5l2.5 2.5-7 7-2.5 0.5 0.5-2.5z"/><line x1="17.5" y1="4.5" x2="20" y2="7"/></svg>', name:"Outline Builder",desc:"Pick a structure, fill one point per section, rehearse it"});
   h+='</div>';
-  h+='<div class="app-footer">Made by Kian How · This app is independent of Toastmasters International. It is not authorized by, endorsed by, sponsored by, affiliated with, or otherwise approved by Toastmasters International. · <a data-action="whats-new" style="color:var(--accent);cursor:pointer">v'+APP_VERSION+' · What’s new</a> · <a data-action="show-notice" style="color:var(--accent);text-decoration:none;cursor:pointer">User Agreement</a></div>';
   h+='</div>';
   app.innerHTML=h;
 
@@ -9183,7 +9728,7 @@ async function ttpFetchQuestion(theme,useAI){
 
 // Real-world scenario prompt — AI when on (tailored to the member's role), bank otherwise
 // ═══ Mentor practice — mentee conversations + sample speeches to evaluate ═══
-const MENTOR_SCEN={"confidence": {"name": "Confidence", "sub": "After a tough moment", "secs": [60, 120], "prompts": ["After their Ice Breaker, your mentee messages you: “I completely froze halfway. Everyone saw. I don't think Toastmasters is for me.”", "Your mentee says: “Everyone else in the club is so polished. I'll never sound like them.”", "Your mentee won Best Table Topics last week, but tells you: “It was luck. I don't actually know what I'm doing.”", "Your mentee asks: “I get so nervous my hands shake. Can I just read my whole speech from the paper?”", "Your mentee says: “I'm the oldest member in the club. Everyone else is so young and confident.”", "Your mentee says: “English isn't my first language. I'm worried people can't understand me.”", "The night before their first contest, your mentee says: “What if I forget everything in front of the whole district?”"]}, "shortcuts": {"name": "Shortcuts", "sub": "Wants the easy way", "secs": [60, 120], "prompts": ["Your mentee asks: “Can you just write my speech for me? You're so much better at this.”", "Your mentee says: “Level 1 is too basic for me. Can I skip ahead to the harder projects?”", "Your mentee has given one speech and says: “I want to enter the International Speech Contest next month. Can you get me ready?”", "Your mentee asks: “Can I just use an AI-written script? Nobody will know.”", "Your mentee asks: “My last speech went really well. Can I give the same one again for my next project?”", "Your mentee says: “I just want to finish the levels fast. Can I do two speeches every meeting?”", "Your mentee says: “I memorised a TED talk and changed some of the words. It's basically my speech, right?”"]}, "feedback": {"name": "Feedback", "sub": "Hurt or stuck", "secs": [60, 120], "prompts": ["Your mentee says: “My evaluator was so harsh, and the whole club heard it. I'm still upset.”", "Your mentee says: “Everyone says I say ‘um’ too much, but I really don't hear it. I think they're exaggerating.”", "Your mentee says: “Three evaluators gave me the same comment. I'm starting to think I just can't fix it.”", "After meetings, your mentee keeps going up to their evaluator to explain what they ‘really meant’. You decide to talk to them about it.", "Your mentee says: “My evaluator only said nice things. I don't think they were really listening.”", "Your mentee says: “Two evaluators told me completely opposite things. Who am I supposed to believe?”", "Your mentee asks: “Can I skip the evaluation for my next speech? I just want to get through it.”"]}, "momentum": {"name": "Momentum", "sub": "Losing steam", "secs": [60, 120], "prompts": ["Your mentee says: “I've postponed my speech three times now. Work is crazy right now.”", "Your mentee hasn't come to a meeting in six weeks. They finally reply: “Sorry, been busy. I'll come back when things calm down.”", "Your mentee messages the night before the meeting: “I signed up for General Evaluator but I'm not prepared. Can you take it for me?”", "Your mentee says: “Honestly, I don't see the point of Pathways anymore. I just come for the people.”", "Your mentee says: “I finished Level 2 and I just… stopped. I don't feel like starting Level 3.”", "Your mentee says: “I keep signing up for roles and cancelling the day before. I feel terrible about it.”", "Your mentee says: “Online meetings are so boring. I'm thinking of just joining with my camera off.”"]}, "direction": {"name": "Direction", "sub": "Not sure what's next", "secs": [60, 120], "prompts": ["Your mentee says: “Pathways is so confusing. I honestly don't know what I'm supposed to do next.”", "Your mentee says: “I think I picked the wrong path. Is it too late to switch?”", "Your mentee asks: “I joined to speak better at work, not just at the club. Is any of this actually helping?”", "Your mentee asks: “The club wants me to be VP Education. Am I ready for that?”", "Your mentee asks: “Should I start a second path, or focus on finishing this one first?”", "Your mentee says: “Everyone keeps telling me to enter contests. I don't want to compete. Is that okay?”", "Your mentee says: “I've been a member for five years. What's even left for me here?”"]}, "club": {"name": "Club life", "sub": "Roles and people", "secs": [60, 120], "prompts": ["Your mentee says: “Table Topics terrifies me. Can I just ask the Topicsmaster never to call on me?”", "Your mentee says: “I was Timer last week and I completely messed it up. I'm embarrassed to go back.”", "Your mentee says: “It feels like the same five people always get the good roles.”", "Your mentee says: “A member made a joke about my accent during the break, and everyone laughed.”", "Your mentee asks: “Can I just give speeches and never take meeting roles?”", "Your mentee says: “One member's Table Topics answers always run way over, and nobody stops him. It's annoying everyone.”", "Your mentee says: “I want to run for club president, but I've only been a member for four months.”"]}};
+const MENTOR_SCEN={"confidence": {"name": "Confidence", "sub": "After a tough moment", "secs": [60, 120], "prompts": ["After their Ice Breaker, your mentee messages you: “I completely froze halfway. Everyone saw. I don't think Toastmasters is for me.”", "Your mentee says: “Everyone else in the club is so polished. I'll never sound like them.”", "Your mentee won Best Table Topics last week, but tells you: “It was luck. I don't actually know what I'm doing.”", "Your mentee asks: “I get so nervous my hands shake. Can I just read my whole speech from the paper?”", "Your mentee says: “I'm the oldest member in the club. Everyone else is so young and confident.”", "Your mentee says: “English isn't my first language. I'm worried people can't understand me.”", "The night before their first contest, your mentee says: “What if I forget everything in front of the whole district?”", "Right after the meeting, your mentee pulls you aside: “Did you see me go red? I could feel it the whole time.”", "Your mentee sends a voice note: “I watched the video of my speech. I sound awful. I can't stand my own voice.”", "Your mentee says: “I'm great one-on-one, but the second I stand up in front of people my mind goes blank.”", "Before their second speech, your mentee texts: “The first one went fine. What if that was a fluke and this one bombs?”", "Your mentee says: “I'm a manager at work. If I mess up here, it's embarrassing. People expect me to be good at this.”", "Your mentee tells you: “I practised for two weeks and still used my notes the whole time. What's wrong with me?”", "Your mentee says: “I laughed nervously all through my speech and I couldn't stop. Now everyone thinks I'm not serious.”", "After an evaluation contest practice, your mentee says: “I'm not smart enough to evaluate people who've been here for years.”", "On a video call, your mentee admits: “I keep my camera off in online meetings because I hate seeing my own face.”", "Your mentee says: “My speech was fine, but I compared myself to the next speaker and now I feel like an amateur.”", "Your mentee messages: “A guest told me my speech was boring. Just one person, but I can't stop thinking about it.”", "Your mentee says: “I'm an introvert. Maybe speaking just isn't for people like me.”", "Your mentee goes quiet after their speech and finally says: “I skipped my best part because I panicked. It was the whole point.”"]}, "shortcuts": {"name": "Shortcuts", "sub": "Wants the easy way", "secs": [60, 120], "prompts": ["Your mentee asks: “Can you just write my speech for me? You're so much better at this.”", "Your mentee says: “Level 1 is too basic for me. Can I skip ahead to the harder projects?”", "Your mentee has given one speech and says: “I want to enter the International Speech Contest next month. Can you get me ready?”", "Your mentee asks: “Can I just use an AI-written script? Nobody will know.”", "Your mentee asks: “My last speech went really well. Can I give the same one again for my next project?”", "Your mentee says: “I just want to finish the levels fast. Can I do two speeches every meeting?”", "Your mentee says: “I memorised a TED talk and changed some of the words. It's basically my speech, right?”", "Your mentee asks: “Can I use the same story in every speech? It's the only good one I have.”", "Your mentee says: “I'll just wing it on the day. I'm better when I don't prepare.”", "Your mentee asks: “Can you sign off my Level 3 projects? I did most of them at work anyway.”", "Your mentee says: “The time limit is 7 minutes but my speech is 11. Can I just talk faster?”", "Your mentee asks: “Can I evaluate my friend's speech? I'll be nice, it's easier that way.”", "Your mentee says: “I found a speech outline online that fits the project perfectly. I'll just fill it in.”", "Your mentee wants to give their Ice Breaker as a slide presentation: “It's how I present at work. Slides make it easier.”", "Your mentee asks: “Can I record my speech at home and play the video at the meeting instead?”", "Your mentee says: “I don't need a mentor anymore. I've watched loads of YouTube videos on public speaking.”", "Your mentee asks: “Can I skip the elective projects and only do the required ones?”", "Your mentee says: “I'll do the role but I won't prepare for it. Grammarian is just counting words, right?”", "Your mentee asks: “Can I give my speech in my own language? It's so much easier.”", "Your mentee says: “I want to copy exactly how the World Champion did it. Same gestures, same pauses.”"]}, "feedback": {"name": "Feedback", "sub": "Hurt or stuck", "secs": [60, 120], "prompts": ["Your mentee says: “My evaluator was so harsh, and the whole club heard it. I'm still upset.”", "Your mentee says: “Everyone says I say ‘um’ too much, but I really don't hear it. I think they're exaggerating.”", "Your mentee says: “Three evaluators gave me the same comment. I'm starting to think I just can't fix it.”", "After meetings, your mentee keeps going up to their evaluator to explain what they ‘really meant’. You decide to talk to them about it.", "Your mentee says: “My evaluator only said nice things. I don't think they were really listening.”", "Your mentee says: “Two evaluators told me completely opposite things. Who am I supposed to believe?”", "Your mentee asks: “Can I skip the evaluation for my next speech? I just want to get through it.”", "Your mentee says: “My evaluator said I had no structure. I don't even know what that means.”", "Your mentee asks: “The Ah-Counter said I used 23 filler words. Is that really bad? It sounded normal to me.”", "Your mentee messages: “My evaluator was new and clearly didn't understand my project. Should I complain?”", "Your mentee says: “I got the Best Speaker ribbon, but my evaluator still had three recommendations. Was it actually good?”", "Your mentee says: “The General Evaluator mentioned my speech in front of everyone as an example of what not to do.”", "After you give them honest feedback, your mentee goes quiet and says: “I thought you were on my side.”", "Your mentee says: “Everyone tells me to use more gestures, but it feels fake when I do it.”", "Your mentee asks: “Can you be my evaluator every time? You understand me better than the others.”", "Your mentee says: “My evaluator told me to cut my favourite story. That story is the reason I wrote the speech.”", "Your mentee asks: “I keep getting told to slow down. I try, but it doesn't change. What am I doing wrong?”", "Your mentee says: “The feedback form said ‘good job’ and nothing else. I wanted something I could actually use.”", "Your mentee messages after the meeting: “I evaluated someone and they argued with me afterwards. I don't want to evaluate again.”", "Your mentee says: “My evaluator said my opening was weak. But I followed the exact advice you gave me.”"]}, "momentum": {"name": "Momentum", "sub": "Losing steam", "secs": [60, 120], "prompts": ["Your mentee says: “I've postponed my speech three times now. Work is crazy right now.”", "Your mentee hasn't come to a meeting in six weeks. They finally reply: “Sorry, been busy. I'll come back when things calm down.”", "Your mentee messages the night before the meeting: “I signed up for General Evaluator but I'm not prepared. Can you take it for me?”", "Your mentee says: “Honestly, I don't see the point of Pathways anymore. I just come for the people.”", "Your mentee says: “I finished Level 2 and I just… stopped. I don't feel like starting Level 3.”", "Your mentee says: “I keep signing up for roles and cancelling the day before. I feel terrible about it.”", "Your mentee says: “Online meetings are so boring. I'm thinking of just joining with my camera off.”", "Your mentee says: “I just had a baby. I want to stay in the club but I don't know how I'll find the time.”", "Your mentee messages: “I got a new job with evening shifts. Maybe I should take a break for a few months.”", "Your mentee says: “I've been coming for a year and I still don't feel any better at speaking.”", "Your mentee says: “I wrote half my speech three weeks ago and haven't opened it since.”", "Your mentee tells you: “My best friend in the club left. It's not the same without her.”", "Your mentee has been the Timer five meetings in a row and says: “It's easy. I don't really want anything harder right now.”", "Your mentee says: “I want to quit, but I don't want to let you down. That's honestly the only reason I'm still here.”", "Your mentee messages on meeting day: “Sorry, something came up. Can we push my speech to next month?”", "Your mentee says: “I finished my path. Everyone congratulated me, and now I don't know why I'd keep coming.”", "Your mentee says: “The membership fee is due and I'm not sure it's worth it for me anymore.”", "Your mentee says: “I used to practise every day. Now I only think about my speech the night before.”", "Your mentee admits: “I'm burnt out at work. Toastmasters started to feel like another job.”", "Your mentee says: “I keep saying I'll book my next speech, but every date feels too soon.”"]}, "direction": {"name": "Direction", "sub": "Not sure what's next", "secs": [60, 120], "prompts": ["Your mentee says: “Pathways is so confusing. I honestly don't know what I'm supposed to do next.”", "Your mentee says: “I think I picked the wrong path. Is it too late to switch?”", "Your mentee asks: “I joined to speak better at work, not just at the club. Is any of this actually helping?”", "Your mentee asks: “The club wants me to be VP Education. Am I ready for that?”", "Your mentee asks: “Should I start a second path, or focus on finishing this one first?”", "Your mentee says: “Everyone keeps telling me to enter contests. I don't want to compete. Is that okay?”", "Your mentee says: “I've been a member for five years. What's even left for me here?”", "Your mentee asks: “I have a big presentation at work next month. Should I use my next Toastmasters speech to practise it?”", "Your mentee says: “I want to become a professional speaker one day. Is Toastmasters enough?”", "Your mentee asks: “Is it worth doing the Distinguished Toastmaster award, or is that just for people who love titles?”", "Your mentee says: “I'm good at prepared speeches but terrible at Table Topics. Which one should I focus on?”", "Your mentee asks: “There's a speech-craft club and a business club near me. Should I join a second club?”", "Your mentee says: “I want to work on leadership, not just speaking. Where do I even start?”", "Your mentee asks: “I'm moving to another city in six months. Is it even worth starting Level 3 here?”", "Your mentee says: “I want to give a speech about something personal, but I'm not sure the club is the right place.”", "Your mentee asks: “Everyone says find your own style. How do I know what my style is?”", "Your mentee says: “I want to speak in Chinese at our bilingual meetings, but I'm stronger in English. Which should I practise?”", "Your mentee asks: “I've been offered a role on the district team. Is that a good step or a distraction?”", "Your mentee says: “I want to try humour, but I'm not naturally funny. Should I even try?”", "Your mentee asks: “How do I know when I'm ready to mentor someone myself?”"]}, "club": {"name": "Club life", "sub": "Roles and people", "secs": [60, 120], "prompts": ["Your mentee says: “Table Topics terrifies me. Can I just ask the Topicsmaster never to call on me?”", "Your mentee says: “I was Timer last week and I completely messed it up. I'm embarrassed to go back.”", "Your mentee says: “It feels like the same five people always get the good roles.”", "Your mentee says: “A member made a joke about my accent during the break, and everyone laughed.”", "Your mentee asks: “Can I just give speeches and never take meeting roles?”", "Your mentee says: “One member's Table Topics answers always run way over, and nobody stops him. It's annoying everyone.”", "Your mentee says: “I want to run for club president, but I've only been a member for four months.”", "Your mentee says: “I agreed to be Toastmaster of the Day next week and I'm already panicking about it.”", "Your mentee says: “A senior member always gives me advice I didn't ask for. It makes me feel small.”", "Your mentee asks: “Our meetings always run late and I have to leave early. Is it rude to walk out?”", "Your mentee says: “I invited my colleague as a guest and the meeting was a mess. I'm embarrassed.”", "Your mentee tells you: “Two members had an argument in the club chat and now everyone is taking sides.”", "Your mentee says: “Nobody talks to me during the break. I just stand there with my phone.”", "Your mentee asks: “I was asked to be Sergeant at Arms. Is that just setting up chairs, or does it actually matter?”", "Your mentee says: “Someone voted for me as Best Evaluator even though I think I was terrible. It feels fake.”", "Your mentee says: “The officers keep asking me to help with events. I like them, but I can't say no.”", "Your mentee says: “The club only does things one way. I suggested a new idea and nobody even replied.”", "Your mentee asks: “I'm the only non-native speaker in the club. Should I find a club where I fit in better?”", "Your mentee says: “I was Grammarian and I chose a hard Word of the Day. Nobody used it and it felt awkward.”", "Your mentee says: “A guest asked me what Toastmasters actually is, and I didn't know how to explain it.”"]}};
 const EVAL_SAMPLES=[{"id": "s-ice", "pid": "ice-breaker", "speaker": "Maya", "title": "Three Cities", "text": "Good evening, everyone. Um, so, my name is Maya and I've lived in three cities. Kuala Lumpur, Melbourne, and now Shanghai.\n\nI was born in KL. My grandmother lived with us, and every Sunday she made dumplings. Not normal dumplings. She folded each one with exactly eighteen pleats, and if you made seventeen, she unfolded it and made you start again. [laughter] I was seven. I made a lot of seventeens.\n\nUm, then I went to Melbourne for university. I studied architecture. It was, um, very cold, which nobody tells you about Australia. I learned to drink flat whites and to apologise to people who bump into me. [laughter]\n\nAfter graduating I worked for a firm that, um, designed hospitals. I liked it because buildings can make people feel safe. Or not safe. A hospital corridor that's too long makes a frightened person more frightened. I think about that a lot.\n\nTwo years ago my company moved me to Shanghai. I didn't speak much Chinese. I still don't, really. [laughter] I joined Toastmasters because I present to clients, and, um, my manager said my slides were good but I wasn't.\n\nSo, um, yeah. I like hiking, I have a cat called Pleat — after my grandmother's dumplings — and, um, I hope to get better at speaking. I think that's my time. Thank you.", "key": {"strengths": "Vivid, specific details (eighteen pleats; the long hospital corridor that frightens people) and natural humour that earned real laughs.", "main": "The ending fizzles — 'So, um, yeah… I think that's my time.' There is no conclusion and no message. The Ice Breaker is about basic speech structure, and the dumpling/pleat thread is a ready-made frame she could open and close with.", "minor": "Fillers ('um', 'so') cluster at every transition — a sign she isn't sure what comes next, which a clearer structure would also fix."}}, {"id": "s-ice2", "pid": "ice-breaker", "speaker": "Kenji", "title": "A Software Engineer Walks In", "text": "Good evening. Before I start, I'm sorry — I'm not a good speaker, so please be patient with me. [laughter]\n\nMy name is Kenji. I'm thirty-four. I was born in Osaka and moved to Shanghai six years ago for work. I'm a software engineer at a logistics company. Basically, I make sure your packages know where they're going. Most of the time. [laughter]\n\nI have one sister. She is a nurse in Osaka, and much braver than me. My parents run a small noodle shop, which they have run for thirty years. They still open at six every morning.\n\nMy hobbies are running, photography and cooking. I run about twenty kilometres a week. I like to photograph old buildings, especially the ones that are about to be demolished. I think somebody should remember them. My cooking is not as good as my parents', but I am improving.\n\nWhy did I join Toastmasters? In my job I have to explain technical things to people who are not technical. Last year I presented to our directors and nobody understood it. One director fell asleep. [laughter] Not a short sleep. A real sleep. [laughter]\n\nSo I am here to learn. In the future I would like to lead a team, and a leader must be able to speak.\n\nThat's all about me. Thank you for listening.", "key": {"strengths": "Honest, specific details that are genuinely interesting — packages that 'know where they're going', photographing buildings before they're demolished so someone remembers them, the director who fell asleep.", "main": "It's a list — age, job, family, hobbies, reason for joining — with no thread running through it. The best material (photographing what's about to disappear, parents opening at six for thirty years) could have become one idea the whole speech is built around. The Ice Breaker is about structure: an opening, a body and a conclusion that belong together.", "minor": "The opening apology ('I'm not a good speaker') and the closing 'That's all about me' weaken both first and last impressions."}}, {"id": "s-purpose", "pid": "writing-purpose", "speaker": "Lina", "title": "Sleep", "text": "How many hours did you sleep last night? [pause] If your answer was 'not enough', you're in good company.\n\nTonight I want to talk about sleep. Sleep happens in cycles of about ninety minutes. Each cycle has light sleep, deep sleep and REM sleep, which is when we dream. Deep sleep repairs the body. REM sleep helps us process memories and emotions. Adults need seven to nine hours, which is about five cycles.\n\nThat's why I think companies should stop sending emails after 9 p.m. Some countries, like France, already have a 'right to disconnect' law. If your boss emails you at midnight, you check it, your brain wakes up, and there goes a cycle. Companies are stealing our sleep.\n\nThree years ago I worked at a startup where we slept four hours a night. I was proud of it. I thought tired meant committed. Then one morning I fell asleep at a red light. Nothing happened, thank God. But I sold my car the next month.\n\nSo here are some tips. Keep your bedroom cool. No screens an hour before bed. Go to bed at the same time every night, even on weekends. And if you can't sleep after twenty minutes, get up and read something boring. [laughter] My company's annual report works very well. [laughter]\n\nSleep well, everyone. Thank you.", "key": {"strengths": "A strong opening question; the red-light story is the most powerful moment in the speech; practical, memorable tips with a good laugh at the end.", "main": "Three purposes compete. It starts to inform (sleep cycles), switches to persuade (ban emails after 9 p.m.), then becomes a list of tips — and never says which one it's for. The red-light story, the strongest material, is wasted in the middle. This project is about choosing one clear purpose and organising everything around it.", "minor": "'Sleep well, everyone' closes politely but doesn't land a single message, because the speech never chose one."}}, {"id": "s-persuade", "pid": "persuade-speak", "speaker": "Priya", "title": "Phones Out of Meetings", "text": "Raise your hand if you checked your phone in your last meeting. [pause] Keep it up if you can tell me exactly what was said while you were looking at it. [laughter]\n\nHere's the problem. Researchers say it takes over twenty minutes to fully refocus after a distraction. Twenty minutes. So a one-hour meeting with three phone checks is basically a meeting you didn't attend.\n\nYou should put your phone away in every meeting. Face down isn't enough — out of sight. You should close your laptop unless you're presenting. You should stop telling yourself you can multitask, because you can't. Nobody can. You're not the exception.\n\nI tried this for one month. No phone in any meeting. Three things happened. My meetings got shorter, because I asked better questions. My team started doing it too, without me asking. And I stopped saying 'sorry, can you repeat that?' — which, it turns out, I said a lot. [laughter]\n\nSo here's my challenge. For the next week, every meeting you attend: phone in your bag. Not on the table. In the bag. Just one week. Then decide for yourself.\n\nYour attention is the most valuable thing you bring to a room. Don't give it away to a notification. Thank you.", "key": {"strengths": "The hands-up opening pulls the audience in; her one-month personal experiment is concrete proof; the call to action is specific and small (one week, phone in the bag).", "main": "She never addresses the obvious objection — people who are on call, parents, genuinely urgent messages. Everyone in the room who thought 'but I can't' stays unpersuaded. Persuasion needs the strongest counter-argument acknowledged and answered.", "minor": "Three 'you should's in a row turn the middle into a lecture, and the twenty-minute statistic has no source."}}, {"id": "s-research", "pid": "research-present", "speaker": "Wei", "title": "Why We Procrastinate", "text": "Procrastination is not a time-management problem. It's an emotion-management problem. That's the conclusion of Dr Tim Pychyl, who has studied procrastination for over twenty years.\n\nAround twenty percent of adults are chronic procrastinators. Students procrastinate on about a third of their daily activities. A 2007 analysis by Piers Steel reviewed more than six hundred studies. Procrastinators report higher stress and more illness. They also earn less, according to one study. And procrastination increases with phone use, according to another study. There's also temporal motivation theory, which says motivation equals expectancy times value, divided by impulsiveness times delay. [silence]\n\nHere's how I think about it. Imagine a task is a cold swimming pool. Procrastination isn't laziness — it's standing at the edge because you don't want to feel the cold. The water doesn't get warmer while you wait. You just get colder standing there.\n\nSo what helps? Research suggests three things. Make the first step tiny — just open the document. Forgive yourself for last time, because self-forgiveness reduces future procrastination. And, um, remove distractions.\n\nSo next time you're avoiding something, ask: what feeling am I avoiding? Then jump in the pool. Thank you.", "key": {"strengths": "Credible, named sources (Pychyl, Steel) and a strong opening claim; the cold-swimming-pool analogy is where the speech finally clicks.", "main": "The second paragraph is a data dump — six statistics and a formula in a row with no 'so what' for any of them, and the room goes silent. Researching and Presenting is about organising research for listeners: pick two findings and explain why each matters.", "minor": "The three closing tips are introduced with 'research suggests' but, unlike the opening, have no sources — the research is heaviest where it's needed least."}}, {"id": "s-story", "pid": "story", "speaker": "Ana", "title": "The Red Bicycle", "text": "When I was eight, my father bought me a red bicycle from a market in Manila. It wasn't new. The paint was chipped on the left pedal, the bell was rusty and sounded like a sick duck [laughter], and the seat had a crack held together with blue tape. I loved it more than anything I owned.\n\nOur street was narrow, with a bakery on one corner — you could smell pandesal at six in the morning — and Mrs Reyes's dog, Bruno, who chased anything with wheels. Every afternoon my father came home from the shipyard, still smelling of oil, and held the back of my seat while I wobbled down the street, Bruno barking behind us.\n\nOne day he let go and I rode to the end of the street by myself.\n\nSo the lesson of this story is that sometimes the people who love us have to let go so that we can grow. My father knew I was ready before I did. And I think that's true in life too — with our children, with our teams at work, with our friends. We have to trust them. We have to let go. Letting go is a form of love. Even if it's scary, even if they might fall, we have to let go.\n\nI still have the bell. Thank you.", "key": {"strengths": "Rich sensory detail (the sick-duck bell, blue tape, pandesal at six in the morning, oil from the shipyard) and the bell callback in the last line.", "main": "The heart of the story — the moment he lets go — is a single sentence with no tension and no feeling. Then the lesson is explained four different ways. Storytelling should slow down and live inside that moment (what did she see, hear, feel when she realised he wasn't holding on?) and trust the audience to feel the lesson.", "minor": "Bruno the dog is set up but never pays off — he could have been chasing her on the day she rode alone."}}, {"id": "s-inspire", "pid": "inspire", "speaker": "Tom", "title": "Start Before You're Ready", "text": "Friends, how many of you have a dream you've been putting off? [pause] I see you. [laughter]\n\nFive years ago I was an accountant who wanted to be a chef. Every night I watched cooking videos, and every morning I went back to my spreadsheets. I told myself I'd start when I was ready. When I had savings. When the timing was right.\n\nThen my friend Leo, who always wanted to start a band, passed away at thirty-four. He never played a single show.\n\nThat week I signed up for a night class. I burned my first soufflé. And my second. And my third. [laughter] But a year later, I was working weekends in a restaurant kitchen.\n\nAnd it's not just me! Think of Colonel Sanders, who started KFC in his sixties. Think of J.K. Rowling, rejected by twelve publishers. Never give up! Follow your dreams! The sky's the limit!\n\nLife is short. Leo taught me that. Your dream is waiting for you. So go out there and chase it! Thank you!", "key": {"strengths": "The Leo moment is genuine and is the emotional peak of the speech; the burnt soufflés are honest, self-deprecating humour.", "main": "It ends in clichés ('Never give up! Follow your dreams! The sky's the limit!') with no specific ask. Inspiring an audience means moving them to do something — one small, concrete action this week, like booking one class or telling one person their dream.", "minor": "Colonel Sanders and J.K. Rowling are borrowed examples that dilute his own, much stronger story — cut them and stay with Leo."}}, {"id": "s-desc", "pid": "desc-lang", "speaker": "Raj", "title": "Monsoon", "text": "I want to take you to my hometown in Kerala during the monsoon.\n\nIt is a very beautiful place. The scenery is amazing, with lots of green everywhere, and the rain is very heavy. It is really breathtaking. Everybody should see it once in their life.\n\nWhen the monsoon arrives, the sky changes. It becomes very dark and very dramatic. Then the rain comes. It is so loud. The roads become rivers and the children play in the water. It is very nice to watch.\n\nMy grandmother's house has a red tiled roof. When the rain hits those tiles, it sounds like a thousand fingers drumming on a table that can't make up its mind. [laughter] I used to fall asleep to that sound.\n\nThe food during monsoon is also amazing. My mother makes very delicious snacks, banana fritters, and we drink hot tea. It is the best feeling in the world.\n\nIn the evening, when the rain stops for a moment, the whole village smells of wet earth and woodsmoke, and the frogs start their orchestra — every one of them a soloist who never learned to listen. [laughter]\n\nI have lived in Shanghai for nine years now. Sometimes when it rains here, I close my eyes and I am back there. It's a really amazing feeling.\n\nSo if you ever get the chance, go to Kerala in the monsoon. You will not regret it. Thank you.", "key": {"strengths": "Three genuinely vivid images: rain on the tiles like 'a thousand fingers drumming on a table that can't make up its mind', wet earth and woodsmoke, and the frogs as soloists who never learned to listen.", "main": "Most of the speech uses words that paint nothing — 'very beautiful', 'amazing' (four times), 'breathtaking', 'very nice', 'delicious', 'the best feeling in the world'. This project is about descriptive language: every one of those could be replaced with a specific sensory detail like the tile line.", "minor": "The ending turns into a travel recommendation instead of staying with the most personal image — closing his eyes in the Shanghai rain is the real ending."}}, {"id": "s-humor", "pid": "engage-humor", "speaker": "Sofia", "title": "My Mother's Group Chat", "text": "My mother joined WhatsApp in 2019. Our family has not known peace since. [laughter]\n\nShe sends a good-morning message every day. Not a text. A picture. A sunrise, a teacup, and a kitten wearing sunglasses. [laughter] Every day a different kitten. I don't know where she finds them. I think she has a supplier. [laughter]\n\nThen there are the health warnings. Last week she sent: 'Do not drink cold water after eating, it turns food into stones.' It's funny because, obviously, cold water does not turn food into stones — that's not how the stomach works. [silence]\n\nWhen my brother didn't reply for two hours, she sent a voice message to the group asking if anyone had checked whether he was alive. He was in a meeting. He was alive. [laughter] Now he replies within ten minutes, every time. Even at weddings. [laughter]\n\nMy favourite is when she replies to a message from three days ago. We'll be planning dinner, and suddenly: 'Yes, I agree.' Agree with what? It's funny because she's answering something completely different. [silence]\n\nBut honestly, I love it. When I moved abroad, that group chat was how I knew she was okay, and how she knew I was okay. The kittens are her way of saying 'I'm thinking of you.'\n\nSo call your parents. Thank you.", "key": {"strengths": "Specific, observed details (the kitten 'supplier', the brother who now replies even at weddings) and a real turn at the end — the kittens are her way of saying 'I'm thinking of you'.", "main": "Twice she explains her own punchline ('It's funny because…') and both times the laugh dies. Engaging an audience with humour means trusting them to get it: deliver the line, stop, and let it land.", "minor": "'So call your parents' is tacked on. The kitten line is the real message — ending there would be stronger."}}, {"id": "s-proposal", "pid": "present-prop", "speaker": "David", "title": "Nobody Sits at the Back", "text": "Fellow Toastmasters, I have a proposal for our club.\n\nLast year, twenty-two new members joined. Today, nine of them are still here. More than half of our new members leave within a year. When I asked a few of them why, the answers were similar: 'I didn't know anyone.' 'I didn't know what to do next.' 'I felt lost.'\n\nI remember feeling the same. For my first three meetings I sat at the back, and nobody spoke to me until the break. If Grace hadn't asked me to be Timer, I don't think I would have come back.\n\nSo my proposal is that we do something like a buddy system. Something where new members have someone to help them. It could be mentors, or a buddy, or maybe a WhatsApp group for new members. We could also have some kind of welcome event. There are many possibilities and we can discuss them.\n\nThe benefits are clear. New members will feel welcome. They will give their Ice Breaker sooner. They will stay longer. And the club will be stronger, because the more members we keep, the more people we have for roles, and the better our meetings become.\n\nOther clubs in our district have done similar things, and it worked very well for them.\n\nI hope you will support this idea. Together we can make our club a place where nobody sits at the back alone. Thank you.", "key": {"strengths": "A concrete problem with numbers (22 joined, 9 stayed), real quotes from members who left, and a personal story (Grace asking him to be Timer) that makes it matter.", "main": "There is no actual proposal — 'something like a buddy system… or a WhatsApp group… or an event'. No who, what or when, no first step, and no decision asked of the club. Presenting a proposal means one specific plan and a clear ask (for example: 'approve a buddy for every new member from next month — I'll coordinate it').", "minor": "'Other clubs… it worked very well' is vague evidence with no names or numbers."}}, {"id": "s-change", "pid": "comm-change", "speaker": "Helen", "title": "Our New Meeting Format", "text": "Good evening, everyone. I want to update you on an important change.\n\nFrom next month, our club will move to a hybrid format. Every second meeting will be online only, and the other meetings will be in person with an online option.\n\nHere is why. Our venue has raised its rent by forty percent. Attendance on rainy nights has dropped to about twelve people. And three of our members now live outside the city. A hybrid modality allows us to reduce costs, increase accessibility and maintain synchronous engagement across locations.\n\nThe executive committee discussed this over three meetings and voted five to one in favour.\n\nPractically, this is what happens. Online meetings will use Tencent Meeting. The link will be posted in the group chat by Tuesday. Roles will work the same way. The Timer will use the chat to show cards. Table Topics will run as normal, with the speaker unmuting.\n\nWe will review the format in six months, based on attendance and member feedback.\n\nI know change can be difficult, but I believe this is the right decision for the future of the club. If you have any questions, please contact any member of the executive committee.\n\nThank you.", "key": {"strengths": "Clear reasons backed by numbers (rent up 40%, about twelve people on rainy nights, three members out of town), practical details (platform, link by Tuesday, how the Timer works) and a review point in six months.", "main": "It speaks to the decision, not to the people. Members who will lose something — those who love meeting in person, or aren't comfortable with technology — get one sentence ('I know change can be difficult') before she moves on. Communicating change means naming what people lose and offering support, such as a tech buddy or a practice online session.", "minor": "Jargon ('hybrid modality… synchronous engagement') in an otherwise plain speech, and 'contact any member of the committee' is vague — name one person."}}, {"id": "s-culture", "pid": "cross-cultural", "speaker": "Xiaoyu", "title": "Not Good at Maths", "text": "When I studied in Canada, the first question my classmates asked me was, 'Can you help me with my maths homework?' [laughter] I'm terrible at maths. I studied literature.\n\nThere are many stereotypes about Chinese people. We're all good at maths. We all play piano. We all eat dumplings every day. We all know kung fu. [laughter] For the record: no piano, some dumplings, and the only kung fu I know is from movies.\n\nSome stereotypes are funny. When my landlord found out I was from China, he asked if I could fix his laptop, because 'you guys are good with technology'. I couldn't. I called my cousin. [laughter]\n\nPeople also think Chinese people are shy and quiet. In my first year I didn't speak much in class, so my professors probably thought, 'Ah, typical.' But in my school in Chengdu we never discussed in class. The teacher talked and we listened. Speaking up felt rude.\n\nOn the other hand, Westerners always want to talk about themselves. In Canada everyone had an opinion about everything, even when they knew nothing about the topic. [laughter]\n\nIn the end I made many good friends. They learned I'm not good at maths, and I learned how to argue with a professor. [laughter]\n\nSo my message is: don't judge people by stereotypes. Everyone is different. Thank you.", "key": {"strengths": "Specific, funny examples (maths homework for a literature student, fixing the landlord's laptop) and one genuinely insightful moment — in Chengdu speaking up felt rude, so her silence looked like shyness.", "main": "It stays on the surface, a list of jokes, and never says how the stereotypes affected her — which is what this project asks for. The classroom silence is where to go deeper: what did it cost her, how did it feel to be read as 'typical'?", "minor": "'Westerners always want to talk about themselves' swaps in a new stereotype and undercuts her own message."}}];
 function _mpScen(){return TTP.track==='mentor'?(MENTOR_SCEN[TTP.scenario]||MENTOR_SCEN.confidence):null;}
 function _mpSample(){return TTP.track==='evalspeech'?(EVAL_SAMPLES.find(s=>s.id===TTP.sample)||EVAL_SAMPLES[0]):null;}
@@ -9267,6 +9812,14 @@ function _ttpRenderMentorSetup(app){
   let h='<div class="fade-up ttp-view tts">';
   h+='<button class="back" data-action="mp-back"><svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>Hub</button>';
   h+='<div class="tts-hero"><div class="tts-ico">'+HUB_ICONS.eval+'</div><div><div class="tts-h1">Mentor practice</div><div class="tts-lede">Practise the conversations and evaluations mentors face. K coaches how you handled it.</div></div></div>';
+  if(!ev){
+    _mpDailyLocalise();
+    const md=_mpDaily(),mdDone=_mpDailyDone(),mdRun=_mpStreak();
+    h+='<section class="mp-daily"><div class="mp-daily-top"><span class="mp-daily-k">Situation of the day</span><span class="mp-daily-c">'+escHtml(MENTOR_SCEN[md.k].name)+'</span></div>';
+    h+='<p class="mp-daily-q">'+escHtml(md.q)+'</p>';
+    h+='<div class="mp-daily-foot"><span class="mp-daily-s">'+(mdDone?'✓ Done today'+(mdRun>1?' · '+mdRun+' days running':''):(mdRun>0?mdRun+(mdRun===1?' day':' days')+' running · keep it going':'Same situation for every mentor today'))+'</span>';
+    h+='<button type="button" class="mp-daily-btn" data-action="mp-daily">'+(mdDone?'Try it again':'Respond')+' <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button></div></section>';
+  }
   h+='<div class="tts-track" role="tablist" aria-label="Practice type"><button type="button" data-mtrack="mentor" aria-pressed="'+(!ev)+'">Mentee conversations</button><button type="button" data-mtrack="evalspeech" aria-pressed="'+ev+'">Evaluate a speech</button></div>';
   if(!ev){
     h+='<section class="tts-card tts-real"><div class="tts-lbl">Situation</div><div class="tts-seg tts-seg-real" style="margin-top:0">';
@@ -9282,6 +9835,7 @@ function _ttpRenderMentorSetup(app){
   }
   h+='</div>';
   app.innerHTML=h;
+  const mdb=app.querySelector('[data-action="mp-daily"]');if(mdb)mdb.addEventListener('click',()=>_openMPDaily());
   app.querySelector('[data-action="mp-back"]').addEventListener('click',()=>{TTP.track='tt';V._fromHub=false;V.view='hub';render();});
   app.querySelectorAll('[data-mtrack]').forEach(b=>b.addEventListener('click',()=>{TTP.track=b.dataset.mtrack;render();}));
   app.querySelectorAll('[data-mscen]').forEach(b=>b.addEventListener('click',()=>{TTP.scenario=b.dataset.mscen;app.querySelectorAll('[data-mscen]').forEach(x=>x.setAttribute('aria-pressed',String(x===b)));}));
@@ -9623,7 +10177,7 @@ function _ttpRenderQuestion(app){
   h+='<div class="scr-head" style="margin-bottom:10px"><button class="circ-back" data-action="ttp-restart" aria-label="Back"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button><h1 class="scr-title">'+((_mt||_es)?'Mentor practice':_real?'Real-world practice':'Table Topics<sup style="font-size:0.5em;vertical-align:super">®</sup>')+'</h1></div>';
   const _fuN=_real?_rwFuN():0,_inFu=_real&&TTP.convo&&TTP.convo.length>0;
   const _rwProg=()=>{let b='';for(let i=0;i<=_fuN;i++){const k=TTP.convo?TTP.convo.length:0;b+='<i class="'+(i<k?'d':i===k?'c':'')+'"></i>';}return '<div class="rw-prog">'+b+'</div>';};
-  h+='<div class="ttq-ctx"><span class="ttq-chip">'+themeLabel+'</span><span class="ttq-n">'+(_inFu?'Follow-up '+TTP.convo.length+' of '+_fuN:(_real&&_fuN)?'Question · then '+_fuN+' follow-up'+(_fuN>1?'s':''):(_mt||_es)?'Mentor practice':TTP.questionSource==="repeat"?srcLabel:'Prompt '+(TTP._promptN||1)+' · '+srcLabel)+'</span></div>';
+  h+='<div class="ttq-ctx"><span class="ttq-chip">'+themeLabel+'</span><span class="ttq-n">'+(_inFu?'Follow-up '+TTP.convo.length+' of '+_fuN:(_real&&_fuN)?'Question · then '+_fuN+' follow-up'+(_fuN>1?'s':''):(_mt||_es)?(TTP.questionSource==='daily'?'Situation of the day':'Mentor practice'):TTP.questionSource==="repeat"?srcLabel:'Prompt '+(TTP._promptN||1)+' · '+srcLabel)+'</span></div>';
   if(_real&&_fuN)h+=_rwProg();
   if(_inFu){
     const snip=t=>(t.a||'').trim()||'(no words caught)';
@@ -12700,8 +13254,8 @@ function renderSettings(app){
   h+='<div class="top-bar">';
   h+='<button class="top-bar-btn" data-action="settings-back">← Back</button>';
   h+='</div>';
-  h+='<div class="kicker">About</div>';
-  h+='<h1 class="title">Behind <span class="accent">the app</span></h1>';
+  h+='<div class="kicker">Settings</div>';
+  h+='<h1 class="title">About <span class="accent">the app</span></h1>';
 
   // ── About: who made it, why, how to reach me ──
   h+='<section class="ab-card">';
@@ -12712,6 +13266,13 @@ function renderSettings(app){
   h+='<a class="ab-link" href="https://kianhow.com" target="_blank" rel="noopener"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg><span>kianhow.com</span></a>';
   h+='</div></section>';
 
+  // ── Independence disclaimer ──
+  h+='<div class="settings-section-header" style="margin-top:22px">Independent app</div>';
+  h+='<div class="ab-legal"><p>TMCompanion is independent of Toastmasters International. It is not authorized by, endorsed by, sponsored by, affiliated with, or otherwise approved by Toastmasters International.</p><p>Toastmasters International, Pathways and Table Topics are trademarks of Toastmasters International, used here only to describe what the app helps you practise.</p><p>'+'<a data-action="show-notice" style="color:var(--accent);text-decoration:none;cursor:pointer">User Agreement</a>'+'</p></div>';
+  // ── Appearance ──
+  const _thp=S.theme||window.__themePref&&window.__themePref()||'system';
+  h+='<div class="settings-section-header" style="margin-top:22px">Appearance</div>';
+  h+='<div class="ap-seg" role="group" aria-label="Appearance">'+[['light','Light'],['dark','Dark'],['system','Match phone']].map(([k,l])=>'<button type="button" data-theme-pick="'+k+'" aria-pressed="'+(_thp===k)+'">'+l+'</button>').join('')+'</div>';
   // ── Versions ──
   h+='<div class="settings-section-header" style="margin-top:22px">Versions</div>';
   h+='<button class="list-row" data-action="whats-new" style="width:100%;text-align:left;display:flex;align-items:center;gap:12px;padding:14px 16px;border-radius:14px;background:var(--surface);border:1px solid var(--border);font-family:inherit;cursor:pointer">';
@@ -12743,6 +13304,7 @@ function renderSettings(app){
 
   app.innerHTML=h;
 
+  app.querySelectorAll('[data-theme-pick]').forEach(b=>b.addEventListener("click",()=>{S.theme=b.dataset.themePick;save();if(window.__applyTheme)window.__applyTheme(S.theme);render();}));
   app.querySelector('[data-action="settings-back"]').addEventListener("click",()=>{
     V.view="hub";render();
   });
@@ -14896,7 +15458,6 @@ function renderToS(app){
   h+='Built by Kian How, a member of 5A+ Shanghai Toastmasters Club as part of his Distinguished Toastmaster (DTM) project. This app was created as a personal project to support the Toastmasters community — not as a commercial product.';
   h+='</div>';
 
-  h+='<div class="app-footer">Made by Kian How · This app is independent of Toastmasters International. It is not authorized by, endorsed by, sponsored by, affiliated with, or otherwise approved by Toastmasters International. · v1.75</div>';
   h+='</div>';
   app.innerHTML=h;
 
@@ -18769,6 +19330,11 @@ function _getKDirective(){
   const now=Date.now(),day=864e5;
   const ago=iso=>{const t=iso?new Date(iso).getTime():NaN;return isNaN(t)?999:Math.floor((now-t)/day);};
   const sess=S.sessions||{};
+  // 0 · A mentee has gone quiet (21+ days) — name them
+  if(mode==='mentor'){
+    const q=(S.mentees||[]).map(m=>({m,d:_menteeDays(m)})).filter(x=>x.d!=null&&x.d>=21).sort((a,b)=>b.d-a.d)[0];
+    if(q)return{kind:'personal',msg:(q.m.name||'A mentee')+" has gone quiet.",cta:"Check in.",action:"nudge:"+q.m.id};
+  }
   // 1 · Unfinished business
   if(mode!=='mentor'){
     const last=(S.coachHistory||[]).find(s=>s.type==='speech'&&s.feedback);
@@ -18792,7 +19358,9 @@ function _getKDirective(){
   if(isos.length){const latest=isos.map(x=>new Date(x).getTime()).filter(x=>!isNaN(x)).sort((a,b)=>b-a)[0];const d=Math.floor((now-latest)/day);
     if(d>=7)return{kind:'personal',msg:d+" days quiet. "+(mode==='mentor'?"One conversation, two minutes — keep your ear sharp.":"Two minutes, one topic — that's all it takes to start again."),cta:mode==='mentor'?"Practise a conversation":"Answer today's topic",action:mode==='mentor'?'mentor-conv':'tt'};}
   // 4 · Today's insight
-  const arr=K_BANK[mode],i=_kDayIdx(arr.length),it=arr[i];
+  const arr=K_BANK[mode];let i=_kDayIdx(arr.length);
+  if(mode==='practice'){for(let n=0;n<arr.length&&/^(coach|ai-coach)$/.test(arr[i].a);n++)i=(i+1)%arr.length;}
+  const it=arr[i];
   const c=S.kTake,today=new Date().toDateString();
   const txt=c&&c.day===today&&c.mode===mode&&c.i===i&&c.lang===(S.coachLang||'auto')?c.text:it.t;
   return{kind:'insight',msg:txt,cta:it.c,action:it.a,_i:i,_mode:mode};
