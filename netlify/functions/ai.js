@@ -26,7 +26,7 @@
 // Monthly global limit: 150 AI calls per token.
 // ═══════════════════════════════════════════════════════════════════════════
 
-const { getStore } = require("@netlify/blobs");
+const { getStore, connectLambda } = require("@netlify/blobs");
 
 const DAILY_LIMITS = {
   "tt-eval":     15,
@@ -94,6 +94,8 @@ async function addTokens(store, key, inTok, outTok) {
 }
 
 exports.handler = async (event) => {
+  // Classic functions must hand the event to Blobs before getStore() works
+  try { if (typeof connectLambda === "function") connectLambda(event); } catch (e) { console.error("connectLambda failed:", e.message); }
   // CORS — allow requests from your Netlify domain + localhost dev
   const origin = event.headers["origin"] || "";
   const allowedOrigins = [

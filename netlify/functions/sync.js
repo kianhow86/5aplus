@@ -16,7 +16,7 @@
 // Stored in Netlify Blobs, store "tmc-sync", key = id.
 // ═══════════════════════════════════════════════════════════════════════════
 
-const { getStore } = require("@netlify/blobs");
+const blobs = require("@netlify/blobs");
 
 const MAX_DATA = 4 * 1024 * 1024;           // 4 MB of base64 per notebook
 const ID_RE = /^[a-f0-9]{64}$/;
@@ -40,12 +40,16 @@ exports.handler = async (event) => {
 
   if (event.httpMethod === "OPTIONS") return { statusCode: 204, headers, body: "" };
 
+  // Classic (exports.handler) functions must hand the event to Blobs first,
+  // or getStore() throws "MissingBlobsEnvironmentError".
   let store;
   try {
-    store = getStore({ name: "tmc-sync", consistency: "strong" });
+    if (typeof blobs.connectLambda === "function") blobs.connectLambda(event);
+    try { store = blobs.getStore({ name: "tmc-sync", consistency: "strong" }); }
+    catch (e) { store = blobs.getStore("tmc-sync"); }
   } catch (err) {
     console.error("Sync store unavailable:", err.message);
-    return reply(503, { error: "unavailable" });
+    return reply(503, { error: "unavailable", detail: String(err.message || err).slice(0, 200) });
   }
 
   const read = async (id) => {
@@ -94,6 +98,6 @@ exports.handler = async (event) => {
     return reply(405, { error: "method_not_allowed" });
   } catch (err) {
     console.error("Sync error:", err.message);
-    return reply(500, { error: "server_error" });
+    return reply(500, { error: "server_error", detail: String(err.message || err).slice(0, 200) });
   }
 };
