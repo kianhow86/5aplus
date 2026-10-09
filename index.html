@@ -3553,6 +3553,14 @@ html[data-theme="dark"] .t1 .nb-read{background:linear-gradient(180deg,color-mix
 .t1 .nb-up{background:rgba(127,224,140,.16);color:#8FE09C}.t1 .nb-flat{background:rgba(237,177,118,.16);color:#EDB176}.t1 .nb-new{background:rgba(196,174,255,.16);color:#C4AEFF}
 .t1 .nb-note{display:flex;gap:10px;align-items:flex-start}
 .t1 .nb-habits+.nb-note{padding-top:12px;border-top:1px solid var(--hero-line)}
+.t1 .nb-habs2{display:flex;flex-direction:column;gap:9px}
+.t1 .nb-hab2{border-radius:14px;background:rgba(255,255,255,.06);border:1px solid var(--hero-line);padding:12px 13px}
+.t1 .nb-hab2-top{display:flex;align-items:flex-start;gap:10px}
+.t1 .nb-hab2-top b{flex:1;min-width:0;font-size:14.5px;line-height:1.3}
+.t1 .nb-hab2-top .nb-trend{margin-top:1px}
+.t1 .nb-hab2-why{font-size:12.5px;line-height:1.45;color:var(--hero-ink-2);margin-top:6px}
+.t1 .nb-hab2-do{display:flex;gap:8px;margin-top:9px;padding-top:9px;border-top:1px dashed var(--hero-line);font-size:13px;line-height:1.45;color:var(--hero-ink)}
+.t1 .nb-hab2-do i{font-style:normal;font-weight:800;color:var(--h);flex-shrink:0;font-size:10px;letter-spacing:.1em;padding-top:3px}
 .t1 .nb-note p{font-size:12.5px;line-height:1.5;color:var(--hero-ink-2);margin:0}.t1 .nb-note p b{color:var(--hero-ink);font-weight:700}
 .t1 .nb-dots{display:flex;gap:5px;margin-top:12px;padding-left:34px}.t1 .nb-dots i{width:22px;height:5px;border-radius:3px;background:var(--hero-track)}.t1 .nb-dots i.on{background:var(--h)}
 .t1 .nb-off-p{font-size:12.5px;line-height:1.5;color:var(--hero-ink-2);margin:0 0 12px}
@@ -19393,8 +19401,9 @@ function _getKDirective(){
   const ago=iso=>{const t=iso?new Date(iso).getTime():NaN;return isNaN(t)?999:Math.floor((now-t)/day);};
   const sess=S.sessions||{};
   // 00 · K wrote a new progress note
-  if(S.nb&&S.nb.unseen&&S.nb.notes&&S.nb.notes[0]&&_nbOn()){const n=S.nb.notes[0];const m=String(n.note||'').match(/^(.+?[.!?…。！？])(\s|$)/);
-    return{kind:'personal',msg:'New note from K: '+_kShort(m?m[1]:n.note,110).replace(/…$/,'.'),cta:'Read it',action:'notebook'};}
+  if(S.nb&&S.nb.unseen&&S.nb.notes&&S.nb.notes[0]&&_nbOn()){const n=S.nb.notes[0];
+    const head=n.v===2&&n.habits[0]?n.habits[0].name+'.':(String(n.note||'').match(/^(.+?[.!?…。！？])(\s|$)/)||[])[1]||n.note;
+    return{kind:'personal',msg:'New note from K: '+_kShort(head,110).replace(/…$/,'.'),cta:'Read it',action:'notebook'};}
   // 0 · A mentee has gone quiet (21+ days) — name them
   if(mode==='mentor'){
     const q=(S.mentees||[]).map(m=>({m,d:_menteeDays(m)})).filter(x=>x.d!=null&&x.d>=21).sort((a,b)=>b.d-a.d)[0];
@@ -19681,7 +19690,7 @@ function nbContext(cat,opts){
   const note=_nbNote();
   if(!recent.length&&!(note&&note.habits&&note.habits.length))return '';
   const lines=['','','YOUR NOTEBOOK ON THIS SPEAKER (what you noted in past sessions — use it, never recite it):'];
-  if(note&&note.habits&&note.habits.length)lines.push('Habits you are tracking with them: '+note.habits.map(h=>h.name+(h.trend==='up'?' (improving)':h.trend==='flat'?' (still working on it)':'')).join('; ')+'.');
+  if(note&&note.habits&&note.habits.length)lines.push('Habits you are tracking with them: '+note.habits.map(h=>h.name+(h.trend==='up'?' (improving)':h.trend==='flat'?' (still working on it)':'')+(h.next?' — next step you gave: '+h.next:'')).join('; ')+'.');
   if(recent.length){
     lines.push('Their last '+(recent.length===1?'':recent.length+' ')+NB_CAT_ONE[cat]+' session'+(recent.length===1?'':'s')+':');
     recent.forEach(e=>{
@@ -19707,16 +19716,20 @@ async function _nbMaybeNote(force){
     const list=all.slice(0,10).map(e=>{const ot=_nbOnTime(e);
       return '- '+_nbAgo(e.iso)+' · '+NB_CAT_NAME[e.cat]+(e.sub?' ('+e.sub+')':'')+(e.elapsed?' · '+fmtMs(e.elapsed*1000)+(ot===null?'':ot?' on time':' off target'):'')+
         (e.worked?'\n  worked: '+_kShort(e.worked,150):'')+(e.fix?'\n  one thing: '+_kShort(e.fix,170):'');}).join('\n');
-    const prev=last&&last.habits?'\nHabits you named last time: '+last.habits.map(h=>h.name).join('; ')+'\nYour last note: '+last.note:'';
-    const sys="You are K — Kian How's voice as a speaking coach: direct, warm, specific, never preachy. You keep a notebook on one speaker. Read their recent sessions (newest first) and write the note you'd leave in it.\n"+
-      "Name at most two habits that keep coming up — the ones most worth their attention now. A habit name is 2–5 plain words (\"Endings that land\", \"Pace when nervous\", \"Asking before advising\"). For each, judge the trend from the sessions: \"up\" if it is clearly getting better, \"flat\" if it keeps coming back, \"new\" if it only just showed up. Keep a habit from last time if it still applies, so progress is visible.\n"+
-      "Then the note: two or three short sentences, talking to them. Lead with real progress when there is any, quoting the specific change. Then the one thing to keep working on, made doable. No greetings, no lists, no sign-off.\n"+
-      "Reply with JSON only, no other text: {\"habits\":[{\"name\":\"…\",\"trend\":\"up|flat|new\"}],\"note\":\"…\"}";
-    const raw=await callCoach(sys,'SESSIONS:\n'+list+prev,{maxTokens:380,featureId:'nb-note'});
+    const prev=last&&last.habits?'\nHabits you named last time: '+last.habits.map(h=>h.name).join('; '):'';
+    const sys="You are K, a speaking coach. You keep a notebook on one speaker. Read their recent sessions (newest first) and write a short, organised note.\n"+
+      "Many readers speak English as a second language. Use short sentences (under 16 words), everyday words, and no idioms, metaphors or wordplay. Say exactly what to do.\n"+
+      "Pick at most two habits that keep coming up and matter most now. For each habit give:\n"+
+      "- name: an instruction that starts with a verb, 3–6 plain words, e.g. \"Finish with one clear line\", \"Start with your example\", \"Slow down when you are nervous\", \"Ask before you advise\". Never a vague label like \"Endings that land\".\n"+
+      "- trend: \"up\" if it is clearly getting better in the sessions, \"flat\" if it keeps coming back, \"new\" if it only just appeared. Keep a habit from last time if it still applies, so progress is visible.\n"+
+      "- why: one sentence on what you saw, with one specific detail from their sessions.\n"+
+      "- next: one sentence with a concrete action for the next session. If useful, give the exact words they could say.\n"+
+      "Reply with JSON only, no other text: {\"habits\":[{\"name\":\"…\",\"trend\":\"up|flat|new\",\"why\":\"…\",\"next\":\"…\"}]}";
+    const raw=await callCoach(sys,'SESSIONS:\n'+list+prev,{maxTokens:520,featureId:'nb-note'});
     const j=JSON.parse(String(raw).slice(String(raw).indexOf('{'),String(raw).lastIndexOf('}')+1));
-    if(!j||!j.note)throw new Error('no note');
-    const habits=(Array.isArray(j.habits)?j.habits:[]).filter(h=>h&&h.name).slice(0,2).map(h=>({name:String(h.name).slice(0,48),trend:/^(up|flat|new)$/.test(h.trend)?h.trend:'new'}));
-    nb.notes.unshift({iso:new Date().toISOString(),habits,note:String(j.note).slice(0,600),n:all.length});
+    const habits=(j&&Array.isArray(j.habits)?j.habits:[]).filter(h=>h&&h.name&&h.next).slice(0,2).map(h=>({name:String(h.name).replace(/\.$/,'').slice(0,60),trend:/^(up|flat|new)$/.test(h.trend)?h.trend:'new',why:String(h.why||'').slice(0,240),next:String(h.next).slice(0,240)}));
+    if(!habits.length)throw new Error('no habits');
+    nb.notes.unshift({iso:new Date().toISOString(),v:2,habits,note:habits.map(h=>h.next).join(' '),n:all.length});
     nb.notes=nb.notes.slice(0,12);
     nb.unseen=true;
     save();
@@ -19833,8 +19846,16 @@ function renderNotebook(app){
     h+='<div class="nb-read nb-read-off"><div class="nb-kick">K ISN’T REMEMBERING SESSIONS</div><p class="nb-off-p">Turn memory on and K will track your habits and pick up where you left off.</p><button type="button" class="nb-on" data-action="nb-turn-on">Turn on</button></div>';
   }else if(note){
     h+='<div class="nb-read"><div class="nb-kick">WHAT WE’RE WORKING ON<span>'+(_nbRel(note.iso)==='Today'?'Updated today':'Updated '+_nbRel(note.iso))+'</span></div>';
-    if(note.habits&&note.habits.length)h+='<div class="nb-habits">'+note.habits.map(x=>'<div class="nb-hab"><b>'+escHtml(x.name)+'</b><span class="nb-trend nb-'+x.trend+'">'+(x.trend==='up'?'↑ Improving':x.trend==='flat'?'→ Keep at it':'New')+'</span></div>').join('')+'</div>';
-    h+='<div class="nb-note"><span class="t1-kav"><img src="'+COACH_AVATAR+'" alt="K"></span><p>'+escHtml(note.note)+'</p></div></div>';
+    const _tr=t=>'<span class="nb-trend nb-'+t+'">'+(t==='up'?'↑ Getting better':t==='flat'?'Still working on it':'New')+'</span>';
+    if(note.v===2){
+      h+='<div class="nb-habs2">'+note.habits.map(x=>'<div class="nb-hab2"><div class="nb-hab2-top"><b>'+escHtml(x.name)+'</b>'+_tr(x.trend)+'</div>'+
+        (x.why?'<div class="nb-hab2-why">'+escHtml(x.why)+'</div>':'')+'<div class="nb-hab2-do"><i>NEXT</i><span>'+escHtml(x.next)+'</span></div></div>').join('')+'</div></div>';
+    }else{
+      if(note.habits&&note.habits.length)h+='<div class="nb-habits">'+note.habits.map(x=>'<div class="nb-hab"><b>'+escHtml(x.name)+'</b>'+_tr(x.trend)+'</div>').join('')+'</div>';
+      h+='<div class="nb-note"><span class="t1-kav"><img src="'+COACH_AVATAR+'" alt="K"></span><p>'+escHtml(note.note)+'</p></div></div>';
+      // Older free-text note: rewrite it once in the new, plainer format
+      if(!nb.rewrote&&S.aiConfig&&S.aiConfig.enabled){nb.rewrote=1;save();setTimeout(()=>_nbMaybeNote(true),300);}
+    }
   }else{
     const need=Math.max(0,NB_FIRST_NOTE-all.filter(e=>e.fix||e.worked).length);
     h+='<div class="nb-read"><div class="nb-kick">K’S FIRST READ</div><div class="nb-note"><span class="t1-kav"><img src="'+COACH_AVATAR+'" alt="K"></span><p>'+
