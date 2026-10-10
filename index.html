@@ -1546,6 +1546,10 @@ body[data-mode="mentor"]{--acc:104,138,246;--acc-hi:#B3C3FF}
 .tts-sm-txt{background:none;border:0;color:rgba(235,235,245,.6);padding:0 8px}
 .tts-sm{height:38px;padding:0 14px;border-radius:12px;font-size:13px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;gap:6px;cursor:pointer;font-family:inherit;white-space:nowrap}
 .tts-last-3 .tts-sm{flex:1;padding:0 8px;font-size:12.5px}
+.tts-sm-tb{background:rgba(235,203,107,.10);border:1px solid rgba(235,203,107,.55);color:#E8C860}
+.tts-last-tbl{background:linear-gradient(160deg,rgba(235,203,107,.12),#141518 70%);border-color:rgba(235,203,107,.35)}
+.tts-last-tbl .tts-last-lbl{color:#E8C860}
+html[data-theme="light"] .tts-sm-tb{background:rgba(235,203,107,.14);border-color:rgba(190,150,30,.55);color:#8A5A10}
 .tts-last-3 .tts-sm svg{width:14px;height:14px}
 .tts-sm svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
 .tts-sm-v{background:rgba(139,111,247,.18);border:1px solid rgba(139,111,247,.4);color:#fff}
@@ -3841,6 +3845,8 @@ html[data-theme="dark"] .t1 .st-pt b .sy-new,html[data-theme="dark"] .t1 .st-row
 /* Light theme — hand-tuned on top of the generated palette */
 html[data-theme="light"]{color-scheme:light}
 html[data-theme="light"] body{background:#F3F4F7}
+html[data-theme="light"] .tts-last-tbl{background:linear-gradient(160deg,rgba(235,203,107,.22),#FFFFFF 70%);border-color:rgba(190,150,30,.4)}
+html[data-theme="light"] .tts-last-tbl .tts-last-lbl{color:#8A5A10}
 html[data-theme="light"] .art,html[data-theme="light"] img.art,html[data-theme="light"] img[class*="-art"],html[data-theme="light"] img[class*="art-"]{display:none!important}
 html[data-theme="light"] .modal-backdrop{background:rgba(20,26,33,.38)}
 html[data-theme="light"] .modal-card{background:#fff;border-radius:22px;padding:24px 20px;box-shadow:0 10px 40px rgba(20,26,33,.18)}
@@ -10270,14 +10276,14 @@ function _ttpRenderSetup(app){
     const when=d==null?'':(d===0?'TODAY':d===1?'YESTERDAY':d+' DAYS AGO');
     const _lt=real&&TT_REAL[last.scenario]?TT_REAL[last.scenario].secs:[60,120];
     const timing=last.elapsed<_lt[0]?'Short':last.elapsed>_lt[1]?'Over':'In time';
-    h+='<div class="tts-last">';
-    h+='<div class="tts-last-top"><div class="tts-last-lbl">Last attempt'+(when?' · '+when:'')+'</div><button class="tts-last-x" data-action="ttp-last-x" aria-label="Hide or delete this attempt"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>';
+    const _isTbl=last.topic===_ttDaily()&&_tblAnswered();
+    h+='<div class="tts-last'+(_isTbl?' tts-last-tbl':'')+'">';
+    h+='<div class="tts-last-top"><div class="tts-last-lbl">'+(_isTbl?'Today’s topic · your last attempt':'Last attempt'+(when?' · '+when:''))+'</div><button class="tts-last-x" data-action="ttp-last-x" aria-label="Hide or delete this attempt"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>';
     h+='<div class="tts-last-q">“'+escHtml(last.topic)+'”</div>';
     h+='<div class="tts-last-meta"><span>'+Math.floor(last.elapsed/60)+':'+String(last.elapsed%60).padStart(2,'0')+'</span>'+(last.wpm>0?'<span>'+last.wpm+' wpm</span>':'')+'<span'+(timing==='In time'?' class="good"':'')+'>'+timing+'</span></div>';
-    const _isTbl=last.topic===_ttDaily()&&_tblAnswered();
     h+='<div class="tts-last-act'+(_isTbl?' tts-last-3':'')+'"><button class="tts-sm tts-sm-v" data-action="ttp-retry-last"><svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/></svg>'+(_isTbl?'Try again':'Try it again')+'</button>';
     if(last.notes)h+='<button class="tts-sm tts-sm-g" data-action="ttp-see-notes">'+(_isTbl?'Notes':'See notes')+'</button>';
-    if(_isTbl)h+='<button class="tts-sm tts-sm-g" data-action="ttp-table">Today’s Table</button>';
+    if(_isTbl)h+='<button class="tts-sm tts-sm-tb" data-action="ttp-table">Today’s Table</button>';
     h+='</div>';
     h+='<div class="tts-last-act tts-last-ask" hidden><button class="tts-sm tts-sm-g" data-action="ttp-last-hide">Hide</button><button class="tts-sm tts-sm-del" data-action="ttp-last-del">Delete attempt</button><button class="tts-sm tts-sm-txt" data-action="ttp-last-cancel">Cancel</button></div>';
     h+='</div>';
