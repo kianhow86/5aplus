@@ -1544,7 +1544,9 @@ body[data-mode="mentor"]{--acc:104,138,246;--acc-hi:#B3C3FF}
 .tts-last-x:active{background:rgba(255,255,255,.08)}
 .tts-sm-del{background:rgba(232,93,93,.12);border:1px solid rgba(232,93,93,.4);color:#F4A3A3}
 .tts-sm-txt{background:none;border:0;color:rgba(235,235,245,.6);padding:0 8px}
-.tts-sm{height:38px;padding:0 14px;border-radius:12px;font-size:13px;font-weight:700;display:inline-flex;align-items:center;gap:6px;cursor:pointer;font-family:inherit}
+.tts-sm{height:38px;padding:0 14px;border-radius:12px;font-size:13px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;gap:6px;cursor:pointer;font-family:inherit;white-space:nowrap}
+.tts-last-3 .tts-sm{flex:1;padding:0 8px;font-size:12.5px}
+.tts-last-3 .tts-sm svg{width:14px;height:14px}
 .tts-sm svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
 .tts-sm-v{background:rgba(139,111,247,.18);border:1px solid rgba(139,111,247,.4);color:#fff}
 .tts-sm-g{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);color:rgba(235,235,245,.74)}
@@ -6521,7 +6523,8 @@ function _ttDailyEn(){
 // Topic of the day is English for everyone, whatever the coaching language: it is the one question
 // the whole district answers together, and Today's Table shares what worked on it.
 function _ttDaily(){return _ttDailyEn();}
-function _ttIsDaily(){return TTP.track==='tt'&&TTP.questionSource==='daily';}
+// Today's topic, whether opened from the Hub or retried from the last-attempt card
+function _ttIsDaily(){return TTP.track==='tt'&&(TTP.questionSource==='daily'||(!!TTP.question&&TTP.question===_ttDaily()));}
 async function _ttDailyLocalise(){
   return; // kept for reference: the daily topic is no longer translated
   const l=S.coachLang||'auto';if(l==='auto'||l==='en'||!(S.aiConfig&&S.aiConfig.enabled)||navigator.onLine===false)return;
@@ -10271,9 +10274,10 @@ function _ttpRenderSetup(app){
     h+='<div class="tts-last-top"><div class="tts-last-lbl">Last attempt'+(when?' · '+when:'')+'</div><button class="tts-last-x" data-action="ttp-last-x" aria-label="Hide or delete this attempt"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>';
     h+='<div class="tts-last-q">“'+escHtml(last.topic)+'”</div>';
     h+='<div class="tts-last-meta"><span>'+Math.floor(last.elapsed/60)+':'+String(last.elapsed%60).padStart(2,'0')+'</span>'+(last.wpm>0?'<span>'+last.wpm+' wpm</span>':'')+'<span'+(timing==='In time'?' class="good"':'')+'>'+timing+'</span></div>';
-    h+='<div class="tts-last-act"><button class="tts-sm tts-sm-v" data-action="ttp-retry-last"><svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/></svg>Try it again</button>';
-    if(last.notes)h+='<button class="tts-sm tts-sm-g" data-action="ttp-see-notes">See notes</button>';
-    if(last.topic===_ttDaily()&&_tblAnswered())h+='<button class="tts-sm tts-sm-g" data-action="ttp-table">🌟 Today’s Table</button>';
+    const _isTbl=last.topic===_ttDaily()&&_tblAnswered();
+    h+='<div class="tts-last-act'+(_isTbl?' tts-last-3':'')+'"><button class="tts-sm tts-sm-v" data-action="ttp-retry-last"><svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/></svg>'+(_isTbl?'Try again':'Try it again')+'</button>';
+    if(last.notes)h+='<button class="tts-sm tts-sm-g" data-action="ttp-see-notes">'+(_isTbl?'Notes':'See notes')+'</button>';
+    if(_isTbl)h+='<button class="tts-sm tts-sm-g" data-action="ttp-table">Today’s Table</button>';
     h+='</div>';
     h+='<div class="tts-last-act tts-last-ask" hidden><button class="tts-sm tts-sm-g" data-action="ttp-last-hide">Hide</button><button class="tts-sm tts-sm-del" data-action="ttp-last-del">Delete attempt</button><button class="tts-sm tts-sm-txt" data-action="ttp-last-cancel">Cancel</button></div>';
     h+='</div>';
@@ -10462,7 +10466,7 @@ function _ttpRenderSetup(app){
   if(retry&&last)retry.addEventListener('click',()=>{
     TTP.question=last.topic;TTP.style=last.style||TTP.style;TTP.theme=last.theme||'';
     TTP.track=last.track||'tt';if(last.scenario)TTP.scenario=last.scenario;
-    TTP.questionSource='repeat';TTP._promptN=(TTP._promptN||0)+1;TTP.phase='question';render();
+    TTP.questionSource='repeat';if(TTP.track==='tt'&&TTP.question===_ttDaily())TTP.technique=_ttTechnique();TTP._promptN=(TTP._promptN||0)+1;TTP.phase='question';render();
   });
   const tblBtn=app.querySelector('[data-action="ttp-table"]');
   if(tblBtn)tblBtn.addEventListener('click',()=>{V._tblFrom='tt-practice';V.view='table';render();window.scrollTo(0,0);});
