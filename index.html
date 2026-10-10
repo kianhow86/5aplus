@@ -729,6 +729,7 @@ body.on-hub.has-bottom-nav{padding-bottom:0}   /* .hub2 already reserves the nav
 .pw-pill:active{transform:scale(.97)}
 .cta-green{background:#A9E08C;color:#0E2308}
 .cta-violet{background:#C7B4FF;color:#1B1235}
+.hub2 .pw-tile .pw-pill.cta-soft{background:rgba(255,255,255,.08);color:inherit;box-shadow:inset 0 0 0 1px rgba(255,255,255,.18);margin-left:8px}
 .cta-peri{background:#C3D2FF;color:#101A36}
 .cta-blue{background:#A9C9F5;color:#0B1A2E}
 /* ── Mode colour: every tile takes the mode's hue; the lead tile is strongest. Contests stay gold. ── */
@@ -3667,6 +3668,78 @@ html[data-theme="dark"] .t1 .st-ver{color:#C4AEFF}
 .t1 .st-msg{font-size:12px;font-weight:600;color:var(--ink-2);text-align:center;margin:-4px 0 12px;min-height:16px}
 .t1 .c-coach{--c:#6447D6}.t1 .c-look{--c:#1F7FA8}.t1 .c-data{--c:#C2681B}.t1 .c-about{--c:#5F6876}
 html[data-theme="dark"] .t1 .c-coach{--c:#C4AEFF} html[data-theme="dark"] .t1 .c-look{--c:#8FD3F0} html[data-theme="dark"] .t1 .c-data{--c:#EDB176} html[data-theme="dark"] .t1 .c-about{--c:#B4BAC6}
+/* ═══ Today's Table ═══ */
+.tb-spot{margin:0 0 10px;padding:14px;border-radius:16px;background:linear-gradient(160deg,rgba(235,203,107,.16),rgba(235,203,107,.05));border:1px solid rgba(235,203,107,.45)}
+.tb-spot-top{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:10px}
+.tb-spot-k{font-size:11px;font-weight:800;letter-spacing:.12em;color:#D4A72C}
+.tb-tag{flex:none;white-space:nowrap;font-size:11.5px;font-weight:800;padding:4px 10px;border-radius:999px;background:rgba(235,203,107,.28);color:#8A5A10}
+html[data-theme="dark"] .tb-tag{color:#F2D37A}
+.tb-quote{font-size:14.5px;line-height:1.45;font-style:italic;border-left:3px solid rgba(212,167,44,.8);padding:2px 0 2px 11px;margin:0 0 8px}
+.tb-why{font-size:13.5px;line-height:1.45;opacity:.85}
+.tb-share{display:flex;align-items:center;justify-content:center;width:100%;margin-top:12px;padding:12px 16px;border-radius:13px;border:0;background:#7C5CFF;color:#fff;font:inherit;font-size:14.5px;font-weight:800;cursor:pointer}
+.tb-share.sm{width:auto;margin:0;padding:9px 14px;font-size:13px;flex:none}
+.t1 .tb-share,.tb-sheet.t1 .tb-share{display:flex;align-items:center;justify-content:center;width:100%;min-height:46px;padding:12px 16px;border-radius:13px;border:0;background:#7C5CFF;color:#fff;font-size:14.5px;font-weight:800}
+.t1 .tb-share.sm{width:auto;min-height:38px;padding:9px 14px;font-size:13px}
+
+.tb-share:disabled{opacity:.6}
+.tb-note{font-size:11.5px;opacity:.6;text-align:center;margin-top:7px;line-height:1.4}
+.tb-shared{margin-top:10px;font-size:13px;font-weight:800;color:#2E7A44}
+html[data-theme="dark"] .tb-shared{color:#7FD18B}
+.tb-see{display:flex;align-items:center;justify-content:space-between;gap:8px;width:100%;margin:0 0 10px;padding:11px 12px;border-radius:12px;background:var(--surface);border:1px solid var(--border);font:inherit;font-size:13px;font-weight:700;color:inherit;cursor:pointer;text-align:left}
+.tb-see svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2.2;opacity:.6}
+/* page */
+.t1.tbx .tb-k{font-size:10.5px;font-weight:800;letter-spacing:.12em;color:#B78A12;margin:4px 0 6px}
+.t1.tbx .tb-q{font-size:19px;font-weight:800;line-height:1.2;letter-spacing:-.01em;margin:0 0 6px}
+.t1.tbx .tb-n{font-size:13px;color:var(--ink-2);margin:0 0 14px;min-height:16px}
+.t1.tbx .tb-lock,.t1.tbx .tb-empty{background:var(--card);border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow);padding:18px 16px;text-align:center;margin-bottom:12px}
+.t1.tbx .tb-lock b,.t1.tbx .tb-empty b{display:block;font-size:15.5px;margin-bottom:6px}
+.t1.tbx .tb-lock p,.t1.tbx .tb-empty p{font-size:13.5px;line-height:1.5;color:var(--ink-2);margin:0}
+.t1.tbx .tb-lock-ic{font-size:30px;margin-bottom:8px}
+.t1.tbx .tb-lock .tb-share{margin-top:14px}
+.t1.tbx .tb-empty .tb-share{margin:12px auto 0}
+.t1.tbx .tb-nudge{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:16px;margin-bottom:12px;background:linear-gradient(160deg,rgba(235,203,107,.18),rgba(235,203,107,.06));border:1px solid rgba(235,203,107,.5)}
+.t1.tbx .tb-nudge>div{flex:1;min-width:0}
+.t1.tbx .tb-nudge b{display:block;font-size:13.5px;margin-bottom:2px}
+.t1.tbx .tb-nudge span{display:block;font-size:12px;color:var(--ink-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.t1.tbx .tb-chips{display:flex;gap:7px;overflow-x:auto;margin:0 -18px 12px;padding:0 18px 4px;scrollbar-width:none}
+.t1.tbx .tb-chips::-webkit-scrollbar{display:none}
+.t1.tbx .tb-chip{flex:none;padding:7px 12px;border-radius:999px;border:1px solid var(--line);background:var(--card);color:var(--ink);font:inherit;font-size:12.5px;font-weight:700;cursor:pointer;white-space:nowrap}
+.t1.tbx .tb-chip.on{background:var(--seg-on);color:var(--seg-on-ink);border-color:transparent}
+.t1 .tb-card{background:var(--card);border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow);padding:13px 14px;margin-bottom:10px}
+.t1 .tb-card.mine{border-color:rgba(235,203,107,.6);background:linear-gradient(160deg,rgba(235,203,107,.12),var(--card) 55%)}
+.t1 .tb-who{display:flex;align-items:center;gap:9px;margin-bottom:10px}
+.t1 .tb-av{flex:none;width:28px;height:28px;border-radius:50%;display:grid;place-items:center;font-size:12.5px;font-weight:800;color:#fff}
+.t1 .tb-nm{flex:1;min-width:0;font-size:13.5px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.t1 .tb-nm small{font-size:12px;font-weight:600;color:var(--ink-2)}
+.t1 .tb-card .tb-quote{font-size:14.5px;color:var(--ink)}
+.t1 .tb-card .tb-why{font-size:13px;color:var(--ink-2);opacity:1}
+.t1 .tb-foot{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:11px}
+.t1 .tb-right{display:flex;align-items:center;gap:8px;min-width:0}
+.t1 .tb-clap{padding:6px 12px;border-radius:999px;border:1px solid var(--line);background:transparent;color:var(--ink);font:inherit;font-size:13px;font-weight:800;cursor:pointer}
+.t1 .tb-clap.on{background:rgba(124,92,255,.14);border-color:rgba(124,92,255,.4);color:#7C5CFF}
+html[data-theme="dark"] .t1 .tb-clap.on{color:#C4AEFF}
+.t1 .tb-clap:disabled{opacity:.55;cursor:default}
+.t1 .tb-try{padding:6px 4px;border:0;background:transparent;color:#7C5CFF;font:inherit;font-size:12.5px;font-weight:800;cursor:pointer;white-space:nowrap}
+html[data-theme="dark"] .t1 .tb-try{color:#C4AEFF}
+.t1 .tb-tried{font-size:12.5px;font-weight:800;color:#2E7A44}
+html[data-theme="dark"] .t1 .tb-tried{color:#7FD18B}
+.t1 .tb-more{padding:4px 10px;border:0;background:transparent;color:var(--ink-3);font:inherit;font-size:14px;font-weight:800;cursor:pointer}
+/* share sheet */
+.tb-ov{position:fixed;inset:0;z-index:300;background:rgba(10,10,16,.5);display:flex;align-items:flex-end;justify-content:center}
+body.tb-lock{overflow:hidden}
+.tb-sheet.t1{height:auto;max-height:92dvh;overflow-y:auto;width:100%;max-width:480px;background:var(--card);border-radius:24px 24px 0 0;padding:12px 18px calc(env(safe-area-inset-bottom,0px) + 18px);box-shadow:0 -10px 40px rgba(0,0,0,.25)}
+.tb-sheet .tb-handle{width:40px;height:5px;border-radius:9px;background:var(--line);margin:0 auto 14px}
+.tb-sheet h2{font-size:20px;font-weight:800;margin:0 0 4px;letter-spacing:-.01em}
+.tb-sheet .tb-p{font-size:13px;line-height:1.5;color:var(--ink-2);margin:0 0 12px}
+.tb-sheet .tb-card{margin-bottom:14px}
+.tb-sheet .tb-l{display:block;font-size:10.5px;font-weight:800;letter-spacing:.12em;color:var(--ink-3);margin:0 0 6px}
+.tb-sheet .tb-l small{font-weight:600;letter-spacing:0}
+.tb-sheet input{display:block;width:100%;box-sizing:border-box;height:46px;padding:0 14px;margin-bottom:10px;border-radius:13px;border:1.5px solid var(--line);background:var(--bg);color:var(--ink);font:inherit;font-size:16px;font-weight:700}
+.tb-sheet input:focus{outline:none;border-color:#7C5CFF;box-shadow:0 0 0 4px rgba(124,92,255,.15)}
+.tb-sheet .tb-note{text-align:left;margin:0 0 4px}
+.tb-sheet .tb-err{font-size:12.5px;color:#C0392B;margin-top:8px;line-height:1.4}
+.tb-sheet .tb-cancel{display:block;width:100%;margin-top:4px;padding:11px;border:0;background:transparent;color:var(--ink-2);font:inherit;font-size:14px;font-weight:800;cursor:pointer}
+
 /* ═══ Sync screen ═══ */
 .t1.syx{max-width:780px}
 .t1 .sy-two{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:12px;margin-bottom:12px}
@@ -5717,9 +5790,15 @@ if(window.visualViewport){
 window.addEventListener('load',()=>{setTimeout(()=>{try{window.scrollTo(0,1);window.scrollTo(0,0);}catch{}setAppHeight();},50);});
 
 // Single source of truth for the version shown in the app. Bump here only.
-const APP_VERSION='2.2';
+const APP_VERSION='2.3';
 // What's new — newest first. Plain language, a few lines per version.
 const CHANGELOG=[
+  {v:'2.3',date:'Oct 2026',items:[
+    'Today’s Table. Answer today’s Table Topic and K names one strength in your answer: the spotlight. Share it, and everyone who answered the same question today can see what worked for you, give it 👏, and pick a strength to try tomorrow',
+    'Praise only, and only if you choose. The spotlight is one line K quoted and one sentence on why it worked. Never your recording, never the critique. Cards disappear at midnight',
+    'Topic of the day is now in English for everyone, so the whole district is at the same table. Every other Table Topics question still follows your coaching language',
+    'Your name and club, if you want them, are asked the first time you share and can be changed in Settings → Coaching'
+  ]},
   {v:'2.2',date:'Oct 2026',items:[
     'Sync across devices. Use K’s notebook on your phone and your computer: turn it on in Settings → Your data → Sync, then scan the QR code, open the sync link or type the code on your other device',
     'No account needed. Your notebook is encrypted on your device before it’s sent, so the copy stored online can’t be read, not even by me',
@@ -6207,7 +6286,7 @@ function render(){
   app.classList.toggle("no-anim",_same);
   // Hub is a fixed one-viewport layout; every other view scrolls normally.
   app.classList.toggle("is-hub",V.view==="hub");
-  app.classList.toggle("is-t1pg",V.view==="notebook"||V.view==="coach-history"||V.view==="settings"||V.view==="sync");
+  app.classList.toggle("is-t1pg",V.view==="notebook"||V.view==="coach-history"||V.view==="settings"||V.view==="sync"||V.view==="table");
   document.body.classList.toggle("on-hub",V.view==="hub");
   app.classList.toggle("is-tt",V.view==="tt-practice"&&TTP.phase==="question");
   app.classList.toggle("is-tts",V.view==="tt-practice"&&TTP.phase==="setup");
@@ -6243,6 +6322,7 @@ function render(){
   if(_syPending)_syMaybeJoinLink();
   if(V.view==="hub"){renderHub(app);}
   else if(V.view==="sync"){renderSync(app);}
+  else if(V.view==="table"){renderTable(app);}
   else if(V.view==="picker"){renderPathPicker(app);}
   else if(V.view==="quiz-intro"){renderQuizIntro(app);}
   else if(V.view==="quiz-q"){renderQuizQuestion(app);}
@@ -6431,13 +6511,12 @@ function _ttDailyEn(){
   if(!pool.length)return "What is one lesson that has shaped who you are today?";
   return pool[_ttDayHash()%pool.length];
 }
-// In a chosen language, K rewrites the day's question natively once a day; English until it arrives
-function _ttDaily(){
-  const l=S.coachLang||'auto',c=S.ttDailyLoc;
-  if(l!=='auto'&&l!=='en'&&c&&c.day===new Date().toDateString()&&c.lang===l&&c.en===_ttDailyEn())return c.q;
-  return _ttDailyEn();
-}
+// Topic of the day is English for everyone, whatever the coaching language: it is the one question
+// the whole district answers together, and Today's Table shares what worked on it.
+function _ttDaily(){return _ttDailyEn();}
+function _ttIsDaily(){return TTP.track==='tt'&&TTP.questionSource==='daily';}
 async function _ttDailyLocalise(){
+  return; // kept for reference: the daily topic is no longer translated
   const l=S.coachLang||'auto';if(l==='auto'||l==='en'||!(S.aiConfig&&S.aiConfig.enabled)||navigator.onLine===false)return;
   const en=_ttDailyEn(),day=new Date().toDateString(),c=S.ttDailyLoc;
   if(c&&c.day===day&&c.lang===l&&c.en===en)return;
@@ -6458,7 +6537,7 @@ const TT_TECHNIQUES=[
   {short:"Make it about the audience",k:"turn the answer outward at least once — ask the room something or connect it to their lives"},
   {short:"Cut the warm-up",k:"start with a real sentence immediately — no 'thank you for the question', no 'so, um'"}
 ];
-function _ttTechnique(){return TT_TECHNIQUES[(_ttDayHash()>>>3)%TT_TECHNIQUES.length];}
+function _ttTechnique(){const t=_tblTry();if(t)return t;return TT_TECHNIQUES[(_ttDayHash()>>>3)%TT_TECHNIQUES.length];}
 function _ttDailyDone(){
   const q=_ttDaily(),today=new Date().toDateString();
   return ((S.sessions&&S.sessions['tt-practice'])||[]).find(s=>s.topic===q&&s.iso&&new Date(s.iso).toDateString()===today)||null;
@@ -6493,6 +6572,7 @@ function _t1Go(k,arg){
     case 'practice':V.view='practice';break;
     case 'tt':tt('tt');break;
     case 'tt-daily':if(_ttDailyDone()){tt('tt');break;}_openTTDaily();return false;
+    case 'table':V._tblFrom='hub';V.view='table';break;
     case 'tt-theme':V.view='topics-select';break;
     case 'eval':V._fromHub=true;V.view='eval-helper';break;
     case 'coach-rec':coach('record');break;
@@ -6581,7 +6661,7 @@ function _t1Body(mode){
     const nSaved=(S.outlines||[]).filter(o=>o.saved!==false).length;
     const rk=Object.keys(TT_REAL);
     grid='<div class="t1-grid">'+ROLESTILE+tile('outline','outline','Outline Builder','ob-new',[row('New outline','ob-new'),row('Saved · '+nSaved,'ob-saved')])+
-      tile('tt','tt',TT,'tt',[row('Today’s topic','tt-daily'),row('Pick a theme','tt-theme')])+
+      tile('tt','tt',TT,'tt',[_tblAnswered()?row('Today’s Table','table'):row('Today’s topic','tt-daily'),row('Pick a theme','tt-theme')])+
       tile('real','real','Real-world','real',[row('Interviews','real','interview'),row('Small talk','real','smalltalk')],Math.max(0,rk.length-2),'real')+'</div>';
   }else{
     const ms=S.mentees||[];
@@ -6796,7 +6876,7 @@ function renderHubV2(app){ // previous hub, kept for reference — not routed
   const _ttQ=_ttDaily(),_ttDone=_ttDailyDone(),_ttRun=_ttStreak();
   const _ttDoneTxt=_ttDone?'✓ Done today · '+_mmss(_ttDone.elapsed||0)+(_ttRun>1?' · '+_ttRun+' days running':''):'';
   const T_TT=tall=>tall?{hub:"tt",tall:true,wash:"tt",art:"tt",glyph:HUB_ICONS.tt,name:"Table Topics<sup>®</sup>",sub:'<span class="pw-sub-small">'+(_ttDone?_ttDoneTxt:'“'+escHtml(_ttQ)+'”')+'</span>',
-      facts:'<div class="pw-fk">'+(_ttDone?'Today’s topic · done':'Today’s topic')+'</div><div class="pw-fh pw-q">“'+escHtml(_ttQ)+'”</div>'+(_ttDone?'':'<div class="pw-try">Try: '+escHtml(_ttTechnique().short)+'</div>')+(_ttDone?'<div class="pw-f2">'+_ttDoneTxt+'</div>'+_pill('tt-new','Another topic','cta-violet'):_pill('tt-daily','Answer it','cta-violet'))}
+      facts:'<div class="pw-fk">'+(_ttDone?'Today’s topic · done':'Today’s topic')+'</div><div class="pw-fh pw-q">“'+escHtml(_ttQ)+'”</div>'+(_ttDone?'':'<div class="pw-try">Try: '+escHtml(_ttTechnique().short)+'</div>')+(_ttDone?'<div class="pw-f2">'+_ttDoneTxt+'</div>'+_pill('tt-table','Today’s Table'+(_tblCount()&&_tblCount().cards.length?' · '+_tblCount().cards.length:''),'cta-violet')+_pill('tt-new','Another topic','cta-soft'):_pill('tt-daily','Answer it','cta-violet'))}
     :{hub:"tt",wash:"tt",art:"tt",glyph:HUB_ICONS.tt,name:"Table Topics<sup>®</sup>",sub:_ttDone?_ttDoneTxt:'Today: “'+escHtml(_ttQ)+'”',subCls:'pw-sub-q'};
   const _obN=(S.outlines||[]).length;
   const T_OUTLINE=()=>({hub:"outline",wash:"outline",art:"outline",glyph:HUB_ICONS.outline,name:"Outline Builder",sub:_obN?_obN+(_obN===1?' saved outline':' saved outlines'):'Plan any speech, timed'});
@@ -6828,6 +6908,7 @@ function renderHubV2(app){ // previous hub, kept for reference — not routed
     else if(k==='mentees'){V.view='mentees';V._menteeEditing=null;V._menteeNudge=null;}
     else if(k==='all-projects'){V.view='all-projects';}
     else if(k==='tt-daily'){_openTTDaily();return;}
+    else if(k==='tt-table'){V._tblFrom='hub';V.view='table';}
     else if(k==='tt-new'){V._fromHub=true;V.view='tt-practice';TTP.track='tt';TTP.phase='setup';}
     render();
   }));
@@ -10663,6 +10744,7 @@ function _ttpRenderDone(app){
 
   h+='</div>';
   app.innerHTML=h;
+  _tblBindSpot(app);
 
   app.querySelector('[data-action="ttp-again"]').addEventListener("click",()=>{
     _rwResetConvo();TTP.phase="question";TTP.elapsed=0;TTP.transcript="";TTP.totalWords=0;TTP.aiResult=null;render();
@@ -10676,7 +10758,8 @@ function _ttpRenderDone(app){
 
 function _ttpRenderAnalysis(text){
   const e=TTP._nbId&&S.nb&&S.nb.entries.find(x=>x.id===TTP._nbId);
-  return renderCoachCards(text)+(e?'<button type="button" class="nb-saved" data-action="nb-open-cat" data-cat="'+e.cat+'"><svg viewBox="0 0 24 24">'+NB_IC.book+'</svg><span><b>Saved to K’s notebook.</b> '+(_nbOn()?'K will remember this next time.':'Memory is off, so K won’t bring it up.')+'</span>'+_t1sv('chev')+'</button>':'');
+  const spot=_ttIsDaily()&&typeof text==='string'&&!/data-action="ttp-retry-eval"/.test(text)?_tblSpotCard():'';
+  return spot+renderCoachCards(text)+(e?'<button type="button" class="nb-saved" data-action="nb-open-cat" data-cat="'+e.cat+'"><svg viewBox="0 0 24 24">'+NB_IC.book+'</svg><span><b>Saved to K’s notebook.</b> '+(_nbOn()?'K will remember this next time.':'Memory is off, so K won’t bring it up.')+'</span>'+_t1sv('chev')+'</button>':'');
 }
 
 async function ttpAnalyze(){
@@ -10768,7 +10851,10 @@ In THE THREAD, say plainly whether they caught the main issue. If they missed it
     if(_mt){sysF=MP_MENTOR;msgF='Situation: '+_mt.name+'\nThe mentee: '+TTP.question+'\n\nThe mentor\'s spoken response (transcript):\n'+(TTP.transcript||'(no audio captured)')+'\n\nDuration: '+fmtMs(TTP.elapsed*1000)+' ('+TTP.totalWords+' words)';}
     if(_es){const pj=PD[_es.pid]||{};sysF=MP_EVAL;msgF='Project: '+(pj.t||'')+' — '+(pj.p||'')+'\nSpeaker: '+_es.speaker+', “'+_es.title+'”\n\nSAMPLE SPEECH:\n'+_es.text+'\n\nANSWER KEY (for you only):\nStrengths: '+_es.key.strengths+'\nMain issue: '+_es.key.main+'\nSmaller issue: '+_es.key.minor+'\n\nTHE EVALUATOR\'S SPOKEN EVALUATION (transcript):\n'+(TTP.transcript||'(no audio captured)')+'\n\nDuration: '+fmtMs(TTP.elapsed*1000)+' ('+TTP.totalWords+' words)';}
     msgF+=nbContext(_es?'eval':_mt?'mentor':_rw?'real':'tt');
-    const text=await callCoach(sysF,msgF,{maxTokens:_es?520:_cv?480:400,featureId:'tt-eval'});
+    const _daily=_ttIsDaily();
+    if(_daily)sysF+=TBL_SPOT_PROMPT;
+    let text=await callCoach(sysF,msgF,{maxTokens:_daily?470:_es?520:_cv?480:400,featureId:'tt-eval',noLang:_daily});
+    if(_daily){const sp=_tblParseSpot(text);text=sp.text;_tblSetToday(TTP.question,sp.spot);}
     TTP.aiResult=text;
   }catch(e){TTP.aiResult=renderAIError(e,"ttp-retry-eval");}
   // Save session + check achievements outside try — fires regardless of AI outcome
@@ -10789,7 +10875,8 @@ In THE THREAD, say plainly whether they caught the main issue. If they missed it
   checkAchievements('tt');
   TTP.aiLoading=false;
   const el2=document.getElementById("ttp-analysis");
-  if(el2)el2.innerHTML=_ttpRenderAnalysis(TTP.aiResult);
+  if(el2){el2.innerHTML=_ttpRenderAnalysis(TTP.aiResult);_tblBindSpot(el2);}
+  if(_ttIsDaily())tblPrefetch();
 }
 
 
@@ -13295,7 +13382,7 @@ const COACH_LANGS=[
 ];
 function _coachLang(){return COACH_LANGS.find(l=>l.id===(S.coachLang||"auto"))||COACH_LANGS[0];}
 // Speech recognition needs a fixed language; Auto follows the phone's language
-function _recLang(){const l=_coachLang();return l.rec||(navigator.language||"en-US");}
+function _recLang(){if(typeof TTP!=="undefined"&&V.view==="tt-practice"&&_ttIsDaily())return "en-US";const l=_coachLang();return l.rec||(navigator.language||"en-US");}
 // Per-language coaching notes: K's method is the same everywhere; the norms it judges by are local
 const COACH_LANG_NOTES={
   zh:"MANDARIN NORMS: Fillers to listen for are 嗯、呃、啊、那个、就是、然后、对吧、其实 (and 这个 used as a pause) — not English ones. Natural pace is roughly 200–260 characters a minute; any word count or wpm you are given for Chinese is an estimated English-word equivalent (about 0.6 per character), so judge pace by the character norm. 排比 (parallel structure), a well-placed 成语 or 俗语, and 对仗 are legitimate tools — praise them when they land, flag them only when they are stacked for show or used as filler. Watch for 书面语 read aloud (too written to be heard) and for openings that bury the point under 客套话. Use the Toastmasters terms Chinese-speaking members use: 即兴演讲 (Table Topics), 点评 (evaluation), 备稿演讲 (prepared speech), 时间官 (Timer), 哼哈官 (Ah-Counter), 语法官 (Grammarian).",
@@ -20005,6 +20092,7 @@ function renderSettings(app){
     '<div class="st-row"><div class="l"><b>Coaching language</b><span>The app stays in English. K listens and replies in this.</span></div>'+val(escHtml(langShort))+
       '<select id="st-lang" aria-label="Coaching language">'+COACH_LANGS.map(l=>'<option value="'+l.id+'"'+(l.id===lang.id?' selected':'')+'>'+escHtml(l.label)+'</option>').join('')+'</select></div>'+
     row('K remembers past sessions','Tracks your habits in K’s notebook and picks up where you left off','<span class="st-tog'+(mem?' on':'')+'" role="switch" aria-checked="'+mem+'"></span>',' data-action="st-mem"')+
+    row('Your name on Today’s Table',(S.table&&S.table.name)?escHtml(S.table.name)+(S.table.club?' · '+escHtml(S.table.club):''):'Not set · you’ll be asked the first time you share',_stSv('chev','st-chev'),' data-action="st-tbl"')+
     '<button type="button" class="st-row" data-action="st-ai"><div class="l"><b>AI</b><span>'+ai.line+'</span>'+(ai.pct&&ai.st!=='bad'?'<div class="st-meter"><i style="width:'+Math.max(4,ai.pct)+'%"></i></div>':'')+'</div><span class="st-st st-'+ai.st+'">'+ai.lab+'</span>'+_stSv('chev','st-chev')+'</button>';
   const LOOK='<div class="st-row"><div class="st-seg" role="group" aria-label="Appearance">'+[['light','Light'],['dark','Dark'],['system','Match phone']].map(([k,l])=>'<button type="button" data-theme-pick="'+k+'" aria-pressed="'+(_thp===k)+'">'+l+'</button>').join('')+'</div></div>';
   const sy=_syStatus();
@@ -20042,6 +20130,7 @@ function renderSettings(app){
   }));
   const ls=q('#st-lang');if(ls)ls.addEventListener('change',()=>{S.coachLang=ls.value;save();render();});
   const mm=q('[data-action="st-mem"]');if(mm)mm.addEventListener('click',()=>{S.kMemory=!_nbOn();save();render();});
+  const tb=q('[data-action="st-tbl"]');if(tb)tb.addEventListener('click',()=>tblShareSheet({nameOnly:true}));
   const aa=q('[data-action="st-ai"]');if(aa)aa.addEventListener('click',()=>{V.view='ai-settings';render();window.scrollTo(0,0);});
   app.querySelectorAll('[data-theme-pick]').forEach(b=>b.addEventListener('click',()=>{S.theme=b.dataset.themePick;save();if(window.__applyTheme)window.__applyTheme(S.theme);render();}));
   const ex=q('[data-action="st-export"]');if(ex)ex.addEventListener('click',()=>nbExport());
@@ -20180,12 +20269,13 @@ function _syPayload(){
   const sess={};SY_KEYS.forEach(k=>{if(S.sessions&&S.sessions[k])sess[k]=S.sessions[k];});
   const dev=Object.assign({},(S.sync&&S.sync.devs)||{});
   if(S.sync)dev[S.sync.dev]={name:_syDevice(),last:new Date().toISOString()};
-  return {v:1,nb:{entries:nb.entries,notes:nb.notes,del:nb.del||[],delCh:nb.delCh||[],clearedAt:nb.clearedAt||''},ch:S.coachHistory||[],sess,dev};
+  const tb=S.table?{name:S.table.name||'',club:S.table.club||'',key:S.table.key||'',ts:S.table.ts||''}:null;
+  return {v:1,nb:{entries:nb.entries,notes:nb.notes,del:nb.del||[],delCh:nb.delCh||[],clearedAt:nb.clearedAt||''},ch:S.coachHistory||[],sess,dev,tb};
 }
 function _sySig(){
   const nb=_nb(),ch=S.coachHistory||[];
   const ss=SY_KEYS.map(k=>((S.sessions||{})[k]||[]).map(x=>x.iso).join(',')).join('|');
-  return [nb.entries.map(e=>e.id).join(','),nb.notes.map(n=>n.iso).join(','),(nb.del||[]).length,(nb.delCh||[]).length,nb.clearedAt||'',ch.map(c=>c.id).join(','),ss].join('#');
+  return [nb.entries.map(e=>e.id).join(','),nb.notes.map(n=>n.iso).join(','),(nb.del||[]).length,(nb.delCh||[]).length,nb.clearedAt||'',ch.map(c=>c.id).join(','),ss,S.table?(S.table.key||'')+(S.table.ts||''):''].join('#');
 }
 // Combine what's here with what came down. Nothing is lost unless deleted.
 function _syMerge(r){
@@ -20215,6 +20305,7 @@ function _syMerge(r){
     if(arr.length)S.sessions[k]=arr;else delete S.sessions[k];
   });
   if(S.sync){const d=Object.assign({},S.sync.devs||{},r.dev||{});S.sync.devs=d;}
+  if(r.tb&&r.tb.key&&(!S.table||!S.table.key||(r.tb.ts||'')>(S.table.ts||''))){S.table=Object.assign(S.table||{claps:{},today:null,try:null},{name:r.tb.name||'',club:r.tb.club||'',key:r.tb.key,ts:r.tb.ts||''});}
   return _sySig()!==before;
 }
 
@@ -20367,6 +20458,211 @@ function renderSync(app){
     if(!confirm('Delete the synced copy?\n\nThe encrypted copy stored online is deleted and every device stops syncing. Each device keeps what it already has.'))return;
     const ok=await syncDeleteCloud();if(!ok)alert('Couldn’t reach sync to delete it. Try again when you’re online.');render();});
 }
+// ═══ TODAY'S TABLE — everyone who answered today's topic can share what worked ═══
+// K names one strength in every daily Table Topics answer (the spotlight). You choose
+// whether to put yours on the table; only the line K quoted and K's one sentence are
+// shared, never the recording. The table clears at midnight.
+const TBL_FN='/.netlify/functions/table';
+const TBL_TAGS={
+  'Vivid opening':{k:'open with a specific moment (a time, a place, a scene) before giving any opinion',short:'Open with a vivid moment'},
+  'Clear point':{k:'state one clear point early and keep returning to it',short:'Make one clear point, early'},
+  'One story':{k:'tell one story that makes one point — no second example, no list',short:'One story, one point'},
+  'Strong close':{k:'end on one short line people can remember, instead of trailing off',short:'End on one line to remember'},
+  'Clever pivot':{k:'bridge from the literal question to a point they genuinely care about, while still satisfying the question',short:'Pivot to what you really want to say'},
+  'Humour':{k:'use one light, self-aware moment of humour that serves the point',short:'Use one moment of humour'},
+  'Clear structure':{k:'signpost the shape — a clear beginning, middle and end the listener can follow',short:'Signpost a clear shape'},
+  'Bold opinion':{k:'take a clear stance and commit to it rather than hedging',short:'Take a stance and commit'}
+};
+const TBL_SPOT_PROMPT=`
+
+After the four sections, add ONE more line for Today's Table, a board where members share one strength from their answer. Use EXACTLY this format, on one line:
+🌟 SPOTLIGHT: <tag> | "<quote>" | <why>
+- tag: the single strength that stood out most, chosen ONLY from this list: Vivid opening, Clear point, One story, Strong close, Clever pivot, Humour, Clear structure, Bold opinion.
+- quote: the speaker's own words that show it, copied from the transcript, 5 to 25 words. Fix punctuation only. Never quote anything private, embarrassing, or about a named person.
+- why: one sentence, under 20 words, on why it worked, spoken to the speaker ("You…").
+Praise only: the SPOTLIGHT never contains criticism. Leave the line out entirely if nothing specific deserves it.`;
+
+function _tbl(){
+  if(!S.table)S.table={name:'',club:'',key:'',claps:{},today:null,try:null};
+  const t=S.table;
+  if(!t.key){const b=new Uint8Array(18);crypto.getRandomValues(b);t.key=[...b].map(x=>SY_ALPH[x%SY_ALPH.length]).join('');t.ts=new Date().toISOString();save();}
+  if(!t.claps)t.claps={};
+  return t;
+}
+function _tblDay(){const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
+function _tblDayLabel(){return new Date().toLocaleDateString('en-GB',{weekday:'short',day:'numeric',month:'short'}).toUpperCase();}
+function _tblToday(){const t=_tbl();return t.today&&t.today.day===_tblDay()?t.today:null;}
+function _tblAnswered(){return !!(_tblToday()||_ttDailyDone());}
+// K's spotlight line → {tag,quote,why}, and the feedback without that line
+function _tblParseSpot(text){
+  if(typeof text!=='string')return {text,spot:null};
+  const lines=text.split('\n');let spot=null;
+  const keep=lines.filter(l=>{
+    const m=l.match(/^\s*[*#_\s]*🌟?\s*\**\s*SPOTLIGHT\s*\**\s*[:：]\s*(.+)$/i);
+    if(!m)return true;
+    const parts=m[1].split('|').map(x=>x.replace(/\*+/g,'').trim());
+    if(parts.length<3)return false;
+    const tagIn=parts[0].toLowerCase(),tag=Object.keys(TBL_TAGS).find(k=>k.toLowerCase()===tagIn)||Object.keys(TBL_TAGS).find(k=>tagIn.includes(k.toLowerCase()));
+    const quote=parts[1].replace(/^["“”'‘’\s]+|["“”'‘’\s]+$/g,'').slice(0,240),why=parts.slice(2).join(' | ').slice(0,260);
+    if(tag&&quote.length>=4&&why.length>=4)spot={tag,quote,why};
+    return false;
+  });
+  return {text:keep.join('\n').replace(/\n{3,}/g,'\n\n').trim(),spot};
+}
+// Called once the daily answer has K's notes: remembers today's spotlight and counts you as answered
+function _tblSetToday(q,spot){
+  const t=_tbl(),day=_tblDay();
+  if(t.try&&t.try.from<day)t.try=null; // the strength you chose to try has now been tried
+  if(!t.today||t.today.day!==day)t.today={day,q,spot:spot||null,shared:null,doneSent:false};
+  else{t.today.q=q;if(spot)t.today.spot=spot;}
+  save();
+  if(!t.today.doneSent)_tblFetch('POST','',{action:'done',day,key:t.key}).then(r=>{if(r.status===200){t.today.doneSent=true;save();}}).catch(()=>{});
+}
+function _tblTry(){const t=S.table&&S.table.try;if(!t||!TBL_TAGS[t.tag]||t.from>=_tblDay())return null;return {short:TBL_TAGS[t.tag].short+' (from Today’s Table)',k:TBL_TAGS[t.tag].k+' — a strength they saw on Today\'s Table and chose to try',tag:t.tag};}
+async function _tblFetch(method,qs,body){
+  const r=await fetch(TBL_FN+(qs?'?'+qs:''),{method,headers:body?{'content-type':'application/json'}:{},body:body?JSON.stringify(body):undefined,cache:'no-store'});
+  let j=null;try{j=await r.json();}catch(e){}
+  return {status:r.status,j:j||{}};
+}
+// Today's cards, cached for a minute
+async function tblLoad(force){
+  const day=_tblDay(),c=V._tbl;
+  if(!force&&c&&c.day===day&&Date.now()-c.at<60000)return c;
+  if(V._tblBusy)return c;
+  V._tblBusy=true;V._tblErr=null;
+  try{
+    const r=await _tblFetch('GET','day='+day);
+    if(r.status!==200)throw new Error(r.j.error||('HTTP '+r.status));
+    V._tbl={day,at:Date.now(),answered:r.j.answered||0,cards:r.j.cards||[]};
+  }catch(e){V._tblErr='Can’t reach Today’s Table right now.';}
+  V._tblBusy=false;
+  return V._tbl;
+}
+function _tblCount(){const c=V._tbl;return c&&c.day===_tblDay()?c:null;}
+function tblPrefetch(){if(_tblAnswered()&&navigator.onLine!==false)tblLoad().then(()=>{if(V.view==='hub'||V.view==='tt-practice'||V.view==='table')render();});}
+
+// ── Spotlight card on the feedback page ──
+function _tblSpotCard(){
+  const td=_tblToday();if(!td)return '';
+  const c=_tblCount(),n=c?c.cards.length:0;
+  const see='<button type="button" class="tb-see" data-action="tbl-open"><span>See Today’s Table'+(c?' · '+(n?n+' spotlight'+(n===1?'':'s'):'nobody has shared yet'):'')+'</span>'+_t1sv('chev')+'</button>';
+  if(!td.spot)return see;
+  const sp=td.spot;
+  return '<div class="tb-spot"><div class="tb-spot-top"><div class="tb-spot-k">🌟 K’S SPOTLIGHT</div><span class="tb-tag">'+escHtml(sp.tag)+'</span></div>'+
+    '<div class="tb-quote">“'+escHtml(sp.quote)+'”</div><div class="tb-why">'+escHtml(sp.why)+'</div>'+
+    (td.shared?'<div class="tb-shared">✓ On Today’s Table'+(td.shared.name==='Anonymous'?' as Anonymous':'')+'</div>':'<button type="button" class="tb-share" data-action="tbl-share">Share to Today’s Table</button><div class="tb-note">Only this card is shared. Never your recording.</div>')+
+    '</div>'+see;
+}
+function _tblBindSpot(root){
+  const sh=root.querySelector('[data-action="tbl-share"]');if(sh)sh.addEventListener('click',()=>tblShareSheet());
+  const op=root.querySelector('[data-action="tbl-open"]');if(op)op.addEventListener('click',()=>{V._tblFrom=V.view;V.view='table';render();window.scrollTo(0,0);});
+}
+
+// ── Share sheet (also edits your name from Settings) ──
+function tblShareSheet(opts){
+  opts=opts||{};const t=_tbl(),td=_tblToday(),sp=td&&td.spot,nameOnly=opts.nameOnly||!sp;
+  document.querySelectorAll('.tb-ov').forEach(e=>e.remove());
+  const ov=document.createElement('div');ov.className='tb-ov';
+  const prev=()=>{const nm=(ov.querySelector('#tb-name')||{}).value||t.name||'',cl=(ov.querySelector('#tb-club')||{}).value||t.club||'';
+    return _tblCardHtml({name:nm.trim()||'Anonymous',club:nm.trim()?cl.trim():'',tag:sp.tag,quote:sp.quote,why:sp.why,claps:0},{preview:true});};
+  ov.innerHTML='<div class="tb-sheet t1"><div class="tb-handle"></div><h2>'+(nameOnly?'Your name on Today’s Table':'Share to Today’s Table')+'</h2>'+
+    '<p class="tb-p">'+(nameOnly?'Shown on the cards you share. Leave it blank to post as Anonymous.':'Everyone who answered today’s topic can see it until midnight.')+'</p>'+
+    (nameOnly?'':'<div id="tb-prev">'+prev()+'</div>')+
+    '<label class="tb-l" for="tb-name">YOUR NAME</label><input id="tb-name" maxlength="20" autocomplete="nickname" placeholder="First name or nickname" value="'+escHtml(t.name||'')+'">'+
+    '<label class="tb-l" for="tb-club">CLUB <small>· optional</small></label><input id="tb-club" maxlength="30" autocomplete="organization" placeholder="e.g. 5A+ Shanghai" value="'+escHtml(t.club||'')+'">'+
+    '<div class="tb-note">Saved on this phone. Leave the name blank to post as Anonymous.</div>'+
+    '<div class="tb-err" id="tb-err" hidden></div>'+
+    '<button type="button" class="tb-share" id="tb-go">'+(nameOnly?'Save':'Share')+'</button><button type="button" class="tb-cancel" id="tb-no">'+(nameOnly?'Cancel':'Not today')+'</button></div>';
+  document.body.appendChild(ov);
+  const close=()=>{ov.remove();document.body.classList.remove('tb-lock');};
+  document.body.classList.add('tb-lock');
+  ov.addEventListener('click',e=>{if(e.target===ov)close();});
+  ov.querySelector('#tb-no').addEventListener('click',close);
+  const nm=ov.querySelector('#tb-name'),cl=ov.querySelector('#tb-club');
+  if(!nameOnly){[nm,cl].forEach(i=>i.addEventListener('input',()=>{ov.querySelector('#tb-prev').innerHTML=prev();}));}
+  if(!t.name)setTimeout(()=>nm.focus(),80);
+  ov.querySelector('#tb-go').addEventListener('click',async()=>{
+    const name=nm.value.trim().slice(0,20),club=cl.value.trim().slice(0,30);
+    const keep=()=>{t.name=name;t.club=club;t.ts=new Date().toISOString();save();};
+    if(nameOnly){keep();close();render();return;}
+    const go=ov.querySelector('#tb-go'),err=ov.querySelector('#tb-err');go.disabled=true;go.textContent='Sharing…';err.hidden=true;
+    try{
+      const r=await _tblFetch('POST','',{action:'share',day:td.day,key:t.key,name,club,tag:sp.tag,quote:sp.quote,why:sp.why});
+      if(r.status!==200)throw new Error(r.j.error==='bad_name'?'That name can’t be used here. Try another.':'Can’t reach Today’s Table right now. Try again in a moment.');
+      keep();td.shared={id:r.j.id,name:name||'Anonymous',at:new Date().toISOString()};save();
+      close();V._tblFrom=V.view;V.view='table';render();window.scrollTo(0,0);tblLoad(true).then(()=>{if(V.view==='table')render();});
+    }catch(e){err.textContent=e.message;err.hidden=false;go.disabled=false;go.textContent='Share';}
+  });
+}
+
+// ── One card ──
+function _tblCardHtml(c,o){
+  o=o||{};const t=S.table||{},td=_tblToday(),mine=!o.preview&&td&&td.shared&&td.shared.id===c.id;
+  const ini=(c.name||'?').trim().charAt(0).toUpperCase()||'?';
+  const hue=[...String(c.id||c.name||'')].reduce((a,ch)=>a+ch.charCodeAt(0),0)%360;
+  const clapped=!o.preview&&!!t.claps&&!!t.claps[c.id];
+  const tried=!o.preview&&t.try&&t.try.tag===c.tag&&t.try.id===c.id;
+  return '<div class="tb-card'+(mine?' mine':'')+'" data-id="'+escHtml(c.id||'')+'">'+
+    '<div class="tb-who"><span class="tb-av" style="background:hsl('+hue+' 45% 45%)">'+(c.name==='Anonymous'?'?':escHtml(ini))+'</span><span class="tb-nm">'+(mine?'You':escHtml(c.name||'Anonymous'))+(c.club?'<small> · '+escHtml(c.club)+'</small>':'')+'</span><span class="tb-tag">'+escHtml(c.tag)+'</span></div>'+
+    '<div class="tb-quote">“'+escHtml(c.quote)+'”</div><div class="tb-why">'+escHtml(c.why)+'</div>'+
+    (o.preview?'':'<div class="tb-foot"><button type="button" class="tb-clap'+(clapped?' on':'')+'" data-tbl-clap="'+escHtml(c.id)+'"'+(mine?' disabled':'')+'>👏 '+(c.claps||0)+'</button>'+
+      (mine?'<button type="button" class="tb-more" data-tbl-del="'+escHtml(c.id)+'">Remove</button>':
+       '<span class="tb-right">'+(tried?'<span class="tb-tried">✓ Trying tomorrow</span>':'<button type="button" class="tb-try" data-tbl-try="'+escHtml(c.id)+'" data-tag="'+escHtml(c.tag)+'">＋ Try this tomorrow</button>')+'<button type="button" class="tb-more" data-tbl-rep="'+escHtml(c.id)+'" aria-label="Report">⋯</button></span>')+'</div>')+
+    '</div>';
+}
+
+// ── The table page ──
+function renderTable(app){
+  const td=_tblToday(),ans=_tblAnswered(),c=_tblCount(),f=V._tblFilter||'';
+  let h='<div class="t1 stx tbx">';
+  h+='<div class="st-top"><button type="button" class="nb-back" data-action="tb-back" aria-label="Back">'+_stSv('back')+'</button><h1>Today’s Table</h1></div>';
+  h+='<div class="tb-k">'+_tblDayLabel()+' · TODAY’S TOPIC</div><div class="tb-q">“'+escHtml(_ttDaily())+'”</div>';
+  const n=c?c.cards.length:0;
+  h+='<div class="tb-n">'+(c?(c.answered||0)+' answered · '+(n?n+' shared a spotlight':'nobody has shared yet'):(V._tblBusy?'Loading…':V._tblErr||''))+'</div>';
+  if(!ans){
+    h+='<div class="tb-lock"><div class="tb-lock-ic">🔒</div><b>Answer today’s topic to take a seat.</b><p>'+(c&&c.answered?c.answered+' '+(c.answered===1?'person has':'people have')+' answered so far. ':'')+'See what worked for everyone else once you’ve had your turn. Nobody hears your recording; only the one line K highlights, if you choose to share it.</p><button type="button" class="tb-share" data-action="tb-answer">Answer it</button></div>';
+  }else{
+    if(td&&td.spot&&!td.shared)h+='<div class="tb-nudge"><div><b>Your spotlight isn’t on the table yet.</b><span>'+escHtml(td.spot.tag)+' · “'+escHtml(td.spot.quote.length>60?td.spot.quote.slice(0,58)+'…':td.spot.quote)+'”</span></div><button type="button" class="tb-share sm" data-action="tbl-share">Share</button></div>';
+    if(V._tblErr&&!c)h+='<div class="tb-empty"><b>'+escHtml(V._tblErr)+'</b><p>Check your connection and try again.</p><button type="button" class="tb-share sm" data-action="tb-retry">Try again</button></div>';
+    else if(c){
+      if(n){
+        const counts={};c.cards.forEach(x=>{counts[x.tag]=(counts[x.tag]||0)+1;});
+        h+='<div class="tb-chips"><button type="button" class="tb-chip'+(f?'':' on')+'" data-tbl-f="">All '+n+'</button>'+Object.keys(TBL_TAGS).filter(k=>counts[k]).map(k=>'<button type="button" class="tb-chip'+(f===k?' on':'')+'" data-tbl-f="'+escHtml(k)+'">'+escHtml(k)+' '+counts[k]+'</button>').join('')+'</div>';
+        const list=c.cards.filter(x=>!f||x.tag===f);
+        h+=list.map(x=>_tblCardHtml(x)).join('')||'<div class="tb-empty"><p>No one has shared that strength yet today.</p></div>';
+      }else h+='<div class="tb-empty"><b>Nobody has shared yet today.</b><p>'+(td&&td.spot&&!td.shared?'Be the first.':'Check back later; cards appear as people share them.')+'</p></div>';
+    }else if(V._tblBusy)h+='<div class="tb-empty"><p>Loading today’s table…</p></div>';
+  }
+  h+='<div class="st-foot">Cards disappear at midnight. Only the line K quoted is shared, never a recording. Tap ⋯ to report a card.</div></div>';
+  app.innerHTML=h;
+  const q=s=>app.querySelector(s),on=(s,fn)=>{const el=q(s);if(el)el.addEventListener('click',fn);};
+  on('[data-action="tb-back"]',()=>{const r=V._tblFrom;V._tblFrom=null;V.view=r&&r!=='table'?r:'hub';render();});
+  on('[data-action="tb-answer"]',()=>{_openTTDaily();});
+  on('[data-action="tbl-share"]',()=>tblShareSheet());
+  on('[data-action="tb-retry"]',()=>{tblLoad(true).then(()=>render());render();});
+  app.querySelectorAll('[data-tbl-f]').forEach(b=>b.addEventListener('click',()=>{V._tblFilter=b.dataset.tblF;render();}));
+  app.querySelectorAll('[data-tbl-clap]').forEach(b=>b.addEventListener('click',async()=>{
+    const id=b.dataset.tblClap,t=_tbl();if(t.claps[id]||b.disabled)return;
+    t.claps[id]=1;save();const card=(c&&c.cards||[]).find(x=>x.id===id);if(card)card.claps=(card.claps||0)+1;
+    b.classList.add('on');b.textContent='👏 '+(card?card.claps:1);
+    try{await _tblFetch('POST','',{action:'clap',day:_tblDay(),id});}catch(e){}
+  }));
+  app.querySelectorAll('[data-tbl-try]').forEach(b=>b.addEventListener('click',()=>{
+    const t=_tbl();t.try={tag:b.dataset.tag,id:b.dataset.tblTry,from:_tblDay()};save();render();
+  }));
+  app.querySelectorAll('[data-tbl-rep]').forEach(b=>b.addEventListener('click',async()=>{
+    if(!confirm('Report this card?\n\nUse this if it’s offensive or isn’t a real Table Topics answer. Two reports hide it.'))return;
+    try{await _tblFetch('POST','',{action:'report',day:_tblDay(),id:b.dataset.tblRep});}catch(e){}
+    const card=b.closest('.tb-card');if(card)card.remove();
+  }));
+  app.querySelectorAll('[data-tbl-del]').forEach(b=>b.addEventListener('click',async()=>{
+    if(!confirm('Remove your card from Today’s Table?'))return;
+    const t=_tbl();try{await _tblFetch('POST','',{action:'delete',day:_tblDay(),id:b.dataset.tblDel,key:t.key});}catch(e){}
+    if(td)td.shared=null;save();tblLoad(true).then(()=>render());render();
+  }));
+  if(ans&&(!c||Date.now()-c.at>60000))tblLoad().then(()=>{if(V.view==='table')render();});
+}
+
 // Start-up: sync on open and whenever the app comes back to the front
 function _syInit(){
   if(S.sync&&S.sync.code)setTimeout(()=>syncNow(),1200);
