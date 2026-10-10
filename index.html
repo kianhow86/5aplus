@@ -729,7 +729,6 @@ body.on-hub.has-bottom-nav{padding-bottom:0}   /* .hub2 already reserves the nav
 .pw-pill:active{transform:scale(.97)}
 .cta-green{background:#A9E08C;color:#0E2308}
 .cta-violet{background:#C7B4FF;color:#1B1235}
-.hub2 .pw-tile .pw-pill.cta-soft{background:rgba(255,255,255,.08);color:inherit;box-shadow:inset 0 0 0 1px rgba(255,255,255,.18);margin-left:8px}
 .cta-peri{background:#C3D2FF;color:#101A36}
 .cta-blue{background:#A9C9F5;color:#0B1A2E}
 /* ── Mode colour: every tile takes the mode's hue; the lead tile is strongest. Contests stay gold. ── */
@@ -3807,6 +3806,13 @@ html[data-theme="dark"] .t1 .st-pt b .sy-new,html[data-theme="dark"] .t1 .st-row
 .t1-row span{overflow:hidden;text-overflow:ellipsis}
 .t1-row svg{width:13px;height:13px;stroke-width:2.2;color:var(--c)}
 .t1 .t1-more{font-size:11px;font-weight:600;color:var(--ink-3);padding:2px 9px 0}
+.t1 .t1-sub2{font-size:12.5px;line-height:1.35;color:var(--ink-2);margin-top:2px}
+.t1 .t1-sub2 b{color:var(--ink);font-weight:700}
+.t1 .t1-foot{display:flex;align-items:center;justify-content:space-between;gap:6px;margin-top:auto;padding-top:10px;font-size:12.5px;font-weight:600;color:var(--ink-2);white-space:nowrap}
+.t1 .t1-foot svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2.2;color:var(--ink-3);flex:none}
+.t1 .t1-tbtn{display:inline-flex;align-items:center;gap:6px;margin-top:auto;padding:7px 10px;border-radius:9px;background:color-mix(in srgb,var(--c) 14%,transparent);color:var(--c);font-size:12.5px;font-weight:700;width:max-content}
+.t1 .t1-tbtn svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2.2}
+.t1-grid.t1-compact .t1-tile:not(.t1-wide){min-height:150px}
 .t1 .t1-tile.t1-wide{grid-column:1/3;flex-direction:row;align-items:center;gap:12px;padding:12px 14px;border-radius:16px}
 .t1-tile.t1-wide .t1-txt{flex:1;min-width:0}.t1-tile.t1-wide .t1-sub{font-size:11.5px;color:var(--ink-2);white-space:nowrap;margin-top:2px}
 .t1-tile.t1-wide>svg{width:16px;height:16px;stroke-width:2;color:var(--ink-3)}
@@ -5797,7 +5803,8 @@ const CHANGELOG=[
     'Today’s Table. Answer today’s Table Topic and K names one strength in your answer: the spotlight. Share it, and everyone who answered the same question today can see what worked for you, give it 👏, and pick a strength to try tomorrow',
     'Praise only, and only if you choose. The spotlight is one line K quoted and one sentence on why it worked. Never your recording, never the critique. Cards disappear at midnight',
     'Topic of the day is now in English for everyone, so the whole district is at the same table. Every other Table Topics question still follows your coaching language',
-    'Your name and club, if you want them, are asked the first time you share and can be changed in Settings → Coaching'
+    'Your name and club, if you want them, are asked the first time you share and can be changed in Settings → Coaching',
+    'Calmer Hub. Each tile now shows one line about you (today’s topic, your last session, your saved outlines) instead of a list of shortcuts. The Timer keeps its one-tap button'
   ]},
   {v:'2.2',date:'Oct 2026',items:[
     'Sync across devices. Use K’s notebook on your phone and your computer: turn it on in Settings → Your data → Sync, then scan the QR code, open the sync link or type the code on your other device',
@@ -6553,7 +6560,7 @@ function _openTTDaily(){
 }
 const HUB_PRACTICE='burgundy'; // 'burgundy' | 'teal'
 // ═══ HUB (T1 design) — mode switch · hero · K line · tile grid. Fits one screen. ═══
-const T1_IC={heart:'<path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>',spark:'<path d="M12 3l1.9 5.8L20 11l-6.1 2.2L12 19l-1.9-5.8L4 11l6.1-2.2z"/>',gear:'<line x1="21" x2="14" y1="4" y2="4"/><line x1="10" x2="3" y1="4" y2="4"/><line x1="21" x2="12" y1="12" y2="12"/><line x1="8" x2="3" y1="12" y2="12"/><line x1="21" x2="16" y1="20" y2="20"/><line x1="12" x2="3" y1="20" y2="20"/><line x1="14" x2="14" y1="2" y2="6"/><line x1="8" x2="8" y1="10" y2="14"/><line x1="16" x2="16" y1="18" y2="22"/>',arrow:'<path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>',chev:'<path d="m9 18 6-6-6-6"/>',roles:'<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>',practice:'<circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/>',coach:'<path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" x2="12" y1="19" y2="22"/>',contests:'<path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/><path d="M12 15v4"/>',hub:'<rect width="7" height="7" x="3" y="3" rx="1.5"/><rect width="7" height="7" x="14" y="3" rx="1.5"/><rect width="7" height="7" x="14" y="14" rx="1.5"/><rect width="7" height="7" x="3" y="14" rx="1.5"/>',paste:'<rect width="8" height="4" x="8" y="2" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/>',outline:'<path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 13H8"/><path d="M16 13h-2"/><path d="M10 17H8"/><path d="M16 17h-2"/>',tt:'<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>',real:'<rect width="20" height="14" x="2" y="7" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>',mprac:'<path d="M14 9a2 2 0 0 1-2 2H6l-4 4V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2z"/><path d="M18 9h2a2 2 0 0 1 2 2v11l-4-4h-6a2 2 0 0 1-2-2v-1"/>',proj:'<path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>',b1:'<polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/>',b2:'<path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/>',b3:'<rect width="18" height="18" x="3" y="4" rx="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/>'};
+const T1_IC={timer:'<circle cx="12" cy="13" r="8"/><path d="M12 9v4l2 2"/><path d="M9 2h6"/>',heart:'<path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>',spark:'<path d="M12 3l1.9 5.8L20 11l-6.1 2.2L12 19l-1.9-5.8L4 11l6.1-2.2z"/>',gear:'<line x1="21" x2="14" y1="4" y2="4"/><line x1="10" x2="3" y1="4" y2="4"/><line x1="21" x2="12" y1="12" y2="12"/><line x1="8" x2="3" y1="12" y2="12"/><line x1="21" x2="16" y1="20" y2="20"/><line x1="12" x2="3" y1="20" y2="20"/><line x1="14" x2="14" y1="2" y2="6"/><line x1="8" x2="8" y1="10" y2="14"/><line x1="16" x2="16" y1="18" y2="22"/>',arrow:'<path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>',chev:'<path d="m9 18 6-6-6-6"/>',roles:'<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>',practice:'<circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/>',coach:'<path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" x2="12" y1="19" y2="22"/>',contests:'<path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/><path d="M12 15v4"/>',hub:'<rect width="7" height="7" x="3" y="3" rx="1.5"/><rect width="7" height="7" x="14" y="3" rx="1.5"/><rect width="7" height="7" x="14" y="14" rx="1.5"/><rect width="7" height="7" x="3" y="14" rx="1.5"/>',paste:'<rect width="8" height="4" x="8" y="2" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/>',outline:'<path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 13H8"/><path d="M16 13h-2"/><path d="M10 17H8"/><path d="M16 17h-2"/>',tt:'<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>',real:'<rect width="20" height="14" x="2" y="7" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>',mprac:'<path d="M14 9a2 2 0 0 1-2 2H6l-4 4V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2z"/><path d="M18 9h2a2 2 0 0 1 2 2v11l-4-4h-6a2 2 0 0 1-2-2v-1"/>',proj:'<path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>',b1:'<polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/>',b2:'<path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/>',b3:'<rect width="18" height="18" x="3" y="4" rx="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/>'};
 const _t1sv=k=>'<svg viewBox="0 0 24 24">'+T1_IC[k]+'</svg>';
 // Mentee "lastActive" is stored like "Oct 9" (no year): read it as the most recent such date
 function _menteeDays(m){
@@ -6622,9 +6629,17 @@ function _hubDirectiveGo(action){
 function _t1Body(mode){
   const TT='Table Topics<sup>®</sup>';
   const row=(label,go,arg)=>'<button type="button" class="t1-row" data-go="'+go+'"'+(arg?' data-arg="'+arg+'"':'')+'><span>'+label+'</span>'+_t1sv('chev')+'</button>';
-  const tile=(c,ico,name,go,rows,more,moreGo)=>'<div class="t1-tile t1-c-'+c+'" role="button" tabindex="0" data-go="'+go+'" data-k="tile-'+c+'"><div class="t1-tile-head"><div class="t1-ico">'+_t1sv(ico)+'</div><div class="t1-tile-name">'+name+'</div></div><div class="t1-rows">'+rows.join('')+(more?'<button type="button" class="t1-more" data-go="'+(moreGo||go)+'">+'+more+' more</button>':'')+'</div></div>';
+  // Tile = title · one line about you (from the phone, or a plain description) · one row naming what's inside
+  const tile=(c,ico,name,go,sub,foot)=>'<div class="t1-tile t1-c-'+c+'" role="button" tabindex="0" data-go="'+go+'" data-k="tile-'+c+'"><div class="t1-tile-head"><div class="t1-ico">'+_t1sv(ico)+'</div><div class="t1-tile-name">'+name+'</div></div><div class="t1-sub2">'+sub+'</div>'+
+    (foot.btn?'<button type="button" class="t1-tbtn" data-go="'+foot.go+'">'+_t1sv(foot.ic||'chev')+foot.btn+'</button>':'<div class="t1-foot"><span>'+foot.row+'</span>'+_t1sv('chev')+'</div>')+'</div>';
+  const _ago=d=>d==null?null:d===0?'today':d===1?'yesterday':d+' days ago';
+  const _ttD=_ttDailyDone(),_ttR=_ttStreak();
+  const TT_SUB=_ttD?'<b>Done today</b>'+(_ttR>1?' · '+_ttR+' days running':'')+'.':'<b>Today’s topic</b> is waiting.';
+  const _chAll=S.coachHistory||[],_chSp=_chAll.find(x=>x.type!=='contest'),_chCt=_chAll.find(x=>x.type==='contest');
+  const COACH_SUB=_chSp?'Last session <b>'+_ago(_relDays(_chSp.iso||_chSp.date))+'</b>.':'Rehearse any speech.';
+  const CT_SUB=_chCt&&_chCt.contestName?'You rehearsed <b>'+escHtml(_chCt.contestName)+'</b> '+_ago(_relDays(_chCt.iso||_chCt.date))+'.':'What judges actually score.';
   const roleIds=(typeof ROLES!=='undefined'?ROLES.map(r=>r.id):[]);
-  const ROLESTILE=tile('roles','roles','Meeting Roles','roles',[row('Timer','timer'),row('Ah-Counter','role','ah')],Math.max(0,roleIds.length-2),'roles');
+  const ROLESTILE=tile('roles','roles','Meeting Roles','roles','Nine roles, in plain words.',{btn:'Timer',go:'timer',ic:'timer'});
   const ctKeys=Object.keys(CONTEST_DATA||{});
   // K line: first sentence of K's message + bold CTA
   let kline='';const d=_getKDirective();
@@ -6650,19 +6665,23 @@ function _t1Body(mode){
         '<h2>Find your path.</h2><p class="t1-lede">Personalised coaching for every speech.</p><div class="t1-levels">'+'<i></i>'.repeat(5)+'</div>'+
         '<div class="t1-hero-foot"><div style="flex:1;min-width:0"><div class="t1-lbl">11 paths</div><div class="t1-val">A short quiz finds yours</div></div><button type="button" class="t1-btn-h" data-go="path-choose">Choose a path'+_t1sv('arrow')+'</button></div></section>';
     }
-    grid='<div class="t1-grid">'+ROLESTILE+tile('practice','practice','Practice Tools','practice',[row(TT,'tt'),row('Evaluation','eval')],1,'practice')+
-      tile('coach','coach','Speech Coach','coach-rec',[row('Record','coach-rec'),row('Paste script','coach-paste')])+
-      tile('contests','contests','Contests','contests',[row('International','contest','international'),row(TT,'contest','tabletopics')],Math.max(0,ctKeys.length-2),'contests')+'</div>';
+    grid='<div class="t1-grid">'+ROLESTILE+tile('practice','practice','Practice Tools','practice',TT_SUB,{row:'3 tools'})+
+      tile('coach','coach','Speech Coach','coach-rec',COACH_SUB,{row:'Record · Paste'})+
+      tile('contests','contests','Contests','contests',CT_SUB,{row:ctKeys.length+' contests'})+'</div>';
   }else if(mode==='practice'){
     const ch=S.coachHistory||[];const last=ch[0]&&(ch[0].iso||ch[0].date);const dd=last?_relDays(last):null;
     hero='<section class="t1-hero t1-h-coach" data-k="hero-practice"><div class="t1-hero-top"><span class="t1-kick">SPEECH COACH</span>'+(dd!=null?'<span class="t1-meta">Last session '+(dd===0?'today':dd===1?'yesterday':dd+' days ago')+'</span>':'')+'</div>'+
       '<h2>Rehearse any speech</h2><p class="t1-lede">Record or paste a script for coaching notes.</p>'+
       '<div class="t1-btn-row"><button type="button" class="t1-btn-h" data-go="coach-rec">'+_t1sv('coach')+'Record</button><button type="button" class="t1-btn-ghost" data-go="coach-paste">'+_t1sv('paste')+'Paste script</button></div></section>';
-    const nSaved=(S.outlines||[]).filter(o=>o.saved!==false).length;
+    const _saved=(S.outlines||[]).filter(o=>o.saved!==false).sort((a,b)=>String(b.updatedAt||'').localeCompare(String(a.updatedAt||'')));
+    const _o=_saved[0],_oName=_o?(_o.kind==='pathways'&&PD[_o.projectId]?PD[_o.projectId].t:(_o.brief&&_o.brief.label)||'Outline'):'';
+    const OB_SUB=_o?'<b>'+_saved.length+' saved</b> · '+escHtml(_oName)+' edited '+_ago(_relDays(_o.updatedAt))+'.':'Plan any speech, timed.';
+    const _rs=((S.sessions||{})['real-practice']||[])[0],_rsc=_rs&&TT_REAL[_rs.scenario];
+    const RW_SUB=_rsc?'Last: <b>'+escHtml(_rsc.name)+'</b>, '+_ago(_relDays(_rs.iso))+'.':'Interviews, small talk, meetings.';
     const rk=Object.keys(TT_REAL);
-    grid='<div class="t1-grid">'+ROLESTILE+tile('outline','outline','Outline Builder','ob-new',[row('New outline','ob-new'),row('Saved · '+nSaved,'ob-saved')])+
-      tile('tt','tt',TT,'tt',[_tblAnswered()?row('Today’s Table','table'):row('Today’s topic','tt-daily'),row('Pick a theme','tt-theme')])+
-      tile('real','real','Real-world','real',[row('Interviews','real','interview'),row('Small talk','real','smalltalk')],Math.max(0,rk.length-2),'real')+'</div>';
+    grid='<div class="t1-grid">'+ROLESTILE+tile('outline','outline','Outline Builder','ob-new',OB_SUB,{row:'New · Saved'})+
+      tile('tt','tt',TT,'tt',TT_SUB,{row:'Topics · Themes'})+
+      tile('real','real','Real-world','real',RW_SUB,{row:rk.length+' situations'})+'</div>';
   }else{
     const ms=S.mentees||[];
     if(ms.length){
@@ -6680,7 +6699,9 @@ function _t1Body(mode){
         '<div class="t1-benefits"><div><span>'+_t1sv('b1')+'</span>See their Pathways progress</div><div><span>'+_t1sv('b2')+'</span>Get a nudge when they go quiet</div><div><span>'+_t1sv('b3')+'</span>Plan your next check-in</div></div>'+
         '<button type="button" class="t1-btn-h t1-btn-wide" style="margin-top:14px" data-go="mentee-add">+ Add your first mentee</button></section>';
     }
-    grid='<div class="t1-grid t1-compact">'+ROLESTILE+tile('mprac','mprac','Mentor practice','mprac',[row('Today’s pick','mp-daily'),row('Evaluations','mprac','evalspeech')])+
+    const _mpD=_mpDailyDone(),_mpR=_mpStreak();
+    const MP_SUB=_mpD?'<b>Done today</b>'+(_mpR>1?' · '+_mpR+' days running':'')+'.':'<b>Situation of the day</b> is waiting.';
+    grid='<div class="t1-grid t1-compact">'+ROLESTILE+tile('mprac','mprac','Mentor practice','mprac',MP_SUB,{row:'120 situations'})+
       '<button type="button" class="t1-tile t1-wide t1-c-proj" data-go="all-projects" data-k="tile-proj"><div class="t1-ico">'+_t1sv('proj')+'</div><div class="t1-txt"><div class="t1-tile-name">All Projects</div><div class="t1-sub">Browse every Pathways project</div></div>'+_t1sv('chev')+'</button></div>';
   }
   return hero+kline+grid;
@@ -6876,7 +6897,7 @@ function renderHubV2(app){ // previous hub, kept for reference — not routed
   const _ttQ=_ttDaily(),_ttDone=_ttDailyDone(),_ttRun=_ttStreak();
   const _ttDoneTxt=_ttDone?'✓ Done today · '+_mmss(_ttDone.elapsed||0)+(_ttRun>1?' · '+_ttRun+' days running':''):'';
   const T_TT=tall=>tall?{hub:"tt",tall:true,wash:"tt",art:"tt",glyph:HUB_ICONS.tt,name:"Table Topics<sup>®</sup>",sub:'<span class="pw-sub-small">'+(_ttDone?_ttDoneTxt:'“'+escHtml(_ttQ)+'”')+'</span>',
-      facts:'<div class="pw-fk">'+(_ttDone?'Today’s topic · done':'Today’s topic')+'</div><div class="pw-fh pw-q">“'+escHtml(_ttQ)+'”</div>'+(_ttDone?'':'<div class="pw-try">Try: '+escHtml(_ttTechnique().short)+'</div>')+(_ttDone?'<div class="pw-f2">'+_ttDoneTxt+'</div>'+_pill('tt-table','Today’s Table'+(_tblCount()&&_tblCount().cards.length?' · '+_tblCount().cards.length:''),'cta-violet')+_pill('tt-new','Another topic','cta-soft'):_pill('tt-daily','Answer it','cta-violet'))}
+      facts:'<div class="pw-fk">'+(_ttDone?'Today’s topic · done':'Today’s topic')+'</div><div class="pw-fh pw-q">“'+escHtml(_ttQ)+'”</div>'+(_ttDone?'':'<div class="pw-try">Try: '+escHtml(_ttTechnique().short)+'</div>')+(_ttDone?'<div class="pw-f2">'+_ttDoneTxt+'</div>'+_pill('tt-new','Another topic','cta-violet'):_pill('tt-daily','Answer it','cta-violet'))}
     :{hub:"tt",wash:"tt",art:"tt",glyph:HUB_ICONS.tt,name:"Table Topics<sup>®</sup>",sub:_ttDone?_ttDoneTxt:'Today: “'+escHtml(_ttQ)+'”',subCls:'pw-sub-q'};
   const _obN=(S.outlines||[]).length;
   const T_OUTLINE=()=>({hub:"outline",wash:"outline",art:"outline",glyph:HUB_ICONS.outline,name:"Outline Builder",sub:_obN?_obN+(_obN===1?' saved outline':' saved outlines'):'Plan any speech, timed'});
@@ -6908,7 +6929,6 @@ function renderHubV2(app){ // previous hub, kept for reference — not routed
     else if(k==='mentees'){V.view='mentees';V._menteeEditing=null;V._menteeNudge=null;}
     else if(k==='all-projects'){V.view='all-projects';}
     else if(k==='tt-daily'){_openTTDaily();return;}
-    else if(k==='tt-table'){V._tblFrom='hub';V.view='table';}
     else if(k==='tt-new'){V._fromHub=true;V.view='tt-practice';TTP.track='tt';TTP.phase='setup';}
     render();
   }));
@@ -10253,6 +10273,7 @@ function _ttpRenderSetup(app){
     h+='<div class="tts-last-meta"><span>'+Math.floor(last.elapsed/60)+':'+String(last.elapsed%60).padStart(2,'0')+'</span>'+(last.wpm>0?'<span>'+last.wpm+' wpm</span>':'')+'<span'+(timing==='In time'?' class="good"':'')+'>'+timing+'</span></div>';
     h+='<div class="tts-last-act"><button class="tts-sm tts-sm-v" data-action="ttp-retry-last"><svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/></svg>Try it again</button>';
     if(last.notes)h+='<button class="tts-sm tts-sm-g" data-action="ttp-see-notes">See notes</button>';
+    if(last.topic===_ttDaily()&&_tblAnswered())h+='<button class="tts-sm tts-sm-g" data-action="ttp-table">🌟 Today’s Table</button>';
     h+='</div>';
     h+='<div class="tts-last-act tts-last-ask" hidden><button class="tts-sm tts-sm-g" data-action="ttp-last-hide">Hide</button><button class="tts-sm tts-sm-del" data-action="ttp-last-del">Delete attempt</button><button class="tts-sm tts-sm-txt" data-action="ttp-last-cancel">Cancel</button></div>';
     h+='</div>';
@@ -10443,6 +10464,8 @@ function _ttpRenderSetup(app){
     TTP.track=last.track||'tt';if(last.scenario)TTP.scenario=last.scenario;
     TTP.questionSource='repeat';TTP._promptN=(TTP._promptN||0)+1;TTP.phase='question';render();
   });
+  const tblBtn=app.querySelector('[data-action="ttp-table"]');
+  if(tblBtn)tblBtn.addEventListener('click',()=>{V._tblFrom='tt-practice';V.view='table';render();window.scrollTo(0,0);});
   const notesBtn=app.querySelector('[data-action="ttp-see-notes"]');
   if(notesBtn&&last)notesBtn.addEventListener('click',()=>{
     const root=document.getElementById('modal-root');
@@ -10852,7 +10875,7 @@ In THE THREAD, say plainly whether they caught the main issue. If they missed it
     if(_es){const pj=PD[_es.pid]||{};sysF=MP_EVAL;msgF='Project: '+(pj.t||'')+' — '+(pj.p||'')+'\nSpeaker: '+_es.speaker+', “'+_es.title+'”\n\nSAMPLE SPEECH:\n'+_es.text+'\n\nANSWER KEY (for you only):\nStrengths: '+_es.key.strengths+'\nMain issue: '+_es.key.main+'\nSmaller issue: '+_es.key.minor+'\n\nTHE EVALUATOR\'S SPOKEN EVALUATION (transcript):\n'+(TTP.transcript||'(no audio captured)')+'\n\nDuration: '+fmtMs(TTP.elapsed*1000)+' ('+TTP.totalWords+' words)';}
     msgF+=nbContext(_es?'eval':_mt?'mentor':_rw?'real':'tt');
     const _daily=_ttIsDaily();
-    if(_daily)sysF+=TBL_SPOT_PROMPT;
+    if(_daily)sysF=sysF.includes('Under 180 words. Firm and warm.')?sysF.replace('Under 180 words. Firm and warm.',TBL_SPOT_PROMPT.trim()+'\n\nUnder 180 words for the four sections, plus the SPOTLIGHT line. Firm and warm.'):sysF+TBL_SPOT_PROMPT;
     let text=await callCoach(sysF,msgF,{maxTokens:_daily?470:_es?520:_cv?480:400,featureId:'tt-eval',noLang:_daily});
     if(_daily){const sp=_tblParseSpot(text);text=sp.text;_tblSetToday(TTP.question,sp.spot);}
     TTP.aiResult=text;
@@ -20475,12 +20498,12 @@ const TBL_TAGS={
 };
 const TBL_SPOT_PROMPT=`
 
-After the four sections, add ONE more line for Today's Table, a board where members share one strength from their answer. Use EXACTLY this format, on one line:
+REQUIRED whenever you give the four sections: after them, add ONE more line for Today's Table, a board where members share one strength from their answer. Use EXACTLY this format, on one line:
 🌟 SPOTLIGHT: <tag> | "<quote>" | <why>
 - tag: the single strength that stood out most, chosen ONLY from this list: Vivid opening, Clear point, One story, Strong close, Clever pivot, Humour, Clear structure, Bold opinion.
 - quote: the speaker's own words that show it, copied from the transcript, 5 to 25 words. Fix punctuation only. Never quote anything private, embarrassing, or about a named person.
 - why: one sentence, under 20 words, on why it worked, spoken to the speaker ("You…").
-Praise only: the SPOTLIGHT never contains criticism. Leave the line out entirely if nothing specific deserves it.`;
+Praise only: the SPOTLIGHT never contains criticism. Pick the best thing they did even if the answer was weak; leave the line out only when the transcript is too short to quote.`;
 
 function _tbl(){
   if(!S.table)S.table={name:'',club:'',key:'',claps:{},today:null,try:null};
@@ -20546,7 +20569,7 @@ function _tblSpotCard(){
   const td=_tblToday();if(!td)return '';
   const c=_tblCount(),n=c?c.cards.length:0;
   const see='<button type="button" class="tb-see" data-action="tbl-open"><span>See Today’s Table'+(c?' · '+(n?n+' spotlight'+(n===1?'':'s'):'nobody has shared yet'):'')+'</span>'+_t1sv('chev')+'</button>';
-  if(!td.spot)return see;
+  if(!td.spot)return '<div class="tb-spot"><div class="tb-spot-k">🌟 K’S SPOTLIGHT</div><div class="tb-why" style="margin-top:6px">K didn’t pick a spotlight this time, so there’s nothing to share. You can still see what worked for everyone else.</div></div>'+see;
   const sp=td.spot;
   return '<div class="tb-spot"><div class="tb-spot-top"><div class="tb-spot-k">🌟 K’S SPOTLIGHT</div><span class="tb-tag">'+escHtml(sp.tag)+'</span></div>'+
     '<div class="tb-quote">“'+escHtml(sp.quote)+'”</div><div class="tb-why">'+escHtml(sp.why)+'</div>'+
