@@ -2721,6 +2721,14 @@ body.pk-open .bottom-nav{display:none}
 .ob-kick.b{color:var(--blue-hi)}
 .ob-t{font-size:17px;font-weight:750;line-height:1.2;letter-spacing:-.01em}
 .ob-p{font-size:13.5px;color:var(--ink-2);line-height:1.45;text-wrap:pretty}
+.ob-job{font-size:15px;font-weight:700;line-height:1.35;color:var(--ink)}
+.ob-help{display:flex;align-items:center;justify-content:space-between;width:100%;padding:0;margin:-2px 0 0;border:0;background:none;font:inherit;font-size:12.5px;font-weight:700;color:var(--blue,#2F6FD6);cursor:pointer;text-align:left}
+.ob-help span{font-size:16px;line-height:1;opacity:.7}
+.ob-ask{display:flex;flex-direction:column;gap:5px;font-size:13.5px;line-height:1.4;color:var(--ink-2)}
+.ob-ask>div:not(.ob-kick){padding-left:14px;position:relative}
+.ob-ask>div:not(.ob-kick)::before{content:'';position:absolute;left:2px;top:.55em;width:5px;height:5px;border-radius:50%;background:currentColor;opacity:.55}
+.ob-eg{font-size:13px;line-height:1.4;color:var(--ink-2);font-style:italic;padding:9px 11px;border-radius:11px;background:var(--card-2);border:1px solid var(--line-2)}
+.ob-eg span{display:block;font-style:normal;font-size:10.5px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);margin-bottom:3px}
 .ob-chip{display:inline-flex;align-items:center;gap:5px;height:26px;padding:0 10px;border-radius:13px;background:var(--blue-bg);border:1px solid var(--blue-line);font-size:12px;font-weight:700;color:var(--blue-hi);white-space:nowrap;flex:none}
 .ob-chip.n{background:var(--card-2);border-color:var(--line-2);color:var(--ink-2)}
 .ob-row{display:flex;align-items:center;gap:12px;border-radius:15px;background:var(--card);border:1px solid var(--line);padding:12px 14px;width:100%;flex:none}
@@ -5796,6 +5804,20 @@ window.addEventListener('orientationchange',()=>{setTimeout(setAppHeight,200);se
 window.addEventListener('pageshow',setAppHeight);
 window.addEventListener('focus',setAppHeight);
 document.addEventListener('visibilitychange',()=>{if(!document.hidden){setAppHeight();setTimeout(setAppHeight,300);}});
+// A new day while the app sat open (or in the background): today's topic, the situation of the day,
+// Today's Table and the hub lines all follow the date, so refresh the screens that show them.
+let _appDay=new Date().toDateString();
+function _dayCheck(){
+  const d=new Date().toDateString();if(d===_appDay)return;_appDay=d;
+  try{
+    if(typeof TTP!=='undefined'&&TTP.questionSource==='daily'&&TTP.phase==='question'){TTP.phase='setup';TTP.question='';TTP.aiResult=null;}
+    if(V._tbl&&V._tbl.day!==_tblDay())V._tbl=null;
+    if(['hub','tt-practice','table'].includes(V.view)&&!(typeof TTP!=='undefined'&&TTP.phase==='active'))render();
+  }catch(e){}
+}
+document.addEventListener('visibilitychange',()=>{if(!document.hidden)_dayCheck();});
+window.addEventListener('focus',_dayCheck);
+setInterval(_dayCheck,60000);
 if(window.visualViewport){
   window.visualViewport.addEventListener('resize',setAppHeight);
   window.visualViewport.addEventListener('scroll',setAppHeight);
@@ -5812,6 +5834,7 @@ const CHANGELOG=[
     'Praise only, and only if you choose. The spotlight is one line K quoted and one sentence on why it worked. Never your recording, never the critique. Cards disappear at midnight',
     'Topic of the day is now in English for everyone, so the whole district is at the same table. Every other Table Topics question still follows your coaching language',
     'Your name and club, if you want them, are asked the first time you share and can be changed in Settings → Coaching',
+    'Clearer Outline Builder. Every section of every structure now says in one plain line what it’s for, with questions and an example one tap away under “Stuck?”',
     'Calmer Hub. Each tile now shows one line about you (today’s topic, your last session, your saved outlines) instead of a list of shortcuts. The Timer keeps its one-tap button'
   ]},
   {v:'2.2',date:'Oct 2026',items:[
@@ -6482,9 +6505,11 @@ function _pathIcon(levelDone,curLv,hasPath){
   });
   return s+'</svg>';
 }
+// Calendar days, not 24-hour blocks: 11pm last night is "yesterday" at 9am, not "today"
 function _relDays(iso){
-  const t=new Date(iso).getTime(); if(!t)return null;
-  return Math.max(0,Math.floor((Date.now()-t)/86400000));
+  const t=new Date(iso); if(isNaN(t))return null;
+  const a=new Date(t.getFullYear(),t.getMonth(),t.getDate()),n=new Date(),b=new Date(n.getFullYear(),n.getMonth(),n.getDate());
+  return Math.max(0,Math.round((b-a)/86400000));
 }
 function _relLabel(d){return d===0?'today':d===1?'yesterday':d+' days ago';}
 
@@ -13828,18 +13853,23 @@ const SPEECH_FRAMEWORKS=[
     best:["ice-breaker","story","reflect","hpl","comm-style","lead-style"],
     sections:[
       {id:"hook",    label:"Opening hook",      target:"20-40 words",
+       job:"Start with one moment, before you introduce yourself.",ask:["What one moment sums up your story?", "What did you see, hear or say in that moment?"],eg:"“Nǐ hǎo” was the only Chinese I knew when I landed in Shanghai.",
        prompt:"Start with a specific moment — a scene, a line someone said, or the moment everything changed. Don't introduce yourself yet.",
        starter:"Picture this: [scene]. I was [age/situation] and I had no idea that [what was about to happen]…"},
       {id:"past",    label:"Where I started",   target:"80-120 words",
+       job:"Show who you were at the start.",ask:["Where were you, and what was your life like?", "What did you believe, or worry about, back then?", "Can you name one place, habit or detail?"],eg:"“For three months I ordered food by pointing at pictures.”",
        prompt:"Paint the before-picture. Who were you? What did you believe? What was your world like? Be specific — name a place, a habit, a fear.",
        starter:"Growing up, I [belief/situation]. My [world/environment] taught me that [assumption that would later prove wrong]…"},
       {id:"present", label:"Where I am now",    target:"80-120 words",
+       job:"Show what changed, and the moment it changed.",ask:["What was the turning point: a decision, a person, a mistake?", "What is different about you now?"],eg:"“Then my neighbour started teaching me five words a day.”",
        prompt:"What changed? Name the turning point — a decision, a failure, a person, a moment. Transition from past-you to present-you.",
        starter:"That changed when [specific event]. I [what I did / what happened]. Looking back, I can see that [what it taught me]…"},
       {id:"future",  label:"Where I'm heading", target:"60-90 words",
+       job:"Say what comes next for you.",ask:["What are you working towards now?", "What would you invite the audience to try?"],eg:"“Next year, I want to give a speech in Chinese, right here.”",
        prompt:"What does this mean going forward? A commitment, a goal, or an invitation to the audience. Make it personal — not generic advice.",
        starter:"Which is why I now [commitment or approach]. And if there's one thing I want to leave you with today, it's this: [key message]."},
       {id:"close",   label:"Closing call-back", target:"20-30 words",
+       job:"End by bringing back your opening.",ask:["Which word or picture from your opening can you bring back?", "How does it mean something different now?"],eg:"“I know more than “nǐ hǎo” now. I still start every day with it.”",
        prompt:"Echo something from your opening — a word, an image, or the same scene. Full circle endings feel complete.",
        starter:"Remember [call-back to opening image or line]. That's still with me. And now, so is [key message]."}
     ]
@@ -13851,18 +13881,23 @@ const SPEECH_FRAMEWORKS=[
     best:["persuade-speak","inspire","comm-change","dev-vision","present-prop","plan-implement"],
     sections:[
       {id:"hook",     label:"Opening hook",     target:"20-40 words",
+       job:"Make people feel the problem in your first sentence.",ask:["What fact, story or question shows the problem?", "Why would the audience care straight away?"],eg:"“Last year, this club lost 40 hours to meetings that ran late.”",
        prompt:"Open with the problem made visceral — a statistic, a story, or a provocative question. Don't start with 'I want to talk about…'",
        starter:"Every [timeframe], [consequence of problem]. Most people don't know this. I didn't either — until [moment]."},
       {id:"problem",  label:"The problem",      target:"80-120 words",
+       job:"Show the problem, and why it matters to the audience.",ask:["Who does this problem hurt, and how?", "What story or example makes it real?"],eg:"“Members leave before the evaluations. Speakers never hear their feedback.”",
        prompt:"Make the problem real and personal to the audience. Why does it matter to THEM? Use a story or specific example, not just stats.",
        starter:"Here's what's actually happening: [problem description]. You may have experienced this as [relatable symptom]. The root cause is [underlying issue]…"},
       {id:"solution", label:"Your solution",    target:"100-130 words",
+       job:"Explain your solution clearly.",ask:["What exactly is your solution?", "Why does it work?", "What doubt will people have, and what is your answer?"],eg:"“A timer for every role, not just the speeches, where everyone can see it.”",
        prompt:"Introduce your solution specifically — not vaguely. What is it? Why does it work? Address the obvious objection briefly.",
        starter:"The solution isn't complicated, but it requires [key shift]. Specifically: [solution]. I've seen this work when [evidence or example]…"},
       {id:"benefit",  label:"The benefit",      target:"60-90 words",
+       job:"Show what gets better when people use your solution.",ask:["What changes for the audience?", "Can you give a number, a picture or a short story?"],eg:"“We finish at nine. Every speaker goes home with their feedback.”",
        prompt:"Paint the after-picture. What changes when this is adopted? Make it concrete — numbers, sensory details, or a short story of the transformed future.",
        starter:"When [solution] is in place, [specific benefit]. Instead of [current state], you get [desired state]. [Short story or example of this reality]."},
       {id:"close",    label:"Call to action",   target:"30-50 words",
+       job:"Ask for one clear action.",ask:["What one thing should the audience do?", "When should they do it?"],eg:"“At the next meeting, volunteer as Timer. Just once.”",
        prompt:"One specific, doable thing you're asking the audience to do or think differently about. Not five things — one.",
        starter:"So here's my ask: [one specific action]. You can start [timeframe]. Because [connection to key message]."}
     ]
@@ -13874,21 +13909,27 @@ const SPEECH_FRAMEWORKS=[
     best:["vocal-var","eff-body-lang","connect-aud","inspire","team-build","motivate"],
     sections:[
       {id:"hook",   label:"Opening hook",  target:"20-40 words",
+       job:"Open with something that makes people want your three points.",ask:["What question, bold line or tiny story leads into your topic?"],eg:"“Three things I learned from finishing last in my first marathon.”",
        prompt:"A question, a bold statement, or a one-line story that frames your three points. The audience should feel the payoff is worth waiting for.",
        starter:"There are three things [most people/leaders/communicators] get wrong about [topic]. Three things I had to learn the hard way."},
-      {id:"setup",  label:"Setup — your frame", target:"40-60 words",
+      {id:"setup",  label:"The map", target:"40-60 words",
+       job:"Tell the audience what is coming: three points, one idea.",ask:["What are your three points, in a few words each?", "What one idea connects them?"],eg:"“Start slow, eat early, and never skip the last mile.”",
        prompt:"Briefly tell the audience what they're getting. Three things, one idea. Give them a map.",
        starter:"Today I want to share three [lessons/principles/stories] about [key message]. Each one changed how I [see/do/approach] something. Together, they add up to [big idea]."},
       {id:"point1", label:"Point 1",       target:"80-120 words",
+       job:"Make your first point with a story or example.",ask:["What happened that shows this point?", "What should people take from it?"],eg:"“At kilometre five I was flying. At kilometre twenty, I was walking.”",
        prompt:"Open with a story or vivid example — not a statement. The story proves the point, the point doesn't just describe it.",
        starter:"[Point 1 title]. [Short scene or story — 2-3 sentences]. What I learned from that: [specific insight]. In other words: [crisp takeaway in one line]."},
       {id:"point2", label:"Point 2",       target:"80-120 words",
+       job:"Make your second point, with a different kind of example.",ask:["If point 1 was your story, can this one be someone else’s?", "How does it build on point 1?"],eg:"“The runner who passed me had eaten at every station.”",
        prompt:"Contrast or build on Point 1. Use a different type of example — if P1 was personal, P2 could be about someone else or a wider pattern.",
        starter:"[Point 2 title]. [Example that contrasts or builds on P1]. This taught me that [insight]. The difference between [P1 state] and [P2 state] is [key distinction]."},
-      {id:"point3", label:"Point 3 (the landing)", target:"80-120 words",
+      {id:"point3", label:"Point 3 (the strongest)", target:"80-120 words",
+       job:"Save your strongest point for last.",ask:["Which point matters most to you?", "What story makes it hit hardest?"],eg:"“The last mile was the only one my daughter saw.”",
        prompt:"Your most powerful point goes here. Build to it. This is the emotional or insight peak of the speech.",
        starter:"[Point 3 title — make it the best one]. [Most powerful story or example]. Which brings me back to [key message]: [land it clearly]."},
       {id:"close",  label:"Closing",       target:"30-50 words",
+       job:"Name the three points in one line, then give your message.",ask:["Can you name all three in one sentence?", "What is the one idea behind them?"],eg:"“Start slow, eat early, finish. That’s how you do anything long.”",
        prompt:"Echo all three titles in one sentence, then land the key message. Crisp. Memorable.",
        starter:"[P1 title]. [P2 title]. [P3 title]. Three points, one truth: [key message]. That's what I'm taking away — and I hope you do too."}
     ]
@@ -13899,16 +13940,20 @@ const SPEECH_FRAMEWORKS=[
     desc:"The fastest speech structure. Ideal for Table Topics, short speeches, Q&A.",
     best:["active-listen","qa-session","moderate","intro-vocal-body","writing-purpose"],
     sections:[
-      {id:"point1",   label:"Point — your stance", target:"20-30 words",
+      {id:"point1",   label:"Your point", target:"20-30 words",
+       job:"Say what you think, in one clear sentence.",ask:["What is your answer or opinion?", "Can you say it without “maybe” or “I think”?"],eg:"“Every new member should get a mentor in their first week.”",
        prompt:"State your position in one clear sentence. Don't hedge. Don't add caveats yet. Just say what you believe.",
        starter:"My view is that [clear position on topic]. And I believe this because [one-line reason preview]."},
-      {id:"reason",   label:"Reason — why",        target:"50-70 words",
+      {id:"reason",   label:"Why",        target:"50-70 words",
+       job:"Give your one strongest reason.",ask:["Why do you believe this?", "If you could give only one reason, which one?"],eg:"“Most members who quit, quit in their first two months.”",
        prompt:"Give the single strongest reason for your stance. One reason, explained well, beats three reasons stated vaguely.",
        starter:"The reason is [core reason]. When you [action or situation], the result is [outcome]. This matters because [connection to the audience's reality]."},
-      {id:"example",  label:"Example — proof",     target:"60-90 words",
+      {id:"example",  label:"Example",     target:"60-90 words",
+       job:"Prove it with a story or a fact.",ask:["What happened that shows you are right?", "Can you add a name, a number or a place?"],eg:"“Last year we gave every newcomer a mentor. Nine out of ten stayed.”",
        prompt:"A story, statistic, or experience that proves the reason. Make it specific — not 'research shows' but 'in a Stanford study of 1,200 adults'.",
        starter:"For example: [specific story or example]. This shows that [connection back to reason]. I've seen this play out [personal or observed version]."},
-      {id:"point2",   label:"Point — restated",    target:"20-30 words",
+      {id:"point2",   label:"Your point, again",    target:"20-30 words",
+       job:"Say your point again, in slightly different words.",ask:["How can you repeat your point so it sticks?"],eg:"“So: a mentor in week one. Not week ten.”",
        prompt:"Restate your opening stance — same idea, slightly different words. The repetition gives it weight.",
        starter:"So my position remains: [restate stance]. [One sentence on why this matters right now]."}
     ]
@@ -13920,18 +13965,23 @@ const SPEECH_FRAMEWORKS=[
     best:["eval-feedback","hpl","reflect","manage-proj","team-build","success-collab"],
     sections:[
       {id:"hook",    label:"Opening hook",    target:"20-40 words",
+       job:"Open with a moment or a surprising fact.",ask:["What moment or fact will make people listen?"],eg:"“Our first open house had forty chairs and three guests.”",
        prompt:"A specific moment or surprising fact that earns the audience's attention before you explain what happened.",
        starter:"[Specific scene or fact that surprises]. That's where this story starts. Let me tell you what I did — and what it taught me."},
       {id:"what",    label:"What happened",   target:"80-120 words",
+       job:"Say what happened. Just the facts.",ask:["Who, what, when and where?", "What happened, in order?"],eg:"“We planned for a month, posted once online, and hoped.”",
        prompt:"Describe the event, project, or situation clearly. Facts first — who, what, when, where. Keep it factual here, save the reflection for the next section.",
        starter:"Here's what happened: [clear description of situation or project]. The goal was [objective]. What actually occurred was [what happened — including what went wrong or unexpectedly]."},
-      {id:"sowhat",  label:"So what — why it matters", target:"80-120 words",
+      {id:"sowhat",  label:"So what", target:"80-120 words",
+       job:"Say why it mattered and what you learned.",ask:["What did you learn?", "What changed in you or the team?"],eg:"“People don’t come because of a poster. They come because of a person.”",
        prompt:"What did this mean? What did you learn? What changed in you, the team, or the situation? This is the heart of the speech.",
        starter:"Here's why this matters: [insight or shift]. I used to think [old belief]. Now I understand that [new understanding]. The impact was [concrete effect]."},
-      {id:"nowwhat", label:"Now what — going forward", target:"60-80 words",
+      {id:"nowwhat", label:"Now what", target:"60-80 words",
+       job:"Say what you will do differently now.",ask:["What will you do next time?", "What can the audience take and use?"],eg:"“This time, every member invites one friend, by name.”",
        prompt:"What will you (and/or the audience) do differently? A specific commitment or invitation to action.",
        starter:"Going forward, I'm [specific commitment or change]. And if this resonates with you, I'd encourage you to [one actionable thing]. Because [connection to key message]."},
-      {id:"close",   label:"Close",           target:"20-30 words",
+      {id:"close",   label:"Closing",           target:"20-30 words",
+       job:"Say your main message in one sentence.",ask:["If people remember one line, what should it be?"],eg:"“Invite people, not crowds.”",
        prompt:"Land the key message clearly. One sentence. No hedging.",
        starter:"The bottom line: [key message]. [Optional: echo the opening image]."}
     ]
@@ -13943,18 +13993,23 @@ const SPEECH_FRAMEWORKS=[
     best:["persuade-speak","inspire","comm-change","vol-org","motivate","reach-consens"],
     sections:[
       {id:"attention",    label:"Attention",      target:"30-50 words",
+       job:"Get attention fast.",ask:["What fact, scene or question will make people sit up?"],eg:"“If someone here collapsed right now, how many of us could help?”",
        prompt:"Shock, surprise, or provoke. An alarming fact, a vivid scene, or a rhetorical question that makes the audience sit up.",
        starter:"[Shocking fact or vivid scene]. Most of us don't think about this — until [consequence]."},
-      {id:"need",         label:"Need",           target:"80-120 words",
+      {id:"need",         label:"The need",           target:"80-120 words",
+       job:"Show the problem, and why it affects the audience.",ask:["What is the problem?", "Why does it matter to the people in this room?", "What fact or story proves it?"],eg:"“Most heart attacks happen at home, in front of family.”",
        prompt:"Establish the problem urgently. Use statistics, a story, and an appeal to the audience's self-interest. Why does this affect THEM?",
        starter:"The reality is [scale of problem]. This affects [audience group] because [direct connection]. You may not have noticed — but [symptom they'd recognise]. We need to act because [urgency]."},
-      {id:"satisfaction", label:"Satisfaction",   target:"100-130 words",
+      {id:"satisfaction", label:"The solution",   target:"100-130 words",
+       job:"Explain your solution and how it fixes the problem.",ask:["What is your solution?", "How does it work in real life?"],eg:"“A two-hour CPR course. Hands only, no mouth-to-mouth.”",
        prompt:"Present your solution specifically. How does it solve the need? What does it look like in practice?",
        starter:"The solution is [specific solution]. Here's how it works: [step 1, step 2, step 3 or brief description]. We know this works because [evidence or example]."},
-      {id:"visualization",label:"Visualisation",  target:"80-100 words",
+      {id:"visualization",label:"Picture it",  target:"80-100 words",
+       job:"Show two futures: if people act, and if they don’t.",ask:["What happens if they act?", "What happens if they don’t?"],eg:"“Picture your father on the floor. Now picture knowing what to do.”",
        prompt:"Paint two futures — one where the audience acts, one where they don't. Make the contrast vivid and emotionally real.",
        starter:"Imagine [positive future with solution]. Compare that to [negative future without it]. The difference comes down to [key decision or action]."},
-      {id:"action",       label:"Action",         target:"30-50 words",
+      {id:"action",       label:"Call to action",         target:"30-50 words",
+       job:"Ask for one clear action.",ask:["What one thing should people do?", "Can they do it this week?"],eg:"“Book a course before you leave tonight. The link is on the screen.”",
        prompt:"Tell the audience exactly what to do — one specific, immediate, doable action. Not five things. One.",
        starter:"Here's what I'm asking you to do: [one specific action]. You can do this [timeframe]. Because [connection to key message]."}
     ]
@@ -13966,18 +14021,23 @@ const SPEECH_FRAMEWORKS=[
     best:["ice-breaker","story","focus-pos","emotional-intel","hpl","pos-coaching-ec"],
     sections:[
       {id:"hook",   label:"Opening hook",   target:"20-40 words",
+       job:"Grab attention with the moment things changed.",ask:["What was the moment you knew something had to change?", "Can you say it in one or two sentences?"],eg:"“The day my doctor said ‘one more year like this’, I stopped laughing.”",
        prompt:"Start in the middle of the transformation — a moment of change — then pull back to the beginning.",
        starter:"The moment I realised [key insight], everything shifted. But to understand why, you need to know where I was before."},
-      {id:"before", label:"Before — the old world", target:"80-120 words",
+      {id:"before", label:"Before", target:"80-120 words",
+       job:"Show who you were before the change.",ask:["What was your life like back then?", "What did you believe, or keep doing, that wasn’t working?", "What would the audience recognise in themselves?"],eg:"“I worked 70-hour weeks and called it ambition.”",
        prompt:"Paint the before-picture with honesty. What did you struggle with? What did you believe? What was holding you back? Don't make it too dark — make it relatable.",
        starter:"Before [transformation], I was [honest description of before state]. I believed [limiting belief or assumption]. My [habit/approach/mindset] was [specific description]. Sound familiar?"},
-      {id:"after",  label:"After — the new world",  target:"80-120 words",
+      {id:"after",  label:"After",  target:"80-120 words",
+       job:"Show what changed, and who you are now.",ask:["What happened that changed things?", "What do you do, or believe, differently now?"],eg:"“Now I leave the office at six, and I’m better at my job.”",
        prompt:"Show what changed — but don't jump there instantly. Show the moment of change first, then describe the new state.",
        starter:"The shift happened when [specific turning point]. After that, [what changed]. Now I [new approach/belief/habit]. The difference isn't just [surface change] — it's [deeper shift]."},
-      {id:"bridge", label:"Bridge — how to get there", target:"80-100 words",
+      {id:"bridge", label:"The bridge", target:"80-100 words",
+       job:"Tell the audience what got you from before to after.",ask:["What decision, habit or person made the difference?", "What would you tell someone who is still in the “before”?"],eg:"“One rule changed it: no email after dinner. Try it for a week.”",
        prompt:"Share the bridge — what made the transformation possible? This is your key message delivered as practical insight for the audience.",
        starter:"The bridge between [before] and [after] was [key insight, decision, or practice]. Here's what I'd tell anyone in [before state]: [specific advice or insight]."},
       {id:"close",  label:"Closing",        target:"30-50 words",
+       job:"End by joining before and after in one line.",ask:["Can you sum up the whole change in one sentence?", "What one thing should people remember?"],eg:"“From seventy hours to six o’clock. The bridge was one small rule.”",
        prompt:"Echo the before/after contrast in one line, then land the key message.",
        starter:"From [before state] to [after state] — that's the journey. And the bridge is always [key message]."}
     ]
@@ -13988,19 +14048,24 @@ const SPEECH_FRAMEWORKS=[
     desc:"Sophisticated and memorable. Three points framed by a single story told in two halves.",
     best:["story","connect-aud","inspire","speak-prof","reflect","comm-style"],
     sections:[
-      {id:"open_story", label:"Opening — first half of the story", target:"60-90 words",
+      {id:"open_story", label:"Story, part one", target:"60-90 words",
+       job:"Start a story, and stop at the tense moment.",ask:["What story connects to your message?", "Where is the moment people will want to know what happens next?"],eg:"“The train doors were closing. My job interview was in twenty minutes.”",
        prompt:"Start mid-story. Leave it unresolved — cut at the moment of tension. The audience needs to want to know what happens.",
        starter:"[Scene-setting in 1-2 lines]. Then [complication or moment of tension]. I didn't know yet what I'd do. Let me tell you what I'd learned that led me there."},
       {id:"point1",    label:"Point 1",      target:"80-100 words",
+       job:"Make your first point.",ask:["What is the first lesson?", "Can you link it back to the story?"],eg:"“Lesson one: always have a plan B.”",
        prompt:"Your first lesson or insight. Connect it back to the opening story if possible.",
        starter:"[Point 1 insight]. I learned this [from experience or observation]. Specifically: [example or story]. Which is why when [callback to opening], I knew that [connection]."},
       {id:"point2",    label:"Point 2",      target:"80-100 words",
+       job:"Make your second point, building on the first.",ask:["How does it go deeper than point 1?", "What example shows it?"],eg:"“Lesson two: people help when you ask clearly.”",
        prompt:"Build on Point 1. Different angle or deeper dimension of the same key message.",
        starter:"[Point 2 insight]. This became clear when [example or story]. The difference between [P1] and [P2] is [key distinction]."},
-      {id:"point3",    label:"Point 3",      target:"80-100 words",
+      {id:"point3",    label:"Point 3 (the strongest)",      target:"80-100 words",
+       job:"Make your strongest point, the one that ties it all together.",ask:["Which lesson matters most?", "How does it connect to the story?"],eg:"“Lesson three: being late isn’t the end. Giving up is.”",
        prompt:"Your strongest point. The one that ties the story together.",
        starter:"[Point 3 insight — your most powerful]. [Story or example]. Which brought everything together."},
-      {id:"close_story",label:"Closing — second half of the story", target:"60-90 words",
+      {id:"close_story",label:"Story, part two", target:"60-90 words",
+       job:"Finish the story, and let the ending carry your message.",ask:["What happened in the end?", "What does the ending prove?"],eg:"“I walked in five minutes late. They hired me anyway.”",
        prompt:"Return to the opening story and resolve it. The audience has been waiting. Make the resolution land the key message.",
        starter:"So, back to [opening scene]. [What happened next]. And in that moment, I understood: [key message]. [One final sentence — the cleanest possible close]."}
     ]
@@ -14286,12 +14351,21 @@ function renderSpeechDraft(app){
     h+='<div class="ob-budget">'+bud.items.map((b,j)=>{const filled=(d.points[secs[j].id]||"").trim();const cls=j===i?' class="on"':(filled?' class="ok"':'');return '<i'+cls+' style="flex:'+b.len+'" data-ob="goto-sec" data-v="'+j+'">'+(j===i?_obFmt(b.start):(filled?'✓':_obFmt(b.start)))+'</i>';}).join('')+'</div></div>';
     h+='<div class="ob-card sel ob-grow" style="gap:10px;flex:1 1 auto;overflow:visible">';
     h+='<div style="display:flex;align-items:center;justify-content:space-between;gap:8px"><div style="min-width:0"><div class="ob-kick b">Section '+(i+1)+' of '+secs.length+'</div><div class="ob-t" style="margin-top:3px">'+escHtml(sec.label)+'</div></div><span class="ob-chip">'+_obFmt(it.len)+(d.kind==="pathways"?' · '+escHtml(sec.target.replace('-','–')):'')+'</span></div>';
-    h+='<div class="ob-p" style="color:var(--ink)">'+escHtml(sec.prompt)+'</div>';
+    if(sec.job){
+      // One plain sentence always; the questions and example only when asked for
+      const open=!!ob.helpOpen;
+      h+='<div class="ob-job">'+escHtml(sec.job)+'</div>';
+      h+='<button type="button" class="ob-help" data-ob="help" aria-expanded="'+open+'">'+(open?'Hide help':'Stuck? Questions and an example')+'<span>'+(open?'−':'+')+'</span></button>';
+      if(open){
+        h+='<div class="ob-ask">'+sec.ask.map(q=>'<div>'+escHtml(q)+'</div>').join('')+'</div>';
+        if(sec.eg)h+='<div class="ob-eg"><span>For example</span>'+escHtml(sec.eg)+'</div>';
+      }
+    }else h+='<div class="ob-p" style="color:var(--ink)">'+escHtml(sec.prompt)+'</div>';
     if(!aiOn){
       const starter=sec.starter.replace(/\[key message\]/gi,(d.message||"").trim()||"[key message]");
       h+='<div style="border-radius:13px;background:var(--card-2);border:1px solid var(--line-2);padding:11px 12px"><div class="ob-kick" style="margin-bottom:5px">Starter line</div><div class="ob-p" style="font-style:italic">'+escHtml(starter)+'</div></div>';
     }
-    h+='<textarea class="ob-ta" id="ob-point" placeholder="Your point, in your own words…">'+escHtml(d.points[sec.id]||"")+'</textarea>';
+    h+='<textarea class="ob-ta" id="ob-point" placeholder="'+escHtml(sec.ask&&sec.ask[0]?sec.ask[0]:'Your point, in your own words…')+'">'+escHtml(d.points[sec.id]||"")+'</textarea>';
     h+='<div id="ob-ideas"></div>';
     h+='<div style="display:flex;gap:8px">'+(aiOn?'<button class="ob-ghost" data-ob="suggest">'+I.spark+'Suggest ideas</button>':'')+'<button class="ob-ghost" style="flex:0 0 auto;padding:0 18px'+(aiOn?'':';margin-left:auto')+'" data-ob="next-sec">'+(i<secs.length-1?'Next →':'Done ✓')+'</button></div>';
     h+='</div>';
@@ -14431,6 +14505,7 @@ function _obWire(app){
         }
         case "to-outline":persistInputs();_obGo("outline");return;
         case "suggest":_obSuggest(app,btn);return;
+        case "help":persistInputs();ob.helpOpen=!ob.helpOpen;render();return;
         case "edit-msg":{
           persistInputs();
           const cur=(d.message||"");
@@ -14503,7 +14578,7 @@ async function _obSuggest(app,btn){
   const ctx=(p?"Speech: Toastmasters Pathways project \""+p.t+"\" ("+p.dur+"). Project objective: "+(p.o||p.p)+"\n":
     "Speech: "+_obTypeLabel(d.brief.kind)+", "+d.brief.minutes+" min, goal: "+d.brief.goal+".\n")+
     (msg?"Speaker's one message: \""+msg+"\"\n":"")+
-    "Section: "+sec.label+"\nWhat this section should do: "+sec.prompt+"\n"+
+    "Section: "+sec.label+"\nWhat this section should do: "+(sec.job?sec.job+' '+sec.prompt:sec.prompt)+"\n"+
     (Object.keys(d.points).filter(k=>(d.points[k]||"").trim()).length?"Points already written:\n"+_obSections(d).filter(s=>(d.points[s.id]||"").trim()).map(s=>"- "+s.label+": "+d.points[s.id].trim()).join("\n")+"\n":"");
   const sys="You are K, a Toastmasters speech coach helping a speaker outline a speech. Suggest 3 short, concrete ideas for the section described — angles, moments or examples the speaker could use, each under 18 words"+(msg?", and each one must support the speaker's message":"")+". Ideas should invite the speaker's own stories; use [brackets] for the specifics only they know. Reply with exactly 3 lines, numbered 1-3, nothing else.";
   try{
