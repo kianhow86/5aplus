@@ -671,6 +671,8 @@ button,a,[role="button"],label,summary{-webkit-tap-highlight-color:transparent}
 :root{--nav-h:52px;--sab:min(env(safe-area-inset-bottom,0px),34px);--nav-sb:max(calc(var(--sab) - 14px),8px);--hub-green:127,198,106;--hub-teal:95,214,214;--hub-rose:236,112,160;--hub-violet:139,111,247;--hub-amber:236,132,60;--hub-blue:84,146,245;--hub-peri:182,201,255;--hub-gold:245,200,91;--hub-k:167,139,250}
 body.on-hub{overscroll-behavior-y:none}
 body.on-hub.has-bottom-nav{padding-bottom:0}   /* .hub2 already reserves the nav space */
+body.on-hub .bottom-nav{display:none}   /* already home: the Hub pill has nothing to do here */
+body.on-hub .t1-grid{margin-bottom:calc(env(safe-area-inset-bottom,0px) + 16px)}
 #app.is-hub{max-width:none;padding:0}
 .hub2{min-height:var(--app-h,100dvh);display:flex;flex-direction:column;max-width:480px;margin:0 auto;padding:calc(env(safe-area-inset-top,0px) + 10px) 14px calc(var(--nav-h) + var(--nav-sb) + 10px);box-sizing:border-box}
 .hub2-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;flex-shrink:0}
@@ -1546,6 +1548,11 @@ body[data-mode="mentor"]{--acc:104,138,246;--acc-hi:#B3C3FF}
 .tts-sm-txt{background:none;border:0;color:rgba(235,235,245,.6);padding:0 8px}
 .tts-sm{height:38px;padding:0 14px;border-radius:12px;font-size:13px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;gap:6px;cursor:pointer;font-family:inherit;white-space:nowrap}
 .tts-last-3 .tts-sm{flex:1;padding:0 8px;font-size:12.5px}
+.tts-today{display:flex;flex-direction:column;gap:8px;width:100%;text-align:left;border-radius:20px;padding:14px;margin-bottom:12px;font-family:inherit;cursor:pointer;color:inherit;background:linear-gradient(160deg,rgba(235,203,107,.14),#141518 70%);border:1px solid rgba(235,203,107,.45)}
+.tts-today .tts-last-lbl{color:#E8C860}
+.tts-today-f{display:flex;align-items:center;justify-content:space-between;gap:10px;font-size:12.5px;color:rgba(235,235,245,.7)}
+.tts-today-f b{display:inline-flex;align-items:center;gap:6px;flex:none;padding:8px 12px;border-radius:11px;background:#C7B4FF;color:#1B1235;font-size:13px}
+.tts-today-f svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2.4}
 .tts-sm-tb{background:rgba(235,203,107,.10);border:1px solid rgba(235,203,107,.55);color:#E8C860}
 .tts-last-tbl{background:linear-gradient(160deg,rgba(235,203,107,.12),#141518 70%);border-color:rgba(235,203,107,.35)}
 .tts-last-tbl .tts-last-lbl{color:#E8C860}
@@ -3806,7 +3813,10 @@ html[data-theme="dark"] .t1 .st-pt b .sy-new,html[data-theme="dark"] .t1 .st-row
 .t1 .c-sync{--c:#1F8577}html[data-theme="dark"] .t1 .c-sync{--c:#7FE0D0}
 
 .t1-grid{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:10px;flex:1;min-height:0;margin-bottom:84px}
-.t1-grid.t1-compact{grid-template-rows:auto auto;flex:0 0 auto}
+.t1-grid.t1-compact{grid-template-rows:1fr auto;flex:1 1 auto}
+/* Mentor: the mentee card sizes to its content; the tiles take the rest */
+.t1-hero.t1-fill{flex:0 0 auto}
+.t1-hero.t1-fill .t1-add{margin-top:12px}
 .t1 .t1-tile{display:flex;flex-direction:column;min-width:0;min-height:0;overflow:hidden;padding:14px;border-radius:18px;
   background:radial-gradient(120% 90% at 100% 0%,color-mix(in srgb,var(--c) var(--wash),transparent) 0%,transparent 55%),var(--card);
   border:1px solid var(--line);box-shadow:var(--shadow);transition:transform .12s;cursor:pointer;color:var(--ink)}
@@ -3822,6 +3832,8 @@ html[data-theme="dark"] .t1 .st-pt b .sy-new,html[data-theme="dark"] .t1 .st-row
 .t1 .t1-more{font-size:11px;font-weight:600;color:var(--ink-3);padding:2px 9px 0}
 .t1 .t1-sub2{font-size:12.5px;line-height:1.35;color:var(--ink-2);margin-top:2px}
 .t1 .t1-sub2 b{color:var(--ink);font-weight:700}
+.t1 .t1-sublink{cursor:pointer;color:var(--c)}
+.t1 .t1-sublink b{color:var(--c)}
 .t1 .t1-foot{display:flex;align-items:center;justify-content:space-between;gap:6px;margin-top:auto;padding-top:10px;font-size:12.5px;font-weight:600;color:var(--ink-2);white-space:nowrap}
 .t1 .t1-foot svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2.2;color:var(--ink-3);flex:none}
 .t1 .t1-tbtn{display:inline-flex;align-items:center;gap:6px;margin-top:auto;padding:7px 10px;border-radius:9px;background:color-mix(in srgb,var(--c) 14%,transparent);color:var(--c);font-size:12.5px;font-weight:700;width:max-content}
@@ -3855,6 +3867,10 @@ html[data-theme="light"]{color-scheme:light}
 html[data-theme="light"] body{background:#F3F4F7}
 html[data-theme="light"] .tts-last-tbl{background:linear-gradient(160deg,rgba(235,203,107,.22),#FFFFFF 70%);border-color:rgba(190,150,30,.4)}
 html[data-theme="light"] .tts-last-tbl .tts-last-lbl{color:#8A5A10}
+html[data-theme="light"] .tts-today{background:linear-gradient(160deg,rgba(235,203,107,.24),#FFFFFF 70%);border-color:rgba(190,150,30,.45)}
+html[data-theme="light"] .tts-today .tts-last-lbl{color:#8A5A10}
+html[data-theme="light"] .tts-today-f{color:#4E5866}
+html[data-theme="light"] .tts-today-f b{background:#5B3FD6;color:#fff}
 html[data-theme="light"] .art,html[data-theme="light"] img.art,html[data-theme="light"] img[class*="-art"],html[data-theme="light"] img[class*="art-"]{display:none!important}
 html[data-theme="light"] .modal-backdrop{background:rgba(20,26,33,.38)}
 html[data-theme="light"] .modal-card{background:#fff;border-radius:22px;padding:24px 20px;box-shadow:0 10px 40px rgba(20,26,33,.18)}
@@ -6668,7 +6684,7 @@ function _t1Body(mode){
     (foot.btn?'<button type="button" class="t1-tbtn" data-go="'+foot.go+'">'+_t1sv(foot.ic||'chev')+foot.btn+'</button>':'<div class="t1-foot"><span>'+foot.row+'</span>'+_t1sv('chev')+'</div>')+'</div>';
   const _ago=d=>d==null?null:d===0?'today':d===1?'yesterday':d+' days ago';
   const _ttD=_ttDailyDone(),_ttR=_ttStreak();
-  const TT_SUB=_ttD?'<b>Done today</b>'+(_ttR>1?' · '+_ttR+' days running':'')+'.':'<b>Today’s topic</b> is waiting.';
+  const TT_SUB=_ttD?'<b>Done today</b>'+(_ttR>1?' · '+_ttR+' days running':'')+'.':'<span class="t1-sublink" role="button" data-go="tt-daily"><b>Today’s topic</b> is waiting →</span>';
   const _chAll=S.coachHistory||[],_chSp=_chAll.find(x=>x.type!=='contest'),_chCt=_chAll.find(x=>x.type==='contest');
   const COACH_SUB=_chSp?'Last session <b>'+_ago(_relDays(_chSp.iso||_chSp.date))+'</b>.':'Rehearse any speech.';
   const CT_SUB=_chCt&&_chCt.contestName?'You rehearsed <b>'+escHtml(_chCt.contestName)+'</b> '+_ago(_relDays(_chCt.iso||_chCt.date))+'.':'What judges actually score.';
@@ -6714,7 +6730,7 @@ function _t1Body(mode){
     const RW_SUB=_rsc?'Last: <b>'+escHtml(_rsc.name)+'</b>, '+_ago(_relDays(_rs.iso))+'.':'Interviews, small talk, meetings.';
     const rk=Object.keys(TT_REAL);
     grid='<div class="t1-grid">'+ROLESTILE+tile('outline','outline','Outline Builder','ob-new',OB_SUB,{row:'New · Saved'})+
-      tile('tt','tt',TT,'tt',TT_SUB,{row:'Topics · Themes'})+
+      tile('tt','tt',TT,_ttD?'tt':'tt-daily',TT_SUB,{row:'Topics · Themes'})+
       tile('real','real','Real-world','real',RW_SUB,{row:rk.length+' situations'})+'</div>';
   }else{
     const ms=S.mentees||[];
@@ -6734,7 +6750,7 @@ function _t1Body(mode){
         '<button type="button" class="t1-btn-h t1-btn-wide" style="margin-top:14px" data-go="mentee-add">+ Add your first mentee</button></section>';
     }
     const _mpD=_mpDailyDone(),_mpR=_mpStreak();
-    const MP_SUB=_mpD?'<b>Done today</b>'+(_mpR>1?' · '+_mpR+' days running':'')+'.':'<b>Situation of the day</b> is waiting.';
+    const MP_SUB=_mpD?'<b>Done today</b>'+(_mpR>1?' · '+_mpR+' days running':'')+'.':'<span class="t1-sublink" role="button" data-go="mp-daily"><b>Situation of the day</b> is waiting →</span>';
     grid='<div class="t1-grid t1-compact">'+ROLESTILE+tile('mprac','mprac','Mentor practice','mprac',MP_SUB,{row:'120 situations'})+
       '<button type="button" class="t1-tile t1-wide t1-c-proj" data-go="all-projects" data-k="tile-proj"><div class="t1-ico">'+_t1sv('proj')+'</div><div class="t1-txt"><div class="t1-tile-name">All Projects</div><div class="t1-sub">Browse every Pathways project</div></div>'+_t1sv('chev')+'</button></div>';
   }
@@ -10294,6 +10310,9 @@ function _ttpRenderSetup(app){
   h+='<div class="tts-hero"><div class="tts-ico">'+(real?HUB_ICONS.real:'<svg viewBox="0 0 24 24"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20.5l1.4-4.6A8 8 0 1 1 21 12z"/><path d="M9 10.5a3 3 0 1 1 3.9 2.9c-.6.2-.9.7-.9 1.3v.3"/><path d="M12 17.6v.1"/></svg>')+'</div>';
   h+='<div><div class="tts-h1">'+(real?'Real-world practice':'Table Topics<sup>®</sup>')+'</div><div class="tts-lede">'+(real?'Interviews, pitches, small talk, meetings and tough questions. Practise before it counts.':'Get a topic. Think on your feet. Get coached.')+'</div></div></div>';
 
+  if(!real&&!_ttDailyDone()){
+    h+='<button type="button" class="tts-today" data-action="ttp-today"><div class="tts-last-lbl">Today’s topic · same for everyone</div><div class="tts-last-q">“'+escHtml(_ttDaily())+'”</div><div class="tts-today-f"><span>Try: '+escHtml(_ttTechnique().short)+'</span><b>Answer it '+ARR+'</b></div></button>';
+  }
   if(isNew&&!real){
     h+='<div class="tts-hello"><img src="'+COACH_AVATAR+'" alt="K"><div><b>Your first topic. We\'ll start easy.</b><p>30 seconds is a real answer. Nobody hears it but you, and K only points out what went well and one thing to try.</p></div></div>';
   }else if(last&&!(S[_hideKey]&&last.iso&&new Date(last.iso)<=new Date(S[_hideKey]))){
@@ -10499,6 +10518,7 @@ function _ttpRenderSetup(app){
     TTP.track=last.track||'tt';if(last.scenario)TTP.scenario=last.scenario;
     TTP.questionSource='repeat';if(TTP.track==='tt'&&TTP.question===_ttDaily())TTP.technique=_ttTechnique();TTP._promptN=(TTP._promptN||0)+1;TTP.phase='question';render();
   });
+  const todayBtn=app.querySelector('[data-action="ttp-today"]');if(todayBtn)todayBtn.addEventListener('click',()=>{_openTTDaily();window.scrollTo(0,0);});
   const tblBtn=app.querySelector('[data-action="ttp-table"]');
   if(tblBtn)tblBtn.addEventListener('click',()=>{V._tblFrom='tt-practice';V.view='table';render();window.scrollTo(0,0);});
   const notesBtn=app.querySelector('[data-action="ttp-see-notes"]');
