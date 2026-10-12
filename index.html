@@ -6114,6 +6114,14 @@ function resolveInitialView(){
   // The statement is still shown on first contact, before any use, and still
   // requires an explicit tap to dismiss — it just doesn't block the tool.
   const deepHash=(location.hash||"").replace(/^#/,"").trim().toLowerCase();
+  // #today (posters, QR codes, group chats): straight to today's Table Topic
+  if(deepHash==='today'){
+    if(!S.persona){S.persona='practice';S.mode='alacarte';save();}
+    V._deepLinkDisclaimer=!S.agreedToTerms;
+    _ttOpenToday();
+    try{history.replaceState(null,'',location.pathname+location.search);}catch(e){}
+    return;
+  }
   if(deepHash&&VIEW_FOR_HASH[deepHash]){
     V.view=VIEW_FOR_HASH[deepHash];
     if(!S.persona){
@@ -6604,6 +6612,12 @@ function _ttStreak(){
   let n=0;const d=new Date();if(!days.has(d.toDateString()))d.setDate(d.getDate()-1);
   while(days.has(d.toDateString())){n++;d.setDate(d.getDate()-1);}
   return n;
+}
+// Today's topic without rendering: the question if it's still waiting, else the Table Topics page
+function _ttOpenToday(){
+  V._fromHub=true;V.view="tt-practice";TTP.track="tt";
+  if(_ttDailyDone()){TTP.phase="setup";return;}
+  TTP.question=_ttDaily();TTP.questionSource="daily";TTP.technique=_ttTechnique();TTP._promptN=1;TTP.phase="question";
 }
 function _openTTDaily(){
   V._fromHub=true;V.view="tt-practice";TTP.track="tt";TTP.question=_ttDaily();TTP.questionSource="daily";TTP.technique=_ttTechnique();TTP._promptN=1;TTP.phase="question";render();
@@ -21744,6 +21758,10 @@ try{_syInit();}catch(e){}
 // after onboarding is done.
 window.addEventListener("hashchange",()=>{
   if(V.view==="notice"||V.view==="welcome")return;
+  if((location.hash||'').replace(/^#/,'').toLowerCase()==='today'){
+    try{history.replaceState(null,'',location.pathname+location.search);}catch(e){}
+    _ttOpenToday();render();window.scrollTo(0,0);return;
+  }
   if(applyHashRoute())render();
 });
 
