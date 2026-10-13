@@ -10583,7 +10583,9 @@ function _ttpRenderQuestion(app){
   }
   if(!_inFu){
   h+='<button class="ttq-start" data-action="ttp-start">'+(_es?'Start my evaluation →':_mt?'Start responding →':_real?'Start answering →':'Start speaking →')+'</button>';
-  h+='<button class="ttq-new" data-action="ttp-new"'+(TTP.questionLoading?' disabled':'')+'>'+(TTP.questionLoading?'Finding a topic…':(_es?'Another speech':(_real||_mt)?'New scenario':'New topic'))+'</button>';
+  // Today's topic is the same for everyone and is the only one that gets a highlight, so no swapping it in place.
+  if(_ttIsDaily())h+='<button class="ttq-new" data-action="ttp-other">Other topics</button>';
+  else h+='<button class="ttq-new" data-action="ttp-new"'+(TTP.questionLoading?' disabled':'')+'>'+(TTP.questionLoading?'Finding a topic…':(_es?'Another speech':(_real||_mt)?'New scenario':'New topic'))+'</button>';
   }
   h+='</div>'; // /ttp-q-panel
 
@@ -10622,6 +10624,8 @@ function _ttpRenderQuestion(app){
   const thr=app.querySelector('#rw-thread');if(thr)thr.scrollTop=thr.scrollHeight;
   app.querySelector('[data-action="ttp-start"]').addEventListener("click",()=>ttpStart());
   app.querySelector('[data-action="ttp-stop"]').addEventListener("click",()=>ttpStop());
+  const ob=app.querySelector('[data-action="ttp-other"]');
+  if(ob)ob.addEventListener("click",()=>{TTP.phase="setup";TTP.question="";TTP.questionSource="";TTP.aiResult=null;render();});
   const nb=app.querySelector('[data-action="ttp-new"]');
   if(nb)nb.addEventListener("click",()=>{
     // Same theme, same source as the current question (AI only if it's on).
@@ -10797,7 +10801,7 @@ function _ttpRenderDone(app){
   h+='<div class="top-bar">';
   h+='<button class="top-bar-btn" data-action="ttp-again">Try again</button>';
   const _dEs=_mpSample(),_dMt=_mpScen();
-  h+='<button class="top-bar-btn" data-action="ttp-new">'+(_dEs?'Another speech':(_dMt||TTP.track==='real')?'New scenario':'New question')+'</button>';
+  h+='<button class="top-bar-btn" data-action="ttp-new">'+(_dEs?'Another speech':(_dMt||TTP.track==='real')?'New scenario':_ttIsDaily()?'Other topics':'New question')+'</button>';
   h+='</div>';
 
   h+='<div class="ttp-done-question">'+escHtml(_dEs?'Your evaluation of '+_dEs.speaker+' · “'+_dEs.title+'”':TTP.question)+'</div>';
@@ -10848,7 +10852,7 @@ function _ttpRenderDone(app){
   const rf=app.querySelector('[data-action="rw-retry-fu"]');
   if(rf)rf.addEventListener("click",()=>{const last=TTP.convo.pop();TTP.fuQ=last.q;TTP.fuLoading=false;TTP.aiResult=null;TTP.phase="question";render();});
   app.querySelector('[data-action="ttp-new"]').addEventListener("click",()=>{
-    TTP.phase="setup";TTP.question="";TTP.aiResult=null;render();
+    TTP.phase="setup";TTP.question="";if(TTP.questionSource==="daily")TTP.questionSource="";TTP.aiResult=null;render();
   });
 }
 
