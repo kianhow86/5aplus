@@ -3244,6 +3244,44 @@ body.pk-open .bottom-nav{display:none}
 .rw-them.rw-now{font-size:18px;font-weight:700;color:var(--text);border-color:rgba(255,255,255,.18);padding:12px 14px;line-height:1.35}
 .rw-typing{display:flex;gap:5px;padding:14px 16px}.rw-typing i{width:7px;height:7px;border-radius:50%;background:var(--text-3);animation:rwdot 1s infinite}.rw-typing i:nth-child(2){animation-delay:.15s}.rw-typing i:nth-child(3){animation-delay:.3s}
 @keyframes rwdot{0%,100%{opacity:.25}50%{opacity:1}}
+.rw-brief{display:grid;grid-template-columns:auto 1fr;gap:6px 12px;margin:0 0 16px;padding:0 0 14px;border-bottom:1px solid var(--border);font-size:13.5px;line-height:1.4}
+.rw-brief dt{font-size:10.5px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--text-3);padding-top:2px;white-space:nowrap}
+.rw-brief dd{margin:0;color:var(--text-2)}.rw-brief dd b{color:var(--text);font-weight:700}
+.rw-goals{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px}
+.rw-goal{display:flex;flex-direction:column;align-items:flex-start;gap:2px;padding:12px;min-height:84px;border-radius:16px;text-align:left;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.1);color:#F4F4F6;font:inherit;cursor:pointer}
+.rw-goal-e{font-size:20px;line-height:1;margin-bottom:4px}
+.rw-goal b{font-size:15px;font-weight:800;line-height:1.2}
+.rw-goal small{font-size:11.5px;line-height:1.3;color:rgba(235,235,245,.55)}
+.rw-goal[aria-pressed="true"]{background:rgba(139,111,247,.16);border-color:rgba(139,111,247,.6)}
+.rw-chips{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:10px}
+.rw-chip{padding:8px 13px;border-radius:999px;border:1px solid rgba(255,255,255,.14);background:transparent;color:#F4F4F6;font:inherit;font-size:13.5px;font-weight:700;cursor:pointer}
+.rw-chip[aria-pressed="true"]{background:#7C5CFF;border-color:#7C5CFF;color:#fff}
+.rw-about{font-size:12.5px;color:rgba(235,235,245,.55);margin:2px 2px 10px}
+.rw-about b{color:rgba(235,235,245,.85);font-weight:700}
+.rw-set{display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%;padding:11px 12px;margin-bottom:12px;border-radius:12px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);color:rgba(235,235,245,.75);font:inherit;font-size:13px;text-align:left;cursor:pointer}
+.rw-set span{min-width:0;line-height:1.4}
+.rw-set u{text-decoration:none;color:#A992FF;font-weight:800;flex:none}
+.rw-ov{position:fixed;inset:0;z-index:300;background:rgba(10,10,16,.55);display:flex;align-items:flex-end;justify-content:center}
+.rw-sheet{width:100%;max-width:480px;max-height:90dvh;overflow-y:auto;background:#17161D;border-radius:24px 24px 0 0;padding:12px 18px calc(env(safe-area-inset-bottom,0px) + 18px);color:#F4F4F6}
+.rw-handle{width:40px;height:5px;border-radius:9px;background:rgba(255,255,255,.18);margin:0 auto 14px}
+.rw-sheet h2{font-size:20px;font-weight:800;margin:0 0 12px}
+.rw-sl{font-size:10.5px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:rgba(235,235,245,.5);margin:14px 0 8px}
+.rw-sl i{font-style:normal;text-transform:none;letter-spacing:0;font-weight:600}
+.rw-fchips{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:8px}
+.rw-fchips button{padding:8px 12px;border-radius:999px;border:1px solid rgba(255,255,255,.14);background:transparent;color:#F4F4F6;font:inherit;font-size:13px;font-weight:700;cursor:pointer}
+.rw-fchips button[aria-pressed="true"]{background:#7C5CFF;border-color:#7C5CFF;color:#fff}
+.rw-sheet input{display:block;width:100%;box-sizing:border-box;height:46px;padding:0 14px;border-radius:13px;border:1.5px solid rgba(255,255,255,.12);background:rgba(0,0,0,.25);color:#F4F4F6;font:inherit;font-size:16px}
+.rw-note{font-size:13px;color:rgba(235,235,245,.6);margin:0}
+.rw-done{display:block;width:100%;height:48px;margin-top:18px;border:0;border-radius:14px;background:#7C5CFF;color:#fff;font:inherit;font-size:15px;font-weight:800;cursor:pointer}
+.rw-dec{margin:0 0 12px;padding:14px;border-radius:16px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.04)}
+.rw-dec-deal{border-color:rgba(111,208,140,.4);background:linear-gradient(160deg,rgba(111,208,140,.12),rgba(111,208,140,.03))}
+.rw-dec-think{border-color:rgba(235,203,107,.45);background:linear-gradient(160deg,rgba(235,203,107,.13),rgba(235,203,107,.03))}
+.rw-dec-walk{border-color:rgba(240,120,110,.45);background:linear-gradient(160deg,rgba(240,120,110,.13),rgba(240,120,110,.03))}
+.rw-dec-k{font-size:10.5px;font-weight:800;letter-spacing:.12em;color:var(--text-3);margin-bottom:6px}
+.rw-dec-h{display:flex;align-items:center;gap:8px;font-size:17px;font-weight:800;color:var(--text)}
+.rw-dec-say{font-size:14px;font-style:italic;color:var(--text-2);margin-top:6px;line-height:1.45}
+.rw-dec-sec{margin-top:10px;padding-top:10px;border-top:1px solid rgba(255,255,255,.1);font-size:13.5px;line-height:1.5;color:var(--text)}
+.rw-dec-sec b{display:block;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--text-3);margin-bottom:3px}
 .rw-turns{display:flex;flex-wrap:wrap;gap:6px;margin:12px 0 2px}.rw-turns span{font-size:12px;font-weight:700;padding:4px 10px;border-radius:99px;border:1px solid var(--border);color:var(--text-2)}.rw-turns span.ok{color:#6FD08C;border-color:rgba(111,208,140,.35)}
 .rw-convo{display:flex;flex-direction:column;gap:8px;padding:10px 2px}
 .rw-retry{display:block;width:100%;margin-top:12px;padding:12px;border-radius:14px;background:var(--surface);border:1px solid var(--border);color:var(--text);font:inherit;font-weight:700;font-size:13.5px;cursor:pointer}
@@ -3550,6 +3588,243 @@ html[data-theme="dark"] .t1-hero{background:linear-gradient(180deg,color-mix(in 
 .t1-k p{flex:1;min-width:0;overflow:hidden;font-size:12.5px;line-height:1.35;color:var(--ink-2);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;text-align:left}
 .t1-k p b{color:var(--ink);font-weight:600}
 .t1-k svg{width:16px;height:16px;stroke-width:2.2;color:var(--ink-2)}
+/* ═══ Real-world practice (option A), from real-reference.html ═══ */
+html[data-theme="light"] .t1.rwx,html[data-theme="light"] .t1.rwx-sheet{--c:#0E8C8C;--c-ink:#fff;--wash:7%;--ico-tint:10%;--ink-2:#5A6573;--ink-3:#8892A0;--quote-bg:#141A21;--quote-ink:#fff;--quote-ink-2:rgba(255,255,255,.62);--quote-line:rgba(255,255,255,.12)}
+html[data-theme="dark"] .t1.rwx,html[data-theme="dark"] .t1.rwx-sheet{--c:#7FE0E0;--c-ink:#06201F;--wash:12%;--ico-tint:14%;--quote-bg:#14171B;--quote-ink:rgba(255,255,255,.95);--quote-ink-2:rgba(235,235,245,.58);--quote-line:rgba(255,255,255,.07)}
+.t1.rwx{padding:calc(var(--safe-top) + 8px) 20px calc(var(--hub-h) + var(--safe-bot) + 8px);display:flex;flex-direction:column;gap:14px;min-height:100vh}
+.t1.rwx .head{display:flex;align-items:center;gap:12px}
+.t1.rwx .back{width:36px;height:36px;border-radius:50%;background:var(--card);box-shadow:var(--shadow);border:1px solid var(--line);display:grid;place-items:center;flex-shrink:0}
+.t1.rwx .back svg{width:16px;height:16px;stroke:var(--ink);fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.t1.rwx .head h1{font-size:22px;font-weight:800;letter-spacing:-.02em;line-height:1.1}
+.t1.rwx .head p{font-size:12.5px;color:var(--ink-2);margin-top:2px}
+.t1.rwx .last{background:var(--card);border:1px solid var(--line);box-shadow:var(--shadow);border-radius:18px;padding:12px 14px;display:flex;align-items:center;gap:12px}
+.t1.rwx .last-txt{flex:1;min-width:0}
+.t1.rwx .lbl{font-size:10.5px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3)}
+.t1.rwx .last-q{font-size:14px;font-weight:700;margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.t1.rwx .last-m{font-size:12px;color:var(--ink-2);margin-top:2px}
+.t1.rwx .last-m b{color:var(--c);font-weight:700}
+.t1.rwx .last-go{flex-shrink:0;height:34px;padding:0 13px;border-radius:999px;background:color-mix(in srgb,var(--c) var(--ico-tint),transparent);color:var(--c);font-size:13px;font-weight:800;display:flex;align-items:center;gap:6px}
+.t1.rwx .last-go svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.t1.rwx .goals{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;background:var(--seg-bg);border-radius:16px;padding:4px}
+.t1.rwx .goal{display:flex;flex-direction:column;align-items:center;gap:5px;padding:9px 2px 8px;border-radius:12px;color:var(--ink-2);font-size:12px;font-weight:700;text-align:center;transition:background .2s,color .2s}
+.t1.rwx .goal svg{width:21px;height:21px;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.t1.rwx .goal[aria-pressed="true"]{background:var(--card);color:var(--ink);box-shadow:var(--shadow)}
+.t1.rwx .goal[aria-pressed="true"] svg{stroke:var(--c)}
+.t1.rwx .goal:active{transform:scale(.97)}
+.t1.rwx .sits{display:flex;flex-direction:column;gap:8px}
+.t1.rwx .sit{background:var(--card);border:1px solid var(--line);box-shadow:var(--shadow);border-radius:16px;padding:13px 14px;display:flex;align-items:flex-start;gap:12px;transition:border-color .2s,background .2s}
+.t1.rwx .sit:active{transform:scale(.99)}
+.t1.rwx .dot{width:20px;height:20px;border-radius:50%;border:1.5px solid var(--ink-3);flex-shrink:0;margin-top:1px;display:grid;place-items:center}
+.t1.rwx .sit-txt{flex:1;min-width:0}
+.t1.rwx .sit-n{font-size:15px;font-weight:700;letter-spacing:-.01em;line-height:1.25}
+.t1.rwx .sit-s{font-size:12.5px;color:var(--ink-2);margin-top:2px;line-height:1.35}
+.t1.rwx .sit-t{flex-shrink:0;font-size:11.5px;font-weight:700;color:var(--ink-2);background:var(--k-bg);border-radius:999px;padding:4px 9px;white-space:nowrap}
+.t1.rwx .sit-who{display:none;font-size:12px;color:var(--ink-2);margin-top:8px;padding-top:8px;border-top:1px solid var(--line)}
+.t1.rwx .sit-who b{color:var(--ink);font-weight:700}
+.t1.rwx .sit[aria-pressed="true"]{border:1.5px solid var(--c);background:color-mix(in srgb,var(--c) var(--wash),var(--card));padding:12.5px 13.5px}
+.t1.rwx .sit[aria-pressed="true"] .dot{border-color:var(--c);background:var(--c)}
+.t1.rwx .sit[aria-pressed="true"] .dot::after{content:"";width:7px;height:7px;border-radius:50%;background:var(--card)}
+.t1.rwx .sit[aria-pressed="true"] .sit-t{background:color-mix(in srgb,var(--c) var(--ico-tint),transparent);color:var(--c)}
+.t1.rwx .sit[aria-pressed="true"] .sit-who{display:block}
+.t1.rwx .setup{background:var(--card);border:1px solid var(--line);box-shadow:var(--shadow);border-radius:16px;padding:12px 14px;display:flex;align-items:center;gap:11px}
+.t1.rwx .setup svg{width:18px;height:18px;stroke:var(--ink-2);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
+.t1.rwx .setup-v{flex:1;min-width:0;font-size:13px;font-weight:600;line-height:1.4}
+.t1.rwx .setup-v span{display:block}
+.t1.rwx .setup-v em{display:block;font-style:normal;color:var(--ink-2);font-weight:600}
+.t1.rwx .setup-v small{display:block;font-size:10.5px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);margin-bottom:2px}
+.t1.rwx .setup u{font-size:13px;font-weight:800;color:var(--c);text-decoration:none;flex-shrink:0}
+.t1.rwx .acts{display:flex;gap:10px;position:sticky;bottom:calc(var(--hub-h) + var(--safe-bot) + 8px);z-index:3;margin-top:-12px;padding-top:12px;background:linear-gradient(to bottom,transparent,var(--bg) 12px)}
+.t1.rwx .dice{width:52px;height:52px;border-radius:16px;background:var(--card);border:1px solid var(--line);box-shadow:var(--shadow);display:grid;place-items:center;flex-shrink:0}
+.t1.rwx .dice svg{width:22px;height:22px;stroke:var(--ink);fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.t1.rwx .go{flex:1;height:52px;border-radius:16px;background:var(--c);color:var(--c-ink);font-size:16px;font-weight:800;display:flex;align-items:center;justify-content:space-between;padding:0 18px}
+.t1.rwx .go svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.t1.rwx .go:active,.t1.rwx .dice:active{transform:scale(.98)}
+.t1.rwx > .go,.t1.rwx > .ghost{flex:0 0 auto}
+.t1.rwx .tips{background:transparent;border-top:1px solid var(--line);padding-top:12px}
+.t1.rwx .tips summary{list-style:none;display:flex;align-items:center;gap:10px;font-size:13.5px;font-weight:700;color:var(--ink-2);cursor:pointer}
+.t1.rwx .tips summary::-webkit-details-marker{display:none}
+.t1.rwx .tips summary svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.t1.rwx .tips summary .chev{margin-left:auto;width:16px;height:16px;transition:transform .2s}
+.t1.rwx .tips[open] summary .chev{transform:rotate(180deg)}
+.t1.rwx .tips ul{list-style:none;margin-top:10px;display:flex;flex-direction:column;gap:8px}
+.t1.rwx .tips li{font-size:13px;color:var(--ink-2);line-height:1.5}
+.t1.rwx .tips li b{color:var(--ink)}
+.t1.rwx .ctx{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.t1.rwx .chip{font-size:12px;font-weight:800;color:var(--c);background:color-mix(in srgb,var(--c) var(--ico-tint),transparent);border-radius:999px;padding:5px 11px;white-space:nowrap}
+.t1.rwx .ctx-n{font-size:12px;font-weight:600;color:var(--ink-2);white-space:nowrap}
+.t1.rwx .prog{display:flex;gap:5px}
+.t1.rwx .prog i{flex:1;height:4px;border-radius:4px;background:var(--seg-bg)}
+.t1.rwx .prog i.c{background:var(--c)}
+.t1.rwx .brief{background:var(--card);border:1px solid var(--line);box-shadow:var(--shadow);border-radius:18px;padding:4px 16px}
+.t1.rwx .brief div{display:flex;gap:12px;padding:10px 0;border-bottom:1px solid var(--line)}
+.t1.rwx .brief div:last-child{border-bottom:0}
+.t1.rwx .brief dt{width:72px;flex-shrink:0;font-size:10.5px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);padding-top:2px}
+.t1.rwx .brief dd{font-size:13.5px;color:var(--ink-2);line-height:1.45}
+.t1.rwx .brief dd b{color:var(--ink);font-weight:800}
+.t1.rwx .quote{background:var(--quote-bg);color:var(--quote-ink);border-radius:22px;padding:20px 20px 18px;flex:1;display:flex;flex-direction:column;min-height:0}
+.t1.rwx .quote .lbl{color:var(--quote-ink-2)}
+.t1.rwx .quote-t{font-size:22px;font-weight:700;letter-spacing:-.015em;line-height:1.32;margin-top:10px;text-wrap:pretty}
+.t1.rwx .quote-f{margin-top:auto;padding-top:14px;border-top:1px solid var(--quote-line);font-size:12.5px;color:var(--quote-ink-2);display:flex;align-items:center;gap:8px}
+.t1.rwx .quote-f svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+.t1.rwx .quote-t,.t1.rwx .quote-f{text-wrap:pretty}
+.t1.rwx .ghost{height:46px;border-radius:14px;border:1px solid var(--line);background:var(--card);font-size:14px;font-weight:700;color:var(--ink-2);display:flex;align-items:center;justify-content:center}
+.t1.rwx .sits.many{gap:6px}
+.t1.rwx .sits.many .sit{padding:11px 13px}
+.t1.rwx .sits.many .sit[aria-pressed="true"]{padding:10.5px 12.5px}
+.t1.rwx .sits.many .sit-s{display:none}
+.t1.rwx .sits.many .sit[aria-pressed="true"] .sit-s{display:block}
+.t1.rwx .ask{background:var(--card);border:1px solid var(--line);box-shadow:var(--shadow);border-radius:18px;padding:14px 16px}
+.t1.rwx .ask-t{font-size:15.5px;font-weight:700;line-height:1.4;margin-top:6px;text-wrap:pretty}
+.t1.rwx .clock{display:flex;flex-direction:column;align-items:center;gap:6px;padding:8px 0 2px}
+.t1.rwx .rec{display:flex;align-items:center;gap:7px;font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:#D64545}
+.t1.rwx .rec i{width:8px;height:8px;border-radius:50%;background:#D64545;animation:rwx-blink 1.2s infinite}
+@keyframes rwx-blink{50%{opacity:.25}}
+@media (prefers-reduced-motion:reduce){.t1.rwx .rec i{animation:none}}
+.t1.rwx .time{font-size:64px;font-weight:800;letter-spacing:-.04em;line-height:1;font-variant-numeric:tabular-nums}
+.t1.rwx .time-sub{font-size:12.5px;color:var(--ink-2);font-weight:600}
+.t1.rwx .live{background:var(--card);border:1px solid var(--line);box-shadow:var(--shadow);border-radius:18px;padding:14px 16px;flex:1;min-height:0;display:flex;flex-direction:column}
+.t1.rwx .live-h{display:flex;justify-content:space-between;align-items:center}
+.t1.rwx .live-h span{font-size:12px;font-weight:700;color:var(--ink-2);font-variant-numeric:tabular-nums}
+.t1.rwx .live-t{font-size:15px;line-height:1.55;color:var(--ink-3);margin-top:8px;text-wrap:pretty}
+.t1.rwx .live-t b{color:var(--ink);font-weight:500}
+.t1.rwx .stop{display:flex;flex-direction:column;align-items:center;gap:8px}
+.t1.rwx .stop button{width:76px;height:76px;border-radius:50%;background:#D64545;display:grid;place-items:center;box-shadow:0 0 0 6px color-mix(in srgb,#D64545 16%,transparent)}
+.t1.rwx .stop button i{width:24px;height:24px;border-radius:6px;background:#fff}
+.t1.rwx .stop small{font-size:12.5px;font-weight:700;color:var(--ink-2)}
+.t1.rwx .thread{display:flex;flex-direction:column;gap:8px}
+.t1.rwx .b-them{align-self:flex-start;max-width:86%;background:var(--card);border:1px solid var(--line);box-shadow:var(--shadow);border-radius:4px 16px 16px 16px;padding:10px 13px;font-size:13.5px;line-height:1.45;color:var(--ink-2)}
+.t1.rwx .b-me{align-self:flex-end;max-width:86%;background:color-mix(in srgb,var(--c) var(--wash),var(--card));border:1px solid color-mix(in srgb,var(--c) 30%,transparent);border-radius:16px 4px 16px 16px;padding:10px 13px;font-size:13.5px;line-height:1.45}
+.t1.rwx .b-me p{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.t1.rwx .b-me small{display:block;font-size:11px;font-weight:700;color:var(--c);margin-top:4px}
+.t1.rwx .recap{font-size:13.5px;color:var(--ink-2);line-height:1.45;text-wrap:pretty}
+.t1.rwx .dec{background:var(--quote-bg);color:var(--quote-ink);border-radius:22px;padding:18px}
+.t1.rwx .dec .lbl{color:var(--quote-ink-2)}
+.t1.rwx .dec-h{display:flex;align-items:center;gap:10px;font-size:20px;font-weight:800;letter-spacing:-.015em;margin-top:8px}
+.t1.rwx .dec-h svg{width:24px;height:24px;stroke:#F5C85B;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
+.t1.rwx .dec-say{font-size:14px;color:var(--quote-ink-2);margin-top:6px;line-height:1.45}
+.t1.rwx .dec-sec{margin-top:14px;padding-top:12px;border-top:1px solid var(--quote-line);font-size:13.5px;line-height:1.5;color:var(--quote-ink)}
+.t1.rwx .dec-sec b{display:block;font-size:10.5px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#7FE0E0;margin-bottom:4px}
+html[data-theme="dark"] .t1.rwx .dec-sec b{color:var(--c)}
+.t1.rwx .dec-why{margin-top:14px;padding-top:12px;border-top:1px solid var(--quote-line)}
+.t1.rwx .dec-why>b{display:block;font-size:10.5px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--quote-ink-2);margin-bottom:10px}
+.t1.rwx .why{display:flex;gap:10px;padding:9px 0}
+.t1.rwx .why+.why{border-top:1px solid var(--quote-line)}
+.t1.rwx .why-s{width:22px;height:22px;border-radius:50%;flex-shrink:0;display:grid;place-items:center;font-size:14px;font-weight:800;line-height:1;margin-top:1px}
+.t1.rwx .why.up .why-s{background:rgba(127,224,160,.18);color:#7EDDA0}
+.t1.rwx .why.dn .why-s{background:rgba(245,170,110,.18);color:#F5AA6E}
+.t1.rwx .why-q{font-size:13.5px;font-weight:600;color:var(--quote-ink);line-height:1.4}
+.t1.rwx .why-q small{font-size:10.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--quote-ink-2);margin-left:6px;white-space:nowrap}
+.t1.rwx .why-r{font-size:13px;color:var(--quote-ink-2);line-height:1.45;margin-top:3px}
+.t1.rwx .stats{display:grid;grid-template-columns:repeat(3,1fr);background:var(--card);border:1px solid var(--line);box-shadow:var(--shadow);border-radius:18px}
+.t1.rwx .stats div{padding:12px 10px;text-align:center}
+.t1.rwx .stats div+div{border-left:1px solid var(--line)}
+.t1.rwx .stats b{display:block;font-size:20px;font-weight:800;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.t1.rwx .stats small{font-size:11px;font-weight:700;color:var(--ink-3);text-transform:uppercase;letter-spacing:.08em}
+.t1.rwx .turns{display:flex;gap:6px}
+.t1.rwx .turns span{flex:1;background:var(--k-bg);border-radius:10px;padding:7px 8px;font-size:11.5px;font-weight:700;color:var(--ink-2);text-align:center;white-space:nowrap}
+.t1.rwx .turns span b{display:block;color:var(--ink);font-size:13px;font-variant-numeric:tabular-nums}
+.t1.rwx .kn{background:var(--card);border:1px solid var(--line);box-shadow:var(--shadow);border-radius:20px;padding:6px 16px 16px}
+.t1.rwx .kn-h{display:flex;align-items:center;gap:10px;padding:10px 0 4px}
+.t1.rwx .kn-h i{width:28px;height:28px;border-radius:50%;background:var(--ink);color:var(--card);font-style:normal;font-size:13px;font-weight:800;display:grid;place-items:center}
+.t1.rwx .kn-h b{font-size:15px;font-weight:800}
+.t1.rwx .kn-s{padding:12px 0;border-bottom:1px solid var(--line)}
+.t1.rwx .kn-s:last-child{border-bottom:0;padding-bottom:0}
+.t1.rwx .kn-l{display:flex;align-items:center;gap:7px;font-size:10.5px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3)}
+.t1.rwx .kn-l svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.t1.rwx .kn-t{font-size:14px;line-height:1.55;color:var(--ink-2);margin-top:5px;text-wrap:pretty}
+.t1.rwx .kn-t q{color:var(--ink);font-weight:600}
+.t1.rwx .kn-s.drift .kn-l{color:#C2681B}
+html[data-theme="dark"] .t1.rwx .kn-s.drift .kn-l{color:#EDB176}
+.t1.rwx .kn-s.one{margin-top:12px;border:0;border-radius:16px;padding:14px;background:color-mix(in srgb,var(--c) var(--wash),var(--card));border:1px solid color-mix(in srgb,var(--c) 30%,transparent)}
+.t1.rwx .kn-s.one .kn-l{color:var(--c)}
+.t1.rwx .kn-line{margin-top:10px;font-size:15px;font-weight:700;line-height:1.45;color:var(--ink);padding-left:12px;border-left:2px solid var(--c)}
+.t1.rwx .rwx-done .recap,.t1.rwx .rwx-done .turns,.t1.rwx .bd-sub{display:none}
+.t1.rwx .rwx-done .stats div{padding:9px 8px}
+.t1.rwx .rwx-done .stats b{font-size:17px}
+.t1.rwx .why:nth-of-type(n+3){display:none}
+.t1.rwx .dec{padding:16px}
+.t1.rwx .dec-why{margin-top:12px;padding-top:10px}
+.t1.rwx .why{padding:7px 0}
+.t1.rwx .mv{padding:12px 0}
+.t1.rwx .mv-said{font-size:13px;margin-top:6px}
+.t1.rwx .mv-try{margin-top:6px;font-size:14.5px}
+.t1.rwx .mv-why{margin-top:6px;font-size:12.5px}
+.t1.rwx .payoff{margin-top:12px;padding:10px 12px}
+.t1.rwx .bd{background:var(--card);border:1px solid var(--line);box-shadow:var(--shadow);border-radius:20px;padding:6px 16px 16px}
+.t1.rwx .bd-h{display:flex;align-items:center;gap:10px;padding:10px 0 2px}
+.t1.rwx .bd-h i{width:28px;height:28px;border-radius:50%;background:var(--ink);color:var(--card);font-style:normal;font-size:13px;font-weight:800;display:grid;place-items:center;flex-shrink:0}
+.t1.rwx .bd-h b{font-size:16px;font-weight:800;letter-spacing:-.01em}
+.t1.rwx .bd-sub{font-size:12.5px;color:var(--ink-2);margin:2px 0 4px 38px}
+.t1.rwx .mv{padding:14px 0;border-bottom:1px solid var(--line)}
+.t1.rwx .mv-n{display:flex;align-items:center;gap:8px;font-size:10.5px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3)}
+.t1.rwx .mv-n span{width:20px;height:20px;border-radius:50%;background:var(--k-bg);color:var(--ink);display:grid;place-items:center;font-size:11px;letter-spacing:0}
+.t1.rwx .mv-said{font-size:13.5px;color:var(--ink-3);line-height:1.45;margin-top:8px;text-decoration:line-through;text-decoration-color:color-mix(in srgb,var(--ink-3) 60%,transparent)}
+.t1.rwx .mv-try{margin-top:8px;font-size:15px;font-weight:700;line-height:1.45;color:var(--ink);padding-left:12px;border-left:2px solid var(--c);text-wrap:pretty}
+.t1.rwx .mv-why{font-size:13px;color:var(--ink-2);line-height:1.5;margin-top:8px;text-wrap:pretty}
+.t1.rwx .payoff{margin-top:14px;border-radius:14px;padding:12px 14px;background:color-mix(in srgb,var(--c) var(--wash),var(--card));border:1px solid color-mix(in srgb,var(--c) 30%,transparent);display:flex;gap:10px;align-items:flex-start}
+.t1.rwx .payoff svg{width:18px;height:18px;stroke:var(--c);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0;margin-top:1px}
+.t1.rwx .payoff div{font-size:13.5px;line-height:1.45;color:var(--ink-2)}
+.t1.rwx .payoff b{display:block;font-size:10.5px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--c);margin-bottom:3px}
+.t1.rwx .payoff em{font-style:normal;color:var(--ink);font-weight:700}
+.t1.rwx .row2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.t1.rwx .convo{border-top:1px solid var(--line);padding-top:12px}
+.t1.rwx .convo summary{list-style:none;font-size:13.5px;font-weight:700;color:var(--ink-2);cursor:pointer;display:flex;align-items:center;gap:8px}
+.t1.rwx .convo summary::-webkit-details-marker{display:none}
+.t1.rwx .convo summary svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+.t1.rwx .convo .thread{margin-top:10px}
+@media (max-height:700px){.t1.rwx .time{font-size:52px}
+.t1.rwx .stop button{width:64px;height:64px}
+.t1.rwx .live-t{font-size:14px}
+.t1.rwx{gap:11px}
+.t1.rwx .head p{display:none}
+.t1.rwx .last{padding:10px 12px}
+.t1.rwx .last-m{display:none}
+.t1.rwx .goal{padding:7px 2px 6px;font-size:11.5px}
+.t1.rwx .goal svg{width:19px;height:19px}
+.t1.rwx .sit{padding:11px 12px}
+.t1.rwx .sit[aria-pressed="true"]{padding:10.5px 11.5px}
+.t1.rwx .sit-s{display:none}
+.t1.rwx .sit[aria-pressed="true"] .sit-s{display:block}
+.t1.rwx .quote-t{font-size:20px}}
+.t1.rwx{height:auto;min-height:var(--app-h,100dvh);padding:calc(env(safe-area-inset-top,0px) + 8px) 20px calc(var(--nav-h) + var(--nav-sb) + 16px);gap:14px}
+.t1.rwx svg{display:block}
+.t1.rwx>.rw-q,.t1.rwx>.rw-a{display:flex;flex-direction:column;gap:14px;flex:1;min-height:0}
+.t1.rwx[data-ttp-state="question"] .rw-a,.t1.rwx[data-ttp-state="active"] .rw-q{display:none}
+.t1.rwx .acts{bottom:calc(var(--nav-h) + var(--nav-sb) + 8px)}
+.t1.rwx .quote{min-height:180px}
+html:has(.t1.rwx),body:has(.t1.rwx){overflow-x:clip;overflow-y:visible}
+.t1.rwx .rw-q>.go,.t1.rwx .rw-q>.ghost,.t1.rwx>.go,.t1.rwx>.ghost{flex:none}
+.t1.rwx .go:disabled,.t1.rwx .dice:disabled,.t1.rwx .ghost:disabled{opacity:.5}
+.t1.rwx .typing{display:flex;gap:6px;padding:16px 2px}
+.t1.rwx .typing i{width:8px;height:8px;border-radius:50%;background:currentColor;opacity:.4;animation:rwx-blink 1.2s infinite}
+.t1.rwx .typing i:nth-child(2){animation-delay:.2s}.t1.rwx .typing i:nth-child(3){animation-delay:.4s}
+.t1.rwx .bd-wait .typing{color:var(--ink-3)}
+.t1.rwx .time-sub{display:flex;gap:10px;justify-content:center}
+.t1.rwx .mk{display:inline-flex;align-items:center;gap:5px;font-variant-numeric:tabular-nums}
+.t1.rwx .mk::before{content:"";width:8px;height:8px;border-radius:50%}
+.t1.rwx .mk.g::before{background:#3FB56B}.t1.rwx .mk.a::before{background:#E8B250}.t1.rwx .mk.r::before{background:#D64545}
+.t1.rwx .clock.phase-green .time{color:#2E9E5B}.t1.rwx .clock.phase-amber .time{color:#C98A12}.t1.rwx .clock.phase-red .time{color:#D64545}
+html[data-theme="dark"] .t1.rwx .clock.phase-green .time{color:#6FD08C}html[data-theme="dark"] .t1.rwx .clock.phase-amber .time{color:#F5C85B}html[data-theme="dark"] .t1.rwx .clock.phase-red .time{color:#F0645A}
+.t1.rwx .live-h b{font-weight:700}
+.t1.rwx .live-t{max-height:40vh;overflow:auto}
+.t1.rwx .dec-deal .dec-h svg{stroke:#7EDDA0}.t1.rwx .dec-walk .dec-h svg{stroke:#F5AA6E}
+.t1.rwx .rwx-note{font-size:13px;color:var(--ink-2);line-height:1.5;text-align:center;padding:4px 8px}
+.t1.rwx .bd-k .ps-analysis-text,.t1.rwx .bd-k{color:var(--ink-2)}
+.t1.rwx .go{color:var(--c-ink)}
+
+.t1.rwx-sheet{height:auto;max-height:90dvh;overflow-y:auto;width:100%;max-width:480px;margin:0;display:block;background:var(--card);color:var(--ink);border-radius:24px 24px 0 0;padding:12px 18px calc(env(safe-area-inset-bottom,0px) + 18px)}
+.t1.rwx-sheet .rw-handle{background:var(--line)}
+.t1.rwx-sheet h2{color:var(--ink)}
+.t1.rwx-sheet .rw-sl{color:var(--ink-3)}
+.t1.rwx-sheet .rw-fchips button{border:1px solid var(--line);color:var(--ink);background:var(--card);padding:8px 12px;border-radius:999px;font-size:13px;font-weight:700}
+.t1.rwx-sheet .rw-fchips button[aria-pressed="true"]{background:var(--c);border-color:var(--c);color:var(--c-ink)}
+.t1.rwx-sheet input{background:var(--bg);border:1.5px solid var(--line);color:var(--ink)}
+.t1.rwx-sheet input:focus{outline:none;border-color:var(--c)}
+.t1.rwx-sheet .rw-fu-seg{background:var(--seg-bg);border:0;border-radius:12px;padding:3px;display:flex;gap:4px}
+.t1.rwx-sheet .rw-fu-seg button{flex:1;padding:9px 0;border-radius:9px;text-align:center;color:var(--ink-2);font-weight:700}
+.t1.rwx-sheet .rw-fu-seg button[aria-pressed="true"]{background:var(--card);color:var(--ink);box-shadow:var(--shadow)}
+.t1.rwx-sheet .rw-note{color:var(--ink-2)}
+.t1.rwx-sheet .rw-done{display:block;width:100%;height:48px;margin-top:18px;border-radius:14px;background:var(--c);color:var(--c-ink);text-align:center;font-size:15px;font-weight:800}
 /* ═══ K's notebook + Settings (T1 tokens, light + dark) ═══ */
 #app.is-t1pg{max-width:none;padding:0}
 html[data-theme="dark"] .t1.nbx,html[data-theme="dark"] .t1.stx{--ink-3:rgba(235,235,245,.56)}
@@ -5853,6 +6128,14 @@ const CHANGELOG=[
     'Clients, in Real-world. Six new situations for anyone who has to sell their work: introduce yourself to a client, present a proposal, talk price, handle bargaining, deal with a difficult client, and hold your ground',
     'Tell K your floor. Put your price and your bottom line in “Your role or situation” and K checks whether you defended it',
     'Hold your ground. The client pushes three times, with logic, then a personal appeal, then a sweetener. K shows you the exact line where you started to drift, if you did',
+    'Real-world, redesigned. Pick what’s coming up (Job, Work, Clients, People) and the situation, see the scene, answer, and hear them reply, in a cleaner layout that fits one screen',
+    'After a client conversation you now see why they decided what they did, quoting your exact words, and “Get a better deal next time”: up to two moments, what you said, and a line to say instead',
+    'Ten situations instead of thirteen: Introduce yourself, Conversation (small talk to first dates) and Price & bargaining each fold two into one',
+    'Choose your field once (Creative, Tech, Education…, or type your own) and every scenario fits it. Your price or floor and follow-ups live in the same settings',
+    'Every client situation now comes with a brief: who the client is, the job, and your position (“¥15,000, final price”). The client and K both work from it',
+    'The client has a secret, like a real one: a bigger budget, a deadline, a bluff. At the end they decide (deal, think about it, or walk) and tell you what they were hiding, so you see what holding firm or giving in actually cost you',
+    'Follow-ups sound like people now. In Someone new, Small talk and Introductions, the other person reacts and shares before asking, instead of interviewing you',
+    'No clock where there isn’t one in real life. Small talk, meetings, tough questions and the money conversations have no time limit; pitches, interviews and introductions keep theirs',
     'Bargaining and Someone new can now go up to three follow-ups. Bargaining starts at two, because haggling only gets hard after the second no',
     'Someone new. Practise getting to know people: at a party, in a class, on a first date. K coaches curiosity, listening and being yourself, never lines or tricks',
     'Today’s topic now works through every question before any comes back, and “Other topics” takes you to the rest of Table Topics without losing today’s'
@@ -6360,7 +6643,7 @@ function render(){
   app.classList.toggle("no-anim",_same);
   // Hub is a fixed one-viewport layout; every other view scrolls normally.
   app.classList.toggle("is-hub",V.view==="hub");
-  app.classList.toggle("is-t1pg",V.view==="notebook"||V.view==="coach-history"||V.view==="settings"||V.view==="sync"||V.view==="table");
+  app.classList.toggle("is-t1pg",(V.view==="tt-practice"&&TTP.track==="real")||V.view==="notebook"||V.view==="coach-history"||V.view==="settings"||V.view==="sync"||V.view==="table");
   document.body.classList.toggle("on-hub",V.view==="hub");
   app.classList.toggle("is-tt",V.view==="tt-practice"&&TTP.phase==="question");
   app.classList.toggle("is-tts",V.view==="tt-practice"&&TTP.phase==="setup");
@@ -6764,7 +7047,7 @@ function _t1Body(mode){
     const rk=Object.keys(TT_REAL);
     grid='<div class="t1-grid">'+ROLESTILE+tile('outline','outline','Outline Builder','ob-new',OB_SUB,{row:'New · Saved'})+
       tile('tt','tt',TT,_ttD?'tt':'tt-daily',TT_SUB,{row:'Topics · Themes'})+
-      tile('real','real','Real-world','real',RW_SUB,{row:rk.length+' situations'})+'</div>';
+      tile('real','real','Real-world','real',RW_SUB,{row:rk.filter(k=>!TT_REAL[k].hide).length+' situations'})+'</div>';
   }else{
     const ms=S.mentees||[];
     if(ms.length){
@@ -9930,7 +10213,11 @@ const TT_REAL={
     "Your manager gives you 60 seconds: why should your project get the budget?",
     "Pitch the city you live in to someone moving there next month.",
     "Pitch a small change that would make your office better."]},
-  intro:{name:"Introductions",sub:"Make it memorable",secs:[30,60],prompts:[
+  intro:{name:"Introduce yourself",sub:"Make it memorable",secs:[30,60],prompts:[
+    "A potential client on a video call: “Thanks for joining. Tell me a bit about yourself and what you do.”",
+    "At an industry mixer, a marketing director asks: “So what is it you do, exactly?”",
+    "A startup founder you've been referred to: “We've talked to three agencies already. What makes you different?”",
+    "A cold call is picked up: “Yes? I've got two minutes.”",
     "Introduce yourself at a networking event — make one detail stick.",
     "It's your first day. Introduce yourself to the new team.",
     "Introduce yourself to a room of parents at your child's school.",
@@ -9941,9 +10228,9 @@ const TT_REAL={
     "Introduce yourself to your neighbours at a building gathering.",
     "Introduce yourself as the speaker before your talk begins.",
     "Introduce yourself to a new manager in under a minute."]},
-  smalltalk:{name:"Small talk",sub:"Keep it going",secs:[20,45],prompts:["At a networking event, a stranger says: “So how do you know the host?”", "A colleague you barely know, in the lift: “Busy week?”", "At a wedding dinner, the person next to you asks: “Are you with the bride or the groom?”", "A client, before the meeting starts: “Did you find the place okay?”", "At a conference coffee break: “What did you think of that last talk?”", "A neighbour in the hallway: “Haven’t seen you around much lately!”", "Your boss’s boss, at the team dinner: “So what’s keeping you busy these days?”", "A parent at school pickup: “Which class is yours in?”", "Someone at a party: “So, what do you do?”", "On a video call, waiting for the others: “Where are you dialling in from?”", "A guest at your club meeting: “Is this your first time here too?”", "A new colleague on Friday afternoon: “Any plans for the weekend?”"]},
-  meeting:{name:"Speaking up",sub:"In meetings",secs:[30,90],prompts:["Your manager turns to you: “You’ve been quiet. What do you think?”", "Give a 30-second update on your project at the weekly team meeting.", "The team is about to agree on a plan you think has a gap. Speak up.", "The discussion has gone in circles for twenty minutes. Sum it up and suggest a next step.", "You’re asked for your view on something outside your expertise.", "Two colleagues disagree, and the chair asks you to weigh in.", "The chair asks: “Anything else before we close?” You have an idea. Propose it.", "You need more time on a deadline. Raise it in the meeting.", "A senior leader asks the team for honest feedback. Nobody speaks. Go first.", "Disagree with your manager’s proposal, politely, in front of the team.", "Someone just presented your idea as theirs. Respond in the meeting.", "Close the meeting: recap what was decided and who does what."]},
-  tough:{name:"Tough question",sub:"Stay composed",secs:[45,90],prompts:[
+  smalltalk:{name:"Conversation",sub:"Small talk to first dates",free:true,secs:[20,45],prompts:["At a networking event, a stranger says: “So how do you know the host?”", "A colleague you barely know, in the lift: “Busy week?”", "At a wedding dinner, the person next to you asks: “Are you with the bride or the groom?”", "A client, before the meeting starts: “Did you find the place okay?”", "At a conference coffee break: “What did you think of that last talk?”", "A neighbour in the hallway: “Haven’t seen you around much lately!”", "Your boss’s boss, at the team dinner: “So what’s keeping you busy these days?”", "A parent at school pickup: “Which class is yours in?”", "Someone at a party: “So, what do you do?”", "On a video call, waiting for the others: “Where are you dialling in from?”", "A guest at your club meeting: “Is this your first time here too?”", "A new colleague on Friday afternoon: “Any plans for the weekend?”"]},
+  meeting:{name:"Meetings",sub:"Speak up and be heard",free:true,secs:[30,90],prompts:["Your manager turns to you: “You’ve been quiet. What do you think?”", "Give a 30-second update on your project at the weekly team meeting.", "The team is about to agree on a plan you think has a gap. Speak up.", "The discussion has gone in circles for twenty minutes. Sum it up and suggest a next step.", "You’re asked for your view on something outside your expertise.", "Two colleagues disagree, and the chair asks you to weigh in.", "The chair asks: “Anything else before we close?” You have an idea. Propose it.", "You need more time on a deadline. Raise it in the meeting.", "A senior leader asks the team for honest feedback. Nobody speaks. Go first.", "Disagree with your manager’s proposal, politely, in front of the team.", "Someone just presented your idea as theirs. Respond in the meeting.", "Close the meeting: recap what was decided and who does what."]},
+  tough:{name:"Tough question",sub:"Stay composed",free:true,secs:[45,90],prompts:[
     "“Your project is two weeks late. What happened?”",
     "A client says: “Your price is too high.” Respond.",
     "“Why should we trust your numbers?”",
@@ -9954,7 +10241,7 @@ const TT_REAL={
     "A colleague says: “That idea won't work here.” Respond.",
     "“Can you explain why your results dropped last quarter?”",
     "A journalist asks: “Isn't your company part of the problem?”"]},
-  social:{name:"Someone new",sub:"Get to know them",grp:"everyday",secs:[20,45],prompts:[
+  social:{name:"Someone new",sub:"Get to know them",hide:true,free:true,grp:"everyday",secs:[20,45],prompts:[
     "In the coffee queue, the person behind you says: “Is the oat latte here any good?”",
     "At a friend's birthday dinner, the person next to you says: “So how do you know Mei?”",
     "On a first date, after you've both ordered: “So… what do you actually do all day?”",
@@ -9967,74 +10254,66 @@ const TT_REAL={
     "At a language exchange, your partner says: “Why are you learning English? Your English is already good.”",
     "At a wedding, someone at your table says: “Are you as bad at dancing as I am?”",
     "On a second date, they say: “Last time you mentioned your family. Tell me more.”"]},
-  cintro:{name:"Client intro",sub:"Why you, fast",grp:"client",secs:[30,60],prompts:[
-    "A potential client on a video call: “Thanks for joining. Tell me a bit about yourself and what you do.”",
-    "At an industry mixer, a marketing director asks: “So what is it you do, exactly?”",
-    "You've been referred to a restaurant owner. She says: “Lina said I should talk to you. Why?”",
-    "First meeting with a startup founder: “We've talked to three agencies already. What makes you different?”",
-    "A client's manager joins the call late: “Sorry, who are you and what's your role here?”",
-    "A cold call is picked up: “Yes? I've got two minutes.”",
-    "At a trade fair booth, a buyer stops: “What's your company about?”",
-    "A potential client reads your profile and says: “You're quite young. How much experience do you actually have?”",
-    "A client asks: “Before we start, tell me how you usually work with clients.”",
-    "A hotel manager says: “We've never worked with a freelancer before. Why should we start with you?”"]},
+  cintro:{name:"Client intro",sub:"Why you, fast",hide:true,grp:"client",secs:[30,60],prompts:[
+    {"c": "Ms Wang · runs three bakeries in Jing'an", "job": "She wants more online orders", "pos": "You: freelance web designer, 3 years, 14 small-business sites", "line": "“Lina said I should talk to you. So, who are you and what do you do?”"},
+    {"c": "Mr Liu · marketing manager at a sportswear brand", "job": "A product launch video in six weeks", "pos": "You: video producer, mostly music videos so far, first brand client", "line": "“We've talked to three agencies already. What makes you different?”"},
+    {"c": "Sarah · owns a boutique hotel in Hangzhou", "job": "New photos for the website and booking sites", "pos": "You: photographer, 2 years, mainly food and interiors", "line": "“We've never worked with a freelancer before. Why should we start with you?”"},
+    {"c": "Mr Zhou · founder of an edtech startup", "job": "English presentation coaching for his sales team", "pos": "You: communication coach, ex-sales, run your own workshops", "line": "“I've got two minutes before my next call. What is it you do?”"},
+    {"c": "Mrs Chen · marketing director at a skincare company", "job": "Music for a 30-second ad", "pos": "You: composer, game and film credits, first beauty brand", "line": "“You're quite young. How much experience do you actually have?”"},
+    {"c": "Daniel · co-founder of a coffee chain", "job": "A brand refresh before opening store number five", "pos": "You: brand designer at a small two-person studio", "line": "“Before we start, tell me how you usually work with clients.”"}]},
   proposal:{name:"Proposal",sub:"Walk them through it",grp:"client",secs:[60,120],prompts:[
-    "Present your proposal: a new website for a family-run bakery that wants more online orders.",
-    "The client says: “Okay, walk me through your proposal.” It's a 3-month social media campaign for a gym.",
-    "Present your plan to redesign the onboarding for a small software company losing new users.",
-    "A wedding planner asks you to pitch your photography package for their premium clients.",
-    "Present a proposal to train a sales team of 12 in presentation skills over six weeks.",
-    "A restaurant wants a new menu design and brand refresh. Present your approach and timeline.",
-    "Present your proposal to film a 2-minute brand video for a skincare startup.",
-    "A school asks how you'd run a 4-week public speaking course for their students. Present it.",
-    "Present your proposal to translate and localise a company's product catalogue into English.",
-    "The client says: “You have five minutes. Convince me your plan is worth the budget.”"]},
-  price:{name:"Talk price",sub:"Say the number",grp:"client",secs:[30,60],prompts:[
-    "The client likes your proposal and asks: “So, how much will this cost?”",
-    "“Before we go further, what's your rate?”",
-    "“What would a logo and basic brand guide cost?”",
-    "The client says: “Give me a ballpark. I don't need exact numbers.”",
-    "“How do you charge: by the hour or by the project?”",
-    "“What's your budget range for something like this?” Wait, they're asking you to name it.",
-    "A client asks you to quote for a 2-day workshop on the spot.",
-    "“Is the price negotiable?” asked before you've even named one.",
-    "A friend's company asks: “What would you charge us? We're a friend, so…”",
-    "“Our last vendor charged ¥5,000 for this. What would you charge?”"]},
-  bargain:{name:"Bargaining",sub:"They want it cheaper",grp:"client",secs:[30,75],prompts:[
-    "You quoted ¥12,000. The client says: “Can you do it for ¥8,000?”",
-    "“Your price is 30% over our budget. What can you do?”",
-    "“If we sign today, can you knock off 20%?”",
-    "“Another studio quoted half your price. Can you match it?”",
-    "“We're a startup. Can we pay you later, once we raise money?”",
-    "“Can you throw in the extra revisions for free? It's a small thing.”",
-    "“We'll give you lots of exposure. Can you do this one for free?”",
-    "“Can you do the full package for the price of the basic one?”",
-    "“Our boss approved ¥6,000. That's it. Can you work with that?”",
-    "“What's your best price? Your real best price.”"]},
-  difficult:{name:"Difficult client",sub:"Keep your cool",grp:"client",secs:[30,75],prompts:[
-    "The client approved the design last week. Today: “We've looked again. We hate it. Start over.”",
-    "Halfway through, the client says: “Oh, and we also need an English version. That's included, right?”",
-    "The client on a call, irritated: “Honestly, this is amateur work. Is this really your best?”",
-    "The client messages at 11pm: “Need this changed by 8am. Urgent.”",
-    "Payment is three weeks late. The client says: “Finance is slow. Why are you chasing me?”",
-    "In front of their team, the client says: “I don't think you understood the brief at all.”",
-    "The client says: “My nephew could do this in an afternoon. Why does it take you two weeks?”",
-    "After delivery: “It's fine, but my boss wants it to look completely different. Same price, of course.”",
-    "The client keeps changing their mind. Now: “Actually, go back to the first version. No, the second.”",
-    "The client ghosted you for a month and now writes: “Where is everything? We launch tomorrow!”"]},
-  ground:{name:"Hold your ground",sub:"They push, you don't",grp:"client",secs:[30,75],prompts:[
-    "You've quoted ¥15,000 for a brand video. The client says: “That's too much. We were thinking ¥9,000.”",
-    "You've said the timeline is four weeks. The client says: “We need it in ten days.”",
-    "You've proposed three rounds of revisions. The client says: “We'll need unlimited revisions.”",
-    "Mid-project, the client says: “While you're at it, could you also do the social media posts?”",
-    "You've asked for a 50% deposit. The client says: “We never pay upfront. You'll get paid at the end.”",
-    "The client says: “Your design is fine, but can you just copy what our competitor did?”",
-    "You've quoted ¥20,000 for a training day. The client says: “Other trainers charge ¥8,000.”",
-    "The client says: “Can you start before the contract is signed? It's just paperwork.”",
-    "You've finished the project. The client says: “We're not happy. We'll pay half.”",
-    "The client asks you to cut your fee because “the project got smaller”, but the scope hasn't changed."]}
+    {"c": "Ms Wang · runs three bakeries", "job": "A new website with online ordering", "pos": "Your offer: site + ordering in 6 weeks, ¥28,000, two rounds of changes", "line": "“Okay, walk me through your proposal.”"},
+    {"c": "Mr Liu · owns a chain of four gyms", "job": "A 3-month social media campaign", "pos": "Your offer: 36 posts, 6 short videos, monthly report, ¥45,000", "line": "“You have five minutes. Convince me it's worth the budget.”"},
+    {"c": "Kevin · operations manager at a software company", "job": "Fixing onboarding: 40% of new users quit in week one", "pos": "Your offer: 2-week research, then a redesign plan, ¥60,000", "line": "“So what exactly would you do, and how do we know it'll work?”"},
+    {"c": "Sarah · director of a training company", "job": "Presentation skills for a sales team of 12", "pos": "Your offer: six weekly 2-hour sessions with recorded practice, ¥36,000", "line": "“Talk me through the programme. What will they actually be able to do at the end?”"},
+    {"c": "Daniel · founder of a skincare startup", "job": "A 2-minute brand video", "pos": "Your offer: script, one-day shoot, edit, two versions, ¥32,000", "line": "“We like your reel. Show us how you'd approach ours.”"},
+    {"c": "Mrs Chen · head of a private school", "job": "A 4-week public speaking course for 15-year-olds", "pos": "Your offer: 8 sessions, a final showcase for parents, ¥24,000", "line": "“How would you run it, and what would the parents see at the end?”"}]},
+  price:{name:"Talk price",sub:"Say the number",hide:true,free:true,grp:"client",secs:[30,60],prompts:[
+    {"c": "Mr Zhang · owns a furniture factory", "job": "A logo and basic brand guide", "pos": "Your price: ¥12,000, which you haven't said yet", "line": "“We like your portfolio. So, how much will this cost?”"},
+    {"c": "Ms Li · procurement at a large company", "job": "A 2-day presentation workshop for 20 managers", "pos": "Your price: ¥30,000, which you haven't said yet", "line": "“Before we go further, what's your rate?”"},
+    {"c": "Daniel · startup founder", "job": "Product photos for 40 items", "pos": "Your price: ¥8,000, which you haven't said yet", "line": "“Give me a ballpark. I don't need exact numbers.”"},
+    {"c": "Kevin · manager at a property developer", "job": "A promotional video for a new building", "pos": "Your price: ¥25,000, which you haven't said yet", "line": "“Is the price negotiable?” (you haven't named one yet)"},
+    {"c": "Mr Huang · a friend's company", "job": "A company website", "pos": "Your price: ¥18,000, the same as any client", "line": "“What would you charge us? We're friends, so…”"},
+    {"c": "Mrs Chen · marketing director", "job": "Music for a 30-second ad", "pos": "Your price: ¥15,000, which you haven't said yet", "line": "“Our last vendor charged ¥5,000 for this. What would you charge?”"}]},
+  bargain:{name:"Price & bargaining",sub:"Say it, then hold it",free:true,grp:"client",secs:[30,75],prompts:[
+    {"c": "Mr Zhang · owns a furniture factory", "job": "A logo and brand guide", "pos": "Your quote: ¥12,000. Your floor: ¥10,000", "line": "“Can you do it for ¥8,000?”"},
+    {"c": "Ms Li · procurement at a large company", "job": "A 2-day workshop", "pos": "Your quote: ¥30,000. Your floor: ¥26,000, or the same price with a shorter workshop", "line": "“Your price is 30% over our budget. What can you do?”"},
+    {"c": "Daniel · startup founder", "job": "A website", "pos": "Your quote: ¥20,000. You need 50% upfront", "line": "“We're a startup. Can we pay you once we raise money?”"},
+    {"c": "Kevin · manager at a property developer", "job": "A promotional video", "pos": "Your quote: ¥25,000. Final price, non-negotiable", "line": "“If we sign today, can you knock off 20%?”"},
+    {"c": "Sarah · boutique hotel owner", "job": "Hotel photos", "pos": "Your quote: ¥9,000 for 30 photos. Extra edits are ¥150 each", "line": "“Can you throw in the extra edits for free? It's a small thing.”"},
+    {"c": "Mr Huang · runs an events company", "job": "Music for a launch event", "pos": "Your quote: ¥15,000. Your floor: ¥13,000", "line": "“Another studio quoted half your price. Can you match it?”"}]},
+  difficult:{name:"Difficult client",sub:"Keep your cool",free:true,grp:"client",secs:[30,75],prompts:[
+    {"c": "Mrs Chen · marketing director", "job": "A brand video, design approved by her last week", "pos": "The agreement: 2 rounds of changes. Starting over is a new quote", "line": "“We've looked again. We hate it. Start over.”"},
+    {"c": "Mr Liu · gym chain owner", "job": "A social media campaign, halfway through", "pos": "The agreement: Chinese posts only. English is extra, ¥8,000", "line": "“Oh, and we also need an English version. That's included, right?”"},
+    {"c": "Daniel · startup founder", "job": "A website, delivered on time", "pos": "The agreement: payment due 14 days after delivery. It's now day 35", "line": "“Finance is slow. Why are you chasing me?”"},
+    {"c": "Kevin · operations manager", "job": "A product demo video", "pos": "The agreement: changes within office hours, 3 working days each", "line": "(11pm, by message) “Need this changed by 8am. Urgent.”"},
+    {"c": "Mr Zhang · furniture factory owner", "job": "A logo, in front of his team", "pos": "The agreement: you followed the brief he signed off", "line": "“I don't think you understood the brief at all.”"},
+    {"c": "Sarah · boutique hotel owner", "job": "Hotel photos, delivered", "pos": "The agreement: 30 edited photos, all delivered", "line": "“My nephew could do this in an afternoon. Why did it take you two weeks?”"}]},
+  ground:{name:"Hold your ground",sub:"They push, you don't",free:true,grp:"client",secs:[30,75],prompts:[
+    {"c": "Daniel · founder of a skincare startup", "job": "A brand video", "pos": "Your position: ¥15,000. Final price, non-negotiable", "line": "“That's too much. We were thinking ¥9,000.”"},
+    {"c": "Ms Li · procurement at a large company", "job": "A website", "pos": "Your position: four weeks. A faster timeline means a smaller scope", "line": "“We need it in ten days.”"},
+    {"c": "Mrs Chen · marketing director", "job": "A brand identity", "pos": "Your position: three rounds of revisions, then ¥2,000 per extra round", "line": "“We'll need unlimited revisions.”"},
+    {"c": "Kevin · manager at a property developer", "job": "A promotional video", "pos": "Your position: 50% deposit before you start", "line": "“We never pay upfront. You'll get paid at the end.”"},
+    {"c": "Mr Huang · runs an events company", "job": "A training day for his staff", "pos": "Your position: ¥20,000. Floor ¥18,000", "line": "“Other trainers charge ¥8,000.”"},
+    {"c": "Mr Zhang · furniture factory owner", "job": "A website, already agreed", "pos": "Your position: no work before the contract is signed", "line": "“Can you start before the contract is signed? It's just paperwork.”"}]}
 };
 
+// Merged situations: Conversation = small talk + someone new; Price & bargaining = talk price + bargaining.
+TT_REAL.smalltalk.prompts=TT_REAL.smalltalk.prompts.concat(TT_REAL.social.prompts);
+TT_REAL.bargain.prompts=TT_REAL.price.prompts.concat(TT_REAL.bargain.prompts);
+// What's coming up? Situations grouped by the moment people are preparing for.
+const RW_GOALS=[
+  {k:'job',e:'💼',t:'Job hunting',sub:'Interview · Pitch · Introduce yourself',items:['interview','pitch','intro']},
+  {k:'work',e:'🏢',t:'At work',sub:'Meetings · Tough question',items:['meeting','tough']},
+  {k:'client',e:'🤝',t:'Clients & money',sub:'Proposal · Price · Difficult · Hold firm',items:['proposal','bargain','difficult','ground']},
+  {k:'people',e:'☕',t:'Meeting people',sub:'Small talk to first dates',items:['smalltalk']}
+];
+function _rwGoalOf(k){return RW_GOALS.find(g=>g.items.includes(k))||RW_GOALS[0];}
+const RW_FIELDS=['Creative','Tech','Business & finance','Education','Health','Sales & marketing'];
+// Field and price feed every prompt through TTP.context.
+function _rwCtx(){const f=(S.rwField||'').trim(),pr=_rwIsClient()?(S.rwPrice||'').trim():'';return [f?'Field: '+f:'',pr?'Price or floor: '+pr:''].filter(Boolean).join('; ');}
+function _rwFuLabel(){if(TTP.scenario==='ground')return '3 pushes';const n=_rwFuSetting();return n?n+(n===1?' follow-up':' follow-ups'):'No follow-ups';}
+function _rwSettingsLine(){return [(S.rwField||'').trim()||'Any field',_rwIsClient()&&(S.rwPrice||'').trim()?S.rwPrice.trim():'',_rwFuLabel()].filter(Boolean).join(' · ');}
 let TTP={
   phase:"setup",       // "setup"|"question"|"active"|"done"
   theme:"",
@@ -10076,14 +10355,15 @@ const RW_FU_PERSONA={
   interview:"You are the interviewer. Probe like a good interviewer: ask for a specific example, the speaker's own part (not the team's), the result, what they'd do differently, or why it matters for the role.",
   pitch:"You are the person being pitched (whoever the scenario names: investor, client, recruiter, manager, friend). React like a real listener: how is it different, what does it cost, who already uses it, why you, what do you need from me.",
   intro:"You are someone the speaker has just met in that setting. React with genuine curiosity to something they said, the way a real person would, and ask to hear more.",
-  smalltalk:"You are the other person in this small talk. Keep it light and friendly. Pick up the detail the speaker offered. You may share a tiny bit about yourself before asking, like real small talk.",
+  smalltalk_old:"You are the other person in this small talk. Keep it light and friendly. Pick up the detail the speaker offered. You may share a tiny bit about yourself before asking, like real small talk.",
   meeting:"You are a colleague or the chair in this meeting. Respond like a busy, fair colleague: push back on the idea, or ask what it costs, who owns it, the risk, or the timeline.",
   tough:"You are the person who asked the tough question. You are not fully satisfied. Press on the part they avoided or challenge one claim they made. Firm and direct, never abusive.",
+  smalltalk:"You are someone the speaker is talking to socially (the scenario says where: a lift, a party, a queue, a class, a date). You are friendly but a little reserved, the way real people are at first: give a short, genuine answer of your own, and only open up more if the speaker showed real interest. If they asked you something, answer it briefly and add one small detail about yourself they could pick up. If they only talked about themselves, react politely and briefly. Never flirt, never be rude, keep it everyday and respectful.",
   social:"You are someone the speaker has just met socially (the scenario says where: a queue, a party, a class, a date). You are friendly but a little reserved, the way real people are at first: give a short, genuine answer of your own, and only open up more if the speaker showed real interest. If they asked you something, answer it briefly and add one small detail about yourself they could pick up. If they only talked about themselves, react politely and briefly. Never flirt, never be rude, keep it everyday and respectful.",
   cintro:"You are the potential client. Busy and polite, mildly sceptical. React like a real buyer: what exactly do you do for someone like me, who have you done it for, why you rather than the others, what happens next.",
   proposal:"You are the client hearing the proposal. Engaged but careful with money and time. Ask what a real client asks: why this approach, what if it doesn't work, how long, what do you need from us, can we cut this part, how will we know it worked.",
   price:"You are the client who asked about price. React to the number like a real buyer: a little surprised, ask what's included, why it costs that, whether there's a cheaper option. Polite, not hostile.",
-  bargain:"You are the client who wants a lower price. Keep negotiating like a real buyer: test whether the number really moves, ask for extras, mention budget or competitors, suggest a smaller deal. Friendly but persistent. Never accept on the first answer.",
+  bargain:"You are the client in a price conversation. If the speaker has not named a price yet, ask for it plainly; once they have, react like a real buyer (a little surprised, what is included, why so much) and then negotiate: test whether the number really moves, ask for extras, mention budget or competitors, suggest a smaller deal. Friendly but persistent. Never accept on the first answer.",
   difficult:"You are a difficult client, the kind every freelancer meets: impatient, a bit unfair, quick to blame, but not abusive. Stay in character and react to what the speaker said: if they got defensive, push harder; if they stayed calm and set a clear boundary, ease off slightly but test it once more. Never use insults about the person, slurs or threats.",
   ground:"You are the client trying to move the speaker off their position (price, timeline, scope or terms, whatever the scenario sets). You are pleasant, reasonable-sounding and persistent. You never accept their position; each time you push again with a different lever, as instructed below. Never insult or threaten."
 };
@@ -10110,7 +10390,7 @@ const RW_FU_BANK={
 };
 // Follow-ups: 0–2 for most situations. Bargaining and Someone new go up to 3 and keep their own choice
 // (Bargaining starts at 2, because haggling only gets hard after the second no). Hold your ground is fixed at 3.
-const RW_FU_OWN={bargain:2,social:1};
+const RW_FU_OWN={bargain:2,social:1,smalltalk:1};
 function _rwFuMax(k){return RW_FU_OWN[k]!=null?3:2;}
 function _rwFuSetting(){const k=TTP.scenario;
   if(RW_FU_OWN[k]!=null){const n=(S.rwFuBy||{})[k];return n>=0&&n<=3?n:RW_FU_OWN[k];}
@@ -10118,9 +10398,37 @@ function _rwFuSetting(){const k=TTP.scenario;
 function _rwFuPicker(){const f=_rwFuSetting(),m=_rwFuMax(TTP.scenario);let h='';for(let n=0;n<=m;n++)h+='<button type="button" data-fu="'+n+'" aria-pressed="'+(f===n)+'">'+(n?n:'None')+'</button>';return h;}
 function _rwFuN(){return TTP.track==='real'?(TTP.scenario==='ground'?3:_rwFuSetting()):0;}
 function _rwFuSecs(k){return k==='smalltalk'||k==='social'?[20,45]:[30,60];}
-function _rwTimeText(){const sc=TT_REAL[TTP.scenario]||TT_REAL.interview,n=TTP.scenario==='ground'?3:_rwFuSetting();return 'Aim for '+_ttRealTime(sc)+(n?' · then '+_ttRealTime({secs:_rwFuSecs(TTP.scenario)})+(TTP.scenario==='ground'?' per push':' per follow-up'):'');}
+function _rwFree(k){const sc=TT_REAL[k||TTP.scenario];return TTP.track==='real'&&!!(sc&&sc.free);}
+function _rwTimeText(){if(_rwFree())return TTP.scenario==='ground'?'No time limit · three pushes':'No time limit · say it the way you would';const sc=TT_REAL[TTP.scenario]||TT_REAL.interview,n=TTP.scenario==='ground'?3:_rwFuSetting();return 'Aim for '+_ttRealTime(sc)+(n?' · then '+_ttRealTime({secs:_rwFuSecs(TTP.scenario)})+(TTP.scenario==='ground'?' per push':' per follow-up'):'');}
 function _rwFuSubText(){if(TTP.scenario==='ground')return 'The client pushes three times, each time a different way. Your position should still be there at the end.';const n=_rwFuSetting();return n?(RW_ROLE[TTP.scenario]||'The other person')+' follows up on what you actually say, like they would in the room.':'One answer, then K’s notes.';}
-function _rwResetConvo(){TTP.convo=[];TTP.fuQ=null;TTP.fuLoading=false;}
+// Who the other person is. Picked once per conversation so their replies come from someone specific.
+const RW_PEOPLE={
+  social:["Lena, 29, works in logistics, came with a friend, a bit tired after work but friendly","Jun, 33, a nurse on night shifts, dry sense of humour, likes cooking","Sophie, 27, product designer, just moved to the city, a little shy at first","Marco, 35, runs a small coffee roastery, chatty once warmed up","Wen, 30, accountant, into bouldering and board games, answers briefly until interested","Aisha, 31, teaches primary school, warm, laughs easily, hates small talk about work"],
+  smalltalk:["Lena, 29, works in logistics, came with a friend, a bit tired after work but friendly","Jun, 33, a nurse on night shifts, dry sense of humour","Sophie, 27, product designer, just moved to the city, a little shy at first","Marco, 35, runs a small coffee roastery, chatty once warmed up","a colleague from another department, friendly, in a bit of a hurry","a fellow guest, relaxed, happy to chat","someone senior, polite and a little reserved","a neighbour you see now and then, chatty"],
+  intro:["an operations manager at a logistics company, friendly, mildly curious","a freelance photographer, relaxed and chatty","a senior engineer, polite, a bit reserved","a startup founder, fast-talking, always networking","a parent, warm, a little distracted"],
+  client:["friendly, but haggles out of habit","cold, polite and by the book","enthusiastic and talks fast","busy, decisive, hates long explanations","a bit anxious about money, double-checks everything","sceptical of freelancers, cares about quality"]
+};
+// What the client knows that the speaker doesn't. Revealed at the end with the client's decision.
+const RW_SECRETS=[
+  {k:"budget",t:"Your real budget is higher than you let on: you can actually pay the speaker's first price, or about 25% more than any number you mentioned yourself. Never reveal it. Make them work for it, and only move if they hold firm and show value."},
+  {k:"deadline",t:"You are under real deadline pressure and have no good alternative lined up. Hide it and act relaxed, as if you have plenty of time and options."},
+  {k:"bluff",t:"Any cheaper competitor or other option you mention is a bluff: you don't really have one. Use it if it helps you, but you would rather work with this speaker."},
+  {k:"tight",t:"Your budget really is tight: the most you can pay is about 15% below the speaker's first price. If they hold firm with no trade, you will probably walk. A trade (smaller scope, phased payment, longer timeline) would win you over."},
+  {k:"quality",t:"You care more about quality and reliability than price. You push on price because you always do. A calm, confident, value-focused answer wins you over; caving fast makes you doubt their quality."}
+];
+function _rwPick(a){return a[Math.floor(Math.random()*a.length)];}
+function _rwIsClient(k){const sc=TT_REAL[k||TTP.scenario];return !!(sc&&sc.grp==='client');}
+function _rwResetConvo(){TTP.convo=[];TTP.fuQ=null;TTP.fuLoading=false;TTP.rwDecision=null;TTP.rwReview=null;}
+// A new scenario: who the other person is, the brief (clients), and what the client is hiding.
+function _rwCast(item){
+  const k=TTP.scenario,cl=_rwIsClient(k);
+  TTP.rwBrief=cl&&item?{q:TTP.question,c:item.c,job:item.job,pos:String(item.pos).replace(/^(You|Your offer|Your price|Your quote|Your position|The agreement)\s*:\s*/,'')}:null;
+  TTP.rwWho=cl?((item&&item.c?item.c.replace(' · ',', ')+', ':'')+_rwPick(RW_PEOPLE.client)):_rwPick(RW_PEOPLE[k]||RW_PEOPLE.intro);
+  TTP.rwSecret=cl?_rwPick(RW_SECRETS):null;
+}
+const RW_POS_LBL={cintro:'You',proposal:'Your offer',price:'Your price',bargain:'Your price',difficult:'The agreement',ground:'Your position'};
+function _rwBriefOk(){return !!(TTP.rwBrief&&TTP.rwBrief.q===TTP.question);}
+function _rwBriefText(){if(!_rwBriefOk())return '';const b=TTP.rwBrief;return '\nThe client: '+b.c+'\nThe job: '+b.job+'\n'+(RW_POS_LBL[TTP.scenario]||'Speaker\'s position')+' (the speaker\'s side): '+b.pos;}
 function _rwBankFu(){
   if(TTP.scenario==='ground'){const g=RW_FU_BANK.ground,i=Math.max(0,(TTP.convo||[]).length-1);return g[Math.min(i,g.length-1)];}
   const b=RW_FU_BANK[TTP.scenario]||RW_FU_BANK.interview,used=new Set((TTP.convo||[]).map(t=>t.q));
@@ -10133,8 +10441,14 @@ async function _rwFollowup(){
     const l=_coachLang();
     const langLine=l.id==='auto'?"Reply in the same language the speaker used.":"Reply in "+l.name+", the way a native speaker would naturally say it.";
     const sc=TT_REAL[TTP.scenario]||TT_REAL.interview;
-    const sys="You play the other person in a speaking-practice role-play. "+(RW_FU_PERSONA[TTP.scenario]||RW_FU_PERSONA.interview)+"\nYou have just heard the speaker. Ask ONE natural follow-up, the one a real person in your seat would ask next. Pull one thread from what they actually said: something vague, a claim worth testing, a missing example or result"+(TTP.scenario==='smalltalk'||TTP.scenario==='social'?", or the detail they offered you":"")+". Do not repeat a question already asked.\nStay in character. Never coach, praise, evaluate or explain anything. Spoken style, one or two short sentences, under 30 words. "+langLine+" Reply with only what you say: no name, no label, no quotation marks.";
-    let msg="Situation: "+sc.name+"\nOpening prompt: "+TTP.question+(TTP.context?"\nThe speaker's role or situation: "+TTP.context:"")+"\n\nSo far:\n";
+    const _conv=['social','smalltalk','intro'].includes(TTP.scenario);
+    const who=TTP.rwWho?"Who you are: "+TTP.rwWho+". If the scenario names who you are (a mentor, a new manager, a parent), be that person, with this personality.\n":"";
+    const secret=TTP.rwSecret?"What only you know (never say it outright): "+TTP.rwSecret.t+"\n":"";
+    const realTalk="Talk the way people really talk out loud: contractions, plain everyday words, short sentences, sometimes a half sentence. Never sound like an interviewer, a coach or a chatbot. Never say: \"That's fascinating\", \"That's great!\", \"I'd love to hear more\", \"Tell me more about\", \"What specifically\", \"Can you elaborate\", \"What drew you to\", \"How did that make you feel\", \"It sounds like\". Don't repeat their words back as a question. The transcript is speech-to-text and may have errors: respond to what they meant.";
+    const sys=_conv
+      ?"You are in a real, casual conversation, playing the other person in a speaking-practice role-play. "+(RW_FU_PERSONA[TTP.scenario]||'')+"\n"+who+"\nReply to what they just said the way a real person would: react first (a genuine reaction, agreeing, a laugh, a small bit of your own experience or opinion), then at most one easy question, or no question if sharing fits better. If they asked you something, answer it first, briefly and honestly, in character. If they gave you very little, give a short polite reply that leaves them to carry it. Match their energy.\n"+realTalk+"\nOne or two short sentences, under 25 words. "+langLine+" Reply with only what you say: no name, no label, no quotation marks.\n\nBad (never like this): \"That's fascinating! What specifically drew you to pottery?\"\nGood: \"Ha, mine's worse, trust me. First time here?\"\nGood: \"Oh nice, I've always wanted to try that. Is it hard?\""
+      :"You play the other person in a speaking-practice role-play. "+(RW_FU_PERSONA[TTP.scenario]||RW_FU_PERSONA.interview)+"\n"+who+secret+"You have just heard the speaker. Say the ONE thing a real person in your seat would say next: usually a follow-up question or a push, reacting to something they actually said (something vague, a claim worth testing, a missing example, a number). Do not repeat a question already asked.\nStay in character. Never coach, praise, evaluate or explain anything. "+realTalk+" One or two short sentences, under 30 words. "+langLine+" Reply with only what you say: no name, no label, no quotation marks.";
+    let msg="Situation: "+sc.name+_rwBriefText()+"\nOpening prompt: "+TTP.question+(TTP.context?"\nThe speaker's role or situation: "+TTP.context:"")+"\n\nSo far:\n";
     TTP.convo.forEach((t,i)=>{msg+=(i?"You asked: ":"Prompt: ")+t.q+"\nThe speaker said: "+(t.a||"(nothing caught)")+"\n";});
     if(TTP.scenario==='ground'){const pi=Math.min(TTP.convo.length-1,2);msg+="\nThis is your next push. "+RW_GROUND_PUSH[pi]+" React to what they just said, then push.";}
     msg+="\nYour follow-up:";
@@ -10179,6 +10493,7 @@ function _rwConvoSys(s,rw){
   const fuLine=TTP.scenario==='ground'
     ?'↪ UNDER FOLLOW-UP: Did they hold their ground? Compare their position in the first answer with the last: same, softened or given away. If it moved, quote the exact line where the drift started and name which push caused it (logic, personal appeal or sweetener). Then one sentence on whether they stayed warm.'
     :'↪ UNDER FOLLOW-UP: How they handled the follow-up'+pl+': did they answer what was actually asked, stay consistent, keep their thread, stay calm? One or two sentences; quote them if it helps.';
+  if(rw.free)s=s.replace('No time limit in this situation.','No time limit in this conversation.');
   return s.replace(/Time target: [^\n]*/,'Time target: '+_ttRealTime(rw)+' for the first answer, '+_ttRealTime({secs:_rwFuSecs(TTP.scenario)})+' for each follow-up. Say briefly whether they kept to it.')
     .replace('Reply in EXACTLY these four sections','This was a conversation, not a single answer: after the first answer, the other person asked '+n+' follow-up question'+pl+' based on what the speaker said. Judge the whole exchange. A strong speaker answers what was actually asked, stays consistent with what they said before, keeps their thread, gets sharper rather than longer, and stays calm when pressed.\n\nReply in EXACTLY these five sections')
     .replace('💡 ONE THING:',fuLine+'\n💡 ONE THING:')
@@ -10186,7 +10501,7 @@ function _rwConvoSys(s,rw){
     .replace('Under 180 words','Under 230 words').replace('under 15 words,','under 15 words in total,');
 }
 function _rwConvoMsg(rw){
-  let m='Scenario: '+rw.name+(TTP.context?'\nSpeaker\'s role or situation: '+TTP.context:'')+'\n\nTHE CONVERSATION:\n';
+  let m='Scenario: '+rw.name+_rwBriefText()+(TTP.context?'\nSpeaker\'s role or situation: '+TTP.context:'')+'\n\nTHE CONVERSATION:\n';
   TTP.convo.forEach((t,i)=>{m+=(i?(TTP.scenario==='ground'?'The client (push '+i+')':'The other person (follow-up '+i+')'):'The opening prompt')+': "'+t.q+'"\nThe speaker ('+fmtMs(t.elapsed*1000)+', '+t.words+' words): '+(t.a||'(no audio captured)')+'\n\n';});
   return m.trim();
 }
@@ -10355,13 +10670,37 @@ function _ttRealTime(sc){
 }
 function ttpOfflineReal(key){
   const sc=TT_REAL[key]||TT_REAL.interview;
+  const L=x=>typeof x==='string'?x:x.line,lines=sc.prompts.map(L);
   const seen=new Set(_ttSeenList());
-  let fresh=sc.prompts.filter(q=>!seen.has(q));
-  if(!fresh.length){const l=_ttSeenList();for(let i=l.length-1;i>=0;i--)if(sc.prompts.includes(l[i]))l.splice(i,1);fresh=sc.prompts.slice();}
-  return fresh[Math.floor(Math.random()*fresh.length)];
+  let fresh=sc.prompts.filter(q=>!seen.has(L(q)));
+  if(!fresh.length){const l=_ttSeenList();for(let i=l.length-1;i>=0;i--)if(lines.includes(l[i]))l.splice(i,1);fresh=sc.prompts.slice();}
+  const it=fresh[Math.floor(Math.random()*fresh.length)];
+  TTP._rwItem=typeof it==='string'?null:it;
+  return L(it);
+}
+function _rwSettingsSheet(){
+  const cl=_rwIsClient(),gr=TTP.scenario==='ground';
+  const ov=document.createElement('div');ov.className='rw-ov';
+  const f=(S.rwField||'').trim(),other=f&&!RW_FIELDS.includes(f);
+  let h='<div class="rw-sheet t1 rwx-sheet" data-lt-keep role="dialog" aria-label="Practice settings"><div class="rw-handle"></div><h2>Practice settings</h2>';
+  h+='<div class="rw-sl">Your field</div><div class="rw-fchips">'+RW_FIELDS.map(x=>'<button type="button" data-field="'+escHtml(x)+'" aria-pressed="'+(f===x)+'">'+escHtml(x)+'</button>').join('')+'<button type="button" data-field="" aria-pressed="'+(!f)+'">Any</button></div>';
+  h+='<input id="rw-f-other" type="text" maxlength="40" placeholder="Or type yours: e.g. Architecture, Law…" value="'+(other?escHtml(f):'')+'">';
+  if(cl)h+='<div class="rw-sl">Your price or floor <i>optional</i></div><input id="rw-f-price" type="text" maxlength="60" placeholder="e.g. ¥8,000 logo, floor ¥6,500" value="'+escHtml(S.rwPrice||'')+'">';
+  if(!gr)h+='<div class="rw-sl">Follow-ups</div><div class="rw-fu-seg" id="rw-s-fu">'+_rwFuPicker()+'</div>';
+  else h+='<div class="rw-sl">Follow-ups</div><p class="rw-note">Hold your ground always has three pushes.</p>';
+  h+='<button type="button" class="rw-done">Done</button></div>';
+  ov.innerHTML=h;document.body.appendChild(ov);
+  const close=()=>{const o=ov.querySelector('#rw-f-other').value.trim();if(o)S.rwField=o;const pr=ov.querySelector('#rw-f-price');if(pr)S.rwPrice=pr.value.trim();save();ov.remove();render();};
+  ov.addEventListener('click',e=>{if(e.target===ov)close();});
+  ov.querySelector('.rw-done').addEventListener('click',close);
+  ov.querySelectorAll('[data-field]').forEach(b=>b.addEventListener('click',()=>{S.rwField=b.dataset.field;ov.querySelector('#rw-f-other').value='';ov.querySelectorAll('[data-field]').forEach(x=>x.setAttribute('aria-pressed',String(x===b)));}));
+  ov.querySelector('#rw-f-other').addEventListener('input',e=>{if(e.target.value.trim())ov.querySelectorAll('[data-field]').forEach(x=>x.setAttribute('aria-pressed','false'));});
+  const fu=ov.querySelector('#rw-s-fu');if(fu)fu.addEventListener('click',e=>{const b=e.target.closest('[data-fu]');if(!b)return;const n=+b.dataset.fu;
+    if(RW_FU_OWN[TTP.scenario]!=null){S.rwFuBy=S.rwFuBy||{};S.rwFuBy[TTP.scenario]=n;}else S.rwFollowups=n;
+    fu.querySelectorAll('[data-fu]').forEach(x=>x.setAttribute('aria-pressed',String(x===b)));});
 }
 async function ttpFetchReal(useAI){
-  _rwResetConvo();
+  _rwResetConvo();TTP._rwItem=null;TTP.context=_rwCtx();
   const sc=TT_REAL[TTP.scenario]||TT_REAL.interview;
   const ctx=(TTP.context||"").trim();
   if(useAI){
@@ -10372,14 +10711,15 @@ async function ttpFetchReal(useAI){
         interview:"A realistic job-interview question an interviewer would actually ask. Behavioural (\"Tell me about a time…\") or motivational.",
         pitch:"A one-line elevator-pitch situation: who the speaker is talking to, and what they must sell in under a minute.",
         intro:"A one-line situation where the speaker must introduce themselves: where they are and who they're talking to.",
-        smalltalk:"One line someone says to the speaker to open or continue small talk — at an event, at work, with a neighbour or a stranger. Give the setting in a few words, then quote what they say.",
+
         meeting:"A moment in a work meeting where the speaker needs to speak up: give a view, an update, disagree, sum up or raise a problem. Describe the moment in one sentence.",
         tough:"A pointed, slightly uncomfortable question someone might ask in a meeting, review or Q&A. Quote it directly.",
         social:"An everyday social moment with someone the speaker has just met or is getting to know (a queue, a party, a class, a first or second date, a language exchange). Give the setting in a few words, then quote the first thing the other person says. Friendly and respectful, never suggestive.",
         cintro:"A moment where a potential client asks the speaker who they are or what they do. Give the setting in a few words, then quote the client.",
         proposal:"A client asking the speaker to present a proposal for a specific, concrete piece of work (say what the work is).",
         price:"A client asking the speaker about price or rates for a concrete piece of work. Quote the client.",
-        bargain:"A client pushing for a lower price or extras for free, after the speaker has quoted. Include a concrete number in yuan where it fits. Quote the client.",
+        bargain:"A client either asking the speaker's price for a concrete piece of work, or pushing for a lower price or free extras after a quote. Include a concrete number in yuan where it fits. Quote the client.",
+        smalltalk:"An everyday conversation moment: small talk with a colleague, neighbour or stranger, or getting to know someone new (a party, a class, a first or second date). Give the setting in a few words, then quote what the other person says. Friendly and respectful, never suggestive.",
         difficult:"A difficult client moment: a new request mid-project, approved work suddenly rejected, a rude remark, an unreasonable deadline, late payment or blame. Give the moment in a few words, then quote the client.",
         ground:"A client trying to move the speaker off a position they have already stated (price, timeline, scope, payment terms or quality). State the speaker's position in a few words, then quote the client's push."
       }[TTP.scenario];
@@ -10387,16 +10727,28 @@ async function ttpFetchReal(useAI){
       let msg="[Seed: "+Math.random().toString(36).slice(2,8)+"]"+(ctx?"\nThe speaker's role or situation: "+ctx+" — tailor the prompt to it.":"\nKeep it general enough for anyone.");
       if(seen.length)msg+="\n\nDo not reuse or lightly reword any of these:\n- "+seen.join("\n- ");
       msg+="\n\nReply with the one prompt only.";
+      if(_rwIsClient()){
+        const sysB="You write realistic client role-play briefs for a practice app for freelancers and new professionals. Situation type: "+brief+"\nReply with JSON only, no markdown: {\"client\":\"Name · who they are, under 8 words\",\"job\":\"the piece of work, under 10 words\",\"position\":\""+(RW_POS_LBL[TTP.scenario]||'Your position')+": the speaker's side, concrete, with ¥ figures where they apply (a quote, a floor, terms), under 16 words. Vary it: sometimes final and non-negotiable, sometimes a floor below the quote, sometimes flexible on one thing but not another\",\"line\":\"the client's opening words, spoken, in curly quotes, under 22 words\"}. Use Chinese-market pricing in yuan. Everyday plain English.";
+        const rawB=await callCoach(sysB,msg,{maxTokens:200,forceBase:true,featureId:'tt-question'});
+        const j=JSON.parse(String(rawB).replace(/```json|```/g,'').match(/\{[\s\S]*\}/)[0]);
+        const line=String(j.line||'').trim();
+        if(!line||line.length>240||!j.client||!j.job||!j.position)throw new Error('brief');
+        TTP.question=line;TTP.questionSource="ai";TTP._rwItem={c:String(j.client).slice(0,70),job:String(j.job).slice(0,90),pos:String(j.position).replace(/^[^:]{0,20}:\s*/,'').slice(0,140)};
+        throw 'done';
+      }
       let raw=await callCoach(sys,msg,{maxTokens:90,forceBase:true,featureId:'tt-question'});
       let q=raw.replace(/```/g,"").replace(/\*\*/g,"").split("\n").map(l=>l.trim()).filter(Boolean)[0]||"";
       q=q.replace(/^[\d]+[.)]\s*/,"").replace(/^[\-•*]\s*/,"").trim();
       if(q.length>=6&&q.length<=240){TTP.question=q;TTP.questionSource="ai";}
       else{TTP.question=ttpOfflineReal(TTP.scenario);TTP.questionSource="bank";}
-    }catch(e){TTP.question=ttpOfflineReal(TTP.scenario);TTP.questionSource="bank";}
+    }catch(e){if(e!=='done'){TTP.question=ttpOfflineReal(TTP.scenario);TTP.questionSource="bank";}}
     TTP.questionLoading=false;
   }else{
     TTP.question=ttpOfflineReal(TTP.scenario);TTP.questionSource="bank";
   }
+  if(TTP.questionSource==="ai"&&!_rwIsClient())TTP._rwItem=null;
+  if(TTP._rwItem&&TTP.questionSource==='bank'&&_rwIsClient()&&(S.rwPrice||'').trim())TTP._rwItem=Object.assign({},TTP._rwItem,{pos:S.rwPrice.trim()});
+  _rwCast(TTP._rwItem);TTP._rwItem=null;
   _ttMarkSeen(TTP.question);
   TTP._promptN=(TTP._promptN||0)+1;
   TTP.phase="question";
@@ -10433,8 +10785,189 @@ function ttpOfflineQuestion(theme,style){
   return fresh[Math.floor(Math.random()*fresh.length)];
 }
 
+// ═══ Real-world practice (option A) — ported from real-reference.html ═══
+// Setup → scene → answering → their reply → results. Markup and classes follow the reference;
+// the recording ids (ttp-active-*) and data-actions are the ones ttpStart/ttpStop already drive.
+const RWX_IC={
+  back:'<svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>',
+  job:'<svg viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="13" rx="2.5"/><path d="M8 7V5.5A1.5 1.5 0 0 1 9.5 4h5A1.5 1.5 0 0 1 16 5.5V7M3 12.5h18"/></svg>',
+  work:'<svg viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M9 7h1.5M13.5 7H15M9 11h1.5M13.5 11H15M9 15h1.5M13.5 15H15M10 21v-3h4v3"/></svg>',
+  client:'<svg viewBox="0 0 24 24"><path d="M11 17l2 2a1.4 1.4 0 0 0 2-2"/><path d="M14 14l2.5 2.5a1.4 1.4 0 0 0 2-2l-3.9-3.9a2 2 0 0 0-2.8 0l-.9.9a1.4 1.4 0 0 1-2-2l2.8-2.8a3.6 3.6 0 0 1 4.6-.4l.5.3a2 2 0 0 0 1.5.3H21"/><path d="M21 4v9h-2M3 4h8M3 4v9h2l4 4a1.4 1.4 0 0 0 2-2"/></svg>',
+  people:'<svg viewBox="0 0 24 24"><path d="M17 8h1a4 4 0 1 1 0 8h-1"/><path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4z"/><path d="M6 2v2M10 2v2M14 2v2"/></svg>',
+  again:'<svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/></svg>',
+  setup:'<svg viewBox="0 0 24 24"><path d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6"/></svg>',
+  dice:'<svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="4"/><circle cx="8.5" cy="8.5" r="1" fill="currentColor"/><circle cx="15.5" cy="15.5" r="1" fill="currentColor"/><circle cx="15.5" cy="8.5" r="1" fill="currentColor"/><circle cx="8.5" cy="15.5" r="1" fill="currentColor"/><circle cx="12" cy="12" r="1" fill="currentColor"/></svg>',
+  arrow:'<svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>',
+  bulb:'<svg viewBox="0 0 24 24"><path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 0 0-3.5 10.9c.6.4.9 1 .9 1.7V16h5.2v-.4c0-.7.3-1.3.9-1.7A6 6 0 0 0 12 3z"/></svg>',
+  chev:'<svg class="chev" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>',
+  clock:'<svg viewBox="0 0 24 24"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 1.5M9 2.5h6"/></svg>',
+  hourglass:'<svg viewBox="0 0 24 24"><path d="M6 2h12M6 22h12M7 2v4a5 5 0 0 0 10 0V2M7 22v-4a5 5 0 0 1 10 0v4"/></svg>',
+  walk:'<svg viewBox="0 0 24 24"><path d="M14 3h5a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-5"/><path d="M10 17l-5-5 5-5M5 12h11"/></svg>',
+  chat:'<svg viewBox="0 0 24 24"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20.5l1.4-4.6A8 8 0 1 1 21 12z"/></svg>'
+};
+const RWX_GOAL_T={job:'Job',work:'Work',client:'Clients',people:'People'};
+function _rwxWho(k){return _rwIsClient(k)?'The client':(RW_ROLE[k]||'The other person');}
+function _rwxFuLabelFor(k){const o=TTP.scenario;TTP.scenario=k;const l=_rwFuLabel();TTP.scenario=o;return l;}
+function _rwxHead(back){return '<div class="head"><button class="back" data-action="'+back+'" aria-label="Back">'+RWX_IC.back+'</button><div><h1>Real-world</h1>'+(back==='ttp-back'?'<p>Practise it here before it counts.</p>':'')+'</div></div>';}
+function _rwxTurns(){
+  const c=TTP.convo&&TTP.convo.length?TTP.convo:[{q:TTP.question,a:TTP.transcript,elapsed:TTP.elapsed,words:TTP.totalWords}];
+  return c;
+}
+function _rwxTurnLabel(i){return i?(TTP.scenario==='ground'?'Push ':'Follow-up ')+i:'Answer';}
+function _rwxProg(){const n=_rwFuN(),k=TTP.convo?TTP.convo.length:0;let b='';for(let i=0;i<=n;i++)b+='<i'+(i<=k?' class="c"':'')+'></i>';return n?'<div class="prog">'+b+'</div>':'';}
+
+// ── 1 · SETUP ──
+function _rwRenderSetup(app){
+  _rwResetConvo();
+  const ttS=(S.sessions&&S.sessions['real-practice'])||[];
+  const last=ttS.find(s=>s.topic);
+  const hid=last&&S.realLastHiddenAt&&last.iso&&new Date(last.iso)<=new Date(S.realLastHiddenAt);
+  const g=RW_GOALS.find(x=>x.k===V._rwGoal&&x.items.includes(TTP.scenario))||_rwGoalOf(TTP.scenario);
+  let h='<main class="t1 rwx" data-lt-keep>';
+  h+=_rwxHead('ttp-back');
+  if(last&&!hid&&TT_REAL[last.scenario]){
+    const d=_relDays(last.iso),when=d==null?'':(d===0?'today':d===1?'yesterday':d+' days ago');
+    const sc=TT_REAL[last.scenario],t=sc.free?'':(last.elapsed<sc.secs[0]?'Short':last.elapsed>sc.secs[1]?'Over':'In time');
+    h+='<div class="last"><div class="last-txt"><div class="lbl">Last · '+escHtml(sc.name)+(when?' · '+when:'')+'</div><div class="last-q">“'+escHtml(String(last.topic).replace(/^[“"]|[”"]$/g,''))+'”</div><div class="last-m">'+fmtMs(last.elapsed*1000)+(t?' · <b>'+t+'</b>':'')+(last.followups?' · '+last.followups+(last.followups===1?' follow-up':' follow-ups'):'')+'</div></div><button class="last-go" data-action="rwx-again">'+RWX_IC.again+'Again</button></div>';
+  }
+  h+='<div><div class="lbl" style="margin:0 2px 8px">What’s coming up?</div><div class="goals">';
+  RW_GOALS.forEach(x=>{h+='<button class="goal" data-goal="'+x.k+'" aria-pressed="'+(x===g)+'">'+RWX_IC[x.k]+RWX_GOAL_T[x.k]+'</button>';});
+  h+='</div></div>';
+  h+='<div class="sits'+(g.items.length>=4?' many':'')+'">';
+  g.items.forEach(k=>{const sc=TT_REAL[k];
+    h+='<button class="sit" data-scenario="'+k+'" aria-pressed="'+(k===TTP.scenario)+'"><span class="dot"></span><div class="sit-txt"><div class="sit-n">'+escHtml(sc.name)+'</div><div class="sit-s">'+escHtml(sc.sub)+'</div><div class="sit-who">You’ll talk to <b>'+escHtml(_rwxWho(k))+'</b> · then '+escHtml(_rwxFuLabelFor(k).replace(/^No follow-ups$/,'K’s notes'))+'</div></div><span class="sit-t">'+(sc.free?'No limit':escHtml(_ttRealTime(sc)))+'</span></button>';});
+  h+='</div>';
+  const f=(S.rwField||'').trim()||'Any field',pr=_rwIsClient()&&(S.rwPrice||'').trim();
+  h+='<button class="setup" data-action="rw-settings">'+RWX_IC.setup+'<div class="setup-v"><small>Your setup</small><span>'+escHtml(f+(pr?' · '+pr:''))+'</span><em>'+escHtml(_rwFuLabel())+'</em></div><u>Edit</u></button>';
+  const busy=TTP.questionLoading;
+  h+='<div class="acts"><button class="dice" data-action="ttp-random" aria-label="Random scenario"'+(busy?' disabled':'')+'>'+RWX_IC.dice+'</button><button class="go" data-action="rwx-go"'+(busy?' disabled':'')+'>'+(busy?'Setting the scene…':'Get a scenario')+RWX_IC.arrow+'</button></div>';
+  const T={job:[['Answer in your first sentence,','then support it.'],['One real example','beats three claims.'],['Make it about them.','What you’d bring to this role.'],['End on something they’ll remember','or a clear next step.']],
+    work:[['Point first.','Your view in the first sentence, then one reason.'],['Bridge, don’t dodge.','Satisfy the core, then steer.'],['Calm beats clever.','No defensiveness.'],['Land on a next step:','a decision, an owner, a date.']],
+    client:[['Sell what it does for them,','not your hours.'],['Say the price, then stop.','Silence is your friend.'],['A concession is a trade,','never a gift.'],['Know your floor before you start.','']],
+    people:[['Answer, add a hook, hand it back.',''],['Pick up what they said','instead of jumping topics.'],['Share as well as ask.','A conversation, not an interview.']]}[g.k];
+  h+='<details class="tips"'+(V._rwTips?' open':'')+'><summary>'+RWX_IC.bulb+'What makes a strong response?'+RWX_IC.chev+'</summary><ul>'+T.map(t=>'<li><b>'+t[0]+'</b> '+t[1]+'</li>').join('')+'</ul></details>';
+  if(!(S.aiConfig&&S.aiConfig.enabled))h+='<p class="rwx-note">AI is off, so scenarios come from the built-in set and there are no follow-ups or K’s notes.</p>';
+  h+='</main>';
+  app.innerHTML=h;
+  const $=s=>app.querySelector(s);
+  $('[data-action="ttp-back"]').addEventListener('click',()=>{V.view=V._fromHub?'hub':'practice';V._fromHub=false;render();});
+  app.querySelectorAll('[data-goal]').forEach(b=>b.addEventListener('click',()=>{const x=RW_GOALS.find(y=>y.k===b.dataset.goal);V._rwGoal=x.k;if(!x.items.includes(TTP.scenario))TTP.scenario=x.items[0];render();}));
+  app.querySelectorAll('.sit[data-scenario]').forEach(b=>b.addEventListener('click',()=>{TTP.scenario=b.dataset.scenario;render();}));
+  $('[data-action="rw-settings"]').addEventListener('click',()=>_rwSettingsSheet());
+  $('[data-action="rwx-go"]').addEventListener('click',()=>{TTP._promptN=0;ttpFetchQuestion('',!!(S.aiConfig&&S.aiConfig.enabled));});
+  $('[data-action="ttp-random"]').addEventListener('click',()=>{const x=_rwGoalOf(TTP.scenario);TTP.scenario=x.items[Math.floor(Math.random()*x.items.length)];TTP._promptN=0;ttpFetchQuestion('',!!(S.aiConfig&&S.aiConfig.enabled));});
+  const tips=$('.tips');if(tips)tips.addEventListener('toggle',()=>{V._rwTips=tips.open;});
+  const ag=$('[data-action="rwx-again"]');
+  if(ag&&last)ag.addEventListener('click',()=>{
+    TTP.track='real';TTP.scenario=last.scenario;TTP.question=last.topic;TTP.questionSource='repeat';_rwResetConvo();
+    _rwCast(last.brief&&last.brief.c?last.brief:null);TTP.context=_rwCtx();TTP.phase='question';render();
+  });
+}
+
+// ── 2–4 · SCENE, ANSWERING, THEIR REPLY (one DOM; ttpStart flips data-ttp-state) ──
+function _rwRenderQuestion(app){
+  const sc=TT_REAL[TTP.scenario]||TT_REAL.interview,n=_rwFuN(),inFu=!!(TTP.convo&&TTP.convo.length);
+  const who=_rwIsClient()?'The client':(RW_ROLE[TTP.scenario]||'They');
+  const ctxN=inFu?(TTP.scenario==='ground'?'Push ':'Follow-up ')+TTP.convo.length+' of '+n:(n?'Question · then '+_rwFuLabel():(sc.free?'No time limit':'Aim for '+_ttRealTime(sc)));
+  const ctx='<div class="ctx"><span class="chip">'+escHtml(sc.name)+'</span><span class="ctx-n">'+escHtml(ctxN)+'</span></div>'+_rwxProg();
+  const timeTxt=inFu?(_rwFree()?'Take your time':'Aim for '+_ttRealTime({secs:_rwFuSecs(TTP.scenario)}))+(TTP.convo.length<n?' · '+(n-TTP.convo.length===1?'one more after this':(n-TTP.convo.length)+' more after this'):' · last one'):(sc.free?'No time limit · say it the way you would':'Aim for '+_ttRealTime(sc));
+  let h='<main class="t1 rwx ttp-view" data-ttp-state="question" data-lt-keep>';
+  // question / reply panel
+  h+='<div class="rw-q">'+_rwxHead('ttp-restart')+ctx;
+  if(inFu){
+    h+='<div class="thread" id="rw-thread">';
+    TTP.convo.forEach(t=>{h+='<div class="b-them">'+escHtml(t.q)+'</div><div class="b-me"><p>'+escHtml((t.a||'').trim()||'(no words caught)')+'</p><small>You · '+fmtMs(t.elapsed*1000)+'</small></div>';});
+    h+='</div>';
+    const wait=TTP.fuLoading||!TTP.fuQ;
+    h+='<div class="quote"><div class="lbl">'+escHtml(who)+' replies</div>'+(wait?'<div class="typing" aria-label="'+escHtml(who)+' is thinking"><i></i><i></i><i></i></div>':'<div class="quote-t">'+escHtml(TTP.fuQ)+'</div>')+'<div class="quote-f">'+RWX_IC.clock+escHtml(timeTxt)+'</div></div>';
+    h+='<button class="go" data-action="ttp-start"'+(wait?' disabled':'')+'>Start answering'+RWX_IC.arrow+'</button>';
+    h+='<button class="ghost" data-action="rw-end">End here · get K’s notes</button>';
+  }else{
+    const b=_rwBriefOk()?TTP.rwBrief:null;
+    if(b)h+='<dl class="brief"><div><dt>Client</dt><dd>'+escHtml(b.c)+'</dd></div><div><dt>The job</dt><dd>'+escHtml(b.job)+'</dd></div><div><dt>'+escHtml(RW_POS_LBL[TTP.scenario]||'Your position')+'</dt><dd><b>'+escHtml(b.pos)+'</b></dd></div></dl>';
+    h+='<div class="quote"><div class="lbl">'+escHtml(b?'The client says':'The scene')+'</div><div class="quote-t">'+escHtml(TTP.question)+'</div><div class="quote-f">'+RWX_IC.clock+escHtml(timeTxt)+'</div></div>';
+    h+='<button class="go" data-action="ttp-start">Start answering'+RWX_IC.arrow+'</button>';
+    h+='<button class="ghost" data-action="ttp-new"'+(TTP.questionLoading?' disabled':'')+'>'+(TTP.questionLoading?'Setting the scene…':'New scenario')+'</button>';
+  }
+  h+='</div>';
+  // answering panel
+  const tm=_ttTiming(),fm=s=>Math.floor(s/60)+':'+String(s%60).padStart(2,'0');
+  h+='<div class="rw-a">'+_rwxHead('ttp-stop-back')+ctx;
+  h+='<div class="ask"><div class="lbl">'+escHtml(who)+(inFu?' asks':' says')+'</div><div class="ask-t">'+escHtml(TTP.fuQ||TTP.question)+'</div></div>';
+  h+='<div class="clock" id="ttp-active-card"><div class="rec"><i></i>Recording</div><div class="time" id="ttp-active-display">0:00</div>';
+  h+='<div class="time-sub">'+(_rwFree()?'No time limit · say it the way you would':'<span class="mk g">'+fm(tm[0])+'</span><span class="mk a">'+fm(tm[1])+'</span><span class="mk r">'+fm(tm[2])+'</span>')+'</div></div>';
+  h+='<div class="live"><div class="live-h"><div class="lbl">Live transcript</div><span><b id="ttp-active-words">0</b> words</span></div><div class="live-t" id="ttp-active-transcript" data-rw="1">Listening…</div></div>';
+  h+='<div class="stop"><button data-action="ttp-stop" aria-label="Stop"><i></i></button><small>Tap when you’re done</small></div>';
+  h+='</div></main>';
+  app.innerHTML=h;
+  const $=s=>app.querySelector(s);
+  $('[data-action="ttp-restart"]').addEventListener('click',()=>{_rwResetConvo();TTP.phase='setup';TTP.question='';TTP.aiResult=null;render();});
+  $('[data-action="ttp-stop-back"]').addEventListener('click',()=>ttpStop());
+  $('[data-action="ttp-start"]').addEventListener('click',()=>ttpStart());
+  $('[data-action="ttp-stop"]').addEventListener('click',()=>ttpStop());
+  const e=$('[data-action="rw-end"]');if(e)e.addEventListener('click',()=>_rwFinish());
+  const nb=$('[data-action="ttp-new"]');if(nb)nb.addEventListener('click',()=>ttpFetchQuestion('',TTP.questionSource!=='bank'&&!!(S.aiConfig&&S.aiConfig.enabled)));
+  const thr=$('#rw-thread');if(thr)thr.scrollTop=thr.scrollHeight;
+}
+
+// ── 5 · RESULTS ──
+// Keep only quotes that really appear in that turn (case and punctuation ignored).
+function _rwxNorm(s){return String(s||'').toLowerCase().replace(/[’']/g,"'").replace(/[^a-z0-9¥$€£'一-鿿]+/g,' ').replace(/\s+/g,' ').trim();}
+function _rwxTurnIdx(t){if(t==null)return -1;const m=String(t).match(/(\d+)/);if(/answer/i.test(t))return 0;return m?+m[1]:-1;}
+function _rwxGrounded(list,key,max){
+  const turns=_rwxTurns();
+  return (Array.isArray(list)?list:[]).filter(x=>{if(!x||!x[key])return false;const i=_rwxTurnIdx(x.turn);if(i<0||!turns[i])return false;const q=_rwxNorm(x[key]);return q.split(' ').length>=2&&_rwxNorm(turns[i].a).includes(q);}).slice(0,max);
+}
+function _rwxDecisionHtml(){
+  const d=TTP.rwDecision;if(!d||!d.decision)return '';
+  const H={deal:[RWX_IC.client,'Deal'+(d.terms?' · '+d.terms:''),'deal'],think:[RWX_IC.hourglass,'“Let me think about it”','think'],walk:[RWX_IC.walk,'They walked','walk']}[d.decision]||[RWX_IC.hourglass,'“Let me think about it”','think'];
+  let h='<section class="dec dec-'+H[2]+'"><div class="lbl">The client’s decision</div><div class="dec-h">'+H[0]+escHtml(H[1])+'</div>';
+  if(d.say)h+='<div class="dec-say">“'+escHtml(d.say.replace(/^["“]|["”]$/g,''))+'”</div>';
+  const why=_rwxGrounded(d.why,'quote',2);
+  if(why.length)h+='<div class="dec-why"><b>Why they decided this</b>'+why.map(w=>'<div class="why '+(w.effect==='-'||w.effect==='−'?'dn':'up')+'"><span class="why-s">'+(w.effect==='-'||w.effect==='−'?'−':'+')+'</span><div><div class="why-q">“'+escHtml(w.quote)+'”<small>'+escHtml(_rwxTurnLabel(_rwxTurnIdx(w.turn)))+'</small></div><div class="why-r">'+escHtml(w.reason||'')+'</div></div></div>').join('')+'</div>';
+  if(d.secret)h+='<div class="dec-sec"><b>What they didn’t tell you</b>'+escHtml(d.secret)+'</div>';
+  return h+'</section>';
+}
+function _rwxBetterHtml(){
+  const d=TTP.rwDecision||TTP.rwReview;const cl=_rwIsClient();
+  const mv=d?_rwxGrounded(d.improve,'said',2):[];
+  if(!mv.length)return '';
+  let h='<section class="bd"><div class="bd-h"><i>K</i><b>'+(cl?'Get a better deal next time':'Do it better next time')+'</b></div>';
+  mv.forEach((m,i)=>{h+='<div class="mv"><div class="mv-n"><span>'+(i+1)+'</span>'+escHtml(_rwxTurnLabel(_rwxTurnIdx(m.turn)))+'</div><div class="mv-said">“'+escHtml(m.said)+'”</div><div class="mv-try">“'+escHtml(String(m.try||'').replace(/^["“]|["”]$/g,''))+'”</div>'+(m.why?'<div class="mv-why">'+escHtml(m.why)+'</div>':'')+'</div>';});
+  if(d.could&&d.could.from&&d.could.to)h+='<div class="payoff">'+RWX_IC.arrow+'<div><b>What it could change</b>'+escHtml(d.could.from)+' → <em>'+escHtml(d.could.to)+'</em></div></div>';
+  return h+'</section>';
+}
+function _rwRenderDone(app){
+  const aiOn=S.aiConfig&&S.aiConfig.enabled,turns=_rwxTurns(),multi=turns.length>1;
+  const sc=TT_REAL[TTP.scenario]||TT_REAL.interview;
+  const wpm=TTP.elapsed>0?Math.round(TTP.totalWords/(TTP.elapsed/60)):0;
+  let h='<main class="t1 rwx rwx-done" data-lt-keep>'+_rwxHead('rwx-done-back');
+  h+='<div class="ctx"><span class="chip">'+escHtml(sc.name)+'</span><span class="ctx-n">Today · '+turns.length+(turns.length===1?' turn':' turns')+'</span></div>';
+  const busy=aiOn&&TTP.elapsed>5&&(TTP.aiLoading||!TTP.aiResult)&&!TTP.rwDecision&&!TTP.rwReview;
+  h+=_rwxDecisionHtml();
+  h+='<div class="stats"><div><b>'+fmtMs(TTP.elapsed*1000)+'</b><small>'+(multi?'Total':'Time')+'</small></div><div><b>'+TTP.totalWords+'</b><small>Words</small></div><div><b>'+(wpm||'–')+'</b><small>wpm</small></div></div>';
+  const better=_rwxBetterHtml();
+  if(better)h+=better;
+  else if(busy)h+='<section class="bd bd-wait"><div class="bd-h"><i>K</i><b>K is listening back…</b></div><div class="typing"><i></i><i></i><i></i></div></section>';
+  else if(aiOn&&TTP.aiResult)h+='<section class="bd bd-k"><div class="bd-h"><i>K</i><b>K’s notes</b></div><div id="ttp-analysis">'+_ttpRenderAnalysis(TTP.aiResult).replace(_rwDecisionCard(),'')+'</div></section>';
+  else if(!aiOn)h+='<p class="rwx-note">Turn on AI in Settings to get the other person’s follow-ups and K’s notes.</p>';
+  else if(TTP.elapsed<=5)h+='<p class="rwx-note">Speak for at least a few seconds to get K’s notes.</p>';
+  if(multi)h+='<button class="go" data-action="rw-retry-fu">Try the last '+(TTP.scenario==='ground'?'push':'follow-up')+' again'+RWX_IC.again+'</button><div class="row2"><button class="ghost" data-action="ttp-again">Try again</button><button class="ghost" data-action="ttp-new">New scenario</button></div>';
+  else h+='<button class="go" data-action="ttp-again">Try again'+RWX_IC.again+'</button><button class="ghost" data-action="ttp-new">New scenario</button>';
+  h+='<details class="convo"><summary>'+RWX_IC.chat+'Show the conversation · '+TTP.totalWords+' words</summary><div class="thread">';
+  turns.forEach(t=>{h+='<div class="b-them">'+escHtml(t.q)+'</div><div class="b-me"><p>'+escHtml((t.a||'').trim()||'(no words caught)')+'</p><small>You · '+fmtMs((t.elapsed||0)*1000)+'</small></div>';});
+  h+='</div></details></main>';
+  app.innerHTML=h;
+  const $=s=>app.querySelector(s);
+  $('[data-action="rwx-done-back"]').addEventListener('click',()=>{_rwResetConvo();TTP.phase='setup';TTP.question='';TTP.aiResult=null;render();});
+  app.querySelectorAll('[data-action="ttp-again"]').forEach(b=>b.addEventListener('click',()=>{_rwResetConvo();TTP.phase='question';TTP.elapsed=0;TTP.transcript='';TTP.totalWords=0;TTP.aiResult=null;render();}));
+  const rf=$('[data-action="rw-retry-fu"]');if(rf)rf.addEventListener('click',()=>{const l=TTP.convo.pop();TTP.fuQ=l.q;TTP.fuLoading=false;TTP.aiResult=null;TTP.rwDecision=null;TTP.rwReview=null;TTP.phase='question';render();});
+  $('[data-action="ttp-new"]').addEventListener('click',()=>{TTP.phase='setup';TTP.question='';TTP.aiResult=null;render();});
+}
+
 function renderTTPractice(app){
   const ph=TTP.phase;
+  if(TTP.track==='real'){if(ph==='question'||ph==='active')return _rwRenderQuestion(app);if(ph==='done')return _rwRenderDone(app);return _rwRenderSetup(app);}
   if(ph==="question")return _ttpRenderQuestion(app);
   if(ph==="active") return _ttpRenderActive(app);
   if(ph==="done")   return _ttpRenderDone(app);
@@ -10486,20 +11019,18 @@ function _ttpRenderSetup(app){
 
   h+='<section class="tts-card'+(real?' tts-real':'')+'">';
   if(real){
-    const _rb=k=>{const sc=TT_REAL[k];return '<button type="button" data-scenario="'+k+'" aria-pressed="'+(TTP.scenario===k)+'"><span>'+sc.name+'</span><small>'+sc.sub+'</small></button>';};
-    const _rk=Object.keys(TT_REAL);
-    h+='<div class="tts-lbl">Everyday</div>';
-    h+='<div class="tts-seg tts-seg-real" id="ttp-real-seg" style="margin-top:0">'+_rk.filter(k=>TT_REAL[k].grp!=='client').map(_rb).join('')+'</div>';
-    h+='<div class="tts-lbl">Clients</div>';
-    h+='<div class="tts-seg tts-seg-real" id="ttp-real-seg2" style="margin-top:0">'+_rk.filter(k=>TT_REAL[k].grp==='client').map(_rb).join('')+'</div>';
-    h+='<div class="tts-lbl">Your role or situation <i>optional</i></div>';
-    h+='<label class="tts-field"><svg viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="13" rx="2.5"/><path d="M9 7V5.5A1.5 1.5 0 0 1 10.5 4h3A1.5 1.5 0 0 1 15 5.5V7"/></svg>';
-    h+='<input id="ttp-context" type="text" placeholder="'+(TT_REAL[TTP.scenario]&&TT_REAL[TTP.scenario].grp==='client'?'e.g. ¥8,000 logo, floor ¥6,500':'e.g. Product manager, job at a bank…')+'" autocomplete="off" value="'+escHtml(TTP.context||'')+'"></label>';
-    const _fn=_rwFuSetting();
-    h+='<div class="tts-lbl rw-fu-lbl" style="margin-top:14px'+(TTP.scenario==='ground'?';display:none':'')+'">Follow-ups</div>';
-    h+='<div class="rw-fu-seg" id="rw-fu-seg" role="group" aria-label="Follow-ups"'+(TTP.scenario==='ground'?' style="display:none"':'')+'>'+_rwFuPicker()+'</div>';
-    h+='<div class="rw-fu-sub" id="rw-fu-sub"'+(TTP.scenario==='ground'?' style="margin-top:12px"':'')+'>'+escHtml(_rwFuSubText())+'</div>';
-    h+='<div class="tts-real-time"><svg viewBox="0 0 24 24"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2M10 2h4"/></svg><span id="rw-time">'+escHtml(_rwTimeText())+'</span></div>';
+    const _g=RW_GOALS.find(g=>g.k===V._rwGoal&&g.items.includes(TTP.scenario))||_rwGoalOf(TTP.scenario);
+    h+='<div class="tts-lbl">What’s coming up?</div><div class="rw-goals">';
+    RW_GOALS.forEach(g=>{h+='<button type="button" class="rw-goal" data-goal="'+g.k+'" aria-pressed="'+(g===_g)+'"><span class="rw-goal-e">'+g.e+'</span><b>'+escHtml(g.t)+'</b><small>'+escHtml(g.sub)+'</small></button>';});
+    h+='</div>';
+    if(_g.items.length>1){
+      h+='<div class="tts-lbl">'+escHtml(_g.t)+'</div><div class="rw-chips">';
+      _g.items.forEach(k=>{h+='<button type="button" class="rw-chip" data-scenario="'+k+'" aria-pressed="'+(TTP.scenario===k)+'">'+escHtml(TT_REAL[k].name)+'</button>';});
+      h+='</div>';
+    }
+    const _sc=TT_REAL[TTP.scenario];
+    h+='<div class="rw-about"><b>'+escHtml(_sc.sub)+'</b> · '+(_sc.free?'No time limit':'Aim for '+escHtml(_ttRealTime(_sc)))+'</div>';
+    h+='<button type="button" class="rw-set" data-action="rw-settings"><span>'+escHtml(_rwSettingsLine())+'</span><u>Edit</u></button>';
   }else{
   h+='<div class="tts-lbl">Meeting theme <i>optional</i></div>';
   h+='<label class="tts-field"><svg viewBox="0 0 24 24"><path d="M20.6 13.4 13.4 20.6a2 2 0 0 1-2.8 0L3 13V3h10l7.6 7.6a2 2 0 0 1 0 2.8z"/><circle cx="7.5" cy="7.5" r="1.3"/></svg>';
@@ -10527,7 +11058,14 @@ function _ttpRenderSetup(app){
   }
 
   if(real){
-    h+='<details class="tts-tips"><summary><span class="tts-tq">What makes a strong response?</span></summary><div class="tts-body"><ul class="mp-tips"><li><b>Answer in your first sentence,</b> then support it.</li><li><b>One real example</b> beats three claims.</li><li><b>Bridge, don’t dodge.</b> Acknowledge the question, satisfy its core, then steer to your ground.</li><li><b>Mind your attitude.</b> Calm and curious lands better than clever.</li><li><b>Land on a next step</b> or a line they’ll remember.</li><li><b>In small talk, hand it back.</b> A short answer, one detail they can pick up, then a question about them.</li><li><b>With clients, sell what it does for them,</b> not your hours. Say the price, then stop.</li><li><b>A concession is a trade, never a gift.</b> If the price moves, something else moves too.</li></ul></div></details>';
+    const _tg=_rwGoalOf(TTP.scenario).k;
+    const RW_TIPS={
+      job:[['Answer in your first sentence,','then support it.'],['One real example','beats three claims. Situation, what you did, the result.'],['Make it about them.','What you’d bring to this role, not your whole CV.'],['End on something they’ll remember','or a clear next step.']],
+      work:[['Point first.','Your view or recommendation in the first sentence, then one reason.'],['Bridge, don’t dodge.','Acknowledge the question, satisfy its core, then steer to your ground.'],['Calm beats clever.','No defensiveness, no over-apologising.'],['Land on a next step:','a decision, an owner, a date.']],
+      client:[['Sell what it does for them,','not your hours or your process.'],['Say the price, then stop.','Silence after the number is your friend.'],['A concession is a trade, never a gift.','If the price moves, something else moves too.'],['Know your floor before you start,','and when a polite no is the right answer.'],['Warm and firm go together.','Holding your ground isn’t being difficult.']],
+      people:[['Answer, add a hook, hand it back.','A short answer, one detail they can pick up, then a question about them.'],['Pick up what they said','instead of jumping to the next topic.'],['Share as well as ask.','A conversation, not an interview.'],['Be comfortably yourself.','Curiosity beats clever lines.']]
+    };
+    h+='<details class="tts-tips"><summary><span class="tts-ti"><svg viewBox="0 0 24 24"><path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 0 0-3.5 10.9c.6.4.9 1 .9 1.7V16h5.2v-.4c0-.7.3-1.3.9-1.7A6 6 0 0 0 12 3z"/></svg></span><span class="tts-tq">What makes a strong response?</span><svg class="tts-chev" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></summary><div class="tts-body"><ul class="mp-tips">'+RW_TIPS[_tg].map(t=>'<li><b>'+t[0]+'</b> '+t[1]+'</li>').join('')+'</ul></div></details>';
   }else{
   // ── Tips: container restyled; the app's existing guide content is kept verbatim ──
   h+='<details class="tts-tips" id="ttp-answer-guide"'+(V._ttpAnswerGuideOpen?' open':'')+'>';
@@ -10621,6 +11159,12 @@ function _ttpRenderSetup(app){
     const t=app.querySelector('#rw-time');if(t)t.textContent=_rwTimeText();
     const fs=app.querySelector('#rw-fu-sub');if(fs)fs.textContent=_rwFuSubText();
   }));
+  app.querySelectorAll('[data-goal]').forEach(b=>b.addEventListener('click',()=>{
+    const g=RW_GOALS.find(x=>x.k===b.dataset.goal);V._rwGoal=g.k;
+    if(!g.items.includes(TTP.scenario))TTP.scenario=g.items[0];render();
+  }));
+  app.querySelectorAll('.rw-chip[data-scenario]').forEach(b=>b.addEventListener('click',()=>{TTP.scenario=b.dataset.scenario;render();}));
+  const rset=app.querySelector('[data-action="rw-settings"]');if(rset)rset.addEventListener('click',()=>_rwSettingsSheet());
   const fuSeg=app.querySelector('#rw-fu-seg');
   if(fuSeg)fuSeg.addEventListener('click',e=>{const b=e.target.closest('[data-fu]');if(!b)return;
     const n=+b.dataset.fu;
@@ -10642,6 +11186,7 @@ function _ttpRenderSetup(app){
   // Random (offline bank, style-aware)
   app.querySelectorAll('[data-action="ttp-random"]').forEach(btn=>{
     btn.addEventListener("click",()=>{
+      if(TTP.track==='real'){const g=_rwGoalOf(TTP.scenario);TTP.scenario=g.items[Math.floor(Math.random()*g.items.length)];TTP._promptN=0;ttpFetchQuestion('',!!(S.aiConfig&&S.aiConfig.enabled));return;}
       TTP.theme=themeInput?themeInput.value.trim():TTP.theme;
       TTP._promptN=0;
       ttpFetchQuestion(TTP.theme,false);
@@ -10703,7 +11248,7 @@ function _ttpRenderQuestion(app){
   h+='<div class="scr-head" style="margin-bottom:10px"><button class="circ-back" data-action="ttp-restart" aria-label="Back"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button><h1 class="scr-title">'+((_mt||_es)?'Mentor practice':_real?'Real-world practice':'Table Topics<sup style="font-size:0.5em;vertical-align:super">®</sup>')+'</h1></div>';
   const _fuN=_real?_rwFuN():0,_inFu=_real&&TTP.convo&&TTP.convo.length>0;
   const _rwProg=()=>{let b='';for(let i=0;i<=_fuN;i++){const k=TTP.convo?TTP.convo.length:0;b+='<i class="'+(i<k?'d':i===k?'c':'')+'"></i>';}return '<div class="rw-prog">'+b+'</div>';};
-  h+='<div class="ttq-ctx"><span class="ttq-chip">'+themeLabel+'</span><span class="ttq-n">'+(_inFu?'Follow-up '+TTP.convo.length+' of '+_fuN:(_real&&_fuN)?'Question · then '+_fuN+' follow-up'+(_fuN>1?'s':''):(_mt||_es)?(TTP.questionSource==='daily'?'Situation of the day':'Mentor practice'):TTP.questionSource==="repeat"?srcLabel:'Prompt '+(TTP._promptN||1)+' · '+srcLabel)+'</span></div>';
+  h+='<div class="ttq-ctx"><span class="ttq-chip">'+themeLabel+'</span><span class="ttq-n">'+(_inFu?(TTP.scenario==='ground'?'Push ':'Follow-up ')+TTP.convo.length+' of '+_fuN:(_real&&_fuN)?'Question · then '+_fuN+(TTP.scenario==='ground'?' pushes':' follow-up'+(_fuN>1?'s':'')):(_mt||_es)?(TTP.questionSource==='daily'?'Situation of the day':'Mentor practice'):TTP.questionSource==="repeat"?srcLabel:'Prompt '+(TTP._promptN||1)+' · '+srcLabel)+'</span></div>';
   if(_real&&_fuN)h+=_rwProg();
   if(_inFu){
     const snip=t=>(t.a||'').trim()||'(no words caught)';
@@ -10711,7 +11256,7 @@ function _ttpRenderQuestion(app){
     TTP.convo.forEach(t=>{h+='<div class="rw-b rw-them">'+escHtml(t.q)+'</div><div class="rw-b rw-me"><span class="rw-clip">'+escHtml(snip(t))+'</span><small>You · '+fmtMs(t.elapsed*1000)+'</small></div>';});
     h+=TTP.fuLoading||!TTP.fuQ?'<div class="rw-b rw-them rw-typing" aria-label="'+escHtml(RW_ROLE[TTP.scenario]||'They')+' is thinking"><i></i><i></i><i></i></div>':'<div class="rw-b rw-them rw-now">'+escHtml(TTP.fuQ)+'</div>';
     h+='</div>';
-    h+='<div class="ttq-hint" style="margin:-4px 2px 12px">Keep it tighter · aim for '+_ttRealTime({secs:_rwFuSecs(TTP.scenario)})+'.</div>';
+    if(!_rwFree())h+='<div class="ttq-hint" style="margin:-4px 2px 12px">Keep it tighter · aim for '+_ttRealTime({secs:_rwFuSecs(TTP.scenario)})+'.</div>';
     h+='<button class="ttq-start" data-action="ttp-start"'+(TTP.fuLoading||!TTP.fuQ?' disabled style="opacity:.45"':'')+'>Start answering →</button>';
     h+='<button class="ttq-new" data-action="rw-end">End here · get K’s notes</button>';
   }else if(_es){
@@ -10719,7 +11264,8 @@ function _ttpRenderQuestion(app){
   }else if(_mt){
     h+='<div class="ttq-card ttq-real"><div class="ttq-k">Your mentee</div><div class="ttq-t mp-scen">'+escHtml(TTP.question)+'</div><div class="ttq-hint">Respond as you would in person · aim for 1–2 min.</div></div>';
   }else{
-  h+='<div class="ttq-card'+(_real?' ttq-real':'')+'"><div class="ttq-k">'+(_real?'Your scenario':'Your topic')+'</div><div class="ttq-t">'+escHtml(TTP.question)+'</div><div class="ttq-hint">Aim for '+(_real?_ttRealTime(_real):'1–2 minutes')+'.</div>'+(TTP.questionSource==='daily'&&TTP.technique?'<div class="ttq-try"><b>Try today</b>'+escHtml(TTP.technique.short)+'</div>':'')+'</div>';
+  const _brf=_real&&_rwBriefOk()?TTP.rwBrief:null;
+  h+='<div class="ttq-card'+(_real?' ttq-real':'')+'">'+(_brf?'<dl class="rw-brief"><dt>Client</dt><dd>'+escHtml(_brf.c)+'</dd><dt>The job</dt><dd>'+escHtml(_brf.job)+'</dd><dt>'+escHtml(RW_POS_LBL[TTP.scenario]||'Your position')+'</dt><dd><b>'+escHtml(_brf.pos)+'</b></dd>'+''+'</dl><div class="ttq-k">They say</div>':'<div class="ttq-k">'+(_real?'Your scenario':'Your topic')+'</div>')+'<div class="ttq-t">'+escHtml(TTP.question)+'</div><div class="ttq-hint">'+(_real&&_real.free?'No clock. Say it the way you would.':'Aim for '+(_real?_ttRealTime(_real):'1–2 minutes')+'.')+'</div>'+(TTP.questionSource==='daily'&&TTP.technique?'<div class="ttq-try"><b>Try today</b>'+escHtml(TTP.technique.short)+'</div>':'')+'</div>';
   }
   if(!_inFu){
   h+='<button class="ttq-start" data-action="ttp-start">'+(_es?'Start my evaluation →':_mt?'Start responding →':_real?'Start answering →':'Start speaking →')+'</button>';
@@ -10848,19 +11394,20 @@ function _ttpUpdateActive(){
   // Phase colour
   const card=document.getElementById("ttp-active-card");
   if(card){
-    const _tm=_ttTiming();
+    const _tm=_rwFree()?[1e9,1e9,1e9]:_ttTiming();
     card.classList.toggle("phase-green",TTP.elapsed>=_tm[0]&&TTP.elapsed<_tm[1]);
     card.classList.toggle("phase-amber",TTP.elapsed>=_tm[1]&&TTP.elapsed<_tm[2]);
     card.classList.toggle("phase-red",TTP.elapsed>=_tm[2]);
   }
 
   // Bell chimes
-  if(TTP.elapsed===60||TTP.elapsed===90||TTP.elapsed===120)_ttPlayBell();
+  if(!_rwFree()&&(TTP.elapsed===60||TTP.elapsed===90||TTP.elapsed===120))_ttPlayBell();
 
   // Live transcript
   const tr=document.getElementById("ttp-active-transcript");
   if(tr&&TTP.transcript){
-    tr.textContent=TTP.transcript.slice(-280);
+    if(tr.dataset.rw){const w=TTP.transcript.slice(-320).split(' '),k=Math.max(0,w.length-14);tr.innerHTML=escHtml(w.slice(0,k).join(' '))+(k?' ':'')+'<b>'+escHtml(w.slice(k).join(' '))+'</b>';}
+    else tr.textContent=TTP.transcript.slice(-280);
     tr.scrollTop=tr.scrollHeight;
   }
 
@@ -10936,6 +11483,7 @@ function _ttpRenderDone(app){
   let durClass=TTP.elapsed<_tmD[0]?"red":TTP.elapsed<=_tmD[2]?"green":"amber";
   let durNote=TTP.elapsed<_tmD[0]?"Under time":"On time ✓";if(TTP.elapsed>_tmD[2])durNote="Over time";
   if(TTP.track==='real'&&TTP.convo&&TTP.convo.length>1){durClass="";durNote="Whole conversation";}
+  else if(_rwFree()){durClass="";durNote="No time limit";}
 
   let h='<div class="fade-up ttp-view">';
   h+='<div class="top-bar">';
@@ -10953,7 +11501,7 @@ function _ttpRenderDone(app){
   const _cvD=TTP.track==='real'&&TTP.convo&&TTP.convo.length>1?TTP.convo:null;
   if(_cvD){
     const fs=_rwFuSecs(TTP.scenario),ms=(TT_REAL[TTP.scenario]||TT_REAL.interview).secs;
-    h+='<div class="rw-turns">'+_cvD.map((t,i)=>{const r=i?fs:ms,ok=t.elapsed>=r[0]&&t.elapsed<=r[1]+15;return '<span class="'+(ok?'ok':'')+'">'+(i?'Follow-up '+i:'Answer')+' '+fmtMs(t.elapsed*1000)+(ok?' ✓':'')+'</span>';}).join('')+'</div>';
+    h+='<div class="rw-turns">'+_cvD.map((t,i)=>{const r=i?fs:ms,ok=!_rwFree()&&t.elapsed>=r[0]&&t.elapsed<=r[1]+15;return '<span class="'+(ok?'ok':'')+'">'+(i?'Follow-up '+i:'Answer')+' '+fmtMs(t.elapsed*1000)+(ok?' ✓':'')+'</span>';}).join('')+'</div>';
   }
 
   if(aiOn){
@@ -10999,9 +11547,36 @@ function _ttpRenderDone(app){
 function _ttpRenderAnalysis(text){
   const e=TTP._nbId&&S.nb&&S.nb.entries.find(x=>x.id===TTP._nbId);
   const spot=_ttIsDaily()&&typeof text==='string'&&!/data-action="ttp-retry-eval"/.test(text)?_tblSpotCard():'';
-  return spot+renderCoachCards(text)+(e?'<button type="button" class="nb-saved" data-action="nb-open-cat" data-cat="'+e.cat+'"><svg viewBox="0 0 24 24">'+NB_IC.book+'</svg><span><b>Saved to K’s notebook.</b> '+(_nbOn()?'K will remember this next time.':'Memory is off, so K won’t bring it up.')+'</span>'+_t1sv('chev')+'</button>':'');
+  const dec=TTP.track==='real'&&typeof text==='string'&&!/data-action="ttp-retry-eval"/.test(text)?_rwDecisionCard():'';
+  return spot+dec+renderCoachCards(text)+(e?'<button type="button" class="nb-saved" data-action="nb-open-cat" data-cat="'+e.cat+'"><svg viewBox="0 0 24 24">'+NB_IC.book+'</svg><span><b>Saved to K’s notebook.</b> '+(_nbOn()?'K will remember this next time.':'Memory is off, so K won’t bring it up.')+'</span>'+_t1sv('chev')+'</button>':'');
 }
 
+async function _rwDecide(){
+  const sc=TT_REAL[TTP.scenario],cl=_rwIsClient();
+  const conv=(TTP.convo&&TTP.convo.length?TTP.convo:[{q:TTP.question,a:TTP.transcript}]);
+  const tag=i=>i?'fu'+i:'answer';
+  let m="Situation: "+sc.name+_rwBriefText()+"\nOpening: "+TTP.question+(TTP.context?"\nThe speaker's own situation: "+TTP.context:"")+"\n\nTHE CONVERSATION (each of the speaker's turns is tagged):\n";
+  conv.forEach((t,i)=>{m+=(i?(cl?"The client":"The other person")+" said: ":"Opening: ")+t.q+"\n["+tag(i)+"] The speaker said: "+(t.a||"(nothing)")+"\n";});
+  const grounding="GROUNDING RULES (strict): every \"quote\" and \"said\" must be the speaker's EXACT words, copied character for character from the tagged turn you name, 3 to 15 words, the shortest phrase that makes the point. Never paraphrase, never fix their grammar, never combine words from two turns. If you cannot find exact words for a point, leave that point out.";
+  const improveRule="\"improve\": up to 2 moments that cost them most, each {\"turn\":\"answer|fu1|fu2|fu3\",\"said\":\"exact words\",\"try\":\"a better line they could actually say, spoken, under 30 words\",\"why\":\"one sentence on why it would help"+(cl?", tied to the outcome or your hidden brief":"")+"\"}.";
+  const sys=cl
+    ?"You are the client in a negotiation practice role-play. Who you are: "+(TTP.rwWho||"a client")+".\nYour hidden brief, which the speaker never knew: "+(TTP.rwSecret?TTP.rwSecret.t:"none")+"\n\nThe conversation is over. Decide honestly, in character, as a real client with that brief would, based only on what the speaker actually said. Holding firm with good reasons and warmth often wins; caving fast can make you doubt them; rudeness or vagueness loses you.\n"+grounding+"\nReply with JSON only, no markdown:\n{\"decision\":\"deal\"|\"think\"|\"walk\",\"say\":\"what you say to end the conversation, one short spoken sentence, in character\",\"terms\":\"the deal in a few words if decision is deal (price or terms agreed), else empty\",\"why\":[up to 3 of {\"turn\":\"answer|fu1|fu2|fu3\",\"quote\":\"exact words\",\"effect\":\"+\" or \"-\",\"reason\":\"one sentence: how that line moved you toward or away from yes, consistent with your hidden brief\"}],\"secret\":\"one or two plain sentences, first person, revealing your hidden brief with a concrete figure where it applies, ending with how it shaped this outcome, e.g. 'My real budget was ¥18,000, so price was never the real blocker. Certainty was.'\","+improveRule+",\"could\":{\"from\":\"how it ended, a few words\",\"to\":\"the likely better outcome if they had made those changes, a few words\"}}"
+    :"You are K, a speaking coach, reviewing a real-world practice conversation ("+sc.name+"). Find the moments where better words would have changed how the other person reacted.\n"+grounding+"\nReply with JSON only, no markdown: {"+improveRule+"}";
+  try{
+    const raw=await callCoach(sys,m,{maxTokens:cl?640:420,forceBase:true,noLang:true,featureId:'tt-question'});
+    const j=JSON.parse(String(raw).replace(/```json|```/g,'').match(/\{[\s\S]*\}/)[0]);
+    const clean=a=>(Array.isArray(a)?a:[]).slice(0,3);
+    if(!cl)return {improve:clean(j.improve)};
+    if(!['deal','think','walk'].includes(j.decision))return null;
+    return {decision:j.decision,say:String(j.say||'').slice(0,200),terms:String(j.terms||'').slice(0,80),secret:String(j.secret||'').slice(0,360),why:clean(j.why),improve:clean(j.improve),could:j.could&&j.could.from&&j.could.to?{from:String(j.could.from).slice(0,80),to:String(j.could.to).slice(0,80)}:null};
+  }catch(e){return null;}
+}
+function _rwDecisionCard(){
+  const d=TTP.rwDecision;if(!d)return '';
+  const L={deal:['🤝','Deal'+(d.terms?' · '+d.terms:'')],think:['🤔','“Let me think about it”'],walk:['🚪','They walked']};
+  const l=L[d.decision]||L.think;
+  return '<div class="rw-dec rw-dec-'+d.decision+'"><div class="rw-dec-k">THE CLIENT’S DECISION</div><div class="rw-dec-h"><span>'+l[0]+'</span>'+escHtml(l[1])+'</div>'+(d.say?'<div class="rw-dec-say">“'+escHtml(d.say.replace(/^["“]|["”]$/g,''))+'”</div>':'')+(d.secret?'<div class="rw-dec-sec"><b>What they didn’t tell you</b>'+escHtml(d.secret)+'</div>':'')+'</div>';
+}
 async function ttpAnalyze(){
   TTP.aiLoading=true;TTP._nbId=null;
   const el=document.getElementById("ttp-analysis");
@@ -11045,6 +11620,9 @@ Under 180 words. Firm and warm.`;
     tough:"TOUGH QUESTION. A strong reply stays calm and acknowledges the concern without getting defensive. The speaker doesn't have to answer it head-on: a skilled bridge — acknowledge, satisfy the core of the concern, then move to the ground they want to stand on — is a high-level technique, and should be recognised as one. What to flag is the clumsy version: an obvious dodge that leaves the real concern untouched, over-apologising, defensiveness or rambling. End on a next step."
   };
 
+  RW_STANDARD.smalltalk='CONVERSATION (small talk through to getting to know someone). '+RW_STANDARD.social.replace(/^GETTING TO KNOW SOMEONE\.\s*/,'')+' In quick small talk with acquaintances, brevity is a strength: answer, add a hook, hand it back.';
+  RW_STANDARD.bargain='PRICE AND BARGAINING. First the price: '+RW_STANDARD.price.replace(/^TALKING PRICE\.\s*/,'')+' Then, when they push: '+RW_STANDARD.bargain.replace(/^BARGAINING\.\s*/,'');
+  RW_STANDARD.intro+=' If the listener is a potential client, also judge it as a client introduction: what you do FOR someone like them (the result, not the job title), one specific proof, and an easy next step; no apologising for being new.';
   const RW_CLIENT_VIEW=`How K sees client work (this is the coach's own view; let it shape the diagnosis without lecturing):
 - The world of client work is a value exchange, and what decides the terms is leverage: how much you have to stand on. A newcomer has little to show yet, which is exactly why clients press them on price and terms.
 - So never think like a mere service provider. There must be something about you that stands out from a pool of similarly manufactured talent. Know what you are really selling (the problem solved, the result, the experience of working with you, not your hours) and say it.
@@ -11062,7 +11640,7 @@ If the speaker's role or situation includes their price, floor or bottom line, j
 ${RW_STANDARD[TTP.scenario]}
 
 ${_rw.grp==='client'?RW_CLIENT_VIEW:''}
-Time target: ${_ttRealTime(_rw)}. Say whether they landed inside it.
+${_rw.free?'No time limit in this situation. Only mention length if it hurt: rambling, over-explaining, or so short it came across as cold.':'Time target: '+_ttRealTime(_rw)+'. Say whether they landed inside it.'}
 
 How K judges communication: the goal is not a textbook answer to the literal question. The best communicators make their answer the feature — they reframe, bridge or pivot, and still leave the listener satisfied. Judge the quality and skill of the communication, not obedience to a template. Judge the shape the speaker actually used before comparing it with an ideal one.
 The line is ethics: a bridge or reframe must stay truthful. Coach the skill of steering a conversation, never inventing facts or misleading the listener — if an answer crosses that line, say so plainly.
@@ -11101,7 +11679,7 @@ In THE THREAD, say plainly whether they caught the main issue. If they missed it
 
 `+MP_SECTIONS;
   const _tech=!_rw&&TTP.questionSource==='daily'&&TTP.technique?TTP.technique:null;
-  const msg=(_rw?'Scenario: '+_rw.name+'\nPrompt: "'+TTP.question+'"'+(TTP.context?'\nSpeaker\'s role or situation: '+TTP.context:''):'Question: "'+TTP.question+'"'+(_tech?'\nTechnique the speaker was trying today: '+_tech.k+'. In STRUCTURE, say plainly whether they used it and how well.':''))+'\n\nTranscript:\n'+(TTP.transcript||"(no audio captured)")+
+  const msg=(_rw?'Scenario: '+_rw.name+_rwBriefText()+'\nPrompt: "'+TTP.question+'"'+(TTP.context?'\nSpeaker\'s role or situation: '+TTP.context:''):'Question: "'+TTP.question+'"'+(_tech?'\nTechnique the speaker was trying today: '+_tech.k+'. In STRUCTURE, say plainly whether they used it and how well.':''))+'\n\nTranscript:\n'+(TTP.transcript||"(no audio captured)")+
     '\n\nDuration: '+fmtMs(TTP.elapsed*1000)+' ('+TTP.totalWords+' words)';
 
   try{
@@ -11110,6 +11688,8 @@ In THE THREAD, say plainly whether they caught the main issue. If they missed it
     if(_cv){sysF=_rwConvoSys(sysUsed,_rw);msgF=_rwConvoMsg(_rw);}
     if(_mt){sysF=MP_MENTOR;msgF='Situation: '+_mt.name+'\nThe mentee: '+TTP.question+'\n\nThe mentor\'s spoken response (transcript):\n'+(TTP.transcript||'(no audio captured)')+'\n\nDuration: '+fmtMs(TTP.elapsed*1000)+' ('+TTP.totalWords+' words)';}
     if(_es){const pj=PD[_es.pid]||{};sysF=MP_EVAL;msgF='Project: '+(pj.t||'')+' — '+(pj.p||'')+'\nSpeaker: '+_es.speaker+', “'+_es.title+'”\n\nSAMPLE SPEECH:\n'+_es.text+'\n\nANSWER KEY (for you only):\nStrengths: '+_es.key.strengths+'\nMain issue: '+_es.key.main+'\nSmaller issue: '+_es.key.minor+'\n\nTHE EVALUATOR\'S SPOKEN EVALUATION (transcript):\n'+(TTP.transcript||'(no audio captured)')+'\n\nDuration: '+fmtMs(TTP.elapsed*1000)+' ('+TTP.totalWords+' words)';}
+    if(_rw&&TTP.totalWords>=15&&!TTP.rwDecision&&!TTP.rwReview){const r=await _rwDecide();if(_rw.grp==='client')TTP.rwDecision=r;else TTP.rwReview=r||{improve:[]};if(V.view==='tt-practice'&&TTP.phase==='done')render();}
+    if(_rw&&TTP.rwDecision){const d=TTP.rwDecision;msgF+='\n\nHOW IT ENDED (the speaker sees this on a card above your notes, so do not repeat it): the client '+({deal:'agreed'+(d.terms?' ('+d.terms+')':''),think:'said they would think about it',walk:'walked away'})[d.decision]+'. What the client was hiding: '+d.secret+'\nUse this where it sharpens the diagnosis, for example money left on the table, a concession that wasn\'t needed, or a hold that paid off. One mention at most.';}
     msgF+=nbContext(_es?'eval':_mt?'mentor':_rw?'real':'tt');
     const _daily=_ttIsDaily();
     if(_daily)sysF=sysF.includes('Under 180 words. Firm and warm.')?sysF.replace('Under 180 words. Firm and warm.',TBL_SPOT_PROMPT.trim()+'\n\nUnder 180 words for the four sections, plus the SPOTLIGHT line. Firm and warm.'):sysF+TBL_SPOT_PROMPT;
@@ -11124,7 +11704,7 @@ In THE THREAD, say plainly whether they caught the main issue. If they missed it
   const ttSummary=ttSummaryMatch?ttSummaryMatch[0].trim().slice(0,80):'';
   const _notesOk=typeof TTP.aiResult==='string'&&!/data-action="ttp-retry-eval"/.test(TTP.aiResult);
   const _cvS=_rw&&TTP.convo&&TTP.convo.length>1?TTP.convo:null;
-  saveSession(ttKey,_cvS?_cvS[0].elapsed:TTP.elapsed,ttWpm,0,ttSummary,{followups:_cvS?_cvS.length-1:0,topic:TTP.question,style:TTP.style,theme:TTP.theme||'',track:TTP.track||'tt',scenario:TTP.track==='real'?TTP.scenario:null,notes:_notesOk?TTP.aiResult:''});
+  saveSession(ttKey,_cvS?_cvS[0].elapsed:TTP.elapsed,ttWpm,0,ttSummary,{followups:_cvS?_cvS.length-1:0,topic:TTP.question,style:TTP.style,theme:TTP.theme||'',track:TTP.track||'tt',scenario:TTP.track==='real'?TTP.scenario:null,brief:TTP.track==='real'&&_rwBriefOk()?{c:TTP.rwBrief.c,job:TTP.rwBrief.job,pos:TTP.rwBrief.pos}:null,notes:_notesOk?TTP.aiResult:''});
   if(_notesOk&&TTP.aiResult){try{
     const _cat=_es?'eval':_mt?'mentor':_rw?'real':'tt';
     const _tw=_es?[120,180]:_mt?(_mt.secs||[60,120]):_rw?_rw.secs:[60,120];
@@ -11134,8 +11714,9 @@ In THE THREAD, say plainly whether they caught the main issue. If they missed it
   }catch(e){}}
   checkAchievements('tt');
   TTP.aiLoading=false;
-  const el2=document.getElementById("ttp-analysis");
-  if(el2){el2.innerHTML=_ttpRenderAnalysis(TTP.aiResult);_tblBindSpot(el2);}
+  if(TTP.track==='real'&&V.view==='tt-practice'&&TTP.phase==='done'){render();}
+  else{const el2=document.getElementById("ttp-analysis");
+  if(el2){el2.innerHTML=_ttpRenderAnalysis(TTP.aiResult);_tblBindSpot(el2);}}
   if(_ttIsDaily())tblPrefetch();
 }
 
