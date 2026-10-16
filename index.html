@@ -3807,6 +3807,7 @@ html:has(.t1.rwx),body:has(.t1.rwx){overflow-x:clip;overflow-y:visible}
 html[data-theme="dark"] .t1.rwx .clock.phase-green .time{color:#6FD08C}html[data-theme="dark"] .t1.rwx .clock.phase-amber .time{color:#F5C85B}html[data-theme="dark"] .t1.rwx .clock.phase-red .time{color:#F0645A}
 .t1.rwx .live-h b{font-weight:700}
 .t1.rwx .live-t{max-height:40vh;overflow:auto}
+.t1.rwx .bd .mv:last-child{border-bottom:0;padding-bottom:4px}
 .t1.rwx .dec-deal .dec-h svg{stroke:#7EDDA0}.t1.rwx .dec-walk .dec-h svg{stroke:#F5AA6E}
 .t1.rwx .rwx-note{font-size:13px;color:var(--ink-2);line-height:1.5;text-align:center;padding:4px 8px}
 .t1.rwx .bd-k .ps-analysis-text,.t1.rwx .bd-k{color:var(--ink-2)}
@@ -6136,6 +6137,8 @@ const CHANGELOG=[
     'The client has a secret, like a real one: a bigger budget, a deadline, a bluff. At the end they decide (deal, think about it, or walk) and tell you what they were hiding, so you see what holding firm or giving in actually cost you',
     'Follow-ups sound like people now. In Someone new, Small talk and Introductions, the other person reacts and shares before asking, instead of interviewing you',
     'No clock where there isn’t one in real life. Small talk, meetings, tough questions and the money conversations have no time limit; pitches, interviews and introductions keep theirs',
+    'Every Real-world conversation now ends with how the other person took it (your manager, the interviewer, the person you just met), with the exact words that helped or hurt',
+    'Every Real-world scene now has a real person and a real moment (who you’re talking to and what just happened), not a Table Topics-style question',
     'Clearer words for everyone, including non-native speakers: “lowest price” instead of “floor”, and K’s notes in short, plain sentences',
     'A conversation you’ve started can always finish: the other person’s reply and K’s notes no longer stop halfway because of the daily limit',
     'Bargaining and Someone new can now go up to three follow-ups. Bargaining starts at two, because haggling only gets hard after the second no',
@@ -10233,16 +10236,16 @@ const TT_REAL={
   smalltalk:{name:"Conversation",sub:"Small talk to first dates",free:true,secs:[20,45],prompts:["At a networking event, a stranger says: “So how do you know the host?”", "A colleague you barely know, in the lift: “Busy week?”", "At a wedding dinner, the person next to you asks: “Are you with the bride or the groom?”", "A client, before the meeting starts: “Did you find the place okay?”", "At a conference coffee break: “What did you think of that last talk?”", "A neighbour in the hallway: “Haven’t seen you around much lately!”", "Your boss’s boss, at the team dinner: “So what’s keeping you busy these days?”", "A parent at school pickup: “Which class is yours in?”", "Someone at a party: “So, what do you do?”", "On a video call, waiting for the others: “Where are you dialling in from?”", "A guest at your club meeting: “Is this your first time here too?”", "A new colleague on Friday afternoon: “Any plans for the weekend?”"]},
   meeting:{name:"Meetings",sub:"Speak up and be heard",free:true,secs:[30,90],prompts:["Your manager turns to you: “You’ve been quiet. What do you think?”", "Give a 30-second update on your project at the weekly team meeting.", "The team is about to agree on a plan you think has a gap. Speak up.", "The discussion has gone in circles for twenty minutes. Sum it up and suggest a next step.", "You’re asked for your view on something outside your expertise.", "Two colleagues disagree, and the chair asks you to weigh in.", "The chair asks: “Anything else before we close?” You have an idea. Propose it.", "You need more time on a deadline. Raise it in the meeting.", "A senior leader asks the team for honest feedback. Nobody speaks. Go first.", "Disagree with your manager’s proposal, politely, in front of the team.", "Someone just presented your idea as theirs. Respond in the meeting.", "Close the meeting: recap what was decided and who does what."]},
   tough:{name:"Tough question",sub:"Stay composed",free:true,secs:[45,90],prompts:[
-    "“Your project is two weeks late. What happened?”",
-    "A client says: “Your price is too high.” Respond.",
-    "“Why should we trust your numbers?”",
-    "After your talk, someone says: “I don't think that's true.” Respond.",
-    "“What would you do differently if you ran this team?”",
-    "Your boss asks in a meeting: “Why wasn't this caught earlier?”",
-    "“You've never done this before — why should we give you the lead?”",
-    "A colleague says: “That idea won't work here.” Respond.",
-    "“Can you explain why your results dropped last quarter?”",
-    "A journalist asks: “Isn't your company part of the problem?”"]},
+    "Your manager, in your weekly one-to-one: “Your project is two weeks late. What happened?”",
+    "A client, after you sent your quote: “Your price is too high.”",
+    "The finance director, looking at your report: “Why should we trust your numbers?”",
+    "Someone in the audience, after your talk: “I don't think that's true.”",
+    "Your boss's boss, at the team lunch: “What would you do differently if you ran this team?”",
+    "Your boss, in front of the whole team: “Why wasn't this caught earlier?”",
+    "A senior colleague, when you ask to lead the new project: “You've never done this before. Why should we give you the lead?”",
+    "A colleague, right after you share your idea: “That won't work here.”",
+    "Your manager, in your quarterly review: “Can you explain why your results dropped last quarter?”",
+    "A customer, on a support call: “This is the third time it's broken. Why should I stay with you?”"]},
   social:{name:"Someone new",sub:"Get to know them",hide:true,free:true,grp:"everyday",secs:[20,45],prompts:[
     "In the coffee queue, the person behind you says: “Is the oat latte here any good?”",
     "At a friend's birthday dinner, the person next to you says: “So how do you know Mei?”",
@@ -10424,13 +10427,13 @@ function _rwResetConvo(){TTP.convo=[];TTP.fuQ=null;TTP.fuLoading=false;TTP.rwDec
 // A new scenario: who the other person is, the brief (clients), and what the client is hiding.
 function _rwCast(item){
   const k=TTP.scenario,cl=_rwIsClient(k);
-  TTP.rwBrief=cl&&item?{q:TTP.question,c:item.c,job:item.job,pos:String(item.pos).replace(/^(You|Your offer|Your price|Your quote|Your position|The agreement)\s*:\s*/,'')}:null;
-  TTP.rwWho=cl?((item&&item.c?item.c.replace(' · ',', ')+', ':'')+_rwPick(RW_PEOPLE.client)):_rwPick(RW_PEOPLE[k]||RW_PEOPLE.intro);
+  TTP.rwBrief=cl&&item&&item.c?{q:TTP.question,c:item.c,job:item.job,pos:String(item.pos).replace(/^(You|Your offer|Your price|Your quote|Your position|The agreement)\s*:\s*/,'')}:(!cl&&item&&item.who?{q:TTP.question,who:item.who,moment:item.moment}:null);
+  TTP.rwWho=cl?((item&&item.c?item.c.replace(' · ',', ')+', ':'')+_rwPick(RW_PEOPLE.client)):((item&&item.who?item.who.replace(' · ',', ')+'; ':'')+_rwPick(RW_PEOPLE[k]||RW_PEOPLE.intro));
   TTP.rwSecret=cl?_rwPick(RW_SECRETS):null;
 }
 const RW_POS_LBL={cintro:'You',proposal:'Your offer',price:'Your price',bargain:'Your price',difficult:'The agreement',ground:'Your position'};
 function _rwBriefOk(){return !!(TTP.rwBrief&&TTP.rwBrief.q===TTP.question);}
-function _rwBriefText(){if(!_rwBriefOk())return '';const b=TTP.rwBrief;return '\nThe client: '+b.c+'\nThe job: '+b.job+'\n'+(RW_POS_LBL[TTP.scenario]||'Speaker\'s position')+' (the speaker\'s side): '+b.pos;}
+function _rwBriefText(){if(!_rwBriefOk())return '';const b=TTP.rwBrief;if(b.who)return '\nWho is talking to the speaker: '+b.who+'\nThe moment: '+b.moment;return '\nThe client: '+b.c+'\nThe job: '+b.job+'\n'+(RW_POS_LBL[TTP.scenario]||'Speaker\'s position')+' (the speaker\'s side): '+b.pos;}
 function _rwBankFu(){
   if(TTP.scenario==='ground'){const g=RW_FU_BANK.ground,i=Math.max(0,(TTP.convo||[]).length-1);return g[Math.min(i,g.length-1)];}
   const b=RW_FU_BANK[TTP.scenario]||RW_FU_BANK.interview,used=new Set((TTP.convo||[]).map(t=>t.q));
@@ -10710,12 +10713,12 @@ async function ttpFetchReal(useAI){
     try{
       const seen=_ttSeenList().slice(-12);
       const brief={
-        interview:"A realistic job-interview question an interviewer would actually ask. Behavioural (\"Tell me about a time…\") or motivational.",
+        interview:"A job interview. The interviewer asks a realistic question an interviewer would actually ask: behavioural (\"Tell me about a time…\") or about motivation.",
         pitch:"A one-line elevator-pitch situation: who the speaker is talking to, and what they must sell in under a minute.",
         intro:"A one-line situation where the speaker must introduce themselves: where they are and who they're talking to.",
 
         meeting:"A moment in a work meeting where the speaker needs to speak up: give a view, an update, disagree, sum up or raise a problem. Describe the moment in one sentence.",
-        tough:"A pointed, slightly uncomfortable question someone might ask in a meeting, review or Q&A. Quote it directly.",
+        tough:"A real person (a manager, a client, a colleague, someone in an audience) challenges something specific the speaker did or said: a late project, a number in a report, a decision, a price, an idea. It must be about a concrete situation, never an abstract or hypothetical question.",
         social:"An everyday social moment with someone the speaker has just met or is getting to know (a queue, a party, a class, a first or second date, a language exchange). Give the setting in a few words, then quote the first thing the other person says. Friendly and respectful, never suggestive.",
         cintro:"A moment where a potential client asks the speaker who they are or what they do. Give the setting in a few words, then quote the client.",
         proposal:"A client asking the speaker to present a proposal for a specific, concrete piece of work (say what the work is).",
@@ -10729,6 +10732,15 @@ async function ttpFetchReal(useAI){
       let msg="[Seed: "+Math.random().toString(36).slice(2,8)+"]"+(ctx?"\nThe speaker's role or situation: "+ctx+" — tailor the prompt to it.":"\nKeep it general enough for anyone.");
       if(seen.length)msg+="\n\nDo not reuse or lightly reword any of these:\n- "+seen.join("\n- ");
       msg+="\n\nReply with the one prompt only.";
+      if(!_rwIsClient()){
+        const sysS="You write realistic role-play scenes for a speaking-practice app. The speaker will answer out loud, as themselves, to a real person in a real moment. Situation type: "+brief+"\nNever write an abstract, philosophical or hypothetical question (that is Table Topics, not a conversation). Plain, everyday English.\nReply with JSON only, no markdown: {\"who\":\"who is talking to the speaker, with their role, under 8 words, e.g. 'Your manager · weekly team meeting'\",\"moment\":\"what is happening right now, one plain sentence under 16 words\",\"line\":\"exactly what they say to the speaker, spoken, in curly quotes, under 25 words\"}";
+        const rawS=await callCoach(sysS,msg,{maxTokens:200,forceBase:true,featureId:'rw-turn'});
+        const j=JSON.parse(String(rawS).replace(/```json|```/g,'').match(/\{[\s\S]*\}/)[0]);
+        const line=String(j.line||'').trim();
+        if(!line||line.length>240||!j.who||!j.moment)throw new Error('scene');
+        TTP.question=line;TTP.questionSource="ai";TTP._rwItem={who:String(j.who).slice(0,70),moment:String(j.moment).slice(0,120)};
+        throw 'done';
+      }
       if(_rwIsClient()){
         const sysB="You write realistic client role-play briefs for a practice app for freelancers and new professionals. Situation type: "+brief+"\nReply with JSON only, no markdown: {\"client\":\"Name · who they are, under 8 words\",\"job\":\"the piece of work, under 10 words\",\"position\":\""+(RW_POS_LBL[TTP.scenario]||'Your position')+": the speaker's side, concrete, with ¥ figures where they apply (a quote, a floor, terms), under 16 words. Vary it: sometimes final and non-negotiable, sometimes a price plus the lowest they will accept (write it as 'Lowest you’ll accept: ¥…'), sometimes flexible on one thing but not another. Plain words only: never write 'floor', 'anchor' or 'leverage'\",\"line\":\"the client's opening words, spoken, in curly quotes, under 22 words\"}. Use Chinese-market pricing in yuan. Everyday plain English.";
         const rawB=await callCoach(sysB,msg,{maxTokens:220,forceBase:true,featureId:'rw-turn'});
@@ -10748,7 +10760,6 @@ async function ttpFetchReal(useAI){
   }else{
     TTP.question=ttpOfflineReal(TTP.scenario);TTP.questionSource="bank";
   }
-  if(TTP.questionSource==="ai"&&!_rwIsClient())TTP._rwItem=null;
   if(TTP._rwItem&&TTP.questionSource==='bank'&&_rwIsClient()&&(S.rwPrice||'').trim())TTP._rwItem=Object.assign({},TTP._rwItem,{pos:S.rwPrice.trim()});
   _rwCast(TTP._rwItem);TTP._rwItem=null;
   _ttMarkSeen(TTP.question);
@@ -10862,7 +10873,7 @@ function _rwRenderSetup(app){
   const ag=$('[data-action="rwx-again"]');
   if(ag&&last)ag.addEventListener('click',()=>{
     TTP.track='real';TTP.scenario=last.scenario;TTP.question=last.topic;TTP.questionSource='repeat';_rwResetConvo();
-    _rwCast(last.brief&&last.brief.c?last.brief:null);TTP.context=_rwCtx();TTP.phase='question';render();
+    _rwCast(last.brief&&(last.brief.c||last.brief.who)?last.brief:null);TTP.context=_rwCtx();TTP.phase='question';render();
   });
 }
 
@@ -10886,8 +10897,9 @@ function _rwRenderQuestion(app){
     h+='<button class="ghost" data-action="rw-end">End here · get K’s notes</button>';
   }else{
     const b=_rwBriefOk()?TTP.rwBrief:null;
-    if(b)h+='<dl class="brief"><div><dt>Client</dt><dd>'+escHtml(b.c)+'</dd></div><div><dt>The job</dt><dd>'+escHtml(b.job)+'</dd></div><div><dt>'+escHtml(RW_POS_LBL[TTP.scenario]||'Your position')+'</dt><dd><b>'+escHtml(b.pos)+'</b></dd></div></dl>';
-    h+='<div class="quote"><div class="lbl">'+escHtml(b?'The client says':'The scene')+'</div><div class="quote-t">'+escHtml(TTP.question)+'</div><div class="quote-f">'+RWX_IC.clock+escHtml(timeTxt)+'</div></div>';
+    if(b&&b.who)h+='<dl class="brief"><div><dt>With</dt><dd>'+escHtml(b.who)+'</dd></div><div><dt>Now</dt><dd>'+escHtml(b.moment)+'</dd></div></dl>';
+    else if(b)h+='<dl class="brief"><div><dt>Client</dt><dd>'+escHtml(b.c)+'</dd></div><div><dt>The job</dt><dd>'+escHtml(b.job)+'</dd></div><div><dt>'+escHtml(RW_POS_LBL[TTP.scenario]||'Your position')+'</dt><dd><b>'+escHtml(b.pos)+'</b></dd></div></dl>';
+    h+='<div class="quote"><div class="lbl">'+escHtml(b?(b.who?'They say':'The client says'):'The scene')+'</div><div class="quote-t">'+escHtml(TTP.question)+'</div><div class="quote-f">'+RWX_IC.clock+escHtml(timeTxt)+'</div></div>';
     h+='<button class="go" data-action="ttp-start">Start answering'+RWX_IC.arrow+'</button>';
     h+='<button class="ghost" data-action="ttp-new"'+(TTP.questionLoading?' disabled':'')+'>'+(TTP.questionLoading?'Setting the scene…':'New scenario')+'</button>';
   }
@@ -10921,6 +10933,16 @@ function _rwxGrounded(list,key,max){
   return (Array.isArray(list)?list:[]).filter(x=>{if(!x||!x[key])return false;const i=_rwxTurnIdx(x.turn);if(i<0||!turns[i])return false;const q=_rwxNorm(x[key]);return q.split(' ').length>=2&&_rwxNorm(turns[i].a).includes(q);}).slice(0,max);
 }
 function _rwxDecisionHtml(){
+  const r=TTP.rwReview;
+  if(!TTP.rwDecision&&r&&r.verdict){
+    const hd=(RW_VERDICT_H[TTP.scenario]||RW_VERDICT_H.meeting)[r.verdict];
+    const ic={yes:'<svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>',maybe:RWX_IC.hourglass,no:RWX_IC.walk}[r.verdict];
+    let h='<section class="dec dec-'+({yes:'deal',maybe:'think',no:'walk'})[r.verdict]+'"><div class="lbl">How '+escHtml(_rwBriefOk()&&TTP.rwBrief.who?TTP.rwBrief.who.split(' · ')[0].replace(/^(Your|The|A|An) /,m=>m.toLowerCase()):'they')+' took it</div><div class="dec-h">'+ic+escHtml(hd)+'</div>';
+    if(r.say)h+='<div class="dec-say">“'+escHtml(r.say.replace(/^["“]|["”]$/g,''))+'”</div>';
+    const why=_rwxGrounded(r.why,'quote',2);
+    if(why.length)h+='<div class="dec-why"><b>Why</b>'+why.map(w=>'<div class="why '+(w.effect==='-'||w.effect==='−'?'dn':'up')+'"><span class="why-s">'+(w.effect==='-'||w.effect==='−'?'−':'+')+'</span><div><div class="why-q">“'+escHtml(w.quote)+'”<small>'+escHtml(_rwxTurnLabel(_rwxTurnIdx(w.turn)))+'</small></div><div class="why-r">'+escHtml(w.reason||'')+'</div></div></div>').join('')+'</div>';
+    return h+'</section>';
+  }
   const d=TTP.rwDecision;if(!d||!d.decision)return '';
   const H={deal:[RWX_IC.client,'Deal'+(d.terms?' · '+d.terms:''),'deal'],think:[RWX_IC.hourglass,'“Let me think about it”','think'],walk:[RWX_IC.walk,'They walked','walk']}[d.decision]||[RWX_IC.hourglass,'“Let me think about it”','think'];
   let h='<section class="dec dec-'+H[2]+'"><div class="lbl">The client’s decision</div><div class="dec-h">'+H[0]+escHtml(H[1])+'</div>';
@@ -11553,6 +11575,14 @@ function _ttpRenderAnalysis(text){
   return spot+dec+renderCoachCards(text)+(e?'<button type="button" class="nb-saved" data-action="nb-open-cat" data-cat="'+e.cat+'"><svg viewBox="0 0 24 24">'+NB_IC.book+'</svg><span><b>Saved to K’s notebook.</b> '+(_nbOn()?'K will remember this next time.':'Memory is off, so K won’t bring it up.')+'</span>'+_t1sv('chev')+'</button>':'');
 }
 
+const RW_VERDICT_Q={interview:'would you move them to the next round?',pitch:'do you want to hear more?',intro:'will you remember them and want to follow up?',meeting:'are you on board with what they said?',tough:'did they answer your concern?',smalltalk:'would you like to keep talking to them?'};
+const RW_VERDICT_H={
+  interview:{yes:'Through to the next round',maybe:'“We’ll be in touch”',no:'Not this time'},
+  pitch:{yes:'They want to hear more',maybe:'“Send me something”',no:'They’re not interested'},
+  intro:{yes:'They’ll remember you',maybe:'Polite, but you blended in',no:'You lost them'},
+  meeting:{yes:'They backed you',maybe:'They’re not sure yet',no:'They didn’t buy it'},
+  tough:{yes:'They’re satisfied',maybe:'Partly answered',no:'Not convinced'},
+  smalltalk:{yes:'They’d like to keep talking',maybe:'Polite, but it fizzled',no:'They drifted away'}};
 async function _rwDecide(){
   const sc=TT_REAL[TTP.scenario],cl=_rwIsClient();
   const conv=(TTP.convo&&TTP.convo.length?TTP.convo:[{q:TTP.question,a:TTP.transcript}]);
@@ -11564,7 +11594,7 @@ async function _rwDecide(){
   const improveRule="\"improve\": up to 2 moments that cost them most, each {\"turn\":\"answer|fu1|fu2|fu3\",\"said\":\"exact words\",\"try\":\"a better line they could actually say, spoken, under 30 words\",\"why\":\"one sentence on why it would help"+(cl?", tied to the outcome or your hidden brief":"")+"\"}.";
   const sys=cl
     ?"You are the client in a negotiation practice role-play. Who you are: "+(TTP.rwWho||"a client")+".\nYour hidden brief, which the speaker never knew: "+(TTP.rwSecret?TTP.rwSecret.t:"none")+"\n\nThe conversation is over. Decide honestly, in character, as a real client with that brief would, based only on what the speaker actually said. Holding firm with good reasons and warmth often wins; caving fast can make you doubt them; rudeness or vagueness loses you.\n"+grounding+"\n"+voice+"\nReply with JSON only, no markdown:\n{\"decision\":\"deal\"|\"think\"|\"walk\",\"say\":\"what you say to end the conversation, one short spoken sentence, in character\",\"terms\":\"the deal in a few words if decision is deal (price or terms agreed), else empty\",\"why\":[up to 3 of {\"turn\":\"answer|fu1|fu2|fu3\",\"quote\":\"exact words\",\"effect\":\"+\" or \"-\",\"reason\":\"one sentence: how that line moved you toward or away from yes, consistent with your hidden brief\"}],\"secret\":\"one or two plain sentences, first person, revealing your hidden brief with a concrete figure where it applies, ending with how it shaped this outcome, e.g. 'Their real budget was ¥18,000, so price was never the real problem. They needed to feel sure of you.'\","+improveRule+",\"could\":{\"from\":\"how it ended, a few words\",\"to\":\"the likely better outcome if they had made those changes, a few words\"}}"
-    :"You are K, a speaking coach, reviewing a real-world practice conversation ("+sc.name+"). Find the moments where better words would have changed how the other person reacted.\n"+grounding+"\n"+voice+"\nReply with JSON only, no markdown: {"+improveRule+"}";
+    :"You are the other person in a speaking-practice role-play ("+sc.name+"). Who you are: "+(TTP.rwWho||RW_ROLE[TTP.scenario]||"the other person")+".\nThe conversation is over. React honestly, the way that real person would, based only on what the speaker actually said: "+(RW_VERDICT_Q[TTP.scenario]||"how did it land with you?")+"\nThen, as K the coach, find the moments where better words would have changed your reaction.\n"+grounding+"\n"+voice+"\nReply with JSON only, no markdown: {\"verdict\":\"yes\"|\"maybe\"|\"no\",\"say\":\"what you say or think at the end, one short spoken sentence, in character\",\"why\":[up to 3 of {\"turn\":\"answer|fu1|fu2|fu3\",\"quote\":\"exact words\",\"effect\":\"+\" or \"-\",\"reason\":\"one sentence: how that line changed your reaction\"}],"+improveRule+"}";
   let j=null;
   for(let a=0;a<2&&!j;a++){
     try{
@@ -11575,7 +11605,7 @@ async function _rwDecide(){
   try{
     if(!j)return null;
     const clean=a=>(Array.isArray(a)?a:[]).slice(0,3);
-    if(!cl)return {improve:clean(j.improve)};
+    if(!cl)return {verdict:['yes','maybe','no'].includes(j.verdict)?j.verdict:null,say:String(j.say||'').slice(0,200),why:clean(j.why),improve:clean(j.improve)};
     if(!['deal','think','walk'].includes(j.decision))return null;
     return {decision:j.decision,say:String(j.say||'').slice(0,200),terms:String(j.terms||'').slice(0,80),secret:String(j.secret||'').slice(0,360),why:clean(j.why),improve:clean(j.improve),could:j.could&&j.could.from&&j.could.to?{from:String(j.could.from).slice(0,80),to:String(j.could.to).slice(0,80)}:null};
   }catch(e){return null;}
@@ -11705,7 +11735,7 @@ In THE THREAD, say plainly whether they caught the main issue. If they missed it
     if(_rw){const d=TTP.rwDecision||TTP.rwReview,mv=d?_rwxGrounded(d.improve,'said',2):[],why=d?_rwxGrounded(d.why,'quote',3):[];
       if(mv.length){const up=why.find(w=>w.effect!=='-'&&w.effect!=='−');
         _rwSkip='✅ WHAT WORKED: '+(up?'“'+up.quote+'” '+(up.reason||''):'You stayed in the conversation and kept answering.')+
-          '\n🎯 THE THREAD: '+(d.decision?({deal:'They agreed'+(d.terms?' ('+d.terms+')':'')+'.',think:'They said they would think about it.',walk:'They walked away.'})[d.decision]+' '+(d.secret||''):'What the other person heard depended on the moments below.')+
+          '\n🎯 THE THREAD: '+(d.verdict&&!d.decision?((RW_VERDICT_H[TTP.scenario]||RW_VERDICT_H.meeting)[d.verdict]+'. '+(d.say||'')):'')+(d.decision?({deal:'They agreed'+(d.terms?' ('+d.terms+')':'')+'.',think:'They said they would think about it.',walk:'They walked away.'})[d.decision]+' '+(d.secret||''):(d.verdict?'':'What the other person heard depended on the moments below.'))+
           '\n🏗 STRUCTURE: '+(mv[1]?'You said “'+mv[1].said+'”. Try: “'+String(mv[1].try||'').replace(/^["“]|["”]$/g,'')+'” '+(mv[1].why||''):'Keep each answer to one clear point.')+
           '\n💡 ONE THING: Instead of “'+mv[0].said+'”, say: “'+String(mv[0].try||'').replace(/^["“]|["”]$/g,'')+'” '+(mv[0].why||'');}}
     if(_rw&&TTP.rwDecision){const d=TTP.rwDecision;msgF+='\n\nHOW IT ENDED (the speaker sees this on a card above your notes, so do not repeat it): the client '+({deal:'agreed'+(d.terms?' ('+d.terms+')':''),think:'said they would think about it',walk:'walked away'})[d.decision]+'. What the client was hiding: '+d.secret+'\nUse this where it sharpens the diagnosis, for example money left on the table, a concession that wasn\'t needed, or a hold that paid off. One mention at most.';}
@@ -11723,7 +11753,7 @@ In THE THREAD, say plainly whether they caught the main issue. If they missed it
   const ttSummary=ttSummaryMatch?ttSummaryMatch[0].trim().slice(0,80):'';
   const _notesOk=typeof TTP.aiResult==='string'&&!/data-action="ttp-retry-eval"/.test(TTP.aiResult);
   const _cvS=_rw&&TTP.convo&&TTP.convo.length>1?TTP.convo:null;
-  saveSession(ttKey,_cvS?_cvS[0].elapsed:TTP.elapsed,ttWpm,0,ttSummary,{followups:_cvS?_cvS.length-1:0,topic:TTP.question,style:TTP.style,theme:TTP.theme||'',track:TTP.track||'tt',scenario:TTP.track==='real'?TTP.scenario:null,brief:TTP.track==='real'&&_rwBriefOk()?{c:TTP.rwBrief.c,job:TTP.rwBrief.job,pos:TTP.rwBrief.pos}:null,notes:_notesOk?TTP.aiResult:''});
+  saveSession(ttKey,_cvS?_cvS[0].elapsed:TTP.elapsed,ttWpm,0,ttSummary,{followups:_cvS?_cvS.length-1:0,topic:TTP.question,style:TTP.style,theme:TTP.theme||'',track:TTP.track||'tt',scenario:TTP.track==='real'?TTP.scenario:null,brief:TTP.track==='real'&&_rwBriefOk()?(TTP.rwBrief.who?{who:TTP.rwBrief.who,moment:TTP.rwBrief.moment}:{c:TTP.rwBrief.c,job:TTP.rwBrief.job,pos:TTP.rwBrief.pos}):null,notes:_notesOk?TTP.aiResult:''});
   if(_notesOk&&TTP.aiResult){try{
     const _cat=_es?'eval':_mt?'mentor':_rw?'real':'tt';
     const _tw=_es?[120,180]:_mt?(_mt.secs||[60,120]):_rw?_rw.secs:[60,120];
