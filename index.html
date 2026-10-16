@@ -6574,10 +6574,17 @@ function _mpStreak(){
 function _openMPDaily(){
   const d=_mpDaily();V._fromHub=true;V.view="tt-practice";TTP.track="mentor";TTP.scenario=d.k;TTP.question=d.q;TTP.questionSource="daily";TTP._promptN=1;TTP.phase="question";render();
 }
+// From TT_ORDER_FROM the daily topic walks the list in a fixed shuffled order (step 77 is coprime
+// with 96), so nothing repeats until every question has been used. Before that date the old hash pick
+// stays, so the app and the daily poster agree on every day. The poster script mirrors this exactly.
+const TT_ORDER_FROM=Date.UTC(2026,9,17)/864e5,TT_ORDER_STEP=77,TT_ORDER_OFF=69;
+function _ttDailyIdx(n,d){d=d||new Date();const k=Math.round(Date.UTC(d.getFullYear(),d.getMonth(),d.getDate())/864e5);
+  if(k<TT_ORDER_FROM)return _ttDayHash()%n;
+  return (TT_ORDER_OFF+((k-TT_ORDER_FROM)%n)*TT_ORDER_STEP)%n;}
 function _ttDailyEn(){
   const pool=[];TOPICS_THEMES.forEach(th=>pool.push(...(th.prompts||[])));
   if(!pool.length)return "What is one lesson that has shaped who you are today?";
-  return pool[_ttDayHash()%pool.length];
+  return pool[_ttDailyIdx(pool.length)];
 }
 // Topic of the day is English for everyone, whatever the coaching language: it is the one question
 // the whole district answers together, and Today's Table shares what worked on it.
