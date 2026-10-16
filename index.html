@@ -5846,9 +5846,17 @@ if(window.visualViewport){
 window.addEventListener('load',()=>{setTimeout(()=>{try{window.scrollTo(0,1);window.scrollTo(0,0);}catch{}setAppHeight();},50);});
 
 // Single source of truth for the version shown in the app. Bump here only.
-const APP_VERSION='2.3';
+const APP_VERSION='2.4';
 // What's new — newest first. Plain language, a few lines per version.
 const CHANGELOG=[
+  {v:'2.4',date:'Oct 2026',items:[
+    'Clients, in Real-world. Six new situations for anyone who has to sell their work: introduce yourself to a client, present a proposal, talk price, handle bargaining, deal with a difficult client, and hold your ground',
+    'Tell K your floor. Put your price and your bottom line in “Your role or situation” and K checks whether you defended it',
+    'Hold your ground. The client pushes three times, with logic, then a personal appeal, then a sweetener. K shows you the exact line where you started to drift, if you did',
+    'Bargaining and Someone new can now go up to three follow-ups. Bargaining starts at two, because haggling only gets hard after the second no',
+    'Someone new. Practise getting to know people: at a party, in a class, on a first date. K coaches curiosity, listening and being yourself, never lines or tricks',
+    'Today’s topic now works through every question before any comes back, and “Other topics” takes you to the rest of Table Topics without losing today’s'
+  ]},
   {v:'2.3',date:'Oct 2026',items:[
     'Highlights. Answer today’s Table Topic and K names one strength in your answer: your highlight. Share it, and everyone who answered the same question today can see what worked for you, give it 👏, and pick a strength to try tomorrow',
     'Praise only, and only if you choose. Your highlight is one line K quoted and one sentence on why it worked. Never your recording, never the critique. Cards disappear at midnight',
@@ -6752,7 +6760,7 @@ function _t1Body(mode){
     const _o=_saved[0],_oName=_o?(_o.kind==='pathways'&&PD[_o.projectId]?PD[_o.projectId].t:(_o.brief&&_o.brief.label)||'Outline'):'';
     const OB_SUB=_o?'<b>'+_saved.length+' saved</b> · '+escHtml(_oName)+' edited '+_ago(_relDays(_o.updatedAt))+'.':'Plan any speech, timed.';
     const _rs=((S.sessions||{})['real-practice']||[])[0],_rsc=_rs&&TT_REAL[_rs.scenario];
-    const RW_SUB=_rsc?'Last: <b>'+escHtml(_rsc.name)+'</b>, '+_ago(_relDays(_rs.iso))+'.':'Interviews, small talk, meetings.';
+    const RW_SUB=_rsc?'Last: <b>'+escHtml(_rsc.name)+'</b>, '+_ago(_relDays(_rs.iso))+'.':'Interviews, clients, small talk.';
     const rk=Object.keys(TT_REAL);
     grid='<div class="t1-grid">'+ROLESTILE+tile('outline','outline','Outline Builder','ob-new',OB_SUB,{row:'New · Saved'})+
       tile('tt','tt',TT,_ttD?'tt':'tt-daily',TT_SUB,{row:'Topics · Themes'})+
@@ -9945,7 +9953,86 @@ const TT_REAL={
     "“You've never done this before — why should we give you the lead?”",
     "A colleague says: “That idea won't work here.” Respond.",
     "“Can you explain why your results dropped last quarter?”",
-    "A journalist asks: “Isn't your company part of the problem?”"]}
+    "A journalist asks: “Isn't your company part of the problem?”"]},
+  social:{name:"Someone new",sub:"Get to know them",grp:"everyday",secs:[20,45],prompts:[
+    "In the coffee queue, the person behind you says: “Is the oat latte here any good?”",
+    "At a friend's birthday dinner, the person next to you says: “So how do you know Mei?”",
+    "On a first date, after you've both ordered: “So… what do you actually do all day?”",
+    "At a pottery class, the person at the next wheel laughs: “Mine looks like an ashtray. Yours?”",
+    "Someone you matched with on an app opens with: “Your profile says you love hiking. Where's the best trail?”",
+    "At a gallery opening, someone beside you says: “I have no idea what this painting is about.”",
+    "At a friend's housewarming, someone says: “I've heard a lot about you. All good, don't worry.”",
+    "On a first date, they ask: “What's something you're looking forward to this year?”",
+    "At the gym, someone says: “You're here every Tuesday too, right?”",
+    "At a language exchange, your partner says: “Why are you learning English? Your English is already good.”",
+    "At a wedding, someone at your table says: “Are you as bad at dancing as I am?”",
+    "On a second date, they say: “Last time you mentioned your family. Tell me more.”"]},
+  cintro:{name:"Client intro",sub:"Why you, fast",grp:"client",secs:[30,60],prompts:[
+    "A potential client on a video call: “Thanks for joining. Tell me a bit about yourself and what you do.”",
+    "At an industry mixer, a marketing director asks: “So what is it you do, exactly?”",
+    "You've been referred to a restaurant owner. She says: “Lina said I should talk to you. Why?”",
+    "First meeting with a startup founder: “We've talked to three agencies already. What makes you different?”",
+    "A client's manager joins the call late: “Sorry, who are you and what's your role here?”",
+    "A cold call is picked up: “Yes? I've got two minutes.”",
+    "At a trade fair booth, a buyer stops: “What's your company about?”",
+    "A potential client reads your profile and says: “You're quite young. How much experience do you actually have?”",
+    "A client asks: “Before we start, tell me how you usually work with clients.”",
+    "A hotel manager says: “We've never worked with a freelancer before. Why should we start with you?”"]},
+  proposal:{name:"Proposal",sub:"Walk them through it",grp:"client",secs:[60,120],prompts:[
+    "Present your proposal: a new website for a family-run bakery that wants more online orders.",
+    "The client says: “Okay, walk me through your proposal.” It's a 3-month social media campaign for a gym.",
+    "Present your plan to redesign the onboarding for a small software company losing new users.",
+    "A wedding planner asks you to pitch your photography package for their premium clients.",
+    "Present a proposal to train a sales team of 12 in presentation skills over six weeks.",
+    "A restaurant wants a new menu design and brand refresh. Present your approach and timeline.",
+    "Present your proposal to film a 2-minute brand video for a skincare startup.",
+    "A school asks how you'd run a 4-week public speaking course for their students. Present it.",
+    "Present your proposal to translate and localise a company's product catalogue into English.",
+    "The client says: “You have five minutes. Convince me your plan is worth the budget.”"]},
+  price:{name:"Talk price",sub:"Say the number",grp:"client",secs:[30,60],prompts:[
+    "The client likes your proposal and asks: “So, how much will this cost?”",
+    "“Before we go further, what's your rate?”",
+    "“What would a logo and basic brand guide cost?”",
+    "The client says: “Give me a ballpark. I don't need exact numbers.”",
+    "“How do you charge: by the hour or by the project?”",
+    "“What's your budget range for something like this?” Wait, they're asking you to name it.",
+    "A client asks you to quote for a 2-day workshop on the spot.",
+    "“Is the price negotiable?” asked before you've even named one.",
+    "A friend's company asks: “What would you charge us? We're a friend, so…”",
+    "“Our last vendor charged ¥5,000 for this. What would you charge?”"]},
+  bargain:{name:"Bargaining",sub:"They want it cheaper",grp:"client",secs:[30,75],prompts:[
+    "You quoted ¥12,000. The client says: “Can you do it for ¥8,000?”",
+    "“Your price is 30% over our budget. What can you do?”",
+    "“If we sign today, can you knock off 20%?”",
+    "“Another studio quoted half your price. Can you match it?”",
+    "“We're a startup. Can we pay you later, once we raise money?”",
+    "“Can you throw in the extra revisions for free? It's a small thing.”",
+    "“We'll give you lots of exposure. Can you do this one for free?”",
+    "“Can you do the full package for the price of the basic one?”",
+    "“Our boss approved ¥6,000. That's it. Can you work with that?”",
+    "“What's your best price? Your real best price.”"]},
+  difficult:{name:"Difficult client",sub:"Keep your cool",grp:"client",secs:[30,75],prompts:[
+    "The client approved the design last week. Today: “We've looked again. We hate it. Start over.”",
+    "Halfway through, the client says: “Oh, and we also need an English version. That's included, right?”",
+    "The client on a call, irritated: “Honestly, this is amateur work. Is this really your best?”",
+    "The client messages at 11pm: “Need this changed by 8am. Urgent.”",
+    "Payment is three weeks late. The client says: “Finance is slow. Why are you chasing me?”",
+    "In front of their team, the client says: “I don't think you understood the brief at all.”",
+    "The client says: “My nephew could do this in an afternoon. Why does it take you two weeks?”",
+    "After delivery: “It's fine, but my boss wants it to look completely different. Same price, of course.”",
+    "The client keeps changing their mind. Now: “Actually, go back to the first version. No, the second.”",
+    "The client ghosted you for a month and now writes: “Where is everything? We launch tomorrow!”"]},
+  ground:{name:"Hold your ground",sub:"They push, you don't",grp:"client",secs:[30,75],prompts:[
+    "You've quoted ¥15,000 for a brand video. The client says: “That's too much. We were thinking ¥9,000.”",
+    "You've said the timeline is four weeks. The client says: “We need it in ten days.”",
+    "You've proposed three rounds of revisions. The client says: “We'll need unlimited revisions.”",
+    "Mid-project, the client says: “While you're at it, could you also do the social media posts?”",
+    "You've asked for a 50% deposit. The client says: “We never pay upfront. You'll get paid at the end.”",
+    "The client says: “Your design is fine, but can you just copy what our competitor did?”",
+    "You've quoted ¥20,000 for a training day. The client says: “Other trainers charge ¥8,000.”",
+    "The client says: “Can you start before the contract is signed? It's just paperwork.”",
+    "You've finished the project. The client says: “We're not happy. We'll pay half.”",
+    "The client asks you to cut your fee because “the project got smaller”, but the scope hasn't changed."]}
 };
 
 let TTP={
@@ -9984,30 +10071,58 @@ function _ttMarkSeen(q){
 // A chosen non-English language needs K to write the topic — the offline bank is English only
 function _ttLangNeedsAI(){const l=(S.coachLang||'auto');return l!=='auto'&&l!=='en'&&!!(S.aiConfig&&S.aiConfig.enabled)&&navigator.onLine!==false;}
 // ── Real-world follow-ups: the other person reacts to what you said ──
-const RW_ROLE={interview:"The interviewer",pitch:"Your listener",intro:"The person you meet",smalltalk:"The other person",meeting:"Your colleagues",tough:"The person asking"};
+const RW_ROLE={interview:"The interviewer",pitch:"Your listener",intro:"The person you meet",smalltalk:"The other person",meeting:"Your colleagues",tough:"The person asking",social:"The other person",cintro:"The client",proposal:"The client",price:"The client",bargain:"The client",ground:"The client",difficult:"The client"};
 const RW_FU_PERSONA={
   interview:"You are the interviewer. Probe like a good interviewer: ask for a specific example, the speaker's own part (not the team's), the result, what they'd do differently, or why it matters for the role.",
   pitch:"You are the person being pitched (whoever the scenario names: investor, client, recruiter, manager, friend). React like a real listener: how is it different, what does it cost, who already uses it, why you, what do you need from me.",
   intro:"You are someone the speaker has just met in that setting. React with genuine curiosity to something they said, the way a real person would, and ask to hear more.",
   smalltalk:"You are the other person in this small talk. Keep it light and friendly. Pick up the detail the speaker offered. You may share a tiny bit about yourself before asking, like real small talk.",
   meeting:"You are a colleague or the chair in this meeting. Respond like a busy, fair colleague: push back on the idea, or ask what it costs, who owns it, the risk, or the timeline.",
-  tough:"You are the person who asked the tough question. You are not fully satisfied. Press on the part they avoided or challenge one claim they made. Firm and direct, never abusive."
+  tough:"You are the person who asked the tough question. You are not fully satisfied. Press on the part they avoided or challenge one claim they made. Firm and direct, never abusive.",
+  social:"You are someone the speaker has just met socially (the scenario says where: a queue, a party, a class, a date). You are friendly but a little reserved, the way real people are at first: give a short, genuine answer of your own, and only open up more if the speaker showed real interest. If they asked you something, answer it briefly and add one small detail about yourself they could pick up. If they only talked about themselves, react politely and briefly. Never flirt, never be rude, keep it everyday and respectful.",
+  cintro:"You are the potential client. Busy and polite, mildly sceptical. React like a real buyer: what exactly do you do for someone like me, who have you done it for, why you rather than the others, what happens next.",
+  proposal:"You are the client hearing the proposal. Engaged but careful with money and time. Ask what a real client asks: why this approach, what if it doesn't work, how long, what do you need from us, can we cut this part, how will we know it worked.",
+  price:"You are the client who asked about price. React to the number like a real buyer: a little surprised, ask what's included, why it costs that, whether there's a cheaper option. Polite, not hostile.",
+  bargain:"You are the client who wants a lower price. Keep negotiating like a real buyer: test whether the number really moves, ask for extras, mention budget or competitors, suggest a smaller deal. Friendly but persistent. Never accept on the first answer.",
+  difficult:"You are a difficult client, the kind every freelancer meets: impatient, a bit unfair, quick to blame, but not abusive. Stay in character and react to what the speaker said: if they got defensive, push harder; if they stayed calm and set a clear boundary, ease off slightly but test it once more. Never use insults about the person, slurs or threats.",
+  ground:"You are the client trying to move the speaker off their position (price, timeline, scope or terms, whatever the scenario sets). You are pleasant, reasonable-sounding and persistent. You never accept their position; each time you push again with a different lever, as instructed below. Never insult or threaten."
 };
+// Hold your ground: the client always pushes three times, each time with a different lever.
+const RW_GROUND_PUSH=[
+  "PUSH 1, LOGIC: push with a reasonable-sounding business reason: budget, a competitor's lower quote, market rates, or 'it's a simple job'.",
+  "PUSH 2, PERSONAL: push with a personal or emotional reason: we're a small company, my boss will be furious, I really want to work with you, I'm in a tough spot. Make it sympathetic.",
+  "PUSH 3, THE SWEETENER: offer something in the future or make it feel normal: lots more work later if you help us now, a long-term partnership, great exposure, 'everyone else agreed to this', 'just this once'. Make it tempting."
+];
 const RW_FU_BANK={
   interview:["Can you give me a specific example of that?","What was your part in it, specifically?","What would you do differently next time?","How did you know it worked?","Why does that matter for this role?"],
   pitch:["How is that different from what's already out there?","What would it cost me?","Who's already using it?","Why you, though?","What exactly do you need from me?"],
   intro:["Oh, interesting. How did you get into that?","What does that look like day to day?","What brings you here today?","Who would you most like to meet here?"],
   smalltalk:["Oh really? How did that happen?","Ha, nice. So what keeps you busy these days?","How long have you been doing that?","That's fun. Any plans for the weekend?"],
   meeting:["What would that cost us?","Who would own that?","What's the risk if we don't do it?","Can you be more specific?","How soon could we start?"],
-  tough:["That doesn't really answer my question.","So whose responsibility was it?","How do I know it won't happen again?","Can you give me a straight answer?"]
+  tough:["That doesn't really answer my question.","So whose responsibility was it?","How do I know it won't happen again?","Can you give me a straight answer?"],
+  social:["Ha, same. What got you into that?","Oh nice. I'm more of a homebody, honestly. What else do you do for fun?","Really? I've never tried that.","Mm. And how about you, are you from here?"],
+  cintro:["Who have you done this for before?","What exactly would you do for a company like ours?","Why you, rather than a bigger agency?","What would working with you look like?"],
+  proposal:["Why this approach and not something simpler?","What if it doesn't work?","Can we cut part of it to save money?","How will we know it worked?","What do you need from us?"],
+  price:["Hm, that's more than I expected. What's included?","Is there a cheaper option?","Why does it cost that much?","Can you break that down for me?"],
+  bargain:["That's still too high for us. Can you go lower?","What if we sign a longer contract?","Can you at least include the extras?","Another studio said they'd do it for less."],
+  difficult:["That's not good enough. I expected more.","So you're saying it's our fault?","I don't have time for this. Just fix it.","Other people manage to do this without complaining."],
+  ground:["Come on, it's a simple job. Other people do it for much less.","Honestly, we're a small company and my boss will kill me if I go over budget.","Help us out on this one and there'll be a lot more work coming your way. Everyone else said yes."]
 };
-function _rwFuSetting(){const n=S.rwFollowups;return n===0||n===1||n===2?n:1;}
-function _rwFuN(){return TTP.track==='real'?_rwFuSetting():0;}
-function _rwFuSecs(k){return k==='smalltalk'?[20,45]:[30,60];}
-function _rwTimeText(){const sc=TT_REAL[TTP.scenario]||TT_REAL.interview,n=_rwFuSetting();return 'Aim for '+_ttRealTime(sc)+(n?' · then '+_ttRealTime({secs:_rwFuSecs(TTP.scenario)})+' per follow-up':'');}
-function _rwFuSubText(){const n=_rwFuSetting();return n?(RW_ROLE[TTP.scenario]||'The other person')+' follows up on what you actually say, like they would in the room.':'One answer, then K’s notes.';}
+// Follow-ups: 0–2 for most situations. Bargaining and Someone new go up to 3 and keep their own choice
+// (Bargaining starts at 2, because haggling only gets hard after the second no). Hold your ground is fixed at 3.
+const RW_FU_OWN={bargain:2,social:1};
+function _rwFuMax(k){return RW_FU_OWN[k]!=null?3:2;}
+function _rwFuSetting(){const k=TTP.scenario;
+  if(RW_FU_OWN[k]!=null){const n=(S.rwFuBy||{})[k];return n>=0&&n<=3?n:RW_FU_OWN[k];}
+  const n=S.rwFollowups;return n===0||n===1||n===2?n:1;}
+function _rwFuPicker(){const f=_rwFuSetting(),m=_rwFuMax(TTP.scenario);let h='';for(let n=0;n<=m;n++)h+='<button type="button" data-fu="'+n+'" aria-pressed="'+(f===n)+'">'+(n?n:'None')+'</button>';return h;}
+function _rwFuN(){return TTP.track==='real'?(TTP.scenario==='ground'?3:_rwFuSetting()):0;}
+function _rwFuSecs(k){return k==='smalltalk'||k==='social'?[20,45]:[30,60];}
+function _rwTimeText(){const sc=TT_REAL[TTP.scenario]||TT_REAL.interview,n=TTP.scenario==='ground'?3:_rwFuSetting();return 'Aim for '+_ttRealTime(sc)+(n?' · then '+_ttRealTime({secs:_rwFuSecs(TTP.scenario)})+(TTP.scenario==='ground'?' per push':' per follow-up'):'');}
+function _rwFuSubText(){if(TTP.scenario==='ground')return 'The client pushes three times, each time a different way. Your position should still be there at the end.';const n=_rwFuSetting();return n?(RW_ROLE[TTP.scenario]||'The other person')+' follows up on what you actually say, like they would in the room.':'One answer, then K’s notes.';}
 function _rwResetConvo(){TTP.convo=[];TTP.fuQ=null;TTP.fuLoading=false;}
 function _rwBankFu(){
+  if(TTP.scenario==='ground'){const g=RW_FU_BANK.ground,i=Math.max(0,(TTP.convo||[]).length-1);return g[Math.min(i,g.length-1)];}
   const b=RW_FU_BANK[TTP.scenario]||RW_FU_BANK.interview,used=new Set((TTP.convo||[]).map(t=>t.q));
   const f=b.filter(q=>!used.has(q));const pool=f.length?f:b;return pool[Math.floor(Math.random()*pool.length)];
 }
@@ -10018,9 +10133,10 @@ async function _rwFollowup(){
     const l=_coachLang();
     const langLine=l.id==='auto'?"Reply in the same language the speaker used.":"Reply in "+l.name+", the way a native speaker would naturally say it.";
     const sc=TT_REAL[TTP.scenario]||TT_REAL.interview;
-    const sys="You play the other person in a speaking-practice role-play. "+(RW_FU_PERSONA[TTP.scenario]||RW_FU_PERSONA.interview)+"\nYou have just heard the speaker. Ask ONE natural follow-up, the one a real person in your seat would ask next. Pull one thread from what they actually said: something vague, a claim worth testing, a missing example or result"+(TTP.scenario==='smalltalk'?", or the detail they offered you":"")+". Do not repeat a question already asked.\nStay in character. Never coach, praise, evaluate or explain anything. Spoken style, one or two short sentences, under 30 words. "+langLine+" Reply with only what you say: no name, no label, no quotation marks.";
+    const sys="You play the other person in a speaking-practice role-play. "+(RW_FU_PERSONA[TTP.scenario]||RW_FU_PERSONA.interview)+"\nYou have just heard the speaker. Ask ONE natural follow-up, the one a real person in your seat would ask next. Pull one thread from what they actually said: something vague, a claim worth testing, a missing example or result"+(TTP.scenario==='smalltalk'||TTP.scenario==='social'?", or the detail they offered you":"")+". Do not repeat a question already asked.\nStay in character. Never coach, praise, evaluate or explain anything. Spoken style, one or two short sentences, under 30 words. "+langLine+" Reply with only what you say: no name, no label, no quotation marks.";
     let msg="Situation: "+sc.name+"\nOpening prompt: "+TTP.question+(TTP.context?"\nThe speaker's role or situation: "+TTP.context:"")+"\n\nSo far:\n";
     TTP.convo.forEach((t,i)=>{msg+=(i?"You asked: ":"Prompt: ")+t.q+"\nThe speaker said: "+(t.a||"(nothing caught)")+"\n";});
+    if(TTP.scenario==='ground'){const pi=Math.min(TTP.convo.length-1,2);msg+="\nThis is your next push. "+RW_GROUND_PUSH[pi]+" React to what they just said, then push.";}
     msg+="\nYour follow-up:";
     for(let i=0;i<2;i++){
       try{
@@ -10060,15 +10176,18 @@ function _rwFinish(){
 }
 function _rwConvoSys(s,rw){
   const n=TTP.convo.length-1,pl=n>1?'s':'';
+  const fuLine=TTP.scenario==='ground'
+    ?'↪ UNDER FOLLOW-UP: Did they hold their ground? Compare their position in the first answer with the last: same, softened or given away. If it moved, quote the exact line where the drift started and name which push caused it (logic, personal appeal or sweetener). Then one sentence on whether they stayed warm.'
+    :'↪ UNDER FOLLOW-UP: How they handled the follow-up'+pl+': did they answer what was actually asked, stay consistent, keep their thread, stay calm? One or two sentences; quote them if it helps.';
   return s.replace(/Time target: [^\n]*/,'Time target: '+_ttRealTime(rw)+' for the first answer, '+_ttRealTime({secs:_rwFuSecs(TTP.scenario)})+' for each follow-up. Say briefly whether they kept to it.')
     .replace('Reply in EXACTLY these four sections','This was a conversation, not a single answer: after the first answer, the other person asked '+n+' follow-up question'+pl+' based on what the speaker said. Judge the whole exchange. A strong speaker answers what was actually asked, stays consistent with what they said before, keeps their thread, gets sharper rather than longer, and stays calm when pressed.\n\nReply in EXACTLY these five sections')
-    .replace('💡 ONE THING:','↪ UNDER FOLLOW-UP: How they handled the follow-up'+pl+': did they answer what was actually asked, stay consistent, keep their thread, stay calm? One or two sentences; quote them if it helps.\n💡 ONE THING:')
+    .replace('💡 ONE THING:',fuLine+'\n💡 ONE THING:')
     .replace('Give a better line they could actually say.','Give a better line they could actually say, for whichever moment mattered most.')
     .replace('Under 180 words','Under 230 words').replace('under 15 words,','under 15 words in total,');
 }
 function _rwConvoMsg(rw){
   let m='Scenario: '+rw.name+(TTP.context?'\nSpeaker\'s role or situation: '+TTP.context:'')+'\n\nTHE CONVERSATION:\n';
-  TTP.convo.forEach((t,i)=>{m+=(i?'The other person (follow-up '+i+')':'The opening prompt')+': "'+t.q+'"\nThe speaker ('+fmtMs(t.elapsed*1000)+', '+t.words+' words): '+(t.a||'(no audio captured)')+'\n\n';});
+  TTP.convo.forEach((t,i)=>{m+=(i?(TTP.scenario==='ground'?'The client (push '+i+')':'The other person (follow-up '+i+')'):'The opening prompt')+': "'+t.q+'"\nThe speaker ('+fmtMs(t.elapsed*1000)+', '+t.words+' words): '+(t.a||'(no audio captured)')+'\n\n';});
   return m.trim();
 }
 async function ttpFetchQuestion(theme,useAI){
@@ -10255,7 +10374,14 @@ async function ttpFetchReal(useAI){
         intro:"A one-line situation where the speaker must introduce themselves: where they are and who they're talking to.",
         smalltalk:"One line someone says to the speaker to open or continue small talk — at an event, at work, with a neighbour or a stranger. Give the setting in a few words, then quote what they say.",
         meeting:"A moment in a work meeting where the speaker needs to speak up: give a view, an update, disagree, sum up or raise a problem. Describe the moment in one sentence.",
-        tough:"A pointed, slightly uncomfortable question someone might ask in a meeting, review or Q&A. Quote it directly."
+        tough:"A pointed, slightly uncomfortable question someone might ask in a meeting, review or Q&A. Quote it directly.",
+        social:"An everyday social moment with someone the speaker has just met or is getting to know (a queue, a party, a class, a first or second date, a language exchange). Give the setting in a few words, then quote the first thing the other person says. Friendly and respectful, never suggestive.",
+        cintro:"A moment where a potential client asks the speaker who they are or what they do. Give the setting in a few words, then quote the client.",
+        proposal:"A client asking the speaker to present a proposal for a specific, concrete piece of work (say what the work is).",
+        price:"A client asking the speaker about price or rates for a concrete piece of work. Quote the client.",
+        bargain:"A client pushing for a lower price or extras for free, after the speaker has quoted. Include a concrete number in yuan where it fits. Quote the client.",
+        difficult:"A difficult client moment: a new request mid-project, approved work suddenly rejected, a rude remark, an unreasonable deadline, late payment or blame. Give the moment in a few words, then quote the client.",
+        ground:"A client trying to move the speaker off a position they have already stated (price, timeline, scope, payment terms or quality). State the speaker's position in a few words, then quote the client's push."
       }[TTP.scenario];
       const sys="You write practice prompts for impromptu speaking. "+brief+" One sentence, under 22 words, plain everyday language. No preamble.";
       let msg="[Seed: "+Math.random().toString(36).slice(2,8)+"]"+(ctx?"\nThe speaker's role or situation: "+ctx+" — tailor the prompt to it.":"\nKeep it general enough for anyone.");
@@ -10333,7 +10459,7 @@ function _ttpRenderSetup(app){
   h+='<button class="back" data-action="ttp-back"><svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>'+(V._fromHub?'Hub':'Practice')+'</button>';
 
   h+='<div class="tts-hero"><div class="tts-ico">'+(real?HUB_ICONS.real:'<svg viewBox="0 0 24 24"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20.5l1.4-4.6A8 8 0 1 1 21 12z"/><path d="M9 10.5a3 3 0 1 1 3.9 2.9c-.6.2-.9.7-.9 1.3v.3"/><path d="M12 17.6v.1"/></svg>')+'</div>';
-  h+='<div><div class="tts-h1">'+(real?'Real-world practice':'Table Topics<sup>®</sup>')+'</div><div class="tts-lede">'+(real?'Interviews, pitches, small talk, meetings and tough questions. Practise before it counts.':'Get a topic. Think on your feet. Get coached.')+'</div></div></div>';
+  h+='<div><div class="tts-h1">'+(real?'Real-world practice':'Table Topics<sup>®</sup>')+'</div><div class="tts-lede">'+(real?'Interviews, clients, small talk, meetings and tough questions. Practise before it counts.':'Get a topic. Think on your feet. Get coached.')+'</div></div></div>';
 
   if(!real&&!_ttDailyDone()){
     h+='<button type="button" class="tts-today" data-action="ttp-today"><div class="tts-last-lbl">Today’s topic · same for everyone</div><div class="tts-last-q">“'+escHtml(_ttDaily())+'”</div><div class="tts-today-f"><span>Try: '+escHtml(_ttTechnique().short)+'</span><b>Answer it '+ARR+'</b></div></button>';
@@ -10360,17 +10486,19 @@ function _ttpRenderSetup(app){
 
   h+='<section class="tts-card'+(real?' tts-real':'')+'">';
   if(real){
-    h+='<div class="tts-lbl">Scenario</div>';
-    h+='<div class="tts-seg tts-seg-real" id="ttp-real-seg" style="margin-top:0">';
-    Object.keys(TT_REAL).forEach(k=>{const sc=TT_REAL[k];h+='<button type="button" data-scenario="'+k+'" aria-pressed="'+(TTP.scenario===k)+'"><span>'+sc.name+'</span><small>'+sc.sub+'</small></button>';});
-    h+='</div>';
+    const _rb=k=>{const sc=TT_REAL[k];return '<button type="button" data-scenario="'+k+'" aria-pressed="'+(TTP.scenario===k)+'"><span>'+sc.name+'</span><small>'+sc.sub+'</small></button>';};
+    const _rk=Object.keys(TT_REAL);
+    h+='<div class="tts-lbl">Everyday</div>';
+    h+='<div class="tts-seg tts-seg-real" id="ttp-real-seg" style="margin-top:0">'+_rk.filter(k=>TT_REAL[k].grp!=='client').map(_rb).join('')+'</div>';
+    h+='<div class="tts-lbl">Clients</div>';
+    h+='<div class="tts-seg tts-seg-real" id="ttp-real-seg2" style="margin-top:0">'+_rk.filter(k=>TT_REAL[k].grp==='client').map(_rb).join('')+'</div>';
     h+='<div class="tts-lbl">Your role or situation <i>optional</i></div>';
     h+='<label class="tts-field"><svg viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="13" rx="2.5"/><path d="M9 7V5.5A1.5 1.5 0 0 1 10.5 4h3A1.5 1.5 0 0 1 15 5.5V7"/></svg>';
-    h+='<input id="ttp-context" type="text" placeholder="e.g. Product manager, job at a bank…" autocomplete="off" value="'+escHtml(TTP.context||'')+'"></label>';
+    h+='<input id="ttp-context" type="text" placeholder="'+(TT_REAL[TTP.scenario]&&TT_REAL[TTP.scenario].grp==='client'?'e.g. ¥8,000 logo, floor ¥6,500':'e.g. Product manager, job at a bank…')+'" autocomplete="off" value="'+escHtml(TTP.context||'')+'"></label>';
     const _fn=_rwFuSetting();
-    h+='<div class="tts-lbl" style="margin-top:14px">Follow-ups</div>';
-    h+='<div class="rw-fu-seg" id="rw-fu-seg" role="group" aria-label="Follow-ups">'+[0,1,2].map(n=>'<button type="button" data-fu="'+n+'" aria-pressed="'+(_fn===n)+'">'+(n?n:'None')+'</button>').join('')+'</div>';
-    h+='<div class="rw-fu-sub" id="rw-fu-sub">'+escHtml(_rwFuSubText())+'</div>';
+    h+='<div class="tts-lbl rw-fu-lbl" style="margin-top:14px'+(TTP.scenario==='ground'?';display:none':'')+'">Follow-ups</div>';
+    h+='<div class="rw-fu-seg" id="rw-fu-seg" role="group" aria-label="Follow-ups"'+(TTP.scenario==='ground'?' style="display:none"':'')+'>'+_rwFuPicker()+'</div>';
+    h+='<div class="rw-fu-sub" id="rw-fu-sub"'+(TTP.scenario==='ground'?' style="margin-top:12px"':'')+'>'+escHtml(_rwFuSubText())+'</div>';
     h+='<div class="tts-real-time"><svg viewBox="0 0 24 24"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2M10 2h4"/></svg><span id="rw-time">'+escHtml(_rwTimeText())+'</span></div>';
   }else{
   h+='<div class="tts-lbl">Meeting theme <i>optional</i></div>';
@@ -10399,7 +10527,7 @@ function _ttpRenderSetup(app){
   }
 
   if(real){
-    h+='<details class="tts-tips"><summary><span class="tts-tq">What makes a strong response?</span></summary><div class="tts-body"><ul class="mp-tips"><li><b>Answer in your first sentence,</b> then support it.</li><li><b>One real example</b> beats three claims.</li><li><b>Bridge, don’t dodge.</b> Acknowledge the question, satisfy its core, then steer to your ground.</li><li><b>Mind your attitude.</b> Calm and curious lands better than clever.</li><li><b>Land on a next step</b> or a line they’ll remember.</li><li><b>In small talk, hand it back.</b> A short answer, one detail they can pick up, then a question about them.</li></ul></div></details>';
+    h+='<details class="tts-tips"><summary><span class="tts-tq">What makes a strong response?</span></summary><div class="tts-body"><ul class="mp-tips"><li><b>Answer in your first sentence,</b> then support it.</li><li><b>One real example</b> beats three claims.</li><li><b>Bridge, don’t dodge.</b> Acknowledge the question, satisfy its core, then steer to your ground.</li><li><b>Mind your attitude.</b> Calm and curious lands better than clever.</li><li><b>Land on a next step</b> or a line they’ll remember.</li><li><b>In small talk, hand it back.</b> A short answer, one detail they can pick up, then a question about them.</li><li><b>With clients, sell what it does for them,</b> not your hours. Say the price, then stop.</li><li><b>A concession is a trade, never a gift.</b> If the price moves, something else moves too.</li></ul></div></details>';
   }else{
   // ── Tips: container restyled; the app's existing guide content is kept verbatim ──
   h+='<details class="tts-tips" id="ttp-answer-guide"'+(V._ttpAnswerGuideOpen?' open':'')+'>';
@@ -10485,18 +10613,23 @@ function _ttpRenderSetup(app){
     const ci=app.querySelector('#ttp-context');if(ci)TTP.context=ci.value;
     TTP.track=b.dataset.track;render();
   }));
-  app.querySelectorAll('#ttp-real-seg [data-scenario]').forEach(b=>b.addEventListener('click',()=>{
+  app.querySelectorAll('.tts-seg-real [data-scenario]').forEach(b=>b.addEventListener('click',()=>{
     TTP.scenario=b.dataset.scenario;
-    app.querySelectorAll('#ttp-real-seg [data-scenario]').forEach(x=>x.setAttribute('aria-pressed',String(x===b)));
+    app.querySelectorAll('.tts-seg-real [data-scenario]').forEach(x=>x.setAttribute('aria-pressed',String(x===b)));
+    const gr=TTP.scenario==='ground';const fsg=app.querySelector('#rw-fu-seg');if(fsg)fsg.innerHTML=_rwFuPicker();app.querySelectorAll('#rw-fu-seg,.rw-fu-lbl').forEach(x=>x.style.display=gr?'none':'');const fsb=app.querySelector('#rw-fu-sub');if(fsb)fsb.style.marginTop=gr?'12px':'';
+    const ci=app.querySelector('#ttp-context');if(ci)ci.placeholder=TT_REAL[TTP.scenario].grp==='client'?'e.g. ¥8,000 logo, floor ¥6,500':'e.g. Product manager, job at a bank…';
     const t=app.querySelector('#rw-time');if(t)t.textContent=_rwTimeText();
     const fs=app.querySelector('#rw-fu-sub');if(fs)fs.textContent=_rwFuSubText();
   }));
-  app.querySelectorAll('#rw-fu-seg [data-fu]').forEach(b=>b.addEventListener('click',()=>{
-    S.rwFollowups=+b.dataset.fu;save();
-    app.querySelectorAll('#rw-fu-seg [data-fu]').forEach(x=>x.setAttribute('aria-pressed',String(x===b)));
+  const fuSeg=app.querySelector('#rw-fu-seg');
+  if(fuSeg)fuSeg.addEventListener('click',e=>{const b=e.target.closest('[data-fu]');if(!b)return;
+    const n=+b.dataset.fu;
+    if(RW_FU_OWN[TTP.scenario]!=null){S.rwFuBy=S.rwFuBy||{};S.rwFuBy[TTP.scenario]=n;}else S.rwFollowups=n;
+    save();
+    fuSeg.querySelectorAll('[data-fu]').forEach(x=>x.setAttribute('aria-pressed',String(x===b)));
     const t=app.querySelector('#rw-time');if(t)t.textContent=_rwTimeText();
     const fs=app.querySelector('#rw-fu-sub');if(fs)fs.textContent=_rwFuSubText();
-  }));
+  });
   const ctxInput=app.querySelector('#ttp-context');
   if(ctxInput)ctxInput.addEventListener('input',()=>{TTP.context=ctxInput.value;});
 
@@ -10902,13 +11035,33 @@ Under 180 words. Firm and warm.`;
     intro:"SELF-INTRODUCTION. A strong introduction: name and what you do in one line, one memorable specific detail people can repeat, and a reason for the listener to follow up — pitched to the room described. Making it about an idea or a story rather than a job title is a strength if it's clear and memorable.",
     smalltalk:"SMALL TALK. The goal is to keep a conversation alive and put the other person at ease, not to give a speech. A strong reply answers briefly and genuinely, adds one detail the other person can pick up (a hook), and hands the conversation back, usually with a question about them. Warmth and curiosity outrank cleverness. Brevity is the skill here: a long, polished monologue is a weakness even if it's well structured, so flag it. Also flag one-word dead ends, firing a list of interview-style questions, and turning it into a pitch. Judge it as one turn in a conversation, not as a speech: do not expect an opening hook, a structure or a closing line. In ONE THING, the better line should be short enough to say in one breath.",
     meeting:"SPEAKING UP IN A MEETING. Colleagues are busy; the speaker earns attention by being useful fast. A strong contribution puts the point or recommendation in the first sentence, gives one reason or piece of evidence, and says what should happen next (a decision, a next step, an owner). Disagreeing is welcome when it's about the idea, not the person, and offers an alternative. Summing up or proposing a next step when the room is stuck is a leadership move: recognise it. Flag long context before the point, hedging that hides the view (\"I'm not sure, maybe, just a thought\"), apologising for speaking, and carrying on after the point has landed.",
+    social:"GETTING TO KNOW SOMEONE. The goal is a real connection, not a performance. A strong reply answers genuinely and briefly, offers one specific detail about themselves the other person can pick up, and shows real interest back: a question that opens things up (how, what, what got you into) rather than one that ends in yes or no, ideally built on something the other person actually said. Listening is the skill: picking up their detail beats jumping to a new topic. It should feel like a conversation, not an interview: questions balanced with sharing. Light humour and warmth are strengths. Flag: interview-style question lists, talking only about themselves, one-word dead ends, trying too hard to impress, bragging, heavy topics too early, and anything that pressures the other person. Never coach pickup lines, tricks or manipulation: coach curiosity, listening and being comfortably yourself. Judge it as one turn in a conversation, not a speech. In ONE THING, the better line should be short enough to say in one breath.",
+    cintro:"CLIENT INTRODUCTION. The client is not buying a CV, they are deciding whether this person can solve their problem. A strong intro: who you are in one line, then what you do FOR someone like them (the result, not the job title), one specific proof (a client, a result, a number), and an easy next step. Under a minute. Confident and plain, no apologising for being new or young: if asked about experience, answer with what you have done and how you work, not with excuses. Flag: reciting a résumé, listing every skill, vague words (passionate, creative, hardworking) with no proof, and ending without a next step.",
+    proposal:"PRESENTING A PROPOSAL. Lead with the client's problem and what success looks like for them, then the approach, what they get, the timeline and what you need from them, then the price or the next step. Show you understood their situation before showing your plan. One clear recommendation beats three options with no opinion. Flag: starting with yourself or your process, jargon, hedging the recommendation, burying or skipping the investment, and no clear next step.",
+    price:"TALKING PRICE. There are two legitimate openings, and neither is wrong. Naming your price first takes the high ground and sets the anchor, with the risk that it sits far below what the client had in mind. Asking for their budget or range first lets you see whether yours matches, with the risk of being anchored low. Judge whether the speaker chose one deliberately and handled it well, not which one they chose. Either way: anchor the number in value (what the client gets and what it does for them), say it plainly, and stop; silence after the number is a strength. Know the bottom line underneath it. Flag: apologising for the price, nervous over-explaining, offering a discount before anyone asked, vague ranges that invite bargaining (\"somewhere between 5 and 10 thousand\"), and treating market rate as a rule they must justify themselves against.",
+    bargain:"BARGAINING. The client asked for a better deal. Every concession must be a trade, never a gift: if the price comes down, something else moves too (scope, timeline, payment terms, a longer commitment, a testimonial). The strongest replies stay warm, restate the value, ask what is driving the request, and offer options rather than a straight cut. Know where the bottom line is: above it, trade; at it, hold; below it, a polite no or walking away is a legitimate answer. Flag: dropping the price immediately, splitting the difference without being asked, agreeing to free extras, accepting 'exposure' as payment, and sounding defensive or offended.",
+    difficult:"DIFFICULT CLIENT. Perfect clients are rare; this is about managing your own emotions and the situation, not winning the argument. A strong reply stays calm and doesn't take the bait or take it personally, acknowledges what the client is feeling or worried about, separates the person from the problem, and moves to a clear next step. Where a boundary is being crossed (extra work for free, rejecting approved work at no cost, abuse, impossible deadlines), the speaker names it plainly and politely and offers the professional route: a change request, a revised quote or timeline, the agreed terms. Flag: defensiveness, sarcasm, over-apologising or grovelling, agreeing to everything just to make the discomfort stop, blaming the client back, and long justifications.",
+    ground:"HOLDING YOUR GROUND. The client pushes three times: with logic, with a personal appeal, then with a sweetener. The test is whether the speaker's position (price, timeline, scope or terms) is still intact at the end, and whether they stayed warm while holding it. A strong speaker acknowledges each push sincerely, stays curious about the client's real constraint, restates the value, and offers a trade or an alternative instead of a concession. They do not change their story under pressure: the same position, the same reason, said calmly each time. Saying no and still keeping the relationship is the skill; so is recognising that not every client is the right client, and walking away politely when the push goes below their bottom line. Flag precisely the moment they started drifting toward the client's side: a softer word (\"maybe\", \"I could try\", \"just this once\"), a concession with nothing in return, a new justification for the price, or giving in to the future-promise sweetener.",
     tough:"TOUGH QUESTION. A strong reply stays calm and acknowledges the concern without getting defensive. The speaker doesn't have to answer it head-on: a skilled bridge — acknowledge, satisfy the core of the concern, then move to the ground they want to stand on — is a high-level technique, and should be recognised as one. What to flag is the clumsy version: an obvious dodge that leaves the real concern untouched, over-apologising, defensiveness or rambling. End on a next step."
   };
 
+  const RW_CLIENT_VIEW=`How K sees client work (this is the coach's own view; let it shape the diagnosis without lecturing):
+- The world of client work is a value exchange, and what decides the terms is leverage: how much you have to stand on. A newcomer has little to show yet, which is exactly why clients press them on price and terms.
+- So never think like a mere service provider. There must be something about you that stands out from a pool of similarly manufactured talent. Know what you are really selling (the problem solved, the result, the experience of working with you, not your hours) and say it.
+- Market rate is only a reference: what past professionals and clients agreed was acceptable. You can follow it or set your own path for what is acceptable to you. Never treat it as a rule you must justify yourself against.
+- Know your bottom line before the conversation, how much of it to defend, and when to say no and walk away. Not every client is your client; walking away politely is a legitimate result.
+- A concession is a trade, never a gift. Racing to the bottom to "get a foot in the door" teaches the client that you are cheap.
+- You are the brand. A consistent position reads as confidence; changing your story under pressure reads as uncertainty. Warm and firm go together.
+- There is no single correct answer. Every client is a new assessment, and experience is what makes the judgement good; for someone without experience, practice is the substitute. Judge whether the choice was conscious and well handled, not whether it matches one formula.
+- Perfect clients are rare. New requests, approved work later rejected, rude people, unreasonable demands: they happen at every stage. Managing your own emotions is part of the job.
+If the speaker's role or situation includes their price, floor or bottom line, judge whether they defended it, and say so plainly.
+
+`;
   const sysUsed=_rw?`You are K, a speech coach helping someone practise a real-world speaking situation. Be firm with the diagnosis, warm with the delivery, and make them want to go again.
 
 ${RW_STANDARD[TTP.scenario]}
 
+${_rw.grp==='client'?RW_CLIENT_VIEW:''}
 Time target: ${_ttRealTime(_rw)}. Say whether they landed inside it.
 
 How K judges communication: the goal is not a textbook answer to the literal question. The best communicators make their answer the feature — they reframe, bridge or pivot, and still leave the listener satisfied. Judge the quality and skill of the communication, not obedience to a template. Judge the shape the speaker actually used before comparing it with an ideal one.
