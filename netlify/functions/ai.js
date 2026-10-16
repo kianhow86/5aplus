@@ -21,7 +21,13 @@
 //   tg-topics  : 10/day  (AI Topics Generator)
 //   wod        : 10/day  (Word of the Day)
 //   nb-note    : 6/day   (K's notebook progress note — about one per 5 sessions)
+//   rw-turn    : 60/day  (Real-world: scene brief, the other person's replies, the client's decision)
 //   default    : 20/day  (any other feature)
+//
+// Each feature now has its own daily counter, so cheap calls (topics, follow-ups)
+// no longer use up the budget of K's notes. A conversation already under way sends
+// X-Grace: 1 and may go up to GRACE calls past the limit, so it can finish before
+// the limit is announced. The owner (X-Owner-Key = OWNER_KEY) has no limits.
 //
 // Monthly global limit: 150 AI calls per token.
 // ═══════════════════════════════════════════════════════════════════════════
@@ -39,8 +45,10 @@ const DAILY_LIMITS = {
   "tg-topics":   10,
   "wod":         10,
   "nb-note":     6,
+  "rw-turn":     60,
   "default":     20
 };
+const GRACE = 8;
 
 const MONTHLY_LIMIT = 150;
 
@@ -55,9 +63,9 @@ function generateToken() {
 }
 
 // Key helpers
-function dayKey(token) {
+function dayKey(token, featureId) {
   const d = new Date();
-  return `${token}:day:${d.getUTCFullYear()}-${String(d.getUTCMonth()+1).padStart(2,"0")}-${String(d.getUTCDate()).padStart(2,"0")}`;
+  return `${token}:day:${featureId ? featureId + ":" : ""}${d.getUTCFullYear()}-${String(d.getUTCMonth()+1).padStart(2,"0")}-${String(d.getUTCDate()).padStart(2,"0")}`;
 }
 function monthKey(token) {
   const d = new Date();
@@ -107,7 +115,7 @@ exports.handler = async (event) => {
 
   const corsHeaders = {
     "Access-Control-Allow-Origin": corsOrigin,
-    "Access-Control-Allow-Headers": "Content-Type, X-Client-Token, X-Feature-Id",
+    "Access-Control-Allow-Headers": "Content-Type, X-Client-Token, X-Feature-Id, X-Owner-Key, X-Grace",
     "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
     "Access-Control-Expose-Headers": "X-Client-Token, X-Usage-Day, X-Usage-Month"
   };
@@ -178,13 +186,16 @@ exports.handler = async (event) => {
   // ── Feature ID for per-feature rate limiting ──
   const featureId = (event.headers["x-feature-id"] || "default").replace(/[^a-z\-]/g, "");
   const dailyLimit = DAILY_LIMITS[featureId] || DAILY_LIMITS["default"];
+  const grace = (event.headers["x-grace"] || "") === "1" ? GRACE : 0;
+  const _ownerKey = process.env.OWNER_KEY || "";
+  const _isOwner = !!_ownerKey && (event.headers["x-owner-key"] || "").trim() === _ownerKey;
 
   // ── Rate limit check via Netlify Blobs ──
   let dayUsage = 0, monthUsage = 0;
   let store;
   try {
     store = getStore("tmc-usage");
-    const dk = dayKey(token);
+    const dk = dayKey(token, featureId);
     const mk = monthKey(token);
 
     const [dayRaw, monthRaw] = await Promise.all([
@@ -196,7 +207,7 @@ exports.handler = async (event) => {
     monthUsage = monthRaw ? parseInt(monthRaw, 10) || 0 : 0;
 
     // Check limits
-    if (dayUsage >= dailyLimit) {
+    if (!_isOwner && dayUsage >= dailyLimit + grace) {
       return {
         statusCode: 429,
         headers: {
@@ -218,7 +229,7 @@ exports.handler = async (event) => {
       };
     }
 
-    if (monthUsage >= MONTHLY_LIMIT) {
+    if (!_isOwner && monthUsage >= MONTHLY_LIMIT + grace) {
       return {
         statusCode: 429,
         headers: {
@@ -320,7 +331,7 @@ exports.handler = async (event) => {
 
       // Increment usage counters
       if (store) {
-        const dk = dayKey(token);
+        const dk = dayKey(token, featureId);
         const mk = monthKey(token);
         Promise.all([
           store.set(dk, String(dayUsage + 1)),
@@ -407,7 +418,7 @@ exports.handler = async (event) => {
 
   // ── Increment usage counters (fire-and-forget, don't block response) ──
   if (store) {
-    const dk = dayKey(token);
+    const dk = dayKey(token, featureId);
     const mk = monthKey(token);
     Promise.all([
       store.set(dk, String(dayUsage + 1)),
