@@ -6126,16 +6126,18 @@ const APP_VERSION='2.4';
 const CHANGELOG=[
   {v:'2.4',date:'Oct 2026',items:[
     'Clients, in Real-world. Six new situations for anyone who has to sell their work: introduce yourself to a client, present a proposal, talk price, handle bargaining, deal with a difficult client, and hold your ground',
-    'Tell K your floor. Put your price and your bottom line in “Your role or situation” and K checks whether you defended it',
+    'Tell K your price and the lowest you’ll accept (Your setup → Edit). K checks whether you kept to it',
     'Hold your ground. The client pushes three times, with logic, then a personal appeal, then a sweetener. K shows you the exact line where you started to drift, if you did',
     'Real-world, redesigned. Pick what’s coming up (Job, Work, Clients, People) and the situation, see the scene, answer, and hear them reply, in a cleaner layout that fits one screen',
     'After a client conversation you now see why they decided what they did, quoting your exact words, and “Get a better deal next time”: up to two moments, what you said, and a line to say instead',
     'Ten situations instead of thirteen: Introduce yourself, Conversation (small talk to first dates) and Price & bargaining each fold two into one',
-    'Choose your field once (Creative, Tech, Education…, or type your own) and every scenario fits it. Your price or floor and follow-ups live in the same settings',
+    'Choose your field once (Creative, Tech, Education…, or type your own) and every scenario fits it. Your price and follow-ups live in the same settings',
     'Every client situation now comes with a brief: who the client is, the job, and your position (“¥15,000, final price”). The client and K both work from it',
     'The client has a secret, like a real one: a bigger budget, a deadline, a bluff. At the end they decide (deal, think about it, or walk) and tell you what they were hiding, so you see what holding firm or giving in actually cost you',
     'Follow-ups sound like people now. In Someone new, Small talk and Introductions, the other person reacts and shares before asking, instead of interviewing you',
     'No clock where there isn’t one in real life. Small talk, meetings, tough questions and the money conversations have no time limit; pitches, interviews and introductions keep theirs',
+    'Clearer words for everyone, including non-native speakers: “lowest price” instead of “floor”, and K’s notes in short, plain sentences',
+    'A conversation you’ve started can always finish: the other person’s reply and K’s notes no longer stop halfway because of the daily limit',
     'Bargaining and Someone new can now go up to three follow-ups. Bargaining starts at two, because haggling only gets hard after the second no',
     'Someone new. Practise getting to know people: at a party, in a class, on a first date. K coaches curiosity, listening and being yourself, never lines or tricks',
     'Today’s topic now works through every question before any comes back, and “Other topics” takes you to the rest of Table Topics without losing today’s'
@@ -10276,12 +10278,12 @@ const TT_REAL={
     {"c": "Mr Huang · a friend's company", "job": "A company website", "pos": "Your price: ¥18,000, the same as any client", "line": "“What would you charge us? We're friends, so…”"},
     {"c": "Mrs Chen · marketing director", "job": "Music for a 30-second ad", "pos": "Your price: ¥15,000, which you haven't said yet", "line": "“Our last vendor charged ¥5,000 for this. What would you charge?”"}]},
   bargain:{name:"Price & bargaining",sub:"Say it, then hold it",free:true,grp:"client",secs:[30,75],prompts:[
-    {"c": "Mr Zhang · owns a furniture factory", "job": "A logo and brand guide", "pos": "Your quote: ¥12,000. Your floor: ¥10,000", "line": "“Can you do it for ¥8,000?”"},
-    {"c": "Ms Li · procurement at a large company", "job": "A 2-day workshop", "pos": "Your quote: ¥30,000. Your floor: ¥26,000, or the same price with a shorter workshop", "line": "“Your price is 30% over our budget. What can you do?”"},
-    {"c": "Daniel · startup founder", "job": "A website", "pos": "Your quote: ¥20,000. You need 50% upfront", "line": "“We're a startup. Can we pay you once we raise money?”"},
-    {"c": "Kevin · manager at a property developer", "job": "A promotional video", "pos": "Your quote: ¥25,000. Final price, non-negotiable", "line": "“If we sign today, can you knock off 20%?”"},
-    {"c": "Sarah · boutique hotel owner", "job": "Hotel photos", "pos": "Your quote: ¥9,000 for 30 photos. Extra edits are ¥150 each", "line": "“Can you throw in the extra edits for free? It's a small thing.”"},
-    {"c": "Mr Huang · runs an events company", "job": "Music for a launch event", "pos": "Your quote: ¥15,000. Your floor: ¥13,000", "line": "“Another studio quoted half your price. Can you match it?”"}]},
+    {"c": "Mr Zhang · owns a furniture factory", "job": "A logo and brand guide", "pos": "Your price: ¥12,000. Lowest you’ll accept: ¥10,000", "line": "“Can you do it for ¥8,000?”"},
+    {"c": "Ms Li · procurement at a large company", "job": "A 2-day workshop", "pos": "Your price: ¥30,000. Lowest you’ll accept: ¥26,000, or the same price for a shorter workshop", "line": "“Your price is 30% over our budget. What can you do?”"},
+    {"c": "Daniel · startup founder", "job": "A website", "pos": "Your price: ¥20,000. You need 50% upfront", "line": "“We're a startup. Can we pay you once we raise money?”"},
+    {"c": "Kevin · manager at a property developer", "job": "A promotional video", "pos": "Your price: ¥25,000. Final price, non-negotiable", "line": "“If we sign today, can you knock off 20%?”"},
+    {"c": "Sarah · boutique hotel owner", "job": "Hotel photos", "pos": "Your price: ¥9,000 for 30 photos. Extra edits are ¥150 each", "line": "“Can you throw in the extra edits for free? It's a small thing.”"},
+    {"c": "Mr Huang · runs an events company", "job": "Music for a launch event", "pos": "Your price: ¥15,000. Lowest you’ll accept: ¥13,000", "line": "“Another studio quoted half your price. Can you match it?”"}]},
   difficult:{name:"Difficult client",sub:"Keep your cool",free:true,grp:"client",secs:[30,75],prompts:[
     {"c": "Mrs Chen · marketing director", "job": "A brand video, design approved by her last week", "pos": "The agreement: 2 rounds of changes. Starting over is a new quote", "line": "“We've looked again. We hate it. Start over.”"},
     {"c": "Mr Liu · gym chain owner", "job": "A social media campaign, halfway through", "pos": "The agreement: Chinese posts only. English is extra, ¥8,000", "line": "“Oh, and we also need an English version. That's included, right?”"},
@@ -10294,7 +10296,7 @@ const TT_REAL={
     {"c": "Ms Li · procurement at a large company", "job": "A website", "pos": "Your position: four weeks. A faster timeline means a smaller scope", "line": "“We need it in ten days.”"},
     {"c": "Mrs Chen · marketing director", "job": "A brand identity", "pos": "Your position: three rounds of revisions, then ¥2,000 per extra round", "line": "“We'll need unlimited revisions.”"},
     {"c": "Kevin · manager at a property developer", "job": "A promotional video", "pos": "Your position: 50% deposit before you start", "line": "“We never pay upfront. You'll get paid at the end.”"},
-    {"c": "Mr Huang · runs an events company", "job": "A training day for his staff", "pos": "Your position: ¥20,000. Floor ¥18,000", "line": "“Other trainers charge ¥8,000.”"},
+    {"c": "Mr Huang · runs an events company", "job": "A training day for his staff", "pos": "Your price: ¥20,000. Lowest you’ll accept: ¥18,000", "line": "“Other trainers charge ¥8,000.”"},
     {"c": "Mr Zhang · furniture factory owner", "job": "A website, already agreed", "pos": "Your position: no work before the contract is signed", "line": "“Can you start before the contract is signed? It's just paperwork.”"}]}
 };
 
@@ -10311,7 +10313,7 @@ const RW_GOALS=[
 function _rwGoalOf(k){return RW_GOALS.find(g=>g.items.includes(k))||RW_GOALS[0];}
 const RW_FIELDS=['Creative','Tech','Business & finance','Education','Health','Sales & marketing'];
 // Field and price feed every prompt through TTP.context.
-function _rwCtx(){const f=(S.rwField||'').trim(),pr=_rwIsClient()?(S.rwPrice||'').trim():'';return [f?'Field: '+f:'',pr?'Price or floor: '+pr:''].filter(Boolean).join('; ');}
+function _rwCtx(){const f=(S.rwField||'').trim(),pr=_rwIsClient()?(S.rwPrice||'').trim():'';return [f?'Field: '+f:'',pr?'Price (and lowest they will accept): '+pr:''].filter(Boolean).join('; ');}
 function _rwFuLabel(){if(TTP.scenario==='ground')return '3 pushes';const n=_rwFuSetting();return n?n+(n===1?' follow-up':' follow-ups'):'No follow-ups';}
 function _rwSettingsLine(){return [(S.rwField||'').trim()||'Any field',_rwIsClient()&&(S.rwPrice||'').trim()?S.rwPrice.trim():'',_rwFuLabel()].filter(Boolean).join(' · ');}
 let TTP={
@@ -10447,14 +10449,14 @@ async function _rwFollowup(){
     const realTalk="Talk the way people really talk out loud: contractions, plain everyday words, short sentences, sometimes a half sentence. Never sound like an interviewer, a coach or a chatbot. Never say: \"That's fascinating\", \"That's great!\", \"I'd love to hear more\", \"Tell me more about\", \"What specifically\", \"Can you elaborate\", \"What drew you to\", \"How did that make you feel\", \"It sounds like\". Don't repeat their words back as a question. The transcript is speech-to-text and may have errors: respond to what they meant.";
     const sys=_conv
       ?"You are in a real, casual conversation, playing the other person in a speaking-practice role-play. "+(RW_FU_PERSONA[TTP.scenario]||'')+"\n"+who+"\nReply to what they just said the way a real person would: react first (a genuine reaction, agreeing, a laugh, a small bit of your own experience or opinion), then at most one easy question, or no question if sharing fits better. If they asked you something, answer it first, briefly and honestly, in character. If they gave you very little, give a short polite reply that leaves them to carry it. Match their energy.\n"+realTalk+"\nOne or two short sentences, under 25 words. "+langLine+" Reply with only what you say: no name, no label, no quotation marks.\n\nBad (never like this): \"That's fascinating! What specifically drew you to pottery?\"\nGood: \"Ha, mine's worse, trust me. First time here?\"\nGood: \"Oh nice, I've always wanted to try that. Is it hard?\""
-      :"You play the other person in a speaking-practice role-play. "+(RW_FU_PERSONA[TTP.scenario]||RW_FU_PERSONA.interview)+"\n"+who+secret+"You have just heard the speaker. Say the ONE thing a real person in your seat would say next: usually a follow-up question or a push, reacting to something they actually said (something vague, a claim worth testing, a missing example, a number). Do not repeat a question already asked.\nStay in character. Never coach, praise, evaluate or explain anything. "+realTalk+" One or two short sentences, under 30 words. "+langLine+" Reply with only what you say: no name, no label, no quotation marks.";
+      :"You play the other person in a speaking-practice role-play. "+(RW_FU_PERSONA[TTP.scenario]||RW_FU_PERSONA.interview)+"\n"+who+secret+"You have just heard the speaker. Say the ONE thing a real person in your seat would say next: usually a follow-up question or a push, reacting to something they actually said (something vague, a claim worth testing, a missing example, a number). Do not repeat a question already asked.\nIf the speaker asked you a question (for example 'what do you propose?', 'what is your budget?', 'what would work for you?'), answer it first, in character, with a concrete number or detail that fits who you are and what only you know, then push or ask your next question. Never ignore their question and never repeat your last line.\nStay in character. Never coach, praise, evaluate or explain anything. "+realTalk+" One or two short sentences, under 35 words. "+langLine+" Reply with only what you say: no name, no label, no quotation marks.";
     let msg="Situation: "+sc.name+_rwBriefText()+"\nOpening prompt: "+TTP.question+(TTP.context?"\nThe speaker's role or situation: "+TTP.context:"")+"\n\nSo far:\n";
     TTP.convo.forEach((t,i)=>{msg+=(i?"You asked: ":"Prompt: ")+t.q+"\nThe speaker said: "+(t.a||"(nothing caught)")+"\n";});
     if(TTP.scenario==='ground'){const pi=Math.min(TTP.convo.length-1,2);msg+="\nThis is your next push. "+RW_GROUND_PUSH[pi]+" React to what they just said, then push.";}
     msg+="\nYour follow-up:";
     for(let i=0;i<2;i++){
       try{
-        const raw=await callCoach(sys,msg,{maxTokens:90,forceBase:true,noLang:true,featureId:'tt-question'});
+        const raw=await callCoach(sys,msg,{maxTokens:110,forceBase:true,noLang:true,featureId:'rw-turn',grace:true});
         let t=String(raw||'').replace(/```/g,'').replace(/\*\*|__/g,'').split(/\n\s*\n/)[0].replace(/\s*\n\s*/g,' ').trim();
         t=t.replace(/^(?:interviewer|investor|colleague|chair|you|them|me|面试官|对方)\s*[:：]\s*/i,'').replace(/^["“'「『]+|["”'」』]+$/g,'').trim();
         const ends=(t.match(/[.!?。！？]/g)||[]).length;
@@ -10685,7 +10687,7 @@ function _rwSettingsSheet(){
   let h='<div class="rw-sheet t1 rwx-sheet" data-lt-keep role="dialog" aria-label="Practice settings"><div class="rw-handle"></div><h2>Practice settings</h2>';
   h+='<div class="rw-sl">Your field</div><div class="rw-fchips">'+RW_FIELDS.map(x=>'<button type="button" data-field="'+escHtml(x)+'" aria-pressed="'+(f===x)+'">'+escHtml(x)+'</button>').join('')+'<button type="button" data-field="" aria-pressed="'+(!f)+'">Any</button></div>';
   h+='<input id="rw-f-other" type="text" maxlength="40" placeholder="Or type yours: e.g. Architecture, Law…" value="'+(other?escHtml(f):'')+'">';
-  if(cl)h+='<div class="rw-sl">Your price or floor <i>optional</i></div><input id="rw-f-price" type="text" maxlength="60" placeholder="e.g. ¥8,000 logo, floor ¥6,500" value="'+escHtml(S.rwPrice||'')+'">';
+  if(cl)h+='<div class="rw-sl">Your price <i>optional</i></div><input id="rw-f-price" type="text" maxlength="60" placeholder="e.g. ¥8,000 logo, lowest ¥6,500" value="'+escHtml(S.rwPrice||'')+'">';
   if(!gr)h+='<div class="rw-sl">Follow-ups</div><div class="rw-fu-seg" id="rw-s-fu">'+_rwFuPicker()+'</div>';
   else h+='<div class="rw-sl">Follow-ups</div><p class="rw-note">Hold your ground always has three pushes.</p>';
   h+='<button type="button" class="rw-done">Done</button></div>';
@@ -10728,8 +10730,8 @@ async function ttpFetchReal(useAI){
       if(seen.length)msg+="\n\nDo not reuse or lightly reword any of these:\n- "+seen.join("\n- ");
       msg+="\n\nReply with the one prompt only.";
       if(_rwIsClient()){
-        const sysB="You write realistic client role-play briefs for a practice app for freelancers and new professionals. Situation type: "+brief+"\nReply with JSON only, no markdown: {\"client\":\"Name · who they are, under 8 words\",\"job\":\"the piece of work, under 10 words\",\"position\":\""+(RW_POS_LBL[TTP.scenario]||'Your position')+": the speaker's side, concrete, with ¥ figures where they apply (a quote, a floor, terms), under 16 words. Vary it: sometimes final and non-negotiable, sometimes a floor below the quote, sometimes flexible on one thing but not another\",\"line\":\"the client's opening words, spoken, in curly quotes, under 22 words\"}. Use Chinese-market pricing in yuan. Everyday plain English.";
-        const rawB=await callCoach(sysB,msg,{maxTokens:200,forceBase:true,featureId:'tt-question'});
+        const sysB="You write realistic client role-play briefs for a practice app for freelancers and new professionals. Situation type: "+brief+"\nReply with JSON only, no markdown: {\"client\":\"Name · who they are, under 8 words\",\"job\":\"the piece of work, under 10 words\",\"position\":\""+(RW_POS_LBL[TTP.scenario]||'Your position')+": the speaker's side, concrete, with ¥ figures where they apply (a quote, a floor, terms), under 16 words. Vary it: sometimes final and non-negotiable, sometimes a price plus the lowest they will accept (write it as 'Lowest you’ll accept: ¥…'), sometimes flexible on one thing but not another. Plain words only: never write 'floor', 'anchor' or 'leverage'\",\"line\":\"the client's opening words, spoken, in curly quotes, under 22 words\"}. Use Chinese-market pricing in yuan. Everyday plain English.";
+        const rawB=await callCoach(sysB,msg,{maxTokens:220,forceBase:true,featureId:'rw-turn'});
         const j=JSON.parse(String(rawB).replace(/```json|```/g,'').match(/\{[\s\S]*\}/)[0]);
         const line=String(j.line||'').trim();
         if(!line||line.length>240||!j.client||!j.job||!j.position)throw new Error('brief');
@@ -10843,7 +10845,7 @@ function _rwRenderSetup(app){
   h+='<div class="acts"><button class="dice" data-action="ttp-random" aria-label="Random scenario"'+(busy?' disabled':'')+'>'+RWX_IC.dice+'</button><button class="go" data-action="rwx-go"'+(busy?' disabled':'')+'>'+(busy?'Setting the scene…':'Get a scenario')+RWX_IC.arrow+'</button></div>';
   const T={job:[['Answer in your first sentence,','then support it.'],['One real example','beats three claims.'],['Make it about them.','What you’d bring to this role.'],['End on something they’ll remember','or a clear next step.']],
     work:[['Point first.','Your view in the first sentence, then one reason.'],['Bridge, don’t dodge.','Satisfy the core, then steer.'],['Calm beats clever.','No defensiveness.'],['Land on a next step:','a decision, an owner, a date.']],
-    client:[['Sell what it does for them,','not your hours.'],['Say the price, then stop.','Silence is your friend.'],['A concession is a trade,','never a gift.'],['Know your floor before you start.','']],
+    client:[['Sell what it does for them,','not your hours.'],['Say the price, then stop.','Silence is your friend.'],['If you give something, get something back.','Never give it for free.'],['Know your lowest price before you start.','']],
     people:[['Answer, add a hook, hand it back.',''],['Pick up what they said','instead of jumping topics.'],['Share as well as ask.','A conversation, not an interview.']]}[g.k];
   h+='<details class="tips"'+(V._rwTips?' open':'')+'><summary>'+RWX_IC.bulb+'What makes a strong response?'+RWX_IC.chev+'</summary><ul>'+T.map(t=>'<li><b>'+t[0]+'</b> '+t[1]+'</li>').join('')+'</ul></details>';
   if(!(S.aiConfig&&S.aiConfig.enabled))h+='<p class="rwx-note">AI is off, so scenarios come from the built-in set and there are no follow-ups or K’s notes.</p>';
@@ -11062,7 +11064,7 @@ function _ttpRenderSetup(app){
     const RW_TIPS={
       job:[['Answer in your first sentence,','then support it.'],['One real example','beats three claims. Situation, what you did, the result.'],['Make it about them.','What you’d bring to this role, not your whole CV.'],['End on something they’ll remember','or a clear next step.']],
       work:[['Point first.','Your view or recommendation in the first sentence, then one reason.'],['Bridge, don’t dodge.','Acknowledge the question, satisfy its core, then steer to your ground.'],['Calm beats clever.','No defensiveness, no over-apologising.'],['Land on a next step:','a decision, an owner, a date.']],
-      client:[['Sell what it does for them,','not your hours or your process.'],['Say the price, then stop.','Silence after the number is your friend.'],['A concession is a trade, never a gift.','If the price moves, something else moves too.'],['Know your floor before you start,','and when a polite no is the right answer.'],['Warm and firm go together.','Holding your ground isn’t being difficult.']],
+      client:[['Sell what it does for them,','not your hours or your process.'],['Say the price, then stop.','Silence after the number is your friend.'],['A concession is a trade, never a gift.','If the price moves, something else moves too.'],['Know your lowest price before you start,','and when a polite no is the right answer.'],['Warm and firm go together.','Holding your ground isn’t being difficult.']],
       people:[['Answer, add a hook, hand it back.','A short answer, one detail they can pick up, then a question about them.'],['Pick up what they said','instead of jumping to the next topic.'],['Share as well as ask.','A conversation, not an interview.'],['Be comfortably yourself.','Curiosity beats clever lines.']]
     };
     h+='<details class="tts-tips"><summary><span class="tts-ti"><svg viewBox="0 0 24 24"><path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 0 0-3.5 10.9c.6.4.9 1 .9 1.7V16h5.2v-.4c0-.7.3-1.3.9-1.7A6 6 0 0 0 12 3z"/></svg></span><span class="tts-tq">What makes a strong response?</span><svg class="tts-chev" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></summary><div class="tts-body"><ul class="mp-tips">'+RW_TIPS[_tg].map(t=>'<li><b>'+t[0]+'</b> '+t[1]+'</li>').join('')+'</ul></div></details>';
@@ -11155,7 +11157,7 @@ function _ttpRenderSetup(app){
     TTP.scenario=b.dataset.scenario;
     app.querySelectorAll('.tts-seg-real [data-scenario]').forEach(x=>x.setAttribute('aria-pressed',String(x===b)));
     const gr=TTP.scenario==='ground';const fsg=app.querySelector('#rw-fu-seg');if(fsg)fsg.innerHTML=_rwFuPicker();app.querySelectorAll('#rw-fu-seg,.rw-fu-lbl').forEach(x=>x.style.display=gr?'none':'');const fsb=app.querySelector('#rw-fu-sub');if(fsb)fsb.style.marginTop=gr?'12px':'';
-    const ci=app.querySelector('#ttp-context');if(ci)ci.placeholder=TT_REAL[TTP.scenario].grp==='client'?'e.g. ¥8,000 logo, floor ¥6,500':'e.g. Product manager, job at a bank…';
+    const ci=app.querySelector('#ttp-context');if(ci)ci.placeholder=TT_REAL[TTP.scenario].grp==='client'?'e.g. ¥8,000 logo, lowest ¥6,500':'e.g. Product manager, job at a bank…';
     const t=app.querySelector('#rw-time');if(t)t.textContent=_rwTimeText();
     const fs=app.querySelector('#rw-fu-sub');if(fs)fs.textContent=_rwFuSubText();
   }));
@@ -11557,14 +11559,21 @@ async function _rwDecide(){
   const tag=i=>i?'fu'+i:'answer';
   let m="Situation: "+sc.name+_rwBriefText()+"\nOpening: "+TTP.question+(TTP.context?"\nThe speaker's own situation: "+TTP.context:"")+"\n\nTHE CONVERSATION (each of the speaker's turns is tagged):\n";
   conv.forEach((t,i)=>{m+=(i?(cl?"The client":"The other person")+" said: ":"Opening: ")+t.q+"\n["+tag(i)+"] The speaker said: "+(t.a||"(nothing)")+"\n";});
+  const voice="WHO IS WHO: in every \"reason\" and \"why\", call the speaker \"you\" and the client or other person \"they\" (never \"I\" or \"me\"). "+"PLAIN ENGLISH: many users are not native English speakers. Use short sentences and everyday words. Do not use business jargon or idioms (no 'floor', 'anchor', 'leverage', 'concession', 'scope creep', 'bottom line', 'move the needle'). Say 'lowest price', 'first price', 'give something', 'extra work' instead.";
   const grounding="GROUNDING RULES (strict): every \"quote\" and \"said\" must be the speaker's EXACT words, copied character for character from the tagged turn you name, 3 to 15 words, the shortest phrase that makes the point. Never paraphrase, never fix their grammar, never combine words from two turns. If you cannot find exact words for a point, leave that point out.";
   const improveRule="\"improve\": up to 2 moments that cost them most, each {\"turn\":\"answer|fu1|fu2|fu3\",\"said\":\"exact words\",\"try\":\"a better line they could actually say, spoken, under 30 words\",\"why\":\"one sentence on why it would help"+(cl?", tied to the outcome or your hidden brief":"")+"\"}.";
   const sys=cl
-    ?"You are the client in a negotiation practice role-play. Who you are: "+(TTP.rwWho||"a client")+".\nYour hidden brief, which the speaker never knew: "+(TTP.rwSecret?TTP.rwSecret.t:"none")+"\n\nThe conversation is over. Decide honestly, in character, as a real client with that brief would, based only on what the speaker actually said. Holding firm with good reasons and warmth often wins; caving fast can make you doubt them; rudeness or vagueness loses you.\n"+grounding+"\nReply with JSON only, no markdown:\n{\"decision\":\"deal\"|\"think\"|\"walk\",\"say\":\"what you say to end the conversation, one short spoken sentence, in character\",\"terms\":\"the deal in a few words if decision is deal (price or terms agreed), else empty\",\"why\":[up to 3 of {\"turn\":\"answer|fu1|fu2|fu3\",\"quote\":\"exact words\",\"effect\":\"+\" or \"-\",\"reason\":\"one sentence: how that line moved you toward or away from yes, consistent with your hidden brief\"}],\"secret\":\"one or two plain sentences, first person, revealing your hidden brief with a concrete figure where it applies, ending with how it shaped this outcome, e.g. 'My real budget was ¥18,000, so price was never the real blocker. Certainty was.'\","+improveRule+",\"could\":{\"from\":\"how it ended, a few words\",\"to\":\"the likely better outcome if they had made those changes, a few words\"}}"
-    :"You are K, a speaking coach, reviewing a real-world practice conversation ("+sc.name+"). Find the moments where better words would have changed how the other person reacted.\n"+grounding+"\nReply with JSON only, no markdown: {"+improveRule+"}";
+    ?"You are the client in a negotiation practice role-play. Who you are: "+(TTP.rwWho||"a client")+".\nYour hidden brief, which the speaker never knew: "+(TTP.rwSecret?TTP.rwSecret.t:"none")+"\n\nThe conversation is over. Decide honestly, in character, as a real client with that brief would, based only on what the speaker actually said. Holding firm with good reasons and warmth often wins; caving fast can make you doubt them; rudeness or vagueness loses you.\n"+grounding+"\n"+voice+"\nReply with JSON only, no markdown:\n{\"decision\":\"deal\"|\"think\"|\"walk\",\"say\":\"what you say to end the conversation, one short spoken sentence, in character\",\"terms\":\"the deal in a few words if decision is deal (price or terms agreed), else empty\",\"why\":[up to 3 of {\"turn\":\"answer|fu1|fu2|fu3\",\"quote\":\"exact words\",\"effect\":\"+\" or \"-\",\"reason\":\"one sentence: how that line moved you toward or away from yes, consistent with your hidden brief\"}],\"secret\":\"one or two plain sentences, first person, revealing your hidden brief with a concrete figure where it applies, ending with how it shaped this outcome, e.g. 'Their real budget was ¥18,000, so price was never the real problem. They needed to feel sure of you.'\","+improveRule+",\"could\":{\"from\":\"how it ended, a few words\",\"to\":\"the likely better outcome if they had made those changes, a few words\"}}"
+    :"You are K, a speaking coach, reviewing a real-world practice conversation ("+sc.name+"). Find the moments where better words would have changed how the other person reacted.\n"+grounding+"\n"+voice+"\nReply with JSON only, no markdown: {"+improveRule+"}";
+  let j=null;
+  for(let a=0;a<2&&!j;a++){
+    try{
+      const raw=await callCoach(sys,m+(a?"\n\nYour last reply was not valid JSON. Reply again with compact valid JSON only, nothing else.":""),{maxTokens:cl?1100:600,forceBase:true,noLang:true,featureId:'rw-turn',grace:true});
+      j=JSON.parse(String(raw).replace(/```json|```/g,'').match(/\{[\s\S]*\}/)[0]);
+    }catch(e){j=null;}
+  }
   try{
-    const raw=await callCoach(sys,m,{maxTokens:cl?640:420,forceBase:true,noLang:true,featureId:'tt-question'});
-    const j=JSON.parse(String(raw).replace(/```json|```/g,'').match(/\{[\s\S]*\}/)[0]);
+    if(!j)return null;
     const clean=a=>(Array.isArray(a)?a:[]).slice(0,3);
     if(!cl)return {improve:clean(j.improve)};
     if(!['deal','think','walk'].includes(j.decision))return null;
@@ -11623,6 +11632,7 @@ Under 180 words. Firm and warm.`;
   RW_STANDARD.smalltalk='CONVERSATION (small talk through to getting to know someone). '+RW_STANDARD.social.replace(/^GETTING TO KNOW SOMEONE\.\s*/,'')+' In quick small talk with acquaintances, brevity is a strength: answer, add a hook, hand it back.';
   RW_STANDARD.bargain='PRICE AND BARGAINING. First the price: '+RW_STANDARD.price.replace(/^TALKING PRICE\.\s*/,'')+' Then, when they push: '+RW_STANDARD.bargain.replace(/^BARGAINING\.\s*/,'');
   RW_STANDARD.intro+=' If the listener is a potential client, also judge it as a client introduction: what you do FOR someone like them (the result, not the job title), one specific proof, and an easy next step; no apologising for being new.';
+  const RW_PLAIN="PLAIN ENGLISH: many users are not native English speakers. Use short sentences and everyday words. Do not use business jargon or idioms (no 'floor', 'anchor', 'leverage', 'concession', 'scope creep', 'bottom line', 'move the needle'). Say 'lowest price', 'first price', 'give something', 'extra work' instead.";
   const RW_CLIENT_VIEW=`How K sees client work (this is the coach's own view; let it shape the diagnosis without lecturing):
 - The world of client work is a value exchange, and what decides the terms is leverage: how much you have to stand on. A newcomer has little to show yet, which is exactly why clients press them on price and terms.
 - So never think like a mere service provider. There must be something about you that stands out from a pool of similarly manufactured talent. Know what you are really selling (the problem solved, the result, the experience of working with you, not your hours) and say it.
@@ -11632,14 +11642,15 @@ Under 180 words. Firm and warm.`;
 - You are the brand. A consistent position reads as confidence; changing your story under pressure reads as uncertainty. Warm and firm go together.
 - There is no single correct answer. Every client is a new assessment, and experience is what makes the judgement good; for someone without experience, practice is the substitute. Judge whether the choice was conscious and well handled, not whether it matches one formula.
 - Perfect clients are rare. New requests, approved work later rejected, rude people, unreasonable demands: they happen at every stage. Managing your own emotions is part of the job.
-If the speaker's role or situation includes their price, floor or bottom line, judge whether they defended it, and say so plainly.
+If the speaker's situation includes their price or the lowest they will accept, judge whether they kept to it, and say so plainly.
 
 `;
   const sysUsed=_rw?`You are K, a speech coach helping someone practise a real-world speaking situation. Be firm with the diagnosis, warm with the delivery, and make them want to go again.
 
 ${RW_STANDARD[TTP.scenario]}
 
-${_rw.grp==='client'?RW_CLIENT_VIEW:''}
+${_rw.grp==='client'?RW_CLIENT_VIEW:''}${RW_PLAIN}
+
 ${_rw.free?'No time limit in this situation. Only mention length if it hurt: rambling, over-explaining, or so short it came across as cold.':'Time target: '+_ttRealTime(_rw)+'. Say whether they landed inside it.'}
 
 How K judges communication: the goal is not a textbook answer to the literal question. The best communicators make their answer the feature — they reframe, bridge or pivot, and still leave the listener satisfied. Judge the quality and skill of the communication, not obedience to a template. Judge the shape the speaker actually used before comparing it with an ideal one.
@@ -11689,11 +11700,19 @@ In THE THREAD, say plainly whether they caught the main issue. If they missed it
     if(_mt){sysF=MP_MENTOR;msgF='Situation: '+_mt.name+'\nThe mentee: '+TTP.question+'\n\nThe mentor\'s spoken response (transcript):\n'+(TTP.transcript||'(no audio captured)')+'\n\nDuration: '+fmtMs(TTP.elapsed*1000)+' ('+TTP.totalWords+' words)';}
     if(_es){const pj=PD[_es.pid]||{};sysF=MP_EVAL;msgF='Project: '+(pj.t||'')+' — '+(pj.p||'')+'\nSpeaker: '+_es.speaker+', “'+_es.title+'”\n\nSAMPLE SPEECH:\n'+_es.text+'\n\nANSWER KEY (for you only):\nStrengths: '+_es.key.strengths+'\nMain issue: '+_es.key.main+'\nSmaller issue: '+_es.key.minor+'\n\nTHE EVALUATOR\'S SPOKEN EVALUATION (transcript):\n'+(TTP.transcript||'(no audio captured)')+'\n\nDuration: '+fmtMs(TTP.elapsed*1000)+' ('+TTP.totalWords+' words)';}
     if(_rw&&TTP.totalWords>=15&&!TTP.rwDecision&&!TTP.rwReview){const r=await _rwDecide();if(_rw.grp==='client')TTP.rwDecision=r;else TTP.rwReview=r||{improve:[]};if(V.view==='tt-practice'&&TTP.phase==='done')render();}
+    // If the review found grounded moments, it becomes K's notebook entry and saves a call.
+    let _rwSkip=null;
+    if(_rw){const d=TTP.rwDecision||TTP.rwReview,mv=d?_rwxGrounded(d.improve,'said',2):[],why=d?_rwxGrounded(d.why,'quote',3):[];
+      if(mv.length){const up=why.find(w=>w.effect!=='-'&&w.effect!=='−');
+        _rwSkip='✅ WHAT WORKED: '+(up?'“'+up.quote+'” '+(up.reason||''):'You stayed in the conversation and kept answering.')+
+          '\n🎯 THE THREAD: '+(d.decision?({deal:'They agreed'+(d.terms?' ('+d.terms+')':'')+'.',think:'They said they would think about it.',walk:'They walked away.'})[d.decision]+' '+(d.secret||''):'What the other person heard depended on the moments below.')+
+          '\n🏗 STRUCTURE: '+(mv[1]?'You said “'+mv[1].said+'”. Try: “'+String(mv[1].try||'').replace(/^["“]|["”]$/g,'')+'” '+(mv[1].why||''):'Keep each answer to one clear point.')+
+          '\n💡 ONE THING: Instead of “'+mv[0].said+'”, say: “'+String(mv[0].try||'').replace(/^["“]|["”]$/g,'')+'” '+(mv[0].why||'');}}
     if(_rw&&TTP.rwDecision){const d=TTP.rwDecision;msgF+='\n\nHOW IT ENDED (the speaker sees this on a card above your notes, so do not repeat it): the client '+({deal:'agreed'+(d.terms?' ('+d.terms+')':''),think:'said they would think about it',walk:'walked away'})[d.decision]+'. What the client was hiding: '+d.secret+'\nUse this where it sharpens the diagnosis, for example money left on the table, a concession that wasn\'t needed, or a hold that paid off. One mention at most.';}
     msgF+=nbContext(_es?'eval':_mt?'mentor':_rw?'real':'tt');
     const _daily=_ttIsDaily();
     if(_daily)sysF=sysF.includes('Under 180 words. Firm and warm.')?sysF.replace('Under 180 words. Firm and warm.',TBL_SPOT_PROMPT.trim()+'\n\nUnder 180 words for the four sections, plus the SPOTLIGHT line. Firm and warm.'):sysF+TBL_SPOT_PROMPT;
-    let text=await callCoach(sysF,msgF,{maxTokens:_daily?470:_es?520:_cv?480:400,featureId:'tt-eval',noLang:_daily});
+    let text=_rwSkip||await callCoach(sysF,msgF,{maxTokens:_daily?470:_es?520:_cv?480:400,featureId:'tt-eval',noLang:_daily,grace:!!_rw});
     if(_daily){const sp=_tblParseSpot(text);text=sp.text;_tblSetToday(TTP.question,sp.spot);}
     TTP.aiResult=text;
   }catch(e){TTP.aiResult=renderAIError(e,"ttp-retry-eval");}
@@ -14334,7 +14353,8 @@ async function callCoach(systemPrompt,userMessage,opts){
       "x-client-token":clientToken,
       "x-feature-id":featureId,
       // Owner key — only sent if configured, unlocks model choice server-side
-      ...(cfg.ownerKey?{"x-owner-key":cfg.ownerKey}:{})
+      ...(cfg.ownerKey?{"x-owner-key":cfg.ownerKey}:{}),
+      ...(opts.grace?{"x-grace":"1"}:{})
     },
     body:JSON.stringify({
       model:model,
@@ -21094,6 +21114,14 @@ const _QR=function(){var t=function(){var t=function(t,r){var e=t,n=g[r],o=null,
 const SY_FN='/.netlify/functions/sync';
 const SY_ALPH='23456789ABCDEFGHJKMNPQRSTVWXYZ';   // no 0/O, 1/I/L, U
 const SY_KEYS=['tt-practice','real-practice','mentor-practice'];
+// Owner link: …/#owner=<OWNER_KEY> turns on unlimited AI on this device (the server checks the key).
+// …/#owner=off turns it off again. The key is only stored on this device.
+(function(){try{const m=(location.hash||'').match(/owner=([^&]+)/);if(!m)return;
+  history.replaceState(null,'',location.pathname+location.search);
+  S.aiConfig=S.aiConfig||{};const k=decodeURIComponent(m[1]);
+  if(k==='off')delete S.aiConfig.ownerKey;else S.aiConfig.ownerKey=k;save();
+  setTimeout(()=>{try{showToast(k==='off'?'Owner mode off on this device':'Owner mode on: no AI limits on this device');}catch(e){}},1200);
+}catch(e){}})();
 // A link like …/#sync=KX7Q-4MRV-29TP-HNWE — read it before the router clears the hash
 let _syPending=(function(){
   try{const m=(location.hash||'').match(/sync=([A-Za-z0-9-]{16,24})/);
