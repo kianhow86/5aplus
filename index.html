@@ -6137,6 +6137,7 @@ const CHANGELOG=[
     'The client has a secret, like a real one: a bigger budget, a deadline, a bluff. At the end they decide (deal, think about it, or walk) and tell you what they were hiding, so you see what holding firm or giving in actually cost you',
     'Follow-ups sound like people now. In Someone new, Small talk and Introductions, the other person reacts and shares before asking, instead of interviewing you',
     'No clock where there isn’t one in real life. Small talk, meetings, tough questions and the money conversations have no time limit; pitches, interviews and introductions keep theirs',
+    'More accurate transcripts in Table Topics and Real-world: your full recording is now transcribed after you stop, so words are understood in context, not one by one',
     'Every Real-world conversation now ends with how the other person took it (your manager, the interviewer, the person you just met), with the exact words that helped or hurt',
     'Every Real-world scene now has a real person and a real moment (who you’re talking to and what just happened), not a Table Topics-style question',
     'Clearer words for everyone, including non-native speakers: “lowest price” instead of “floor”, and K’s notes in short, plain sentences',
@@ -11471,12 +11472,13 @@ async function ttpTranscribeAndAnalyze(){
   await _ttpWhisper();
   ttpAnalyze();
 }
-// If live captions caught little, send the recording to Whisper
+// The live captions are the phone's own recogniser: it hears in short pieces and restarts, so it
+// guesses word by word without the context of the whole answer. When AI is on, the full recording
+// always goes to Whisper (as Speech Coach already does), and Whisper's transcript replaces the captions.
 async function _ttpWhisper(){
   const blob=(TTP.audioChunks&&TTP.audioChunks.length>0)?new Blob(TTP.audioChunks,{type:TTP.audioBlobType||"audio/webm"}):null;
 
-  if(blob&&blob.size>5000&&(!TTP.transcript||TTP.transcript.length<20)){
-    // Web Speech gave us nothing or little — try Whisper
+  if(blob&&blob.size>5000&&S.aiConfig&&S.aiConfig.enabled){
     TTP.aiLoading=true;
     const el=document.getElementById("ttp-analysis");
     if(el)el.innerHTML='<div class="ps-analysis-loading"><span class="coach-dots"><span>.</span><span>.</span><span>.</span></span></div>';
