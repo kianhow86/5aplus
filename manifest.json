@@ -1,17 +1,25 @@
 {
   "name": "TMCompanion",
   "short_name": "TMCompanion",
-  "description": "Your Toastmasters journey \u2014 Pathways tracking, AI coaching, and practice tools.",
+  "description": "Your Toastmasters journey — Pathways tracking, AI coaching, and practice tools.",
   "icons": [
     {
       "src": "/icons/icon-192.png",
       "sizes": "192x192",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any"
     },
     {
       "src": "/icons/icon-512.png",
       "sizes": "512x512",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
     }
   ],
   "start_url": "/",
