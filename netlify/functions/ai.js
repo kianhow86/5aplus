@@ -275,10 +275,9 @@ exports.handler = async (event) => {
   const isOwner = ownerKey && clientOwnerKey === ownerKey;
 
   // Default model: set CLAUDE_MODEL in Netlify to change it without a code push.
-  const DEFAULT_MODEL = (process.env.CLAUDE_MODEL || "claude-sonnet-5-5").trim();
-  // Owner may ask for a different model (e.g. Opus for testing); old saved
-  // "claude-sonnet-4-x" settings in the app fall back to the default.
-  const model = (isOwner && _clientModel && !/^claude-sonnet-4/.test(_clientModel))
+  const DEFAULT_MODEL = (process.env.CLAUDE_MODEL || "claude-sonnet-4-6").trim();
+  // Owner may ask for an Opus model for testing; anything else uses the default.
+  const model = (isOwner && _clientModel && /^claude-opus/.test(_clientModel))
     ? _clientModel
     : DEFAULT_MODEL;
 

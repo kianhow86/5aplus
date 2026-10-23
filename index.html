@@ -6303,7 +6303,7 @@ let S={
     mode:"backend",
     apiKey:"",
     endpoint:"/.netlify/functions/ai", // set to absolute URL in deployment
-    model:"claude-sonnet-5-5"
+    model:"claude-sonnet-4-6"
   },
   // One-time tour shown on first hub visit. Toggled in Settings → redo.
   tourSeen:false,
@@ -6339,7 +6339,7 @@ function load(){
     // Guarantee partsDone exists — older saved state from v<=0.19 won't have it
     if(!S.partsDone)S.partsDone={};
     if(!S.pathArchive)S.pathArchive={};
-    if(!S.aiConfig)S.aiConfig={enabled:true,mode:"backend",apiKey:"",endpoint:"/.netlify/functions/ai",model:"claude-sonnet-5-5"};
+    if(!S.aiConfig)S.aiConfig={enabled:true,mode:"backend",apiKey:"",endpoint:"/.netlify/functions/ai",model:"claude-sonnet-4-6"};
     if(S.tourSeen===undefined)S.tourSeen=false;
     // Bootstrap enrolledPaths for users who enrolled before this was tracked
     if(!S.enrolledPaths){
@@ -14316,13 +14316,13 @@ async function callCoach(systemPrompt,userMessage,opts){
   // Backend (pooled) mode: always Sonnet 4.6 — unless owner key is set,
   // in which case respect the configured model choice.
   // Direct (own API key) mode: use whatever the user picked.
-  let model="claude-sonnet-5-5";
+  let model="claude-sonnet-4-6";
   // Chinese/Japanese/Korean take roughly twice the tokens per idea — give the reply room so it never stops mid-sentence
   const _cjkOut=/^(zh|zh-TW|yue|ja|ko)$/.test(S.coachLang||'')||(S.coachLang||'auto')==='auto'&&/[\u3040-\u30ff\u3400-\u9fff\uac00-\ud7af]/.test(String(userMessage||''));
   const maxTokens=Math.round((opts.maxTokens||1024)*(_cjkOut?2.2:1));
 
   if(cfg.mode==="direct"){
-    model=opts.model||(cfg.model||"claude-sonnet-5-5");
+    model=opts.model||(cfg.model||"claude-sonnet-4-6");
   }else if(cfg.ownerKey&&cfg.model){
     // Owner bypass — server will verify the key, use selected model
     model=cfg.model;
@@ -14431,9 +14431,12 @@ async function callCoach(systemPrompt,userMessage,opts){
   }
   const data=await resp.json();
   // Accept native Anthropic shape (5aplus style) or our older {text} wrapper
-  if(data.content&&data.content[0]&&data.content[0].text)return data.content[0].text;
+  if(Array.isArray(data.content)){
+    const t=data.content.filter(b=>b&&b.type==="text"&&b.text).map(b=>b.text).join("");
+    if(t)return t;
+  }
   if(data.text)return data.text;
-  throw new Error("Backend response missing text/content field");
+  throw new Error("Empty reply from the AI"+(data.stop_reason?" ("+data.stop_reason+")":"")+". Tap Try again.");
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
