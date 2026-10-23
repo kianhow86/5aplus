@@ -4140,6 +4140,30 @@ html[data-theme="dark"] .t1 .st-pt b .sy-new,html[data-theme="dark"] .t1 .st-row
 .nav-hub-btn,.nav-hub-btn.active{height:40px;padding:0 20px;gap:7px;border-radius:24px;background:#1C1E24;border:1px solid rgba(255,255,255,.07);box-shadow:none;color:#fff;font-size:13.5px;font-weight:700}
 .nav-hub-btn:active{background:#24272E}
 .nav-hub-btn-icon{color:#B9A6F5}
+/* K taking notes (AI loading), ported from Ground */
+.kw{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;text-align:center;padding:14px 0 6px}
+.kw-stage{position:relative;width:176px;height:148px}
+.kw-av{position:absolute;left:0;bottom:0;width:80px;height:80px;border-radius:50%;overflow:hidden;border:2px solid rgba(var(--hub-k),.55);animation:kwBob 1.6s ease-in-out infinite}
+.kw-av img{width:100%;height:100%;object-fit:cover;display:block}
+.kw-pad{position:absolute;right:0;top:0;width:96px;height:112px;transform:rotate(6deg);filter:drop-shadow(0 3px 8px rgba(20,20,40,.16));animation:kwPad 1.6s ease-in-out infinite}
+[data-lt-keep] .kw-paper{fill:#F7F3E8}[data-lt-keep] .kw-clip{fill:#C4AEFF}
+[data-lt-keep] .kw-l{stroke:#2A2A33;stroke-width:5;stroke-linecap:round;fill:none;stroke-dasharray:80;stroke-dashoffset:80;animation:kwLine 4s linear infinite}
+.kw-l.l2{animation-delay:1s}.kw-l.l3{animation-delay:2s}.kw-l.l4{animation-delay:3s}
+.kw-pen{animation:kwPen 4s linear infinite}
+[data-lt-keep] .kw-pen-b{fill:#EDB176}[data-lt-keep] .kw-pen-t{fill:#2A2A33}
+.kw-title{font-size:16px;font-weight:700;color:inherit}
+.kw-sub{font-size:13.5px;opacity:.68;max-width:280px;line-height:1.45}
+@keyframes kwBob{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-4px) rotate(2deg)}}
+@keyframes kwPad{0%,100%{transform:rotate(6deg)}50%{transform:rotate(4deg)}}
+@keyframes kwLine{0%{stroke-dashoffset:80;opacity:1}20%{stroke-dashoffset:0}90%{stroke-dashoffset:0;opacity:1}100%{stroke-dashoffset:0;opacity:0}}
+@keyframes kwPen{0%{transform:translate(22px,40px)}20%{transform:translate(98px,42px)}25%{transform:translate(22px,60px)}45%{transform:translate(86px,62px)}50%{transform:translate(22px,80px)}70%{transform:translate(94px,82px)}75%{transform:translate(22px,100px)}92%{transform:translate(68px,102px)}100%{transform:translate(22px,40px)}}
+@media (prefers-reduced-motion:reduce){.kw-av,.kw-pad,.kw-l,.kw-pen{animation:none}.kw-l{stroke-dashoffset:0}}
+.path-card.path-tile[data-lt-keep]{background:var(--pt);border-color:transparent;backdrop-filter:none;-webkit-backdrop-filter:none}
+.path-card.path-tile[data-lt-keep] .path-card-glyph{color:var(--pi);filter:none;opacity:.88}
+.path-card.path-tile[data-lt-keep] .path-card-badge{background:rgba(0,0,0,.09);color:var(--pi);border-color:transparent;backdrop-filter:none;-webkit-backdrop-filter:none}
+.path-card.path-tile[data-lt-keep] .path-card-name{color:var(--pi);text-shadow:none;font-weight:800}
+.path-card.path-tile[data-lt-keep]:hover{filter:brightness(1.04)}
+.path-card.path-tile.legacy[data-lt-keep]{opacity:1}
 </style>
 <style id="lt-hand">
 /* Light theme — hand-tuned on top of the generated palette */
@@ -6137,6 +6161,8 @@ const CHANGELOG=[
     'The client has a secret, like a real one: a bigger budget, a deadline, a bluff. At the end they decide (deal, think about it, or walk) and tell you what they were hiding, so you see what holding firm or giving in actually cost you',
     'Follow-ups sound like people now. In Someone new, Small talk and Introductions, the other person reacts and shares before asking, instead of interviewing you',
     'No clock where there isn’t one in real life. Small talk, meetings, tough questions and the money conversations have no time limit; pitches, interviews and introductions keep theirs',
+    'Pathways tiles are now solid colours, clean and easy to read in light and dark mode',
+    'While K writes your feedback, you now see K taking notes instead of three dots',
     'More accurate transcripts in Table Topics and Real-world: your full recording is now transcribed after you stop, so words are understood in context, not one by one',
     'Every Real-world conversation now ends with how the other person took it (your manager, the interviewer, the person you just met), with the exact words that helped or hurt',
     'Every Real-world scene now has a real person and a real moment (who you’re talking to and what just happened), not a Table Topics-style question',
@@ -6537,6 +6563,14 @@ function maybeShowOfflineBanner(){
 }
 
 
+// K at work: avatar with a notepad, scribbling while the AI writes feedback (from Ground)
+function kWritingHtml(title,sub){
+  return '<div class="kw" data-lt-keep role="status" aria-live="polite"><div class="kw-stage"><span class="kw-av"><img src="'+COACH_AVATAR+'" alt="K"></span>'+
+    '<svg class="kw-pad" viewBox="0 0 120 140" aria-hidden="true"><rect x="6" y="10" width="108" height="124" rx="12" class="kw-paper"/><rect x="40" y="2" width="40" height="16" rx="5" class="kw-clip"/>'+
+    '<path class="kw-l l1" d="M22 42h76"/><path class="kw-l l2" d="M22 62h64"/><path class="kw-l l3" d="M22 82h72"/><path class="kw-l l4" d="M22 102h46"/>'+
+    '<g class="kw-pen"><path d="M0 0l6-22 10 4-8 21z" class="kw-pen-b"/><path d="M0 0l2-7 5 2z" class="kw-pen-t"/></g></svg></div>'+
+    '<b class="kw-title">'+escHtml(title||'K is taking notes')+'</b>'+(sub?'<span class="kw-sub">'+escHtml(sub)+'</span>':'')+'</div>';
+}
 function escHtml(s){
   if(s==null)return"";
   return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
@@ -7626,26 +7660,14 @@ function renderQuizResult(app){
 //      at corners to create an aurora/liquid-glass depth look
 //   3. Glyph in top-left + monogram badge in top-right
 //   4. Path name at bottom
+// Solid pastel tiles with dark ink, same look as Ground, in both themes
+const PATH_TILE={DL:["#F4A3A0","#2A0808"],EH:["#F2D675","#2A2205"],MS:["#EDB176","#2A1405"],PI:["#DCC8A4","#2A1E08"],PM:["#F6A8C8","#2A0A18"],VC:["#C4AEFF","#120C24"],
+  EC:["#7FE0E0","#06201F"],IP:["#A9D98E","#0E2408"],LD:["#A8BFF5","#081633"],SR:["#9ED4B8","#082418"],TC:["#8FD3F0","#06202B"]};
 function renderPathCardHtml(code,isLegacy){
   const p=PA[code];
-  const c1=p.c;
-  const c2=hexShift(p.c,35);
-  const c3=hexShift(p.c,-30);
-  const baseTintOpacity=isLegacy?0.14:0.22;
-  const borderOpacity=isLegacy?0.26:0.38;
-
-  const bloom1=isLegacy?0.48:0.62;
-  const bloom2=isLegacy?0.24:0.34;
-  const mesh=
-    'background:'+
-    'radial-gradient(ellipse 90% 75% at 18% 12%,'+hexToRgba(c2,bloom1)+' 0%,'+hexToRgba(c2,0.06)+' 50%,transparent 72%),'+
-    'radial-gradient(ellipse 65% 58% at 85% 90%,'+hexToRgba(c3,bloom2)+' 0%,transparent 56%),'+
-    'radial-gradient(circle at 86% 7%,rgba(255,255,255,0.024) 0%,transparent 26%),'+
-    'rgb(9,8,12)';
-
+  const t=PATH_TILE[code]||[hexShift(p.c,90),"#14141A"];
   const glyph=PATH_GLYPHS[code]||'<svg viewBox="0 0 48 48"></svg>';
-
-  let h='<div class="path-card'+(isLegacy?' legacy':'')+'" data-code="'+code+'" style="--pc:'+c1+';border-color:'+hexToRgba(c1,borderOpacity)+';'+mesh+'">';
+  let h='<div class="path-card path-tile'+(isLegacy?' legacy':'')+'" data-lt-keep data-code="'+code+'" style="--pc:'+t[1]+';--pt:'+t[0]+';--pi:'+t[1]+'">';
   h+='<div class="path-card-badge">'+code+'</div>';
   h+='<div class="path-card-glyph">'+glyph+'</div>';
   h+='<div class="path-card-name">'+p.n+'</div>';
@@ -10973,7 +10995,7 @@ function _rwRenderDone(app){
   h+='<div class="stats"><div><b>'+fmtMs(TTP.elapsed*1000)+'</b><small>'+(multi?'Total':'Time')+'</small></div><div><b>'+TTP.totalWords+'</b><small>Words</small></div><div><b>'+(wpm||'–')+'</b><small>wpm</small></div></div>';
   const better=_rwxBetterHtml();
   if(better)h+=better;
-  else if(busy)h+='<section class="bd bd-wait"><div class="bd-h"><i>K</i><b>K is listening back…</b></div><div class="typing"><i></i><i></i><i></i></div></section>';
+  else if(busy)h+='<section class="bd bd-wait">'+kWritingHtml('K is taking notes','Working out how they took it…')+'</section>';
   else if(aiOn&&TTP.aiResult)h+='<section class="bd bd-k"><div class="bd-h"><i>K</i><b>K’s notes</b></div><div id="ttp-analysis">'+_ttpRenderAnalysis(TTP.aiResult).replace(_rwDecisionCard(),'')+'</div></section>';
   else if(!aiOn)h+='<p class="rwx-note">Turn on AI in Settings to get the other person’s follow-ups and K’s notes.</p>';
   else if(TTP.elapsed<=5)h+='<p class="rwx-note">Speak for at least a few seconds to get K’s notes.</p>';
@@ -11481,7 +11503,7 @@ async function _ttpWhisper(){
   if(blob&&blob.size>5000&&S.aiConfig&&S.aiConfig.enabled){
     TTP.aiLoading=true;
     const el=document.getElementById("ttp-analysis");
-    if(el)el.innerHTML='<div class="ps-analysis-loading"><span class="coach-dots"><span>.</span><span>.</span><span>.</span></span></div>';
+    if(el)el.innerHTML=kWritingHtml('K is listening back','Turning your recording into words…');
     const cfg=S.aiConfig||{};
     const endpoint=(cfg.endpoint||"/.netlify/functions/ai").replace(/\/ai$/,"/transcribe");
     const token=localStorage.getItem("tmc-client-token")||"";
@@ -11532,16 +11554,16 @@ function _ttpRenderDone(app){
 
   if(aiOn){
     h+='<div class="ps-analysis-card">';
-    h+='<div class="ps-analysis-hdr">✨ AI Evaluation</div>';
+    h+='<div class="ps-analysis-hdr">K’s notes</div>';
     h+='<div id="ttp-analysis">';
     if(TTP.aiLoading){
-      h+='<div class="ps-analysis-loading"><span class="coach-dots"><span>.</span><span>.</span><span>.</span></span></div>';
+      h+=kWritingHtml('K is taking notes','Reading what you said, line by line…');
     }else if(TTP.aiResult){
       h+=_ttpRenderAnalysis(TTP.aiResult);
     }else if(TTP.elapsed<=5){
       h+='<div class="ps-analysis-text" style="color:var(--text-3);font-size:13px">Speak for at least a few seconds to get evaluation.</div>';
     }else{
-      h+='<div class="ps-analysis-loading"><span class="coach-dots"><span>.</span><span>.</span><span>.</span></span></div>';
+      h+=kWritingHtml('K is taking notes','Reading what you said, line by line…');
     }
     h+='</div></div>';
   }
@@ -11621,7 +11643,7 @@ function _rwDecisionCard(){
 async function ttpAnalyze(){
   TTP.aiLoading=true;TTP._nbId=null;
   const el=document.getElementById("ttp-analysis");
-  if(el)el.innerHTML='<div class="ps-analysis-loading"><span class="coach-dots"><span>.</span><span>.</span><span>.</span></span></div>';
+  if(el)el.innerHTML=kWritingHtml('K is taking notes','Reading what you said, line by line…');
 
   const sys=`You are K, a speech coach. Many speakers have no one to turn to — K may be the only feedback they get. Evaluate and inspire. Be firm with the diagnosis. Be warm with the delivery. Always make them want to go again.
 
@@ -11865,7 +11887,7 @@ function renderTopicsPractice(app){
     h+='<div class="tt-coach-section">';
     h+='<div class="tt-coach-hdr">✨ Coaching Notes</div>';
     if(V._ttCoachLoading){
-      h+='<div class="role-ai-loading"><span class="coach-dots"><span>.</span><span>.</span><span>.</span></span></div>';
+      h+='<div class="role-ai-loading">'+kWritingHtml()+'</div>';
     }else if(V._ttCoachResult){
       h+='<div class="tt-coach-result">'+escHtml(V._ttCoachResult)+'</div>';
       h+='<button class="tt-coach-clear" data-action="tt-coach-clear">✕ Clear</button>';
@@ -11931,7 +11953,7 @@ function renderTopicsPractice(app){
     const section=app.querySelector(".tt-coach-section");
     if(section){
       section.innerHTML='<div class="tt-coach-hdr">✨ Coaching Notes</div>'+
-        '<div class="role-ai-loading"><span class="coach-dots"><span>.</span><span>.</span><span>.</span></span></div>';
+        '<div class="role-ai-loading">'+kWritingHtml()+'</div>';
     }
     try{
       const sys="You are K, a speech coach. The question is a door, not a destination. The best Table Topics speakers don't answer literally — they pivot, reframe, or use the question as a launchpad for something true. Think of how skilled communicators handle a hard question — they rarely answer directly. They find the emotional ground beneath the question and speak from there. That's the technique.\n\nYour job before they speak: help them find one thread — one governing idea — and commit to it. Not three possible angles. One.\n\nThe principle: one simple idea, fully committed to, lands harder than five clever ones half-explored. Subtraction is the answer most of the time. Remove everything that doesn't serve the one idea.\n\nUnder 100 words. Give them:\n1) One specific angle, emotional thread, or pivot that makes the question irrelevant — something only they can say\n2) One strong opening move — not 'I think' or 'That's a great question'\n3) One reminder: they don't have to answer. They just have to be compelling.\n\nOne direction. No options. Make them feel ready.";
@@ -15589,7 +15611,7 @@ function renderAITopicsGen(app){
   h+='</div>'; // /tg-guide
 
   if(V._tgLoading){
-    h+='<div class="ai-tool-loading"><span class="coach-dots"><span>.</span><span>.</span><span>.</span></span></div>';
+    h+='<div class="ai-tool-loading">'+kWritingHtml()+'</div>';
   }else if(V._tgResults&&V._tgResults.length){
     h+='<div class="ai-tool-results">';
     h+='<div class="ai-tool-results-hdr"><div class="ai-tool-results-label">EXAMPLES · '+V._tgDiff.toUpperCase()+'</div>';
@@ -15740,7 +15762,7 @@ function renderAITMDScript(app){
     V._tmdLoading=true;V._tmdResult=null;
     // In-place update — don't call render() which resets scroll position
     const resultZone=app.querySelector('#tmd-result-zone');
-    if(resultZone)resultZone.innerHTML='<div class="role-ai-loading" style="padding:18px"><span class="coach-dots"><span>.</span><span>.</span><span>.</span></span></div>';
+    if(resultZone)resultZone.innerHTML='<div class="role-ai-loading" style="padding:18px">'+kWritingHtml()+'</div>';
     genBtn.disabled=true;
     try{
       const sys="You are an experienced Toastmaster of the Day writing meeting scripts. Write naturally and engagingly — the speaker will deliver this live at the lectern. Return ONLY the script text with no labels, no markdown, no commentary.";
@@ -22536,7 +22558,7 @@ function renderPracticeStudioDone(app){
   });
 }
 function _cnLoadingHtml(){
-  return '<section class="cn-card cn-loading"><div class="cn-sec-h">'+_cnIco("vio","note")+'<span class="cn-kick cn-t-vio">K is writing your notes</span></div><div class="cn-dots"><i></i><i></i><i></i></div></section>';
+  return '<section class="cn-card cn-loading">'+kWritingHtml('K is writing your notes','Going through your speech, line by line…')+'</section>';
 }
 // Buttons that live inside the analysis block are re-wired whenever it re-renders.
 function _cnWireActions(root){
