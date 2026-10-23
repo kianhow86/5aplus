@@ -267,16 +267,20 @@ exports.handler = async (event) => {
   const { model: _clientModel, max_tokens, system, messages } = body;
 
   // ── Model enforcement ──
-  // Default: lock everyone to Sonnet 4.6 (cost control for pooled backend).
+  // Default: lock everyone to one Sonnet model (cost control for pooled backend).
   // Owner bypass: send X-Owner-Key header matching OWNER_KEY env var to
   // unlock any model — including Opus. This header is never exposed in the UI.
   const ownerKey = process.env.OWNER_KEY || "";
   const clientOwnerKey = (event.headers["x-owner-key"] || "").trim();
   const isOwner = ownerKey && clientOwnerKey === ownerKey;
 
-  const model = isOwner
-    ? (_clientModel || "claude-sonnet-4-6")  // owner gets whatever they ask for
-    : "claude-sonnet-4-6";                   // everyone else gets Sonnet, always
+  // Default model: set CLAUDE_MODEL in Netlify to change it without a code push.
+  const DEFAULT_MODEL = (process.env.CLAUDE_MODEL || "claude-sonnet-5-5").trim();
+  // Owner may ask for a different model (e.g. Opus for testing); old saved
+  // "claude-sonnet-4-x" settings in the app fall back to the default.
+  const model = (isOwner && _clientModel && !/^claude-sonnet-4/.test(_clientModel))
+    ? _clientModel
+    : DEFAULT_MODEL;
 
   if (!messages || !Array.isArray(messages) || messages.length === 0) {
     return {
@@ -379,7 +383,7 @@ exports.handler = async (event) => {
         "x-api-key":         apiKey
       },
       body: JSON.stringify({
-        model:      model      || "claude-sonnet-4-6",
+        model:      model,
         max_tokens: max_tokens || 1024,
         system:     system     || "",
         messages
@@ -414,7 +418,7 @@ exports.handler = async (event) => {
 
   // Log every call so the numbers are visible in the Netlify function log
   // even if the blob store is unavailable.
-  console.log(`[tokens] feature=${featureId} in=${inTok} out=${outTok} model=${model || "claude-sonnet-4-6"}`);
+  console.log(`[tokens] feature=${featureId} in=${inTok} out=${outTok} model=${model}`);
 
   // ── Increment usage counters (fire-and-forget, don't block response) ──
   if (store) {
