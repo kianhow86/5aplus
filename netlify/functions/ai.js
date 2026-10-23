@@ -385,7 +385,10 @@ exports.handler = async (event) => {
         model:      model,
         max_tokens: max_tokens || 1024,
         system:     system     || "",
-        messages
+        messages,
+        // Sonnet/Opus/Haiku 5.5 think before answering by default, which uses
+        // up max_tokens and can leave no text. K's replies don't need it.
+        ...(/^claude-[a-z]+-5-5/.test(model) ? { thinking: { type: "between_tools" } } : {})
       })
     });
   } catch (fetchErr) {
