@@ -14450,7 +14450,8 @@ async function callCoach(systemPrompt,userMessage,opts){
 
   if(!resp.ok){
     const errBody=await resp.text().catch(()=>"");
-    throw new Error("Backend "+resp.status+(errBody?": "+errBody.slice(0,150):""));
+    let msg=errBody;try{const j=JSON.parse(errBody);msg=(j.error&&(j.error.message||j.error))||j.message||errBody;}catch{}
+    throw new Error("Backend "+resp.status+(msg?": "+String(msg).slice(0,400):""));
   }
   const data=await resp.json();
   // Accept native Anthropic shape (5aplus style) or our older {text} wrapper
