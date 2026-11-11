@@ -1,7 +1,7 @@
 #!/usr/bin/env node
-// Daily Table Topic poster: renders today's topic as 1:1 (1080×1080) and 2:3 (1080×1620) PNGs.
+// Daily Table Topic poster: renders today's topic as 1:1 (1080×1080) and 3:4 (1080×1440) PNGs.
 //
-//   node scripts/poster/make-poster.mjs                 # today, in POSTER_TZ (default Asia/Kuala_Lumpur)
+//   node scripts/poster/make-poster.mjs                 # today, in POSTER_TZ (default Asia/Shanghai, Beijing time)
 //   node scripts/poster/make-poster.mjs 2026-10-30      # a given day
 //   node scripts/poster/make-poster.mjs 2026-11-12 --out posters
 //
@@ -23,7 +23,7 @@ const args = process.argv.slice(2);
 const outIdx = args.indexOf('--out');
 const OUT = path.resolve(ROOT, outIdx >= 0 ? args[outIdx + 1] : 'posters');
 const dateArg = args.find((a, i) => /^\d{4}-\d{2}-\d{2}$/.test(a) && args[i - 1] !== '--out');
-const TZ = process.env.POSTER_TZ || 'Asia/Kuala_Lumpur';
+const TZ = process.env.POSTER_TZ || 'Asia/Shanghai';
 const todayIn = tz => new Intl.DateTimeFormat('en-CA', { timeZone: tz, year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date());
 const ymd = dateArg || todayIn(TZ);
 const [Y, M, D] = ymd.split('-').map(Number);
@@ -139,7 +139,7 @@ const { chromium } = require('playwright');
 fs.mkdirSync(OUT, { recursive: true });
 const browser = await chromium.launch();
 const files = [];
-for (const [tag, w, h] of [['1x1', 1080, 1080], ['2x3', 1080, 1620]]) {
+for (const [tag, w, h] of [['1x1', 1080, 1080], ['3x4', 1080, 1440]]) {
   const page = await browser.newPage({ viewport: { width: w, height: h }, deviceScaleFactor: 1 });
   await page.setContent(html(w, h));
   await page.evaluate(() => document.fonts.ready);
