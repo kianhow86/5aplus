@@ -372,30 +372,49 @@ exports.handler = async (event) => {
     };
   }
 
+  // Where to send the request. Defaults to Anthropic; set ANTHROPIC_BASE_URL in Netlify
+  // to use a third-party API seller / gateway (e.g. https://api.seller.com or …/v1).
+  const baseUrl = (process.env.ANTHROPIC_BASE_URL || "https://api.anthropic.com").trim().replace(/\/+$/, "");
+  const endpoint = /\/v1$/.test(baseUrl) ? baseUrl + "/messages" : baseUrl + "/v1/messages";
+  const isOfficial = /^https:\/\/api\.anthropic\.com$/.test(baseUrl);
+  // How the key is sent: x-api-key (Anthropic), bearer (most sellers), or both.
+  // Default: x-api-key for Anthropic, both for anyone else.
+  const authStyle = (process.env.ANTHROPIC_AUTH_STYLE || (isOfficial ? "x-api-key" : "both")).trim().toLowerCase();
+  const authHeaders = {};
+  if (authStyle !== "bearer") authHeaders["x-api-key"] = apiKey;
+  if (authStyle !== "x-api-key") authHeaders["Authorization"] = "Bearer " + apiKey;
+
+  const callAnthropic = withThinking => fetch(endpoint, {
+    method: "POST",
+    headers: {
+      "content-type":      "application/json",
+      "anthropic-version": "2023-06-01",
+      ...authHeaders
+    },
+    body: JSON.stringify({
+      model:      model,
+      max_tokens: max_tokens || 1024,
+      system:     system     || "",
+      messages,
+      // Sonnet/Opus/Haiku 5.5 think before answering by default, which uses
+      // up max_tokens and can leave no text. K's replies don't need it.
+      ...(withThinking && /^claude-[a-z]+-5-5/.test(model) ? { thinking: { type: "between_tools" } } : {})
+    })
+  });
+
   let anthropicResp;
   try {
-    anthropicResp = await fetch("https://api.anthropic.com/v1/messages", {
-      method: "POST",
-      headers: {
-        "content-type":      "application/json",
-        "anthropic-version": "2023-06-01",
-        "x-api-key":         apiKey
-      },
-      body: JSON.stringify({
-        model:      model,
-        max_tokens: max_tokens || 1024,
-        system:     system     || "",
-        messages,
-        // Sonnet/Opus/Haiku 5.5 think before answering by default, which uses
-        // up max_tokens and can leave no text. K's replies don't need it.
-        ...(/^claude-[a-z]+-5-5/.test(model) ? { thinking: { type: "between_tools" } } : {})
-      })
-    });
+    anthropicResp = await callAnthropic(true);
+    // Some gateways reject the thinking setting: try once more without it.
+    if (anthropicResp.status === 400 && /^claude-[a-z]+-5-5/.test(model)) {
+      const errText = await anthropicResp.clone().text();
+      if (/thinking/i.test(errText)) anthropicResp = await callAnthropic(false);
+    }
   } catch (fetchErr) {
     return {
       statusCode: 502,
       headers: corsHeaders,
-      body: JSON.stringify({ error: "Failed to reach Anthropic: " + fetchErr.message })
+      body: JSON.stringify({ error: "Failed to reach the AI server (" + endpoint + "): " + fetchErr.message })
     };
   }
 
