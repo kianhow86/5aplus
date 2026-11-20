@@ -46,6 +46,7 @@ const DAILY_LIMITS = {
   "wod":         10,
   "nb-note":     6,
   "rw-turn":     60,
+  "ask-k":       30,
   "default":     20
 };
 const GRACE = 8;
