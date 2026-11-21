@@ -3563,13 +3563,6 @@ html[data-theme="dark"] .t1-c-eval{--c:#C4AEFF} html[data-theme="dark"] .t1-c-pa
 .ak-ask .ak-mic{color:inherit;opacity:.75}
 .t1 .ak-cont{display:flex;align-items:center;gap:4px;margin:10px auto 0;font-size:13px;font-weight:700;opacity:.8}
 .ak-cont svg{width:14px;height:14px;stroke-width:2}
-.ak-up{display:flex;align-items:center;gap:11px;padding:14px 2px;border-bottom:1px solid var(--line)}
-.ak-up .t1-ico{width:36px;height:36px}
-.ak-up-t{flex:1;min-width:0}.ak-up-t b{display:block;font-size:14.5px;color:var(--ink)}.ak-up-t small{display:block;font-size:12.5px;color:var(--ink-2);margin-top:1px}
-.t1 .ak-prep{display:flex;align-items:center;gap:4px;font-size:13.5px;font-weight:800;color:var(--c)}
-.ak-prep svg{width:15px;height:15px;stroke-width:2.2}
-.t1 .ak-x{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--ink-3);flex:none}
-.ak-x svg{width:13px;height:13px;stroke-width:2}
 .ak-lbl{font-size:10.5px;font-weight:800;letter-spacing:.14em;color:var(--ink-3);margin:18px 2px 9px}
 .ak-pills{display:flex;flex-wrap:wrap;gap:7px}
 .t1 .ak-pill{display:flex;align-items:center;gap:6px;padding:8px 12px;border-radius:99px;background:var(--card);border:1px solid var(--line);box-shadow:var(--shadow);font-size:13px;font-weight:700;color:var(--ink)}
@@ -7453,7 +7446,7 @@ const AK_GROUPS=[
 // Home: greeting, K's card (today's topic + ask box), Up next, Jump to
 function renderHub(app){
   const hr=new Date().getHours(),hi=hr<12?'Good morning.':hr<18?'Good afternoon.':'Good evening.';
-  const done=_ttDailyDone(),streak=_ttStreak(),st=_akState(),up=_akUpNext();
+  const done=_ttDailyDone(),streak=_ttStreak(),st=_akState();
   let h='<main class="t1 ak-home fade-up" data-lt-keep>';
   h+='<header class="t1-head"><div class="t1-mark">SPEAK · LEAD · GROW</div>'+_akHeadBtns()+'</header>';
   h+='<div class="ak-scroll"><h1 class="ak-hi">'+hi+'</h1><p class="ak-sub">What would you like to work on?</p>';
@@ -7467,10 +7460,6 @@ function renderHub(app){
     '<button type="submit" class="t1-btn-h ak-send" aria-label="Send">'+_t1sv('arrow')+'</button></form>'+
     (st.msgs.length?'<button type="button" class="ak-cont" data-ak-act="chat">Continue today’s chat'+_t1sv('chev')+'</button>':'')+
     '</section>';
-  if(up){
-    h+='<div class="ak-up t1-c-roles"><span class="t1-ico">'+_t1sv('roles')+'</span><span class="ak-up-t"><b>'+escHtml(_akWhenLabel(up.date).split(' · ')[0])+' · '+escHtml(AK_ROLE[up.role])+'</b><small>Up next'+(_akWhenLabel(up.date).includes(' · ')?' · '+escHtml(_akWhenLabel(up.date).split(' · ')[1]):'')+'</small></span>'+
-      '<button type="button" class="ak-prep" data-ak-go="role" data-ak-arg="'+escHtml(up.role)+'">Prep'+_t1sv('arrow')+'</button><button type="button" class="ak-x" data-ak-act="up-x" aria-label="Remove">'+_akSv('x')+'</button></div>';
-  }
   h+=AK_GROUPS.map(([lbl,items])=>'<div class="ak-lbl">'+lbl+'</div><div class="ak-pills">'+items.map(([id,name])=>{const d=_akDest(id);return '<button type="button" class="ak-pill t1-c-'+d.c+'" data-ak-go="'+escHtml(d.go)+'" data-ak-arg="'+escHtml(d.arg||'')+'">'+_akSv(d.ic)+escHtml(name)+'</button>';}).join('')+'</div>').join('');
   h+='</div></main>';
   app.innerHTML=h;
@@ -7505,7 +7494,6 @@ function _akWire(app){
     else if(a==='home'){V.view='hub';render();}
     else if(a==='chat'){V.view='askk';render();}
     else if(a==='clear'){S.askk=null;save();render();}
-    else if(a==='up-x'){S.upNext=null;save();render();}
     else if(a==='mic')_akMic(inp,el);
   }));
 }
