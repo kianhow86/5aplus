@@ -3572,11 +3572,10 @@ html[data-theme="dark"] .t1-c-eval{--c:#C4AEFF} html[data-theme="dark"] .t1-c-pa
 .ak-prep svg{width:15px;height:15px;stroke-width:2.2}
 .t1 .ak-x{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--ink-3);flex:none}
 .ak-x svg{width:13px;height:13px;stroke-width:2}
-.ak-lbl{font-size:10.5px;font-weight:800;letter-spacing:.14em;color:var(--ink-3);margin:18px 2px 10px}
+.ak-lbl{font-size:10.5px;font-weight:800;letter-spacing:.14em;color:var(--ink-3);margin:18px 2px 9px}
 .ak-pills{display:flex;flex-wrap:wrap;gap:7px}
 .t1 .ak-pill{display:flex;align-items:center;gap:6px;padding:8px 12px;border-radius:99px;background:var(--card);border:1px solid var(--line);box-shadow:var(--shadow);font-size:13px;font-weight:700;color:var(--ink)}
 .ak-pill svg{width:15px;height:15px;stroke-width:1.8;color:var(--c)}
-.t1 .ak-pill-all{color:var(--ink-2)}.ak-pill-all svg{color:var(--ink-3)}
 .ak-feed{flex:1;min-height:0;overflow-y:auto;display:flex;flex-direction:column;gap:10px;padding:8px 0;scrollbar-width:none}
 .ak-feed::-webkit-scrollbar{display:none}
 .ak-feed>:first-child{margin-top:auto}
@@ -7231,7 +7230,6 @@ const AK_IC={
   grid:'<rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/>',
   mic:'<rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/>',
   x:'<path d="M18 6 6 18M6 6l12 12"/>',
-  filler:'<path d="M4 12h2l2-6 4 12 3-9 2 3h3"/>',
   nb:'<path d="M6 3h12v18H6zM9 8h6M9 12h6"/>'
 };
 const _akSv=k=>'<svg viewBox="0 0 24 24">'+(AK_IC[k]||T1_IC[k]||'')+'</svg>';
@@ -7257,7 +7255,6 @@ function _akDest(id){
     'real':()=>{const sc=TT_REAL[a];return {go:'real',arg:sc?a:'',c:'real',ic:'real',t:sc?sc.name:'Real-world practice',s:sc?(sc.sub||'Practise it out loud'):'Interviews, clients, small talk'};},
     'contests':()=>({go:'contests',c:'contests',ic:'contests',t:'Contests',s:'What judges actually score'}),
     'path':()=>{const p=_akPathGo();return {go:p.go,arg:p.arg,c:'path',ic:'path',t:S.path&&PA[S.path]?PA[S.path].n:'Find your path',s:p.sub};},
-    'filler':()=>({go:'filler',c:'practice',ic:'filler',t:'Filler counter',s:'Count your ums and ahs'}),
     'mprac':()=>({go:'mprac',c:'mprac',ic:'mprac',t:'Mentor practice',s:'Practise tough mentoring moments'}),
     'mentees':()=>({go:'mentees',c:'mprac',ic:'roles',t:'My mentees',s:'Track and nudge your mentees'}),
     'projects':()=>({go:'all-projects',c:'proj',ic:'proj',t:'All Projects',s:'Browse every Pathways project'}),
@@ -7266,7 +7263,6 @@ function _akDest(id){
   const f=D[k];return f?f():null;
 }
 function _akGo(go,arg){
-  if(go==='filler'){V.view='filler';render();return;}
   if(go==='eval'){V._fromHub=true;V.view='eval-helper';render();return;}
   if(_t1Go(go,arg))render();
 }
@@ -7315,7 +7311,7 @@ function _akGuess(text){
   else if(/\b(i'?m|i am|as) (the )?toastmaster\b/.test(s))role='tmd';
   let dest='';
   if(role)dest='role:'+role;
-  else if(/\b(filler|ums?|uhs?|ahs?|like,)\b/.test(s)&&/\b(stop|reduce|less|count|too many|so many)\b/.test(s))dest='filler';
+  else if(/\b(filler|ums?|uhs?|ahs?|like,)\b/.test(s)&&/\b(stop|reduce|less|count|too many|so many)\b/.test(s))dest='coach';
   else if(/table ?topics?|impromptu|today'?s topic|\btopic\b/.test(s))dest='tt-daily';
   else if(/\btimer\b|\btime (my|a) speech|\btiming\b/.test(s))dest='timer';
   else if(/\bevaluat/.test(s))dest='eval';
@@ -7347,7 +7343,6 @@ const AK_OFFLINE_REPLY={
   real:'Let’s practise it out loud.',
   contests:'Here’s what judges actually score.',
   path:'Here’s your path.',
-  filler:'Count them first, so you know your starting point.',
   mprac:'Let’s practise a mentoring moment.',
   mentees:'Here are your mentees.',
   notebook:'Here’s your notebook.',
@@ -7398,7 +7393,7 @@ async function _akAsk(text){
     'outline (plan and structure a speech, timed)','eval (turn evaluation notes into a 3-minute evaluation)',
     'real:<scenario> (practise a real-world conversation out loud; scenarios: '+Object.keys(TT_REAL).filter(k=>!TT_REAL[k].hide).map(k=>k+'='+TT_REAL[k].name).join(', ')+')',
     'contests (speech contests: rules and what judges score)','path (their Pathways path and next project)',
-    'filler (count filler words like um and ah)','mprac (practise mentoring conversations)','mentees (their mentees)',
+    'mprac (practise mentoring conversations)','mentees (their mentees)',
     'projects (browse every Pathways project)','notebook (K’s notes from past sessions)'
   ];
   const sys='You are K, a warm, practical Toastmasters coach inside the TM Companion app. A club member is chatting with you on the app’s home screen.\n'+
@@ -7451,8 +7446,12 @@ const _akHeadBtns=()=>'<div class="t1-head-btns">'+
   '<button class="t1-ibtn t1-nb" data-go="notebook" aria-label="K\'s notebook'+(S.nb&&S.nb.unseen?' — new note':'')+'"><svg viewBox="0 0 24 24">'+NB_IC.book+'</svg>'+(S.nb&&S.nb.unseen?'<span class="nb-dot"></span>':'')+'</button>'+
   '<button class="t1-ibtn" data-ak-act="all" aria-label="All tools" style="color:var(--ink-2)">'+_akSv('grid')+'</button>'+
   '<button class="t1-ibtn t1-gear" data-go="settings" aria-label="Settings">'+_t1sv('gear')+'</button></div>';
-const AK_JUMP=['tt','coach','roles','eval','path'];
-const AK_JUMP_NAME={tt:'Table Topics',coach:'Speech Coach',roles:'Roles',eval:'Evaluate',path:'My path'};
+// Every tool, grouped like the old modes
+const AK_GROUPS=[
+  ['PRACTICE',[['tt','Table Topics'],['coach','Speech Coach'],['outline','Outline'],['real','Real-world']]],
+  ['MEETINGS',[['roles','Meeting Roles'],['timer','Timer'],['eval','Evaluate']]],
+  ['GROW',[['path','My path'],['projects','All Projects'],['contests','Contests'],['mprac','Mentor practice'],['mentees','Mentees']]]
+];
 // Home: greeting, K's card (today's topic + ask box), Up next, Jump to
 function renderHub(app){
   const hr=new Date().getHours(),hi=hr<12?'Good morning.':hr<18?'Good afternoon.':'Good evening.';
@@ -7474,8 +7473,7 @@ function renderHub(app){
     h+='<div class="ak-up t1-c-roles"><span class="t1-ico">'+_t1sv('roles')+'</span><span class="ak-up-t"><b>'+escHtml(_akWhenLabel(up.date).split(' · ')[0])+' · '+escHtml(AK_ROLE[up.role])+'</b><small>Up next'+(_akWhenLabel(up.date).includes(' · ')?' · '+escHtml(_akWhenLabel(up.date).split(' · ')[1]):'')+'</small></span>'+
       '<button type="button" class="ak-prep" data-ak-go="role" data-ak-arg="'+escHtml(up.role)+'">Prep'+_t1sv('arrow')+'</button><button type="button" class="ak-x" data-ak-act="up-x" aria-label="Remove">'+_akSv('x')+'</button></div>';
   }
-  h+='<div class="ak-lbl">JUMP TO</div><div class="ak-pills">'+AK_JUMP.map(id=>{const d=_akDest(id);return '<button type="button" class="ak-pill t1-c-'+d.c+'" data-ak-go="'+escHtml(d.go)+'" data-ak-arg="'+escHtml(d.arg||'')+'">'+_akSv(d.ic)+escHtml(AK_JUMP_NAME[id])+'</button>';}).join('')+
-    '<button type="button" class="ak-pill ak-pill-all" data-ak-act="all">'+_akSv('grid')+'All tools</button></div>';
+  h+=AK_GROUPS.map(([lbl,items])=>'<div class="ak-lbl">'+lbl+'</div><div class="ak-pills">'+items.map(([id,name])=>{const d=_akDest(id);return '<button type="button" class="ak-pill t1-c-'+d.c+'" data-ak-go="'+escHtml(d.go)+'" data-ak-arg="'+escHtml(d.arg||'')+'">'+_akSv(d.ic)+escHtml(name)+'</button>';}).join('')+'</div>').join('');
   h+='</div></main>';
   app.innerHTML=h;
   _akWire(app);
