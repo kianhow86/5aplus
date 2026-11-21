@@ -3556,7 +3556,21 @@ html[data-theme="dark"] .t1-c-eval{--c:#C4AEFF} html[data-theme="dark"] .t1-c-pa
 .ak-av img{width:100%;height:100%;object-fit:cover;display:block}
 .t1 .ak-hero h2{font-size:21px;line-height:1.22;letter-spacing:-.015em;margin:12px 0 14px;text-wrap:balance}
 .ak-hero .t1-btn-row{display:flex;gap:8px}
-.ak-hero .t1-btn-row>*{flex:1}
+.ak-hero .t1-btn-row>.t1-btn-h,.ak-hero .t1-btn-row>.t1-btn-ghost{flex:1}
+.t1 .ak-hero{background-image:radial-gradient(85% 75% at 100% 0%,rgba(139,108,240,.30),rgba(139,108,240,0) 62%)}
+.t1 .ak-streak{flex:none;display:flex;align-items:center;gap:4px;padding-left:10px;margin-left:0;border-left:1px solid rgba(255,255,255,.14);font-size:11.5px;line-height:1.15;opacity:.85}
+.ak-streak i{font-style:normal;font-size:18px}.ak-streak b{display:block;font-size:15px;line-height:1}
+.ak-hero .t1-btn-row{align-items:center}
+.t1 .ak-pills{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.t1 .ak-pill{justify-content:flex-start!important;padding:7px 10px 7px 7px!important;gap:10px!important;font-size:14px!important;min-width:0;white-space:nowrap}
+.ak-hero .t1-btn-row>.t1-btn-h,.ak-hero .t1-btn-row>.t1-btn-ghost{white-space:nowrap;padding-left:8px;padding-right:8px}
+.ak-pi{width:32px;height:32px;border-radius:50%;flex:none;display:flex;align-items:center;justify-content:center;background:color-mix(in srgb,var(--c) 14%,transparent)}
+.ak-pi svg{width:17px!important;height:17px!important}
+.t1 .ak-in-home{position:relative;padding-top:10px}
+.t1 .ak-in-home:before{content:'';position:absolute;left:0;right:0;top:-22px;height:22px;background:linear-gradient(to bottom,transparent,var(--bg));pointer-events:none}
+.t1 .ak-in-home .ak-cont{margin:0 auto 8px;color:var(--ink-2);opacity:1}
+.ak-av-in{width:30px;height:30px;margin-left:-8px;box-shadow:none}
+
 .t1 .ak-ask{display:flex;align-items:center;gap:4px;margin-top:12px;min-height:48px;padding:4px 5px 4px 15px;border-radius:24px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14)}
 .t1 .ak-ask input{flex:1;min-width:0;border:0;outline:0;background:transparent;color:inherit;font:inherit;font-size:16px;padding:8px 0}
 .t1 .ak-ask input::placeholder{color:currentColor;opacity:.55}
@@ -7451,18 +7465,20 @@ function renderHub(app){
   let h='<main class="t1 ak-home fade-up" data-lt-keep>';
   h+='<header class="t1-head"><div class="t1-mark">SPEAK · LEAD · GROW</div>'+_akHeadBtns()+'</header>';
   h+='<div class="ak-scroll"><h1 class="ak-hi">'+hi+'</h1><p class="ak-sub">What would you like to work on?</p>';
-  h+='<section class="t1-hero t1-h-coach ak-hero"><div class="ak-hero-top"><span class="ak-av"><img src="'+COACH_AVATAR+'" alt="K"></span><span class="t1-kick">K · TODAY’S TOPIC</span>'+
-    (streak>0?'<span class="t1-meta">🔥 '+streak+(streak===1?' day':' days')+'</span>':'')+'</div>'+
+  h+='<section class="t1-hero t1-h-coach ak-hero"><div class="ak-hero-top"><span class="ak-av"><img src="'+COACH_AVATAR+'" alt="K"></span><span class="t1-kick">K · TODAY’S TOPIC</span></div>'+
     '<h2>“'+escHtml(_ttDaily())+'”</h2>'+
     '<div class="t1-btn-row">'+(done?'<button type="button" class="t1-btn-h" data-ak-go="table">'+_t1sv('tt')+'See what worked</button>':'<button type="button" class="t1-btn-h" data-ak-go="tt-daily">'+_akSv('mic')+'Answer it</button>')+
-    '<button type="button" class="t1-btn-ghost" data-ak-go="tt">Another topic</button></div>'+
-    '<form class="ak-ask" id="ak-form" autocomplete="off"><input id="ak-input" type="text" enterkeyhint="send" placeholder="Or ask me anything…" value="'+escHtml(V._akDraft||'')+'" aria-label="Ask K">'+
-    (_akHasMic()?'<button type="button" class="ak-mic" data-ak-act="mic" aria-label="Speak">'+_akSv('mic')+'</button>':'')+
-    '<button type="submit" class="t1-btn-h ak-send" aria-label="Send">'+_t1sv('arrow')+'</button></form>'+
+    '<button type="button" class="t1-btn-ghost" data-ak-go="tt">Another topic</button>'+
+    (streak>0?'<span class="ak-streak" aria-label="'+streak+' day streak"><i>🔥</i><span><b>'+streak+'</b>'+(streak===1?'day':'days')+'</span></span>':'')+'</div></section>';
+  h+=AK_GROUPS.map(([lbl,items])=>'<div class="ak-lbl">'+lbl+'</div><div class="ak-pills'+(items.length===4?' ak-two':'')+'">'+items.map(([id,name])=>{const d=_akDest(id);return '<button type="button" class="ak-pill t1-c-'+d.c+'" data-ak-go="'+escHtml(d.go)+'" data-ak-arg="'+escHtml(d.arg||'')+'"><span class="ak-pi">'+_akSv(d.ic)+'</span>'+escHtml(name)+'</button>';}).join('')+'</div>').join('');
+  h+='</div>';
+  // The chat box sits at the bottom, like any messaging app
+  h+='<form class="ak-in ak-in-home t1-h-coach" id="ak-form" autocomplete="off">'+
     (st.msgs.length?'<button type="button" class="ak-cont" data-ak-act="chat">Continue today’s chat'+_t1sv('chev')+'</button>':'')+
-    '</section>';
-  h+=AK_GROUPS.map(([lbl,items])=>'<div class="ak-lbl">'+lbl+'</div><div class="ak-pills'+(items.length===4?' ak-two':'')+'">'+items.map(([id,name])=>{const d=_akDest(id);return '<button type="button" class="ak-pill t1-c-'+d.c+'" data-ak-go="'+escHtml(d.go)+'" data-ak-arg="'+escHtml(d.arg||'')+'">'+_akSv(d.ic)+escHtml(name)+'</button>';}).join('')+'</div>').join('');
-  h+='</div></main>';
+    '<div class="ak-box"><span class="ak-av ak-av-in"><img src="'+COACH_AVATAR+'" alt=""></span><input id="ak-input" type="text" enterkeyhint="send" placeholder="Ask K anything…" value="'+escHtml(V._akDraft||'')+'" aria-label="Ask K">'+
+    (_akHasMic()?'<button type="button" class="ak-mic" data-ak-act="mic" aria-label="Speak">'+_akSv('mic')+'</button>':'')+
+    '<button type="submit" class="t1-btn-h ak-send" aria-label="Send">'+_t1sv('arrow')+'</button></div></form>';
+  h+='</main>';
   app.innerHTML=h;
   _akWire(app);
 }
