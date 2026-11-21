@@ -3545,8 +3545,6 @@ html[data-theme="dark"] .t1 .t1-spark{color:#B9A6F5}
 /* ═══ Ask K: home and chat page ═══ */
 .t1-c-eval{--c:#6C4FD3} .t1-c-path{--c:#3D8B2E}
 html[data-theme="dark"] .t1-c-eval{--c:#C4AEFF} html[data-theme="dark"] .t1-c-path{--c:#A9D98E}
-.ak-top{align-items:flex-start}
-.ak-name{font-size:16px;font-weight:800;letter-spacing:-.01em;color:var(--ink);margin-bottom:3px}
 .ak-scroll{flex:1;min-height:0;overflow-y:auto;scrollbar-width:none;padding-bottom:calc(env(safe-area-inset-bottom,0px) + 18px)}
 .ak-scroll::-webkit-scrollbar{display:none}
 .t1 .ak-hi{font-size:27px;font-weight:800;letter-spacing:-.025em;line-height:1.1;margin:10px 0 4px;color:var(--ink)}
@@ -7457,7 +7455,7 @@ function renderHub(app){
   const hr=new Date().getHours(),hi=hr<12?'Good morning.':hr<18?'Good afternoon.':'Good evening.';
   const done=_ttDailyDone(),streak=_ttStreak(),st=_akState(),up=_akUpNext();
   let h='<main class="t1 ak-home fade-up" data-lt-keep>';
-  h+='<header class="t1-head ak-top"><div><div class="ak-name">TM Companion</div><div class="t1-mark">SPEAK · LEAD · GROW</div></div>'+_akHeadBtns()+'</header>';
+  h+='<header class="t1-head"><div class="t1-mark">SPEAK · LEAD · GROW</div>'+_akHeadBtns()+'</header>';
   h+='<div class="ak-scroll"><h1 class="ak-hi">'+hi+'</h1><p class="ak-sub">What would you like to work on?</p>';
   h+='<section class="t1-hero t1-h-coach ak-hero"><div class="ak-hero-top"><span class="ak-av"><img src="'+COACH_AVATAR+'" alt="K"></span><span class="t1-kick">K · TODAY’S TOPIC</span>'+
     (streak>0?'<span class="t1-meta">🔥 '+streak+(streak===1?' day':' days')+'</span>':'')+'</div>'+
