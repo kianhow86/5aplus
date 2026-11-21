@@ -3547,8 +3547,6 @@ html[data-theme="dark"] .t1 .t1-spark{color:#B9A6F5}
 html[data-theme="dark"] .t1-c-eval{--c:#C4AEFF} html[data-theme="dark"] .t1-c-path{--c:#A9D98E}
 .ak-scroll{flex:1;min-height:0;overflow-y:auto;scrollbar-width:none;padding-bottom:calc(env(safe-area-inset-bottom,0px) + 18px)}
 .ak-scroll::-webkit-scrollbar{display:none}
-.t1 .ak-hi{font-size:27px;font-weight:800;letter-spacing:-.025em;line-height:1.1;margin:10px 0 4px;color:var(--ink)}
-.t1 .ak-sub{font-size:14.5px;color:var(--ink-2);margin:0 0 16px}
 .t1 .ak-hero{border-radius:22px;padding:16px}
 .ak-hero-top{display:flex;align-items:center;gap:9px}
 .ak-hero-top .t1-meta{margin-left:auto}
@@ -7460,11 +7458,10 @@ const AK_GROUPS=[
 ];
 // Home: greeting, K's card (today's topic + ask box), Up next, Jump to
 function renderHub(app){
-  const hr=new Date().getHours(),hi=hr<12?'Good morning.':hr<18?'Good afternoon.':'Good evening.';
   const done=_ttDailyDone(),streak=_ttStreak(),st=_akState();
   let h='<main class="t1 ak-home fade-up" data-lt-keep>';
   h+='<header class="t1-head"><div class="t1-mark">SPEAK · LEAD · GROW</div>'+_akHeadBtns()+'</header>';
-  h+='<div class="ak-scroll"><h1 class="ak-hi">'+hi+'</h1><p class="ak-sub">What would you like to work on?</p>';
+  h+='<div class="ak-scroll">';
   h+='<section class="t1-hero t1-h-coach ak-hero"><div class="ak-hero-top"><span class="ak-av"><img src="'+COACH_AVATAR+'" alt="K"></span><span class="t1-kick">K · TODAY’S TOPIC</span></div>'+
     '<h2>“'+escHtml(_ttDaily())+'”</h2>'+
     '<div class="t1-btn-row">'+(done?'<button type="button" class="t1-btn-h" data-ak-go="table">'+_t1sv('tt')+'See what worked</button>':'<button type="button" class="t1-btn-h" data-ak-go="tt-daily">'+_akSv('mic')+'Answer it</button>')+
