@@ -3568,6 +3568,22 @@ html[data-theme="dark"] .t1-c-eval{--c:#C4AEFF} html[data-theme="dark"] .t1-c-pa
 .t1 .ak-in-home:before{content:'';position:absolute;left:0;right:0;top:-22px;height:22px;background:linear-gradient(to bottom,transparent,var(--bg));pointer-events:none}
 .t1 .ak-in-home .ak-cont{margin:0 auto 8px;color:var(--ink-2);opacity:1}
 .ak-av-in{width:30px;height:30px;margin-left:-8px;box-shadow:none}
+/* Step 1: a little tighter */
+.t1.ak-c1 .ak-hero{padding:14px}
+.t1.ak-c1 .ak-hero h2{font-size:19px;margin:10px 0 12px}
+.t1.ak-c1 .ak-lbl{margin:14px 2px 7px}
+.t1.ak-c1 .ak-pill{padding:5px 10px 5px 5px!important;font-size:13.5px!important}
+.t1.ak-c1 .ak-pi{width:30px;height:30px}
+.t1.ak-c1 .ak-in-home .ak-cont{margin-bottom:5px;font-size:12.5px}
+/* Step 2: tightest */
+.t1.ak-c2 .t1-head{margin-bottom:8px}
+.t1.ak-c2 .ak-hero h2{font-size:18px;margin:8px 0 10px}
+.t1.ak-c2 .ak-lbl{margin:10px 2px 6px}
+.t1.ak-c2 .ak-pills{display:flex;flex-wrap:wrap;gap:7px}
+.t1.ak-c2 .ak-pill{flex:1 1 auto;justify-content:center!important;padding:11px 11px!important;font-size:13.5px!important;gap:7px!important}
+.t1.ak-c2 .ak-two .ak-pill{flex-basis:calc(50% - 4px)}
+.t1.ak-c2 .ak-pi{width:auto;height:auto;background:none}.t1.ak-c2 .ak-pi svg{width:16px!important;height:16px!important;color:var(--c)}
+.t1.ak-c2 .ak-box{min-height:46px}
 
 .t1 .ak-ask{display:flex;align-items:center;gap:4px;margin-top:12px;min-height:48px;padding:4px 5px 4px 15px;border-radius:24px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14)}
 .t1 .ak-ask input{flex:1;min-width:0;border:0;outline:0;background:transparent;color:inherit;font:inherit;font-size:16px;padding:8px 0}
@@ -7478,6 +7494,15 @@ function renderHub(app){
   h+='</main>';
   app.innerHTML=h;
   _akWire(app);
+  _akFit(app);
+}
+// Shrink the home in steps until everything fits this screen (falls back to scrolling on very small phones)
+function _akFit(app){
+  const m=app.querySelector('.ak-home'),sc=app.querySelector('.ak-scroll');if(!m||!sc)return;
+  m.classList.remove('ak-c1','ak-c2');
+  if(sc.scrollHeight>sc.clientHeight+1)m.classList.add('ak-c1');
+  if(sc.scrollHeight>sc.clientHeight+1)m.classList.add('ak-c2');
+  if(!_akFit._wired){_akFit._wired=true;window.addEventListener('resize',()=>{if(V.view==='hub')_akFit(document.getElementById('app'));});}
 }
 // Chat page: the conversation with K
 function renderAskK(app){
