@@ -3559,43 +3559,57 @@ html[data-theme="dark"] .t1-c-eval{--c:#C4AEFF} html[data-theme="dark"] .t1-c-pa
 .t1 .ak-streak{flex:none;display:flex;align-items:center;gap:4px;padding-left:10px;margin-left:0;border-left:1px solid rgba(255,255,255,.14);font-size:11.5px;line-height:1.15;opacity:.85}
 .ak-streak i{font-style:normal;font-size:18px}.ak-streak b{display:block;font-size:15px;line-height:1}
 .ak-hero .t1-btn-row{align-items:center}
-.t1 .ak-pills{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.t1 .ak-pill{justify-content:flex-start!important;padding:7px 10px 7px 7px!important;gap:10px!important;font-size:14px!important;min-width:0;white-space:nowrap}
 .ak-hero .t1-btn-row>.t1-btn-h,.ak-hero .t1-btn-row>.t1-btn-ghost{white-space:nowrap;padding-left:8px;padding-right:8px}
-.ak-pi{width:32px;height:32px;border-radius:50%;flex:none;display:flex;align-items:center;justify-content:center;background:color-mix(in srgb,var(--c) 14%,transparent)}
-.ak-pi svg{width:17px!important;height:17px!important}
 .t1 .ak-in-home{position:relative;padding-top:10px}
 .t1 .ak-in-home:before{content:'';position:absolute;left:0;right:0;top:-22px;height:22px;background:linear-gradient(to bottom,transparent,var(--bg));pointer-events:none}
-.t1 .ak-in-home .ak-cont{margin:0 auto 8px;color:var(--ink-2);opacity:1}
 .ak-av-in{width:30px;height:30px;margin-left:-8px;box-shadow:none}
+/* Hero slides */
+.ak-hw{margin:0 -18px;flex-shrink:0}
+.ak-slides{display:flex;gap:10px;overflow-x:auto;scroll-snap-type:x mandatory;padding:0 18px;scroll-padding:0 18px;scrollbar-width:none;overscroll-behavior-x:contain}
+.ak-slides::-webkit-scrollbar{display:none}
+.t1 .ak-slide{flex:0 0 100%;scroll-snap-align:start;min-height:236px;display:flex;flex-direction:column;border-radius:24px;padding:18px;background-image:radial-gradient(85% 75% at 100% 0%,color-mix(in srgb,var(--glow,#8B6CF0) 24%,transparent),transparent 62%)}
+.t1 .ak-slide .t1-kick{color:var(--glow,#C4AEFF)}
+.t1 .ak-slide h2{font-size:24px;line-height:1.18;letter-spacing:-.015em;margin:14px 0 6px;text-wrap:balance}
+.t1 .ak-slide .ak-p{font-size:14px;opacity:.72;line-height:1.4;margin:0}
+.ak-slide .t1-btn-row{display:flex;gap:8px;align-items:center;margin-top:auto;padding-top:16px}
+.ak-slide .t1-btn-row>.t1-btn-h,.ak-slide .t1-btn-row>.t1-btn-ghost{flex:1;white-space:nowrap;padding-left:8px;padding-right:8px}
+.ak-ic{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.08);color:var(--glow);flex:none}
+.ak-ic svg{width:17px;height:17px;stroke-width:1.8}
+.ak-tool-tag{margin-left:auto;display:flex;align-items:center;gap:5px;font-size:11.5px;font-weight:700;padding:5px 9px;border-radius:99px;background:rgba(255,255,255,.07);color:var(--glow);white-space:nowrap}
+.ak-tool-tag svg{width:13px;height:13px;stroke-width:1.9}
+.t1 .ak-dots{display:flex;justify-content:center;gap:0;margin:4px 0 -6px}
+.t1 .ak-dots button{display:block;width:18px;height:18px;border-radius:99px;background:var(--ink-3);background-clip:content-box;opacity:.35;padding:6px;transition:width .2s}
+.t1 .ak-dots button.on{width:30px;opacity:1;background:var(--ink-2);background-clip:content-box}
+/* Smaller tool buttons */
+.t1 .ak-pill{display:flex;align-items:center;border-radius:16px;background:var(--card);border:1px solid var(--line);box-shadow:var(--shadow);font-weight:700;color:var(--ink)}
+.t1 .ak-pills{display:flex;flex-wrap:wrap;gap:7px}
+.t1 .ak-pill{flex:1 1 auto;justify-content:flex-start;padding:5px 11px 5px 5px;font-size:13.5px;gap:8px;white-space:nowrap}
+.t1 .ak-two .ak-pill{flex-basis:calc(50% - 4px)}
+.ak-pi{width:25px;height:25px;border-radius:50%;flex:none;display:flex;align-items:center;justify-content:center;background:color-mix(in srgb,var(--c) 14%,transparent)}
+.ak-pi svg{width:14px;height:14px;stroke-width:1.8;color:var(--c)}
+.t1 .ak-lbl{margin:14px 2px 7px}
+/* The chat box is a shortcut into chat mode */
+.t1 .ak-box-btn{width:100%;cursor:pointer;display:flex;align-items:center;gap:6px;min-height:52px;padding:5px 6px 5px 16px;border-radius:26px;background:var(--card);border:1px solid var(--line);box-shadow:var(--shadow);text-align:left}
+.ak-box-btn .ph{flex:1;min-width:0;font-size:16px;color:var(--ink-3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ak-box-btn .ak-send{display:flex;align-items:center;justify-content:center}
 /* Step 1: a little tighter */
-.t1.ak-c1 .ak-hero{padding:14px}
-.t1.ak-c1 .ak-hero h2{font-size:19px;margin:10px 0 12px}
-.t1.ak-c1 .ak-lbl{margin:14px 2px 7px}
-.t1.ak-c1 .ak-pill{padding:5px 10px 5px 5px!important;font-size:13.5px!important}
-.t1.ak-c1 .ak-pi{width:30px;height:30px}
-.t1.ak-c1 .ak-in-home .ak-cont{margin-bottom:5px;font-size:12.5px}
+.t1.ak-c1 .ak-slide{min-height:210px;padding:15px}
+.t1.ak-c1 .ak-slide h2{font-size:21px;margin:11px 0 5px}
+.t1.ak-c1 .ak-lbl{margin:11px 2px 6px}
 /* Step 2: tightest */
 .t1.ak-c2 .t1-head{margin-bottom:8px}
-.t1.ak-c2 .ak-hero h2{font-size:18px;margin:8px 0 10px}
-.t1.ak-c2 .ak-lbl{margin:10px 2px 6px}
-.t1.ak-c2 .ak-pills{display:flex;flex-wrap:wrap;gap:7px}
-.t1.ak-c2 .ak-pill{flex:1 1 auto;justify-content:center!important;padding:11px 11px!important;font-size:13.5px!important;gap:7px!important}
-.t1.ak-c2 .ak-two .ak-pill{flex-basis:calc(50% - 4px)}
-.t1.ak-c2 .ak-pi{width:auto;height:auto;background:none}.t1.ak-c2 .ak-pi svg{width:16px!important;height:16px!important;color:var(--c)}
-.t1.ak-c2 .ak-box{min-height:46px}
+.t1.ak-c2 .ak-slide{min-height:0}
+.t1.ak-c2 .ak-slide h2{font-size:19px;margin:9px 0 4px}
+.t1.ak-c2 .ak-slide .ak-p{font-size:13px}
+.t1.ak-c2 .ak-slide .t1-btn-row{padding-top:12px}
+.t1.ak-c2 .ak-pill{padding:3px 10px 3px 3px}
+.t1.ak-c2 .ak-box-btn{min-height:46px}
 
 .t1 .ak-ask{display:flex;align-items:center;gap:4px;margin-top:12px;min-height:48px;padding:4px 5px 4px 15px;border-radius:24px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14)}
 .t1 .ak-ask input{flex:1;min-width:0;border:0;outline:0;background:transparent;color:inherit;font:inherit;font-size:16px;padding:8px 0}
 .t1 .ak-ask input::placeholder{color:currentColor;opacity:.55}
 .ak-ask .ak-mic{color:inherit;opacity:.75}
-.t1 .ak-cont{display:flex;align-items:center;gap:4px;margin:10px auto 0;font-size:13px;font-weight:700;opacity:.8}
-.ak-cont svg{width:14px;height:14px;stroke-width:2}
 .ak-lbl{font-size:10.5px;font-weight:800;letter-spacing:.14em;color:var(--ink-3);margin:18px 2px 9px}
-.ak-pills{display:flex;flex-wrap:wrap;gap:8px}
-.t1 .ak-two .ak-pill{flex-basis:calc(50% - 4px)}
-.t1 .ak-pill{flex:1 1 auto;display:flex;align-items:center;justify-content:center;gap:7px;padding:13px 11px;border-radius:16px;background:var(--card);border:1px solid var(--line);box-shadow:var(--shadow);font-size:13.5px;font-weight:700;color:var(--ink)}
-.ak-pill svg{width:17px;height:17px;stroke-width:1.8;color:var(--c)}
 .ak-feed{flex:1;min-height:0;overflow-y:auto;display:flex;flex-direction:column;gap:10px;padding:8px 0;scrollbar-width:none}
 .ak-feed::-webkit-scrollbar{display:none}
 .ak-feed>:first-child{margin-top:auto}
@@ -7472,28 +7486,92 @@ const AK_GROUPS=[
   ['MEETINGS',[['roles','Meeting Roles'],['timer','Timer'],['eval','Evaluate']]],
   ['GROW',[['path','My path'],['projects','All Projects'],['contests','Contests'],['mprac','Mentor practice'],['mentees','Mentees']]]
 ];
-// Home: greeting, K's card (today's topic + ask box), Up next, Jump to
+// ── Hero: swipeable slides. Today's topic always; the rest only when they have something to say ──
+// K's tips: each useful on its own, and each opens the tool that helps. One a day, favouring tools not used yet.
+const AK_TIPS=[
+  {tool:'outline',name:'Outline Builder',c:'outline',ic:'outline',h:'#8FD3F0',hi:'#062028',t:'Most speeches run long in the middle.',p:'Plan one point with two stories, and you’ll finish on time. The Outline Builder times each part as you go.',cta:'Plan a speech',go:'ob-new'},
+  {tool:'coach',name:'Speech Coach',c:'coach',ic:'coach',h:'#C4AEFF',hi:'#120C24',t:'You can’t hear your own ums.',p:'Record two minutes of any speech and K counts them, checks your pace and picks one thing to fix.',cta:'Record 2 minutes',go:'coach-rec'},
+  {tool:'real',name:'Real-world',c:'real',ic:'real',h:'#7FE0E0',hi:'#05211F',t:'Interview coming up?',p:'Saying your answers out loud beats rereading notes. K plays the interviewer and tells you what landed.',cta:'Practise it',go:'real',arg:'interview'},
+  {tool:'eval',name:'Evaluation helper',c:'eval',ic:'eval',h:'#C4AEFF',hi:'#120C24',t:'A great evaluation has three parts.',p:'One thing that worked, one thing to try, one line of encouragement. Turn your notes into that in a minute.',cta:'Draft my evaluation',go:'eval'},
+  {tool:'timer',name:'Timer',c:'roles',ic:'timer',h:'#EDB176',hi:'#2A1606',t:'Timer this week?',p:'Run the green, yellow and red lights from your phone, and get a report of every speaker’s time.',cta:'Open the timer',go:'timer'},
+  {tool:'tt-theme',name:'Table Topics',c:'tt',ic:'tt',h:'#F6A8C8',hi:'#2A0E1A',t:'Stuck on impromptu?',p:'Practise by theme: work, life, what-ifs. Answering the same kind of question a few times builds your go-to structures.',cta:'Pick a theme',go:'tt-theme'},
+  {tool:'contests',name:'Contests',c:'contests',ic:'contests',h:'#F5C85B',hi:'#2A2006',t:'Entering a contest?',p:'See what judges actually score, then rehearse against it and get notes the way a judge would give them.',cta:'See what judges score',go:'contests'},
+  {tool:'mprac',name:'Mentor practice',c:'mprac',ic:'mprac',h:'#B6C9FF',hi:'#0E1430',t:'Mentoring someone?',p:'Practise the tough chats first: a mentee who wants to quit, one who froze, one who never prepares.',cta:'Practise a chat',go:'mprac'},
+  {tool:'roles',name:'Meeting Roles',c:'roles',ic:'roles',h:'#EDB176',hi:'#2A1606',t:'New role this week?',p:'Every meeting role explained in plain words: what to do before, during and after.',cta:'See the roles',go:'roles'}
+];
+function _akToolUsed(tool){
+  const ses=S.sessions||{},ch=S.coachHistory||[];
+  if(tool==='outline')return (S.outlines||[]).length>0;
+  if(tool==='coach')return ch.some(x=>x.type!=='contest');
+  if(tool==='contests')return ch.some(x=>x.type==='contest');
+  if(tool==='real')return (ses['real-practice']||[]).length>0;
+  if(tool==='mprac')return (ses['mentor-practice']||[]).length>0;
+  if(tool==='tt-theme')return (ses['tt-practice']||[]).length>2;
+  return false;
+}
+function _akTip(){
+  const fresh=AK_TIPS.filter(t=>!_akToolUsed(t.tool)),pool=fresh.length?fresh:AK_TIPS;
+  return pool[((_ttDayHash()>>>5)+(V._akTipOff||0))%pool.length];
+}
+function _akQuietMentee(){
+  return (S.mentees||[]).map(m=>({m,d:_menteeDays(m)})).filter(x=>x.d!=null&&x.d>=21).sort((a,b)=>b.d-a.d)[0]||null;
+}
+function _akSlides(){
+  const done=_ttDailyDone(),streak=_ttStreak(),kav='<span class="ak-av"><img src="'+COACH_AVATAR+'" alt="K"></span>';
+  const row=(a,b)=>'<div class="t1-btn-row">'+a+(b||'')+'</div>';
+  const out=[];
+  // 1 · Today's topic
+  out.push('<section class="t1-hero t1-h-coach ak-slide ak-s-topic"><div class="ak-hero-top">'+kav+'<span class="t1-kick">K · TODAY’S TOPIC</span></div>'+
+    '<h2>“'+escHtml(_ttDaily())+'”</h2><p class="ak-p">'+(done?'Done today. See what worked for everyone else.':'Try: '+escHtml(_ttTechnique().short)+'.')+'</p>'+
+    row(done?'<button type="button" class="t1-btn-h" data-ak-go="table">'+_t1sv('tt')+'See what worked</button>':'<button type="button" class="t1-btn-h" data-ak-go="tt-daily">'+_akSv('mic')+'Answer it</button>',
+      '<button type="button" class="t1-btn-ghost" data-ak-go="tt">Another topic</button>'+
+      (streak>0?'<span class="ak-streak" aria-label="'+streak+' day streak"><i>🔥</i><span><b>'+streak+'</b>'+(streak===1?'day':'days')+'</span></span>':''))+'</section>');
+  // 2 · The meeting role they told K about
+  const up=_akUpNext();
+  if(up){const when=_akWhenLabel(up.date),day=when.split(' · ')[0],rest=when.split(' · ')[1]||'';
+    out.push('<section class="t1-hero ak-slide" style="--h:#EDB176;--h-ink:#2A1606;--glow:#EDB176"><div class="ak-hero-top"><span class="ak-ic">'+_t1sv('roles')+'</span><span class="t1-kick">UP NEXT · '+escHtml(day.toUpperCase())+'</span></div>'+
+      '<h2>You’re '+escHtml(AK_ROLE[up.role])+'</h2><p class="ak-p">'+(rest?escHtml(rest[0].toUpperCase()+rest.slice(1))+'. ':'')+'Your guide has what to do before, during and after.</p>'+
+      row('<button type="button" class="t1-btn-h" data-ak-go="role" data-ak-arg="'+escHtml(up.role)+'">Prep my role</button>',
+        '<button type="button" class="t1-btn-ghost" data-ak-say="I’m '+escHtml(AK_ROLE[up.role])+' '+escHtml(day.toLowerCase()==='today'?'today':'on '+day)+'. How do I do it well?">Ask K about it</button>')+'</section>');}
+  // 3 · K's tip, leading to a tool
+  const tp=_akTip();
+  out.push('<section class="t1-hero ak-slide" style="--h:'+tp.h+';--h-ink:'+tp.hi+';--glow:'+tp.h+'"><div class="ak-hero-top">'+kav+'<span class="t1-kick">K’S TIP</span><span class="ak-tool-tag">'+_akSv(tp.ic)+escHtml(tp.name)+'</span></div>'+
+    '<h2>'+escHtml(tp.t)+'</h2><p class="ak-p">'+escHtml(tp.p)+'</p>'+
+    row('<button type="button" class="t1-btn-h" data-ak-go="'+tp.go+'" data-ak-arg="'+escHtml(tp.arg||'')+'">'+escHtml(tp.cta)+'</button>','<button type="button" class="t1-btn-ghost" data-ak-act="tip-next">Another tip</button>')+'</section>');
+  // 4 · A mentee who has gone quiet (mentors only)
+  const qm=_akQuietMentee();
+  if(qm){const nm=(qm.m.name||'Your mentee').split(' ')[0],wk=Math.floor(qm.d/7);
+    out.push('<section class="t1-hero ak-slide" style="--h:#B6C9FF;--h-ink:#0E1430;--glow:#B6C9FF"><div class="ak-hero-top"><span class="ak-ic">'+_t1sv('roles')+'</span><span class="t1-kick">YOUR MENTEES</span></div>'+
+      '<h2>'+escHtml(nm)+'’s been quiet for '+wk+(wk===1?' week':' weeks')+'</h2><p class="ak-p">A short, warm message usually brings people back. K can draft one for you.</p>'+
+      row('<button type="button" class="t1-btn-h" data-ak-go="mentee-nudge" data-ak-arg="'+escHtml(qm.m.id||'')+'">Nudge '+escHtml(nm)+'</button>','<button type="button" class="t1-btn-ghost" data-ak-go="mentees">See mentees</button>')+'</section>');}
+  return out;
+}
+// Home: the hero, every tool, and the chat box as a shortcut into chat mode
 function renderHub(app){
-  const done=_ttDailyDone(),streak=_ttStreak(),st=_akState();
+  const slides=_akSlides();
+  if((V._akSlide||0)>=slides.length)V._akSlide=0;
   let h='<main class="t1 ak-home fade-up" data-lt-keep>';
   h+='<header class="t1-head"><div class="t1-mark">SPEAK · LEAD · GROW</div>'+_akHeadBtns()+'</header>';
-  h+='<div class="ak-scroll">';
-  h+='<section class="t1-hero t1-h-coach ak-hero"><div class="ak-hero-top"><span class="ak-av"><img src="'+COACH_AVATAR+'" alt="K"></span><span class="t1-kick">K · TODAY’S TOPIC</span></div>'+
-    '<h2>“'+escHtml(_ttDaily())+'”</h2>'+
-    '<div class="t1-btn-row">'+(done?'<button type="button" class="t1-btn-h" data-ak-go="table">'+_t1sv('tt')+'See what worked</button>':'<button type="button" class="t1-btn-h" data-ak-go="tt-daily">'+_akSv('mic')+'Answer it</button>')+
-    '<button type="button" class="t1-btn-ghost" data-ak-go="tt">Another topic</button>'+
-    (streak>0?'<span class="ak-streak" aria-label="'+streak+' day streak"><i>🔥</i><span><b>'+streak+'</b>'+(streak===1?'day':'days')+'</span></span>':'')+'</div></section>';
+  h+='<div class="ak-scroll"><div class="ak-hw"><div class="ak-slides" id="ak-slides">'+slides.join('')+'</div>'+
+    (slides.length>1?'<div class="ak-dots">'+slides.map((_,i)=>'<button type="button" aria-label="Slide '+(i+1)+'" data-ak-dot="'+i+'"'+(i===(V._akSlide||0)?' class="on"':'')+'></button>').join('')+'</div>':'')+'</div>';
   h+=AK_GROUPS.map(([lbl,items])=>'<div class="ak-lbl">'+lbl+'</div><div class="ak-pills'+(items.length===4?' ak-two':'')+'">'+items.map(([id,name])=>{const d=_akDest(id);return '<button type="button" class="ak-pill t1-c-'+d.c+'" data-ak-go="'+escHtml(d.go)+'" data-ak-arg="'+escHtml(d.arg||'')+'"><span class="ak-pi">'+_akSv(d.ic)+'</span>'+escHtml(name)+'</button>';}).join('')+'</div>').join('');
   h+='</div>';
-  // The chat box sits at the bottom, like any messaging app
-  h+='<form class="ak-in ak-in-home t1-h-coach" id="ak-form" autocomplete="off">'+
-    (st.msgs.length?'<button type="button" class="ak-cont" data-ak-act="chat">Continue today’s chat'+_t1sv('chev')+'</button>':'')+
-    '<div class="ak-box"><span class="ak-av ak-av-in"><img src="'+COACH_AVATAR+'" alt=""></span><input id="ak-input" type="text" enterkeyhint="send" placeholder="Ask K anything…" value="'+escHtml(V._akDraft||'')+'" aria-label="Ask K">'+
-    (_akHasMic()?'<button type="button" class="ak-mic" data-ak-act="mic" aria-label="Speak">'+_akSv('mic')+'</button>':'')+
-    '<button type="submit" class="t1-btn-h ak-send" aria-label="Send">'+_t1sv('arrow')+'</button></div></form>';
+  const n=_akState().msgs.length;
+  h+='<div class="ak-in ak-in-home t1-h-coach"><button type="button" class="ak-box ak-box-btn" data-ak-act="chat" aria-label="Ask K"><span class="ak-av ak-av-in"><img src="'+COACH_AVATAR+'" alt=""></span><span class="ph">'+(n?'Continue your chat with K…':'Ask K anything…')+'</span>'+
+    (_akHasMic()?'<span class="ak-mic" data-ak-act="chat-mic" role="button" aria-label="Speak to K">'+_akSv('mic')+'</span>':'')+
+    '<span class="t1-btn-h ak-send">'+_t1sv('arrow')+'</span></button></div>';
   h+='</main>';
   app.innerHTML=h;
   _akWire(app);
+  // Hero: keep the slide they were on, and move the dots as they swipe
+  const sl=app.querySelector('#ak-slides');
+  if(sl){
+    const go=i=>{const c=sl.children[i];if(c)sl.scrollTo({left:c.offsetLeft-sl.firstElementChild.offsetLeft,behavior:'smooth'});};
+    if(V._akSlide){const c=sl.children[V._akSlide];if(c)sl.scrollLeft=c.offsetLeft-sl.firstElementChild.offsetLeft;}
+    let t;sl.addEventListener('scroll',()=>{clearTimeout(t);t=setTimeout(()=>{const w=sl.firstElementChild.offsetWidth+10;const i=Math.round(sl.scrollLeft/w);
+      if(i!==V._akSlide){V._akSlide=i;app.querySelectorAll('[data-ak-dot]').forEach((d,k)=>d.classList.toggle('on',k===i));}},60);},{passive:true});
+    app.querySelectorAll('[data-ak-dot]').forEach(d=>d.addEventListener('click',()=>go(+d.dataset.akDot)));
+  }
   _akFit(app);
 }
 // Shrink the home in steps until everything fits this screen (falls back to scrolling on very small phones)
@@ -7518,7 +7596,9 @@ function renderAskK(app){
   app.innerHTML=h;
   _akWire(app);
   const feed=app.querySelector('#ak-feed');feed.scrollTop=feed.scrollHeight;
-  const inp=app.querySelector('#ak-input');if(V._akFocus){V._akFocus=false;inp.focus();}
+  const inp=app.querySelector('#ak-input');
+  if(V._akMicStart){V._akMicStart=false;V._akFocus=false;const mb=app.querySelector('[data-ak-act="mic"]');if(mb)_akMic(inp,mb);}
+  else if(V._akFocus){V._akFocus=false;inp.focus();}
 }
 function _akWire(app){
   app.querySelectorAll('[data-go]').forEach(el=>el.addEventListener('click',e=>{e.stopPropagation();if(_t1Go(el.dataset.go,el.dataset.arg))render();}));
@@ -7527,11 +7607,13 @@ function _akWire(app){
   const inp=app.querySelector('#ak-input');
   if(inp){inp.addEventListener('input',()=>{V._akDraft=inp.value;});
     app.querySelector('#ak-form').addEventListener('submit',e=>{e.preventDefault();_akSend(inp.value);});}
-  app.querySelectorAll('[data-ak-act]').forEach(el=>el.addEventListener('click',()=>{
+  app.querySelectorAll('[data-ak-act]').forEach(el=>el.addEventListener('click',e=>{
     const a=el.dataset.akAct;
     if(a==='all'){V.view='hub-all';render();}
     else if(a==='home'){V.view='hub';render();}
-    else if(a==='chat'){V.view='askk';render();}
+    else if(a==='chat'){V._akFocus=true;V.view='askk';render();}
+    else if(a==='chat-mic'){e.stopPropagation();V._akMicStart=true;V.view='askk';render();}
+    else if(a==='tip-next'){V._akTipOff=(V._akTipOff||0)+1;render();}
     else if(a==='clear'){S.askk=null;save();render();}
     else if(a==='mic')_akMic(inp,el);
   }));
